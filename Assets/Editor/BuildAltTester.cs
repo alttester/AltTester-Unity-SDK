@@ -1,10 +1,10 @@
 using System;
-using Altom.AltTester;
-using Altom.AltTesterEditor;
-using Altom.AltTesterEditor.Logging;
+using AltTester;
+using AltTesterEditor;
+using AltTesterEditor.Logging;
 using UnityEditor;
 
-namespace Altom.AltTesterTools
+namespace AltTesterTools
 {
     public class BuildAltTester
     {

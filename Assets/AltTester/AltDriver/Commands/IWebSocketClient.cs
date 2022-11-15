@@ -1,7 +1,7 @@
 using System;
 using WebSocketSharp;
 
-namespace Altom.AltDriver.Commands
+namespace AltTester.AltDriver.Commands
 {
     public interface IWebSocketClient
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Altom.AltDriver;
+using AltTester.AltDriver;
 using NUnit.Framework;
 
 public class TestForNIS

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using Altom.AltDriver.Logging;
+using AltTester.AltDriver.Logging;
 using NUnit.Framework;
 
-namespace Altom.AltDriver.Tests
+namespace AltTester.AltDriver.Tests
 {
     [Timeout(30000)]
     public class TestForScene1TestSample
@@ -224,7 +224,7 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "Altom.AltTester.AltRunner";
+            const string componentName = "AltTester.AltRunner";
             const string propertyName = "InstrumentationSettings.ProxyPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -239,7 +239,7 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestGetComponentPropertyInvalidDeserialization()
         {
-            const string componentName = "Altom.AltTester.AltRunner";
+            const string componentName = "AltTester.AltRunner";
             const string propertyName = "InstrumentationSettings.ShowPopUp";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             try
@@ -257,7 +257,7 @@ namespace Altom.AltDriver.Tests
         public void TestGetComponentPropertyNotFoundWithAssembly()
         {
             Thread.Sleep(1000);
-            const string componentName = "Altom.AltTester.AltRunner";
+            const string componentName = "AltTester.AltRunner";
             const string propertyName = "InvalidProperty";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -282,7 +282,7 @@ namespace Altom.AltDriver.Tests
         public void TestGetNonExistingComponentProperty()
         {
             Thread.Sleep(1000);
-            const string componentName = "Altom.AltTester.AltRunner";
+            const string componentName = "AltTester.AltRunner";
             const string propertyName = "socketPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -438,17 +438,18 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        public void TestCallMethodSetFontSizeWithParameters(){
+        public void TestCallMethodSetFontSizeWithParameters()
+        {
             const string componentName = "UnityEngine.UI.Text";
             const string methodName = "set_fontSize";
             const string methodToVerifyName = "get_fontSize";
             const string assemblyName = "UnityEngine.UI";
             Int32 fontSizeExpected = 16;
-            string[] parameters = new[] {"16"};
+            string[] parameters = new[] { "16" };
             var altElement = altDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
-            var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
-            Assert.AreEqual(fontSizeExpected,fontSize);
+            var fontSize = altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
+            Assert.AreEqual(fontSizeExpected, fontSize);
         }
 
         [Test]

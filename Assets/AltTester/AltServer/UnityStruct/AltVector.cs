@@ -1,6 +1,6 @@
-using Altom.AltDriver;
+using AltTester.AltDriver;
 
-namespace Altom.AltTester
+namespace AltTester
 {
     public static class AltVectorExtensions
     {

@@ -5,7 +5,7 @@ using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
 
-namespace Altom.AltDriver.Logging
+namespace AltTester.AltDriver.Logging
 {
     public class DriverLogManager
     {

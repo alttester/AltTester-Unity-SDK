@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace Altom.AltTesterEditor
+namespace AltTesterEditor
 {
     [System.Serializable]
     public class AltMyTest

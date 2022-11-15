@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Altom.AltDriver;
-using Altom.AltTester;
-using Altom.AltTesterEditor.Logging;
+using AltTester.AltDriver;
+using AltTester;
+using AltTesterEditor.Logging;
 using NLog.Layouts;
 using NUnit.Framework.Internal;
 using Unity.EditorCoroutines.Editor;
@@ -15,7 +15,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace Altom.AltTesterEditor
+namespace AltTesterEditor
 {
     public class AltTesterEditorWindow : UnityEditor.EditorWindow
     {
@@ -138,7 +138,7 @@ namespace Altom.AltTesterEditor
 #else
             System.Reflection.MethodInfo method = typeof(UnityEditor.ProjectWindowUtil).GetMethod("CreateScriptAsset", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
             if (method == null)
-                throw new Altom.AltDriver.NotFoundException("Method to create Script file was not found");
+                throw new AltTester.AltDriver.NotFoundException("Method to create Script file was not found");
             method.Invoke((object)null, new object[2]
             {
                 (object) templatePath,

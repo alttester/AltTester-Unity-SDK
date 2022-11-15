@@ -1,10 +1,10 @@
 using System;
-using Altom.AltDriver;
-using Altom.AltDriver.Commands;
-using Altom.AltTester.Communication;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Commands;
+using AltTester.Communication;
 using UnityEngine;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     class AltPressKeyboardKeysCommand : AltCommandWithWait<AltPressKeyboardKeysParams, string>
     {

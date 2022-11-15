@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Altom.AltDriver;
-using Altom.AltTester;
+using AltTester.AltDriver;
+using AltTester;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-namespace Altom.AltTester
+namespace AltTester
 {
     public static class InputController
     {

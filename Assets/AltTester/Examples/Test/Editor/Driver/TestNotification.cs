@@ -1,9 +1,9 @@
 using System;
 using System.Threading;
-using Altom.AltDriver;
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.MockClasses;
-using Altom.AltDriver.Notifications;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.MockClasses;
+using AltTester.AltDriver.Notifications;
 using NUnit.Framework;
 
 public class TestNotification
@@ -79,7 +79,7 @@ public class TestNotification
     // public void TestApplicationPaused()
     // {
     //     var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
-    //     altElement.CallComponentMethod<string>("Altom.AltTester.AltRunner", "OnApplicationPause", new object[] { true }, new string[] { "System.Boolean" }, "Assembly-CSharp");
+    //     altElement.CallComponentMethod<string>("AltTester.AltRunner", "OnApplicationPause", new object[] { true }, new string[] { "System.Boolean" }, "Assembly-CSharp");
     //     Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
     // }
 }

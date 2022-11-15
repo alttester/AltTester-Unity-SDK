@@ -2958,7 +2958,7 @@ Returns the value of the given component property.
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "Altom.AltTester.AltRunner";
+            const string componentName = "AltTester.AltRunner";
             const string propertyName = "InstrumentationSettings.AltTesterPort";
             var altObject = altDriver.FindObject(By.NAME,"AltRunnerPrefab");
             Assert.NotNull(altObject);
@@ -2971,7 +2971,7 @@ Returns the value of the given component property.
         @Test
         public void testGetComponentProperty() throws Exception
         {
-            String componentName = "Altom.AltTester.AltRunner";
+            String componentName = "AltTester.AltRunner";
             String propertyName = "InstrumentationSettings.AltTesterPort";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "AltRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);

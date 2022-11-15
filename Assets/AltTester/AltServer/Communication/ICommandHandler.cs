@@ -1,4 +1,4 @@
-namespace Altom.AltTester.Communication
+namespace AltTester.Communication
 {
     public interface ICommandHandler
     {

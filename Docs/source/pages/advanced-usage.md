@@ -105,13 +105,13 @@ commands:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass MyTestClass -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass MyTestClass -logFile logFile.log -batchmode -quit
 
         Example command running tests from two test classes:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass MyTestClass1 MyTestClass2 -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass MyTestClass1 MyTestClass2 -logFile logFile.log -batchmode -quit
 
         ``-tests`` - runs given test/tests
 
@@ -119,13 +119,13 @@ commands:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyTestClass.MyTestName -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyTestClass.MyTestName -logFile logFile.log -batchmode -quit
 
         Example command running two tests:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyTestClass1.MyTestName1 MyTestClass2.MyTestName2 -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyTestClass1.MyTestName1 MyTestClass2.MyTestName2 -logFile logFile.log -batchmode -quit
 
         ``-testsAssembly`` - runs tests from given assembly/assemblies
 
@@ -133,19 +133,19 @@ commands:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly -logFile logFile.log -batchmode -quit
 
         Example command running tests from two assemblies:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly1 MyAssembly2 -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly1 MyAssembly2 -logFile logFile.log -batchmode -quit
 
         ``-reportPath`` - the xml test report will be generated here
         
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -reportPath $PROJECT_DIR/testReport.xml -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -reportPath $PROJECT_DIR/testReport.xml -logFile logFile.log -batchmode -quit
 
     .. tab:: Java
 
@@ -437,7 +437,7 @@ There are two types of logging that can be configured in AltTester Unity SDK. Th
 
 ### AltTester Unity SDK logging
 
-Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `Altom.AltTester.Logging.ServerLogManager.Instance`
+Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `AltTester.Logging.ServerLogManager.Instance`
 
 There are two logger targets that you can configure on the server:
 
@@ -475,7 +475,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
     .. tab:: C#
 
-        Logging is handled using a custom NLog LogFactory.  The Driver LogFactory can be accessed here: `Altom.AltDriver.Logging.DriverLogManager.Instance`
+        Logging is handled using a custom NLog LogFactory.  The Driver LogFactory can be accessed here: `AltTester.AltDriver.Logging.DriverLogManager.Instance`
 
         There are three logger targets that you can configure on the driver:
 
@@ -483,7 +483,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
         * UnityLogger //available only when runnning tests from Unity
         * ConsoleLogger //available only when runnning tests using the Nuget package
 
-        If you want to configure different level of logging for different targets you can use `Altom.AltDriver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info)`
+        If you want to configure different level of logging for different targets you can use `AltTester.AltDriver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info)`
 
         .. code-block:: c#
 
@@ -500,7 +500,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
             altDriver.SetLogging(enableLogging: true);
 
             /* set logging level to Info for File target */
-            Altom.AltDriver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info);
+            AltTester.AltDriver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info);
 
 
 
@@ -508,17 +508,17 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         Logging is handled via log4j. You can use log4j configuration files to customize your logging.
 
-        Setting the `enableLogging` in `AltDriver` initializes logger named `ro.altom.alttester` configured with two appenders, a file appender `AltFileAppender` and a console appender `AltConsoleAppender`
+        Setting the `enableLogging` in `AltDriver` initializes logger named `ro.AltTester` configured with two appenders, a file appender `AltFileAppender` and a console appender `AltConsoleAppender`
 
         .. code-block:: java
 
             /* start AltDriver with logging enabled */
             altDriver = new AltDriver("127.0.0.1", 13000, true);
 
-            /* disable logging for ro.altom.alttester logger */
+            /* disable logging for ro.AltTester logger */
             final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
             final Configuration config = ctx.getConfiguration();
-            config.getLoggerConfig("ro.altom.alttester").setLevel(Level.OFF);
+            config.getLoggerConfig("ro.AltTester").setLevel(Level.OFF);
 
             ctx.updateLoggers();
 

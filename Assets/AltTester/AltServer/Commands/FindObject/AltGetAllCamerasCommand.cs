@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using Altom.AltDriver;
-using Altom.AltDriver.Commands;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Commands;
 using UnityEngine;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     class AltGetAllCamerasCommand : AltCommand<CommandParams, List<AltObject>>
     {

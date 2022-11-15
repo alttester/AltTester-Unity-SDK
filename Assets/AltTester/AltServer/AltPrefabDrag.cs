@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Altom.AltTester.UI
+namespace AltTester.UI
 {
 
     public class AltPrefabDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -26,7 +26,7 @@ namespace Altom.AltTester.UI
 #if ENABLE_LEGACY_INPUT_MANAGER
                 eventData.pointerDrag.transform.position = Input.mousePosition;
 #else
-            eventData.pointerDrag.gameObject.transform.position = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+                eventData.pointerDrag.gameObject.transform.position = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
 #endif
                 var objectTranform = (RectTransform)eventData.pointerDrag.transform;
                 if (objectTranform.position.x < objectTranform.rect.width / 2)

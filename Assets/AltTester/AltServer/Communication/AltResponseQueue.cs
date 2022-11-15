@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Altom.AltTester.Communication
+namespace AltTester.Communication
 {
     public delegate void SendResponse();
 

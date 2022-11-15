@@ -1,6 +1,6 @@
-using Altom.AltTester.Communication;
+using AltTester.Communication;
 
-namespace Altom.AltTester.Notification
+namespace AltTester.Notification
 {
     public class AltTesterApplicationPausedNotification : BaseNotification
     {

@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-using Altom.AltTester.Communication;
+using AltTester.Communication;
 using NUnit.Framework;
 using WebSocketSharp;
 using WebSocketSharp.Server;

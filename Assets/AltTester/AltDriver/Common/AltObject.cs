@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
-using Altom.AltDriver.Commands;
+using AltTester.AltDriver.Commands;
 
-namespace Altom.AltDriver
+namespace AltTester.AltDriver
 {
     public class AltObject
     {

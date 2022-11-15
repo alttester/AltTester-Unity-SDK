@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using NUnit.Framework;
 
-namespace Altom.AltDriver.Tests
+namespace AltTester.AltDriver.Tests
 {
     [Timeout(10000)]
     [Category("Android")]
