@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Altom.AltTester.Logging;
 
 namespace Altom.AltTester.Communication
 {
@@ -7,8 +6,6 @@ namespace Altom.AltTester.Communication
 
     public class AltResponseQueue
     {
-        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
-
         private readonly Queue<SendResponse> responseQueue = new Queue<SendResponse>();
         private readonly object queueLock = new object();
 
