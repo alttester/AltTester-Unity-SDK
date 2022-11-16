@@ -148,8 +148,7 @@ jobs:
         if: always() # run this step even if one of the previous step failed
         with:
           name: TestPythonArtifact
-          path: |
-            *.log
+          path: "**/*.log"
 
   test-Java:
       runs-on: [self-hosted, macOS]
