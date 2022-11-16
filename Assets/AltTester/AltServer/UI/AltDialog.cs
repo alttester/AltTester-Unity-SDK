@@ -13,7 +13,6 @@ namespace Altom.AltTester.UI
         private readonly UnityEngine.Color WARNING_COLOR = new UnityEngine.Color32(255, 255, 95, 255);
         private readonly UnityEngine.Color ERROR_COLOR = new UnityEngine.Color32(191, 71, 85, 255);
 
-
         [UnityEngine.SerializeField]
         public UnityEngine.GameObject Dialog = null;
 
@@ -30,10 +29,13 @@ namespace Altom.AltTester.UI
         public UnityEngine.UI.Image Icon = null;
 
         [UnityEngine.SerializeField]
-        public UnityEngine.UI.Text PortLabel = null;
+        public UnityEngine.UI.InputField HostInputField = null;
 
         [UnityEngine.SerializeField]
         public UnityEngine.UI.InputField PortInputField = null;
+
+        [UnityEngine.SerializeField]
+        public UnityEngine.UI.InputField GameNameInputField = null;
 
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Button RestartButton = null;
@@ -47,7 +49,10 @@ namespace Altom.AltTester.UI
 
         protected void Start()
         {
+            SetUpHostInputField();
             SetUpPortInputField();
+            SetUpGameNameInputField();
+
             SetUpRestartButton();
 
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
@@ -77,21 +82,41 @@ namespace Altom.AltTester.UI
             }
         }
 
+        public void SetUpHostInputField()
+        {
+            HostInputField.text = InstrumentationSettings.ProxyHost;
+        }
+
         public void SetUpPortInputField()
         {
-            PortInputField.text = InstrumentationSettings.AltTesterPort.ToString();
+            PortInputField.text = InstrumentationSettings.ProxyPort.ToString();
             PortInputField.onValueChanged.AddListener(OnPortInputFieldValueChange);
             PortInputField.characterValidation = UnityEngine.UI.InputField.CharacterValidation.Integer;
+        }
+
+        public void SetUpGameNameInputField()
+        {
+            GameNameInputField.text = InstrumentationSettings.GameName;
         }
 
         private void OnRestartButtonPress()
         {
             logger.Debug("Restart the AltTester.");
 
+            if (Uri.CheckHostName(HostInputField.text) != UriHostNameType.Unknown)
+            {
+                InstrumentationSettings.ProxyHost = HostInputField.text;
+            }
+            else
+            {
+                setDialog("The host should be a valid host.", ERROR_COLOR, true);
+                return;
+            }
+
             int port;
             if (Int32.TryParse(PortInputField.text, out port) && port > 0 && port <= 65535)
             {
-                InstrumentationSettings.AltTesterPort = port;
+                InstrumentationSettings.ProxyPort = port;
             }
             else
             {
@@ -130,14 +155,7 @@ namespace Altom.AltTester.UI
 
         private void StartAltTester()
         {
-            if (InstrumentationSettings.InstrumentationMode == AltInstrumentationMode.Server)
-            {
-                startServerCommProtocol();
-            }
-            else
-            {
-                startProxyCommProtocol();
-            }
+            startProxyCommProtocol();
         }
 
         private void StopAltTester()
@@ -155,70 +173,6 @@ namespace Altom.AltTester.UI
             StartAltTester();
         }
 
-        private void startServerCommProtocol()
-        {
-            var cmdHandler = new CommandHandler();
-            communication = new WebSocketServerCommunication(cmdHandler, "0.0.0.0", InstrumentationSettings.AltTesterPort);
-            communication.OnConnect += onClientConnected;
-            communication.OnDisconnect += onClientDisconnected;
-            communication.OnError += onError;
-
-            setDialog("Starting AltTester on port: " + InstrumentationSettings.AltTesterPort, WARNING_COLOR, true);
-
-            try
-            {
-                communication.Start();
-                setDialog("Waiting for connection on port: " + InstrumentationSettings.AltTesterPort, SUCCESS_COLOR, true);
-            }
-            catch (AddressInUseCommError ex)
-            {
-                setDialog(ex.Message, ERROR_COLOR, true);
-                logger.Error(ex.Message);
-            }
-            catch (UnhandledStartCommError ex)
-            {
-                setDialog(ex.Message, ERROR_COLOR, true);
-                logger.Error(ex.InnerException, ex.InnerException.Message);
-            }
-        }
-
-        private void onClientConnected()
-        {
-            string message = "Client connected.";
-#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-            Input.UseCustomInput = true;
-            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-#endif
-
-
-            _updateQueue.ScheduleResponse(() =>
-            {
-#if ALTTESTER && ENABLE_INPUT_SYSTEM
-                NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
-#endif
-                setDialog(message, SUCCESS_COLOR, false);
-            });
-        }
-
-        private void onClientDisconnected()
-        {
-#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-            Input.UseCustomInput = false;
-            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-#endif
-
-            if (!communication.IsConnected) //
-                _updateQueue.ScheduleResponse(() =>
-                {
-
-#if ALTTESTER && ENABLE_INPUT_SYSTEM
-                    NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
-
-#endif
-                    setDialog("Waiting for connections on port: " + InstrumentationSettings.AltTesterPort, SUCCESS_COLOR, false);
-                });
-        }
-
         #region proxy mode comm protocol
 
         private void initProxyCommProtocol()
@@ -226,15 +180,13 @@ namespace Altom.AltTester.UI
             var cmdHandler = new CommandHandler();
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-                    communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
+            communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
 #else
-
-            communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
+            communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
 #endif
             communication.OnConnect += onProxyConnect;
             communication.OnDisconnect += onProxyDisconnect;
             communication.OnError += onError;
-
         }
 
         private void startProxyCommProtocol()
@@ -244,8 +196,9 @@ namespace Altom.AltTester.UI
             try
             {
                 if (communication == null || !communication.IsListening) // start only if it is not already listening
+                {
                     communication.Start();
-
+                }
                 if (!communication.IsConnected) // display dialog only if not connected
                     onStart();
             }
@@ -263,15 +216,22 @@ namespace Altom.AltTester.UI
 
         private void onStart()
         {
-            setDialog("Connecting to AltProxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort, SUCCESS_COLOR, Dialog.activeSelf || wasConnectedBeforeToProxy);
+            setDialog("Connected to AltProxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort + " with game name " + InstrumentationSettings.GameName, SUCCESS_COLOR, Dialog.activeSelf || wasConnectedBeforeToProxy);
             wasConnectedBeforeToProxy = false;
         }
 
         private void onProxyConnect()
         {
-            string message = "Connected to AltProxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort;
+            string message = "Connected to AltProxy on " + InstrumentationSettings.ProxyHost + ":" + InstrumentationSettings.ProxyPort + " with game name " + InstrumentationSettings.GameName;
+#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+            Input.UseCustomInput = true;
+            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
             _updateQueue.ScheduleResponse(() =>
             {
+#if ALTTESTER && ENABLE_INPUT_SYSTEM
+                NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
+#endif
                 setDialog(message, SUCCESS_COLOR, false);
                 wasConnectedBeforeToProxy = true;
             });
@@ -279,7 +239,19 @@ namespace Altom.AltTester.UI
 
         private void onProxyDisconnect()
         {
-            _updateQueue.ScheduleResponse(startProxyCommProtocol);
+#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+            Input.UseCustomInput = false;
+            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
+            _updateQueue.ScheduleResponse(() =>
+            {
+#if ALTTESTER && ENABLE_INPUT_SYSTEM
+                NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
+
+#endif
+                startProxyCommProtocol();
+
+            });
         }
 
         #endregion

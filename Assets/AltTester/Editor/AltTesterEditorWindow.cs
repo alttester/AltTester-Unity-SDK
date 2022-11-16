@@ -13,6 +13,7 @@ using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Rendering;
 
 namespace Altom.AltTesterEditor
@@ -26,7 +27,7 @@ namespace Altom.AltTesterEditor
         public static AltTesterEditorWindow Window;
         public static int SelectedTest = -1;
 
-        //TestResult after running a test
+        // TestResult after running a test
         public static bool IsTestRunResultAvailable = false;
         public static int ReportTestPassed;
         public static int ReportTestFailed;
@@ -72,11 +73,9 @@ namespace Altom.AltTesterEditor
 
         private static UnityEngine.GUIStyle labelStyle;
 
-
         private static long timeSinceLastClick;
-        private static UnityEngine.Networking.UnityWebRequest www;
-        UnityEngine.Vector2 scrollPosition;
         private UnityEngine.Vector2 scrollPositonTestResult;
+        private static UnityEngine.Font font;
 
         private bool foldOutScenes = true;
         private bool foldOutTestRunSettings = true;
@@ -107,9 +106,9 @@ namespace Altom.AltTesterEditor
         UnityEngine.Rect availableRect;
         UnityEngine.Rect availableRectHorizontal;
 
-
-        private static UnityEngine.Font font;
         private bool PlayInEditorPressed;
+        private static UnityWebRequest www;
+
         #region UnityEditor MenuItems
         // Add menu item named "My Window" to the Window menu
         [UnityEditor.MenuItem("AltTester/AltTester Editor", false, 80)]
@@ -388,11 +387,6 @@ namespace Altom.AltTesterEditor
                 selectedTestsCountTexture = MakeTexture(20, 20, grayColor);
             }
 
-            if (PortForwardingTexture == null)
-            {
-                PortForwardingTexture = MakeTexture(20, 20, greenColor);
-            }
-
             getListOfSceneFromEditor();
         }
 
@@ -558,7 +552,6 @@ namespace Altom.AltTesterEditor
             displayScenes();
             UnityEditor.EditorGUILayout.Separator();
 
-            displayPortForwarding(leftSide);
             UnityEditor.EditorGUILayout.EndVertical();
             UnityEditor.EditorGUILayout.EndScrollView();
             UnityEditor.EditorGUILayout.EndScrollView();
@@ -1087,7 +1080,7 @@ namespace Altom.AltTesterEditor
 
         private void runInEditor()
         {
-            AltBuilder.InsertAltInTheActiveScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
+            AltBuilder.InsertAltTesterInTheActiveScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
             AltBuilder.CreateJsonFileForInputMappingOfAxis();
             AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             PlayInEditorPressed = true;
@@ -1127,11 +1120,13 @@ namespace Altom.AltTesterEditor
                 {
                     AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
                 }
+                labelAndInputFieldHorizontalLayout("Proxy Host", ref EditorConfiguration.ProxyHost);
 
-                labelAndInputFieldHorizontalLayout("AltTester Port", ref EditorConfiguration.AltTesterPort);
+                labelAndInputFieldHorizontalLayout("Proxy Port", ref EditorConfiguration.ProxyPort);
 
-
+                labelAndInputFieldHorizontalLayout("Game Name", ref EditorConfiguration.GameName);
             }
+
             switch (EditorConfiguration.platform)
             {
                 case AltPlatform.Android:

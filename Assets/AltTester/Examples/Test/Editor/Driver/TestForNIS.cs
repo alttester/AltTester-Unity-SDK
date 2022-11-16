@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Altom.AltDriver;
+using Altom.AltDriver.Tests;
 using NUnit.Framework;
 
 public class TestForNIS
@@ -17,7 +18,7 @@ public class TestForNIS
     [OneTimeSetUp]
     public void SetUp()
     {
-        altDriver = new AltDriver();
+        altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
     }
 
     //At the end of the test closes the connection with the socket

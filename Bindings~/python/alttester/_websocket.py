@@ -1,6 +1,7 @@
 import time
 import json
 from collections import defaultdict, deque
+from urllib.parse import urlencode, urlunparse
 from threading import Thread
 
 from loguru import logger
@@ -128,16 +129,21 @@ class WebsocketConnection:
     """Handles the websocket connection with AltTester.
 
     Args:
-        host (:obj:`str`): The host to connect to.
-        port (:obj:`int`): The port to connect to.
-        timeout (:obj:`int` or :obj:`float`): The connection timeout time.
+        host (:obj:`str`, optional): The host to connect to. Defaults to ``127.0.0.1``.
+        port (:obj:`int`, optional): The port to connect to. Defaults to ``13000``.
+        path (:obj:`int`, optional): The path section of the url. Defaults to ``/``.
+        params (:obj:`dict`, optional): The params/query component of the url. Default to ``None``.
+        timeout (:obj:`int` or :obj:`float`, optional): The connection timeout time.
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, timeout=None):
+    def __init__(self, host="127.0.0.1", port=13000, path="/", params=None, timeout=None):
         self.host = host
         self.port = port
-        self.url = "ws://{}:{}/altws/".format(host, port)
+        self.path = path
+        self.params = params or {}
+
+        self.url = urlunparse(["ws", "{}:{}".format(self.host, self.port), self.path, "", urlencode(self.params), ""])
 
         self.timeout = timeout
         self.command_timeout = 60
@@ -153,10 +159,12 @@ class WebsocketConnection:
         self._notification_handler = NotificationHandler()
 
     def __repr__(self):
-        return "{}({!r}, {!r}, {!r})".format(
+        return "{}({!r}, {!r}, {!r}, {!r}, {!r})".format(
             self.__class__.__name__,
             self.host,
             self.port,
+            self.path,
+            self.params,
             self.timeout,
         )
 
@@ -184,7 +192,7 @@ class WebsocketConnection:
             raise ConnectionError("Connection already closed.")
 
     def _on_message(self, ws, message):
-        """A callback which is called when the connection is opened."""
+        """A callback which is called when the connection receives data."""
 
         logger.debug("Received: {}", message)
         response = json.loads(message)
@@ -213,9 +221,9 @@ class WebsocketConnection:
         self._websocket = None
 
     def _on_open(self, ws):
-        """A callback which is called when the connection recives data."""
+        """A callback which is called when the connection is opened."""
 
-        logger.debug("Connection oppend successfully.")
+        logger.debug("Connection opened successfully.")
         self._is_open = True
 
     def set_command_timeout(self, timeout):
@@ -225,7 +233,7 @@ class WebsocketConnection:
         return self.command_timeout
 
     def connect(self):
-        logger.info("Connecting to host: {} port: {}.", self.host, self.port)
+        logger.info("Connecting to URL: '{}'.", self.url)
 
         elapsed_time = 0
         self._create_connection()

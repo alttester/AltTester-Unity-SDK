@@ -26,16 +26,14 @@ namespace Altom.AltTester
         /// </summary>
         public int ProxyPort = 13000;
 
-        /// <summary>
-        /// The port AltTester is listening on for connections from driver.
-        /// </summary>
-        public int AltTesterPort = 13000;
+        public string GameName = "__default__";
 
 
         /// <summary>
         /// If true, it will show where an action happens on screen ( e.g. swipe or click )
         /// </summary>
         public bool InputVisualizer = true;
+
         /// <summary>
         /// If true, it will display the `AltTester` popup in Instrumented Unity App
         /// </summary>

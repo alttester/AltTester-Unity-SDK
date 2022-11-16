@@ -25,7 +25,7 @@ public class AltDriver {
         ConfigurationFactory.setConfigurationFactory(custom);
     }
 
-    private static final Logger log = LogManager.getLogger(AltDriver.class);
+    private static final Logger logger = LogManager.getLogger(AltDriver.class);
 
     public static enum PlayerPrefsKeyType {
         Int(1), String(2), Float(3);
@@ -59,16 +59,22 @@ public class AltDriver {
     }
 
     public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout) {
+        this(host, port, enableLogging, connectTimeout, "__default__");
+    }
+
+    public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String gameName) {
         if (!enableLogging) {
             AltDriverConfigFactory.DisableLogging();
         }
 
         if (host == null || host.isEmpty()) {
-            throw new InvalidParameterException("Provided host address is null or empty");
+            throw new InvalidParameterException("Provided host address is null or empty.");
         }
 
-        this.connection = new WebsocketConnection(host, port, connectTimeout);
+        logger.debug("Connecting to AltTester on host: '{}', port: '{}' and gameName: '{}'.", host, port, gameName);
+        this.connection = new WebsocketConnection(host, port, connectTimeout, gameName);
         this.connection.connect();
+
         checkServerVersion();
     }
 
@@ -92,7 +98,7 @@ public class AltDriver {
             String message = String.format(
                     "Version mismatch. AltDriver version is %s. AltTester version is %s.",
                     AltDriver.VERSION, serverVersion);
-            log.warn(message);
+            logger.warn(message);
             System.out.println(message);
         }
     }

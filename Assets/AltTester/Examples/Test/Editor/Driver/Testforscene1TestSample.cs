@@ -230,7 +230,7 @@ namespace Altom.AltDriver.Tests
             Assert.NotNull(altElement);
             var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
             string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
-            if (string.IsNullOrEmpty(portStr)) portStr = "13000";
+            if (string.IsNullOrEmpty(portStr)) portStr = "13010";
             int port = int.Parse(portStr);
 
             Assert.AreEqual(port, propertyValue);
@@ -2112,18 +2112,19 @@ namespace Altom.AltDriver.Tests
             var element = altDriver.FindObjectAtCoordinates(counterButton.GetScreenPosition());
             Assert.AreEqual("Capsule", element.name);
         }
-        // [Test]
-        // public void TestScrollViewSwipe()
-        // {
-        //     altUnityDriver.LoadScene("Scene 11 ScrollView Scene");
-        //     var buttons = altUnityDriver.FindObjects(By.PATH, "//Content/*");
-        //     for (int i = 1; i <= buttons.Count - 3; i++)
-        //     {
-        //         altUnityDriver.Swipe(buttons[i].GetScreenPosition(), buttons[i - 1].GetScreenPosition());
+        [Test]
+        [Ignore("Was commented before")]
+        public void TestScrollViewSwipe()
+        {
+            altDriver.LoadScene("Scene 11 ScrollView Scene");
+            var buttons = altDriver.FindObjects(By.PATH, "//Content/*");
+            for (int i = 1; i <= buttons.Count - 3; i++)
+            {
+                altDriver.Swipe(buttons[i].getScreenPosition(), buttons[i - 1].getScreenPosition());
 
-        //     }
-        //     Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltUnityScrollViewButtonController", "Counter", "Assembly-CSharp"));
-        // }
+            }
+            Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltScrollViewButtonController", "Counter", "Assembly-CSharp"));
+        }
 
         [Test]
         public void TestCallPrivateMethod()
@@ -2142,6 +2143,7 @@ namespace Altom.AltDriver.Tests
             var id = altDriver.BeginTouch(new AltVector2(icon.x - 25, icon.y + 25));
             altDriver.EndTouch(id);
             Assert.NotNull(altDriver.WaitForObject(By.NAME, "Dialog"));
+            altDriver.Click(icon.getScreenPosition());
         }
     }
 }
