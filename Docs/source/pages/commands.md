@@ -3799,7 +3799,6 @@ Is a solution offered by AltTester Unity SDK in order to find object easier. Thi
 
 To add AltId to every object simply just click _Add AltId to every object_ from AltTester menu.
 
-![Add Alt Id](../_static/img/commands/add-alt-id.png)
 ![Add AltId](../_static/img/commands/add-alt-id.png)
 
 ## AltPortForwarding
