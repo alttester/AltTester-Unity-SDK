@@ -72,7 +72,7 @@ Replace:
     <PropertyGroup>
         <PackageId>AltUnityDriver</PackageId>
         <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
-        <RootNamespace>AltTester.AltUnityDriver</RootNamespace>
+        <RootNamespace>Altom.AltUnityDriver</RootNamespace>
     </PropertyGroup>
 
 With:
@@ -82,7 +82,7 @@ With:
     <PropertyGroup>
         <PackageId>AltTester-Driver</PackageId>
         <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
-        <RootNamespace>Altom.AltTester-Driver</RootNamespace>
+        <RootNamespace>AltTester.AltTester-Driver</RootNamespace>
     </PropertyGroup>
     
 Java
