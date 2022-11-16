@@ -438,17 +438,18 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        public void TestCallMethodSetFontSizeWithParameters(){
+        public void TestCallMethodSetFontSizeWithParameters()
+        {
             const string componentName = "UnityEngine.UI.Text";
             const string methodName = "set_fontSize";
             const string methodToVerifyName = "get_fontSize";
             const string assemblyName = "UnityEngine.UI";
             Int32 fontSizeExpected = 16;
-            string[] parameters = new[] {"16"};
+            string[] parameters = new[] { "16" };
             var altElement = altDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
-            var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
-            Assert.AreEqual(fontSizeExpected,fontSize);
+            var fontSize = altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
+            Assert.AreEqual(fontSizeExpected, fontSize);
         }
 
         [Test]
