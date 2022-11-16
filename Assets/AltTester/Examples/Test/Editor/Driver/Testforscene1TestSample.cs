@@ -928,7 +928,7 @@ namespace Altom.AltDriver.Tests
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.CLASSFIELDS);
-            Assert.AreEqual(15, fields.Count);
+            Assert.AreEqual(16, fields.Count);
         }
 
         [Test]
@@ -953,7 +953,7 @@ namespace Altom.AltDriver.Tests
             var component = componentList.First(componenta =>
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.ALLFIELDS);
-            Assert.AreEqual(16, fields.Count);
+            Assert.AreEqual(17, fields.Count);
         }
 
         [Test]
@@ -2142,6 +2142,23 @@ namespace Altom.AltDriver.Tests
             var id = altDriver.BeginTouch(new AltVector2(icon.x - 25, icon.y + 25));
             altDriver.EndTouch(id);
             Assert.NotNull(altDriver.WaitForObject(By.NAME, "Dialog"));
+        }
+        [Test]
+        public void TestSetStaticProperty()
+        {
+            var expectedValue = 5;
+            altDriver.SetStaticProperty("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue);
+            var value = altDriver.GetStaticProperty<int>("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp");
+            Assert.AreEqual(expectedValue, value);
+        }
+        [Test]
+        public void TestSetStaticProperty2()
+        {
+            var newValue = 5;
+            int[] expectedArray = new int[3] { 1, 5, 3 };
+            altDriver.SetStaticProperty("AltExampleScriptCapsule", "staticArrayOfInts[1]", "Assembly-CSharp", newValue);
+            var value = altDriver.GetStaticProperty<int[]>("AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp");
+            Assert.AreEqual(expectedArray, value);
         }
     }
 }

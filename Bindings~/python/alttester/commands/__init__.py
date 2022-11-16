@@ -6,4 +6,5 @@ from alttester.commands.UnityCommands import *
 from alttester.commands.get_png_screenshot import GetPNGScreenshot
 from alttester.commands.get_server_version import GetServerVersion
 from alttester.commands.get_static_property import GetStaticProperty
+from alttester.commands.set_static_property import SetStaticProperty
 from alttester.commands.Notifications import *
