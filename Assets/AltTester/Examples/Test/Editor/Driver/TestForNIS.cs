@@ -300,8 +300,8 @@ public class TestForNIS
     // }
 
     [TestCase(1)]
-    [TestCase(2)]
-    [TestCase(3)]
+    [TestCase(2, Ignore = "Waiting for coroutine bug to be fixed")]
+    [TestCase(3, Ignore = "Waiting for coroutine bug to be fixed")]
     public void TestCheckActionDoNotDoubleClick(int numberOfClicks)
     {
         altDriver.LoadScene(scene11);
