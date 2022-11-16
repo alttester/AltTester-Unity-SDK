@@ -77,21 +77,5 @@ namespace Altom.AltDriver.Tests
         //     Assert.Fail("Should not be able to connect");
 
         // }
-
-        [Test]
-        public void TestForwardAndroid()
-        {
-            AltPortForwarding.RemoveAllForwardAndroid();
-            AltPortForwarding.ForwardAndroid();
-            try
-            {
-                var driver = new AltDriver(enableLogging: true, connectTimeout: 2);
-                driver.Stop();
-            }
-            catch
-            {
-                Assert.Fail("ForwardAndroid failed");
-            }
-        }
     }
 }
