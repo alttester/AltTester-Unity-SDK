@@ -72,7 +72,7 @@ Replace:
     <PropertyGroup>
         <PackageId>AltUnityDriver</PackageId>
         <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
-        <RootNamespace>Altom.AltUnityDriver</RootNamespace>
+        <RootNamespace>AltTester.AltUnityDriver</RootNamespace>
     </PropertyGroup>
 
 With:
