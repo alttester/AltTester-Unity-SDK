@@ -223,6 +223,10 @@ namespace Altom.AltTester.UI
             if (communication != null)
             {
                 communication.Stop();
+
+                communication.OnConnect = null;
+                communication.OnDisconnect = null;
+                communication.OnError = null;
             }
         }
 
