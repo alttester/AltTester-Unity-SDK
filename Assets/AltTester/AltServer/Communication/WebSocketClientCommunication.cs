@@ -63,10 +63,6 @@ namespace Altom.AltTester.Communication
         public void Stop()
         {
             wsClient.Close();
-
-            this.OnConnect = null;
-            this.OnDisconnect = null;
-            this.OnError = null;
         }
 
         private void connect()
