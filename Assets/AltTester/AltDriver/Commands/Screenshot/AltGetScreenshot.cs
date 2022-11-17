@@ -19,15 +19,15 @@ namespace Altom.AltDriver.Commands
         public virtual AltTextureInformation Execute()
         {
             CommHandler.Send(cmdParams);
-            return ReceiveScreenshot();
+            return ReceiveScreenshot(cmdParams);
         }
 
-        protected AltTextureInformation ReceiveScreenshot()
+        protected AltTextureInformation ReceiveScreenshot(CommandParams commandParams)
         {
-            var data = CommHandler.Recvall<string>(cmdParams);
+            var data = CommHandler.Recvall<string>(commandParams);
             ValidateResponse("Ok", data);
 
-            var imageData = CommHandler.Recvall<AltGetScreenshotResponse>(cmdParams);
+            var imageData = CommHandler.Recvall<AltGetScreenshotResponse>(commandParams);
             byte[] decompressedImage = DecompressScreenshot(imageData.compressedImage);
             return new AltTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize);
         }
@@ -47,7 +47,7 @@ namespace Altom.AltDriver.Commands
         public override AltTextureInformation Execute()
         {
             CommHandler.Send(cmdParams);
-            return ReceiveScreenshot();
+            return ReceiveScreenshot(cmdParams);
         }
     }
 
@@ -69,7 +69,7 @@ namespace Altom.AltDriver.Commands
             {
                 selectedObject = null;
             }
-            return ReceiveScreenshot();
+            return ReceiveScreenshot(cmdParams);
 
         }
     }
