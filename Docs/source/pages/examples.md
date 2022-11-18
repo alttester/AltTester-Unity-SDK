@@ -39,14 +39,15 @@ We plan to add more examples in the near future.
 
     Import this package under your AltTester package in Unity, to have access to the SampleScenes and C# tests.
 
+
+**3.** Example test projects for AltTester Unity SDK v.1.8.0 and the New Input System:
+
+* C# tests [CoinCollector](https://github.com/alttester/EXAMPLES-NewInputSystem--CoinCollector-CSharp)
+* C# tests [LeanTouch](https://github.com/alttester/EXAMPLES-NewInputSystem--LeanTouch-CSharp)
+* C# tests [RollABall](https://github.com/alttester/EXAMPLES-NewInputSystem--RollABall-CSharp) 
+
 <!-- **4.** Example test project for AltTester Unity SDK and Unity Test Framework:
 
 * C# tests [Endless Runner](https://github.com/alttester-test-examples/Unity-Test-Runner-AltTester)
 
-    You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
-
-**5.** Example test projects for AltTester Unity SDK v.1.7.1 and the New Input System:
-
-* C# tests [CoinCollector](https://github.com/alttester-test-examples/NewInputSystem--CoinCollector-CSharp)
-* C# tests [LeanTouch](https://github.com/alttester-test-examples/NewInputSystem--LeanTouch-CSharp)
-* C# tests [RollABall](https://github.com/alttester-test-examples/NewInputSystem--RollABall-CSharp) -->
+    You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).-->
