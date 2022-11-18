@@ -63,7 +63,6 @@ if (typeof TextEncoder === "undefined") {
 }
 
 var LibraryWebSocket = {
-  $textEncoder: new TextEncoder(),
   $webSocketState: {
     /*
      * Map of instances
@@ -140,7 +139,7 @@ var LibraryWebSocket = {
    */
   WebSocketAllocate: function (url) {
 
-    var urlStr = Pointer_stringify(url);
+    var urlStr = UTF8ToString(url);
     var id = webSocketState.lastId++;
 
     webSocketState.instances[id] = {
@@ -226,7 +225,7 @@ var LibraryWebSocket = {
         }
 
       } else {
-        var dataBuffer = textEncoder.encode(ev.data);
+        var dataBuffer = (new TextEncoder()).encode(ev.data);
 
         var buffer = _malloc(dataBuffer.length);
         HEAPU8.set(dataBuffer, buffer);
@@ -300,7 +299,7 @@ var LibraryWebSocket = {
     if (instance.ws.readyState === 3)
       return -5;
 
-    var reason = (reasonPtr ? Pointer_stringify(reasonPtr) : undefined);
+    var reason = (reasonPtr ? UTF8ToString(reasonPtr) : undefined);
 
     try {
       instance.ws.close(code, reason);
@@ -354,7 +353,7 @@ var LibraryWebSocket = {
     if (instance.ws.readyState !== 1)
       return -6;
 
-    instance.ws.send(Pointer_stringify(message));
+    instance.ws.send(UTF8ToString(message));
 
     return 0;
 
@@ -380,5 +379,4 @@ var LibraryWebSocket = {
 };
 
 autoAddDeps(LibraryWebSocket, '$webSocketState');
-autoAddDeps(LibraryWebSocket, '$textEncoder');
 mergeInto(LibraryManager.library, LibraryWebSocket);
