@@ -207,12 +207,12 @@ namespace Altom.AltTesterEditor
                     System.Text.RegularExpressions.Regex regex = null;
                     if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.Windows)
                     {
-                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop.exe");
+                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop(.*?).exe");
 
                     }
                     else if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.MacOSX)
                     {
-                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop.dmg");
+                        regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop(.*?).dmg");
                     }
 
                     System.Text.RegularExpressions.Match match = regex.Match(textReceived);
