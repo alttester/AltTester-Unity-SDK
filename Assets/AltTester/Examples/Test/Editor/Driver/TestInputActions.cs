@@ -31,12 +31,12 @@ namespace Altom.AltDriver.Tests
 
             var scrollBar = altDriver.WaitForObject(By.PATH, "//ScrollCanvas//Handle");
 
-            AltVector2 scrollBarInitialPosition = scrollBar.getScreenPosition();
+            AltVector2 scrollBarInitialPosition = scrollBar.GetScreenPosition();
             altDriver.MoveMouse(scrollBarInitialPosition);
             altDriver.Scroll(-20, 0.1f);
 
             scrollBar = altDriver.FindObject(By.PATH, "//ScrollCanvas//Handle");
-            AltVector2 scrollBarFinalPosition = scrollBar.getScreenPosition();
+            AltVector2 scrollBarFinalPosition = scrollBar.GetScreenPosition();
             Assert.AreNotEqual(scrollBarInitialPosition.y, scrollBarFinalPosition.y);
         }
     }

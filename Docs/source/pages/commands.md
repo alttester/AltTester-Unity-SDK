@@ -838,7 +838,7 @@ Simulates holding left click button down for a specified amount of time at given
         public void TestHoldButton()
         {
             var button = altDriver.FindObject(By.NAME, "UIButton");
-            altDriver.HoldButton(button.getScreenPosition(), 1);
+            altDriver.HoldButton(button.GetScreenPosition(), 1);
             var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
             var text = capsuleInfo.GetText();
             Assert.AreEqual(text, "UIButton clicked to jump capsule!");
@@ -1344,7 +1344,7 @@ Simulates a multipoint swipe action.
             var position = new AltVector2(altElement.x, altElement.y);
             var pos = new[]
             {
-                altElement.getScreenPosition(),
+                altElement.GetScreenPosition(),
                 new AltVector2(altElement.x - 200, altElement.y - 200),
                 new AltVector2(altElement.x - 300, altElement.y - 100),
                 new AltVector2(altElement.x - 50, altElement.y - 100),
@@ -1425,13 +1425,13 @@ Simulates starting of a touch on the screen. To further interact with the touch 
         public void TestNewTouchCommands()
         {
             var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
-            var initialPosition = draggableArea.getScreenPosition();
-            int fingerId = altDriver.BeginTouch(draggableArea.getScreenPosition());
+            var initialPosition = draggableArea.GetScreenPosition();
+            int fingerId = altDriver.BeginTouch(draggableArea.GetScreenPosition());
             AltVector2 newPosition = new AltVector2(draggableArea.x + 20, draggableArea.y + 10);
             altDriver.MoveTouch(fingerId, newPosition);
             altDriver.EndTouch(fingerId);
             draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
-            Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+            Assert.AreNotEqual(initialPosition, draggableArea.GetScreenPosition());
 
         }
 
@@ -1492,13 +1492,13 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
         public void TestNewTouchCommands()
         {
             var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
-            var initialPosition = draggableArea.getScreenPosition();
-            int fingerId = altDriver.BeginTouch(draggableArea.getScreenPosition());
+            var initialPosition = draggableArea.GetScreenPosition();
+            int fingerId = altDriver.BeginTouch(draggableArea.GetScreenPosition());
             AltVector2 newPosition = new AltVector2(draggableArea.x + 20, draggableArea.y + 10);
             altDriver.MoveTouch(fingerId, newPosition);
             altDriver.EndTouch(fingerId);
             draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
-            Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+            Assert.AreNotEqual(initialPosition, draggableArea.GetScreenPosition());
 
         }
 
@@ -1558,13 +1558,13 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
         public void TestNewTouchCommands()
         {
             var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
-            var initialPosition = draggableArea.getScreenPosition();
-            int fingerId = altDriver.BeginTouch(draggableArea.getScreenPosition());
+            var initialPosition = draggableArea.GetScreenPosition();
+            int fingerId = altDriver.BeginTouch(draggableArea.GetScreenPosition());
             AltVector2 newPosition = new AltVector2(draggableArea.x + 20, draggableArea.y + 10);
             altDriver.MoveTouch(fingerId, newPosition);
             altDriver.EndTouch(fingerId);
             draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
-            Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+            Assert.AreNotEqual(initialPosition, draggableArea.GetScreenPosition());
         }
 
     .. code-tab:: java
@@ -1627,7 +1627,7 @@ Click at screen coordinates.
         {
             const string name = "UIButton";
             var altObject = altDriver.FindObject(By.NAME,name);
-            altDriver.Click(altObject.getScreenPosition());
+            altDriver.Click(altObject.GetScreenPosition());
             Assert.AreEqual(name, altObject.name);
             altDriver.WaitForObject(By.PATH, "//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
@@ -1687,7 +1687,7 @@ Tap at screen coordinates.
         {
             const string name = "UIButton";
             var altObject = altDriver.FindObject(By.NAME,name);
-            altDriver.Tap(altObject.getScreenPosition());
+            altDriver.Tap(altObject.GetScreenPosition());
             Assert.AreEqual(name, altObject.name);
             altDriver.WaitForObject(By.PATH, "//CapsuleInfo[@text="UIButton clicked to jump capsule!"]");
         }
@@ -1745,11 +1745,11 @@ Simulates device rotation action in your game.
         public void TestAcceleration()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var initialWorldCoordinates = capsule.getWorldPosition();
+            var initialWorldCoordinates = capsule.GetWorldPosition();
             altDriver.Tilt(new AltVector3(1, 1, 1), 1);
             Thread.Sleep(100);
             capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var afterTiltCoordinates = capsule.getWorldPosition();
+            var afterTiltCoordinates = capsule.GetWorldPosition();
             Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
         }
 
@@ -2830,7 +2830,7 @@ Invokes a method from an existing component of the object.
             const string methodName = "get_text";
             const string assemblyName = "UnityEngine.UI";
             const string elementText = "Change Camera Mode";
-            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/Button/Text");
+            var altElement = altDriver.FindObject(By.PATH, "/Canvas/Button/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, new object[] { });
             Assert.AreEqual(elementText, data);
         }
@@ -2844,7 +2844,7 @@ Invokes a method from an existing component of the object.
             const string assemblyName = "UnityEngine.UI";
             Int32 fontSizeExpected = 16;
             string[] parameters = new[] {"16"};
-            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
+            var altElement = altDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
             var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
             Assert.AreEqual(fontSizeExpected, fontSize);
@@ -2877,9 +2877,9 @@ Invokes a method from an existing component of the object.
             String methodName = "get_text";
             String assembly = "UnityEngine.UI";
             String expected_text = "Change Camera Mode";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.PATH,
                 "/Canvas/Button/Text").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
             assertEquals(expected_text, altElement.callComponentMethod(
                 new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, new Object[] {}).build(),
                 String.class));
@@ -2893,9 +2893,9 @@ Invokes a method from an existing component of the object.
             String methodExpectedName = "get_fontSize";
             String assembly = "UnityEngine.UI";
             String[] parameters = new String[] { "16"};
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.PATH,
             "/Canvas/UnityUIInputField/Text").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
             altElement.callComponentMethod(
                 new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, parameters)
                     .build(),
@@ -3574,7 +3574,7 @@ None
         public void TestGetParent()
         {
             var altObject = altDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
-            var altObjectParent = altObject.getParent();
+            var altObjectParent = altObject.GetParent();
             Assert.AreEqual("Panel Drag Area", altObjectParent.name);
         }
 
@@ -3799,7 +3799,6 @@ Is a solution offered by AltTester Unity SDK in order to find object easier. Thi
 
 To add AltId to every object simply just click _Add AltId to every object_ from AltTester menu.
 
-![Add Alt Id](../_static/img/commands/add-alt-id.png)
 ![Add AltId](../_static/img/commands/add-alt-id.png)
 
 ## AltPortForwarding

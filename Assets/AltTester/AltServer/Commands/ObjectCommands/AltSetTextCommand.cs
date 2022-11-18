@@ -22,7 +22,7 @@ namespace Altom.AltTester.Commands
 
         public override AltObject Execute()
         {
-            var targetObject = AltRunner.GetGameObject(CommandParams.altObject);
+            var targetObject = AltRunner.GetGameObject(CommandParams.altObject.id);
             Exception exception = null;
 
             foreach (var property in textProperties)

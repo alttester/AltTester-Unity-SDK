@@ -16,7 +16,7 @@ namespace Altom.AltTester.Commands
             var mockUp = new AltMockUpPointerInputModule();
 
             var pointerEventData = mockUp.ExecuteTouchEvent(new UnityEngine.Touch() { position = new UnityEngine.Vector2(CommandParams.position.x, CommandParams.position.y) });
-            UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject);
+            UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject.id);
             UnityEngine.Camera viewingCamera = AltRunner._altRunner.FoundCameraById(CommandParams.altObject.idCamera);
             UnityEngine.Vector3 gameObjectPosition = viewingCamera.WorldToScreenPoint(gameObject.transform.position);
             pointerEventData.delta = pointerEventData.position - new UnityEngine.Vector2(gameObjectPosition.x, gameObjectPosition.y);
