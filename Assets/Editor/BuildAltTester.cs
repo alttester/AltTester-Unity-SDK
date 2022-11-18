@@ -270,13 +270,14 @@ namespace Altom.AltTesterTools
                 };
 
                 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.WebGL);
-
+                AltBuilder.AddScriptingDefineSymbol("UNITY_WEBGL", BuildTargetGroup.WebGL);
 
                 var instrumentationSettings = getInstrumentationSettings();
                 AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.WebGL);
+                AltBuilder.RemoveScriptingDefineSymbol("UNITY_WEBGL", BuildTargetGroup.WebGL);
 
 
 #if UNITY_2017

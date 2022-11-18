@@ -18,6 +18,7 @@ namespace Altom.AltTesterEditor
     public class AltBuilder
     {
         private const string ALTTESTERDEFINE = "ALTTESTER";
+        private const string WEBGLDEFINE = "UNITY_WEBGL";
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
         public enum InputType
         {
@@ -88,6 +89,7 @@ namespace Altom.AltTesterEditor
                     target = UnityEditor.BuildTarget.WebGL,
                     targetGroup = UnityEditor.BuildTargetGroup.WebGL
                 };
+                AltBuilder.AddScriptingDefineSymbol(WEBGLDEFINE, UnityEditor.BuildTargetGroup.WebGL);
 
                 buildGame(autoRun, buildPlayerOptions);
             }
@@ -98,7 +100,8 @@ namespace Altom.AltTesterEditor
             finally
             {
                 Built = true;
-                resetBuildSetup(UnityEditor.BuildTargetGroup.Android);
+                resetBuildSetup(UnityEditor.BuildTargetGroup.WebGL);
+                AltBuilder.RemoveScriptingDefineSymbol(WEBGLDEFINE, UnityEditor.BuildTargetGroup.WebGL);
             }
 
         }
@@ -133,6 +136,11 @@ namespace Altom.AltTesterEditor
 
         public static void RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup)
         {
+            RemoveScriptingDefineSymbol(ALTTESTERDEFINE, targetGroup);
+        }
+
+        public static void RemoveScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
+        {
             if (AltTesterEditorWindow.EditorConfiguration != null && AltTesterEditorWindow.EditorConfiguration.KeepAUTSymbolDefined)
                 return;
             try
@@ -140,12 +148,12 @@ namespace Altom.AltTesterEditor
                 var scriptingDefineSymbolsForGroup =
                     UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
                 string newScriptingDefineSymbolsForGroup = "";
-                if (scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE))
+                if (scriptingDefineSymbolsForGroup.Contains(symbol))
                 {
                     var split = scriptingDefineSymbolsForGroup.Split(';');
                     foreach (var define in split)
                     {
-                        if (define != ALTTESTERDEFINE)
+                        if (define != symbol)
                         {
                             newScriptingDefineSymbolsForGroup += define + ";";
                         }
@@ -165,10 +173,15 @@ namespace Altom.AltTesterEditor
 
         public static void AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildTargetGroup targetGroup)
         {
+            AddScriptingDefineSymbol(ALTTESTERDEFINE, targetGroup);
+        }
+
+        public static void AddScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
+        {
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE))
+            if (!scriptingDefineSymbolsForGroup.Contains(symbol))
             {
-                scriptingDefineSymbolsForGroup += ";" + ALTTESTERDEFINE;
+                scriptingDefineSymbolsForGroup += ";" + symbol;
             }
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
         }
