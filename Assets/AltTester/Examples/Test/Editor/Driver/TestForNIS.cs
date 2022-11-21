@@ -4,11 +4,13 @@ using System.Threading;
 using AltTester.AltDriver;
 using NUnit.Framework;
 
+
 namespace AltTester.AltDriver.Tests
 {
     public class TestForNIS
     {
         public AltDriver altDriver;
+
         //Before any test it connects with the socket
         string scene7 = "Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity";
         string scene8 = "Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity";
@@ -34,6 +36,8 @@ namespace AltTester.AltDriver.Tests
             imageSource = altDriver.FindObject(By.NAME, sourceImageName).GetComponentProperty<string>("UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI");
             imageSourceDropZone = altDriver.FindObject(By.NAME, imageSourceDropZoneName).GetComponentProperty<string>("UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI");
         }
+
+
         private void dropImageWithMultipointSwipe(string[] objectNames, float duration = 1f, bool wait = true)
         {
             AltVector2[] listPositions = new AltVector2[objectNames.Length];
@@ -54,7 +58,6 @@ namespace AltTester.AltDriver.Tests
             altDriver.Scroll(300, 0.5f, true);
             Assert.True(player.GetComponentProperty<bool>("AltNIPDebugScript", "wasScrolled", "Assembly-CSharp"));
         }
-
 
         [Test]
         public void TestTapElement()
@@ -84,7 +87,6 @@ namespace AltTester.AltDriver.Tests
             altDriver.Scroll(new AltVector2(-3000, -3000), 0.5f, true);
             var scrollbarPositionFinal = scrollbar.GetComponentProperty<float>("UnityEngine.UI.Scrollbar", "value", "UnityEngine.UI");
             Assert.AreNotEqual(scrollbarPosition, scrollbarPositionFinal);
-
         }
 
         [Test]
@@ -96,7 +98,6 @@ namespace AltTester.AltDriver.Tests
             var counter = capsule.GetComponentProperty<int>("AltExampleNewInputSystem", "jumpCounter", "Assembly-CSharp");
             Assert.AreEqual(1, counter);
         }
-
 
         [Test]
         public void TestKeyDownAndKeyUp()

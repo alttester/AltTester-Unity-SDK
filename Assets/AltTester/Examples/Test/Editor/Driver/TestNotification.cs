@@ -11,9 +11,9 @@ namespace AltTester.AltDriver.Tests
     public class TestNotification
     {
         private AltDriver altDriver;
+
         [OneTimeSetUp]
-        public void SetUp()
-        {
+        public void SetUp() {
             altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
             INotificationCallbacks notificationCallbacks = new MockNotificationCallBacks();
             altDriver.AddNotificationListener<AltLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, notificationCallbacks.SceneLoadedCallback, true);
@@ -23,6 +23,7 @@ namespace AltTester.AltDriver.Tests
             DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
             DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
         }
+
         [OneTimeTearDown]
         public void TearDown()
         {
