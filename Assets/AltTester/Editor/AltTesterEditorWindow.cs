@@ -62,7 +62,7 @@ namespace Altom.AltTesterEditor
         public static UnityEngine.Texture2D PortForwardingTexture;
         public static UnityEngine.Texture2D selectedTestsCountTexture;
 
-        private static string downloadURl;
+        private static string downloadURL;
         private const string RELEASENOTESURL = "https://altom.com/alttester/docs/desktop/pages/release-notes.html";
         private const string PREFABNAME = "AltTesterPrefab";
         private static string version;
@@ -214,7 +214,7 @@ namespace Altom.AltTesterEditor
                     {
                         regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*.dmg");
                     }
-                    
+
                     System.Text.RegularExpressions.Match match = regex.Match(textReceived);
                     if (match.Success)
                     {
@@ -224,7 +224,7 @@ namespace Altom.AltTesterEditor
                         if (String.IsNullOrEmpty(EditorConfiguration.LatestDesktopVersion) || !isCurrentVersionEqualOrNewer(releasedVersion, EditorConfiguration.LatestDesktopVersion))
                         {
                             EditorConfiguration.LatestDesktopVersion = releasedVersion;
-                            downloadURl = match.Value;
+                            downloadURL = match.Value;
                             version = releasedVersion;
                             EditorConfiguration.ShowDesktopPopUpInEditor = true;
                         }
@@ -526,7 +526,7 @@ namespace Altom.AltTesterEditor
                     }
                     if (downloadButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
                     {
-                        UnityEngine.Application.OpenURL(downloadURl);
+                        UnityEngine.Application.OpenURL(downloadURL);
                         UnityEngine.GUIUtility.ExitGUI();
                     }
                     if (closeButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
