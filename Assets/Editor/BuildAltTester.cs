@@ -23,7 +23,7 @@ namespace Altom.AltTesterTools
                 PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Standalone, "com.altom.sampleGame");
                 PlayerSettings.bundleVersion = versionNumber;
                 PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Standalone, ApiCompatibilityLevel.NET_4_6);
-                AltBuilder.AddAltTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Standalone);
+                AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.Standalone);
                 var instrumentationSettings = getInstrumentationSettings();
                 PlayerSettings.fullScreenMode = UnityEngine.FullScreenMode.Windowed;
                 PlayerSettings.defaultScreenHeight = 1080;

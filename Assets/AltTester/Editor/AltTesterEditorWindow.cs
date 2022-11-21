@@ -404,23 +404,20 @@ namespace Altom.AltTesterEditor
                 NeedsRepainting = false;
                 Repaint();
             }
+            DrawGUI();
 
-            if (UnityEngine.Application.isPlaying && !EditorConfiguration.RanInEditor)
+            if (UnityEngine.Application.isPlaying && EditorConfiguration != null)
             {
-                EditorConfiguration.RanInEditor = true;
-            }
-
-            if (!UnityEngine.Application.isPlaying && EditorConfiguration.RanInEditor)
-            {
-                afterExitPlayMode();
-
+                if (!EditorConfiguration.RanInEditor)
+                    EditorConfiguration.RanInEditor = true;
+                else
+                    afterExitPlayMode();
             }
             if (PlayInEditorPressed && !UnityEditor.EditorApplication.isCompiling && AltBuilder.CheckAltTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
             {
                 PlayInEditorPressed = false;
                 UnityEditor.EditorApplication.isPlaying = true;
             }
-            DrawGUI();
         }
 
         public void BeginHorizontalSplitView()

@@ -10,7 +10,7 @@ namespace Altom.AltDriver.Tests
         private AltDriver altDriver;
         //Before any test it connects with the socket
         [OneTimeSetUp]
-        public void SetUp()
+        public void OneTimeSetUp()
         {
             altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
             DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
@@ -23,11 +23,15 @@ namespace Altom.AltDriver.Tests
         {
             altDriver.Stop();
         }
-
+        [SetUp]
+        public void SetUp()
+        {
+            altDriver.ResetInput();
+            altDriver.LoadScene("Scene6");
+        }
         [Test]
         public void TestScrollAndWait()
         {
-            altDriver.LoadScene("Scene6");
 
             var scrollBar = altDriver.WaitForObject(By.PATH, "//ScrollCanvas//Handle");
 

@@ -80,6 +80,33 @@ namespace Altom.AltTester
 
         }
 
+        public void ResetInput()
+        {
+            InputTestFixture = new InputTestFixture();
+#if USE_INPUT_SYSTEM_1_3
+            TestExecutionContext testExecutionContext = new TestExecutionContext();
+            IMethodInfo methodInfo = new MethodWrapper(typeof(TestExample), typeof(TestExample).GetMethod("Test"));
+            testExecutionContext.CurrentTest = new TestMethod(methodInfo);
+            TestContext testContext = new TestContext(testExecutionContext);
+            TestContext.CurrentTestExecutionContext = testExecutionContext;
+            Application.runInBackground = true;
+            InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
+            InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+#endif
+
+            InputSystem.RemoveDevice(Keyboard);
+            Keyboard = InputSystem.AddDevice<Keyboard>("AltKeyboard");
+            InputSystem.RemoveDevice(Mouse);
+            Mouse = InputSystem.AddDevice<Mouse>("AltMouse");
+            InputSystem.RemoveDevice(Gamepad);
+            Gamepad = InputSystem.AddDevice<Gamepad>("AltGamepad");
+            InputSystem.RemoveDevice(Touchscreen);
+            Touchscreen = InputSystem.AddDevice<Touchscreen>("AltTouchscreen");
+            InputSystem.RemoveDevice(Accelerometer);
+            Accelerometer = InputSystem.AddDevice<Accelerometer>("AltAccelerometer");
+            InputTestFixture.Set(Mouse.position, new Vector2(0, 0));
+        }
+
         public static void DisableDefaultDevicesAndEnableAltDevices()
         {
             foreach (var device in InputSystem.devices)
@@ -252,17 +279,20 @@ namespace Altom.AltTester
         internal static IEnumerator ClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval)
         {
             Mouse.MakeCurrent();
-            InputTestFixture.Set(Mouse.position, screenPosition, queueEventOnly: true);
+            UnityEngine.Debug.Log("flajkdklajslk11111: " + Mouse.leftButton);
+
+            InputTestFixture.Set(Mouse.position, screenPosition, queueEventOnly: false);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
 #if !ENABLE_LEGACY_INPUT_MANAGER
             AltRunner._altRunner.ShowClick(screenPosition);
 #endif
-                InputTestFixture.Press(Mouse.leftButton, queueEventOnly: true);
+                UnityEngine.Debug.Log("flajkdklajslk: " + Mouse.leftButton);
+                InputTestFixture.Press(Mouse.leftButton, queueEventOnly: false);
                 yield return null;
                 time += Time.unscaledDeltaTime;
-                InputTestFixture.Release(Mouse.leftButton, queueEventOnly: true);
+                InputTestFixture.Release(Mouse.leftButton, queueEventOnly: false);
                 while (i != count - 1 && time < interval)
                 {
                     time += Time.unscaledDeltaTime;
@@ -289,7 +319,9 @@ namespace Altom.AltTester
         internal static IEnumerator KeyPressLifeCycle(KeyCode keyCode, float power, float duration)
         {
             keyDownPower = power;
+            UnityEngine.Debug.Log("aodasdkal2222222a===> " + keyCode);
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
+            UnityEngine.Debug.Log("aodasdkala===> " + buttonControl.name);
             keyDown(keyCode, power, buttonControl);
             float currentTime = 0;
             while (currentTime <= duration)
@@ -394,10 +426,10 @@ namespace Altom.AltTester
             foreach (var e in AltKeyMapping.StringToKeyCode)
                 if (e.Value == keyCode)
                     return Keyboard[AltKeyMapping.StringToKey[e.Key]];
-            foreach (var e in AltKeyMapping.mouseKeyCodeToButtonControl)
+            AltKeyMapping altKeyMapping = new AltKeyMapping(power);
+            foreach (var e in altKeyMapping.mouseKeyCodeToButtonControl)
                 if (e.Key == keyCode)
                     return e.Value;
-            AltKeyMapping altKeyMapping = new AltKeyMapping(power);
             foreach (var e in altKeyMapping.joystickKeyCodeToGamepad)
                 if (e.Key == keyCode)
                     return e.Value;

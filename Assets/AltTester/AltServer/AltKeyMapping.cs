@@ -312,15 +312,7 @@ namespace Altom.AltTester
         {"Menu", Key.RightCtrl}
         };
 
-        public static Dictionary<KeyCode, ButtonControl> mouseKeyCodeToButtonControl = new Dictionary<KeyCode, ButtonControl>()
-        {
-            // in Mouse class there are only 5 buttons thus KeyCode.Mouse5, KeyCode.Mouse6 are not mapped
-            {KeyCode.Mouse0, NewInputSystem.Mouse.leftButton},
-            {KeyCode.Mouse1, NewInputSystem.Mouse.rightButton},
-            {KeyCode.Mouse2, NewInputSystem.Mouse.middleButton},
-            {KeyCode.Mouse3, NewInputSystem.Mouse.forwardButton},
-            {KeyCode.Mouse4, NewInputSystem.Mouse.backButton}
-        };
+        public Dictionary<KeyCode, ButtonControl> mouseKeyCodeToButtonControl;
 
         public Dictionary<KeyCode, ButtonControl> joystickKeyCodeToGamepad;
 
@@ -348,6 +340,15 @@ namespace Altom.AltTester
             {KeyCode.JoystickButton17, power > 0 ? NewInputSystem.Gamepad.leftStick.up : NewInputSystem.Gamepad.leftStick.down},
             {KeyCode.JoystickButton18, power > 0 ? NewInputSystem.Gamepad.rightStick.right: NewInputSystem.Gamepad.rightStick.left},
             {KeyCode.JoystickButton19, power > 0 ? NewInputSystem.Gamepad.rightStick.up : NewInputSystem.Gamepad.rightStick.down}
+        };
+            mouseKeyCodeToButtonControl = new Dictionary<KeyCode, ButtonControl>()
+        {
+            // in Mouse class there are only 5 buttons thus KeyCode.Mouse5, KeyCode.Mouse6 are not mapped
+            {KeyCode.Mouse0, NewInputSystem.Mouse.leftButton},
+            {KeyCode.Mouse1, NewInputSystem.Mouse.rightButton},
+            {KeyCode.Mouse2, NewInputSystem.Mouse.middleButton},
+            {KeyCode.Mouse3, NewInputSystem.Mouse.forwardButton},
+            {KeyCode.Mouse4, NewInputSystem.Mouse.backButton}
         };
         }
     }

@@ -51,6 +51,20 @@ public class Input : MonoBehaviour
 
     public static bool UseCustomInput { get => _useCustomInput; set => _useCustomInput = value; }
 
+    public void ResetInput()
+    {
+        _keyCodesPressed.Clear();
+        _keyCodesPressedDown.Clear();
+        _keyCodesPressedUp.Clear();
+        mousePosition = Vector3.zero;
+        touches = new UnityEngine.Touch[0];
+        _touchCount = 0;
+        _acceleration = Vector3.zero;
+        _accelerationEvents = new AccelerationEvent[0];
+        _pointerEventsDataDictionary.Clear();
+        _inputIdDictionary.Clear();
+    }
+
     public static AltMockUpPointerInputModule AltMockUpPointerInputModule
     {
         get

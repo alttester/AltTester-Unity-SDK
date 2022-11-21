@@ -15,7 +15,7 @@ public class TestForNIS
     string scene11 = "Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity";
 
     [OneTimeSetUp]
-    public void SetUp()
+    public void OneTimeSetUp()
     {
         altDriver = new AltDriver();
     }
@@ -26,7 +26,11 @@ public class TestForNIS
     {
         altDriver.Stop();
     }
-
+    [SetUp]
+    public void SetUp()
+    {
+        altDriver.ResetInput();
+    }
     private void getSpriteName(out string imageSource, out string imageSourceDropZone, string sourceImageName, string imageSourceDropZoneName)
     {
         imageSource = altDriver.FindObject(By.NAME, sourceImageName).GetComponentProperty<string>("UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI");
@@ -234,7 +238,7 @@ public class TestForNIS
         altDriver.LoadScene(scene11);
         var capsule = altDriver.FindObject(By.NAME, "Capsule");
         altDriver.Click(capsule.getScreenPosition());
-        altDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]");
+        altDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]", timeout: 2);
     }
 
     [Test]
@@ -287,14 +291,14 @@ public class TestForNIS
         Assert.AreNotEqual(initialPanelPos, finalPanelPos);
     }
 
-    // [Test]
-    // public void TestCapsuleJumps()
-    // {
-    //     altDriver.LoadScene(scene11);
-    //     var capsule = altDriver.FindObject(By.NAME, "Capsule");
-    //     var fingerId = altDriver.BeginTouch(capsule.getScreenPosition());
-    //     altDriver.EndTouch(fingerId);
-    //     var text = capsule.GetComponentProperty<string>("AltExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
-    //     Assert.AreEqual("Capsule was tapped!", text);
-    // }
+    [Test]
+    public void TestCapsuleJumps()
+    {
+        altDriver.LoadScene(scene11);
+        var capsule = altDriver.FindObject(By.NAME, "Capsule");
+        var fingerId = altDriver.BeginTouch(capsule.getScreenPosition());
+        altDriver.EndTouch(fingerId);
+        var text = capsule.GetComponentProperty<string>("AltExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
+        Assert.AreEqual("Capsule was tapped!", text);
+    }
 }

@@ -282,6 +282,14 @@ namespace Altom.AltTester
         }
         public static void ResetInput()
         {
+#if ALTTESTER
+#if ENABLE_INPUT_SYSTEM
+            Input._instance.ResetInput();
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+            NewInputSystem.Instance.ResetInput();
+#endif
+#endif
 
         }
     }

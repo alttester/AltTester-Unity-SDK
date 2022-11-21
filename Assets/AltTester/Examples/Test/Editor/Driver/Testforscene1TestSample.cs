@@ -29,6 +29,8 @@ namespace Altom.AltDriver.Tests
         [SetUp]
         public void LoadLevel()
         {
+            altDriver.ResetInput();
+
             altDriver.SetCommandResponseTimeout(60);
             altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
         }
@@ -438,17 +440,18 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        public void TestCallMethodSetFontSizeWithParameters(){
+        public void TestCallMethodSetFontSizeWithParameters()
+        {
             const string componentName = "UnityEngine.UI.Text";
             const string methodName = "set_fontSize";
             const string methodToVerifyName = "get_fontSize";
             const string assemblyName = "UnityEngine.UI";
             Int32 fontSizeExpected = 16;
-            string[] parameters = new[] {"16"};
+            string[] parameters = new[] { "16" };
             var altElement = altDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
-            var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
-            Assert.AreEqual(fontSizeExpected,fontSize);
+            var fontSize = altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
+            Assert.AreEqual(fontSizeExpected, fontSize);
         }
 
         [Test]
@@ -2107,18 +2110,18 @@ namespace Altom.AltDriver.Tests
             var element = altDriver.FindObjectAtCoordinates(counterButton.getScreenPosition());
             Assert.AreEqual("Capsule", element.name);
         }
-        // [Test]
-        // public void TestScrollViewSwipe()
-        // {
-        //     altUnityDriver.LoadScene("Scene 11 ScrollView Scene");
-        //     var buttons = altUnityDriver.FindObjects(By.PATH, "//Content/*");
-        //     for (int i = 1; i <= buttons.Count - 3; i++)
-        //     {
-        //         altUnityDriver.Swipe(buttons[i].getScreenPosition(), buttons[i - 1].getScreenPosition());
+        [Test]
+        public void TestScrollViewSwipe()
+        {
+            altDriver.LoadScene("Scene 11 ScrollView Scene");
+            var buttons = altDriver.FindObjects(By.PATH, "//Content/*");
+            for (int i = 1; i <= buttons.Count - 3; i++)
+            {
+                altDriver.Swipe(buttons[i].getScreenPosition(), buttons[i - 1].getScreenPosition());
 
-        //     }
-        //     Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltUnityScrollViewButtonController", "Counter", "Assembly-CSharp"));
-        // }
+            }
+            Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltUnityScrollViewButtonController", "Counter", "Assembly-CSharp"));
+        }
 
         [Test]
         public void TestCallPrivateMethod()
@@ -2137,6 +2140,19 @@ namespace Altom.AltDriver.Tests
             var id = altDriver.BeginTouch(new AltVector2(icon.x - 25, icon.y + 25));
             altDriver.EndTouch(id);
             Assert.NotNull(altDriver.WaitForObject(By.NAME, "Dialog"));
+        }
+
+        [Test]
+        public void TestResetInput()
+        {
+            altDriver.KeyDown(AltKeyCode.Alpha1, 1);
+            var oldId = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp");
+            altDriver.ResetInput();
+            var newId = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp");
+
+            int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
+            Assert.AreEqual(0, countKeyDown);
+            Assert.AreNotEqual(newId, oldId);
         }
     }
 }

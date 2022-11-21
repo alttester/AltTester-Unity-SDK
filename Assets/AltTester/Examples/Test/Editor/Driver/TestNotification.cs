@@ -37,7 +37,7 @@ public class TestNotification
     [SetUp]
     public void LoadLevel()
     {
-
+        altDriver.ResetInput();
         altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
     }
 

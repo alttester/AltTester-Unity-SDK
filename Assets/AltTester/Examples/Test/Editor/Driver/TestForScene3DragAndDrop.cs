@@ -28,6 +28,7 @@ namespace Altom.AltDriver.Tests
         [SetUp]
         public void LoadLevel()
         {
+            altDriver.ResetInput();
             altDriver.LoadScene("Scene 3 Drag And Drop");
         }
 
