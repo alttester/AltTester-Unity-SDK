@@ -42,7 +42,7 @@ namespace AltTesterTools
 
 
 
-                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.Standalone);
@@ -115,7 +115,7 @@ namespace AltTesterTools
 
 
 
-                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
@@ -204,7 +204,7 @@ namespace AltTesterTools
 
                 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.iOS);
                 var instrumentationSettings = getInstrumentationSettings();
-                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
@@ -273,7 +273,7 @@ namespace AltTesterTools
 
 
                 var instrumentationSettings = getInstrumentationSettings();
-                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.WebGL);
@@ -321,16 +321,7 @@ namespace AltTesterTools
             if (AltTesterEditorWindow.EditorConfiguration == null)
             {
                 var instrumentationSettings = new AltInstrumentationSettings();
-                var altTesterPort = System.Environment.GetEnvironmentVariable("ALTTESTER_PORT");
-
-                if (!string.IsNullOrEmpty(altTesterPort)) //server mode
-                {
-                    instrumentationSettings.AltTesterPort = int.Parse(altTesterPort);
-                    return instrumentationSettings;
-                }
-
                 var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
-
                 if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
                 {
                     instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
@@ -341,6 +332,10 @@ namespace AltTesterTools
                 {
                     instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
                     instrumentationSettings.ProxyPort = int.Parse(proxyPort);
+                }
+                else
+                {
+                    instrumentationSettings.ProxyPort = 13010;
                 }
 
                 return instrumentationSettings;

@@ -18,6 +18,7 @@ namespace AltTester.AltDriver.Commands
         private readonly string _host;
         private readonly int _port;
         private readonly string _uri;
+        private readonly string _gameName;
         private readonly int _connectTimeout;
         private Queue<CommandResponse> messages;
         private List<Action<AltLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltLoadSceneNotificationResultParams>>();
@@ -29,11 +30,13 @@ namespace AltTester.AltDriver.Commands
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
 
-        public DriverCommunicationWebSocket(string host, int port, int connectTimeout)
+        public DriverCommunicationWebSocket(string host, int port, int connectTimeout, string gameName)
         {
             _host = host;
             _port = port;
-            _uri = "ws://" + host + ":" + port + "/altws";
+            _gameName = gameName;
+
+            _uri = "ws://" + host + ":" + port + "/altws?game=" + Uri.EscapeUriString(gameName);
             _connectTimeout = connectTimeout;
 
             messages = new Queue<CommandResponse>();
@@ -43,7 +46,7 @@ namespace AltTester.AltDriver.Commands
         {
             int delay = 100;
 
-            logger.Info("Connecting to host: {0} port: {1}.", _host, _port);
+            logger.Info("Connecting to: '{0}'.", _uri);
 
             WebSocket wsClient = new WebSocket(_uri);
             wsClient.OnError += (sender, args) =>
@@ -56,7 +59,9 @@ namespace AltTester.AltDriver.Commands
 
             while (_connectTimeout > watch.Elapsed.TotalSeconds)
             {
-                if (retries > 0) logger.Debug(string.Format("Retrying #{0} to host: {1} port: {2}.", retries, _host, _port));
+                if (retries > 0) {
+                    logger.Debug(string.Format("Retrying #{0} to connect to: '{1}'.", retries, _uri));
+                }
                 wsClient.Connect();
 
                 if (wsClient.IsAlive) break;
