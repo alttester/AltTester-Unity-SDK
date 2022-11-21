@@ -76,11 +76,11 @@ public class Input : MonoBehaviour
     public void Start()
     {
         _instance = this;
-        string filePath = "AltTester/AltTesterInputAxisData";
+        // string filePath = "AltTester/AltTesterInputAxisData";
 
-        UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
-        string dataAsJson = targetFile.text;
-        AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltAxis>>(dataAsJson);
+        // UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
+        // string dataAsJson = targetFile.text;
+        // AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltAxis>>(dataAsJson);
     }
 
     private void FixedUpdate()
