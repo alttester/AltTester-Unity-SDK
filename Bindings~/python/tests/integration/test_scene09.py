@@ -9,6 +9,7 @@ class TestScene09:
     @pytest.fixture(autouse=True)
     def setup(self, altdriver):
         self.altdriver = altdriver
+        self.altdriver.reset_input()
         self.altdriver.load_scene(Scenes.Scene09)
 
     def test_scroll_element_NIS(self):

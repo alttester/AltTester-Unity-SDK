@@ -35,6 +35,7 @@ class TestNotifications:
     @pytest.fixture(autouse=True)
     def setup(self, altdriver):
         self.altdriver = altdriver
+        self.altdriver.reset_input()
 
     def test_load_scene_notification(self):
         test_notification_callbacks = MockNotificationCallbacks()

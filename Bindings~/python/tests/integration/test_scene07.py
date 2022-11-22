@@ -9,6 +9,7 @@ class TestScene07A:
     @pytest.fixture(autouse=True)
     def setup(self, altdriver):
         self.altdriver = altdriver
+        self.altdriver.reset_input()
         self.altdriver.load_scene(Scenes.Scene07A)
 
     def test_tap_element_NIS(self):
