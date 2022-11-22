@@ -97,7 +97,7 @@ commands:
 
     .. tab:: C#
 
-        Available Alt command line arguments:
+        Available AltTester SDK command line arguments:
 
         ``-testsClass`` - runs tests from given class/classes
 
@@ -188,7 +188,7 @@ When you run your game instrumented with AltTester Unity SDK, on a device, you n
 to tell your AltDriver how to connect to it.
 
 Port forwarding can be set up either through a command line command or in the
-test code by using the methods available in Alt classes.
+test code by using the methods available in AltTester SDK classes.
 
 The following are some cases when Port Forwarded is needed:
 
@@ -200,7 +200,7 @@ The following are some cases when Port Forwarded is needed:
 Port forwarding can be set up in three ways:
 
 - through a command line command (using ADB/IProxy)
-- in the test code by using the methods available in Alt classes
+- in the test code by using the methods available in AltTester SDK classes
 - from AltTester Editor - Port Forwarding Section
 
 All methods listed above require that you have ADB or IProxy installed.

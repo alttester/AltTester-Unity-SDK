@@ -120,7 +120,7 @@ namespace Altom.AltTester.Commands
             string propertyName;
             int index = getArrayIndex(fieldArray[0], out propertyName);
             MemberInfo memberInfo = GetMemberForObjectComponent(componentType, propertyName);
-            var instance = AltRunner.GetGameObject(altObject).GetComponent(componentType);
+            var instance = AltRunner.GetGameObject(altObject.id).GetComponent(componentType);
             if (instance == null)
             {
                 throw new ComponentNotFoundException("Component " + componentType.Name + " not found");
@@ -139,7 +139,7 @@ namespace Altom.AltTester.Commands
 
         protected string SetValueForMember(AltObject altObject, string[] fieldArray, Type componentType, string valueString)
         {
-            var instance = AltRunner.GetGameObject(altObject).GetComponent(componentType);
+            var instance = AltRunner.GetGameObject(altObject.id).GetComponent(componentType);
             if (instance == null)
             {
                 throw new ComponentNotFoundException("Component " + componentType.Name + " not found");

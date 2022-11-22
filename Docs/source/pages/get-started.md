@@ -318,7 +318,8 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
                 .. code-block:: console
 
-                    mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar``
+                    mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar
+
 
 
         Run your tests by using the following command (in the test project folder):

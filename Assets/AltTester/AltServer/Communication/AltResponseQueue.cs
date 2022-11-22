@@ -12,6 +12,7 @@ namespace Altom.AltTester.Communication
         public void Cycle()
         {
             if (responseQueue.Count == 0) return;
+
             lock (queueLock)
             {
                 if (responseQueue.Count > 0)
@@ -31,7 +32,12 @@ namespace Altom.AltTester.Communication
                 }
             }
         }
+
+        public void Clear() {
+            lock (queueLock)
+            {
+                responseQueue.Clear();
+            }
+        }
     }
 }
-
-

@@ -41,23 +41,40 @@ namespace Altom.AltDriver
             this.transformId = transformId;
         }
 
-        public AltObject getParent()
+        public AltObject GetParent()
         {
             var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
 
-        public AltVector2 getScreenPosition()
+        [Obsolete("getParent is deprecated, please use GetParent instead.")]
+        public AltObject getParent()
+        {
+            var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return altObject;
+        }
+        public AltVector2 GetScreenPosition()
         {
             return new AltVector2(x, y);
         }
 
-        public AltVector3 getWorldPosition()
+        [Obsolete("getScreenPosition is deprecated, please use GetScreenPosition instead.")]
+        public AltVector2 getScreenPosition()
+        {
+            return new AltVector2(x, y);
+        }
+        public AltVector3 GetWorldPosition()
         {
             return new AltVector3(worldX, worldY, worldZ);
         }
 
+        [Obsolete("getWorldPosition is deprecated, please use GetWorldPosition instead.")]
+        public AltVector3 getWorldPosition()
+        {
+            return new AltVector3(worldX, worldY, worldZ);
+        }
         public T GetComponentProperty<T>(string componentName, string propertyName, string assemblyName, int maxDepth = 2)
         {
             var propertyValue = new AltGetComponentProperty<T>(CommHandler, componentName, propertyName, assemblyName, maxDepth, this).Execute();

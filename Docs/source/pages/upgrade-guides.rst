@@ -9,3 +9,4 @@ the available upgrade guides.
     :maxdepth: 2
 
     upgrade-guides/v-1-7-0
+    upgrade-guides/v-1-8-0
