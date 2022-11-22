@@ -1,9 +1,9 @@
 using System;
 using System.Diagnostics;
 using Altom.AltTester.Communication;
+using AltWebSocketSharp;
+using AltWebSocketSharp.Server;
 using NUnit.Framework;
-using WebSocketSharp;
-using WebSocketSharp.Server;
 
 namespace Altom.AltInstrumentation.Tests
 {
