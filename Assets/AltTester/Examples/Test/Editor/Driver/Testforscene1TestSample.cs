@@ -1832,7 +1832,7 @@ namespace Altom.AltDriver.Tests
 
         [Test]
         [Ignore("mousePressCounter remains stuck and is 13 when asserting instead of 1")]
-        public void AAAATestClick_MouseDownUp()
+        public void TestClick_MouseDownUp()
         {
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
             counterElement.SetComponentProperty("AltExampleScriptIncrementOnClick", "mouseUpCounter", 0, "Assembly-CSharp");
@@ -2114,14 +2114,17 @@ namespace Altom.AltDriver.Tests
             var element = altDriver.FindObjectAtCoordinates(counterButton.GetScreenPosition());
             Assert.AreEqual("Capsule", element.name);
         }
-        // [Test]
-        // public void TestScrollViewSwipe()
-        // {
-        //     altUnityDriver.LoadScene("Scene 11 ScrollView Scene");
-        //     var buttons = altUnityDriver.FindObjects(By.PATH, "//Content/*");
-        //     for (int i = 1; i <= buttons.Count - 3; i++)
-        //     {
-        //         altUnityDriver.Swipe(buttons[i].GetScreenPosition(), buttons[i - 1].GetScreenPosition());
+        [Test]
+        public void TestScrollViewSwipe()
+        {
+            altDriver.LoadScene("Scene 11 ScrollView Scene");
+            var buttons = altDriver.FindObjects(By.PATH, "//Content/*");
+            for (int i = 1; i <= buttons.Count - 3; i++)
+            {
+                altDriver.Swipe(buttons[i].GetScreenPosition(), buttons[i - 1].GetScreenPosition());
+            }
+            Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltScrollViewButtonController", "Counter", "Assembly-CSharp"));
+        }
 
 
         [Test]

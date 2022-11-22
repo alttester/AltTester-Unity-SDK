@@ -26,7 +26,6 @@ class TestScene09:
 
         assert scrollbar_initial_value != scrollbar_final_value
 
-    @pytest.mark.skip
     def test_swipe_NIS(self):
         scrollbar = self.altdriver.find_object(By.NAME, "Handle")
         scrollbar_position = scrollbar.get_screen_position()

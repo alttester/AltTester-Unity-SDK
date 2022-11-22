@@ -39,7 +39,6 @@ class TestScene05:
 
         assert initial_position != final_position
 
-    @pytest.mark.skip
     def test_creating_stars(self):
         stars = self.altdriver.find_objects_which_contain(By.NAME, "Star", By.NAME, "Player2")
         assert len(stars) == 1
@@ -59,7 +58,6 @@ class TestScene05:
         stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
         assert len(stars) == 3
 
-    @pytest.mark.skip
     def test_power_joystick(self):
         button_names = ["Horizontal", "Vertical"]
         keys_to_press = [AltKeyCode.D, AltKeyCode.W]
@@ -73,7 +71,6 @@ class TestScene05:
             assert axis_value.get_text() == "0.5"
             assert axis_name.get_text() == button_name
 
-    @pytest.mark.skip
     def test_scroll(self):
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cube_initial_position = [player2.worldX, player2.worldY, player2.worldY]
@@ -84,7 +81,6 @@ class TestScene05:
         cube_final_position = [player2.worldX, player2.worldY, player2.worldY]
         assert cube_initial_position != cube_final_position
 
-    @pytest.mark.skip
     def test_scroll_and_wait(self):
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cube_initial_position = [player2.worldX, player2.worldY, player2.worldY]
@@ -94,7 +90,6 @@ class TestScene05:
         cube_final_position = [player2.worldX, player2.worldY, player2.worldY]
         assert cube_initial_position != cube_final_position
 
-    @pytest.mark.skip
     def test_key_down_and_key_up(self):
         self.altdriver.key_down(AltKeyCode.A)
 

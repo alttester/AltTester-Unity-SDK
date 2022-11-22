@@ -292,16 +292,16 @@ public class TestForNIS
         Assert.AreNotEqual(initialPanelPos, finalPanelPos);
     }
 
-    // [Test]
-    // public void TestCapsuleJumps()
-    // {
-    //     altDriver.LoadScene(scene11);
-    //     var capsule = altDriver.FindObject(By.NAME, "Capsule");
-    //     var fingerId = altDriver.BeginTouch(capsule.getScreenPosition());
-    //     altDriver.EndTouch(fingerId);
-    //     var text = capsule.GetComponentProperty<string>("AltExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
-    //     Assert.AreEqual("Capsule was tapped!", text);
-    // }
+    [Test]
+    public void TestCapsuleJumps()
+    {
+        altDriver.LoadScene(scene11);
+        var capsule = altDriver.FindObject(By.NAME, "Capsule");
+        var fingerId = altDriver.BeginTouch(capsule.GetScreenPosition());
+        altDriver.EndTouch(fingerId);
+        var text = capsule.GetComponentProperty<string>("AltExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
+        Assert.AreEqual("Capsule was tapped!", text);
+    }
 
     [TestCase(1)]
     [TestCase(2, Ignore = "Waiting for coroutine bug to be fixed")]
