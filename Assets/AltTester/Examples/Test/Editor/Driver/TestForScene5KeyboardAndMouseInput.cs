@@ -59,11 +59,11 @@ namespace Altom.AltDriver.Tests
         public void TestCameraMovement()
         {
             var cube = altDriver.FindObject(By.NAME, "Player1");
-            AltVector3 cubeInitialPostion = cube.getWorldPosition();
+            AltVector3 cubeInitialPostion = cube.GetWorldPosition();
 
             altDriver.PressKey(AltKeyCode.W, 1, 2);
             cube = altDriver.FindObject(By.NAME, "Player1");
-            AltVector3 cubeFinalPosition = cube.getWorldPosition();
+            AltVector3 cubeFinalPosition = cube.GetWorldPosition();
 
             Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
         }

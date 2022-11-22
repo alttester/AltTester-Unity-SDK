@@ -37,7 +37,7 @@ namespace Altom.AltDriver.Tests
         {
             var altElement = altDriver.FindObject(By.NAME, "Resize Zone");
             var position = new AltVector2(altElement.x, altElement.y);
-            altDriver.Swipe(altElement.getScreenPosition(), new AltVector2(altElement.x - 200, altElement.y - 200), 2);
+            altDriver.Swipe(altElement.GetScreenPosition(), new AltVector2(altElement.x - 200, altElement.y - 200), 2);
 
             altElement = altDriver.FindObject(By.NAME, "Resize Zone");
             var position2 = new AltVector2(altElement.x, altElement.y);
@@ -51,7 +51,7 @@ namespace Altom.AltDriver.Tests
             var position = new AltVector2(altElement.x, altElement.y);
             var pos = new[]
             {
-            altElement.getScreenPosition(),
+            altElement.GetScreenPosition(),
             new AltVector2(altElement.x - 200, altElement.y - 200),
             new AltVector2(altElement.x - 300, altElement.y - 100),
             new AltVector2(altElement.x - 50, altElement.y - 100),
@@ -180,7 +180,7 @@ namespace Altom.AltDriver.Tests
         public void TestGetParent()
         {
             var altElement = altDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
-            var altElementParent = altElement.getParent();
+            var altElementParent = altElement.GetParent();
             Assert.AreEqual("Panel Drag Area", altElementParent.name);
         }
         [Test]
@@ -196,34 +196,34 @@ namespace Altom.AltDriver.Tests
         public void TestNewTouchCommands()
         {
             var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
-            var initialPosition = draggableArea.getScreenPosition();
-            int fingerId = altDriver.BeginTouch(draggableArea.getScreenPosition());
+            var initialPosition = draggableArea.GetScreenPosition();
+            int fingerId = altDriver.BeginTouch(draggableArea.GetScreenPosition());
             AltVector2 newPosition = new AltVector2(draggableArea.x + 20, draggableArea.y + 10);
             altDriver.MoveTouch(fingerId, newPosition);
             altDriver.EndTouch(fingerId);
             draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
-            Assert.AreNotEqual(initialPosition, draggableArea.getScreenPosition());
+            Assert.AreNotEqual(initialPosition, draggableArea.GetScreenPosition());
 
         }
         [Test]
         public void TestCreateTouchTwice()
         {
             var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
-            var initialPosition = draggableArea.getScreenPosition();
-            int fingerId = altDriver.BeginTouch(draggableArea.getScreenPosition());
+            var initialPosition = draggableArea.GetScreenPosition();
+            int fingerId = altDriver.BeginTouch(draggableArea.GetScreenPosition());
             AltVector2 newPosition = new AltVector2(draggableArea.x + 20, draggableArea.y + 10);
             altDriver.MoveTouch(fingerId, newPosition);
             altDriver.EndTouch(fingerId);
             draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
-            var secondPosition = draggableArea.getScreenPosition();
+            var secondPosition = draggableArea.GetScreenPosition();
             Assert.AreNotEqual(initialPosition, secondPosition);
 
-            fingerId = altDriver.BeginTouch(draggableArea.getScreenPosition());
+            fingerId = altDriver.BeginTouch(draggableArea.GetScreenPosition());
             newPosition = new AltVector2(draggableArea.x + 20, draggableArea.y + 10);
             altDriver.MoveTouch(fingerId, newPosition);
             altDriver.EndTouch(fingerId);
             draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
-            Assert.AreNotEqual(secondPosition, draggableArea.getScreenPosition());
+            Assert.AreNotEqual(secondPosition, draggableArea.GetScreenPosition());
 
         }
     }

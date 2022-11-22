@@ -1,6 +1,9 @@
 
 using System.Linq;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
+using static UnityEngine.EventSystems.ExecuteEvents;
 
 namespace Altom.AltTester
 {
@@ -30,15 +33,18 @@ namespace Altom.AltTester
                         GetFirstRaycastResult(pointerEventData, out raycastResult);
                         pointerEventData.pointerCurrentRaycast = raycastResult;
                         pointerEventData.pointerPressRaycast = pointerEventData.pointerCurrentRaycast;
-                        pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            ExecuteEvents.pointerEnterHandler);
-                        var monoBehaviourTarget = FindObjectViaRayCast.FindMonoBehaviourObject(pointerEventData.position);
-                        pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            ExecuteEvents.pointerDownHandler);
-                        pointerEventData.selectedObject = pointerEventData.pointerPress;
-                        pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            ExecuteEvents.dragHandler);
+                        if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                        {
+                            pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                                ExecuteEvents.pointerEnterHandler);
+                            pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                                ExecuteEvents.pointerDownHandler);
+                            pointerEventData.selectedObject = pointerEventData.pointerPress;
+                            pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                                ExecuteEvents.dragHandler);
+                        }
 
+                        var monoBehaviourTarget = FindObjectViaRayCast.FindMonoBehaviourObject(pointerEventData.position);
                         if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
                         return pointerEventData;
                     case UnityEngine.TouchPhase.Moved:
@@ -60,17 +66,25 @@ namespace Altom.AltTester
 
                             if (previousData.pointerEnter != previousData.pointerCurrentRaycast.gameObject)
                             {
-                                ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
-                                    ExecuteEvents.pointerExitHandler);
-                                ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                    ExecuteEvents.pointerEnterHandler);
+                                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                                {
+
+                                    ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
+                                        ExecuteEvents.pointerExitHandler);
+                                    ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                        ExecuteEvents.pointerEnterHandler);
+                                }
                                 previousData.pointerEnter = previousData.pointerCurrentRaycast.gameObject;
                             }
 
                             if (previousData.delta != UnityEngine.Vector2.zero)
                             {
-                                ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
-                                    ExecuteEvents.dragHandler);
+                                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                                {
+
+                                    ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
+                                        ExecuteEvents.dragHandler);
+                                }
                             }
 
                             return previousData;
@@ -83,17 +97,24 @@ namespace Altom.AltTester
                             GameObjectHit = getGameObjectHit(touch);
                             GetFirstRaycastResult(previousData, out raycastResult);
                             previousData.pointerCurrentRaycast = raycastResult;
-                            ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
-                                ExecuteEvents.pointerUpHandler);
+                            if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                            {
+
+                                ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
+                                    ExecuteEvents.pointerUpHandler);
+                            }
                             var currentOverGo = previousData.pointerCurrentRaycast.gameObject;
                             var pointerUpHandler = ExecuteEvents.GetEventHandler<IPointerClickHandler>(currentOverGo);
 
                             ;
                             if (previousData.pointerPress == pointerUpHandler && previousData.eligibleForClick)
                             {
+                                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                                {
 
-                                ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
-                                      ExecuteEvents.pointerClickHandler);
+                                    ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
+                                          ExecuteEvents.pointerClickHandler);
+                                }
                                 previousData.eligibleForClick = false;
                             }
                             if (previousData.pointerPress != null)
@@ -103,9 +124,12 @@ namespace Altom.AltTester
                             }
 
                             ExecuteEndDragPointerEvents(previousData);
+                            if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                            {
 
-                            ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                ExecuteEvents.pointerExitHandler);
+                                ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                    ExecuteEvents.pointerExitHandler);
+                            }
                             return previousData;
                         }
                         break;
@@ -120,27 +144,37 @@ namespace Altom.AltTester
         {
             if (previousData.pointerDrag == null)
             {
-                previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                    ExecuteEvents.beginDragHandler);
                 previousData.dragging = true;
-                if (previousData.pointerDrag != null)
+                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 {
-                    ExecuteEvents.Execute(previousData.pointerDrag, previousData,
-                        ExecuteEvents.dragHandler);
-                }
-                else
+
                     previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                        ExecuteEvents.dragHandler);
+                        ExecuteEvents.beginDragHandler);
+                    if (previousData.pointerDrag != null)
+                    {
+                        ExecuteEvents.Execute(previousData.pointerDrag, previousData,
+                            ExecuteEvents.dragHandler);
+                    }
+                    else
+
+                        previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                            ExecuteEvents.dragHandler);
+                }
             }
             else
             {
-                if (!previousData.dragging)
+                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 {
-                    ExecuteEvents.Execute(previousData.pointerDrag, previousData,
-                        ExecuteEvents.beginDragHandler);
-                    previousData.dragging = true;
+
+                    if (!previousData.dragging)
+                    {
+                        ExecuteEvents.Execute(previousData.pointerDrag, previousData,
+                            ExecuteEvents.beginDragHandler);
+                        previousData.dragging = true;
+                    }
+                    ExecuteEvents.Execute(previousData.pointerDrag, previousData, ExecuteEvents.dragHandler);
                 }
-                ExecuteEvents.Execute(previousData.pointerDrag, previousData, ExecuteEvents.dragHandler);
+
             }
         }
 
@@ -148,10 +182,14 @@ namespace Altom.AltTester
         {
             if (previousData.pointerDrag != null)
             {
-                ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
-                    ExecuteEvents.endDragHandler);
-                ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                    ExecuteEvents.dropHandler);
+                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                {
+
+                    ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
+                        ExecuteEvents.endDragHandler);
+                    ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                        ExecuteEvents.dropHandler);
+                }
                 previousData.dragging = false;
             }
         }
@@ -189,8 +227,5 @@ namespace Altom.AltTester
             }
             return null;
         }
-
-
-
     }
 }

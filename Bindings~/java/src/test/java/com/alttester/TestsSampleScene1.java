@@ -1357,6 +1357,35 @@ public class TestsSampleScene1 {
 
         assertEquals(screenWidth, width);
     }
+    
+    @Test
+    public void testSetStaticProperty() {
+        final Integer expectedValue = 5;
+        AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
+                "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue.toString()).build();
+        altDriver.setStaticProperty(altSetComponentPropertyParams);
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp").build();
+        Integer value = altDriver.getStaticProperty(altGetComponentPropertyParams,
+                Integer.class);
+        assertEquals(expectedValue, value);
+    }
+
+    @Test
+    public void testSetStaticProperty2()
+    {
+        Integer newValue = 5;
+        Integer[] expectedArray = { 1, 5, 3 };
+        AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
+                "AltExampleScriptCapsule", "staticArrayOfInts[1]", "Assembly-CSharp", newValue.toString()).build();
+        altDriver.setStaticProperty(altSetComponentPropertyParams);
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                "AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp").build();
+        Integer[] value = altDriver.getStaticProperty(altGetComponentPropertyParams,
+                Integer[].class);
+        for(int i=0; i<expectedArray.length; i++)
+                assertEquals(expectedArray[i], value[i]);
+    }
 
     @Test
     public void testSetCommandTimeout() throws Exception {

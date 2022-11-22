@@ -1,6 +1,6 @@
 using Altom.AltTester.Logging;
-using WebSocketSharp;
-using WebSocketSharp.Server;
+using AltWebSocketSharp;
+using AltWebSocketSharp.Server;
 
 namespace Altom.AltTester.Communication
 {

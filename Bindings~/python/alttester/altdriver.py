@@ -779,6 +779,22 @@ class AltDriver:
             component_name, property_name, assembly, max_depth
         )
 
+    def set_static_property(self, component_name, property_name, assembly, updated_value):
+        """Set the value of the static field or property given as parameter.
+
+        Args:
+            component_name (:obj:`str`): The name of the component containing the field or property
+                to be retrieved.
+            property_name (:obj:`str`): The name of the field or property to be retrieved.
+            assembly (:obj:`str`): The name of the assembly containing the component mentioned above.
+            updated_value (:obj:`str`): The value of the field or property to be updated.
+        """
+
+        return commands.SetStaticProperty.run(
+            self._connection,
+            component_name, property_name, assembly, updated_value
+        )
+
     def find_object_at_coordinates(self, coordinates):
         """Retrieves the Unity object at given coordinates
 

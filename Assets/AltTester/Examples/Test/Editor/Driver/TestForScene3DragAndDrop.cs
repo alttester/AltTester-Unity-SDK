@@ -71,7 +71,7 @@ namespace Altom.AltDriver.Tests
             for (int i = 0; i < objectNames.Length; i++)
             {
                 var obj = altDriver.FindObject(By.NAME, objectNames[i]);
-                listPositions[i] = obj.getScreenPosition();
+                listPositions[i] = obj.GetScreenPosition();
             }
             altDriver.MultipointSwipe(listPositions, duration, wait: wait);
         }
@@ -126,8 +126,8 @@ namespace Altom.AltDriver.Tests
             var altElement1 = altDriver.FindObject(By.NAME, "Drag Image1");
             var altElement2 = altDriver.FindObject(By.NAME, "Drop Box1");
 
-            int fingerId = altDriver.BeginTouch(altElement1.getScreenPosition());
-            altDriver.MoveTouch(fingerId, altElement2.getScreenPosition());
+            int fingerId = altDriver.BeginTouch(altElement1.GetScreenPosition());
+            altDriver.MoveTouch(fingerId, altElement2.GetScreenPosition());
             altDriver.EndTouch(fingerId);
             getSpriteName(out imageSource, out imageSourceDropZone, "Drag Image1", "Drop Image");
 
