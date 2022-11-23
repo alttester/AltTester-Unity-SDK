@@ -15,6 +15,7 @@ import com.alttester.Commands.FindObject.*;
 import com.alttester.Commands.InputActions.*;
 import com.alttester.Commands.UnityCommand.*;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
+import com.alttester.Commands.ObjectCommand.AltSetComponentPropertyParams;
 import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.altTesterExceptions.*;
 import java.io.IOException;
@@ -648,6 +649,17 @@ public class AltDriver {
         T response = new AltGetStaticProperty(this.connection.messageHandler, parameters).Execute(returnType);
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
         return response;
+    }
+
+     /**
+     * Sets the value of the static field or property
+     *
+     * @param parameters - String componentName* , String propertyName* , String
+     *                   assembly 
+     */
+    public void setStaticProperty(AltSetComponentPropertyParams parameters) {
+        new AltSetStaticProperty(this.connection.messageHandler, parameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
 
     /**

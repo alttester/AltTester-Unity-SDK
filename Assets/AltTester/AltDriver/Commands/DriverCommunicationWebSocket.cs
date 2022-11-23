@@ -6,8 +6,8 @@ using System.Security.Permissions;
 using System.Threading;
 using Altom.AltDriver.Logging;
 using Altom.AltDriver.Notifications;
+using AltWebSocketSharp;
 using Newtonsoft.Json;
-using WebSocketSharp;
 
 namespace Altom.AltDriver.Commands
 {

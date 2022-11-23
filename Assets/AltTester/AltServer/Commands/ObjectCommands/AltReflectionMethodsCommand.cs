@@ -139,36 +139,46 @@ namespace Altom.AltTester.Commands
 
         protected string SetValueForMember(AltObject altObject, string[] fieldArray, Type componentType, string valueString)
         {
-            var instance = AltRunner.GetGameObject(altObject.id).GetComponent(componentType);
-            if (instance == null)
+            object instance = null;
+            if (altObject != null)
             {
-                throw new ComponentNotFoundException("Component " + componentType.Name + " not found");
+                instance = AltRunner.GetGameObject(altObject.id).GetComponent(componentType);
+                if (instance == null)
+                {
+                    throw new ComponentNotFoundException("Component " + componentType.Name + " not found");
+                }
             }
-            setValueRecursive(valueString, fieldArray, instance);
 
+            setValueRecursive(valueString, fieldArray, instance, type: componentType);
             return "valueSet";
         }
-        private object setValueRecursive(string valueAsString, string[] fieldArray, object instance, int counter = 0)
+        private object setValueRecursive(string valueAsString, string[] fieldArray, object instance, int counter = 0, Type type = null)
         {
             string propertyName;
+            MemberInfo memberInfo;
             int index = getArrayIndex(fieldArray[counter], out propertyName);
-            MemberInfo memberInfo = GetMemberForObjectComponent(instance.GetType(), propertyName);
+
+            if (instance == null)
+                memberInfo = GetMemberForObjectComponent(type, propertyName);
+            else
+                memberInfo = GetMemberForObjectComponent(instance.GetType(), propertyName);
             object value = GetValue(instance, memberInfo, index);
+
             if (counter < fieldArray.Length - 1)
             {
                 counter++;
                 var valueObtained = setValueRecursive(valueAsString, fieldArray, value, counter);
-                if (index == -1)
-                {
-                    if (memberInfo.GetType().Equals(typeof(PropertyInfo)))
-                    {
-                        ((PropertyInfo)memberInfo).SetValue(instance, valueObtained);
-                    }
-                    else
-                    {
-                        ((FieldInfo)memberInfo).SetValue(instance, valueObtained);
+                if (index != -1)
+                    return value;
 
-                    }
+                if (memberInfo.GetType().Equals(typeof(PropertyInfo)))
+                {
+                    ((PropertyInfo)memberInfo).SetValue(instance, valueObtained);
+                }
+                else
+                {
+                    ((FieldInfo)memberInfo).SetValue(instance, valueObtained);
+
                 }
 
                 return value;

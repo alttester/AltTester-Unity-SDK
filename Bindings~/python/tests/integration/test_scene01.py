@@ -717,6 +717,23 @@ class TestScene01:
 
         assert int(width) == 1920
 
+    def test_set_static_property(self):
+        expectedValue = 5
+        self.altdriver.set_static_property(
+            "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue)
+        value = self.altdriver.get_static_property(
+            "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
+        assert expectedValue == value
+
+    def test_set_static_property2(self):
+        newValue = 5
+        expectedArray = [1, 5, 3]
+        self.altdriver.set_static_property("AltExampleScriptCapsule",
+                                           "staticArrayOfInts[1]", "Assembly-CSharp", newValue)
+        value = self.altdriver.get_static_property(
+            "AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp")
+        assert expectedArray == value
+
     def test_get_static_property_instance_null(self):
 
         screen_width = self.altdriver.call_static_method(
