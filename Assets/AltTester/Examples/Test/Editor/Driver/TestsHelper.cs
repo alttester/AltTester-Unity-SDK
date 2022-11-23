@@ -1,5 +1,5 @@
 
-namespace Altom.AltDriver.Tests
+namespace AltTester.AltDriver.Tests
 {
     public class TestsHelper
     {

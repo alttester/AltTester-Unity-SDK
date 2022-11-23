@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Altom.AltDriver;
+using AltTester.AltDriver;
 using UnityEngine;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     public enum BoundType
     {

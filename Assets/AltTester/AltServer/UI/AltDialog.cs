@@ -1,9 +1,9 @@
 using System;
-using Altom.AltTester;
-using Altom.AltTester.Communication;
-using Altom.AltTester.Logging;
+using AltTester;
+using AltTester.Communication;
+using AltTester.Logging;
 
-namespace Altom.AltTester.UI
+namespace AltTester.UI
 {
     public class AltDialog : UnityEngine.MonoBehaviour
     {

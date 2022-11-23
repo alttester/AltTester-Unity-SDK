@@ -1,9 +1,9 @@
 using System.Reflection;
-using Altom.AltDriver.Notifications;
-using Altom.AltTester.Communication;
+using AltTester.AltDriver.Notifications;
+using AltTester.Communication;
 using UnityEngine.SceneManagement;
 
-namespace Altom.AltTester.Notification
+namespace AltTester.Notification
 {
     public class AltUnloadSceneNotification : BaseNotification
     {

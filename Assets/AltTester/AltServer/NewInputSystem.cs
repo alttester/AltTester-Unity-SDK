@@ -1,7 +1,7 @@
 #if ALTTESTER && ENABLE_INPUT_SYSTEM
 using System.Collections;
 using System.Collections.Generic;
-using Altom.AltTester;
+using AltTester;
 #if USE_INPUT_SYSTEM_1_3
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace Altom.AltTester
+namespace AltTester
 {
     public class NewInputSystem : MonoBehaviour
     {
@@ -388,7 +388,7 @@ namespace Altom.AltTester
             touches[fingerId] = true;
         }
 
-        #region private interface
+#region private interface
         private static ButtonControl keyCodeToButtonControl(KeyCode keyCode, float power = 1)
         {
             foreach (var e in AltKeyMapping.StringToKeyCode)
@@ -442,7 +442,7 @@ namespace Altom.AltTester
             }
             return 0;
         }
-        #endregion
+#endregion
     }
 
 }
@@ -459,7 +459,7 @@ public class TestExample
 #else
 using UnityEngine;
 
-namespace Altom.AltTester
+namespace AltTester
 {
     public class NewInputSystem : MonoBehaviour
     {

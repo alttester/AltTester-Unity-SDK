@@ -1,10 +1,10 @@
 using System;
 using System.Globalization;
-using Altom.AltDriver;
-using Altom.AltDriver.Commands;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Commands;
 using Newtonsoft.Json;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     public abstract class AltCommand<TParam, TResult> where TParam : CommandParams
     {

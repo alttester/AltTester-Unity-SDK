@@ -1,4 +1,4 @@
-using Altom.AltTesterEditor;
+using AltTesterEditor;
 
 namespace alttester.Assets.ShortCuts.Editor
 {

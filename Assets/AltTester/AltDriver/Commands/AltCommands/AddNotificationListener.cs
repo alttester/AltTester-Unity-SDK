@@ -1,7 +1,7 @@
 using System;
-using Altom.AltDriver.Notifications;
+using AltTester.AltDriver.Notifications;
 
-namespace Altom.AltDriver.Commands
+namespace AltTester.AltDriver.Commands
 {
     public class AddNotificationListener<T> : AltBaseCommand
     {

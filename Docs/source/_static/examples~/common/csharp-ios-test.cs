@@ -1,5 +1,5 @@
-using Altom.AltDriver;
 using NUnit.Framework;
+using AltTester.AltDriver;
 
 public class MyFirstTest
 {

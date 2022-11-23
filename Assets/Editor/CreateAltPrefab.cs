@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Altom.AltTester;
-using Altom.AltTester.UI;
+using AltTester;
+using AltTester.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Altom.AltTesterTools
+namespace AltTesterTools
 {
     public class CreateAltPrefab : MonoBehaviour
     {

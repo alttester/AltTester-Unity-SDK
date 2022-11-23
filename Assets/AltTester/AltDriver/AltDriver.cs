@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Altom.AltDriver.Commands;
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.Notifications;
+using AltTester.AltDriver.Commands;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Notifications;
 
-namespace Altom.AltDriver
+namespace AltTester.AltDriver
 {
     public enum By
     {
@@ -32,7 +32,7 @@ namespace Altom.AltDriver
 #if UNITY_EDITOR || ALTTESTER
             var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Unity, AltLogLevel.Debug } };
 #else
-                var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Console, AltLogLevel.Debug } };
+            var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Console, AltLogLevel.Debug } };
 #endif
 
             DriverLogManager.SetupAltDriverLogging(defaultLevels);

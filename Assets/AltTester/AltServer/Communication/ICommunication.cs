@@ -1,6 +1,6 @@
 using System;
 
-namespace Altom.AltTester.Communication
+namespace AltTester.Communication
 {
     public delegate void SendMessageHandler(string message);
     public delegate void CommunicationHandler();

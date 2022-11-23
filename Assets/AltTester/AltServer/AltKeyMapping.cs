@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace Altom.AltTester
+namespace AltTester
 {
     public class AltKeyMapping
     {

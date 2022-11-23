@@ -1,4 +1,4 @@
-namespace Altom.AltDriver.Commands
+namespace AltTester.AltDriver.Commands
 {
     public class AltBaseFindObjects : AltCommandReturningAltElement
     {

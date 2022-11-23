@@ -1,6 +1,6 @@
 using System;
 
-namespace Altom.AltTester
+namespace AltTester
 {
     public enum AltInstrumentationMode
     {

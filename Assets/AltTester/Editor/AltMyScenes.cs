@@ -1,4 +1,4 @@
-﻿namespace Altom.AltTesterEditor
+﻿namespace AltTesterEditor
 {
     [System.Serializable]
     public class AltMyScenes
