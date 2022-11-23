@@ -332,3 +332,5 @@ var LibraryWebSocket = {
 autoAddDeps(LibraryWebSocket, '$webSocketState');
 mergeInto(LibraryManager.library, LibraryWebSocket);
 
+// https://github.com/WalletConnect/WalletConnectUnity/pull/36 - solved runtime/module error
+// https://github.com/emscripten-core/emscripten/pull/8011 - solved UTF8 encoding error
