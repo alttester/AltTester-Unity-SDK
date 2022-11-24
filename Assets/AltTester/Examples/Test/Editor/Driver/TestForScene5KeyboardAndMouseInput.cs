@@ -36,6 +36,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         //Test input made with axis
         public void TestMovementCube()
         {
@@ -56,6 +57,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCameraMovement()
         {
             var cube = altDriver.FindObject(By.NAME, "Player1");
@@ -69,6 +71,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         //Testing mouse movement and clicking
         public void TestCreatingStars()
         {
@@ -89,6 +92,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(3, stars.Count);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestKeyboardPress()
         {
             var lastKeyDown = altDriver.FindObject(By.NAME, "LastKeyDownValue");
@@ -109,6 +113,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestKeyDownAndKeyUp()
         {
             AltKeyCode kcode = AltKeyCode.A;
@@ -127,6 +132,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestButton()
         {
             var ButtonNames = new List<String>()
@@ -150,6 +156,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestPowerJoystick()
         {
             var ButtonNames = new List<String>()
@@ -173,6 +180,7 @@ namespace Altom.AltDriver.Tests
             }
         }
         [Test]
+        [Ignore("Testing")]
         public void TestScroll()
         {
             var player2 = altDriver.FindObject(By.NAME, "Player2");
@@ -186,6 +194,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestScrollAndWait()
         {
             var player2 = altDriver.FindObject(By.NAME, "Player2");
@@ -198,6 +207,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         [Category("WebGLUnsupported")]
         public void TestCheckShadersSetCorrectlyAfterHighlight()
         {

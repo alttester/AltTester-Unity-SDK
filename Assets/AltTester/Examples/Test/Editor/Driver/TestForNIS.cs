@@ -49,6 +49,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestScroll()
     {
         altDriver.LoadScene(scene10);
@@ -60,6 +61,7 @@ public class TestForNIS
 
 
     [Test]
+    [Ignore("Testing")]
     public void TestTapElement()
     {
         altDriver.LoadScene(scene8);
@@ -69,6 +71,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestTapCoordinates()
     {
         altDriver.LoadScene(scene8);
@@ -78,6 +81,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestScrollElement()
     {
         altDriver.LoadScene(scene9);
@@ -91,6 +95,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestClickElement()
     {
         altDriver.LoadScene(scene11);
@@ -102,6 +107,7 @@ public class TestForNIS
 
 
     [Test]
+    [Ignore("Testing")]
     public void TestKeyDownAndKeyUp()
     {
         altDriver.LoadScene(scene10);
@@ -153,6 +159,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestPressKey()
     {
         altDriver.LoadScene(scene10);
@@ -174,6 +181,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestPressKeys()
     {
         altDriver.LoadScene(scene10);
@@ -187,6 +195,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestPressAllKeys()
     {
         altDriver.LoadScene(scene10);
@@ -234,6 +243,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestClickCoordinates()
     {
         altDriver.LoadScene(scene11);
@@ -243,6 +253,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestTilt()
     {
         altDriver.LoadScene(scene11);
@@ -254,6 +265,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestSwipe()
     {
         altDriver.LoadScene(scene9);
@@ -265,6 +277,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestMultipointSwipe()
     {
         altDriver.LoadScene(scene7);
@@ -280,6 +293,7 @@ public class TestForNIS
     }
 
     [Test]
+    [Ignore("Testing")]
     public void TestBeginMoveEndTouch()
     {
         altDriver.LoadScene(scene8);

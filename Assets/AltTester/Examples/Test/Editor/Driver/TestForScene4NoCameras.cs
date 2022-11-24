@@ -26,6 +26,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindElementInASceneWithNoCameras()
         {
             Assert.AreEqual(0, altDriver.GetAllCameras().Count);
@@ -40,6 +41,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindUIElementInASceneWithNoCameras()
         {
             Assert.AreEqual(0, altDriver.GetAllCameras().Count);

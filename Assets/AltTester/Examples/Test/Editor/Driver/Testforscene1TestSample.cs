@@ -36,18 +36,21 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestLoadNonExistentScene()
         {
             Assert.Throws<SceneNotFoundException>(() => altDriver.LoadScene("Scene 0", true));
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetCurrentScene()
         {
             Assert.AreEqual("Scene 1 AltDriverTestScene", altDriver.GetCurrentScene());
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindElement()
         {
             const string name = "Capsule";
@@ -57,6 +60,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindElementWithText()
         {
             const string text = "Change Camera Mode";
@@ -65,6 +69,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindElementWithTextByPath()
         {
             const string text = "Change Camera Mode";
@@ -73,6 +78,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindElementThatContainsText()
         {
             const string text = "Change Camera";
@@ -81,6 +87,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindElements()
         {
             const string name = "Plane";
@@ -90,6 +97,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindElementWhereNameContains()
         {
             const string name = "Cap";
@@ -98,6 +106,7 @@ namespace Altom.AltDriver.Tests
             Assert.True(altElement.name.Contains(name));
         }
         [Test]
+        [Ignore("Testing")]
         public void TestFindElementsWhereNameContains()
         {
             const string name = "Pla";
@@ -107,6 +116,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForExistingElement()
         {
             const string name = "Capsule";
@@ -120,6 +130,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForExistingDisabledElement()
         {
             const string name = "Cube";
@@ -135,6 +146,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForCurrentSceneToBe()
         {
             const string name = "Scene 1 AltDriverTestScene";
@@ -148,6 +160,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForExistingElementWhereNameContains()
         {
             const string name = "Dir";
@@ -162,6 +175,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         [Obsolete]
         public void TestWaitForElementWithText()
         {
@@ -177,6 +191,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetTextForUnityUIInputField()
         {
             var inputField = altDriver.FindObject(By.NAME, "UnityUIInputField").SetText("exampleUnityUIInputField", true);
@@ -188,6 +203,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetTextForTextMeshInputField()
         {
             var inputField = altDriver.FindObject(By.NAME, "TextMeshInputField").SetText("exampleTextMeshInputField", true);
@@ -199,6 +215,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectByComponent()
         {
             Thread.Sleep(1000);
@@ -208,6 +225,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(altElement.name, "AltTesterPrefab");
         }
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectByComponentWithNamespace()
         {
             Thread.Sleep(1000);
@@ -217,6 +235,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(altElement.name, "AltTesterPrefab");
         }
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectByComponent2()
         {
             var altElement = altDriver.FindObject(By.COMPONENT, "AltExampleScriptCapsule");
@@ -224,6 +243,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetComponentProperty()
         {
             const string componentName = "Altom.AltTester.AltRunner";
@@ -239,6 +259,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetComponentPropertyInvalidDeserialization()
         {
             const string componentName = "Altom.AltTester.AltRunner";
@@ -256,6 +277,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetComponentPropertyNotFoundWithAssembly()
         {
             Thread.Sleep(1000);
@@ -275,12 +297,14 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectsByComponent()
         {
             var a = altDriver.FindObjects(By.COMPONENT, "MeshFilter");
             Assert.AreEqual(5, a.Count);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetNonExistingComponentProperty()
         {
             Thread.Sleep(1000);
@@ -300,6 +324,7 @@ namespace Altom.AltDriver.Tests
 
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetComponentPropertyArray()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -314,6 +339,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(3, propertyValue[2]);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetComponentPropertyPrivate()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -325,6 +351,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetComponentPropertyStatic()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -336,6 +363,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetComponentPropertyNullValue()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -347,6 +375,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetComponentPropertyStaticPublic()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -360,6 +389,7 @@ namespace Altom.AltDriver.Tests
 
 #if !UNITY_IOS
         [Test]
+        [Ignore("Testing")]
         public void TestGetComponentPropertyUnityEngine()
         {
             const string componentName = "UnityEngine.CapsuleCollider";
@@ -373,6 +403,7 @@ namespace Altom.AltDriver.Tests
 #endif
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetComponentProperty()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -386,6 +417,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetNonExistingComponentProperty()
         {
             const string componentName = "Capsulee";
@@ -405,6 +437,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodWithNoParameters()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -416,6 +449,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodWithParameters()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -428,6 +462,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetTextCallMethodWithNoParameters()
         {
             const string componentName = "UnityEngine.UI.Text";
@@ -440,6 +475,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodSetFontSizeWithParameters()
         {
             const string componentName = "UnityEngine.UI.Text";
@@ -455,6 +491,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodWithManyParameters()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -468,6 +505,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodWithOptionalParemeters()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -480,6 +518,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodWithOptionalParemetersString()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -493,6 +532,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodWithOptionalParemetersString2()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -506,6 +546,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodWithIncorrectNumberOfParameters()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -525,6 +566,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodWithIncorrectNumberOfParameters2()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -545,6 +587,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodAssmeblyNotFound()
         {
             const string componentName = "RandomComponent";
@@ -565,6 +608,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodInvalidMethodArgumentTypes()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -585,6 +629,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodInvalidParameterType()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -606,6 +651,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetKeyInt()
         {
             altDriver.DeletePlayerPref();
@@ -615,6 +661,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetKeyFloat()
         {
             altDriver.DeletePlayerPref();
@@ -624,6 +671,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetKeyString()
         {
             altDriver.DeletePlayerPref();
@@ -633,6 +681,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestDeleteKey()
         {
             altDriver.DeletePlayerPref();
@@ -653,6 +702,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestDifferentCamera()
         {
             var altButton = altDriver.FindObject(By.NAME, "Button", By.NAME, "Main Camera");
@@ -668,6 +718,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindNonExistentObject()
         {
             try
@@ -683,6 +734,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindNonExistentObjectByName()
         {
             try
@@ -697,6 +749,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestHoldButton()
         {
             var button = altDriver.FindObject(By.NAME, "UIButton");
@@ -707,6 +760,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         [Obsolete]
         public void TestClickElement()
         {
@@ -718,6 +772,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForNonExistingObject()
         {
             try
@@ -731,6 +786,7 @@ namespace Altom.AltDriver.Tests
             }
         }
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectToNotExist()
         {
             altDriver.WaitForObjectNotBePresent(By.NAME, "ObjectDestroyedIn5Secs");
@@ -738,6 +794,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectToNotExistFail()
         {
             try
@@ -752,6 +809,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectWithTextWrongText()
         {
             try
@@ -766,6 +824,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForCurrentSceneToBeANonExistingScene()
         {
             const string name = "AltDriverTestScene";
@@ -782,6 +841,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForNonExistingElementWhereNameContains()
         {
             const string name = "xyz";
@@ -797,6 +857,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjects()
         {
             var planes = altDriver.FindObjectsWhichContain(By.NAME, "Plan");
@@ -805,6 +866,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallStaticMethod()
         {
             altDriver.CallStaticMethod<string>("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", new[] { "Test", "1" });
@@ -813,6 +875,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodWithMultipleDefinitions()
         {
 
@@ -823,6 +886,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodWithAssembly()
         {
             AltObject capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -834,6 +898,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllComponents()
         {
             List<AltComponent> components = altDriver.FindObject(By.NAME, "Canvas").GetAllComponents();
@@ -843,6 +908,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllMethodsFromClass()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
@@ -852,6 +918,7 @@ namespace Altom.AltDriver.Tests
             Assert.IsFalse(methods.Contains("Void CancelInvoke(System.String)"));
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllMethodsFromInherited()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
@@ -861,6 +928,7 @@ namespace Altom.AltDriver.Tests
             Assert.IsFalse(methods.Contains("Void UIButtonClicked()"));
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllMethods()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
@@ -871,6 +939,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllProperties()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
@@ -891,6 +960,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual("False", property.value);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllClassProperties()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
@@ -904,6 +974,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual("False", property.value);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllInheritedProperties()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
@@ -922,6 +993,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllClassFields()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
@@ -934,6 +1006,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllInheritedFields()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
@@ -948,6 +1021,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllFields()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
@@ -959,18 +1033,21 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectByTag()
         {
             var altElement = altDriver.FindObject(By.TAG, "plane");
             Assert.True(altElement.name.Equals("Plane"));
         }
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectByLayer()
         {
             var altElement = altDriver.FindObject(By.LAYER, "Water");
             Assert.True(altElement.name.Equals("Capsule"));
         }
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectByUnityComponent()
         {
             var altElement = altDriver.FindObject(By.COMPONENT, "CapsuleCollider");
@@ -978,6 +1055,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindChild()
         {
             var altElement = altDriver.FindObject(By.PATH, "//UIButton/*");
@@ -995,6 +1073,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectsByTag()
         {
             var altElements = altDriver.FindObjects(By.TAG, "plane");
@@ -1006,6 +1085,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectsByLayer()
         {
             var altElements = altDriver.FindObjects(By.LAYER, "Default");
@@ -1013,6 +1093,7 @@ namespace Altom.AltDriver.Tests
             Assert.IsTrue(altElements.Count <= 13);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectsByContainName()
         {
             var altElements = altDriver.FindObjects(By.PATH, "//*[contains(@name,Ro)]");
@@ -1026,12 +1107,14 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestInactiveObject()
         {
             AltObject cube = altDriver.FindObject(By.NAME, "Cube", enabled: false);
             Assert.AreEqual(false, cube.enabled);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllScenes()
         {
             var scenes = altDriver.GetAllScenes();
@@ -1041,6 +1124,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetTimeScale()
         {
             altDriver.SetTimeScale(0.1f);
@@ -1050,6 +1134,7 @@ namespace Altom.AltDriver.Tests
             altDriver.SetTimeScale(1);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectWhichContains()
         {
             var altElement = altDriver.WaitForObjectWhichContains(By.NAME, "Canva");
@@ -1057,12 +1142,14 @@ namespace Altom.AltDriver.Tests
 
         }
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectWhichContains()
         {
             var altElement = altDriver.FindObjectWhichContains(By.NAME, "EventSys");
             Assert.AreEqual("EventSystem", altElement.name);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestFindWithFindObjectWhichContainsNotExistingObject()
         {
             try
@@ -1076,6 +1163,7 @@ namespace Altom.AltDriver.Tests
             }
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllCameras()
         {
             var cameras = altDriver.GetAllCameras();
@@ -1083,6 +1171,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllActiveCameras()
         {
             var cameras = altDriver.GetAllActiveCameras();
@@ -1090,6 +1179,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllElementsLight()
         {
             var altElements = altDriver.GetAllElementsLight();
@@ -1102,6 +1192,7 @@ namespace Altom.AltDriver.Tests
             }
         }
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectScene1()
         {
             var altElements = altDriver.FindObjects(By.PATH, "//Canvas/*/Text");
@@ -1109,6 +1200,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectScene6()
         {
             altDriver.LoadScene("Scene6");
@@ -1130,6 +1222,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual("WorldSpaceButton", altDriver.FindObject(By.PATH, "/Canvas/WorldSpaceButton").name);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetScreenshot()
         {
             var path = "testC.png";
@@ -1137,18 +1230,21 @@ namespace Altom.AltDriver.Tests
             FileAssert.Exists(path);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetChineseLetters()
         {
             var text = altDriver.FindObject(By.NAME, "ChineseLetters").GetText();
             Assert.AreEqual("哦伊娜哦", text);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestNonEnglishText()
         {
             var text = altDriver.FindObject(By.NAME, "NonEnglishText").GetText();
             Assert.AreEqual("BJÖRN'S PASS", text);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestDoubleTap()
         {
             var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1159,6 +1255,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSwipeWithDuration0()
         {
             altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1169,6 +1266,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCustomTap()
         {
             var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1178,6 +1276,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual("4", counterButtonText.GetText());
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGet3DObjectFromScreenshot()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -1187,6 +1286,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetUIObjectFromScreenshot()
         {
             var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
@@ -1195,6 +1295,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual("CapsuleInfo", altObject.name);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestObjectFromScreenshot()
         {
             var icon = altDriver.FindObject(By.NAME, "Icon");
@@ -1205,6 +1306,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestPressNextSceneButtton()
         {
             var initialScene = altDriver.GetCurrentScene();
@@ -1213,6 +1315,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(initialScene, currentScene);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestForSetText()
         {
             var text = altDriver.FindObject(By.NAME, "NonEnglishText");
@@ -1221,6 +1324,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(originalText, afterText);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestFindParentUsingPath()
         {
             var parent = altDriver.FindObject(By.PATH, "//CapsuleInfo/..");
@@ -1241,6 +1345,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectWithCameraId()
         {
             var altButton = altDriver.FindObject(By.PATH, "//Button");
@@ -1255,6 +1360,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectsWithCameraId()
         {
             var altButton = altDriver.FindObject(By.PATH, "//Button");
@@ -1269,6 +1375,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectNotBePresentWithCameraId()
         {
             var camera2 = altDriver.FindObject(By.PATH, "//Main Camera");
@@ -1279,6 +1386,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         [Obsolete]
         public void TestWaitForElementWithTextWithCameraId()
         {
@@ -1296,6 +1404,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectWhichContainsWithCameraId()
         {
             var camera2 = altDriver.FindObject(By.PATH, "//Main Camera");
@@ -1306,6 +1415,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectWithTag()
         {
             var altButton = altDriver.FindObject(By.PATH, "//Button");
@@ -1318,6 +1428,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectWithTag()
         {
             var altButton = altDriver.FindObject(By.PATH, "//Button");
@@ -1330,6 +1441,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectsWithTag()
         {
             var altButton = altDriver.FindObject(By.PATH, "//Button");
@@ -1342,6 +1454,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectNotBePresentWithTag()
         {
             var camera2 = altDriver.FindObject(By.PATH, "//Main Camera");
@@ -1352,6 +1465,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForElementWithTextWithTag()
         {
             const string name = "CapsuleInfo";
@@ -1367,6 +1481,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectWhichContainsWithTag()
         {
             var altElement = altDriver.WaitForObjectWhichContains(By.NAME, "Canva", By.TAG, "MainCamera");
@@ -1375,6 +1490,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestAcceleration()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -1387,6 +1503,7 @@ namespace Altom.AltDriver.Tests
 
         }
         [Test]
+        [Ignore("Testing")]
         public void TestAccelerationAndWait()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -1399,6 +1516,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectByCamera()
         {
             var altButton = altDriver.FindObject(By.PATH, "//Button");
@@ -1411,6 +1529,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectByCamera()
         {
             var altButton = altDriver.FindObject(By.PATH, "//Button");
@@ -1423,6 +1542,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectsByCamera()
         {
             var altButton = altDriver.FindObject(By.PATH, "//Button");
@@ -1435,6 +1555,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectNotBePresentByCamera()
         {
             altDriver.WaitForObjectNotBePresent(By.NAME, "ObjectDestroyedIn5Secs", By.NAME, "Main Camera");
@@ -1444,6 +1565,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForElementWithTextByCamera()
         {
             const string name = "CapsuleInfo";
@@ -1459,6 +1581,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestWaitForObjectWhichContainsByCamera()
         {
             var altElement = altDriver.WaitForObjectWhichContains(By.NAME, "Canva", By.NAME, "Main Camera");
@@ -1466,6 +1589,7 @@ namespace Altom.AltDriver.Tests
 
         }
         [Test]
+        [Ignore("Testing")]
         public void TestLoadAdditiveScenes()
         {
             var initialNumberOfElements = altDriver.GetAllElements();
@@ -1478,6 +1602,7 @@ namespace Altom.AltDriver.Tests
 
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetAltObjectWithCanvasParentButOnlyTransform()
         {
             var altObject = altDriver.FindObject(By.NAME, "UIWithWorldSpace/Plane");
@@ -1485,6 +1610,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetScreensizeScreenshot()
         {
             var screenWidth = altDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new string[] { }, null);
@@ -1507,6 +1633,7 @@ namespace Altom.AltDriver.Tests
             Assert.True(screenshot.textureSize.y == screenHeight / 2);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetComponentPropertyComplexClass()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -1517,6 +1644,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(1, propertyValue);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetComponentPropertyComplexClass2()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -1528,6 +1656,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetComponentPropertyComplexClass()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -1539,6 +1668,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(2, propertyValue);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestSetComponentPropertyComplexClass2()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -1551,6 +1681,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetComponentPropertyComplexClass3()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -1562,6 +1693,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(11, propertyValue);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestClickWithMouse0Capsule()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -1574,6 +1706,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestClickWithMouse1Capsule()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -1589,6 +1722,7 @@ namespace Altom.AltDriver.Tests
             Assert.True(FastApproximately(initialCapsulePosition.z, finalCapsulePosition.z, 0.01f));
         }
         [Test]
+        [Ignore("Testing")]
         public void TestClickWithMouse2Capsule()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -1603,12 +1737,14 @@ namespace Altom.AltDriver.Tests
             Assert.True(FastApproximately(initialCapsulePosition.z, finalCapsulePosition.z, 0.01f));
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetVersion()
         {
             Assert.AreEqual(AltDriver.VERSION, altDriver.GetServerVersion());
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestStringIsMarkedAsPrimitive()
         {
             var altElement = altDriver.FindObject(By.NAME, "ChineseLetters");
@@ -1622,6 +1758,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(AltType.PRIMITIVE, property.type);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestKeyPressNumberOfReads()
         {
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1633,6 +1770,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(1, pressUpCounter);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestSwipeClickWhenMovedButRemainsOnTheSameObject()
         {
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1643,6 +1781,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodInsideASubObject()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -1655,6 +1794,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodInsideAListOfSubObject()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -1666,6 +1806,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallStaticMethodInsideASubObject()
         {
             const string componentName = "AltExampleScriptCapsule";
@@ -1677,6 +1818,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallGameObjectMethod()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
@@ -1685,6 +1827,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallMethodInsideSubObjectOfGameObject()
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
@@ -1693,6 +1836,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectByAltId()
         {
             var capsule = altDriver.FindObject(By.ID, "2b78431c-2251-4489-8d50-7634304a5630");
@@ -1720,6 +1864,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(expectedResult, altElement.name);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestUnloadScene()
         {
             altDriver.LoadScene("Scene 2 Draggable Panel", false);
@@ -1729,6 +1874,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual("Scene 1 AltDriverTestScene", altDriver.GetAllLoadedScenes()[0]);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestUnloadOnlyScene()
         {
             Assert.Throws<CouldNotPerformOperationException>(() => altDriver.UnloadScene("Scene 1 AltDriverTestScene"));
@@ -1736,6 +1882,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestClickButtonInWolrdSpaceCanvas()
         {
             altDriver.LoadScene("Scene6");
@@ -1745,6 +1892,7 @@ namespace Altom.AltDriver.Tests
             Assert.IsFalse(worldSpaceButton.enabled);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestDifferentObjectSelectedClickingOnScreenshot()
         {
             var uiButton = altDriver.FindObject(By.NAME, "UIButton");
@@ -1755,6 +1903,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual("UIButton", selectedObject.name);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestFindObjectWithMultipleSelector()
         {
             var capsule = altDriver.FindObject(By.PATH, "//*[@tag=Untagged][@layer=Water]");
@@ -1765,6 +1914,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual("UIButton", rotateMainCamera.name);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetAllScenesAndObjectDisableEnableOption()
         {
             var allEnableObjects = altDriver.GetAllLoadedScenesAndObjects(true);
@@ -1777,6 +1927,7 @@ namespace Altom.AltDriver.Tests
             Assert.IsTrue(allObjects.Exists(AltObject => AltObject.name.Equals("Cube") && !AltObject.enabled));
         }
         [Test]
+        [Ignore("Testing")]
         public void TestGetObjectWithNumberAsName()
         {
             var numberObject = altDriver.FindObject(By.NAME, "1234", enabled: false);
@@ -1785,6 +1936,7 @@ namespace Altom.AltDriver.Tests
             Assert.NotNull(numberObject);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestInvalidPaths()
         {
             Assert.Throws<InvalidPathException>(() => altDriver.FindObject(By.PATH, "//[1]"));
@@ -1795,6 +1947,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestTap()
         {
             var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1804,6 +1957,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestTap_MultipleTaps()
         {
             var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1813,6 +1967,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestClick()
         {
             var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1822,6 +1977,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestClick_MultipleClicks()
         {
             var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1831,7 +1987,8 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("mousePressCounter remains stuck and is 13 when asserting instead of 1")]
+        [Ignore("Testing")]
+        // [Ignore("mousePressCounter remains stuck and is 13 when asserting instead of 1")]
         public void TestClick_MouseDownUp()
         {
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1856,6 +2013,7 @@ namespace Altom.AltDriver.Tests
             Assert.IsTrue(eventsRaised.Contains("OnMouseUpAsButton"));
         }
         [Test]
+        [Ignore("Testing")]
         public void TestPointerEnter_PointerExit()
         {
             altDriver.MoveMouse(new AltVector2(-1, -1), 1);
@@ -1878,6 +2036,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestClickCoordinates()
         {
             var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1886,6 +2045,7 @@ namespace Altom.AltDriver.Tests
             altDriver.WaitForObject(By.PATH, "//ButtonCounter/Text[@text=1]");
         }
         [Test]
+        [Ignore("Testing")]
         public void TestClickCoordinates_MultipleClicks()
         {
             var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1896,6 +2056,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestClickCoordinates_MouseDownUp()
         {
             var button2dCollider = altDriver.FindObject(By.NAME, "TapClickEventsButtonCollider");
@@ -1918,6 +2079,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestClickCoordinates_ColliderNoParent()
         {
             var sphere = altDriver.FindObject(By.PATH, "/Sphere");
@@ -1933,6 +2095,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestClickCoordinates_ColliderParentCollider()
         {
             altDriver.MoveMouse(new AltVector2(0, 0));
@@ -1959,6 +2122,7 @@ namespace Altom.AltDriver.Tests
             return ((a - b) < 0 ? ((a - b) * -1) : (a - b)) <= threshold;
         }
         [Test]
+        [Ignore("Testing")]
         public void TestClickCoordinatesCheckPressRaycastObject()
         {
             var incrementClick = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1967,6 +2131,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestPointerPressSet()
         {
             var incrementalClick = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -1978,6 +2143,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestKeyDownAndKeyUpMouse0()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -1991,6 +2157,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(initialCapsulePosition, finalCapsulePosition);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestTouchAreUpdatedWhenMoved()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -2005,6 +2172,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetStructureProperty()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -2014,6 +2182,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetStructureProperty2()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -2023,6 +2192,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetStructureProperty3()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
@@ -2031,11 +2201,13 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(1, value);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestCameraNotFoundException()
         {
             Assert.Throws<AltCameraNotFoundException>(() => altDriver.FindObject(By.NAME, "Capsule", By.NAME, "Camera"));
         }
         [Test]
+        [Ignore("Testing")]
         public void TestClickOnChangingSceneButton()
         {
             var initialScene = altDriver.GetCurrentScene();
@@ -2046,6 +2218,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         //uses InvokeMethod
         [Category("WebGLUnsupported")]
         public void TestGetStaticProperty()
@@ -2056,6 +2229,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestGetStaticPropertyInstanceNull()
         {
             var screenWidth = altDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new string[] { }, null);
@@ -2064,6 +2238,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestSetCommandTimeout()
         {
             altDriver.SetCommandResponseTimeout(1);
@@ -2072,6 +2247,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestKeysDown()
         {
             AltKeyCode[] keys = { AltKeyCode.K, AltKeyCode.L };
@@ -2083,6 +2259,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestPressKeys()
         {
             AltKeyCode[] keys = { AltKeyCode.K, AltKeyCode.L };
@@ -2100,6 +2277,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindElementAtCoordinates_NoElement()
         {
             var counterButton = altDriver.FindObject(By.NAME, "ButtonCounter");
@@ -2108,6 +2286,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestFindElementAtCoordinates_3dElement()
         {
             var counterButton = altDriver.FindObject(By.NAME, "Capsule");
@@ -2115,6 +2294,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual("Capsule", element.name);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestScrollViewSwipe()
         {
             altDriver.LoadScene("Scene 11 ScrollView Scene");
@@ -2128,6 +2308,7 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
+        [Ignore("Testing")]
         public void TestCallPrivateMethod()
         {
             var altObject = altDriver.FindObject(By.NAME, "Capsule");
@@ -2138,6 +2319,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestOpenDialogWithBeginEndTouch()
         {
             var icon = altDriver.FindObject(By.NAME, "Icon");
@@ -2147,6 +2329,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        [Ignore("Testing")]
         public void TestResetInput()
         {
             altDriver.KeyDown(AltKeyCode.Alpha1, 1);
@@ -2159,6 +2342,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreNotEqual(newId, oldId);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestSetStaticProperty()
         {
             var expectedValue = 5;
@@ -2167,6 +2351,7 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(expectedValue, value);
         }
         [Test]
+        [Ignore("Testing")]
         public void TestSetStaticProperty2()
         {
             var newValue = 5;
