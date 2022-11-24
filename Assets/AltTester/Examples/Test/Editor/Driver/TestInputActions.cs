@@ -30,7 +30,6 @@ namespace Altom.AltDriver.Tests
             altDriver.LoadScene("Scene6");
         }
         [Test]
-        [Ignore("Testing")]
         public void TestScrollAndWait()
         {
 

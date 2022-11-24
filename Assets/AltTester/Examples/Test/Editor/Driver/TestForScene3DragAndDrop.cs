@@ -33,7 +33,6 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("Testing")]
         public void MultipleDragAndDrop()
         {
             string imageSource, imageSourceDropZone;
@@ -78,7 +77,6 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("Testing")]
         public void MultipleDragAndDropWait()
         {
             string imageSource, imageSourceDropZone;
@@ -94,7 +92,6 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
-        [Ignore("Testing")]
         public void MultipleDragAndDropWaitWithMultipointSwipe()
         {
             string imageSource, imageSourceDropZone;
@@ -109,7 +106,6 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("Testing")]
         public void TestPointerEnterAndExit()
         {
             var altElement = altDriver.FindObject(By.NAME, "Drop Image");
@@ -124,7 +120,6 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("Testing")]
         public void TestDragAndDrop()
         {
             string imageSource, imageSourceDropZone;

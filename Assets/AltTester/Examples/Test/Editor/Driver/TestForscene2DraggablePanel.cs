@@ -33,7 +33,6 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("Testing")]
         public void TestResizePanel()
         {
             var altElement = altDriver.FindObject(By.NAME, "Resize Zone");
@@ -46,7 +45,6 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("Testing")]
         public void TestResizePanelWithMultipointSwipe()
         {
             var altElement = altDriver.FindObject(By.NAME, "Resize Zone");
@@ -67,7 +65,6 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("Testing")]
         public void TestMovePanel()
         {
             var altElement = altDriver.FindObject(By.NAME, "Drag Zone");
@@ -81,7 +78,6 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("Testing")]
         public void TestClosePanel()
         {
             altDriver.WaitForObject(By.NAME, "Panel Drag Area", timeout: 2);
@@ -95,7 +91,6 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("Testing")]
         public void TestGetAllEnabledElements()
         {
             Thread.Sleep(2000);
@@ -127,7 +122,6 @@ namespace Altom.AltDriver.Tests
             Assert.IsNotNull(altElements.Where(p => p.name == "Particle System"));
         }
         [Test]
-        [Ignore("Testing")]
         public void TestGetAllElements()
         {
             altDriver.WaitForObject(By.NAME, "EventSystem", timeout: 2);
@@ -161,7 +155,6 @@ namespace Altom.AltDriver.Tests
 
 
         [Test]
-        [Ignore("Testing")]
         public void TestPointerDownFromObject()
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
@@ -173,7 +166,6 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("Testing")]
         public void TestPointerUpFromObject()
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
@@ -185,7 +177,6 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(color1, color2);
         }
         [Test]
-        [Ignore("Testing")]
         public void TestGetParent()
         {
             var altElement = altDriver.FindObject(By.NAME, "Panel", By.NAME, "Main Camera");
@@ -193,7 +184,6 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual("Panel Drag Area", altElementParent.name);
         }
         [Test]
-        [Ignore("Testing")]
         public void TestGetAllScenesAndElements()
         {
             var altElements = altDriver.GetAllLoadedScenesAndObjects();
@@ -203,7 +193,6 @@ namespace Altom.AltDriver.Tests
             Assert.AreEqual(20, altElements.FindIndex(e => e.name == "DontDestroyOnLoad"));
         }
         [Test]
-        [Ignore("Testing")]
         public void TestNewTouchCommands()
         {
             var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");
@@ -217,7 +206,6 @@ namespace Altom.AltDriver.Tests
 
         }
         [Test]
-        [Ignore("Testing")]
         public void TestCreateTouchTwice()
         {
             var draggableArea = altDriver.FindObject(By.NAME, "Drag Zone");

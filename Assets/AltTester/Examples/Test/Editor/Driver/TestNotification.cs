@@ -42,7 +42,6 @@ public class TestNotification
     }
 
     [Test]
-    [Ignore("Testing")]
     public void TestLoadSceneNotification()
     {
         waitForNotificationToBeSent(MockNotificationCallBacks.LastSceneLoaded, "Scene 1 AltDriverTestScene", 10);
@@ -61,7 +60,6 @@ public class TestNotification
     }
 
     [Test]
-    [Ignore("Testing")]
     public void TestUnloadSceneNotification()
     {
         altDriver.LoadScene("Scene 2 Draggable Panel", false);
@@ -71,7 +69,6 @@ public class TestNotification
     }
 
     [Test]
-    [Ignore("Testing")]
     public void TestLogNotification()
     {
         StringAssert.Contains("\"commandName\":\"loadScene\"", MockNotificationCallBacks.LogMessage);
