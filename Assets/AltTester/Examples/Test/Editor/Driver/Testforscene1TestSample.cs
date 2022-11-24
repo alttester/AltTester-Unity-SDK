@@ -2144,6 +2144,10 @@ namespace Altom.AltDriver.Tests
             var id = altDriver.BeginTouch(new AltVector2(icon.x - 25, icon.y + 25));
             altDriver.EndTouch(id);
             Assert.NotNull(altDriver.WaitForObject(By.NAME, "Dialog"));
+
+            id = altDriver.BeginTouch(new AltVector2(icon.x - 25, icon.y + 25));
+            altDriver.EndTouch(id);
+            Assert.Throws<WaitTimeOutException>(() => altDriver.WaitForObject(By.NAME, "Dialog", timeout: 0.5f));
         }
 
         [Test]

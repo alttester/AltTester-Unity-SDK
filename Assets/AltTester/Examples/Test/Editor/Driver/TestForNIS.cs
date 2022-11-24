@@ -239,7 +239,7 @@ public class TestForNIS
         altDriver.LoadScene(scene11);
         var capsule = altDriver.FindObject(By.NAME, "Capsule");
         altDriver.Click(capsule.GetScreenPosition());
-        altDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]");
+        altDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]", timeout: 1);
     }
 
     [Test]
@@ -285,7 +285,7 @@ public class TestForNIS
         altDriver.LoadScene(scene8);
         var panelToDrag = altDriver.FindObject(By.PATH, "//Panel/Drag Zone");
         var initialPanelPos = panelToDrag.GetScreenPosition();
-        var fingerId = altDriver.BeginTouch(panelToDrag.GetScreenPosition());
+        var fingerId = altDriver.BeginTouch(initialPanelPos);
         altDriver.MoveTouch(fingerId, new AltVector2(initialPanelPos.x + 200, initialPanelPos.y + 20));
         altDriver.EndTouch(fingerId);
         var finalPanelPos = altDriver.FindObject(By.PATH, "//Panel/Drag Zone").GetScreenPosition();
@@ -316,11 +316,11 @@ public class TestForNIS
         Assert.AreEqual(numberOfClicks, int.Parse(text.GetText()));
         counterButton.Tap(numberOfClicks);
         Assert.AreEqual(2 * numberOfClicks, int.Parse(text.GetText()));
-        altDriver.Click(counterButton.getScreenPosition(), numberOfClicks);
+        altDriver.Click(counterButton.GetScreenPosition(), numberOfClicks);
         Assert.AreEqual(3 * numberOfClicks, int.Parse(text.GetText()));
-        altDriver.Tap(counterButton.getScreenPosition(), numberOfClicks);
+        altDriver.Tap(counterButton.GetScreenPosition(), numberOfClicks);
         Assert.AreEqual(4 * numberOfClicks, int.Parse(text.GetText()));
-        altDriver.MoveMouse(counterButton.getScreenPosition());
+        altDriver.MoveMouse(counterButton.GetScreenPosition());
         for (int i = 0; i < numberOfClicks; i++)
         {
             altDriver.KeyDown(AltKeyCode.Mouse0);
@@ -329,7 +329,7 @@ public class TestForNIS
         Assert.AreEqual(5 * numberOfClicks, int.Parse(text.GetText()));
         for (int i = 0; i < numberOfClicks; i++)
         {
-            altDriver.HoldButton(counterButton.getScreenPosition(), 0.1f);
+            altDriver.HoldButton(counterButton.GetScreenPosition(), 0.1f);
         }
         Assert.AreEqual(6 * numberOfClicks, int.Parse(text.GetText()));
         altDriver.SetDelayAfterCommand(0);
