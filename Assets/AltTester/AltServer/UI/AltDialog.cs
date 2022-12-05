@@ -222,11 +222,12 @@ namespace AltTester.UI
 
             if (communication != null)
             {
-                communication.Stop();
-
+                // Remove the callbacks before stopping the client to prevent the OnDisconnect callback to be called when we stop or restart the client.
                 communication.OnConnect = null;
                 communication.OnDisconnect = null;
                 communication.OnError = null;
+
+                communication.Stop();
             }
         }
 
