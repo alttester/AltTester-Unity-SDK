@@ -315,25 +315,32 @@ namespace Altom.AltTester
 
         internal static IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
         {
+
+            UnityEngine.Debug.Log("NIP SWIPE Start:: ");
+
             Touchscreen.MakeCurrent();
             float oneTouchDuration = duration / (positions.Length - 1);
             var touchId = BeginTouch(positions[0]);
-#if !ENABLE_LEGACY_INPUT_MANAGER
-            var inputId = AltRunner._altRunner.ShowInput(positions[0]);
-#endif
+            // #if !ENABLE_LEGACY_INPUT_MANAGER
+            var inputId = AltRunner._altRunner.ShowInput(positions[0], color: Color.blue);
+            // #endif
             yield return null;
             for (int i = 1; i < positions.Length; i++)
             {
+
                 float time = 0;
                 Vector2 currentPosition = positions[i - 1];
                 var distance = positions[i] - currentPosition;
+                int j = 0;
                 while (time < oneTouchDuration)
                 {
+                    UnityEngine.Debug.Log("NIP SWIPE:: " + j + " " + Time.frameCount);
+                    j++;
                     yield return null;
                     time += UnityEngine.Time.unscaledDeltaTime;
                     UnityEngine.Vector2 delta;
 
-                    if (time + UnityEngine.Time.unscaledDeltaTime < oneTouchDuration)
+                    if (time < oneTouchDuration)
                     {
                         delta = distance * UnityEngine.Time.unscaledDeltaTime / oneTouchDuration;
                     }
@@ -344,9 +351,9 @@ namespace Altom.AltTester
                     currentPosition += delta;
 
                     MoveTouch(touchId, currentPosition);
-#if !ENABLE_LEGACY_INPUT_MANAGER
-            AltRunner._altRunner.ShowInput(currentPosition,inputId);
-#endif
+                    // #if !ENABLE_LEGACY_INPUT_MANAGER
+                    AltRunner._altRunner.ShowInput(currentPosition, inputId, Color.blue);
+                    // #endif
                 }
             }
             endTouchScreenPos = positions[positions.Length - 1];

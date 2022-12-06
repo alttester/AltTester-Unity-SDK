@@ -716,13 +716,11 @@ public class Input : MonoBehaviour
         endKeyUpTouchEndedLifecycle(keyStructure, true, touch);
     }
 
-    public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(MultipointSwipeLifeCycle(positions, duration), onFinish));
-    }
+
 
     public static System.Collections.IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
     {
+        UnityEngine.Debug.Log(" SWIPE Start:: ");
         var touch = new UnityEngine.Touch
         {
             phase = UnityEngine.TouchPhase.Began,
@@ -758,10 +756,16 @@ public class Input : MonoBehaviour
             var wholeDelta = positions[i] - touch.position;
             var deltaPerSecond = wholeDelta / oneInputDuration;
             float time = 0;
+            int j = 0;
             do
             {
+                yield return null;
+                UnityEngine.Debug.Log("SWIPE:: " + j + " " + Time.frameCount);
+                j++;
                 UnityEngine.Vector2 previousPosition = touch.position;
-                if (time + UnityEngine.Time.unscaledDeltaTime < oneInputDuration)
+                time += UnityEngine.Time.unscaledDeltaTime;
+
+                if (time < oneInputDuration)
                 {
                     touch.position += deltaPerSecond * UnityEngine.Time.unscaledDeltaTime;
                 }
@@ -771,13 +775,11 @@ public class Input : MonoBehaviour
                 }
 
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
-                time += UnityEngine.Time.unscaledDeltaTime;
                 touch.deltaPosition = touch.position - previousPosition;
                 updateTouchInTouchList(touch);
                 mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
                 pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
                 AltRunner._altRunner.ShowInput(touch.position, markId);
-                yield return null;
 
             } while (time <= oneInputDuration);
         }

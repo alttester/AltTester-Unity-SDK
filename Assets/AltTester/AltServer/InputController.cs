@@ -17,43 +17,15 @@ namespace Altom.AltTester
            Action<Exception> done)
         {
             Exception err = null;
-            while (true)
+
+            for (int i = 0; i < enumerators.Count; i++)
             {
-                object current;
-                int cnt = 0;
-                try
-                {
-                    bool[] isDone = new bool[enumerators.Count];
-                    for (int i = 0; i < enumerators.Count; i++)
-                    {
-                        if (enumerators[i].MoveNext())
-                        {
-                            current = enumerators[i];
-                            isDone[i] = true;
-                            continue;
-                        }
-                    }
-                    for (int i = 0; i < enumerators.Count; i++)
-                    {
-                        if (isDone[i]) break;
-                        cnt++;
-
-                    }
-                    if (cnt == enumerators.Count)
-                        break;
-
-                    current = enumerators[0];
-
-                }
-                catch (Exception ex)
-                {
-                    UnityEngine.Debug.LogError(ex.ToString());
-                    err = ex;
-                    yield break;
-                }
-                yield return null;
+                AltRunner._altRunner.StartCoroutine(enumerators[i]);
             }
-
+            for (int i = 0; i < enumerators.Count; i++)
+            {
+                yield return enumerators[i];
+            }
             done.Invoke(err);
         }
 
@@ -214,14 +186,19 @@ namespace Altom.AltTester
         public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
         {
 #if ALTTESTER
-            List<IEnumerator> coroutines = new List<IEnumerator>();
+            List<Coroutine> coroutines = new List<Coroutine>();
 #if ENABLE_INPUT_SYSTEM
-            coroutines.Add(NewInputSystem.MultipointSwipeLifeCycle(positions, duration));
+            coroutines.Add(AltRunner._altRunner.StartCoroutine(NewInputSystem.MultipointSwipeLifeCycle(positions, duration)));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.MultipointSwipeLifeCycle(positions, duration));
+            coroutines.Add(AltRunner._altRunner.StartCoroutine(Input.MultipointSwipeLifeCycle(positions, duration)));
 #endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            // AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            // for (int i = 0; i < coroutines.Count; i++)
+            // {
+            //     yield return coroutines[i];
+            // }
+            // onFinish.Invoke(null);
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
