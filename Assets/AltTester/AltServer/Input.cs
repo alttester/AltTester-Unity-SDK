@@ -755,11 +755,9 @@ public class Input : MonoBehaviour
             var wholeDelta = positions[i] - touch.position;
             var deltaPerSecond = wholeDelta / oneInputDuration;
             float time = 0;
-            int j = 0;
             do
             {
                 yield return null;
-                j++;
                 UnityEngine.Vector2 previousPosition = touch.position;
                 time += UnityEngine.Time.unscaledDeltaTime;
 
@@ -1072,11 +1070,11 @@ public class Input : MonoBehaviour
 
             if (i != count - 1 && time < interval)//do not wait at last click/tap
             {
-                float zeroTime = 0;
-                while (zeroTime < interval - time)
+                float elapsedTime = 0;
+                while (elapsedTime < interval - time)
                 {
                     yield return null;
-                    zeroTime += UnityEngine.Time.unscaledDeltaTime;
+                    elapsedTime += UnityEngine.Time.unscaledDeltaTime;
                 }
             }
         }
@@ -1154,11 +1152,11 @@ public class Input : MonoBehaviour
 
             if (i != count - 1 && time < interval)//do not wait at last click/tap
             {
-                float zeroTime = 0;
-                while (zeroTime < interval - time)
+                float elapsedTime = 0;
+                while (elapsedTime < interval - time)
                 {
                     yield return null;
-                    zeroTime += UnityEngine.Time.unscaledDeltaTime;
+                    elapsedTime += UnityEngine.Time.unscaledDeltaTime;
                 }
             }
         }
@@ -1238,11 +1236,11 @@ public class Input : MonoBehaviour
         {
             if (duration != 0)
             {
-                float zeroTime = 0;
-                while (zeroTime < duration)
+                float elapsedTime = 0;
+                while (elapsedTime < duration)
                 {
                     yield return null;
-                    zeroTime += UnityEngine.Time.unscaledDeltaTime;
+                    elapsedTime += UnityEngine.Time.unscaledDeltaTime;
                 }
             }
         }
@@ -1320,11 +1318,11 @@ public class Input : MonoBehaviour
     {
         mouseTriggerInit(mouseButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
         mouseDownTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
-        float zeroTime = 0;
-        while (zeroTime < duration)
+        float elapsedTime = 0;
+        while (elapsedTime < duration)
         {
             yield return null;
-            zeroTime += UnityEngine.Time.unscaledDeltaTime;
+            elapsedTime += UnityEngine.Time.unscaledDeltaTime;
         }
 
         mouseUpTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);

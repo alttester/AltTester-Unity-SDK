@@ -330,10 +330,8 @@ namespace Altom.AltTester
                 float time = 0;
                 Vector2 currentPosition = positions[i - 1];
                 var distance = positions[i] - currentPosition;
-                int j = 0;
                 while (time < oneTouchDuration)
                 {
-                    j++;
                     yield return null;
                     time += UnityEngine.Time.unscaledDeltaTime;
                     UnityEngine.Vector2 delta;
