@@ -61,7 +61,7 @@ class TestScene07A:
     def test_tilt(self):
         cube = self.altdriver.find_object(By.NAME, "Cube (1)")
         initial_position = cube.get_world_position()
-        self.altdriver.tilt([1000, 10, 10], duration=0.1)
+        self.altdriver.tilt([1000, 10, 10], duration=1)
         assert initial_position != self.altdriver.find_object(By.NAME, "Cube (1)").get_world_position()
 
         is_moved = cube.get_component_property("AltCubeNIS", "isMoved", "Assembly-CSharp")

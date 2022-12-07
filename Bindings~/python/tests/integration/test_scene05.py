@@ -66,7 +66,7 @@ class TestScene05:
         axis_value = self.altdriver.find_object(By.NAME, "AxisValue")
 
         for button_name, key in zip(button_names, keys_to_press):
-            self.altdriver.press_key(key, power=0.5, duration=0.1)
+            self.altdriver.press_key(key, power=0.5, duration=1)
 
             assert axis_value.get_text() == "0.5"
             assert axis_name.get_text() == button_name
@@ -74,8 +74,8 @@ class TestScene05:
     def test_scroll(self):
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cube_initial_position = [player2.worldX, player2.worldY, player2.worldY]
-        self.altdriver.scroll(4, duration=0.1, wait=False)
-        time.sleep(0.2)
+        self.altdriver.scroll(4, duration=1, wait=False)
+        time.sleep(1)
 
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cube_final_position = [player2.worldX, player2.worldY, player2.worldY]
@@ -84,7 +84,7 @@ class TestScene05:
     def test_scroll_and_wait(self):
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cube_initial_position = [player2.worldX, player2.worldY, player2.worldY]
-        self.altdriver.scroll(4, duration=0.1)
+        self.altdriver.scroll(4, duration=0.3)
 
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cube_final_position = [player2.worldX, player2.worldY, player2.worldY]

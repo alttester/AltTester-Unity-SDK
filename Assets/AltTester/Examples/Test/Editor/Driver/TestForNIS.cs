@@ -19,7 +19,7 @@ public class TestForNIS
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
-        altDriver = new AltDriver(host: "192.168.11.37", port: TestsHelper.GetAltDriverPort(), enableLogging: true);
+        altDriver = new AltDriver(host: "127.0.0.1", port: TestsHelper.GetAltDriverPort(), enableLogging: true);
     }
 
     //At the end of the test closes the connection with the socket
@@ -287,7 +287,7 @@ public class TestForNIS
         var panelToDrag = altDriver.FindObject(By.PATH, "//Panel/Drag Zone");
         var initialPanelPos = panelToDrag.GetScreenPosition();
         var fingerId = altDriver.BeginTouch(initialPanelPos);
-        altDriver.MoveTouch(fingerId, new AltVector2(initialPanelPos.x + 20, initialPanelPos.y + 20));
+        altDriver.MoveTouch(fingerId, new AltVector2(initialPanelPos.x + 1, initialPanelPos.y + 1));
         altDriver.MoveTouch(fingerId, new AltVector2(initialPanelPos.x + 200, initialPanelPos.y + 20));
         altDriver.EndTouch(fingerId);
         var finalPanelPos = altDriver.FindObject(By.PATH, "//Panel/Drag Zone").GetScreenPosition();
