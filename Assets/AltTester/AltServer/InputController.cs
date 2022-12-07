@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Altom.AltDriver;
-using Altom.AltTester;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 
 namespace Altom.AltTester
@@ -18,14 +15,24 @@ namespace Altom.AltTester
         {
             Exception err = null;
 
-            for (int i = 0; i < enumerators.Count; i++)
+            var CoroutineList = new List<Coroutine>();
+
+            try
             {
-                AltRunner._altRunner.StartCoroutine(enumerators[i]);
+                for (int i = 0; i < enumerators.Count; i++)
+                {
+                    CoroutineList.Add(AltRunner._altRunner.StartCoroutine(enumerators[i]));
+                }
+            }
+            catch (Exception e)
+            {
+                err = e;
             }
             for (int i = 0; i < enumerators.Count; i++)
             {
-                yield return enumerators[i];
+                yield return CoroutineList[i];
             }
+
             done.Invoke(err);
         }
 
@@ -186,19 +193,14 @@ namespace Altom.AltTester
         public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
         {
 #if ALTTESTER
-            List<Coroutine> coroutines = new List<Coroutine>();
+            List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
-            coroutines.Add(AltRunner._altRunner.StartCoroutine(NewInputSystem.MultipointSwipeLifeCycle(positions, duration)));
+            coroutines.Add(NewInputSystem.MultipointSwipeLifeCycle(positions, duration));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(AltRunner._altRunner.StartCoroutine(Input.MultipointSwipeLifeCycle(positions, duration)));
+            coroutines.Add(Input.MultipointSwipeLifeCycle(positions, duration));
 #endif
-            // AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
-            // for (int i = 0; i < coroutines.Count; i++)
-            // {
-            //     yield return coroutines[i];
-            // }
-            // onFinish.Invoke(null);
+            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
@@ -214,9 +216,6 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             oldFingerId = Input.BeginTouch(screenPosition);
 #endif
-#else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
-#endif
             if (newFingerId == 0)
                 return oldFingerId + 1;
             if (oldFingerId == -1)
@@ -224,6 +223,10 @@ namespace Altom.AltTester
             if (newFingerId - 1 == oldFingerId)
                 return newFingerId;
             throw new Exception("FingerIds are not identical! OldInput fingerId: " + oldFingerId + " New Input fingerId: " + newFingerId);
+#else
+            throw new AltInputModuleException(AltErrors.errorInputModule);
+#endif
+
         }
 
         public static void MoveTouch(int fingerId, Vector3 screenPosition)

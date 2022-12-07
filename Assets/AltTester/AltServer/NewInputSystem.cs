@@ -316,14 +316,13 @@ namespace Altom.AltTester
         internal static IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
         {
 
-            UnityEngine.Debug.Log("NIP SWIPE Start:: ");
 
             Touchscreen.MakeCurrent();
             float oneTouchDuration = duration / (positions.Length - 1);
             var touchId = BeginTouch(positions[0]);
-            // #if !ENABLE_LEGACY_INPUT_MANAGER
-            var inputId = AltRunner._altRunner.ShowInput(positions[0], color: Color.blue);
-            // #endif
+#if !ENABLE_LEGACY_INPUT_MANAGER
+            var inputId = AltRunner._altRunner.ShowInput(positions[0]);
+#endif
             yield return null;
             for (int i = 1; i < positions.Length; i++)
             {
@@ -334,7 +333,6 @@ namespace Altom.AltTester
                 int j = 0;
                 while (time < oneTouchDuration)
                 {
-                    UnityEngine.Debug.Log("NIP SWIPE:: " + j + " " + Time.frameCount);
                     j++;
                     yield return null;
                     time += UnityEngine.Time.unscaledDeltaTime;
@@ -351,13 +349,14 @@ namespace Altom.AltTester
                     currentPosition += delta;
 
                     MoveTouch(touchId, currentPosition);
-                    // #if !ENABLE_LEGACY_INPUT_MANAGER
-                    AltRunner._altRunner.ShowInput(currentPosition, inputId, Color.blue);
-                    // #endif
+#if !ENABLE_LEGACY_INPUT_MANAGER
+                    AltRunner._altRunner.ShowInput(currentPosition, inputId);
+#endif
                 }
             }
             endTouchScreenPos = positions[positions.Length - 1];
             yield return AltRunner._altRunner.StartCoroutine(EndTouch(touchId));
+
         }
         internal static int BeginTouch(Vector3 screenPosition)
         {
@@ -393,6 +392,7 @@ namespace Altom.AltTester
 #endif
             InputTestFixture.EndTouch(fingerId, endTouchScreenPos, screen: Touchscreen);
             touches[fingerId] = true;
+
         }
 
         #region private interface

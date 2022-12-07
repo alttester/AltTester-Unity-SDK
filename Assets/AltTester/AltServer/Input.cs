@@ -720,7 +720,6 @@ public class Input : MonoBehaviour
 
     public static System.Collections.IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
     {
-        UnityEngine.Debug.Log(" SWIPE Start:: ");
         var touch = new UnityEngine.Touch
         {
             phase = UnityEngine.TouchPhase.Began,
@@ -760,7 +759,6 @@ public class Input : MonoBehaviour
             do
             {
                 yield return null;
-                UnityEngine.Debug.Log("SWIPE:: " + j + " " + Time.frameCount);
                 j++;
                 UnityEngine.Vector2 previousPosition = touch.position;
                 time += UnityEngine.Time.unscaledDeltaTime;
@@ -803,6 +801,7 @@ public class Input : MonoBehaviour
 
         touches = newTouches;
         touchCount--;
+
     }
 
     public static void MoveMouse(UnityEngine.Vector2 location, float duration, Action<Exception> onFinish)
@@ -1072,7 +1071,14 @@ public class Input : MonoBehaviour
             endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
 
             if (i != count - 1 && time < interval)//do not wait at last click/tap
-                yield return new UnityEngine.WaitForSecondsRealtime(interval - time);
+            {
+                float zeroTime = 0;
+                while (zeroTime < interval - time)
+                {
+                    yield return null;
+                    zeroTime += UnityEngine.Time.unscaledDeltaTime;
+                }
+            }
         }
 
         // mouse position doesn't change  but we fire on mouse exit
@@ -1147,7 +1153,14 @@ public class Input : MonoBehaviour
             endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
 
             if (i != count - 1 && time < interval)//do not wait at last click/tap
-                yield return new UnityEngine.WaitForSecondsRealtime(interval - time);
+            {
+                float zeroTime = 0;
+                while (zeroTime < interval - time)
+                {
+                    yield return null;
+                    zeroTime += UnityEngine.Time.unscaledDeltaTime;
+                }
+            }
         }
 
         // mouse position doesn't change  but we fire on mouse exit
@@ -1225,7 +1238,12 @@ public class Input : MonoBehaviour
         {
             if (duration != 0)
             {
-                yield return new UnityEngine.WaitForSecondsRealtime(duration);
+                float zeroTime = 0;
+                while (zeroTime < duration)
+                {
+                    yield return null;
+                    zeroTime += UnityEngine.Time.unscaledDeltaTime;
+                }
             }
         }
         _keyCodesPressed.Remove(keyStructure);
@@ -1302,7 +1320,13 @@ public class Input : MonoBehaviour
     {
         mouseTriggerInit(mouseButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
         mouseDownTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
-        yield return new WaitForSecondsRealtime(duration);
+        float zeroTime = 0;
+        while (zeroTime < duration)
+        {
+            yield return null;
+            zeroTime += UnityEngine.Time.unscaledDeltaTime;
+        }
+
         mouseUpTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
     }
 
