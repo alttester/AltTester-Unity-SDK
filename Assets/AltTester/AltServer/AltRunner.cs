@@ -186,20 +186,20 @@ namespace Altom.AltTester
         }
 
 
-        public void ShowClick(UnityEngine.Vector2 position)
+        public void ShowClick(UnityEngine.Vector2 position, UnityEngine.Color color = default)
         {
             if (!InstrumentationSettings.InputVisualizer || InputsVisualizer == null)
                 return;
 
-            InputsVisualizer.ShowClick(position);
+            InputsVisualizer.ShowClick(position, color);
         }
 
-        public int ShowInput(UnityEngine.Vector2 position, int markId = -1)
+        public int ShowInput(UnityEngine.Vector2 position, int markId = -1, UnityEngine.Color color = default)
         {
             if (!InstrumentationSettings.InputVisualizer || InputsVisualizer == null)
                 return -1;
 
-            return InputsVisualizer.ShowContinuousInput(position, markId);
+            return InputsVisualizer.ShowContinuousInput(position, markId, color);
         }
 
         public static void CopyTo(System.IO.Stream src, System.IO.Stream dest)

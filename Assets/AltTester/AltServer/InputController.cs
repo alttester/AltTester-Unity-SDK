@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Altom.AltDriver;
-using Altom.AltTester;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 
 namespace Altom.AltTester
@@ -17,41 +15,23 @@ namespace Altom.AltTester
            Action<Exception> done)
         {
             Exception err = null;
-            while (true)
+
+            var CoroutineList = new List<Coroutine>();
+
+            try
             {
-                object current;
-                int cnt = 0;
-                try
+                for (int i = 0; i < enumerators.Count; i++)
                 {
-                    bool[] isDone = new bool[enumerators.Count];
-                    for (int i = 0; i < enumerators.Count; i++)
-                    {
-                        if (enumerators[i].MoveNext())
-                        {
-                            current = enumerators[i];
-                            isDone[i] = true;
-                            continue;
-                        }
-                    }
-                    for (int i = 0; i < enumerators.Count; i++)
-                    {
-                        if (isDone[i]) break;
-                        cnt++;
-
-                    }
-                    if (cnt == enumerators.Count)
-                        break;
-
-                    current = enumerators[0];
-
+                    CoroutineList.Add(AltRunner._altRunner.StartCoroutine(enumerators[i]));
                 }
-                catch (Exception ex)
-                {
-                    UnityEngine.Debug.LogError(ex.ToString());
-                    err = ex;
-                    yield break;
-                }
-                yield return null;
+            }
+            catch (Exception e)
+            {
+                err = e;
+            }
+            for (int i = 0; i < enumerators.Count; i++)
+            {
+                yield return CoroutineList[i];
             }
 
             done.Invoke(err);
@@ -237,7 +217,6 @@ namespace Altom.AltTester
 #if ENABLE_LEGACY_INPUT_MANAGER
             oldFingerId = Input.BeginTouch(screenPosition);
 #endif
-
             if (newFingerId == 0)
                 return oldFingerId + 1;
             if (oldFingerId == -1)

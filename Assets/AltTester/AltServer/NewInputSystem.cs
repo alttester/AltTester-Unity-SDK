@@ -347,6 +347,8 @@ namespace Altom.AltTester
 
         internal static IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
         {
+
+
             Touchscreen.MakeCurrent();
             float oneTouchDuration = duration / (positions.Length - 1);
             var touchId = BeginTouch(positions[0]);
@@ -356,6 +358,7 @@ namespace Altom.AltTester
             yield return null;
             for (int i = 1; i < positions.Length; i++)
             {
+
                 float time = 0;
                 Vector2 currentPosition = positions[i - 1];
                 var distance = positions[i] - currentPosition;
@@ -365,7 +368,7 @@ namespace Altom.AltTester
                     time += UnityEngine.Time.unscaledDeltaTime;
                     UnityEngine.Vector2 delta;
 
-                    if (time + UnityEngine.Time.unscaledDeltaTime < oneTouchDuration)
+                    if (time < oneTouchDuration)
                     {
                         delta = distance * UnityEngine.Time.unscaledDeltaTime / oneTouchDuration;
                     }
@@ -377,12 +380,13 @@ namespace Altom.AltTester
 
                     MoveTouch(touchId, currentPosition);
 #if !ENABLE_LEGACY_INPUT_MANAGER
-            AltRunner._altRunner.ShowInput(currentPosition,inputId);
+                    AltRunner._altRunner.ShowInput(currentPosition, inputId);
 #endif
                 }
             }
             endTouchScreenPos = positions[positions.Length - 1];
             yield return AltRunner._altRunner.StartCoroutine(EndTouch(touchId));
+
         }
         internal static int BeginTouch(Vector3 screenPosition)
         {
@@ -418,6 +422,7 @@ namespace Altom.AltTester
 #endif
             InputTestFixture.EndTouch(fingerId, endTouchScreenPos, screen: Touchscreen);
             touches[fingerId] = true;
+
         }
 
         #region private interface

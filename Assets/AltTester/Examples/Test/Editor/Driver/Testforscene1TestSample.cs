@@ -699,11 +699,24 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestHoldButton()
         {
+            const int duration = 1;
             var button = altDriver.FindObject(By.NAME, "UIButton");
-            altDriver.HoldButton(button.GetScreenPosition(), 1);
+            altDriver.HoldButton(button.GetScreenPosition(), duration);
             var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
             var text = capsuleInfo.GetText();
             Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+            var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
+            Assert.Greater(time, duration);
+        }
+        [Test]
+        public void TestPressKeyWaitTheDuration()
+        {
+            const int duration = 1;
+            var button = altDriver.FindObject(By.NAME, "UIButton");
+            altDriver.MoveMouse(button.GetScreenPosition());
+            altDriver.PressKey(AltKeyCode.Mouse0, 1, duration);
+            var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
+            Assert.Greater(time, duration);
         }
 
         [Test]
