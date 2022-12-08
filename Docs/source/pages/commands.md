@@ -1835,7 +1835,7 @@ None
                 int countKeyDown = altDriver.findObject(prefab).getComponentProperty(count, Integer.class);
                 assertEquals(0, countKeyDown);
                 assertNotEquals(newId, oldId);
-    }
+            }
 
 
     .. code-tab:: py
