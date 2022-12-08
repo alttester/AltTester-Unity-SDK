@@ -17,8 +17,8 @@ class TestScene09:
         scrollbar_initial_value = scrollbar_initial.get_component_property(
             "UnityEngine.UI.Scrollbar", "value", "UnityEngine.UI")
         self.altdriver.move_mouse(self.altdriver.find_object(
-            By.NAME, "Scroll View").get_screen_position(), duration=0.1, wait=True)
-        self.altdriver.scroll(-3000, duration=0.1, wait=True)
+            By.NAME, "Scroll View").get_screen_position(), duration=0.3, wait=True)
+        self.altdriver.scroll(-3000, duration=0.5, wait=True)
 
         scrollbar_final = self.altdriver.find_object(By.NAME, "Scrollbar Vertical")
         scrollbar_final_value = scrollbar_final.get_component_property(
@@ -33,7 +33,7 @@ class TestScene09:
         self.altdriver.swipe(
             button.get_screen_position(),
             (button.x, button.y + 20),
-            duration=0.1
+            duration=0.5
         )
 
         scrollbar_final = self.altdriver.find_object(By.NAME, "Handle")
