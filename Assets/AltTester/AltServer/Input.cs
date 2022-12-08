@@ -716,10 +716,7 @@ public class Input : MonoBehaviour
         endKeyUpTouchEndedLifecycle(keyStructure, true, touch);
     }
 
-    public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(MultipointSwipeLifeCycle(positions, duration), onFinish));
-    }
+
 
     public static System.Collections.IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
     {
@@ -760,8 +757,11 @@ public class Input : MonoBehaviour
             float time = 0;
             do
             {
+                yield return null;
                 UnityEngine.Vector2 previousPosition = touch.position;
-                if (time + UnityEngine.Time.unscaledDeltaTime < oneInputDuration)
+                time += UnityEngine.Time.unscaledDeltaTime;
+
+                if (time < oneInputDuration)
                 {
                     touch.position += deltaPerSecond * UnityEngine.Time.unscaledDeltaTime;
                 }
@@ -771,13 +771,11 @@ public class Input : MonoBehaviour
                 }
 
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
-                time += UnityEngine.Time.unscaledDeltaTime;
                 touch.deltaPosition = touch.position - previousPosition;
                 updateTouchInTouchList(touch);
                 mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
                 pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
                 AltRunner._altRunner.ShowInput(touch.position, markId);
-                yield return null;
 
             } while (time <= oneInputDuration);
         }
@@ -801,6 +799,7 @@ public class Input : MonoBehaviour
 
         touches = newTouches;
         touchCount--;
+
     }
 
     public static void MoveMouse(UnityEngine.Vector2 location, float duration, Action<Exception> onFinish)
@@ -1070,7 +1069,14 @@ public class Input : MonoBehaviour
             endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
 
             if (i != count - 1 && time < interval)//do not wait at last click/tap
-                yield return new UnityEngine.WaitForSecondsRealtime(interval - time);
+            {
+                float elapsedTime = 0;
+                while (elapsedTime < interval - time)
+                {
+                    yield return null;
+                    elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                }
+            }
         }
 
         // mouse position doesn't change  but we fire on mouse exit
@@ -1145,7 +1151,14 @@ public class Input : MonoBehaviour
             endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
 
             if (i != count - 1 && time < interval)//do not wait at last click/tap
-                yield return new UnityEngine.WaitForSecondsRealtime(interval - time);
+            {
+                float elapsedTime = 0;
+                while (elapsedTime < interval - time)
+                {
+                    yield return null;
+                    elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                }
+            }
         }
 
         // mouse position doesn't change  but we fire on mouse exit
@@ -1223,7 +1236,12 @@ public class Input : MonoBehaviour
         {
             if (duration != 0)
             {
-                yield return new UnityEngine.WaitForSecondsRealtime(duration);
+                float elapsedTime = 0;
+                while (elapsedTime < duration)
+                {
+                    yield return null;
+                    elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                }
             }
         }
         _keyCodesPressed.Remove(keyStructure);
@@ -1300,7 +1318,13 @@ public class Input : MonoBehaviour
     {
         mouseTriggerInit(mouseButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
         mouseDownTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
-        yield return new WaitForSecondsRealtime(duration);
+        float elapsedTime = 0;
+        while (elapsedTime < duration)
+        {
+            yield return null;
+            elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+        }
+
         mouseUpTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
     }
 

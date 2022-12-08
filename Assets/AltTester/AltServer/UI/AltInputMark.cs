@@ -1,3 +1,6 @@
+
+using UnityEngine.UI;
+
 public class AltInputMark : UnityEngine.MonoBehaviour
 {
     public UnityEngine.CanvasGroup CanvasGroup;
@@ -27,10 +30,11 @@ public class AltInputMark : UnityEngine.MonoBehaviour
             CanvasGroup.alpha = 0;
     }
 
-    public void Init(float time, System.Action<AltInputMark> onFinished)
+    public void Init(float time, System.Action<AltInputMark> onFinished, UnityEngine.Color color = default)
     {
         _time = time;
         _onFinished = onFinished;
+        GetComponentInChildren<Image>().color = color == default ? UnityEngine.Color.red : color;
     }
 
     public void Show(UnityEngine.Vector2 pos)
