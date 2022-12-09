@@ -12,7 +12,7 @@ namespace Altom.AltTester
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "1.8.0";
+        public static readonly string VERSION = "1.8.1";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
         public AltInstrumentationSettings InstrumentationSettings = null;
