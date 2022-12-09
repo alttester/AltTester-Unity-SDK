@@ -279,7 +279,6 @@ namespace Altom.AltTester
         internal static IEnumerator ClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval)
         {
             Mouse.MakeCurrent();
-            UnityEngine.Debug.Log("flajkdklajslk11111: " + Mouse.leftButton);
 
             InputTestFixture.Set(Mouse.position, screenPosition, queueEventOnly: false);
             for (int i = 0; i < count; i++)
@@ -288,7 +287,6 @@ namespace Altom.AltTester
 #if !ENABLE_LEGACY_INPUT_MANAGER
             AltRunner._altRunner.ShowClick(screenPosition);
 #endif
-                UnityEngine.Debug.Log("flajkdklajslk: " + Mouse.leftButton);
                 InputTestFixture.Press(Mouse.leftButton, queueEventOnly: false);
                 yield return null;
                 time += Time.unscaledDeltaTime;
@@ -319,9 +317,7 @@ namespace Altom.AltTester
         internal static IEnumerator KeyPressLifeCycle(KeyCode keyCode, float power, float duration)
         {
             keyDownPower = power;
-            UnityEngine.Debug.Log("aodasdkal2222222a===> " + keyCode);
             ButtonControl buttonControl = keyCodeToButtonControl(keyCode, power);
-            UnityEngine.Debug.Log("aodasdkala===> " + buttonControl.name);
             keyDown(keyCode, power, buttonControl);
             float currentTime = 0;
             while (currentTime <= duration)

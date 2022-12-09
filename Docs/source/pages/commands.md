@@ -1784,7 +1784,7 @@ Simulates device rotation action in your game.
 
 #### ResetInput
 
-Clear all active input actions simulated by AltTester.
+Clears all active input actions simulated by AltTester.
 
 **_Parameters_**
 
