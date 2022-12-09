@@ -29,6 +29,8 @@ namespace Altom.AltDriver.Tests
         [SetUp]
         public void LoadLevel()
         {
+            altDriver.ResetInput();
+
             altDriver.SetCommandResponseTimeout(60);
             altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
         }
@@ -1842,8 +1844,8 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("mousePressCounter remains stuck and is 13 when asserting instead of 1")]
-        public void AAAATestClick_MouseDownUp()
+        // [Ignore("mousePressCounter remains stuck and is 13 when asserting instead of 1")]
+        public void TestClick_MouseDownUp()
         {
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
             counterElement.SetComponentProperty("AltExampleScriptIncrementOnClick", "mouseUpCounter", 0, "Assembly-CSharp");
@@ -2125,18 +2127,18 @@ namespace Altom.AltDriver.Tests
             var element = altDriver.FindObjectAtCoordinates(counterButton.GetScreenPosition());
             Assert.AreEqual("Capsule", element.name);
         }
-        // [Test]
-        // public void TestScrollViewSwipe()
-        // {
-        //     altUnityDriver.LoadScene("Scene 11 ScrollView Scene");
-        //     var buttons = altUnityDriver.FindObjects(By.PATH, "//Content/*");
-        //     for (int i = 1; i <= buttons.Count - 3; i++)
-        //     {
-        //         altUnityDriver.Swipe(buttons[i].GetScreenPosition(), buttons[i - 1].GetScreenPosition());
+        [Test]
+        public void TestScrollViewSwipe()
+        {
+            altDriver.LoadScene("Scene 11 ScrollView Scene");
+            var buttons = altDriver.FindObjects(By.PATH, "//Content/*");
+            for (int i = 1; i <= buttons.Count - 3; i++)
+            {
+                altDriver.Swipe(buttons[i].GetScreenPosition(), buttons[i - 1].GetScreenPosition());
+            }
+            Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltScrollViewButtonController", "Counter", "Assembly-CSharp"));
+        }
 
-        //     }
-        //     Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltUnityScrollViewButtonController", "Counter", "Assembly-CSharp"));
-        // }
 
         [Test]
         public void TestCallPrivateMethod()
@@ -2155,6 +2157,23 @@ namespace Altom.AltDriver.Tests
             var id = altDriver.BeginTouch(new AltVector2(icon.x - 25, icon.y + 25));
             altDriver.EndTouch(id);
             Assert.NotNull(altDriver.WaitForObject(By.NAME, "Dialog"));
+
+            id = altDriver.BeginTouch(new AltVector2(icon.x - 25, icon.y + 25));
+            altDriver.EndTouch(id);
+            Assert.Throws<WaitTimeOutException>(() => altDriver.WaitForObject(By.NAME, "Dialog", timeout: 0.5f));
+        }
+
+        [Test]
+        public void TestResetInput()
+        {
+            altDriver.KeyDown(AltKeyCode.Alpha1, 1);
+            var oldId = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp");
+            altDriver.ResetInput();
+            var newId = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp");
+
+            int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
+            Assert.AreEqual(0, countKeyDown);
+            Assert.AreNotEqual(newId, oldId);
         }
         [Test]
         public void TestSetStaticProperty()

@@ -64,6 +64,7 @@ public class TestsSampleScene1 {
 
     @Before
     public void loadLevel() {
+        altDriver.resetInput();
         altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltDriverTestScene").build());
     }
 
@@ -1484,5 +1485,26 @@ public class TestsSampleScene1 {
                 AltDriver.By.NAME, "CapsuleInfo").build());
         String text = capsuleInfo.getText();
         assertEquals("Capsule jumps!", text);
+    }
+
+    @Test
+    public void testResetInput() throws InterruptedException {
+        AltFindObjectsParams prefab = new AltFindObjectsParams.Builder(
+                AltDriver.By.NAME, "AltTesterPrefab").build();
+
+        AltGetComponentPropertyParams deviceID = new AltGetComponentPropertyParams.Builder(
+                "Altom.AltTester.NewInputSystem",
+                "Keyboard.deviceId", "Assembly-CSharp").build();
+        AltGetComponentPropertyParams count = new AltGetComponentPropertyParams.Builder(
+                "Input",
+                "_keyCodesPressed.Count", "Assembly-CSharp").build();
+        altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.Alpha1).build());
+        int oldId = altDriver.findObject(prefab).getComponentProperty(deviceID, Integer.class);
+        altDriver.resetInput();
+        int newId = altDriver.findObject(prefab).getComponentProperty(deviceID, Integer.class);
+
+        int countKeyDown = altDriver.findObject(prefab).getComponentProperty(count, Integer.class);
+        assertEquals(0, countKeyDown);
+        assertNotEquals(newId, oldId);
     }
 }

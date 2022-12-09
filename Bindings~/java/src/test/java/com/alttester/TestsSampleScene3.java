@@ -53,7 +53,7 @@ public class TestsSampleScene3 {
 
     @Before
     public void loadLevel() throws Exception {
-
+        altDriver.resetInput();
         AltLoadSceneParams params = new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").build();
         altDriver.loadScene(params);
     }

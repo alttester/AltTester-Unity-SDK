@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Altom.AltDriver;
+using Altom.AltDriver.Tests;
 using NUnit.Framework;
 
 public class TestForNIS
@@ -16,9 +17,9 @@ public class TestForNIS
     string scene11 = "Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity";
 
     [OneTimeSetUp]
-    public void SetUp()
+    public void OneTimeSetUp()
     {
-        altDriver = new AltDriver();
+        altDriver = new AltDriver(host: "127.0.0.1", port: TestsHelper.GetAltDriverPort(), enableLogging: true);
     }
 
     //At the end of the test closes the connection with the socket
@@ -27,7 +28,11 @@ public class TestForNIS
     {
         altDriver.Stop();
     }
-
+    [SetUp]
+    public void SetUp()
+    {
+        altDriver.ResetInput();
+    }
     private void getSpriteName(out string imageSource, out string imageSourceDropZone, string sourceImageName, string imageSourceDropZoneName)
     {
         imageSource = altDriver.FindObject(By.NAME, sourceImageName).GetComponentProperty<string>("UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI");
@@ -235,7 +240,7 @@ public class TestForNIS
         altDriver.LoadScene(scene11);
         var capsule = altDriver.FindObject(By.NAME, "Capsule");
         altDriver.Click(capsule.GetScreenPosition());
-        altDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]");
+        altDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]", timeout: 1);
     }
 
     [Test]
@@ -281,27 +286,28 @@ public class TestForNIS
         altDriver.LoadScene(scene8);
         var panelToDrag = altDriver.FindObject(By.PATH, "//Panel/Drag Zone");
         var initialPanelPos = panelToDrag.GetScreenPosition();
-        var fingerId = altDriver.BeginTouch(panelToDrag.GetScreenPosition());
+        var fingerId = altDriver.BeginTouch(initialPanelPos);
+        altDriver.MoveTouch(fingerId, new AltVector2(initialPanelPos.x + 1, initialPanelPos.y + 1));
         altDriver.MoveTouch(fingerId, new AltVector2(initialPanelPos.x + 200, initialPanelPos.y + 20));
         altDriver.EndTouch(fingerId);
         var finalPanelPos = altDriver.FindObject(By.PATH, "//Panel/Drag Zone").GetScreenPosition();
         Assert.AreNotEqual(initialPanelPos, finalPanelPos);
     }
 
-    // [Test]
-    // public void TestCapsuleJumps()
-    // {
-    //     altDriver.LoadScene(scene11);
-    //     var capsule = altDriver.FindObject(By.NAME, "Capsule");
-    //     var fingerId = altDriver.BeginTouch(capsule.getScreenPosition());
-    //     altDriver.EndTouch(fingerId);
-    //     var text = capsule.GetComponentProperty<string>("AltExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
-    //     Assert.AreEqual("Capsule was tapped!", text);
-    // }
+    [Test]
+    public void TestCapsuleJumps()
+    {
+        altDriver.LoadScene(scene11);
+        var capsule = altDriver.FindObject(By.NAME, "Capsule");
+        var fingerId = altDriver.BeginTouch(capsule.GetScreenPosition());
+        altDriver.EndTouch(fingerId);
+        var text = capsule.GetComponentProperty<string>("AltExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
+        Assert.AreEqual("Capsule was tapped!", text);
+    }
 
     [TestCase(1)]
-    [TestCase(2, Ignore = "Waiting for coroutine bug to be fixed")]
-    [TestCase(3, Ignore = "Waiting for coroutine bug to be fixed")]
+    [TestCase(2)]
+    [TestCase(3)]
     public void TestCheckActionDoNotDoubleClick(int numberOfClicks)
     {
         altDriver.LoadScene(scene11);
@@ -312,11 +318,11 @@ public class TestForNIS
         Assert.AreEqual(numberOfClicks, int.Parse(text.GetText()));
         counterButton.Tap(numberOfClicks);
         Assert.AreEqual(2 * numberOfClicks, int.Parse(text.GetText()));
-        altDriver.Click(counterButton.getScreenPosition(), numberOfClicks);
+        altDriver.Click(counterButton.GetScreenPosition(), numberOfClicks);
         Assert.AreEqual(3 * numberOfClicks, int.Parse(text.GetText()));
-        altDriver.Tap(counterButton.getScreenPosition(), numberOfClicks);
+        altDriver.Tap(counterButton.GetScreenPosition(), numberOfClicks);
         Assert.AreEqual(4 * numberOfClicks, int.Parse(text.GetText()));
-        altDriver.MoveMouse(counterButton.getScreenPosition());
+        altDriver.MoveMouse(counterButton.GetScreenPosition());
         for (int i = 0; i < numberOfClicks; i++)
         {
             altDriver.KeyDown(AltKeyCode.Mouse0);
@@ -325,7 +331,7 @@ public class TestForNIS
         Assert.AreEqual(5 * numberOfClicks, int.Parse(text.GetText()));
         for (int i = 0; i < numberOfClicks; i++)
         {
-            altDriver.HoldButton(counterButton.getScreenPosition(), 0.1f);
+            altDriver.HoldButton(counterButton.GetScreenPosition(), 0.1f);
         }
         Assert.AreEqual(6 * numberOfClicks, int.Parse(text.GetText()));
         altDriver.SetDelayAfterCommand(0);
