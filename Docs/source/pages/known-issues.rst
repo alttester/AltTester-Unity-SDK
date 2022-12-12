@@ -28,7 +28,7 @@ Calling ``GetPNGScreenshot`` throws ``StackOverflow`` error (.NET Driver)
 .NET 5, or if you can't downgrade to .NET 5, try to run your tests with a lower
 resolution until this issue is fixed.
 
-**Affects**: AltUnity Tester v1.7.* and AltTester Unity SDK v1.8.0  with .NET 6
+**Affects**: AltUnity Tester v1.7.* and AltTester Unity SDK v1.8.* with .NET 6
 
 
 New Input System
@@ -41,7 +41,7 @@ Touch or Mouse actions do not work in tests
 Simulate Touch Input From Mouse or Pen is not checked and Lock Input to
 Game View is checked.
 
-**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.0 and Input System with a version below 1.3.0
+**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.* and Input System with a version below 1.3.0
 
 The PressKey command does not work
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,7 +50,7 @@ The PressKey command does not work
 ``wasPressedThisFrame`` and ``wasReleasedThisFrame*``. Use ``isPressed``
 instead.
 
-**Affects**: AltUnity Tester v1.7.1, v1.7.2 and AltTester Unity SDK v1.8.0
+**Affects**: AltUnity Tester v1.7.1, v1.7.2 and AltTester Unity SDK v1.8.*
 
 Player Input is not working when connected to AltTester Unity SDK/Desktop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,4 +74,4 @@ used inside the AltTester Unity SDK. There are other alternatives that work with
 instrumented builds. For Android you can use the Android Emulator inside the
 Android Studio. For iOS you can use a simulator inside Xcode.
 
-**Affects**: AltUnity Tester v1.7.* and AltTester Unity SDK v1.8.0
+**Affects**: AltUnity Tester v1.7.* and AltTester Unity SDK v1.8.*

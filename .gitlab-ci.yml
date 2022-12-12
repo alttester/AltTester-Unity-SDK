@@ -469,7 +469,7 @@ publish-nuget-package:
     - cd "Bindings~/dotnet"
   script:
     - dotnet pack AltUnityDriver/AltUnityDriver.csproj -c release
-    - dotnet nuget push AltUnityDriver/bin/release/AltUnityDriver.1.8.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+    - dotnet nuget push AltUnityDriver/bin/release/AltUnityDriver.1.8.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
 publish-maven-package:
   stage: deploy

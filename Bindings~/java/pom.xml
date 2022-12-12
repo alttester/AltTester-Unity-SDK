@@ -6,7 +6,7 @@
     <groupId>com.alttester</groupId>
     <artifactId>alttester</artifactId>
     <packaging>jar</packaging>
-    <version>1.8.0</version>
+    <version>1.8.1</version>
 
     <distributionManagement>
         <snapshotRepository>
