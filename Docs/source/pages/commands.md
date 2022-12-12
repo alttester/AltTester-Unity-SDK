@@ -1782,6 +1782,79 @@ Simulates device rotation action in your game.
 
 ```
 
+#### ResetInput
+
+Clears all active input actions simulated by AltTester.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestResetInput()
+        {
+            altDriver.KeyDown(AltKeyCode.Alpha1, 1);
+            var oldId = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp");
+            altDriver.ResetInput();
+            var newId = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp");
+
+            int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
+            Assert.AreEqual(0, countKeyDown);
+            Assert.AreNotEqual(newId, oldId);
+        }
+
+    .. code-tab:: java
+
+           @Test
+            public void testResetInput() throws InterruptedException {
+                AltFindObjectsParams prefab = new AltFindObjectsParams.Builder(
+                        AltDriver.By.NAME, "AltTesterPrefab").build();
+
+                AltGetComponentPropertyParams deviceID = new AltGetComponentPropertyParams.Builder(
+                        "Altom.AltTester.NewInputSystem",
+                        "Keyboard.deviceId", "Assembly-CSharp").build();
+                AltGetComponentPropertyParams count = new AltGetComponentPropertyParams.Builder(
+                        "Input",
+                        "_keyCodesPressed.Count", "Assembly-CSharp").build();
+                altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.Alpha1).build());
+                int oldId = altDriver.findObject(prefab).getComponentProperty(deviceID, Integer.class);
+                altDriver.resetInput();
+                int newId = altDriver.findObject(prefab).getComponentProperty(deviceID, Integer.class);
+
+                int countKeyDown = altDriver.findObject(prefab).getComponentProperty(count, Integer.class);
+                assertEquals(0, countKeyDown);
+                assertNotEquals(newId, oldId);
+            }
+
+
+    .. code-tab:: py
+
+        def test_reset_input(self):
+            self.altdriver.key_down(AltKeyCode.Alpha1, 1)
+            oldId = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+                "Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp")
+            self.altdriver.reset_input()
+            newId = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+                "Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp")
+
+            countKeyDown = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+                "Input", "_keyCodesPressed.Count", "Assembly-CSharp")
+            assert 0 == countKeyDown
+            assert newId != oldId
+
+```
+
 ### Screenshot
 
 #### GetPNGScreenshot

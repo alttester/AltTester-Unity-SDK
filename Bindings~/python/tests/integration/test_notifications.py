@@ -35,6 +35,7 @@ class TestNotifications:
     @pytest.fixture(autouse=True)
     def setup(self, altdriver):
         self.altdriver = altdriver
+        self.altdriver.reset_input()
 
     def test_load_scene_notification(self):
         test_notification_callbacks = MockNotificationCallbacks()
@@ -63,13 +64,12 @@ class TestNotifications:
         assert test_notification_callbacks.log_type == AltLogLevel.Debug.value
         self.altdriver.remove_notification_listener(NotificationType.LOG)
 
-    @pytest.mark.skip
     def test_application_paused_notification(self):
         test_notification_callbacks = MockNotificationCallbacks()
         self.altdriver.add_notification_listener(
             NotificationType.APPLICATION_PAUSED, test_notification_callbacks.application_paused_callback)
         self.altdriver.load_scene(Scenes.Scene01)
-        alt_object = self.altdriver.find_object(By.NAME, "AltRunnerPrefab")
+        alt_object = self.altdriver.find_object(By.NAME, "AltTesterPrefab")
         alt_object.call_component_method(
             "Altom.AltTester.AltRunner", "OnApplicationPause", "Assembly-CSharp",
             parameters=[True],

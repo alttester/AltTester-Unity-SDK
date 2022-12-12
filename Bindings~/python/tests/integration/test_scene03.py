@@ -9,6 +9,7 @@ class TestScene03:
     @pytest.fixture(autouse=True)
     def setup(self, altdriver):
         self.altdriver = altdriver
+        self.altdriver.reset_input()
         self.altdriver.load_scene(Scenes.Scene03)
 
     def wait_for_swipe_to_finish(self):

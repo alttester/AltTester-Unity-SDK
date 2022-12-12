@@ -40,6 +40,7 @@ public class TestsSampleScene2 {
 
     @Before
     public void loadLevel() throws Exception {
+        altDriver.resetInput();
         AltLoadSceneParams params = new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build();
         altDriver.loadScene(params);
     }

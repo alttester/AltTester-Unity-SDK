@@ -209,8 +209,8 @@ namespace Altom.AltTester
 
         public static int BeginTouch(Vector3 screenPosition)
         {
-            int newFingerId = 0, oldFingerId = -1;
 #if ALTTESTER
+            int newFingerId = 0, oldFingerId = -1;
 #if ENABLE_INPUT_SYSTEM
             newFingerId = NewInputSystem.BeginTouch(screenPosition);
 #endif
@@ -227,7 +227,6 @@ namespace Altom.AltTester
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-
         }
 
         public static void MoveTouch(int fingerId, Vector3 screenPosition)
@@ -257,6 +256,18 @@ namespace Altom.AltTester
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
+#endif
+
+        }
+        public static void ResetInput()
+        {
+#if ALTTESTER
+#if ENABLE_INPUT_SYSTEM
+            Input._instance.ResetInput();
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+            NewInputSystem.Instance.ResetInput();
+#endif
 #endif
 
         }

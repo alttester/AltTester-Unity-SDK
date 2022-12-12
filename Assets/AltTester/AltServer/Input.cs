@@ -52,6 +52,20 @@ public class Input : MonoBehaviour
 
     public static bool UseCustomInput { get => _useCustomInput; set => _useCustomInput = value; }
 
+    public void ResetInput()
+    {
+        _keyCodesPressed.Clear();
+        _keyCodesPressedDown.Clear();
+        _keyCodesPressedUp.Clear();
+        mousePosition = Vector3.zero;
+        touches = new UnityEngine.Touch[0];
+        _touchCount = 0;
+        _acceleration = Vector3.zero;
+        _accelerationEvents = new AccelerationEvent[0];
+        _pointerEventsDataDictionary.Clear();
+        _inputIdDictionary.Clear();
+    }
+
     public static AltMockUpPointerInputModule AltMockUpPointerInputModule
     {
         get
@@ -401,7 +415,7 @@ public class Input : MonoBehaviour
     {
         if (_useCustomInput)
         {
-            var axis = AxisList.First(axle => axle.name == axisName);
+            var axis = AxisList.FirstOrDefault(axle => axle.name == axisName);
             if (axis == null)
             {
                 throw new NotFoundException("No axis with this name was found");
@@ -1362,7 +1376,7 @@ public class Input : MonoBehaviour
         {
             return UnityEngine.KeyCode.UpArrow;
         }
-        if (keyName.Length == 0 && char.IsDigit(keyName[0]))
+        if (keyName.Length == 1 && char.IsDigit(keyName[0]))
         {
             return (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Alpha" + keyName);
         }
