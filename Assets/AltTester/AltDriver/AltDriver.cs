@@ -77,6 +77,11 @@ namespace Altom.AltDriver
             communicationHandler.Close();
         }
 
+        public void ResetInput()
+        {
+            new AltResetInput(communicationHandler).Execute();
+        }
+
         public void SetCommandResponseTimeout(int commandTimeout)
         {
             communicationHandler.SetCommandTimeout(commandTimeout);

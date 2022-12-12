@@ -846,3 +846,8 @@ class AltDriver:
         """
 
         commands.RemoveNotificationListener.run(self._connection, notification_type)
+
+    def reset_input(self):
+        """Clear all active input actions simulated by AltTester.
+        """
+        commands.ResetInput.run(self._connection)

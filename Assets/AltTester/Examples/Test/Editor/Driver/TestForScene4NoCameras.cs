@@ -15,6 +15,7 @@ namespace Altom.AltDriver.Tests
             DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
             DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
             altDriver.LoadScene("Scene 4 No Cameras");
+            altDriver.ResetInput();
         }
 
         //At the end of the test closes the connection with the socket

@@ -12,6 +12,7 @@ class TestScene01:
     @pytest.fixture(autouse=True)
     def setup(self, altdriver):
         self.altdriver = altdriver
+        self.altdriver.reset_input()
         self.altdriver.load_scene(Scenes.Scene01)
 
     def test_tap_ui_object(self):
@@ -809,3 +810,16 @@ class TestScene01:
                                               "callJump", "Assembly-CSharp", parameters=[])
         capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
         assert capsule_info.get_text() == "Capsule jumps!"
+
+    def test_reset_input(self):
+        self.altdriver.key_down(AltKeyCode.Alpha1, 1)
+        oldId = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+            "Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp")
+        self.altdriver.reset_input()
+        newId = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+            "Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp")
+
+        countKeyDown = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+            "Input", "_keyCodesPressed.Count", "Assembly-CSharp")
+        assert 0 == countKeyDown
+        assert newId != oldId

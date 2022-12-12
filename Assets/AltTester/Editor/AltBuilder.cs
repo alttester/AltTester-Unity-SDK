@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.IO;
 using Altom.AltDriver;
 using Altom.AltTester;
 using Altom.AltTesterEditor.Logging;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -220,7 +222,11 @@ namespace Altom.AltTesterEditor
                 }
                 UnityEditor.AssetDatabase.CreateFolder("Assets/Resources", "AltTester");
             }
-            System.IO.File.WriteAllText(filePath, dataAsJson);
+            using (StreamWriter sw = new StreamWriter(filePath))
+            {
+                sw.Write(dataAsJson);
+            }
+            UnityEditor.AssetDatabase.Refresh();
         }
 
         public static void InsertAltInScene(string scene, AltInstrumentationSettings instrumentationSettings)
