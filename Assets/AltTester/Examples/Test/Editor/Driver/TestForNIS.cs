@@ -295,7 +295,7 @@ namespace AltTester.AltDriver.Tests
         // {
         //     altDriver.LoadScene(scene11);
         //     var capsule = altDriver.FindObject(By.NAME, "Capsule");
-        //     var fingerId = altDriver.BeginTouch(capsule.getScreenPosition());
+        //     var fingerId = altDriver.BeginTouch(capsule.GetScreenPosition());
         //     altDriver.EndTouch(fingerId);
         //     var text = capsule.GetComponentProperty<string>("AltExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
         //     Assert.AreEqual("Capsule was tapped!", text);

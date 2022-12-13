@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 AltTester
-==============
+=========
 
 Through AltTester, we provide a UI Test Automation solution for Unity
 games.
