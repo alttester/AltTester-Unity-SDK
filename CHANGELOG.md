@@ -3,6 +3,7 @@
 ## New
 
 - "New command: Reset Input" !997
+- "Add SetStaticProperty Command" !926
 
 ## Bug fixes and improvements
 
