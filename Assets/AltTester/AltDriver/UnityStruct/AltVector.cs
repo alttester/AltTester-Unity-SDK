@@ -19,6 +19,15 @@ namespace Altom.AltDriver
                 other.x == this.x &&
                 other.y == this.y;
         }
+        public static AltVector2 operator +(AltVector2 v1, AltVector2 v2)
+        {
+            return new AltVector2(v1.x + v2.x, v1.y + v2.y);
+        }
+
+        public static AltVector2 operator *(AltVector2 v1, AltVector2 v2)
+        {
+            return new AltVector2(v1.x * v2.x, v1.y * v2.y);
+        }
 
         public override int GetHashCode()
         {
@@ -56,6 +65,16 @@ namespace Altom.AltDriver
                 other.x == this.x &&
                 other.y == this.y &&
                 other.z == this.z;
+        }
+
+        public static AltVector3 operator +(AltVector3 v1, AltVector3 v2)
+        {
+            return new AltVector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+        }
+
+        public static AltVector3 operator *(AltVector3 v1, AltVector3 v2)
+        {
+            return new AltVector3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
         }
 
         public override int GetHashCode()
