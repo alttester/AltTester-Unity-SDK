@@ -32,5 +32,7 @@ Visit http://localhost:8000/.
 ## Build a unity package from source
 
 Open your project in Unity
+
 From ``` AltTester ``` menu choose ``` Create AltTester Package ```
+
 See the created unity package under the project
