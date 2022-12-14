@@ -41,6 +41,25 @@ namespace Altom.AltDriver
             this.transformId = transformId;
         }
 
+        public AltObject UpdateObject(AltObject newObject)
+        {
+            var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + newObject.id + "]/..", By.NAME, newObject.name, true).Execute();
+            altObject.x = newObject.x;
+            altObject.y = newObject.y;
+            altObject.z = newObject.z;
+            altObject.mobileY = newObject.mobileY;
+            altObject.type = newObject.type;
+            altObject.enabled = newObject.enabled;
+            altObject.worldX = newObject.worldX;
+            altObject.worldY = newObject.worldY;
+            altObject.worldZ = newObject.worldZ;
+            altObject.idCamera = newObject.idCamera;
+            altObject.transformParentId = newObject.transformParentId;
+            altObject.transformId = newObject.transformId;
+
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return altObject;
+        }
         public AltObject GetParent()
         {
             var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
