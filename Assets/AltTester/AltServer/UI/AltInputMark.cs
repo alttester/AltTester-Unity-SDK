@@ -26,8 +26,10 @@ public class AltInputMark : UnityEngine.MonoBehaviour
     {
         Id = GetInstanceID();
 
-        if (CanvasGroup != null)
-            CanvasGroup.alpha = 0;
+        if (CanvasGroup == null)
+            CanvasGroup = GetComponentInChildren<UnityEngine.CanvasGroup>();
+
+        CanvasGroup.alpha = 0;
     }
 
     public void Init(float time, System.Action<AltInputMark> onFinished, UnityEngine.Color color = default)
