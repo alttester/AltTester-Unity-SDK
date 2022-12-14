@@ -28,7 +28,10 @@ namespace Altom.AltDriver
         {
             return new AltVector2(v1.x * v2.x, v1.y * v2.y);
         }
-
+        public static AltVector2 operator /(AltVector2 v1, AltVector2 v2)
+        {
+            return new AltVector2(v1.x / v2.x, v1.y / v2.y);
+        }
         public override int GetHashCode()
         {
             return base.GetHashCode();
@@ -76,7 +79,10 @@ namespace Altom.AltDriver
         {
             return new AltVector3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
         }
-
+        public static AltVector3 operator /(AltVector3 v1, AltVector3 v2)
+        {
+            return new AltVector3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z);
+        }
         public override int GetHashCode()
         {
             return base.GetHashCode();
