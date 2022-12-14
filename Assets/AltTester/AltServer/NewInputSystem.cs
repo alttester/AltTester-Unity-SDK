@@ -99,6 +99,8 @@ namespace Altom.AltTester
             InputSystem.ResetDevice(Gamepad, true);
             InputSystem.ResetDevice(Touchscreen, true);
             InputSystem.ResetDevice(Accelerometer, true);
+            touches = new bool[] { false, true, true, true, true, true, true, true, true, true, true };
+
 
         }
 
