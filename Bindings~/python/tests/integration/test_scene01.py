@@ -813,11 +813,11 @@ class TestScene01:
 
     def test_reset_input(self):
         self.altdriver.key_down(AltKeyCode.P, 1)
-        assert True == self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp")
+        assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+            "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is True
         self.altdriver.reset_input()
-        assert False == self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp")
+        assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+            "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is False
 
         countKeyDown = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
             "Input", "_keyCodesPressed.Count", "Assembly-CSharp")
