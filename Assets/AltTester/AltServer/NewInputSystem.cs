@@ -94,17 +94,12 @@ namespace Altom.AltTester
             InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
 #endif
 
-            InputSystem.RemoveDevice(Keyboard);
-            Keyboard = InputSystem.AddDevice<Keyboard>("AltKeyboard");
-            InputSystem.RemoveDevice(Mouse);
-            Mouse = InputSystem.AddDevice<Mouse>("AltMouse");
-            InputSystem.RemoveDevice(Gamepad);
-            Gamepad = InputSystem.AddDevice<Gamepad>("AltGamepad");
-            InputSystem.RemoveDevice(Touchscreen);
-            Touchscreen = InputSystem.AddDevice<Touchscreen>("AltTouchscreen");
-            InputSystem.RemoveDevice(Accelerometer);
-            Accelerometer = InputSystem.AddDevice<Accelerometer>("AltAccelerometer");
-            InputTestFixture.Set(Mouse.position, new Vector2(0, 0));
+            InputSystem.ResetDevice(Keyboard, true);
+            InputSystem.ResetDevice(Mouse, true);
+            InputSystem.ResetDevice(Gamepad, true);
+            InputSystem.ResetDevice(Touchscreen, true);
+            InputSystem.ResetDevice(Accelerometer, true);
+
         }
 
         public static void DisableDefaultDevicesAndEnableAltDevices()
