@@ -406,12 +406,16 @@ namespace Altom.AltTesterEditor
             }
             DrawGUI();
 
-            if (UnityEngine.Application.isPlaying && EditorConfiguration != null)
+            if (EditorConfiguration != null)
             {
-                if (!EditorConfiguration.RanInEditor)
+                if (UnityEngine.Application.isPlaying && !EditorConfiguration.RanInEditor)
+                {
                     EditorConfiguration.RanInEditor = true;
-                else
+                }
+                if (!UnityEngine.Application.isPlaying && EditorConfiguration.RanInEditor)
+                {
                     afterExitPlayMode();
+                }
             }
             if (PlayInEditorPressed && !UnityEditor.EditorApplication.isCompiling && AltBuilder.CheckAltTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
             {
