@@ -27,21 +27,21 @@ jobs:
   #           python3 setup.py sdist
   #           python3 -m twine upload dist/*
 
-  publish-nuget-package:
-    runs-on: [self-hosted]
-    steps:
-      - uses: actions/checkout@v3
+  # publish-nuget-package:
+  #   runs-on: [self-hosted]
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v2.1.1
+  #     - name: Setup .NET Core SDK
+  #       uses: actions/setup-dotnet@v2.1.1
 
-      - name: Upload to Nuget
-        env:
-          NUGET_DEPLOY_KEY: ${{ secrets.NUGET_DEPLOY_KEY }}
-        run: |
-          cd "Bindings~/dotnet"
-          dotnet pack AltDriver/AltDriver.csproj -c release
-          dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+  #     - name: Upload to Nuget
+  #       env:
+  #         NUGET_DEPLOY_KEY: ${{ secrets.NUGET_DEPLOY_KEY }}
+  #       run: |
+  #         cd "Bindings~/dotnet"
+  #         dotnet pack AltDriver/AltDriver.csproj -c release
+  #         dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
   # publish-maven:
   #   runs-on: [self-hosted,release]
@@ -71,31 +71,31 @@ jobs:
   #           csharpAndroidTests.log
   #           AltUnityTesterLog.txt
   #           AltUnityServerLog.txt
-  create-unity-package:
-    runs-on: [self-hosted]
-    steps:
-      - name: Create Unity Package
-        run: |
-          mkdir -p public/AltTester || true
-          mkdir -p public/SampleScenes || true
-          ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
-          ls
-          AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
-          cp $AUT public/AltTester/AltTester.unitypackage
-          cp $AUT public/AltTester/AltTester_1_8_1.unitypackage
-          cp SampleScenes.unitypackage public/AltTester/SampleScene.unitypackage
-      - name: Upload AltTesterPackage
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: public/AltTester
-          remote: ${{ secrets.SDK_PATH }}
-          host: ${{ secrets.HOST_IP_ALTOM }}
-          port: ${{ secrets.PORT_LIVE_ALTOM }}
-          username: ${{ secrets.USERNAME_ALTOM }}
-          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-      - name: Delete Public
-        if: always()
-        run: rm -r public
+  # create-unity-package:
+  #   runs-on: [self-hosted]
+  #   steps:
+  #     - name: Create Unity Package
+  #       run: |
+  #         mkdir -p public/AltTester || true
+  #         mkdir -p public/SampleScenes || true
+  #         ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+  #         ls
+  #         AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
+  #         cp $AUT public/AltTester/AltTester.unitypackage
+  #         cp $AUT public/AltTester/AltTester_1_8_1.unitypackage
+  #         cp SampleScenes.unitypackage public/AltTester/SampleScene.unitypackage
+  #     - name: Upload AltTesterPackage
+  #       uses: garygrossgarten/github-action-scp@release
+  #       with:
+  #         local: public/AltTester
+  #         remote: ${{ secrets.SDK_PATH }}
+  #         host: ${{ secrets.HOST_IP_ALTOM }}
+  #         port: ${{ secrets.PORT_LIVE_ALTOM }}
+  #         username: ${{ secrets.USERNAME_ALTOM }}
+  #         password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+  #     - name: Delete Public
+  #       if: always()
+  #       run: rm -r public
 
   # create-jar-archive:
   #   runs-on: [self-hosted]
@@ -128,28 +128,28 @@ jobs:
   #       if: always()
   #       run: rm -r public
 
-  # java-release:
-  #   runs-on: ubuntu-18.04
-  #   steps:
-  #     - name: Check out Git repository
-  #       uses: actions/checkout@v2
+  java-release:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
 
-  #     - name: Install Java and Maven
-  #       uses: actions/setup-java@v1
-  #       with:
-  #         java-version: 11
+      - name: Install Java and Maven
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
-  #     - run: export GPG_TTY=$(tty)
+      - run: export GPG_TTY=$(tty)
 
-  #     - name: Release Maven package
-  #       uses: samuelmeuli/action-maven-publish@v1
-  #       with:
-  #         gpg_private_key: ${{ secrets.gpg_private_key }}
-  #         gpg_passphrase: ${{ secrets.gpg_passphrase }}
-  #         nexus_username: ${{ secrets.nexus_username }}
-  #         nexus_password: ${{ secrets.nexus_password }}
-  #         directory: Bindings~/java/
-  #         maven_args: -f pom-release.xml -DskipTests
+      - name: Release Maven package
+        uses: samuelmeuli/action-maven-publish@v1.4
+        with:
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
+          directory: Bindings~/java/
+          maven_args: -f pom-release.xml -DskipTests
 
   # build-docs:
   #   runs-on: [self-hosted]
