@@ -2,156 +2,156 @@ name: release
 on: [workflow_dispatch, push]
 
 jobs:
-  # publish-pip-package:
-  #     runs-on: [self-hosted]
+  publish-pip-package:
+      runs-on: [self-hosted]
 
-  #     steps:
+      steps:
 
-  #       - uses: actions/checkout@v3
-  #       - uses: actions/setup-python@v4
-  #         with:
-  #           python-version: '3.10'
-  #           cached: 'pip'
-  #       - uses: syphar/restore-virtualenv@v1
-  #         id: cache-virtualenv
+        - uses: actions/checkout@v3
+        - uses: actions/setup-python@v4
+          with:
+            python-version: '3.10'
+            cached: 'pip'
+        - uses: syphar/restore-virtualenv@v1
+          id: cache-virtualenv
 
-  #       - uses: syphar/restore-pip-download-cache@v1
-  #         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+        - uses: syphar/restore-pip-download-cache@v1
+          if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-  #       - run: pip install -r "Bindings~/python/requirements.txt"
-  #       - run: pip install -r "Bindings~/python/requirements-dev.txt"
-  #       - run: pip install -e "Bindings~/python" --root "Bindings~/python"
+        - run: pip install -r "Bindings~/python/requirements.txt"
+        - run: pip install -r "Bindings~/python/requirements-dev.txt"
+        - run: pip install -e "Bindings~/python" --root "Bindings~/python"
 
-  #       - name: Upload to Pypi
-  #         run: |
-  #           cd "Bindings~/python"
-  #           python3 setup.py sdist
-  #           python3 -m twine upload dist/*
+        - name: Upload to Pypi
+          run: |
+            cd "Bindings~/python"
+            python3 setup.py sdist
+            python3 -m twine upload dist/*
 
-  # publish-nuget-package:
-  #   runs-on: [self-hosted]
-  #   steps:
-  #     - uses: actions/checkout@v3
+  publish-nuget-package:
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Setup .NET Core SDK
-  #       uses: actions/setup-dotnet@v2.1.1
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v2.1.1
 
-  #     - name: Upload to Nuget
-  #       env:
-  #         NUGET_DEPLOY_KEY: ${{ secrets.NUGET_DEPLOY_KEY }}
-  #       run: |
-  #         cd "Bindings~/dotnet"
-  #         dotnet pack AltDriver/AltDriver.csproj -c release
-  #         dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+      - name: Upload to Nuget
+        env:
+          NUGET_DEPLOY_KEY: ${{ secrets.NUGET_DEPLOY_KEY }}
+        run: |
+          cd "Bindings~/dotnet"
+          dotnet pack AltDriver/AltDriver.csproj -c release
+          dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
-  #   publish-maven:
-  #       runs-on: [self-hosted,release]
-  #       needs: build-macOS
-  #       steps:
-  #         - uses: actions/checkout@v3
+    publish-maven:
+        runs-on: [self-hosted,release]
+        needs: build-macOS
+        steps:
+          - uses: actions/checkout@v3
 
-  #         - name: Setup Java JDK
-  #           uses: actions/setup-java@v3.5.1
-  #           with:
-  #               distribution: temurin
-  #               java-version: 11
-  #         - uses: stCarolas/setup-maven@v4.4
+          - name: Setup Java JDK
+            uses: actions/setup-java@v3.5.1
+            with:
+                distribution: temurin
+                java-version: 11
+          - uses: stCarolas/setup-maven@v4.4
 
-  #         - name: Upload to Maven
-  #           env:
-  #             GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
-  #           run: |
-  #             cd "Bindings~/java"
-  #             export GPG_TTY=$(tty)
-  #             mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
+          - name: Upload to Maven
+            env:
+              GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
+            run: |
+              cd "Bindings~/java"
+              export GPG_TTY=$(tty)
+              mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
 
-  #         - uses: actions/upload-artifact@v3.1.0
-  #           if: always() # run this step even if one of the previous step failed
-  #           with:
-  #             name: TestCSharpArtifact
-  #             path: |
-  #               csharpAndroidTests.log
-  #               AltUnityTesterLog.txt
-  #               AltUnityServerLog.txt
-  # create-unity-package:
-  #   runs-on: [self-hosted]
-  #   steps:
-  #     - name: Create Unity Package
-  #       run: |
-  #         mkdir -p public/AltTester || true
-  #         mkdir -p public/SampleScenes || true
-  #         ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
-  #         ls
-  #         AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
-  #         cp $AUT public/AltTester/AltTester.unitypackage
-  #         cp $AUT public/AltTester/AltTester_1_8_0.unitypackage
-  #         cp SampleScenes.unitypackage public/AltTester/SampleScene.unitypackage
-  #     - name: Upload AltTesterPackage
-  #       uses: garygrossgarten/github-action-scp@release
-  #       with:
-  #         local: public/AltTester
-  #         remote: ${{ secrets.SDK_PATH }}
-  #         host: ${{ secrets.HOST_IP_ALTOM }}
-  #         port: ${{ secrets.PORT_LIVE_ALTOM }}
-  #         username: ${{ secrets.USERNAME_ALTOM }}
-  #         password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-  #     - name: Delete Public
-  #       if: always()
-  #       run: rm -r public
+          - uses: actions/upload-artifact@v3.1.0
+            if: always() # run this step even if one of the previous step failed
+            with:
+              name: TestCSharpArtifact
+              path: |
+                csharpAndroidTests.log
+                AltUnityTesterLog.txt
+                AltUnityServerLog.txt
+  create-unity-package:
+    runs-on: [self-hosted]
+    steps:
+      - name: Create Unity Package
+        run: |
+          mkdir -p public/AltTester || true
+          mkdir -p public/SampleScenes || true
+          ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+          ls
+          AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
+          cp $AUT public/AltTester/AltTester.unitypackage
+          cp $AUT public/AltTester/AltTester_1_8_0.unitypackage
+          cp SampleScenes.unitypackage public/AltTester/SampleScene.unitypackage
+      - name: Upload AltTesterPackage
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: public/AltTester
+          remote: ${{ secrets.SDK_PATH }}
+          host: ${{ secrets.HOST_IP_ALTOM }}
+          port: ${{ secrets.PORT_LIVE_ALTOM }}
+          username: ${{ secrets.USERNAME_ALTOM }}
+          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+      - name: Delete Public
+        if: always()
+        run: rm -r public
 
-  # create-jar-archive:
-  #   runs-on: [self-hosted]
-  #   steps:
-  #     - name: Setup Java JDK
-  #       uses: actions/setup-java@v3.5.1
-  #       with:
-  #             distribution: temurin
-  #             java-version: 11
+  create-jar-archive:
+    runs-on: [self-hosted]
+    steps:
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.5.1
+        with:
+              distribution: temurin
+              java-version: 11
 
-  #     - uses: stCarolas/setup-maven@v4.4
+      - uses: stCarolas/setup-maven@v4.4
 
-  #     - name: Create jar
-  #       run: |
-  #         mkdir -p public/AltTesterJAR || true
-  #         cd "Bindings~/java"
-  #         mvn clean compile assembly:single
-  #         mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
+      - name: Create jar
+        run: |
+          mkdir -p public/AltTesterJAR || true
+          cd "Bindings~/java"
+          mvn clean compile assembly:single
+          mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
 
-  #     - name: Upload AltTester Jar
-  #       uses: garygrossgarten/github-action-scp@release
-  #       with:
-  #         local: public/AltTesterJAR
-  #         remote: ${{ secrets.JAVA_CLIENT_PATH }}
-  #         host: ${{ secrets.HOST_IP_ALTOM }}
-  #         port: ${{ secrets.PORT_LIVE_ALTOM }}
-  #         username: ${{ secrets.USERNAME_ALTOM }}
-  #         password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-  #     - name: Delete Public
-  #       if: always()
-  #       run: rm -r public
+      - name: Upload AltTester Jar
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: public/AltTesterJAR
+          remote: ${{ secrets.JAVA_CLIENT_PATH }}
+          host: ${{ secrets.HOST_IP_ALTOM }}
+          port: ${{ secrets.PORT_LIVE_ALTOM }}
+          username: ${{ secrets.USERNAME_ALTOM }}
+          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+      - name: Delete Public
+        if: always()
+        run: rm -r public
 
-  # java-release:
-  #   runs-on: ubuntu-18.04
-  #   steps:
-  #     - name: Check out Git repository
-  #       uses: actions/checkout@v2
+  java-release:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
 
-  #     - name: Install Java and Maven
-  #       uses: actions/setup-java@v1
-  #       with:
-  #         java-version: 11
+      - name: Install Java and Maven
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
-  #     - run: export GPG_TTY=$(tty)
+      - run: export GPG_TTY=$(tty)
 
-  #     - name: Release Maven package
-  #       uses: samuelmeuli/action-maven-publish@v1
-  #       with:
-  #         gpg_private_key: ${{ secrets.gpg_private_key }}
-  #         gpg_passphrase: ${{ secrets.gpg_passphrase }}
-  #         nexus_username: ${{ secrets.nexus_username }}
-  #         nexus_password: ${{ secrets.nexus_password }}
-  #         directory: Bindings~/java/
-  #         maven_args: -f pom-release.xml -DskipTests
+      - name: Release Maven package
+        uses: samuelmeuli/action-maven-publish@v1
+        with:
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
+          directory: Bindings~/java/
+          maven_args: -f pom-release.xml -DskipTests
 
   build-docs:
     runs-on: [self-hosted]
@@ -187,11 +187,4 @@ jobs:
           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
           rmRemote: true
 
-  # test:
-  #   runs-on: ubuntu-18.04
-  #   steps:
-  #     - uses: game-ci/unity-builder@v2.1.2
-  #       with:
-  #         targetPlatform: StandaloneOSX
-  #         buildMethod: Altom.AltTesterTools.BuildAltTester.MacBuildFromCommandLine
-  #     - run: ls
+ 
