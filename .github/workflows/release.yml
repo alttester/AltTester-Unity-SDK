@@ -44,35 +44,35 @@ jobs:
           dotnet pack AltDriver/AltDriver.csproj -c release
           dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
-    publish-maven:
-        runs-on: [self-hosted,release]
-        needs: build-macOS
-        steps:
-          - uses: actions/checkout@v3
+  publish-maven:
+    runs-on: [self-hosted,release]
+    needs: build-macOS
+    steps:
+      - uses: actions/checkout@v3
 
-          - name: Setup Java JDK
-            uses: actions/setup-java@v3.5.1
-            with:
-                distribution: temurin
-                java-version: 11
-          - uses: stCarolas/setup-maven@v4.4
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.5.1
+        with:
+            distribution: temurin
+            java-version: 11
+      - uses: stCarolas/setup-maven@v4.4
 
-          - name: Upload to Maven
-            env:
-              GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
-            run: |
-              cd "Bindings~/java"
-              export GPG_TTY=$(tty)
-              mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
+      - name: Upload to Maven
+        env:
+          GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
+        run: |
+          cd "Bindings~/java"
+          export GPG_TTY=$(tty)
+          mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
 
-          - uses: actions/upload-artifact@v3.1.0
-            if: always() # run this step even if one of the previous step failed
-            with:
-              name: TestCSharpArtifact
-              path: |
-                csharpAndroidTests.log
-                AltUnityTesterLog.txt
-                AltUnityServerLog.txt
+      - uses: actions/upload-artifact@v3.1.0
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestCSharpArtifact
+          path: |
+            csharpAndroidTests.log
+            AltUnityTesterLog.txt
+            AltUnityServerLog.txt
   create-unity-package:
     runs-on: [self-hosted]
     steps:
