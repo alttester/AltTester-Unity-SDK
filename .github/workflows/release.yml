@@ -82,7 +82,7 @@ jobs:
           ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
           cp $AUT public/AltTester/AltTester.unitypackage
-          cp $AUT public/AltTester/AltTester_1_8_0.unitypackage
+          cp $AUT public/AltTester/AltTester_1_8_1.unitypackage
           cp SampleScenes.unitypackage public/AltTester/SampleScene.unitypackage
       - name: Upload AltTesterPackage
         uses: garygrossgarten/github-action-scp@release
@@ -97,92 +97,92 @@ jobs:
         if: always()
         run: rm -r public
 
-  create-jar-archive:
-    runs-on: [self-hosted]
-    steps:
-      - name: Setup Java JDK
-        uses: actions/setup-java@v3.5.1
-        with:
-              distribution: temurin
-              java-version: 11
+  # create-jar-archive:
+  #   runs-on: [self-hosted]
+  #   steps:
+  #     - name: Setup Java JDK
+  #       uses: actions/setup-java@v3.5.1
+  #       with:
+  #             distribution: temurin
+  #             java-version: 11
 
-      - uses: stCarolas/setup-maven@v4.4
+  #     - uses: stCarolas/setup-maven@v4.4
 
-      - name: Create jar
-        run: |
-          mkdir -p public/AltTesterJAR || true
-          cd "Bindings~/java"
-          mvn clean compile assembly:single
-          mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
+  #     - name: Create jar
+  #       run: |
+  #         mkdir -p public/AltTesterJAR || true
+  #         cd "Bindings~/java"
+  #         mvn clean compile assembly:single
+  #         mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
 
-      - name: Upload AltTester Jar
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: public/AltTesterJAR
-          remote: ${{ secrets.JAVA_CLIENT_PATH }}
-          host: ${{ secrets.HOST_IP_ALTOM }}
-          port: ${{ secrets.PORT_LIVE_ALTOM }}
-          username: ${{ secrets.USERNAME_ALTOM }}
-          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-      - name: Delete Public
-        if: always()
-        run: rm -r public
+  #     - name: Upload AltTester Jar
+  #       uses: garygrossgarten/github-action-scp@release
+  #       with:
+  #         local: public/AltTesterJAR
+  #         remote: ${{ secrets.JAVA_CLIENT_PATH }}
+  #         host: ${{ secrets.HOST_IP_ALTOM }}
+  #         port: ${{ secrets.PORT_LIVE_ALTOM }}
+  #         username: ${{ secrets.USERNAME_ALTOM }}
+  #         password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+  #     - name: Delete Public
+  #       if: always()
+  #       run: rm -r public
 
-  java-release:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
+  # java-release:
+  #   runs-on: ubuntu-18.04
+  #   steps:
+  #     - name: Check out Git repository
+  #       uses: actions/checkout@v2
 
-      - name: Install Java and Maven
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
+  #     - name: Install Java and Maven
+  #       uses: actions/setup-java@v1
+  #       with:
+  #         java-version: 11
 
-      - run: export GPG_TTY=$(tty)
+  #     - run: export GPG_TTY=$(tty)
 
-      - name: Release Maven package
-        uses: samuelmeuli/action-maven-publish@v1
-        with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
-          directory: Bindings~/java/
-          maven_args: -f pom-release.xml -DskipTests
+  #     - name: Release Maven package
+  #       uses: samuelmeuli/action-maven-publish@v1
+  #       with:
+  #         gpg_private_key: ${{ secrets.gpg_private_key }}
+  #         gpg_passphrase: ${{ secrets.gpg_passphrase }}
+  #         nexus_username: ${{ secrets.nexus_username }}
+  #         nexus_password: ${{ secrets.nexus_password }}
+  #         directory: Bindings~/java/
+  #         maven_args: -f pom-release.xml -DskipTests
 
-  build-docs:
-    runs-on: [self-hosted]
+  # build-docs:
+  #   runs-on: [self-hosted]
 
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-          cached: "pip"
-      - uses: syphar/restore-virtualenv@v1
-        id: cache-virtualenv
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-python@v4
+  #       with:
+  #         python-version: "3.10"
+  #         cached: "pip"
+  #     - uses: syphar/restore-virtualenv@v1
+  #       id: cache-virtualenv
 
-      - uses: syphar/restore-pip-download-cache@v1
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+  #     - uses: syphar/restore-pip-download-cache@v1
+  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-      - run: pip install -r Docs/requirements.txt
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-      - run: pwd
-      - uses: rickstaa/sphinx-action@master
-        with:
-          docs-folder: Docs
-          build-command: make html
+  #     - run: pip install -r Docs/requirements.txt
+  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+  #     - run: pwd
+  #     - uses: rickstaa/sphinx-action@master
+  #       with:
+  #         docs-folder: Docs
+  #         build-command: make html
 
-      - name: Upload to Altom.com
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: Docs/build/html
-          remote: ${{ secrets.DOCUMENTATION_PATH }}
-          host: ${{ secrets.HOST_IP_ALTOM }}
-          port: ${{ secrets.PORT_LIVE_ALTOM }}
-          username: ${{ secrets.USERNAME_ALTOM }}
-          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-          rmRemote: true
+  #     - name: Upload to Altom.com
+  #       uses: garygrossgarten/github-action-scp@release
+  #       with:
+  #         local: Docs/build/html
+  #         remote: ${{ secrets.DOCUMENTATION_PATH }}
+  #         host: ${{ secrets.HOST_IP_ALTOM }}
+  #         port: ${{ secrets.PORT_LIVE_ALTOM }}
+  #         username: ${{ secrets.USERNAME_ALTOM }}
+  #         password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+  #         rmRemote: true
 
  
