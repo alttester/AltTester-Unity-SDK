@@ -1782,6 +1782,76 @@ Simulates device rotation action in your game.
 
 ```
 
+#### ResetInput
+
+Clears all active input actions simulated by AltTester.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+         [Test]
+        public void TestResetInput()
+        {
+            altDriver.KeyDown(AltKeyCode.P, 1);
+            Assert.True(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp"));
+            altDriver.ResetInput();
+            Assert.False(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp"));
+
+            int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
+            Assert.AreEqual(0, countKeyDown);
+        }
+
+    .. code-tab:: java
+
+           @Test
+            public void testResetInput() throws InterruptedException {
+                    AltFindObjectsParams prefab = new AltFindObjectsParams.Builder(
+                                    AltDriver.By.NAME, "AltTesterPrefab").build();
+
+                    AltGetComponentPropertyParams pIsPressed = new AltGetComponentPropertyParams.Builder(
+                                    "Altom.AltTester.NewInputSystem",
+                                    "Keyboard.pKey.isPressed", "Assembly-CSharp").build();
+                    AltGetComponentPropertyParams count = new AltGetComponentPropertyParams.Builder(
+                                    "Input",
+                                    "_keyCodesPressed.Count", "Assembly-CSharp").build();
+                    altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.P).build());
+                    assertTrue(altDriver.findObject(prefab).getComponentProperty(pIsPressed, Boolean.class));
+                    altDriver.resetInput();
+                    assertFalse(altDriver.findObject(prefab).getComponentProperty(pIsPressed, Boolean.class));
+
+                    int countKeyDown = altDriver.findObject(prefab).getComponentProperty(count, Integer.class);
+                    assertEquals(0, countKeyDown);
+            }
+
+
+    .. code-tab:: py
+
+        def test_reset_input(self):
+            self.altdriver.key_down(AltKeyCode.P, 1)
+            assert True == self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+                "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp")
+            self.altdriver.reset_input()
+            assert False == self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+                "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp")
+
+            countKeyDown = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+                "Input", "_keyCodesPressed.Count", "Assembly-CSharp")
+            assert 0 == countKeyDown
+
+```
+
 ### Screenshot
 
 #### GetPNGScreenshot

@@ -11,6 +11,7 @@ class TestScene05:
     @pytest.fixture(autouse=True)
     def setup(self, altdriver):
         self.altdriver = altdriver
+        self.altdriver.reset_input()
         self.altdriver.load_scene(Scenes.Scene05)
 
     def test_movement_cube(self):
@@ -38,7 +39,6 @@ class TestScene05:
 
         assert initial_position != final_position
 
-    @pytest.mark.skip
     def test_creating_stars(self):
         stars = self.altdriver.find_objects_which_contain(By.NAME, "Star", By.NAME, "Player2")
         assert len(stars) == 1
@@ -58,7 +58,6 @@ class TestScene05:
         stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
         assert len(stars) == 3
 
-    @pytest.mark.skip
     def test_power_joystick(self):
         button_names = ["Horizontal", "Vertical"]
         keys_to_press = [AltKeyCode.D, AltKeyCode.W]
@@ -67,33 +66,30 @@ class TestScene05:
         axis_value = self.altdriver.find_object(By.NAME, "AxisValue")
 
         for button_name, key in zip(button_names, keys_to_press):
-            self.altdriver.press_key(key, power=0.5, duration=0.1)
+            self.altdriver.press_key(key, power=0.5, duration=1)
 
             assert axis_value.get_text() == "0.5"
             assert axis_name.get_text() == button_name
 
-    @pytest.mark.skip
     def test_scroll(self):
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cube_initial_position = [player2.worldX, player2.worldY, player2.worldY]
-        self.altdriver.scroll(4, duration=0.1, wait=False)
-        time.sleep(0.2)
+        self.altdriver.scroll(4, duration=1, wait=False)
+        time.sleep(1)
 
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cube_final_position = [player2.worldX, player2.worldY, player2.worldY]
         assert cube_initial_position != cube_final_position
 
-    @pytest.mark.skip
     def test_scroll_and_wait(self):
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cube_initial_position = [player2.worldX, player2.worldY, player2.worldY]
-        self.altdriver.scroll(4, duration=0.1)
+        self.altdriver.scroll(4, duration=0.3)
 
         player2 = self.altdriver.find_object(By.NAME, "Player2")
         cube_final_position = [player2.worldX, player2.worldY, player2.worldY]
         assert cube_initial_position != cube_final_position
 
-    @pytest.mark.skip
     def test_key_down_and_key_up(self):
         self.altdriver.key_down(AltKeyCode.A)
 

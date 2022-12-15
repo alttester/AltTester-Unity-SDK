@@ -266,7 +266,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
         .. code-block:: console
 
-            dotnet add package AltTester-Driver --version 1.8.0
+            dotnet add package AltTester-Driver --version 1.8.1
 
         Run your tests
 
@@ -306,7 +306,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
                 <dependency>
                     <groupId>com.alttester</groupId>
                     <artifactId>alttester</artifactId>
-                    <version>1.8.0</version>
+                    <version>1.8.1</version>
                 </dependency>
 
 
@@ -318,7 +318,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
                 .. code-block:: console
 
-                    mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar
+                    mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.1 -Dpackaging=jar
 
 
 

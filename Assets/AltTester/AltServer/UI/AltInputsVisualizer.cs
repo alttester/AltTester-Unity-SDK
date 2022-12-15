@@ -34,14 +34,14 @@ public class AltInputsVisualizer : UnityEngine.MonoBehaviour
         mark.transform.localScale = Vector2.one * currentRatio;
     }
 
-    public void ShowClick(UnityEngine.Vector2 pos)
+    public void ShowClick(UnityEngine.Vector2 pos, UnityEngine.Color color)
     {
-        AltInputMark mark = GetMark();
+        AltInputMark mark = GetMark(color);
         StartCoroutine(VisualizerPulse(mark));
         mark.Show(pos);
     }
 
-    public int ShowContinuousInput(UnityEngine.Vector2 pos, int id)
+    public int ShowContinuousInput(UnityEngine.Vector2 pos, int id, UnityEngine.Color color)
     {
         var currentId = id;
 
@@ -50,7 +50,7 @@ public class AltInputsVisualizer : UnityEngine.MonoBehaviour
             mark = _continuously[currentId];
         else
         {
-            mark = GetMark();
+            mark = GetMark(color);
             currentId = mark.Id;
             _continuously[currentId] = mark;
         }
@@ -60,7 +60,7 @@ public class AltInputsVisualizer : UnityEngine.MonoBehaviour
         return currentId;
     }
 
-    private AltInputMark GetMark()
+    private AltInputMark GetMark(UnityEngine.Color color)
     {
         AltInputMark inputMark;
 
@@ -73,7 +73,7 @@ public class AltInputsVisualizer : UnityEngine.MonoBehaviour
         else
         {
             inputMark = Instantiate(Template, _transform);
-            inputMark.Init(VisibleTime, PutMark);
+            inputMark.Init(VisibleTime, PutMark, color);
         }
 
         return inputMark;

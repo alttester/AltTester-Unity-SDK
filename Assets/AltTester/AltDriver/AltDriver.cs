@@ -16,7 +16,7 @@ namespace Altom.AltDriver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
-        public static readonly string VERSION = "1.8.0";
+        public static readonly string VERSION = "1.8.1";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
@@ -75,6 +75,11 @@ namespace Altom.AltDriver
         public void Stop()
         {
             communicationHandler.Close();
+        }
+
+        public void ResetInput()
+        {
+            new AltResetInput(communicationHandler).Execute();
         }
 
         public void SetCommandResponseTimeout(int commandTimeout)

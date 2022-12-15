@@ -10,6 +10,7 @@ import com.alttester.Commands.AltCommands.AltAddNotificationListener;
 import com.alttester.Commands.AltCommands.AltAddNotificationListenerParams;
 import com.alttester.Commands.AltCommands.AltRemoveNotificationListener;
 import com.alttester.Commands.AltCommands.AltRemoveNotificationListenerParams;
+import com.alttester.Commands.AltCommands.AltResetInput;
 import com.alttester.Commands.AltCommands.AltSetServerLogging;
 import com.alttester.Commands.FindObject.*;
 import com.alttester.Commands.InputActions.*;
@@ -42,7 +43,7 @@ public class AltDriver {
         }
     }
 
-    public static final String VERSION = "1.8.0";
+    public static final String VERSION = "1.8.1";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private WebsocketConnection connection = null;
@@ -684,6 +685,13 @@ public class AltDriver {
 
     public void removeNotificationListener(AltRemoveNotificationListenerParams notificationType) {
         new AltRemoveNotificationListener(this.connection.messageHandler, notificationType).Execute();
+    }
+
+    /**
+     * Clears all active input simulated by AltTester
+     */
+    public void resetInput() {
+        new AltResetInput(this.connection.messageHandler).Execute();
     }
 
     public enum By {

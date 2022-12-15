@@ -37,7 +37,7 @@ public class TestNotification
     [SetUp]
     public void LoadLevel()
     {
-
+        altDriver.ResetInput();
         altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
     }
 
@@ -76,6 +76,7 @@ public class TestNotification
     }
 
     // [Test]
+    // [Ignore("Testing")]
     // public void TestApplicationPaused()
     // {
     //     var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");

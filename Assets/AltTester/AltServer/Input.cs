@@ -52,6 +52,21 @@ public class Input : MonoBehaviour
 
     public static bool UseCustomInput { get => _useCustomInput; set => _useCustomInput = value; }
 
+    public void ResetInput()
+    {
+        _keyCodesPressed.Clear();
+        _keyCodesPressedDown.Clear();
+        _keyCodesPressedUp.Clear();
+        mousePosition = Vector3.zero;
+        touches = new UnityEngine.Touch[0];
+        _touchCount = 0;
+        _acceleration = Vector3.zero;
+        _accelerationEvents = new AccelerationEvent[0];
+        _pointerEventsDataDictionary.Clear();
+        _inputIdDictionary.Clear();
+        AltRunner._altRunner.StopAllCoroutines();
+    }
+
     public static AltMockUpPointerInputModule AltMockUpPointerInputModule
     {
         get
@@ -401,7 +416,7 @@ public class Input : MonoBehaviour
     {
         if (_useCustomInput)
         {
-            var axis = AxisList.First(axle => axle.name == axisName);
+            var axis = AxisList.FirstOrDefault(axle => axle.name == axisName);
             if (axis == null)
             {
                 throw new NotFoundException("No axis with this name was found");
@@ -716,10 +731,7 @@ public class Input : MonoBehaviour
         endKeyUpTouchEndedLifecycle(keyStructure, true, touch);
     }
 
-    public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
-    {
-        _instance.StartCoroutine(runThrowingIterator(MultipointSwipeLifeCycle(positions, duration), onFinish));
-    }
+
 
     public static System.Collections.IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
     {
@@ -760,8 +772,11 @@ public class Input : MonoBehaviour
             float time = 0;
             do
             {
+                yield return null;
                 UnityEngine.Vector2 previousPosition = touch.position;
-                if (time + UnityEngine.Time.unscaledDeltaTime < oneInputDuration)
+                time += UnityEngine.Time.unscaledDeltaTime;
+
+                if (time < oneInputDuration)
                 {
                     touch.position += deltaPerSecond * UnityEngine.Time.unscaledDeltaTime;
                 }
@@ -771,13 +786,11 @@ public class Input : MonoBehaviour
                 }
 
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
-                time += UnityEngine.Time.unscaledDeltaTime;
                 touch.deltaPosition = touch.position - previousPosition;
                 updateTouchInTouchList(touch);
                 mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
                 pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
                 AltRunner._altRunner.ShowInput(touch.position, markId);
-                yield return null;
 
             } while (time <= oneInputDuration);
         }
@@ -801,6 +814,7 @@ public class Input : MonoBehaviour
 
         touches = newTouches;
         touchCount--;
+
     }
 
     public static void MoveMouse(UnityEngine.Vector2 location, float duration, Action<Exception> onFinish)
@@ -1070,7 +1084,14 @@ public class Input : MonoBehaviour
             endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
 
             if (i != count - 1 && time < interval)//do not wait at last click/tap
-                yield return new UnityEngine.WaitForSecondsRealtime(interval - time);
+            {
+                float elapsedTime = 0;
+                while (elapsedTime < interval - time)
+                {
+                    yield return null;
+                    elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                }
+            }
         }
 
         // mouse position doesn't change  but we fire on mouse exit
@@ -1145,7 +1166,14 @@ public class Input : MonoBehaviour
             endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
 
             if (i != count - 1 && time < interval)//do not wait at last click/tap
-                yield return new UnityEngine.WaitForSecondsRealtime(interval - time);
+            {
+                float elapsedTime = 0;
+                while (elapsedTime < interval - time)
+                {
+                    yield return null;
+                    elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                }
+            }
         }
 
         // mouse position doesn't change  but we fire on mouse exit
@@ -1223,7 +1251,12 @@ public class Input : MonoBehaviour
         {
             if (duration != 0)
             {
-                yield return new UnityEngine.WaitForSecondsRealtime(duration);
+                float elapsedTime = 0;
+                while (elapsedTime < duration)
+                {
+                    yield return null;
+                    elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                }
             }
         }
         _keyCodesPressed.Remove(keyStructure);
@@ -1300,7 +1333,13 @@ public class Input : MonoBehaviour
     {
         mouseTriggerInit(mouseButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
         mouseDownTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
-        yield return new WaitForSecondsRealtime(duration);
+        float elapsedTime = 0;
+        while (elapsedTime < duration)
+        {
+            yield return null;
+            elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+        }
+
         mouseUpTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
     }
 
@@ -1338,7 +1377,7 @@ public class Input : MonoBehaviour
         {
             return UnityEngine.KeyCode.UpArrow;
         }
-        if (keyName.Length == 0 && char.IsDigit(keyName[0]))
+        if (keyName.Length == 1 && char.IsDigit(keyName[0]))
         {
             return (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Alpha" + keyName);
         }
