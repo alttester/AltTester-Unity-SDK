@@ -247,6 +247,8 @@ namespace Altom.AltTesterEditor
 
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             EditorSceneManager.SaveOpenScenes();
+            UnityEngine.Debug.Log("AltTesterPrefab successfully modified into the [" + scene + "] scene.");
+
             logger.Info("AltTesterPrefab successfully modified into the [" + scene + "] scene.");
         }
 
@@ -426,6 +428,7 @@ namespace Altom.AltTesterEditor
 
         private static string[] getScenesForBuild()
         {
+            InsertAltTesterInTheFirstScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
             if (AltTesterEditorWindow.EditorConfiguration.Scenes.Count == 0)
             {
                 AltTesterEditorWindow.AddAllScenes();
@@ -440,7 +443,6 @@ namespace Altom.AltTesterEditor
                 }
             }
 
-            InsertAltTesterInTheFirstScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
 
             return sceneList.ToArray();
         }

@@ -66,6 +66,7 @@ namespace Altom.AltTester.Logging
 
         private static void addFileLogger(LogLevel minLevel, LogLevel maxLevel)
         {
+#if !UNITY_WEBGL
             logsFilePath = UnityEngine.Application.persistentDataPath + "/AltTester-Server.log";
             var logfile = new FileTarget("AltServerFileTarget")
             {
@@ -77,6 +78,7 @@ namespace Altom.AltTester.Logging
             };
             Instance.Configuration.AddRule(minLevel, maxLevel, logfile);
             Instance.Configuration.LoggingRules[Instance.Configuration.LoggingRules.Count - 1].RuleName = "AltServerFileRule";
+#endif
         }
 
         private static LogFactory buildLogFactory()

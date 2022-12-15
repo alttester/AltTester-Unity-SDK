@@ -15,7 +15,7 @@ namespace Altom.AltTester
         public static readonly string VERSION = "1.8.0";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
-        public AltInstrumentationSettings InstrumentationSettings = null;
+        private AltInstrumentationSettings instrumentationSettings = new AltInstrumentationSettings();
 
 
         [UnityEngine.Space]
@@ -28,6 +28,22 @@ namespace Altom.AltTester
         [UnityEngine.SerializeField]
         public AltInputsVisualizer InputsVisualizer = null;
 
+        public AltInstrumentationSettings InstrumentationSettings
+        {
+            get
+            {
+                if (instrumentationSettings == null)
+                {
+                    instrumentationSettings = new AltInstrumentationSettings()
+                    {
+                        InstrumentationMode = AltInstrumentationMode.Proxy
+                    };
+                }
+                return instrumentationSettings;
+            }
+            set => instrumentationSettings = value;
+        }
+
 
 
         #region MonoBehaviour
@@ -35,9 +51,9 @@ namespace Altom.AltTester
         protected void Awake()
         {
 #if !ALTTESTER
-            logger.Error("ALTTESTER needs to be added to 'Scripting Define Symbols'");
-            Destroy(this.gameObject);
-            return;
+                        logger.Error("ALTTESTER needs to be added to 'Scripting Define Symbols'");
+                        Destroy(this.gameObject);
+                        return;
 
 #else
             if (_altRunner != null)
