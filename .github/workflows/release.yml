@@ -2,30 +2,30 @@ name: release
 on: [workflow_dispatch, push]
 
 jobs:
-  publish-pip-package:
-      runs-on: [self-hosted]
+  # publish-pip-package:
+  #     runs-on: [self-hosted]
 
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/setup-python@v4
-          with:
-            python-version: '3.10'
-            cached: 'pip'
-        - uses: syphar/restore-virtualenv@v1
-          id: cache-virtualenv
+  #     steps:
+  #       - uses: actions/checkout@v3
+  #       - uses: actions/setup-python@v4
+  #         with:
+  #           python-version: '3.10'
+  #           cached: 'pip'
+  #       - uses: syphar/restore-virtualenv@v1
+  #         id: cache-virtualenv
 
-        - uses: syphar/restore-pip-download-cache@v1
-          if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+  #       - uses: syphar/restore-pip-download-cache@v1
+  #         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-        - run: pip install -r "Bindings~/python/requirements.txt"
-        - run: pip install -r "Bindings~/python/requirements-dev.txt"
-        - run: pip install -e "Bindings~/python" --root "Bindings~/python"
+  #       - run: pip install -r "Bindings~/python/requirements.txt"
+  #       - run: pip install -r "Bindings~/python/requirements-dev.txt"
+  #       - run: pip install -e "Bindings~/python" --root "Bindings~/python"
 
-        - name: Upload to Pypi
-          run: |
-            cd "Bindings~/python"
-            python3 setup.py sdist
-            python3 -m twine upload dist/*
+  #       - name: Upload to Pypi
+  #         run: |
+  #           cd "Bindings~/python"
+  #           python3 setup.py sdist
+  #           python3 -m twine upload dist/*
 
   publish-nuget-package:
     runs-on: [self-hosted]
@@ -41,36 +41,36 @@ jobs:
         run: |
           cd "Bindings~/dotnet"
           dotnet pack AltDriver/AltDriver.csproj -c release
-          dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+          dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
-  publish-maven:
-    runs-on: [self-hosted,release]
-    steps:
-      - uses: actions/checkout@v3
+  # publish-maven:
+  #   runs-on: [self-hosted,release]
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Setup Java JDK
-        uses: actions/setup-java@v3.5.1
-        with:
-            distribution: temurin
-            java-version: 11
-      - uses: stCarolas/setup-maven@v4.4
+  #     - name: Setup Java JDK
+  #       uses: actions/setup-java@v3.5.1
+  #       with:
+  #           distribution: temurin
+  #           java-version: 11
+  #     - uses: stCarolas/setup-maven@v4.4
 
-      - name: Upload to Maven
-        env:
-          GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
-        run: |
-          cd "Bindings~/java"
-          export GPG_TTY=$(tty)
-          mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
+  #     - name: Upload to Maven
+  #       env:
+  #         GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
+  #       run: |
+  #         cd "Bindings~/java"
+  #         export GPG_TTY=$(tty)
+  #         mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
 
-      - uses: actions/upload-artifact@v3.1.0
-        if: always() # run this step even if one of the previous step failed
-        with:
-          name: TestCSharpArtifact
-          path: |
-            csharpAndroidTests.log
-            AltUnityTesterLog.txt
-            AltUnityServerLog.txt
+  #     - uses: actions/upload-artifact@v3.1.0
+  #       if: always() # run this step even if one of the previous step failed
+  #       with:
+  #         name: TestCSharpArtifact
+  #         path: |
+  #           csharpAndroidTests.log
+  #           AltUnityTesterLog.txt
+  #           AltUnityServerLog.txt
   create-unity-package:
     runs-on: [self-hosted]
     steps:
