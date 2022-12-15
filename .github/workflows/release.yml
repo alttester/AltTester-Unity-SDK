@@ -44,7 +44,7 @@ jobs:
   #         dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
   publish-maven:
-    runs-on: [self-hosted,release]
+    runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v3
 
