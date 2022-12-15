@@ -43,34 +43,34 @@ jobs:
   #         dotnet pack AltDriver/AltDriver.csproj -c release
   #         dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
-  publish-maven:
-    runs-on: [self-hosted]
-    steps:
-      - uses: actions/checkout@v3
+#   publish-maven:
+#     runs-on: [self-hosted]
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: Setup Java JDK
-        uses: actions/setup-java@v3.5.1
-        with:
-            distribution: temurin
-            java-version: 11
-      - uses: stCarolas/setup-maven@v4.4
+#       - name: Setup Java JDK
+#         uses: actions/setup-java@v3.5.1
+#         with:
+#             distribution: temurin
+#             java-version: 11
+#       - uses: stCarolas/setup-maven@v4.4
 
-      - name: Upload to Maven
-        env:
-          GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
-        run: |
-          cd "Bindings~/java"
-          export GPG_TTY=$(tty)
-          mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
+#       - name: Upload to Maven
+#         env:
+#           GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
+#         run: |
+#           cd "Bindings~/java"
+#           export GPG_TTY=$(tty)
+#           mvn clean deploy -Darguments="-Dgpg.passphrase=$GPG_PASSWORD" -f pom-release.xml -DskipTests
 
-      - uses: actions/upload-artifact@v3.1.0
-        if: always() # run this step even if one of the previous step failed
-        with:
-          name: TestCSharpArtifact
-          path: |
-            csharpAndroidTests.log
-            AltUnityTesterLog.txt
-            AltUnityServerLog.txt
+#       - uses: actions/upload-artifact@v3.1.0
+#         if: always() # run this step even if one of the previous step failed
+#         with:
+#           name: TestCSharpArtifact
+#           path: |
+#             csharpAndroidTests.log
+#             AltUnityTesterLog.txt
+#             AltUnityServerLog.txt
   # create-unity-package:
   #   runs-on: [self-hosted]
   #   steps:
@@ -128,28 +128,28 @@ jobs:
   #       if: always()
   #       run: rm -r public
 
-  # java-release:
-  #   runs-on: ubuntu-18.04
-  #   steps:
-  #     - name: Check out Git repository
-  #       uses: actions/checkout@v2
+  java-release:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
 
-  #     - name: Install Java and Maven
-  #       uses: actions/setup-java@v1
-  #       with:
-  #         java-version: 11
+      - name: Install Java and Maven
+        uses: actions/setup-java@v1.4.0
+        with:
+          java-version: 11
 
-  #     - run: export GPG_TTY=$(tty)
+      - run: export GPG_TTY=$(tty)
 
-  #     - name: Release Maven package
-  #       uses: samuelmeuli/action-maven-publish@v1
-  #       with:
-  #         gpg_private_key: ${{ secrets.gpg_private_key }}
-  #         gpg_passphrase: ${{ secrets.gpg_passphrase }}
-  #         nexus_username: ${{ secrets.nexus_username }}
-  #         nexus_password: ${{ secrets.nexus_password }}
-  #         directory: Bindings~/java/
-  #         maven_args: -f pom-release.xml -DskipTests
+      - name: Release Maven package
+        uses: samuelmeuli/action-maven-publish@v1
+        with:
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
+          directory: Bindings~/java/
+          maven_args: -f pom-release.xml -DskipTests
 
   # build-docs:
   #   runs-on: [self-hosted]
