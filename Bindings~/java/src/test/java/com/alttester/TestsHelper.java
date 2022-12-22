@@ -3,6 +3,7 @@ package com.alttester;
 import java.util.Collection;
 import com.alttester.Commands.AltCommands.AltAddNotificationListenerParams;
 import com.alttester.Commands.AltCommands.NotificationType;
+import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 
 public class TestsHelper {
     public static int GetAltDriverPort() {
@@ -24,8 +25,9 @@ public class TestsHelper {
     }
 
     public static AltDriver getAltDriver() {
-        return new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-            true);
+        AltDriver altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),true);
+        altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltDriverTestScene").build());
+        return altDriver;
     }
 
     public static AltDriver addNotifications(AltDriver altDriver, Collection<NotificationType> notificationTypes) {
