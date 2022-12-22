@@ -14,7 +14,7 @@ namespace Altom.AltDriver.Tests
         [OneTimeSetUp]
         public void SetUp()
         {
-            altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
+            altDriver = TestsHelper.GetAltDriver();
             DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
             DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
         }
