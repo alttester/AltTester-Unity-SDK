@@ -24,7 +24,7 @@ public class TestsAltCommands {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
+        altDriver = TestsHelper.getAltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
                 true);
     }
 

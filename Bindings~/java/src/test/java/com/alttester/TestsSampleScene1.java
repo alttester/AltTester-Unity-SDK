@@ -49,9 +49,9 @@ public class TestsSampleScene1 {
 
         @BeforeClass
         public static void setUp() {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(),
-                                TestsHelper.GetAltDriverPort(),
-                                true);
+                altDriver = TestsHelper.getAltDriver(TestsHelper.GetAltDriverHost(),
+                        TestsHelper.GetAltDriverPort(),
+                        true);
         }
 
         @AfterClass

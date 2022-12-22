@@ -57,7 +57,7 @@ public class TestsForNIS {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        altDriver = new AltDriver(TestsHelper.GetAltDriverHost(),
+        altDriver = TestsHelper.getAltDriver(TestsHelper.GetAltDriverHost(),
                 TestsHelper.GetAltDriverPort(),
                 true);
     }
