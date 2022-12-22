@@ -1,5 +1,9 @@
 package com.alttester;
 
+import java.util.Collection;
+import com.alttester.Commands.AltCommands.AltAddNotificationListenerParams;
+import com.alttester.Commands.AltCommands.NotificationType;
+
 public class TestsHelper {
     public static int GetAltDriverPort() {
         String port = System.getenv("ALTDRIVER_PORT");
@@ -17,5 +21,20 @@ public class TestsHelper {
         }
 
         return "127.0.0.1";
+    }
+
+    public static AltDriver getAltDriver() {
+        return new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
+            true);
+    }
+
+    public static AltDriver addNotifications(AltDriver altDriver, Collection<NotificationType> notificationTypes) {
+        for (NotificationType notificationType : notificationTypes) {
+            AltAddNotificationListenerParams notificationParams = new AltAddNotificationListenerParams.Builder(
+                notificationType, new MockNotificationCallBacks()).build();
+            altDriver.addNotification(notificationParams);
+        }
+
+        return altDriver;
     }
 }
