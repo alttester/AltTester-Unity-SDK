@@ -26,7 +26,6 @@ public class TestsHelper {
 
     public static AltDriver getAltDriver() {
         AltDriver altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),true);
-        altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltDriverTestScene").build());
         return altDriver;
     }
 
