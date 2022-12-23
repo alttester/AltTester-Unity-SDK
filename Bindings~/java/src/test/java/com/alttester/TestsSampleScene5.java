@@ -1,8 +1,6 @@
 package com.alttester;
 
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alttester.position.Vector3;
@@ -22,33 +20,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 public class TestsSampleScene5 {
-
-    private static AltDriver altDriver;
-
-    @BeforeClass
-    public static void setUp() throws Exception {
-        altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                true);
-    }
-
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (altDriver != null) {
-            altDriver.stop();
-        }
-        Thread.sleep(1000);
-    }
-
-    @Before
-    public void loadLevel() throws Exception {
-        altDriver.resetInput();
-        AltLoadSceneParams params = new AltLoadSceneParams.Builder("Scene 5 Keyboard Input").build();
-        altDriver.loadScene(params);
-    }
-
+    
     @Test
     public void TestMovementCube() throws InterruptedException {
-
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "Player2").build();
         AltObject cube = altDriver.findObject(altFindObjectsParameters1);
@@ -80,7 +55,7 @@ public class TestsSampleScene5 {
     @Test
     // Test Keyboard button press
     public void TestCameraMovement() throws InterruptedException {
-
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "Player1").build();
         AltObject cube = altDriver.findObject(altFindObjectsParameters2);
@@ -99,7 +74,7 @@ public class TestsSampleScene5 {
     @Test
     // Testing mouse movement and clicking
     public void TestCreatingStars() throws InterruptedException {
-
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(By.NAME, "Star")
                 .build();
         AltObject[] stars = altDriver.findObjectsWhichContain(altFindObjectsParameters1);
@@ -127,6 +102,7 @@ public class TestsSampleScene5 {
 
     @Test
     public void TestPowerJoystick() {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         ArrayList<String> ButtonNames = new ArrayList<String>();
         ButtonNames.add("Horizontal");
         ButtonNames.add("Vertical");
@@ -154,6 +130,7 @@ public class TestsSampleScene5 {
 
     @Test
     public void TestScroll() throws InterruptedException {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 "Player2").build();
         AltObject player2 = altDriver.findObject(altFindObjectsParameters);
@@ -168,7 +145,8 @@ public class TestsSampleScene5 {
     }
 
     @Test
-    public void TestScrollAndWait() throws InterruptedException {
+    public void TestScrollAndWait() {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 "Player2").build();
         AltObject player2 = altDriver.findObject(altFindObjectsParameters);
@@ -184,6 +162,7 @@ public class TestsSampleScene5 {
 
     @Test
     public void TestKeyDownAndKeyUp() throws Exception {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "LastKeyDownValue").build();
         AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(

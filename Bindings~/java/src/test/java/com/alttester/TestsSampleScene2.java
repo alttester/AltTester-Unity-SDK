@@ -21,33 +21,10 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TestsSampleScene2 {
-
-    private static AltDriver altDriver;
-
-    @BeforeClass
-    public static void setUp() throws Exception {
-        altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                true);
-    }
-
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (altDriver != null) {
-            altDriver.stop();
-        }
-        Thread.sleep(1000);
-    }
-
-    @Before
-    public void loadLevel() throws Exception {
-        altDriver.resetInput();
-        AltLoadSceneParams params = new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build();
-        altDriver.loadScene(params);
-    }
-
+    
     @Test
     public void testResizePanel() throws Exception {
-
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "Resize Zone").build();
         AltObject altElement = altDriver.findObject(altFindObjectsParameters1);
@@ -62,7 +39,7 @@ public class TestsSampleScene2 {
 
     @Test
     public void testMovePanel() throws Exception {
-
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "Drag Zone").build();
         AltObject altElement = altDriver.findObject(altFindObjectsParameters1);
@@ -76,7 +53,8 @@ public class TestsSampleScene2 {
     }
 
     @Test
-    public void testResizePanelWithMultipointSwipe() throws Exception {
+    public void testResizePanelWithMultipointSwipe() {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "Resize Zone").build();
         AltObject altElement = altDriver.findObject(altFindObjectsParameters1);
@@ -93,8 +71,8 @@ public class TestsSampleScene2 {
     }
 
     @Test
-    public void testClosePanel() throws Exception {
-
+    public void testClosePanel() {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams findObjectsParameters = new AltFindObjectsParams.Builder(By.NAME,
                 "Panel Drag Area").build();
         AltWaitForObjectsParams params = new AltWaitForObjectsParams.Builder(findObjectsParameters)
@@ -119,6 +97,7 @@ public class TestsSampleScene2 {
 
     @Test
     public void testPointerDownFromObject() throws InterruptedException {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "Panel").build();
         AltObject panel = altDriver.findObject(altFindObjectsParameters1);
@@ -141,6 +120,7 @@ public class TestsSampleScene2 {
 
     @Test
     public void testPointerUpFromObject() throws InterruptedException {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "Panel").build();
         AltObject panel = altDriver.findObject(altFindObjectsParameters1);
@@ -162,7 +142,8 @@ public class TestsSampleScene2 {
     }
 
     @Test
-    public void testNewTouchCommands() throws InterruptedException {
+    public void testNewTouchCommands() {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "Drag Zone").build();
         AltObject draggableArea = altDriver.findObject(altFindObjectsParameters1);

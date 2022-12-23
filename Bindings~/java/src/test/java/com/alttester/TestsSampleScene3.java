@@ -21,8 +21,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TestsSampleScene3 {
-    private static AltDriver altDriver;
-
+    
     public static class ImagesDrop {
         public static String imageSource;
         public static String imageSourceDropZone;
@@ -36,35 +35,16 @@ public class TestsSampleScene3 {
     class AltSprite {
         public String name;
     }
-
-    @BeforeClass
-    public static void setUp() throws Exception {
-        altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                true);
-    }
-
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (altDriver != null) {
-            altDriver.stop();
-        }
-        Thread.sleep(1000);
-    }
-
-    @Before
-    public void loadLevel() throws Exception {
-        altDriver.resetInput();
-        AltLoadSceneParams params = new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").build();
-        altDriver.loadScene(params);
-    }
-
+    
     private AltObject FindObject(By by, String name) {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams altElementParams = new AltFindObjectsParams.Builder(
                 by, name).build();
         return altDriver.findObject(altElementParams);
     }
 
     private void dropImage(String dragLocationName, String dropLocationName, float duration, boolean wait) {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltObject dragLocation = FindObject(AltDriver.By.NAME, dragLocationName);
         AltObject dropLocation = FindObject(AltDriver.By.NAME, dropLocationName);
         altDriver
@@ -73,6 +53,7 @@ public class TestsSampleScene3 {
     }
 
     private void waitForSwipeToFinish() {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams swipeImageFindObject = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "icon").build();
         AltWaitForObjectsParams swipeImageParam = new AltWaitForObjectsParams.Builder(swipeImageFindObject).build();
@@ -80,7 +61,7 @@ public class TestsSampleScene3 {
     }
 
     private ImagesDrop getSpriteName(String sourceImageName, String imageSourceDropZoneName) {
-
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltFindObjectsParams imageSourceParams = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, sourceImageName).build();
         AltFindObjectsParams imageSourceDropZoneParams = new AltFindObjectsParams.Builder(
@@ -100,8 +81,8 @@ public class TestsSampleScene3 {
     }
 
     @Test
-    public void testMultipleDragAndDrop() throws Exception {
-
+    public void testMultipleDragAndDrop() {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         dropImage("Drag Image2", "Drop Box2", 1, false);
         dropImage("Drag Image2", "Drop Box1", 1, false);
         dropImage("Drag Image1", "Drop Box1", 1, false);
@@ -119,8 +100,8 @@ public class TestsSampleScene3 {
     }
 
     @Test
-    public void testMultipleDragAndDropWait() throws Exception {
-
+    public void testMultipleDragAndDropWait() {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         dropImage("Drag Image2", "Drop Box2", (float) 1, true);
         dropImage("Drag Image2", "Drop Box1", (float) 1, true);
         dropImage("Drag Image1", "Drop Box1", (float) 1, true);
@@ -138,8 +119,8 @@ public class TestsSampleScene3 {
     }
 
     @Test
-    public void testTestPointerEnterAndExit() throws Exception {
-
+    public void testTestPointerEnterAndExit() {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         AltObject altElement = FindObject(By.NAME, "Drop Image");
         AltColor color1 = altElement.getComponentProperty(
                 new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
@@ -162,7 +143,7 @@ public class TestsSampleScene3 {
     }
 
     private void dropImageWithMultipointSwipe(List<String> objectNames, float duration, boolean wait) {
-
+        AltDriver altDriver = TestsHelper.getAltDriver();
         List<Vector2> listPositions = new ArrayList<Vector2>();
         for (int i = 0; i < objectNames.size(); i++) {
             AltFindObjectsParams elementParams = new AltFindObjectsParams.Builder(
@@ -175,8 +156,8 @@ public class TestsSampleScene3 {
     }
 
     @Test
-    public void testMultipleDragAndDropWaitWithMultipointSwipe() throws Exception {
-
+    public void testMultipleDragAndDropWaitWithMultipointSwipe() {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         List<String> objects1 = new ArrayList<String>();
         List<String> objects2 = new ArrayList<String>();
         objects1.add("Drag Image1");

@@ -19,24 +19,10 @@ public class TestsAltCommands {
     class Rule {
         public List<String> Levels;
     }
-
-    private static AltDriver altDriver;
-
-    @BeforeClass
-    public static void setUp() throws Exception {
-        altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                true);
-    }
-
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (altDriver != null) {
-            altDriver.stop();
-        }
-    }
-
+    
     @Test
     public void testSetServerLogging() {
+        AltDriver altDriver = TestsHelper.getAltDriver();
         altDriver.setServerLogging(
                 new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
         Rule rule = altDriver.callStaticMethod(
