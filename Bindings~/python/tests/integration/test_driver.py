@@ -90,7 +90,7 @@ class TestDriver:
 
     def test_set_server_logging(self):
         rule = self.altdriver.call_static_method(
-            "Altom.AltTester.Logging.ServerLogManager",
+            "AltTester.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
             "Assembly-CSharp",
             parameters=["AltServerFileRule"],
@@ -101,7 +101,7 @@ class TestDriver:
 
         self.altdriver.set_server_logging(AltLogger.File, AltLogLevel.Off)
         rule = self.altdriver.call_static_method(
-            "Altom.AltTester.Logging.ServerLogManager",
+            "AltTester.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
             "Assembly-CSharp",
             parameters=["AltServerFileRule"],

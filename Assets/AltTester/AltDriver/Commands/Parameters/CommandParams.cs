@@ -1,8 +1,8 @@
 using System;
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.Notifications;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Notifications;
 using Newtonsoft.Json;
-namespace Altom.AltDriver.Commands
+namespace AltTester.AltDriver.Commands
 {
     public class CommandParams
     {

@@ -1,9 +1,9 @@
 using System;
-using Altom.AltTester;
-using Altom.AltTester.Communication;
-using Altom.AltTester.Logging;
+using AltTester;
+using AltTester.Communication;
+using AltTester.Logging;
 
-namespace Altom.AltTester.UI
+namespace AltTester.UI
 {
     public class AltDialog : UnityEngine.MonoBehaviour
     {
@@ -42,9 +42,9 @@ namespace Altom.AltTester.UI
 
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
-        private ICommunication communication;
+        private ICommunication _communication;
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
-        private bool wasConnectedBeforeToProxy = false;
+        private bool _wasConnectedBefore = false;
 
         protected void Start()
         {
@@ -182,14 +182,14 @@ namespace Altom.AltTester.UI
             var cmdHandler = new CommandHandler();
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-            communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
+            _communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
 #else
-            communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
+            _communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
 #endif
 
-            communication.OnConnect += OnConnect;
-            communication.OnDisconnect += OnDisconnect;
-            communication.OnError += OnError;
+            _communication.OnConnect += OnConnect;
+            _communication.OnDisconnect += OnDisconnect;
+            _communication.OnError += OnError;
         }
 
         private void StartClient()
@@ -198,11 +198,11 @@ namespace Altom.AltTester.UI
 
             try
             {
-                if (communication == null || !communication.IsListening) // start only if it is not already listening
+                if (_communication == null || !_communication.IsListening) // start only if it is not already listening
                 {
-                    communication.Start();
+                    _communication.Start();
                 }
-                if (!communication.IsConnected) // display dialog only if not connected
+                if (!_communication.IsConnected) // display dialog only if not connected
                 {
                     OnStart();
                 }
@@ -223,21 +223,23 @@ namespace Altom.AltTester.UI
         {
             _updateQueue.Clear();
 
-            if (communication != null)
+            if (_communication != null)
             {
-                communication.Stop();
+                // Remove the callbacks before stopping the client to prevent the OnDisconnect callback to be called when we stop or restart the client.
+                _communication.OnConnect = null;
+                _communication.OnDisconnect = null;
+                _communication.OnError = null;
 
-                communication.OnConnect = null;
-                communication.OnDisconnect = null;
-                communication.OnError = null;
+                _communication.Stop();
+                _communication = null;
             }
         }
 
         private void OnStart()
         {
             string message = String.Format("Waiting to connect to AltProxy on {0}:{1} with game name: '{2}'.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
-            SetMessage(message, SUCCESS_COLOR, Dialog.activeSelf || wasConnectedBeforeToProxy);
-            wasConnectedBeforeToProxy = false;
+            SetMessage(message, SUCCESS_COLOR, Dialog.activeSelf || _wasConnectedBefore);
+            _wasConnectedBefore = false;
         }
 
         private void OnConnect()
@@ -256,7 +258,7 @@ namespace Altom.AltTester.UI
 #endif
 
                 SetMessage(message, SUCCESS_COLOR, false);
-                wasConnectedBeforeToProxy = true;
+                _wasConnectedBefore = true;
             });
         }
 

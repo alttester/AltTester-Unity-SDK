@@ -1,8 +1,8 @@
 using System.Linq;
-using Altom.AltDriver;
-using Altom.AltDriver.Commands;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Commands;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     class AltFindObjectCommand : AltBaseClassFindObjectsCommand<AltObject>
     {

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Altom.AltDriver.Logging;
+using AltTester.AltDriver.Logging;
 using NLog;
 using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
 
-namespace Altom.AltTester.Logging
+namespace AltTester.Logging
 {
     public class ServerLogManager
     {

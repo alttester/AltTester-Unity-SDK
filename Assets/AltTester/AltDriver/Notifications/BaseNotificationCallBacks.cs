@@ -1,7 +1,7 @@
 using System;
-using Altom.AltDriver.Logging;
+using AltTester.AltDriver.Logging;
 
-namespace Altom.AltDriver.Notifications
+namespace AltTester.AltDriver.Notifications
 {
     public class BaseNotificationCallBacks : INotificationCallbacks
     {

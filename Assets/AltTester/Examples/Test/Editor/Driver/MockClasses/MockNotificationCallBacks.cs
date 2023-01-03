@@ -1,7 +1,7 @@
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.Notifications;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Notifications;
 
-namespace Altom.AltDriver.MockClasses
+namespace AltTester.AltDriver.MockClasses
 {
     internal class MockNotificationCallBacks : INotificationCallbacks
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using Altom.AltDriver.Logging;
+using AltTester.AltDriver.Logging;
 using NUnit.Framework;
 
-namespace Altom.AltDriver.Tests
+namespace AltTester.AltDriver.Tests
 {
     [Timeout(30000)]
     public class TestForScene1TestSample
@@ -224,7 +224,7 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "Altom.AltTester.AltRunner";
+            const string componentName = "AltTester.AltRunner";
             const string propertyName = "InstrumentationSettings.ProxyPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -239,7 +239,7 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestGetComponentPropertyInvalidDeserialization()
         {
-            const string componentName = "Altom.AltTester.AltRunner";
+            const string componentName = "AltTester.AltRunner";
             const string propertyName = "InstrumentationSettings.ShowPopUp";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             try
@@ -257,7 +257,7 @@ namespace Altom.AltDriver.Tests
         public void TestGetComponentPropertyNotFoundWithAssembly()
         {
             Thread.Sleep(1000);
-            const string componentName = "Altom.AltTester.AltRunner";
+            const string componentName = "AltTester.AltRunner";
             const string propertyName = "InvalidProperty";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -282,7 +282,7 @@ namespace Altom.AltDriver.Tests
         public void TestGetNonExistingComponentProperty()
         {
             Thread.Sleep(1000);
-            const string componentName = "Altom.AltTester.AltRunner";
+            const string componentName = "AltTester.AltRunner";
             const string propertyName = "socketPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -2120,7 +2120,7 @@ namespace Altom.AltDriver.Tests
             var buttons = altDriver.FindObjects(By.PATH, "//Content/*");
             for (int i = 1; i <= buttons.Count - 3; i++)
             {
-                altDriver.Swipe(buttons[i].getScreenPosition(), buttons[i - 1].getScreenPosition());
+                altDriver.Swipe(buttons[i].GetScreenPosition(), buttons[i - 1].GetScreenPosition());
 
             }
             Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltScrollViewButtonController", "Counter", "Assembly-CSharp"));
@@ -2143,7 +2143,7 @@ namespace Altom.AltDriver.Tests
             var id = altDriver.BeginTouch(new AltVector2(icon.x - 25, icon.y + 25));
             altDriver.EndTouch(id);
             Assert.NotNull(altDriver.WaitForObject(By.NAME, "Dialog"));
-            altDriver.Click(icon.getScreenPosition());
+            altDriver.Click(icon.GetScreenPosition());
         }
     }
 }

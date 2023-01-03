@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using Altom.AltDriver;
-using Altom.AltTester;
-using Altom.AltTesterEditor;
-using Altom.AltTesterEditor.Logging;
+using AltTester.AltDriver;
+using AltTester;
+using AltTesterEditor.Logging;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace Altom.AltTesterEditor
+namespace AltTesterEditor
 {
     public static class PlatformName
     {
@@ -442,7 +441,6 @@ namespace Altom.AltTesterEditor
                     sceneList.Add(scene.Path);
                 }
             }
-
 
             return sceneList.ToArray();
         }

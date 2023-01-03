@@ -1,6 +1,6 @@
 using NLog;
 
-namespace Altom.AltDriver.Logging
+namespace AltTester.AltDriver.Logging
 {
     public static class AltLogLevelExtensions
     {

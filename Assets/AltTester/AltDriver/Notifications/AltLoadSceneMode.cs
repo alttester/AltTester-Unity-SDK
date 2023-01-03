@@ -1,4 +1,4 @@
-namespace Altom.AltDriver.Notifications
+namespace AltTester.AltDriver.Notifications
 {
     public enum AltLoadSceneMode
     {

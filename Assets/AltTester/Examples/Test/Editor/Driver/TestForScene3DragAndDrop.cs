@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Threading;
-using Altom.AltDriver;
-using Altom.AltDriver.Logging;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Logging;
 using NUnit.Framework;
 
-namespace Altom.AltDriver.Tests
+namespace AltTester.AltDriver.Tests
 {
     [Timeout(10000)]
     public class TestForScene3DragAndDrop

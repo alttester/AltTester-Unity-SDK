@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Altom.AltTester;
-using Altom.AltTester.UI;
+using AltTester;
+using AltTester.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Altom.AltTesterTools
+namespace AltTesterTools
 {
     public class CreateAltPrefab : MonoBehaviour
     {
@@ -27,7 +27,7 @@ namespace Altom.AltTesterTools
                 Debug.LogError("ALTTESTER must be added as define before updating the prefab");
             }
 
-            var Prefab = new GameObject("AltRunnerPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(Input), typeof(NewInputSystem) });
+            var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(Input), typeof(NewInputSystem) });
 
             string path = "Assets/AltTester/Prefab/AltTesterPrefab.prefab";
             string localPath = path;

@@ -22,7 +22,7 @@ def altdriver():
         host=get_alttester_host(),
         port=get_alttester_port(),
         enable_logging=True,
-        timeout=None
+        timeout=60 * 5
     )
 
     yield altdriver

@@ -1,4 +1,4 @@
-namespace Altom.AltTesterEditor
+namespace AltTesterEditor
 {
     public class AltDesktopPage : UnityEditor.EditorWindow
     {

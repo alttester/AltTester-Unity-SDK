@@ -1,6 +1,6 @@
 using System;
 
-namespace Altom.AltDriver.Commands
+namespace AltTester.AltDriver.Commands
 {
     public class AltKeysDown : AltBaseCommand
     {

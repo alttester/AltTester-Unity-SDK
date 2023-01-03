@@ -1,7 +1,7 @@
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace Altom.AltDriver.Commands
+namespace AltTester.AltDriver.Commands
 {
     public class AltCallStaticMethod<T> : AltBaseCommand
     {

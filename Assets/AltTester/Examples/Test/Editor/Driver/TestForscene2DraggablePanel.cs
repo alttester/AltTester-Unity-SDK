@@ -1,10 +1,10 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using Altom.AltDriver.Logging;
+using AltTester.AltDriver.Logging;
 using NUnit.Framework;
 
-namespace Altom.AltDriver.Tests
+namespace AltTester.AltDriver.Tests
 {
     [Timeout(10000)]
     public class TestForScene2DraggablePanel

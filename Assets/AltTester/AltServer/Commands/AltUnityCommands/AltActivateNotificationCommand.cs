@@ -1,10 +1,10 @@
 using System;
-using Altom.AltDriver.Commands;
-using Altom.AltDriver.Notifications;
-using Altom.AltTester.Communication;
-using Altom.AltTester.Notification;
+using AltTester.AltDriver.Commands;
+using AltTester.AltDriver.Notifications;
+using AltTester.Communication;
+using AltTester.Notification;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     public class AltActivateNotificationCommand : AltCommand<ActivateNotification, string>
     {

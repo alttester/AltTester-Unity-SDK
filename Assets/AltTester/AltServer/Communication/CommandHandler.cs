@@ -2,13 +2,13 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Altom.AltDriver;
-using Altom.AltDriver.Commands;
-using Altom.AltTester.Commands;
-using Altom.AltTester.Logging;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Commands;
+using AltTester.Commands;
+using AltTester.Logging;
 using Newtonsoft.Json;
 
-namespace Altom.AltTester.Communication
+namespace AltTester.Communication
 {
     public class CommandHandler : ICommandHandler
     {

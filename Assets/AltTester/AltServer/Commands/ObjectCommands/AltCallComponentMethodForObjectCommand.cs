@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using Altom.AltDriver;
-using Altom.AltDriver.Commands;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Commands;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     class AltCallComponentMethodForObjectCommand : AltReflectionMethodsCommand<AltCallComponentMethodForObjectParams, object>
     {
