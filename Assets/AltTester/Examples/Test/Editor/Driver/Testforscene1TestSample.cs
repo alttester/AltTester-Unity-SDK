@@ -57,6 +57,15 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        public void TestGetApplicationScreenSize()
+        {
+            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
+            var screensize = altDriver.GetApplicationScreenSize();
+            Assert.AreEqual(1920, screensize.x);
+            Assert.AreEqual(1080, screensize.y);
+        }
+
+        [Test]
         public void TestFindElementWithText()
         {
             const string text = "Change Camera Mode";
