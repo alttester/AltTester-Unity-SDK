@@ -20,6 +20,7 @@ import com.alttester.Commands.ObjectCommand.AltSetComponentPropertyParams;
 import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.altTesterExceptions.*;
 import java.io.IOException;
+import java.util.Vector;
 
 public class AltDriver {
     static {
@@ -72,6 +73,27 @@ public class AltDriver {
         this.connection = new WebsocketConnection(host, port, connectTimeout);
         this.connection.connect();
         checkServerVersion();
+    }
+
+    public int[] getApplicationScreenSize() {
+
+        int[] size = {};
+        AltCallStaticMethodParams altCallStaticMethodParamsWidth = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "get_width",
+                "UnityEngine.CoreModule", new Object[] {})
+                .build();
+        int screenWidth = callStaticMethod(altCallStaticMethodParamsWidth,
+                Integer.class);
+        size[0] = screenWidth;
+        AltCallStaticMethodParams altCallStaticMethodParamsHeight = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "get_height",
+                "UnityEngine.CoreModule", new Object[] {})
+                .build();
+        int screenHeight = callStaticMethod(altCallStaticMethodParamsHeight,
+                Integer.class);
+
+        size[1] = screenHeight;
+        return size;
     }
 
     private String[] splitVersion(String version) {
@@ -652,11 +674,11 @@ public class AltDriver {
         return response;
     }
 
-     /**
+    /**
      * Sets the value of the static field or property
      *
      * @param parameters - String componentName* , String propertyName* , String
-     *                   assembly 
+     *                   assembly
      */
     public void setStaticProperty(AltSetComponentPropertyParams parameters) {
         new AltSetStaticProperty(this.connection.messageHandler, parameters).Execute();
