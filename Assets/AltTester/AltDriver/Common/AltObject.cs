@@ -41,24 +41,26 @@ namespace Altom.AltDriver
             this.transformId = transformId;
         }
 
-        public AltObject UpdateObject(AltObject newObject)
+        public AltObject UpdateObject()
         {
-            var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + newObject.id + "]/..", By.NAME, newObject.name, true).Execute();
-            altObject.x = newObject.x;
-            altObject.y = newObject.y;
-            altObject.z = newObject.z;
-            altObject.mobileY = newObject.mobileY;
-            altObject.type = newObject.type;
-            altObject.enabled = newObject.enabled;
-            altObject.worldX = newObject.worldX;
-            altObject.worldY = newObject.worldY;
-            altObject.worldZ = newObject.worldZ;
-            altObject.idCamera = newObject.idCamera;
-            altObject.transformParentId = newObject.transformParentId;
-            altObject.transformId = newObject.transformId;
+            var altObject = new AltFindObject(CommHandler, By.ID, id.ToString(), By.ID, idCamera.ToString(), enabled).Execute();
+            x = altObject.x;
+            y = altObject.y;
+            z = altObject.z;
+            id = altObject.id;
+            name = altObject.name;
+            mobileY = altObject.mobileY;
+            type = altObject.type;
+            enabled = altObject.enabled;
+            worldX = altObject.worldX;
+            worldY = altObject.worldY;
+            worldZ = altObject.worldZ;
+            idCamera = altObject.idCamera;
+            transformParentId = altObject.transformParentId;
+            transformId = altObject.transformId;
 
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+            return this;
         }
         public AltObject GetParent()
         {
