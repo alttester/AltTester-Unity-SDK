@@ -242,7 +242,7 @@ namespace AltTesterEditor
             SceneWithAltTester = EditorSceneManager.OpenScene(scene);
             AltTester = UnityEditor.PrefabUtility.InstantiatePrefab(altRunner);
             var altRunnerComponent = ((GameObject)AltTester).GetComponent<AltRunner>();
-            altRunnerComponent.instrumentationSettings = instrumentationSettings;
+            altRunnerComponent.InstrumentationSettings = instrumentationSettings;
 
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             EditorSceneManager.SaveOpenScenes();
@@ -266,7 +266,7 @@ namespace AltTesterEditor
 
             AltTester = UnityEditor.PrefabUtility.InstantiatePrefab(altTesterPrefab);
             AltRunner altRunnerComponent = ((UnityEngine.GameObject)AltTester).GetComponent<AltRunner>();
-            altRunnerComponent.instrumentationSettings = instrumentationSettings;
+            altRunnerComponent.InstrumentationSettings = instrumentationSettings;
 
 
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());

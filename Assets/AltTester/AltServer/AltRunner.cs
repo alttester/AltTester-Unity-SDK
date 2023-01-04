@@ -15,7 +15,7 @@ namespace AltTester
         public static readonly string VERSION = "1.8.0";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
-        public AltInstrumentationSettings instrumentationSettings = null;
+        public AltInstrumentationSettings InstrumentationSettings = null;
 
 
         [UnityEngine.Space]
@@ -188,7 +188,7 @@ namespace AltTester
 
         public void ShowClick(UnityEngine.Vector2 position)
         {
-            if (!instrumentationSettings.InputVisualizer || InputsVisualizer == null)
+            if (!InstrumentationSettings.InputVisualizer || InputsVisualizer == null)
                 return;
 
             InputsVisualizer.ShowClick(position);
@@ -196,7 +196,7 @@ namespace AltTester
 
         public int ShowInput(UnityEngine.Vector2 position, int markId = -1)
         {
-            if (!instrumentationSettings.InputVisualizer || InputsVisualizer == null)
+            if (!InstrumentationSettings.InputVisualizer || InputsVisualizer == null)
                 return -1;
 
             return InputsVisualizer.ShowContinuousInput(position, markId);

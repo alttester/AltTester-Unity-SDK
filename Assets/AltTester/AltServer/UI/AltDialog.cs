@@ -40,7 +40,7 @@ namespace AltTester.UI
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Button RestartButton = null;
 
-        public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.instrumentationSettings; } }
+        public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
         private ICommunication _communication;
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
