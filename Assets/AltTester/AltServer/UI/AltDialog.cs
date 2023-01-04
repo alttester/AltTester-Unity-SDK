@@ -40,7 +40,7 @@ namespace AltTester.UI
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Button RestartButton = null;
 
-        public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
+        public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.instrumentationSettings; } }
 
         private ICommunication _communication;
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
@@ -254,7 +254,7 @@ namespace AltTester.UI
             _updateQueue.ScheduleResponse(() =>
             {
 #if ALTTESTER && ENABLE_INPUT_SYSTEM
-                    NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
+                NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
 #endif
 
                 SetMessage(message, SUCCESS_COLOR, false);
@@ -272,7 +272,7 @@ namespace AltTester.UI
             _updateQueue.ScheduleResponse(() =>
             {
 #if ALTTESTER && ENABLE_INPUT_SYSTEM
-                    NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
+                NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
 #endif
 
                 StartClient();
