@@ -43,7 +43,7 @@ namespace Altom.AltDriver
 
         public AltObject UpdateObject()
         {
-            var altObject = new AltFindObject(CommHandler, By.ID, id.ToString(), By.ID, idCamera.ToString(), enabled).Execute();
+            var altObject = new AltFindObject(CommHandler, By.ID, this.id.ToString(), By.ID, this.idCamera.ToString(), this.enabled).Execute();
             x = altObject.x;
             y = altObject.y;
             z = altObject.z;
