@@ -15,7 +15,7 @@ namespace AltTester
         public static readonly string VERSION = "1.8.0";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
-        private AltInstrumentationSettings instrumentationSettings = new AltInstrumentationSettings();
+        private AltInstrumentationSettings instrumentationSettings = null;
 
 
         [UnityEngine.Space]

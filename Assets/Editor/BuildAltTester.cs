@@ -321,22 +321,22 @@ namespace AltTesterTools
         {
 
             var instrumentationSettings = new AltInstrumentationSettings();
-            // var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
-            // if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
-            // {
-            //     instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-            //     instrumentationSettings.ProxyHost = proxyHost;
-            // }
-            // var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
-            // if (!string.IsNullOrEmpty(proxyPort))//proxy mode
-            // {
-            //     instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-            //     instrumentationSettings.ProxyPort = int.Parse(proxyPort);
-            // }
-            // else
-            // {
-            instrumentationSettings.ProxyPort = 13010;
-            // }
+            var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
+            if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
+            {
+                instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
+                instrumentationSettings.ProxyHost = proxyHost;
+            }
+            var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
+            if (!string.IsNullOrEmpty(proxyPort))//proxy mode
+            {
+                instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
+                instrumentationSettings.ProxyPort = int.Parse(proxyPort);
+            }
+            else
+            {
+                instrumentationSettings.ProxyPort = 13010;
+            }
 
             return instrumentationSettings;
 
