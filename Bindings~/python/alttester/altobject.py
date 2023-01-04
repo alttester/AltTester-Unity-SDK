@@ -98,6 +98,28 @@ class AltObject:
             "idCamera": self.idCamera
         }
 
+    def update_object(self):
+        altObject = commands.FindObject.run(
+            self._connection,
+            By.ID, self.id, By.NAME, "", enabled=True
+        )
+        self.x = altObject.x
+        self.y = altObject.y
+        self.z = altObject.z
+        self.id = altObject.id
+        self.name = altObject.name
+        self.mobileY = altObject.mobileY
+        self.type = altObject.type
+        self.enabled = altObject.enabled
+        self.worldX = altObject.worldX
+        self.worldY = altObject.worldY
+        self.worldZ = altObject.worldZ
+        self.idCamera = altObject.idCamera
+        self.transformParentId = altObject.transformParentId
+        self.transformId = altObject.transformId
+
+        return AltObject(self._altdriver, altObject)
+
     def get_screen_position(self):
         """Returns the screen position.
 
