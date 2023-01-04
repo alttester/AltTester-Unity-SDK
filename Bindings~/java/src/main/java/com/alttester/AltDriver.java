@@ -77,7 +77,7 @@ public class AltDriver {
 
     public int[] getApplicationScreenSize() {
 
-        int[] size = {};
+        int[] size = new int[] {};
         AltCallStaticMethodParams altCallStaticMethodParamsWidth = new AltCallStaticMethodParams.Builder(
                 "UnityEngine.Screen", "get_width",
                 "UnityEngine.CoreModule", new Object[] {})
