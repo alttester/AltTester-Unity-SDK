@@ -34,6 +34,7 @@ namespace AltTester
             {
                 if (instrumentationSettings == null)
                 {
+                    UnityEngine.Debug.LogError("Debugging stuff");
                     instrumentationSettings = new AltInstrumentationSettings()
                     {
                         InstrumentationMode = AltInstrumentationMode.Proxy
