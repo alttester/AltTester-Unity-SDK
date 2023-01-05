@@ -45,6 +45,7 @@ class TestScene05:
         initial_position_z = cube.worldZ
 
         self.altdriver.press_key(AltKeyCode.W, power=1, duration=0.1, wait=False)
+        time.sleep(5)
 
         assert initial_position_z != cube.update_object().worldZ
 
