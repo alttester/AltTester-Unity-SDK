@@ -20,7 +20,6 @@ import com.alttester.Commands.ObjectCommand.AltSetComponentPropertyParams;
 import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.altTesterExceptions.*;
 import java.io.IOException;
-import java.util.Vector;
 
 public class AltDriver {
     static {
@@ -77,14 +76,12 @@ public class AltDriver {
 
     public int[] getApplicationScreenSize() {
 
-        int[] size = new int[] {};
         AltCallStaticMethodParams altCallStaticMethodParamsWidth = new AltCallStaticMethodParams.Builder(
                 "UnityEngine.Screen", "get_width",
                 "UnityEngine.CoreModule", new Object[] {})
                 .build();
         int screenWidth = callStaticMethod(altCallStaticMethodParamsWidth,
                 Integer.class);
-        size[0] = screenWidth;
         AltCallStaticMethodParams altCallStaticMethodParamsHeight = new AltCallStaticMethodParams.Builder(
                 "UnityEngine.Screen", "get_height",
                 "UnityEngine.CoreModule", new Object[] {})
@@ -92,8 +89,7 @@ public class AltDriver {
         int screenHeight = callStaticMethod(altCallStaticMethodParamsHeight,
                 Integer.class);
 
-        size[1] = screenHeight;
-        return size;
+        return new int[] { screenWidth, screenHeight };
     }
 
     private String[] splitVersion(String version) {
