@@ -614,10 +614,10 @@ namespace AltTesterEditor
                     {
                         AltBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: false);
                     }
-                    // else if (EditorConfiguration.platform == AltPlatform.WebGL)
-                    // {
-                    //     AltBuilder.BuildWebGLFromUI(autoRun: false);
-                    // }
+                    else if (EditorConfiguration.platform == AltPlatform.WebGL)
+                    {
+                        AltBuilder.BuildWebGLFromUI(autoRun: false);
+                    }
                     else
                     {
                         runInEditor();
@@ -670,10 +670,10 @@ namespace AltTesterEditor
                     {
                         AltBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: true);
                     }
-                    // else if (EditorConfiguration.platform == AltPlatform.WebGL)
-                    // {
-                    //     AltBuilder.BuildWebGLFromUI(autoRun: true);
-                    // }
+                    else if (EditorConfiguration.platform == AltPlatform.WebGL)
+                    {
+                        AltBuilder.BuildWebGLFromUI(autoRun: true);
+                    }
                     UnityEngine.GUIUtility.ExitGUI();
                 }
 
@@ -858,9 +858,9 @@ namespace AltTesterEditor
                     showSettings(UnityEditor.BuildTargetGroup.iOS, AltPlatform.iOS);
                     break;
 #endif
-                    // case AltPlatform.WebGL:
-                    // showSettings(UnityEditor.BuildTargetGroup.WebGL,AltPlatform.WebGL);
-                    //     break;
+                case AltPlatform.WebGL:
+                    showSettings(UnityEditor.BuildTargetGroup.WebGL, AltPlatform.WebGL);
+                    break;
             }
         }
 

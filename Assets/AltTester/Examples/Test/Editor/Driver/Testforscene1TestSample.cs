@@ -543,7 +543,7 @@ namespace AltTester.AltDriver.Tests
 
 
         [Test]
-        public void TestCallMethodAssmeblyNotFound()
+        public void TestCallMethodAssemblyNotFound()
         {
             const string componentName = "RandomComponent";
             const string methodName = "TestMethodWithManyParameters";

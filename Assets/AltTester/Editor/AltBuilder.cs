@@ -17,6 +17,7 @@ namespace AltTesterEditor
     public class AltBuilder
     {
         private const string ALTTESTERDEFINE = "ALTTESTER";
+        private const string WEBGLDEFINE = "UNITY_WEBGL";
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
         public enum InputType
         {
@@ -87,6 +88,7 @@ namespace AltTesterEditor
                     target = UnityEditor.BuildTarget.WebGL,
                     targetGroup = UnityEditor.BuildTargetGroup.WebGL
                 };
+                AltBuilder.AddScriptingDefineSymbol(WEBGLDEFINE, UnityEditor.BuildTargetGroup.WebGL);
 
                 buildGame(autoRun, buildPlayerOptions);
             }
@@ -97,7 +99,8 @@ namespace AltTesterEditor
             finally
             {
                 Built = true;
-                resetBuildSetup(UnityEditor.BuildTargetGroup.Android);
+                resetBuildSetup(UnityEditor.BuildTargetGroup.WebGL);
+                AltBuilder.RemoveScriptingDefineSymbol(WEBGLDEFINE, UnityEditor.BuildTargetGroup.WebGL);
             }
 
         }
@@ -132,6 +135,11 @@ namespace AltTesterEditor
 
         public static void RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup)
         {
+            RemoveScriptingDefineSymbol(ALTTESTERDEFINE, targetGroup);
+        }
+
+        public static void RemoveScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
+        {
             if (AltTesterEditorWindow.EditorConfiguration != null && AltTesterEditorWindow.EditorConfiguration.KeepAUTSymbolDefined)
                 return;
             try
@@ -139,12 +147,12 @@ namespace AltTesterEditor
                 var scriptingDefineSymbolsForGroup =
                     UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
                 string newScriptingDefineSymbolsForGroup = "";
-                if (scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE))
+                if (scriptingDefineSymbolsForGroup.Contains(symbol))
                 {
                     var split = scriptingDefineSymbolsForGroup.Split(';');
                     foreach (var define in split)
                     {
-                        if (define != ALTTESTERDEFINE)
+                        if (define != symbol)
                         {
                             newScriptingDefineSymbolsForGroup += define + ";";
                         }
@@ -164,10 +172,15 @@ namespace AltTesterEditor
 
         public static void AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildTargetGroup targetGroup)
         {
+            AddScriptingDefineSymbol(ALTTESTERDEFINE, targetGroup);
+        }
+
+        public static void AddScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
+        {
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE))
+            if (!scriptingDefineSymbolsForGroup.Contains(symbol))
             {
-                scriptingDefineSymbolsForGroup += ";" + ALTTESTERDEFINE;
+                scriptingDefineSymbolsForGroup += ";" + symbol;
             }
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
         }
@@ -233,6 +246,8 @@ namespace AltTesterEditor
 
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             EditorSceneManager.SaveOpenScenes();
+            UnityEngine.Debug.Log("AltTesterPrefab successfully modified into the [" + scene + "] scene.");
+
             logger.Info("AltTesterPrefab successfully modified into the [" + scene + "] scene.");
         }
 
@@ -412,6 +427,7 @@ namespace AltTesterEditor
 
         private static string[] getScenesForBuild()
         {
+            InsertAltTesterInTheFirstScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
             if (AltTesterEditorWindow.EditorConfiguration.Scenes.Count == 0)
             {
                 AltTesterEditorWindow.AddAllScenes();
@@ -425,8 +441,6 @@ namespace AltTesterEditor
                     sceneList.Add(scene.Path);
                 }
             }
-
-            InsertAltTesterInTheFirstScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
 
             return sceneList.ToArray();
         }

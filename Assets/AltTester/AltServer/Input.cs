@@ -71,7 +71,7 @@ public class Input : MonoBehaviour
         }
     }
 
-#region MonoBehaviour
+    #region MonoBehaviour
 
     public void Start()
     {
@@ -116,9 +116,9 @@ public class Input : MonoBehaviour
 
     }
 
-#endregion
+    #endregion
 
-#region UnityEngine.Input.AltTester.NotImplemented
+    #region UnityEngine.Input.AltTester.NotImplemented
 
     public static bool simulateMouseWithTouches
     {
@@ -230,9 +230,9 @@ public class Input : MonoBehaviour
         UnityEngine.Input.ResetInputAxes();
     }
 
-#endregion
+    #endregion
 
-#region UnityEngine.Input.AltTester
+    #region UnityEngine.Input.AltTester
 
     public static bool anyKey
     {
@@ -656,9 +656,9 @@ public class Input : MonoBehaviour
         return _useCustomInput ? _touches[index] : UnityEngine.Input.GetTouch(index);
     }
 
-#endregion
+    #endregion
 
-#region public commands interface
+    #region public commands interface
     public static int BeginTouch(UnityEngine.Vector3 screenPosition)
     {
         var touch = createTouch(screenPosition);
@@ -898,9 +898,9 @@ public class Input : MonoBehaviour
         }
         done.Invoke(err);
     }
-#endregion
+    #endregion
 
-#region private interface
+    #region private interface
     private static UnityEngine.Touch createTouch(UnityEngine.Vector3 screenPosition)
     {
         var touch = new UnityEngine.Touch
@@ -1437,7 +1437,7 @@ public class Input : MonoBehaviour
     {
         return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
     }
-#endregion
+    #endregion
 }
 
 namespace AltTester.InputModule

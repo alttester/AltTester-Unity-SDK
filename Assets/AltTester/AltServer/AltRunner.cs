@@ -35,9 +35,9 @@ namespace AltTester
         protected void Awake()
         {
 #if !ALTTESTER
-            logger.Error("ALTTESTER needs to be added to 'Scripting Define Symbols'");
-            Destroy(this.gameObject);
-            return;
+                        logger.Error("ALTTESTER needs to be added to 'Scripting Define Symbols'");
+                        Destroy(this.gameObject);
+                        return;
 
 #else
             if (_altRunner != null)

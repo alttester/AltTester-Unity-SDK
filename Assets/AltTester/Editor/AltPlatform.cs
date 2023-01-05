@@ -8,5 +8,6 @@ namespace AltTesterEditor
 #endif
         Editor,
         Standalone,
+        WebGL
     }
 }

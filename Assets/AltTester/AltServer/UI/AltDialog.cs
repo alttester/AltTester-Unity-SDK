@@ -78,7 +78,8 @@ namespace AltTester.UI
             MessageText.text = message;
         }
 
-        private void SetTitle(string title) {
+        private void SetTitle(string title)
+        {
             TitleText.text = title;
         }
 
@@ -87,11 +88,13 @@ namespace AltTester.UI
             Dialog.SetActive(!Dialog.activeSelf);
         }
 
-        private void SetUpCloseButton() {
+        private void SetUpCloseButton()
+        {
             CloseButton.onClick.AddListener(ToggleDialog);
         }
 
-        private void setUpIcon() {
+        private void setUpIcon()
+        {
             Icon.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(ToggleDialog);
         }
 
@@ -178,11 +181,11 @@ namespace AltTester.UI
         {
             var cmdHandler = new CommandHandler();
 
-            #if UNITY_WEBGL && !UNITY_EDITOR
-                _communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
-            #else
-                _communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
-            #endif
+#if UNITY_WEBGL && !UNITY_EDITOR
+            _communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
+#else
+            _communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
+#endif
 
             _communication.OnConnect += OnConnect;
             _communication.OnDisconnect += OnDisconnect;
@@ -243,16 +246,16 @@ namespace AltTester.UI
         {
             string message = String.Format("Connected to AltProxy on {0}:{1} with game name: '{2}'.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
 
-            #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-                Input.UseCustomInput = true;
-                UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-            #endif
+#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+            Input.UseCustomInput = true;
+            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
 
             _updateQueue.ScheduleResponse(() =>
             {
-                #if ALTTESTER && ENABLE_INPUT_SYSTEM
-                    NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
-                #endif
+#if ALTTESTER && ENABLE_INPUT_SYSTEM
+                NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
+#endif
 
                 SetMessage(message, SUCCESS_COLOR, false);
                 _wasConnectedBefore = true;
@@ -261,16 +264,16 @@ namespace AltTester.UI
 
         private void OnDisconnect()
         {
-            #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-                Input.UseCustomInput = false;
-                UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-            #endif
+#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+            Input.UseCustomInput = false;
+            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
 
             _updateQueue.ScheduleResponse(() =>
             {
-                #if ALTTESTER && ENABLE_INPUT_SYSTEM
-                    NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
-                #endif
+#if ALTTESTER && ENABLE_INPUT_SYSTEM
+                NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
+#endif
 
                 StartClient();
             });
