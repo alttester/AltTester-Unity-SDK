@@ -62,20 +62,20 @@ public class AltObject {
         AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(By.ID, String.valueOf(this.id))
                 .build();
         AltObject altObject = new AltFindObject(messageHandler, altFindObjectsParameters).Execute();
-        x = altObject.x;
-        y = altObject.y;
-        z = altObject.z;
-        id = altObject.id;
-        name = altObject.name;
-        mobileY = altObject.mobileY;
-        type = altObject.type;
-        enabled = altObject.enabled;
-        worldX = altObject.worldX;
-        worldY = altObject.worldY;
-        worldZ = altObject.worldZ;
-        idCamera = altObject.idCamera;
-        transformParentId = altObject.transformParentId;
-        transformId = altObject.transformId;
+        this.x = altObject.x;
+        this.y = altObject.y;
+        this.z = altObject.z;
+        this.id = altObject.id;
+        this.name = altObject.name;
+        this.mobileY = altObject.mobileY;
+        this.type = altObject.type;
+        this.enabled = altObject.enabled;
+        this.worldX = altObject.worldX;
+        this.worldY = altObject.worldY;
+        this.worldZ = altObject.worldZ;
+        this.idCamera = altObject.idCamera;
+        this.transformParentId = altObject.transformParentId;
+        this.transformId = altObject.transformId;
 
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
         return this;
