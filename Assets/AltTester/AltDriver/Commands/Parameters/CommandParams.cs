@@ -7,6 +7,7 @@ namespace AltTester.AltDriver.Commands
     public class CommandParams
     {
         public string messageId;
+        public string driverId;
         public string commandName;
         public CommandParams()
         {
@@ -46,6 +47,7 @@ namespace AltTester.AltDriver.Commands
     public class CommandResponse
     {
         public string messageId;
+        public string driverId;
         public string commandName;
         public CommandError error;
         public String data;
