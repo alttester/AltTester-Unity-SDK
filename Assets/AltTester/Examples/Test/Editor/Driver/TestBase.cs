@@ -7,6 +7,8 @@ using NUnit.Framework;
 public class TestBase
 {
     private AltDriver altDriver;
+    string sceneName;
+
     [OneTimeSetUp]
     public void SetUp()
     {
@@ -22,7 +24,7 @@ public class TestBase
     }
 
     [SetUp]
-    public extern void LoadLevel(string sceneName)
+    protected void LoadLevel()
     {
         altDriver.ResetInput();
 
