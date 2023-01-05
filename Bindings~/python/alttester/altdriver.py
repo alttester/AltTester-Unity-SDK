@@ -736,15 +736,14 @@ class AltDriver:
         commands.Tilt.run(self._connection, acceleration, duration, wait)
 
     def get_application_screensize(self):
-        screen_width = self.altdriver.call_static_method(
+        screen_width = self.call_static_method(
             "UnityEngine.Screen", "get_width",
             "UnityEngine.CoreModule"
         )
-        screen_height = self.altdriver.call_static_method(
-            "UnityEngine.Screen", "get_width",
+        screen_height = self.call_static_method(
+            "UnityEngine.Screen", "get_height",
             "UnityEngine.CoreModule"
         )
-
         return [screen_width, screen_height]
 
     def get_png_screenshot(self, path):
