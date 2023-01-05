@@ -97,7 +97,7 @@ public class TestsSampleScene5 {
         }
 
         @Test
-        public void TestUpdateAltObject() {
+        public void TestUpdateAltObject() throws InterruptedException {
 
                 AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(
                                 AltDriver.By.NAME, "Player1").build();
@@ -106,7 +106,7 @@ public class TestsSampleScene5 {
 
                 altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.W).withDuration(1).withPower(2)
                                 .withWait(false).build());
-
+                Thread.sleep(2000);
                 assertNotEquals(cubeInitWorldZ, cube.UpdateObject().worldZ);
         }
 
