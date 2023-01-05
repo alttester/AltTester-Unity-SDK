@@ -99,9 +99,9 @@ public class TestsSampleScene5 {
         @Test
         public void TestUpdateAltObject() {
 
-                AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
+                AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(
                                 AltDriver.By.NAME, "Player1").build();
-                AltObject cube = altDriver.findObject(altFindObjectsParameters2);
+                AltObject cube = altDriver.findObject(altFindObjectsParameters);
                 float cubeInitWorldZ = cube.worldZ;
 
                 altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.W).withDuration(1).withPower(2)
