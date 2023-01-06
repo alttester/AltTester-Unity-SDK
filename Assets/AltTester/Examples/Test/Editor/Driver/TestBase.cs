@@ -6,8 +6,8 @@ using NUnit.Framework;
 
 public class TestBase
 {
-    private AltDriver altDriver;
-    string sceneName;
+    protected AltDriver altDriver;
+    protected string sceneName;
 
     [OneTimeSetUp]
     public void SetUp()
@@ -29,6 +29,6 @@ public class TestBase
         altDriver.ResetInput();
 
         altDriver.SetCommandResponseTimeout(60);
-        altDriver.LoadScene(sceneName, true);
+        altDriver.LoadScene(this.sceneName, true);
     }
 }

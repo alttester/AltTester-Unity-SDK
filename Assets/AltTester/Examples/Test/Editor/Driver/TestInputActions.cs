@@ -5,30 +5,13 @@ using NUnit.Framework;
 
 namespace Altom.AltDriver.Tests
 {
-    public class TestInputActions
+    public class TestInputActions : TestBase
     {
-        private AltDriver altDriver;
-        //Before any test it connects with the socket
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        public TestInputActions()
         {
-            altDriver = TestsHelper.GetAltDriver();
-            DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
-            DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
+            sceneName = "Scene6";
         }
 
-        //At the end of the test closes the connection with the socket
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            altDriver.Stop();
-        }
-        [SetUp]
-        public void SetUp()
-        {
-            altDriver.ResetInput();
-            altDriver.LoadScene("Scene6");
-        }
         [Test]
         public void TestScrollAndWait()
         {

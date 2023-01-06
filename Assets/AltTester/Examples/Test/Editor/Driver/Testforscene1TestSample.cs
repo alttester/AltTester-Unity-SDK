@@ -9,30 +9,12 @@ using NUnit.Framework;
 namespace Altom.AltDriver.Tests
 {
     [Timeout(30000)]
-    public class TestForScene1TestSample
+    public class TestForScene1TestSample : TestBase
     {
-        private AltDriver altDriver;
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-            altDriver = TestsHelper.GetAltDriver();
-            DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
-            DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
-        }
 
-        [OneTimeTearDown]
-        public void TearDown()
+        public TestForScene1TestSample()
         {
-            altDriver.Stop();
-        }
-
-        [SetUp]
-        public void LoadLevel()
-        {
-            altDriver.ResetInput();
-
-            altDriver.SetCommandResponseTimeout(60);
-            altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
+            sceneName = "Scene 1 AltDriverTestScene";
         }
 
         [Test]
@@ -2142,8 +2124,6 @@ namespace Altom.AltDriver.Tests
             }
             Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltScrollViewButtonController", "Counter", "Assembly-CSharp"));
         }
-
-
         [Test]
         public void TestCallPrivateMethod()
         {

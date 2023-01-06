@@ -7,32 +7,13 @@ using NUnit.Framework;
 
 namespace Altom.AltDriver.Tests
 {
-    public class TestForScene5KeyboardAndMouseInput
+    public class TestForScene5KeyboardAndMouseInput : TestBase
     {
 #pragma warning disable CS0618
 
-        public AltDriver altDriver;
-        //Before any test it connects with the socket
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        public TestForScene5KeyboardAndMouseInput()
         {
-            altDriver = TestsHelper.GetAltDriver();
-            DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
-            DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
-        }
-
-        //At the end of the test closes the connection with the socket
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            altDriver.Stop();
-        }
-        [SetUp]
-        public void SetUp()
-        {
-            altDriver.ResetInput();
-            altDriver.LoadScene("Scene 5 Keyboard Input");
-
+            sceneName = "Scene 5 Keyboard Input";
         }
 
         [Test]
