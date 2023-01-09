@@ -21,7 +21,46 @@ import com.alttester.Logging.AltLogLevel;
 import com.alttester.altTesterExceptions.WaitTimeOutException;
 
 public class TestsNotifications {
-        AltDriver altDriver = TestsHelper.getAltDriver();
+        static AltDriver altDriver = TestsHelper.getAltDriver();
+
+        @BeforeClass
+        public static void setUp() throws Exception {
+                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
+                                true);
+                AltAddNotificationListenerParams altSetNotificationParams = new AltAddNotificationListenerParams.Builder(
+                                NotificationType.LOADSCENE, new MockNotificationCallBacks()).build();
+                AltAddNotificationListenerParams altSetNotificationParams2 = new AltAddNotificationListenerParams.Builder(
+                                NotificationType.UNLOADSCENE, new MockNotificationCallBacks()).build();
+                AltAddNotificationListenerParams altSetNotificationParams3 = new AltAddNotificationListenerParams.Builder(
+                                NotificationType.LOG, new MockNotificationCallBacks()).build();
+                AltAddNotificationListenerParams altSetNotificationParams4 = new AltAddNotificationListenerParams.Builder(
+                                NotificationType.APPLICATION_PAUSED, new MockNotificationCallBacks()).build();
+                altDriver.addNotification(altSetNotificationParams);
+                altDriver.addNotification(altSetNotificationParams2);
+                altDriver.addNotification(altSetNotificationParams3);
+                altDriver.addNotification(altSetNotificationParams4);
+        }
+
+        @AfterClass
+        public static void tearDown() throws Exception {
+
+                AltRemoveNotificationListenerParams altSetNotificationParams = new AltRemoveNotificationListenerParams.Builder(
+                                NotificationType.LOADSCENE).build();
+                AltRemoveNotificationListenerParams altSetNotificationParams2 = new AltRemoveNotificationListenerParams.Builder(
+                                NotificationType.UNLOADSCENE).build();
+                AltRemoveNotificationListenerParams altSetNotificationParams3 = new AltRemoveNotificationListenerParams.Builder(
+                                NotificationType.LOG).build();
+                AltRemoveNotificationListenerParams altSetNotificationParams4 = new AltRemoveNotificationListenerParams.Builder(
+                                NotificationType.APPLICATION_PAUSED).build();
+                altDriver.removeNotificationListener(altSetNotificationParams);
+                altDriver.removeNotificationListener(altSetNotificationParams2);
+                altDriver.removeNotificationListener(altSetNotificationParams3);
+                altDriver.removeNotificationListener(altSetNotificationParams4);
+                if (altDriver != null) {
+                        altDriver.stop();
+                }
+                Thread.sleep(1000);
+        }
 
         @Test
         public void testLodeNonExistentScene() {
@@ -58,7 +97,6 @@ public class TestsNotifications {
 
         @Test
         public void testApplicationPausedNotification() {
-                TestsHelper.addNotifications(altDriver, Arrays.asList(NotificationType.values()));
                 AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(
                                 AltDriver.By.NAME,
                                 "AltTesterPrefab").build();

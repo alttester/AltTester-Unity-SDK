@@ -28,13 +28,4 @@ public class TestsHelper {
         return altDriver;
     }
 
-    public static AltDriver addNotifications(AltDriver altDriver, Collection<NotificationType> notificationTypes) {
-        for (NotificationType notificationType : notificationTypes) {
-            AltAddNotificationListenerParams notificationParams = new AltAddNotificationListenerParams.Builder(
-                    notificationType, new MockNotificationCallBacks()).build();
-            altDriver.addNotification(notificationParams);
-        }
-
-        return altDriver;
-    }
 }
