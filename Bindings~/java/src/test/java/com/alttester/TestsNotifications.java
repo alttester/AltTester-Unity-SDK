@@ -80,7 +80,6 @@ public class TestsNotifications {
 
         @Test
         public void testUnloadSceneNotification() throws Exception {
-                TestsHelper.addNotifications(altDriver, Arrays.asList(NotificationType.values()));
 
                 altDriver.loadScene(
                                 new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").loadSingle(false).build());
