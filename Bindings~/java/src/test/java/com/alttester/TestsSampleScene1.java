@@ -44,32 +44,11 @@ import java.lang.Void;
 import java.io.File;
 
 public class TestsSampleScene1 {
-
-        private static AltDriver altDriver;
-
-        @BeforeClass
-        public static void setUp() {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(),
-                                TestsHelper.GetAltDriverPort(),
-                                true);
-        }
-
-        @AfterClass
-        public static void tearDown() throws Exception {
-                if (altDriver != null) {
-                        altDriver.stop();
-                }
-                Thread.sleep(1000);
-        }
-
-        @Before
-        public void loadLevel() {
-                altDriver.resetInput();
-                altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltDriverTestScene").build());
-        }
+        AltDriver altDriver = TestsHelper.getAltDriver();
 
         @Test
         public void testLodeNonExistentScene() {
+
                 try {
                         altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 0").build());
                         assertTrue(false);

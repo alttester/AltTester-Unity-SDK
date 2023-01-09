@@ -12,7 +12,6 @@ import com.alttester.Commands.InputActions.AltMultiPointSwipeParams;
 import com.alttester.Commands.InputActions.AltSwipeParams;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
-import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.position.Vector2;
 
 import java.util.Arrays;
@@ -22,158 +21,137 @@ import static org.junit.Assert.*;
 
 public class TestsSampleScene2 {
 
-    private static AltDriver altDriver;
+        AltDriver altDriver = TestsHelper.getAltDriver();
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-        altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                true);
-    }
+        @Test
+        public void testResizePanel() throws Exception {
 
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (altDriver != null) {
-            altDriver.stop();
+                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Resize Zone").build();
+                AltObject altElement = altDriver.findObject(altFindObjectsParameters1);
+                Vector2 start = altElement.getScreenPosition();
+                Vector2 end = new Vector2(start.x + 200, start.y + 200);
+                altDriver.swipe(new AltSwipeParams.Builder(start, end).withDuration(2).withWait(false).build());
+                Thread.sleep(2000);
+                AltObject altElementAfterResize = altDriver.findObject(altFindObjectsParameters1);
+                assertNotSame(altElement.x, altElementAfterResize.x);
+                assertNotSame(altElement.y, altElementAfterResize.y);
         }
-        Thread.sleep(1000);
-    }
 
-    @Before
-    public void loadLevel() throws Exception {
-        altDriver.resetInput();
-        AltLoadSceneParams params = new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build();
-        altDriver.loadScene(params);
-    }
+        @Test
+        public void testMovePanel() throws Exception {
 
-    @Test
-    public void testResizePanel() throws Exception {
+                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Drag Zone").build();
+                AltObject altElement = altDriver.findObject(altFindObjectsParameters1);
+                Vector2 start = altElement.getScreenPosition();
+                Vector2 end = new Vector2(start.x + 200, start.y + 200);
+                altDriver.swipe(new AltSwipeParams.Builder(start, end).withDuration(2).withWait(false).build());
+                Thread.sleep(2000);
+                AltObject altElementAfterMove = altDriver.findObject(altFindObjectsParameters1);
+                assertNotSame(altElement.x, altElementAfterMove.x);
+                assertNotSame(altElement.y, altElementAfterMove.y);
+        }
 
-        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Resize Zone").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParameters1);
-        Vector2 start = altElement.getScreenPosition();
-        Vector2 end = new Vector2(start.x + 200, start.y + 200);
-        altDriver.swipe(new AltSwipeParams.Builder(start, end).withDuration(2).withWait(false).build());
-        Thread.sleep(2000);
-        AltObject altElementAfterResize = altDriver.findObject(altFindObjectsParameters1);
-        assertNotSame(altElement.x, altElementAfterResize.x);
-        assertNotSame(altElement.y, altElementAfterResize.y);
-    }
+        @Test
+        public void testResizePanelWithMultipointSwipe() throws Exception {
+                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Resize Zone").build();
+                AltObject altElement = altDriver.findObject(altFindObjectsParameters1);
 
-    @Test
-    public void testMovePanel() throws Exception {
+                List<Vector2> positions = Arrays.asList(altElement.getScreenPosition(),
+                                new Vector2(altElement.x + 100, altElement.y + 100),
+                                new Vector2(altElement.x + 100, altElement.y + 200));
 
-        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drag Zone").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParameters1);
-        Vector2 start = altElement.getScreenPosition();
-        Vector2 end = new Vector2(start.x + 200, start.y + 200);
-        altDriver.swipe(new AltSwipeParams.Builder(start, end).withDuration(2).withWait(false).build());
-        Thread.sleep(2000);
-        AltObject altElementAfterMove = altDriver.findObject(altFindObjectsParameters1);
-        assertNotSame(altElement.x, altElementAfterMove.x);
-        assertNotSame(altElement.y, altElementAfterMove.y);
-    }
+                altDriver.multipointSwipe(new AltMultiPointSwipeParams.Builder(positions).withDuration(3).build());
 
-    @Test
-    public void testResizePanelWithMultipointSwipe() throws Exception {
-        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Resize Zone").build();
-        AltObject altElement = altDriver.findObject(altFindObjectsParameters1);
+                AltObject altElementAfterResize = altDriver.findObject(altFindObjectsParameters1);
+                assertNotSame(altElement.x, altElementAfterResize.x);
+                assertNotSame(altElement.y, altElementAfterResize.y);
+        }
 
-        List<Vector2> positions = Arrays.asList(altElement.getScreenPosition(),
-                new Vector2(altElement.x + 100, altElement.y + 100),
-                new Vector2(altElement.x + 100, altElement.y + 200));
+        @Test
+        public void testClosePanel() throws Exception {
 
-        altDriver.multipointSwipe(new AltMultiPointSwipeParams.Builder(positions).withDuration(3).build());
+                AltFindObjectsParams findObjectsParameters = new AltFindObjectsParams.Builder(By.NAME,
+                                "Panel Drag Area").build();
+                AltWaitForObjectsParams params = new AltWaitForObjectsParams.Builder(findObjectsParameters)
+                                .withInterval(2).build();
+                altDriver.waitForObject(params);
 
-        AltObject altElementAfterResize = altDriver.findObject(altFindObjectsParameters1);
-        assertNotSame(altElement.x, altElementAfterResize.x);
-        assertNotSame(altElement.y, altElementAfterResize.y);
-    }
+                AltFindObjectsParams findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Panel").build();
+                assertTrue(altDriver.findObject(findObjectParams).enabled);
 
-    @Test
-    public void testClosePanel() throws Exception {
+                findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Close Button").build();
+                AltObject altElement = altDriver.findObject(findObjectParams);
+                altElement.click(new AltTapClickElementParams.Builder().build());
 
-        AltFindObjectsParams findObjectsParameters = new AltFindObjectsParams.Builder(By.NAME,
-                "Panel Drag Area").build();
-        AltWaitForObjectsParams params = new AltWaitForObjectsParams.Builder(findObjectsParameters)
-                .withInterval(2).build();
-        altDriver.waitForObject(params);
+                AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Button").build();
+                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Panel").build();
+                altElement = altDriver.findObject(altFindObjectsParameters2);
+                altElement.click(new AltTapClickElementParams.Builder().build());
+                assertTrue(altDriver.findObject(altFindObjectsParameters1).enabled);
+        }
 
-        AltFindObjectsParams findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Panel").build();
-        assertTrue(altDriver.findObject(findObjectParams).enabled);
+        @Test
+        public void testPointerDownFromObject() throws InterruptedException {
+                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Panel").build();
+                AltObject panel = altDriver.findObject(altFindObjectsParameters1);
 
-        findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "Close Button").build();
-        AltObject altElement = altDriver.findObject(findObjectParams);
-        altElement.click(new AltTapClickElementParams.Builder().build());
+                AltColor color1 = panel.getComponentProperty(
+                                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor",
+                                                "Assembly-CSharp")
+                                                .build(),
+                                AltColor.class);
+                panel.pointerDown();
+                Thread.sleep(1000);
+                AltColor color2 = panel.getComponentProperty(
+                                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor",
+                                                "Assembly-CSharp")
+                                                .build(),
+                                AltColor.class);
+                assertTrue(color1.r != color2.r || color1.g != color2.g || color1.b != color2.b
+                                || color1.a != color2.a);
+        }
 
-        AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Button").build();
-        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Panel").build();
-        altElement = altDriver.findObject(altFindObjectsParameters2);
-        altElement.click(new AltTapClickElementParams.Builder().build());
-        assertTrue(altDriver.findObject(altFindObjectsParameters1).enabled);
-    }
+        @Test
+        public void testPointerUpFromObject() throws InterruptedException {
+                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Panel").build();
+                AltObject panel = altDriver.findObject(altFindObjectsParameters1);
+                AltColor color1 = panel.getComponentProperty(
+                                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor",
+                                                "Assembly-CSharp")
+                                                .build(),
+                                AltColor.class);
+                panel.pointerDown();
+                Thread.sleep(1000);
+                panel.pointerUp();
+                AltColor color2 = panel.getComponentProperty(
+                                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor",
+                                                "Assembly-CSharp")
+                                                .build(),
+                                AltColor.class);
+                assertTrue(color1.r == color2.r && color1.g == color2.g && color1.b == color2.b
+                                && color1.a == color2.a);
+        }
 
-    @Test
-    public void testPointerDownFromObject() throws InterruptedException {
-        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Panel").build();
-        AltObject panel = altDriver.findObject(altFindObjectsParameters1);
-
-        AltColor color1 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor",
-                        "Assembly-CSharp")
-                        .build(),
-                AltColor.class);
-        panel.pointerDown();
-        Thread.sleep(1000);
-        AltColor color2 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor",
-                        "Assembly-CSharp")
-                        .build(),
-                AltColor.class);
-        assertTrue(color1.r != color2.r || color1.g != color2.g || color1.b != color2.b
-                || color1.a != color2.a);
-    }
-
-    @Test
-    public void testPointerUpFromObject() throws InterruptedException {
-        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Panel").build();
-        AltObject panel = altDriver.findObject(altFindObjectsParameters1);
-        AltColor color1 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor",
-                        "Assembly-CSharp")
-                        .build(),
-                AltColor.class);
-        panel.pointerDown();
-        Thread.sleep(1000);
-        panel.pointerUp();
-        AltColor color2 = panel.getComponentProperty(
-                new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor",
-                        "Assembly-CSharp")
-                        .build(),
-                AltColor.class);
-        assertTrue(color1.r == color2.r && color1.g == color2.g && color1.b == color2.b
-                && color1.a == color2.a);
-    }
-
-    @Test
-    public void testNewTouchCommands() throws InterruptedException {
-        AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                AltDriver.By.NAME, "Drag Zone").build();
-        AltObject draggableArea = altDriver.findObject(altFindObjectsParameters1);
-        Vector2 initialPosition = draggableArea.getScreenPosition();
-        int fingerId = altDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
-        Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
-        altDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
-        altDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
-        draggableArea = altDriver.findObject(altFindObjectsParameters1);
-        assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
-        assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
-    }
+        @Test
+        public void testNewTouchCommands() throws InterruptedException {
+                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Drag Zone").build();
+                AltObject draggableArea = altDriver.findObject(altFindObjectsParameters1);
+                Vector2 initialPosition = draggableArea.getScreenPosition();
+                int fingerId = altDriver.beginTouch(new AltBeginTouchParams.Builder(initialPosition).build());
+                Vector2 newPosition = new Vector2(draggableArea.x + 20, draggableArea.y + 10);
+                altDriver.moveTouch(new AltMoveTouchParams.Builder(fingerId, newPosition).build());
+                altDriver.endTouch(new AltEndTouchParams.Builder(fingerId).build());
+                draggableArea = altDriver.findObject(altFindObjectsParameters1);
+                assertNotEquals(initialPosition.x, draggableArea.getScreenPosition().x);
+                assertNotEquals(initialPosition.y, draggableArea.getScreenPosition().y);
+        }
 
 }
