@@ -12,6 +12,7 @@ import com.alttester.Commands.InputActions.AltMultiPointSwipeParams;
 import com.alttester.Commands.InputActions.AltSwipeParams;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
+import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.position.Vector2;
 
 import java.util.Arrays;
@@ -21,8 +22,9 @@ import static org.junit.Assert.*;
 
 public class TestsSampleScene2 extends BaseTest {
 
-        public TestsSampleScene2() {
-                super.sceneName = "Scene 2 Draggable Panel";
+        @Before
+        public void loadLevel() {
+                altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build());
         }
 
         @Test

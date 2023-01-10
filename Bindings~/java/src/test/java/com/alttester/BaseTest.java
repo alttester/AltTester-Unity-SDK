@@ -4,11 +4,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
-
 public class BaseTest {
     static AltDriver altDriver;
-    protected String sceneName;
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -24,10 +21,8 @@ public class BaseTest {
     }
 
     @Before
-    public void loadLevel() throws Exception {
+    public void resetInput() throws Exception {
         altDriver.resetInput();
-        AltLoadSceneParams params = new AltLoadSceneParams.Builder(sceneName).build();
-        altDriver.loadScene(params);
     }
 
 }

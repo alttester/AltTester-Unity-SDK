@@ -23,8 +23,9 @@ import static org.junit.Assert.assertNotEquals;
 
 public class TestsSampleScene5 extends BaseTest {
 
-        public TestsSampleScene5() {
-                super.sceneName = "Scene 5 Keyboard Input";
+        @Before
+        public void loadLevel() {
+                altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 5 Keyboard Input").build());
         }
 
         @Test

@@ -21,8 +21,10 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TestsSampleScene3 extends BaseTest {
-        public TestsSampleScene3() {
-                super.sceneName = "Scene 3 Drag And Drop";
+
+        @Before
+        public void loadLevel() {
+                altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").build());
         }
 
         public static class ImagesDrop {

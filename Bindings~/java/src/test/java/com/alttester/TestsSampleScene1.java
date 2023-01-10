@@ -45,13 +45,13 @@ import java.io.File;
 
 public class TestsSampleScene1 extends BaseTest {
 
-        public TestsSampleScene1() {
-                super.sceneName = "Scene 1 AltDriverTestScene";
+        @Before
+        public void loadLevel() {
+                altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltDriverTestScene").build());
         }
 
         @Test
         public void testLodeNonExistentScene() {
-
                 try {
                         altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 0").build());
                         assertTrue(false);
