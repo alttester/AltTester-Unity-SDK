@@ -3,8 +3,6 @@ package com.alttester;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -21,10 +19,11 @@ import com.alttester.Logging.AltLogLevel;
 import com.alttester.altTesterExceptions.WaitTimeOutException;
 
 public class TestsNotifications {
-        static AltDriver altDriver = TestsHelper.GetAltDriver();
+        private static AltDriver altDriver;
 
         @BeforeClass
         public static void setUp() throws Exception {
+                altDriver = TestsHelper.GetAltDriver();
                 AltAddNotificationListenerParams altSetNotificationParams = new AltAddNotificationListenerParams.Builder(
                                 NotificationType.LOADSCENE, new MockNotificationCallBacks()).build();
                 AltAddNotificationListenerParams altSetNotificationParams2 = new AltAddNotificationListenerParams.Builder(
@@ -60,8 +59,15 @@ public class TestsNotifications {
                 Thread.sleep(1000);
         }
 
+        @Before
+        public void loadLevel() throws Exception {
+
+                altDriver.resetInput();
+                altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltDriverTestScene").build());
+        }
+
         @Test
-        public void testLodeNonExistentScene() {
+        public void testLodeNonExistentScene() throws Exception {
                 assertEquals("Scene 1 AltDriverTestScene", MockNotificationCallBacks.lastLoadedScene);
         }
 
@@ -78,7 +84,6 @@ public class TestsNotifications {
 
         @Test
         public void testUnloadSceneNotification() throws Exception {
-
                 altDriver.loadScene(
                                 new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").loadSingle(false).build());
                 altDriver.unloadScene(new AltUnloadSceneParams.Builder("Scene 2 Draggable Panel").build());
@@ -93,7 +98,7 @@ public class TestsNotifications {
         }
 
         @Test
-        public void testApplicationPausedNotification() {
+        public void testApplicationPausedNotification() throws Exception {
                 AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(
                                 AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
