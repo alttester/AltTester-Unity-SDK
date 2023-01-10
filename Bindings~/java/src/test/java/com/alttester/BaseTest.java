@@ -7,13 +7,12 @@ import org.junit.BeforeClass;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 
 public class BaseTest {
-    static AltDriver altDriver = TestsHelper.GetAltDriver();
+    static AltDriver altDriver;
     protected String sceneName;
 
     @BeforeClass
     public static void setUp() throws Exception {
-        altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                true);
+        altDriver = TestsHelper.GetAltDriver();
     }
 
     @AfterClass

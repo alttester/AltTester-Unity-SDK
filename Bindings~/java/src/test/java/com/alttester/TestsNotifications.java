@@ -25,8 +25,6 @@ public class TestsNotifications {
 
         @BeforeClass
         public static void setUp() throws Exception {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                                true);
                 AltAddNotificationListenerParams altSetNotificationParams = new AltAddNotificationListenerParams.Builder(
                                 NotificationType.LOADSCENE, new MockNotificationCallBacks()).build();
                 AltAddNotificationListenerParams altSetNotificationParams2 = new AltAddNotificationListenerParams.Builder(
