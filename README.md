@@ -14,6 +14,14 @@ Our documentation is available here:
 
 * Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/g/alttesterforum
 
+## Build a unity package from source
+
+Open your project in Unity
+
+From ``` AltTester ``` menu choose ``` Create AltTester Package ```
+
+See the created unity package under the project
+
 ## License
 
 Distributed under the **GNU General Public License v3.0**. See [LICENSE](https://github.com/alttester/AltTester-Unity-SDK/blob/master/LICENSE) for more information.

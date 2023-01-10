@@ -64,6 +64,7 @@ public class Input : MonoBehaviour
         _accelerationEvents = new AccelerationEvent[0];
         _pointerEventsDataDictionary.Clear();
         _inputIdDictionary.Clear();
+        AltRunner._altRunner.StopAllCoroutines();
     }
 
     public static AltMockUpPointerInputModule AltMockUpPointerInputModule
