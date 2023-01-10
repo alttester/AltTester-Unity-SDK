@@ -311,18 +311,19 @@ public class TestForNIS
     public void TestCheckActionDoNotDoubleClick(int numberOfClicks)
     {
         altDriver.LoadScene(scene11);
-        altDriver.SetDelayAfterCommand(0.05f);
+        float interval = 0.3f;
+        altDriver.SetDelayAfterCommand(0.1f);
         var counterButton = altDriver.FindObject(By.NAME, "Canvas/Button");
         var text = altDriver.FindObject(By.NAME, "Canvas/Button/Text");
-        counterButton.Click(numberOfClicks);
+        counterButton.Click(numberOfClicks, interval);
         Assert.AreEqual(numberOfClicks, int.Parse(text.GetText()));
-        counterButton.Tap(numberOfClicks);
+        counterButton.Tap(numberOfClicks, interval);
         Assert.AreEqual(2 * numberOfClicks, int.Parse(text.GetText()));
-        altDriver.Click(counterButton.GetScreenPosition(), numberOfClicks);
+        altDriver.Click(counterButton.GetScreenPosition(), numberOfClicks, interval);
         Assert.AreEqual(3 * numberOfClicks, int.Parse(text.GetText()));
-        altDriver.Tap(counterButton.GetScreenPosition(), numberOfClicks);
+        altDriver.Tap(counterButton.GetScreenPosition(), numberOfClicks, interval);
         Assert.AreEqual(4 * numberOfClicks, int.Parse(text.GetText()));
-        altDriver.MoveMouse(counterButton.GetScreenPosition());
+        altDriver.MoveMouse(counterButton.GetScreenPosition(), interval);
         for (int i = 0; i < numberOfClicks; i++)
         {
             altDriver.KeyDown(AltKeyCode.Mouse0);
@@ -337,5 +338,4 @@ public class TestForNIS
         altDriver.SetDelayAfterCommand(0);
 
     }
-
 }
