@@ -43,8 +43,11 @@ import java.lang.Void;
 
 import java.io.File;
 
-public class TestsSampleScene1 {
-        AltDriver altDriver = TestsHelper.getAltDriver();
+public class TestsSampleScene1 extends BaseTest {
+
+        public TestsSampleScene1() {
+                super.sceneName = "Scene 1 AltDriverTestScene";
+        }
 
         @Test
         public void testLodeNonExistentScene() {

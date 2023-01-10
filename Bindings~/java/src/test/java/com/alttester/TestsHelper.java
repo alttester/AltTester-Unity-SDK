@@ -23,7 +23,7 @@ public class TestsHelper {
         return "127.0.0.1";
     }
 
-    public static AltDriver getAltDriver() {
+    public static AltDriver GetAltDriver() {
         AltDriver altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(), true);
         return altDriver;
     }

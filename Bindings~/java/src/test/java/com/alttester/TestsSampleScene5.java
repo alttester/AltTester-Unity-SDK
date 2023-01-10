@@ -21,9 +21,11 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-public class TestsSampleScene5 {
+public class TestsSampleScene5 extends BaseTest {
 
-        AltDriver altDriver = TestsHelper.getAltDriver();
+        public TestsSampleScene5() {
+                super.sceneName = "Scene 5 Keyboard Input";
+        }
 
         @Test
         public void TestMovementCube() throws InterruptedException {

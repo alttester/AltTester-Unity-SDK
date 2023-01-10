@@ -19,9 +19,11 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class TestsSampleScene2 {
+public class TestsSampleScene2 extends BaseTest {
 
-        AltDriver altDriver = TestsHelper.getAltDriver();
+        public TestsSampleScene2() {
+                super.sceneName = "Scene 2 Draggable Panel";
+        }
 
         @Test
         public void testResizePanel() throws Exception {

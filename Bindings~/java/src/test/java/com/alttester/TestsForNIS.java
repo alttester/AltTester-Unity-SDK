@@ -32,14 +32,12 @@ import java.util.List;
 import static org.junit.Assert.assertNotEquals;
 import static junit.framework.TestCase.*;
 
-public class TestsForNIS {
+public class TestsForNIS extends BaseTest {
         String scene7 = "Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity";
         String scene8 = "Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity";
         String scene9 = "Assets/AltTester/Examples/Scenes/scene 9 NIS.unity";
         String scene10 = "Assets/AltTester/Examples/Scenes/Scene 10 Sample NIS.unity";
         String scene11 = "Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity";
-
-        AltDriver altDriver = TestsHelper.getAltDriver();
 
         public static class ImagesDrop {
                 public static String imageSource;

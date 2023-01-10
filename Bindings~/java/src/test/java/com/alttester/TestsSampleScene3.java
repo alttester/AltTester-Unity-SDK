@@ -20,8 +20,10 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class TestsSampleScene3 {
-        AltDriver altDriver = TestsHelper.getAltDriver();
+public class TestsSampleScene3 extends BaseTest {
+        public TestsSampleScene3() {
+                super.sceneName = "Scene 3 Drag And Drop";
+        }
 
         public static class ImagesDrop {
                 public static String imageSource;

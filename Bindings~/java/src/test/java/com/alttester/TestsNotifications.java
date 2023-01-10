@@ -21,7 +21,7 @@ import com.alttester.Logging.AltLogLevel;
 import com.alttester.altTesterExceptions.WaitTimeOutException;
 
 public class TestsNotifications {
-        static AltDriver altDriver = TestsHelper.getAltDriver();
+        static AltDriver altDriver = TestsHelper.GetAltDriver();
 
         @BeforeClass
         public static void setUp() throws Exception {

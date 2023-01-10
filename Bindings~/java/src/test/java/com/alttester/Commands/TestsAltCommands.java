@@ -20,7 +20,7 @@ public class TestsAltCommands {
 
         @Test
         public void testSetServerLogging() {
-                AltDriver altDriver = TestsHelper.getAltDriver();
+                AltDriver altDriver = TestsHelper.GetAltDriver();
                 altDriver.setServerLogging(
                                 new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
                 Rule rule = altDriver.callStaticMethod(
