@@ -242,6 +242,23 @@ public class TestsSampleScene1 {
         }
 
         @Test
+        public void TestGetApplicationScreenSize() {
+                AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
+                                "UnityEngine.Screen", "SetResolution",
+                                "UnityEngine.CoreModule", new Object[] { "1920", "1080", "True"
+                                })
+                                .withTypeOfParameters(new String[] { "System.Int32", "System.Int32",
+                                                "System.Boolean" })
+                                .build();
+                altDriver.callStaticMethod(altCallStaticMethodParams,
+                                Void.class);
+
+                int[] screensize = altDriver.getApplicationScreenSize();
+                assertEquals(1920, screensize[0]);
+                assertEquals(1080, screensize[1]);
+        }
+
+        @Test
         public void testFindElementWithText() {
                 String name = "CapsuleInfo";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
