@@ -3676,6 +3676,64 @@ None
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
 ```
+### UpdateObject
+
+Returns the object with new values.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltObject
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestUpdateAltObject()
+        {
+            var cube = altDriver.FindObject(By.NAME, "Player1");
+            AltVector3 cubeInitialPostion = cube.GetWorldPosition();
+
+            altDriver.PressKey(AltKeyCode.W, 1, 2);
+
+            Assert.AreNotEqual(cubeInitialPostion, cube.UpdateObject().GetWorldPosition());
+        }
+
+    .. code-tab:: java
+
+       @Test
+        public void TestUpdateAltObject() throws InterruptedException {
+                AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Player1").build();
+                AltObject cube = altDriver.findObject(altFindObjectsParameters);
+                float cubeInitWorldZ = cube.worldZ;
+
+                altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.W).withDuration(1).withPower(2)
+                                .withWait(false).build());
+                Thread.sleep(2000);
+                assertNotEquals(cubeInitWorldZ, cube.UpdateObject().worldZ);
+        }
+
+    .. code-tab:: py
+
+        def test_update_altObject(self):
+            cube = self.altdriver.find_object(By.NAME, "Player1")
+            initial_position_z = cube.worldZ
+
+            self.altdriver.press_key(AltKeyCode.W, power=1, duration=0.1, wait=False)
+            time.sleep(5)
+
+            assert initial_position_z != cube.update_object().worldZ
+
+
+```
 
 ### GetParent
 
