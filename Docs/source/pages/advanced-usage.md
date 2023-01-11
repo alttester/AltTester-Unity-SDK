@@ -553,12 +553,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
 ## Logging in WebGL
 
-The logs for a WebGL instrumented build are displaied in the browser's console.
-In Chrome for example you can right click inside the window, choose `Inspect` and go to the `Console` tab. To download the logs right click inside the Console window and choose `Save as...`.
-
-![Inspect](../_static/img/advanced-usage/inspect.png)
-
-![Console](../_static/img/advanced-usage/console.png)
+The logs for a WebGL instrumented build are displaied in the browser's console. You can open the `Console` tab by pressing `F12`. To download the logs right click inside the `Console` and choose `Save as...`.
 
 ![Save as...](../_static/img/advanced-usage/save.png)
 
