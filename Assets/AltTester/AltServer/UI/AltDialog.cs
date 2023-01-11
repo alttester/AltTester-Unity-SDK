@@ -38,6 +38,11 @@ namespace Altom.AltTester.UI
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Button RestartButton = null;
 
+        [UnityEngine.SerializeField]
+        public UnityEngine.UI.Toggle CustomInputToggle = null;
+
+        private bool useCustomInput = true;
+
         private ICommunication communication;
 
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
@@ -54,6 +59,7 @@ namespace Altom.AltTester.UI
             CloseButton.onClick.AddListener(ToggleDialog);
             Icon.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(ToggleDialog);
             TitleText.text = "AltTester v." + AltRunner.VERSION;
+            CustomInputToggle.onValueChanged.AddListener(delegate { ToggleInput(); });
 
             StartAltTester();
         }
@@ -121,6 +127,20 @@ namespace Altom.AltTester.UI
             Dialog.SetActive(!Dialog.activeSelf);
         }
 
+        public void ToggleInput()
+        {
+            useCustomInput = !useCustomInput;
+#if ALTTESTER
+#if ENABLE_LEGACY_INPUT_MANAGER
+            Input.UseCustomInput = useCustomInput;
+            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
+#if ENABLE_INPUT_SYSTEM
+            NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
+#endif
+#endif
+        }
+
         private void setDialog(string message, UnityEngine.Color color, bool visible)
         {
             Dialog.SetActive(visible);
@@ -186,7 +206,7 @@ namespace Altom.AltTester.UI
         {
             string message = "Client connected.";
 #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-            Input.UseCustomInput = true;
+            Input.UseCustomInput = useCustomInput;
             UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
 #endif
 
