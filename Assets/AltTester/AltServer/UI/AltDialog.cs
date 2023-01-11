@@ -130,6 +130,7 @@ namespace Altom.AltTester.UI
         public void ToggleInput()
         {
             useCustomInput = !useCustomInput;
+            Icon.color = useCustomInput ? UnityEngine.Color.white : UnityEngine.Color.blue;
 #if ALTTESTER
 #if ENABLE_LEGACY_INPUT_MANAGER
             Input.UseCustomInput = useCustomInput;
