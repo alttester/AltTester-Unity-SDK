@@ -2150,15 +2150,15 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestResetInput()
         {
-            altDriver.KeyDown(AltKeyCode.Alpha1, 1);
-            var oldId = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp");
+            altDriver.KeyDown(AltKeyCode.P, 1);
+            Assert.True(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp"));
             altDriver.ResetInput();
-            var newId = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Altom.AltTester.NewInputSystem", "Keyboard.deviceId", "Assembly-CSharp");
+            Assert.False(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp"));
 
             int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
             Assert.AreEqual(0, countKeyDown);
-            Assert.AreNotEqual(newId, oldId);
         }
+
         [Test]
         public void TestSetStaticProperty()
         {
