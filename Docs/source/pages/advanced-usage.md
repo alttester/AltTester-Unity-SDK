@@ -539,6 +539,16 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
 ```
 
+## Logging in WebGL
+The logs for an instrumented WebGL build are displaied in the browser's console.
+In Chrome, for example, you can right click inside the window, choose `Inspect` and go to the `Console` tab. To download the logs, right click inside the `Console` window and choose `Save as...`.
+
+![Inspect](../_static/img/advanced-usage/inspect.png)
+
+![Console](../_static/img/advanced-usage/console.png)
+
+![Save as...](../_static/img/advanced-usage/save.png)
+
 ## Code Stripping
 
 AltTester Unity SDK is using reflection in some of the commands to get information from the instrumented application. If you application is using IL2CPP scripting backend then it might strip code that you would use in your tests. If this is the case we recommend creating an `link.xml` file. More information on how to manage code stripping and create an `link.xml` file is found in [Unity documentation](https://docs.unity3d.com/Manual/ManagedCodeStripping.html)
