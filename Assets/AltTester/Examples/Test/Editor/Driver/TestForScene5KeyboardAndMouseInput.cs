@@ -69,6 +69,17 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        public void TestUpdateAltObject()
+        {
+            var cube = altDriver.FindObject(By.NAME, "Player1");
+            AltVector3 cubeInitialPostion = cube.GetWorldPosition();
+
+            altDriver.PressKey(AltKeyCode.W, 1, 2);
+
+            Assert.AreNotEqual(cubeInitialPostion, cube.UpdateObject().GetWorldPosition());
+        }
+
+        [Test]
         //Testing mouse movement and clicking
         public void TestCreatingStars()
         {

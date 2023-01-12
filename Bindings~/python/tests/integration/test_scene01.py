@@ -143,6 +143,16 @@ class TestScene01:
         assert plane.name == "Plane"
         assert capsule.name == "Capsule"
 
+    def test_get_application_screen_size(self):
+        self.altdriver.call_static_method(
+            "UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
+            parameters=["1920", "1080", "True"],
+            type_of_parameters=["System.Int32", "System.Int32", "System.Boolean"],
+        )
+        screensize = self.altdriver.get_application_screensize()
+        assert 1920 == screensize[0]
+        assert 1080 == screensize[1]
+
     def test_wait_for_object_with_text(self):
         text_to_wait_for = self.altdriver.find_object(By.NAME, "CapsuleInfo").get_text()
         capsule_info = self.altdriver.wait_for_object(

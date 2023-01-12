@@ -74,6 +74,24 @@ public class AltDriver {
         checkServerVersion();
     }
 
+    public int[] getApplicationScreenSize() {
+
+        AltCallStaticMethodParams altCallStaticMethodParamsWidth = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "get_width",
+                "UnityEngine.CoreModule", new Object[] {})
+                .build();
+        int screenWidth = callStaticMethod(altCallStaticMethodParamsWidth,
+                Integer.class);
+        AltCallStaticMethodParams altCallStaticMethodParamsHeight = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "get_height",
+                "UnityEngine.CoreModule", new Object[] {})
+                .build();
+        int screenHeight = callStaticMethod(altCallStaticMethodParamsHeight,
+                Integer.class);
+
+        return new int[] { screenWidth, screenHeight };
+    }
+
     private String[] splitVersion(String version) {
         String[] parts = version.split("\\.");
         return new String[] { parts[0], (parts.length > 1) ? parts[1] : "" };
@@ -652,11 +670,11 @@ public class AltDriver {
         return response;
     }
 
-     /**
+    /**
      * Sets the value of the static field or property
      *
      * @param parameters - String componentName* , String propertyName* , String
-     *                   assembly 
+     *                   assembly
      */
     public void setStaticProperty(AltSetComponentPropertyParams parameters) {
         new AltSetStaticProperty(this.connection.messageHandler, parameters).Execute();

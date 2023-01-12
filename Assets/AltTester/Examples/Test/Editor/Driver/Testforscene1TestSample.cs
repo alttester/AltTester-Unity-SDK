@@ -57,6 +57,15 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
+        public void TestGetApplicationScreenSize()
+        {
+            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
+            var screensize = altDriver.GetApplicationScreenSize();
+            Assert.AreEqual(1920, screensize.x);
+            Assert.AreEqual(1080, screensize.y);
+        }
+
+        [Test]
         public void TestFindElementWithText()
         {
             const string text = "Change Camera Mode";
@@ -2134,7 +2143,7 @@ namespace Altom.AltDriver.Tests
             var buttons = altDriver.FindObjects(By.PATH, "//Content/*");
             for (int i = 1; i <= buttons.Count - 3; i++)
             {
-                altDriver.Swipe(buttons[i].GetScreenPosition(), buttons[i - 1].GetScreenPosition());
+                altDriver.Swipe(buttons[i].GetScreenPosition(), buttons[i - 1].GetScreenPosition(), 0.2f);
             }
             Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltScrollViewButtonController", "Counter", "Assembly-CSharp"));
         }
