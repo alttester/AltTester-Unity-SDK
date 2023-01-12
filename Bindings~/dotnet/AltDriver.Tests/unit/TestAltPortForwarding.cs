@@ -85,7 +85,7 @@ namespace Altom.AltDriver.Tests
             AltPortForwarding.ForwardAndroid();
             try
             {
-                var driver = new AltDriver(enableLogging: true, connectTimeout: 2);
+                var driver = TestsHelper.GetAltDriver();
                 driver.Stop();
             }
             catch

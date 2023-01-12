@@ -19,7 +19,7 @@ public class TestForNIS
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
-        altDriver = new AltDriver(host: "127.0.0.1", port: TestsHelper.GetAltDriverPort(), enableLogging: true);
+        altDriver = TestsHelper.GetAltDriver();
     }
 
     //At the end of the test closes the connection with the socket

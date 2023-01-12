@@ -24,5 +24,11 @@ namespace Altom.AltDriver.Tests
 
             return "127.0.0.1";
         }
+
+        public static AltDriver GetAltDriver()
+        {
+            return new AltDriver(host: GetAltDriverHost(), port: GetAltDriverPort(), enableLogging: true);
+        }
+
     }
 }
