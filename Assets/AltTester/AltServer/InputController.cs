@@ -263,10 +263,10 @@ namespace Altom.AltTester
         {
 #if ALTTESTER
 #if ENABLE_INPUT_SYSTEM
-        NewInputSystem.Instance.ResetInput();
+            NewInputSystem.Instance.ResetInput();
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-        Input._instance.ResetInput();
+            Input._instance.ResetInput();
 #endif
 #endif
 
