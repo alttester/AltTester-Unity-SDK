@@ -214,19 +214,21 @@ namespace Altom.AltTesterEditor
                     {
                         regex = new System.Text.RegularExpressions.Regex(@"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*.dmg");
                     }
-
-                    System.Text.RegularExpressions.Match match = regex.Match(textReceived);
-                    if (match.Success)
+                    if (regex is not null)
                     {
-
-                        var splitedText = match.Value.Split('_');
-                        var releasedVersion = splitedText[2].Substring(1);
-                        if (String.IsNullOrEmpty(EditorConfiguration.LatestDesktopVersion) || !isCurrentVersionEqualOrNewer(releasedVersion, EditorConfiguration.LatestDesktopVersion))
+                        System.Text.RegularExpressions.Match match = regex.Match(textReceived);
+                        if (match.Success)
                         {
-                            EditorConfiguration.LatestDesktopVersion = releasedVersion;
-                            downloadURL = match.Value;
-                            version = releasedVersion;
-                            EditorConfiguration.ShowDesktopPopUpInEditor = true;
+
+                            var splitedText = match.Value.Split('_');
+                            var releasedVersion = splitedText[2].Substring(1);
+                            if (String.IsNullOrEmpty(EditorConfiguration.LatestDesktopVersion) || !isCurrentVersionEqualOrNewer(releasedVersion, EditorConfiguration.LatestDesktopVersion))
+                            {
+                                EditorConfiguration.LatestDesktopVersion = releasedVersion;
+                                downloadURL = match.Value;
+                                version = releasedVersion;
+                                EditorConfiguration.ShowDesktopPopUpInEditor = true;
+                            }
                         }
                     }
                 }
