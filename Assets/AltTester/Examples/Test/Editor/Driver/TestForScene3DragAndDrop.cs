@@ -7,29 +7,11 @@ using NUnit.Framework;
 namespace Altom.AltDriver.Tests
 {
     [Timeout(10000)]
-    public class TestForScene3DragAndDrop
+    public class TestForScene3DragAndDrop : TestBase
     {
-        private AltDriver altDriver;
-
-        [OneTimeSetUp]
-        public void SetUp()
+        public TestForScene3DragAndDrop()
         {
-            altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
-            DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
-            DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
-        }
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            altDriver.Stop();
-        }
-
-        [SetUp]
-        public void LoadLevel()
-        {
-            altDriver.ResetInput();
-            altDriver.LoadScene("Scene 3 Drag And Drop");
+            sceneName = "Scene 3 Drag And Drop";
         }
 
         [Test]

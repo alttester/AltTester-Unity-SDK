@@ -5,6 +5,7 @@ using Altom.AltDriver.Logging;
 using Altom.AltDriver.MockClasses;
 using Altom.AltDriver.Notifications;
 using NUnit.Framework;
+using Altom.AltDriver.Tests;
 
 public class TestNotification
 {
@@ -15,7 +16,7 @@ public class TestNotification
         string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
         int port = 13000;
         if (!string.IsNullOrEmpty(portStr)) port = int.Parse(portStr);
-        altDriver = new AltDriver(port: port, enableLogging: true);
+        altDriver = TestsHelper.GetAltDriver();
         INotificationCallbacks notificationCallbacks = new MockNotificationCallBacks();
         altDriver.AddNotificationListener<AltLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, notificationCallbacks.SceneLoadedCallback, true);
         altDriver.AddNotificationListener<String>(NotificationType.UNLOADSCENE, notificationCallbacks.SceneUnloadedCallback, true);
