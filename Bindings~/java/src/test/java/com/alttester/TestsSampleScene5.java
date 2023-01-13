@@ -75,7 +75,20 @@ public class TestsSampleScene5 extends BaseTest {
                 float cubeFinalWorldZ = cube.worldZ;
 
                 assertNotEquals(cubeInitWorldZ, cubeFinalWorldZ);
+        }
 
+        @Test
+        public void TestUpdateAltObject() throws InterruptedException {
+
+                AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Player1").build();
+                AltObject cube = altDriver.findObject(altFindObjectsParameters);
+                float cubeInitWorldZ = cube.worldZ;
+
+                altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.W).withDuration(1).withPower(2)
+                                .withWait(false).build());
+                Thread.sleep(2000);
+                assertNotEquals(cubeInitWorldZ, cube.UpdateObject().worldZ);
         }
 
         @Test

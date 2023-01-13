@@ -9,30 +9,12 @@ using NUnit.Framework;
 namespace Altom.AltDriver.Tests
 {
     [Timeout(30000)]
-    public class TestForScene1TestSample
+    public class TestForScene1TestSample : TestBase
     {
-        private AltDriver altDriver;
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-            altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
-            DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
-            DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
-        }
 
-        [OneTimeTearDown]
-        public void TearDown()
+        public TestForScene1TestSample()
         {
-            altDriver.Stop();
-        }
-
-        [SetUp]
-        public void LoadLevel()
-        {
-            altDriver.ResetInput();
-
-            altDriver.SetCommandResponseTimeout(60);
-            altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
+            sceneName = "Scene 1 AltDriverTestScene";
         }
 
         [Test]
@@ -54,6 +36,15 @@ namespace Altom.AltDriver.Tests
             var altElement = altDriver.FindObject(By.NAME, name);
             Assert.NotNull(altElement);
             Assert.AreEqual(name, altElement.name);
+        }
+
+        [Test]
+        public void TestGetApplicationScreenSize()
+        {
+            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
+            var screensize = altDriver.GetApplicationScreenSize();
+            Assert.AreEqual(1920, screensize.x);
+            Assert.AreEqual(1080, screensize.y);
         }
 
         [Test]
@@ -161,6 +152,7 @@ namespace Altom.AltDriver.Tests
         }
 
 
+
         [Test]
         [Obsolete]
         public void TestWaitForElementWithText()
@@ -175,6 +167,7 @@ namespace Altom.AltDriver.Tests
             Assert.NotNull(altElement);
             Assert.AreEqual(altElement.GetText(), text);
         }
+
 
         [Test]
         public void TestSetTextForUnityUIInputField()
@@ -197,6 +190,8 @@ namespace Altom.AltDriver.Tests
             Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onEndEditInvoked", "Assembly-CSharp"), "onEndEditInvoked was false");
 
         }
+
+
 
         [Test]
         public void TestFindObjectByComponent()
@@ -2138,8 +2133,6 @@ namespace Altom.AltDriver.Tests
             }
             Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltScrollViewButtonController", "Counter", "Assembly-CSharp"));
         }
-
-
         [Test]
         public void TestCallPrivateMethod()
         {
@@ -2174,6 +2167,7 @@ namespace Altom.AltDriver.Tests
             int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
             Assert.AreEqual(0, countKeyDown);
         }
+
         [Test]
         public void TestSetStaticProperty()
         {

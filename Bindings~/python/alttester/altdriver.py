@@ -735,6 +735,17 @@ class AltDriver:
 
         commands.Tilt.run(self._connection, acceleration, duration, wait)
 
+    def get_application_screensize(self):
+        screen_width = self.call_static_method(
+            "UnityEngine.Screen", "get_width",
+            "UnityEngine.CoreModule"
+        )
+        screen_height = self.call_static_method(
+            "UnityEngine.Screen", "get_height",
+            "UnityEngine.CoreModule"
+        )
+        return [screen_width, screen_height]
+
     def get_png_screenshot(self, path):
         """Creates a screenshot of the current scene in png format at the given path.
 

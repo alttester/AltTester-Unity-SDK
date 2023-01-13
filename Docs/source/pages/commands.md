@@ -2548,6 +2548,63 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
 
 ```
 
+#### GetApplicationScreenSize
+
+Returns the value of the application screen size.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltVector2
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestGetApplicationScreenSize()
+        {
+            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
+            var screensize = altDriver.GetApplicationScreenSize();
+            Assert.AreEqual(1920, screensize.x);
+            Assert.AreEqual(1080, screensize.y);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestGetApplicationScreenSize() {
+            AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "SetResolution",
+                "UnityEngine.CoreModule", new Object[] { "1920", "1080", "True"})
+                .withTypeOfParameters(new String[] { "System.Int32", "System.Int32","System.Boolean" })
+                .build();
+            altDriver.callStaticMethod(altCallStaticMethodParams,Void.class);
+            int[] screensize = altDriver.getApplicationScreenSize();
+            
+            assertEquals(1920, screensize[0]);
+            assertEquals(1080, screensize[1]);
+        }
+
+    .. code-tab:: py
+
+        def test_get_application_screen_size(self):
+            self.altdriver.call_static_method("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
+            parameters=["1920", "1080", "True"],
+            type_of_parameters=["System.Int32", "System.Int32", "System.Boolean"],)
+            screensize = self.altdriver.get_application_screensize()
+
+            assert 1920 == screensize[0]
+            assert 1080 == screensize[1]
+
+```
+
 #### GetTimeScale
 
 Returns the value of the time scale.
@@ -3675,6 +3732,64 @@ None
             color3 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
+```
+### UpdateObject
+
+Returns the object with new values.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltObject
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestUpdateAltObject()
+        {
+            var cube = altDriver.FindObject(By.NAME, "Player1");
+            AltVector3 cubeInitialPostion = cube.GetWorldPosition();
+
+            altDriver.PressKey(AltKeyCode.W, 1, 2);
+
+            Assert.AreNotEqual(cubeInitialPostion, cube.UpdateObject().GetWorldPosition());
+        }
+
+    .. code-tab:: java
+
+       @Test
+        public void TestUpdateAltObject() throws InterruptedException {
+                AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Player1").build();
+                AltObject cube = altDriver.findObject(altFindObjectsParameters);
+                float cubeInitWorldZ = cube.worldZ;
+
+                altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.W).withDuration(1).withPower(2)
+                                .withWait(false).build());
+                Thread.sleep(2000);
+                assertNotEquals(cubeInitWorldZ, cube.UpdateObject().worldZ);
+        }
+
+    .. code-tab:: py
+
+        def test_update_altObject(self):
+            cube = self.altdriver.find_object(By.NAME, "Player1")
+            initial_position_z = cube.worldZ
+
+            self.altdriver.press_key(AltKeyCode.W, power=1, duration=0.1, wait=False)
+            time.sleep(5)
+
+            assert initial_position_z != cube.update_object().worldZ
+
+
 ```
 
 ### GetParent

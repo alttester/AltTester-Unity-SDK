@@ -58,6 +58,29 @@ public class AltObject {
         this.transformParentId = transformParentId;
     }
 
+    public AltObject UpdateObject() {
+        AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(By.ID, String.valueOf(this.id))
+                .build();
+        AltObject altObject = new AltFindObject(messageHandler, altFindObjectsParameters).Execute();
+        this.x = altObject.x;
+        this.y = altObject.y;
+        this.z = altObject.z;
+        this.id = altObject.id;
+        this.name = altObject.name;
+        this.mobileY = altObject.mobileY;
+        this.type = altObject.type;
+        this.enabled = altObject.enabled;
+        this.worldX = altObject.worldX;
+        this.worldY = altObject.worldY;
+        this.worldZ = altObject.worldZ;
+        this.idCamera = altObject.idCamera;
+        this.transformParentId = altObject.transformParentId;
+        this.transformId = altObject.transformId;
+
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return this;
+    }
+
     /**
      * Returns the parent of the AltTester object on which it is called
      *
