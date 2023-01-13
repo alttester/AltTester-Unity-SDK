@@ -62,8 +62,8 @@ namespace Altom.AltTesterEditor
         public static UnityEngine.Texture2D PortForwardingTexture;
         public static UnityEngine.Texture2D selectedTestsCountTexture;
 
-        private const string regexForWindows = "@'https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]'*.exe";
-        private const string regexForMacOS = "@'https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*.dmg'";
+        private const string regexForWindows = @"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*.exe";
+        private const string regexForMacOS = @"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*.dmg";
 
         private static string downloadURL;
         private const string RELEASENOTESURL = "https://altom.com/alttester/docs/desktop/pages/release-notes.html";
