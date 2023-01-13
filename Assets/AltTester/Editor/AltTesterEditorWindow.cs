@@ -62,8 +62,8 @@ namespace Altom.AltTesterEditor
         public static UnityEngine.Texture2D PortForwardingTexture;
         public static UnityEngine.Texture2D selectedTestsCountTexture;
 
-        private static string regexForWindows = "https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*.exe";
-        private static string regexForMacOS = "https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*.dmg";
+        private const string regexForWindows = "https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*.exe";
+        private const string regexForMacOS = "https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*.dmg";
 
         private static string downloadURL;
         private const string RELEASENOTESURL = "https://altom.com/alttester/docs/desktop/pages/release-notes.html";
@@ -210,12 +210,12 @@ namespace Altom.AltTesterEditor
                     System.Text.RegularExpressions.Regex regex = null;
                     if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.Windows)
                     {
-                        regex = new System.Text.RegularExpressions.Regex(@"regexForWindows");
+                        regex = new System.Text.RegularExpressions.Regex(@regexForWindows);
 
                     }
                     else if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.MacOSX)
                     {
-                        regex = new System.Text.RegularExpressions.Regex(@"regexForMacOS");
+                        regex = new System.Text.RegularExpressions.Regex(@regexForMacOS);
                     }
                     if (regex is not null)
                     {
