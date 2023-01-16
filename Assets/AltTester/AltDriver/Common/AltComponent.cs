@@ -11,5 +11,4 @@
             this.assemblyName = assemblyName;
         }
     }
-
 }
