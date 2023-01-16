@@ -21,29 +21,11 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-public class TestsSampleScene5 {
-
-        private static AltDriver altDriver;
-
-        @BeforeClass
-        public static void setUp() throws Exception {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                                true);
-        }
-
-        @AfterClass
-        public static void tearDown() throws Exception {
-                if (altDriver != null) {
-                        altDriver.stop();
-                }
-                Thread.sleep(1000);
-        }
+public class TestsSampleScene5 extends BaseTest {
 
         @Before
-        public void loadLevel() throws Exception {
-                altDriver.resetInput();
-                AltLoadSceneParams params = new AltLoadSceneParams.Builder("Scene 5 Keyboard Input").build();
-                altDriver.loadScene(params);
+        public void loadLevel() {
+                altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 5 Keyboard Input").build());
         }
 
         @Test
@@ -93,7 +75,6 @@ public class TestsSampleScene5 {
                 float cubeFinalWorldZ = cube.worldZ;
 
                 assertNotEquals(cubeInitWorldZ, cubeFinalWorldZ);
-
         }
 
         @Test
