@@ -3,6 +3,10 @@ on:
   push:
   workflow_dispatch:
 
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+  
 jobs:
   build-docs:
     runs-on: [self-hosted, macOS]
