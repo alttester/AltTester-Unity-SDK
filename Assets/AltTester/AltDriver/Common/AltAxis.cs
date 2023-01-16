@@ -18,5 +18,4 @@
             this.altNegativeButton = altNegativeButton;
         }
     }
-
 }
