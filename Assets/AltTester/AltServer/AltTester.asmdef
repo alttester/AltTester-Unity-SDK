@@ -15,7 +15,7 @@
     "overrideReferences": true,
     "precompiledReferences": [
         "NLog.dll",
-        "websocket-sharp.dll",
+        "altwebsocket-sharp.dll",
         "Newtonsoft.Json.dll",
         "nunit.framework.dll"
     ],
