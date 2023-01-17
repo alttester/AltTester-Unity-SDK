@@ -9,28 +9,12 @@ using NUnit.Framework;
 namespace AltTester.AltDriver.Tests
 {
     [Timeout(30000)]
-    public class TestForScene1TestSample
+    public class TestForScene1TestSample : TestBase
     {
-        private AltDriver altDriver;
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-            altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
-            DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
-            DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
-        }
 
-        [OneTimeTearDown]
-        public void TearDown()
+        public TestForScene1TestSample()
         {
-            altDriver.Stop();
-        }
-
-        [SetUp]
-        public void LoadLevel()
-        {
-            altDriver.SetCommandResponseTimeout(60);
-            altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
+            sceneName = "Scene 1 AltDriverTestScene";
         }
 
         [Test]
@@ -52,6 +36,15 @@ namespace AltTester.AltDriver.Tests
             var altElement = altDriver.FindObject(By.NAME, name);
             Assert.NotNull(altElement);
             Assert.AreEqual(name, altElement.name);
+        }
+
+        [Test]
+        public void TestGetApplicationScreenSize()
+        {
+            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
+            var screensize = altDriver.GetApplicationScreenSize();
+            Assert.AreEqual(1920, screensize.x);
+            Assert.AreEqual(1080, screensize.y);
         }
 
         [Test]
@@ -159,6 +152,7 @@ namespace AltTester.AltDriver.Tests
         }
 
 
+
         [Test]
         [Obsolete]
         public void TestWaitForElementWithText()
@@ -173,6 +167,7 @@ namespace AltTester.AltDriver.Tests
             Assert.NotNull(altElement);
             Assert.AreEqual(altElement.GetText(), text);
         }
+
 
         [Test]
         public void TestSetTextForUnityUIInputField()
@@ -195,6 +190,8 @@ namespace AltTester.AltDriver.Tests
             Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onEndEditInvoked", "Assembly-CSharp"), "onEndEditInvoked was false");
 
         }
+
+
 
         [Test]
         public void TestFindObjectByComponent()
@@ -697,11 +694,24 @@ namespace AltTester.AltDriver.Tests
         [Test]
         public void TestHoldButton()
         {
+            const int duration = 1;
             var button = altDriver.FindObject(By.NAME, "UIButton");
-            altDriver.HoldButton(button.GetScreenPosition(), 1);
+            altDriver.HoldButton(button.GetScreenPosition(), duration);
             var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
             var text = capsuleInfo.GetText();
             Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+            var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
+            Assert.Greater(time, duration);
+        }
+        [Test]
+        public void TestPressKeyWaitTheDuration()
+        {
+            const int duration = 1;
+            var button = altDriver.FindObject(By.NAME, "UIButton");
+            altDriver.MoveMouse(button.GetScreenPosition());
+            altDriver.PressKey(AltKeyCode.Mouse0, 1, duration);
+            var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
+            Assert.Greater(time, duration);
         }
 
         [Test]
@@ -928,7 +938,7 @@ namespace AltTester.AltDriver.Tests
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.CLASSFIELDS);
-            Assert.AreEqual(15, fields.Count);
+            Assert.AreEqual(16, fields.Count);
         }
 
         [Test]
@@ -953,7 +963,7 @@ namespace AltTester.AltDriver.Tests
             var component = componentList.First(componenta =>
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.ALLFIELDS);
-            Assert.AreEqual(16, fields.Count);
+            Assert.AreEqual(17, fields.Count);
         }
 
         [Test]
@@ -1829,8 +1839,8 @@ namespace AltTester.AltDriver.Tests
         }
 
         [Test]
-        [Ignore("mousePressCounter remains stuck and is 13 when asserting instead of 1")]
-        public void AAAATestClick_MouseDownUp()
+        // [Ignore("mousePressCounter remains stuck and is 13 when asserting instead of 1")]
+        public void TestClick_MouseDownUp()
         {
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
             counterElement.SetComponentProperty("AltExampleScriptIncrementOnClick", "mouseUpCounter", 0, "Assembly-CSharp");
@@ -2113,19 +2123,16 @@ namespace AltTester.AltDriver.Tests
             Assert.AreEqual("Capsule", element.name);
         }
         [Test]
-        [Ignore("Was commented before")]
         public void TestScrollViewSwipe()
         {
             altDriver.LoadScene("Scene 11 ScrollView Scene");
             var buttons = altDriver.FindObjects(By.PATH, "//Content/*");
             for (int i = 1; i <= buttons.Count - 3; i++)
             {
-                altDriver.Swipe(buttons[i].GetScreenPosition(), buttons[i - 1].GetScreenPosition());
-
+                altDriver.Swipe(buttons[i].GetScreenPosition(), buttons[i - 1].GetScreenPosition(), 0.2f);
             }
             Assert.AreEqual(0, buttons[0].GetComponentProperty<int>("AltScrollViewButtonController", "Counter", "Assembly-CSharp"));
         }
-
         [Test]
         public void TestCallPrivateMethod()
         {
@@ -2143,7 +2150,40 @@ namespace AltTester.AltDriver.Tests
             var id = altDriver.BeginTouch(new AltVector2(icon.x - 25, icon.y + 25));
             altDriver.EndTouch(id);
             Assert.NotNull(altDriver.WaitForObject(By.NAME, "Dialog"));
-            altDriver.Click(icon.GetScreenPosition());
+
+            id = altDriver.BeginTouch(new AltVector2(icon.x - 25, icon.y + 25));
+            altDriver.EndTouch(id);
+            Assert.Throws<WaitTimeOutException>(() => altDriver.WaitForObject(By.NAME, "Dialog", timeout: 0.5f));
+        }
+
+        [Test]
+        public void TestResetInput()
+        {
+            altDriver.KeyDown(AltKeyCode.P, 1);
+            Assert.True(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp"));
+            altDriver.ResetInput();
+            Assert.False(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp"));
+
+            int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
+            Assert.AreEqual(0, countKeyDown);
+        }
+
+        [Test]
+        public void TestSetStaticProperty()
+        {
+            var expectedValue = 5;
+            altDriver.SetStaticProperty("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue);
+            var value = altDriver.GetStaticProperty<int>("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp");
+            Assert.AreEqual(expectedValue, value);
+        }
+        [Test]
+        public void TestSetStaticProperty2()
+        {
+            var newValue = 5;
+            int[] expectedArray = new int[3] { 1, 5, 3 };
+            altDriver.SetStaticProperty("AltExampleScriptCapsule", "staticArrayOfInts[1]", "Assembly-CSharp", newValue);
+            var value = altDriver.GetStaticProperty<int[]>("AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp");
+            Assert.AreEqual(expectedArray, value);
         }
     }
 }

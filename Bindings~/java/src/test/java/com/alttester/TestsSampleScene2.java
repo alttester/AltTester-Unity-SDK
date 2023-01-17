@@ -20,28 +20,11 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class TestsSampleScene2 {
-
-        private static AltDriver altDriver;
-
-        @BeforeClass
-        public static void setUp() throws Exception {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                                true);
-        }
-
-        @AfterClass
-        public static void tearDown() throws Exception {
-                if (altDriver != null) {
-                        altDriver.stop();
-                }
-                Thread.sleep(1000);
-        }
+public class TestsSampleScene2 extends BaseTest {
 
         @Before
-        public void loadLevel() throws Exception {
-                AltLoadSceneParams params = new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build();
-                altDriver.loadScene(params);
+        public void loadLevel() {
+                altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build());
         }
 
         @Test

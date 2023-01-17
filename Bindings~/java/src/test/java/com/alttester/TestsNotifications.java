@@ -23,8 +23,7 @@ public class TestsNotifications {
 
         @BeforeClass
         public static void setUp() throws Exception {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                                true);
+                altDriver = TestsHelper.GetAltDriver();
                 AltAddNotificationListenerParams altSetNotificationParams = new AltAddNotificationListenerParams.Builder(
                                 NotificationType.LOADSCENE, new MockNotificationCallBacks()).build();
                 AltAddNotificationListenerParams altSetNotificationParams2 = new AltAddNotificationListenerParams.Builder(
@@ -63,6 +62,7 @@ public class TestsNotifications {
         @Before
         public void loadLevel() throws Exception {
 
+                altDriver.resetInput();
                 altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltDriverTestScene").build());
         }
 

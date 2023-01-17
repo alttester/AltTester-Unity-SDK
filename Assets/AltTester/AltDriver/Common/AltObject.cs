@@ -41,6 +41,27 @@ namespace AltTester.AltDriver
             this.transformId = transformId;
         }
 
+        public AltObject UpdateObject()
+        {
+            var altObject = new AltFindObject(CommHandler, By.ID, this.id.ToString(), By.NAME, "", this.enabled).Execute();
+            x = altObject.x;
+            y = altObject.y;
+            z = altObject.z;
+            id = altObject.id;
+            name = altObject.name;
+            mobileY = altObject.mobileY;
+            type = altObject.type;
+            enabled = altObject.enabled;
+            worldX = altObject.worldX;
+            worldY = altObject.worldY;
+            worldZ = altObject.worldZ;
+            idCamera = altObject.idCamera;
+            transformParentId = altObject.transformParentId;
+            transformId = altObject.transformId;
+
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return this;
+        }
         public AltObject GetParent()
         {
             var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();

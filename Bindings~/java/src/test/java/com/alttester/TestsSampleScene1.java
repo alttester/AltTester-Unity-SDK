@@ -43,24 +43,7 @@ import java.lang.Void;
 
 import java.io.File;
 
-public class TestsSampleScene1 {
-
-        private static AltDriver altDriver;
-
-        @BeforeClass
-        public static void setUp() {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(),
-                                TestsHelper.GetAltDriverPort(),
-                                true);
-        }
-
-        @AfterClass
-        public static void tearDown() throws Exception {
-                if (altDriver != null) {
-                        altDriver.stop();
-                }
-                Thread.sleep(1000);
-        }
+public class TestsSampleScene1 extends BaseTest {
 
         @Before
         public void loadLevel() {
@@ -241,6 +224,23 @@ public class TestsSampleScene1 {
         }
 
         @Test
+        public void TestGetApplicationScreenSize() {
+                AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
+                                "UnityEngine.Screen", "SetResolution",
+                                "UnityEngine.CoreModule", new Object[] { "1920", "1080", "True"
+                                })
+                                .withTypeOfParameters(new String[] { "System.Int32", "System.Int32",
+                                                "System.Boolean" })
+                                .build();
+                altDriver.callStaticMethod(altCallStaticMethodParams,
+                                Void.class);
+
+                int[] screensize = altDriver.getApplicationScreenSize();
+                assertEquals(1920, screensize[0]);
+                assertEquals(1080, screensize[1]);
+        }
+
+        @Test
         public void testFindElementWithText() {
                 String name = "CapsuleInfo";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
@@ -270,7 +270,7 @@ public class TestsSampleScene1 {
         @Test
         public void testFindElementByComponentWithNamespace() throws InterruptedException {
                 Thread.sleep(1000);
-                String componentName = "AltTester.AltRunner";
+                String componentName = "Altom.AltTester.AltRunner";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                                 AltDriver.By.COMPONENT, componentName).build();
                 AltObject altElement = altDriver.findObject(altFindObjectsParams);
@@ -281,7 +281,7 @@ public class TestsSampleScene1 {
         @Test
         public void testGetComponentProperty() throws InterruptedException {
                 Thread.sleep(1000);
-                String componentName = "AltTester.AltRunner";
+                String componentName = "Altom.AltTester.AltRunner";
                 String propertyName = "InstrumentationSettings.ShowPopUp";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
@@ -297,7 +297,7 @@ public class TestsSampleScene1 {
 
         @Test
         public void testGetComponentPropertyInvalidDeserialization() {
-                String componentName = "AltTester.AltRunner";
+                String componentName = "Altom.AltTester.AltRunner";
                 String propertyName = "InstrumentationSettings.ShowPopUp";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
@@ -318,7 +318,7 @@ public class TestsSampleScene1 {
         @Test(expected = PropertyNotFoundException.class)
         public void testGetNonExistingComponentProperty() throws InterruptedException {
                 Thread.sleep(1000);
-                String componentName = "AltTester.AltRunner";
+                String componentName = "Altom.AltTester.AltRunner";
                 String propertyName = "socketPort";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
@@ -1361,6 +1361,36 @@ public class TestsSampleScene1 {
         }
 
         @Test
+        public void testSetStaticProperty() {
+                final Integer expectedValue = 5;
+                AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
+                                "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp",
+                                expectedValue.toString()).build();
+                altDriver.setStaticProperty(altSetComponentPropertyParams);
+                AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                                "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp").build();
+                Integer value = altDriver.getStaticProperty(altGetComponentPropertyParams,
+                                Integer.class);
+                assertEquals(expectedValue, value);
+        }
+
+        @Test
+        public void testSetStaticProperty2() {
+                Integer newValue = 5;
+                Integer[] expectedArray = { 1, 5, 3 };
+                AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
+                                "AltExampleScriptCapsule", "staticArrayOfInts[1]", "Assembly-CSharp",
+                                newValue.toString()).build();
+                altDriver.setStaticProperty(altSetComponentPropertyParams);
+                AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                                "AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp").build();
+                Integer[] value = altDriver.getStaticProperty(altGetComponentPropertyParams,
+                                Integer[].class);
+                for (int i = 0; i < expectedArray.length; i++)
+                        assertEquals(expectedArray[i], value[i]);
+        }
+
+        @Test
         public void testSetCommandTimeout() throws Exception {
                 String componentName = "AltExampleScriptCapsule";
                 String methodName = "JumpWithDelay";
@@ -1458,5 +1488,25 @@ public class TestsSampleScene1 {
                                 AltDriver.By.NAME, "CapsuleInfo").build());
                 String text = capsuleInfo.getText();
                 assertEquals("Capsule jumps!", text);
+        }
+
+        @Test
+        public void testResetInput() throws InterruptedException {
+                AltFindObjectsParams prefab = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "AltTesterPrefab").build();
+
+                AltGetComponentPropertyParams pIsPressed = new AltGetComponentPropertyParams.Builder(
+                                "Altom.AltTester.NewInputSystem",
+                                "Keyboard.pKey.isPressed", "Assembly-CSharp").build();
+                AltGetComponentPropertyParams count = new AltGetComponentPropertyParams.Builder(
+                                "Input",
+                                "_keyCodesPressed.Count", "Assembly-CSharp").build();
+                altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.P).build());
+                assertTrue(altDriver.findObject(prefab).getComponentProperty(pIsPressed, Boolean.class));
+                altDriver.resetInput();
+                assertFalse(altDriver.findObject(prefab).getComponentProperty(pIsPressed, Boolean.class));
+
+                int countKeyDown = altDriver.findObject(prefab).getComponentProperty(count, Integer.class);
+                assertEquals(0, countKeyDown);
         }
 }

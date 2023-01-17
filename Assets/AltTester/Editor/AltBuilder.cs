@@ -1,11 +1,13 @@
 using System.Collections.Generic;
-using AltTester.AltDriver;
-using AltTester;
-using AltTesterEditor.Logging;
+using System.IO;
+using Altom.AltDriver;
+using Altom.AltTester;
+using Altom.AltTesterEditor.Logging;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace AltTesterEditor
+namespace Altom.AltTesterEditor
 {
     public static class PlatformName
     {
@@ -14,10 +16,11 @@ namespace AltTesterEditor
         public const string Standalone = "Standalone";
     }
 
+
     public class AltBuilder
     {
         private const string ALTTESTERDEFINE = "ALTTESTER";
-        private const string WEBGLDEFINE = "UNITY_WEBGL";
+        private const string PREFABNAME = "AltTesterPrefab";
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
         public enum InputType
         {
@@ -28,8 +31,8 @@ namespace AltTesterEditor
 
         public static bool Built = false;
         public static string PreviousScenePath;
-        public static UnityEngine.SceneManagement.Scene SceneWithAltTester;
-        public static UnityEngine.Object AltTester;
+        public static UnityEngine.SceneManagement.Scene SceneWithAltRunner;
+        public static UnityEngine.Object AltRunner;
 
         public static void InitBuildSetup(UnityEditor.BuildTargetGroup buildTargetGroup)
         {
@@ -88,7 +91,6 @@ namespace AltTesterEditor
                     target = UnityEditor.BuildTarget.WebGL,
                     targetGroup = UnityEditor.BuildTargetGroup.WebGL
                 };
-                AltBuilder.AddScriptingDefineSymbol(WEBGLDEFINE, UnityEditor.BuildTargetGroup.WebGL);
 
                 buildGame(autoRun, buildPlayerOptions);
             }
@@ -99,8 +101,7 @@ namespace AltTesterEditor
             finally
             {
                 Built = true;
-                resetBuildSetup(UnityEditor.BuildTargetGroup.WebGL);
-                AltBuilder.RemoveScriptingDefineSymbol(WEBGLDEFINE, UnityEditor.BuildTargetGroup.WebGL);
+                resetBuildSetup(UnityEditor.BuildTargetGroup.Android);
             }
 
         }
@@ -135,11 +136,6 @@ namespace AltTesterEditor
 
         public static void RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup)
         {
-            RemoveScriptingDefineSymbol(ALTTESTERDEFINE, targetGroup);
-        }
-
-        public static void RemoveScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
-        {
             if (AltTesterEditorWindow.EditorConfiguration != null && AltTesterEditorWindow.EditorConfiguration.KeepAUTSymbolDefined)
                 return;
             try
@@ -147,12 +143,12 @@ namespace AltTesterEditor
                 var scriptingDefineSymbolsForGroup =
                     UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
                 string newScriptingDefineSymbolsForGroup = "";
-                if (scriptingDefineSymbolsForGroup.Contains(symbol))
+                if (scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE))
                 {
                     var split = scriptingDefineSymbolsForGroup.Split(';');
                     foreach (var define in split)
                     {
-                        if (define != symbol)
+                        if (define != ALTTESTERDEFINE)
                         {
                             newScriptingDefineSymbolsForGroup += define + ";";
                         }
@@ -172,15 +168,10 @@ namespace AltTesterEditor
 
         public static void AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildTargetGroup targetGroup)
         {
-            AddScriptingDefineSymbol(ALTTESTERDEFINE, targetGroup);
-        }
-
-        public static void AddScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
-        {
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains(symbol))
+            if (!scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE))
             {
-                scriptingDefineSymbolsForGroup += ";" + symbol;
+                scriptingDefineSymbolsForGroup += ";" + ALTTESTERDEFINE;
             }
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
         }
@@ -231,41 +222,43 @@ namespace AltTesterEditor
                 }
                 UnityEditor.AssetDatabase.CreateFolder("Assets/Resources", "AltTester");
             }
-            System.IO.File.WriteAllText(filePath, dataAsJson);
+            using (StreamWriter sw = new StreamWriter(filePath))
+            {
+                sw.Write(dataAsJson);
+            }
+            UnityEditor.AssetDatabase.Refresh();
         }
 
-        public static void InsertAltTesterInScene(string scene, AltInstrumentationSettings instrumentationSettings)
+        public static void InsertAltInScene(string scene, AltInstrumentationSettings instrumentationSettings)
         {
             logger.Debug("Adding AltTesterPrefab into the [" + scene + "] scene.");
-            var altRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltTesterPrefab")[0]));
+            var altRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets(PREFABNAME)[0]));
 
-            SceneWithAltTester = EditorSceneManager.OpenScene(scene);
-            AltTester = UnityEditor.PrefabUtility.InstantiatePrefab(altRunner);
-            var altRunnerComponent = ((GameObject)AltTester).GetComponent<AltRunner>();
+            SceneWithAltRunner = EditorSceneManager.OpenScene(scene);
+            AltRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altRunner);
+            var altRunnerComponent = ((GameObject)AltRunner).GetComponent<AltRunner>();
             altRunnerComponent.InstrumentationSettings = instrumentationSettings;
 
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             EditorSceneManager.SaveOpenScenes();
-            UnityEngine.Debug.Log("AltTesterPrefab successfully modified into the [" + scene + "] scene.");
-
             logger.Info("AltTesterPrefab successfully modified into the [" + scene + "] scene.");
         }
 
-        public static void InsertAltTesterInTheActiveScene(AltInstrumentationSettings instrumentationSettings)
+        public static void InsertAltInTheActiveScene(AltInstrumentationSettings instrumentationSettings)
         {
             var activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
-            InsertAltTesterInScene(activeScene, instrumentationSettings);
+            InsertAltInScene(activeScene, instrumentationSettings);
         }
 
-        public static void InsertAltTesterInTheFirstScene(AltInstrumentationSettings instrumentationSettings)
+        public static void InsertAltInTheFirstScene(AltInstrumentationSettings instrumentationSettings)
         {
-            var altTesterPrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltTesterPrefab")[0]));
+            var altRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets(PREFABNAME)[0]));
 
             PreviousScenePath = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
-            SceneWithAltTester = EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
+            SceneWithAltRunner = EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
 
-            AltTester = UnityEditor.PrefabUtility.InstantiatePrefab(altTesterPrefab);
-            AltRunner altRunnerComponent = ((UnityEngine.GameObject)AltTester).GetComponent<AltRunner>();
+            AltRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altRunner);
+            AltRunner altRunnerComponent = ((UnityEngine.GameObject)AltRunner).GetComponent<AltRunner>();
             altRunnerComponent.InstrumentationSettings = instrumentationSettings;
 
 
@@ -427,7 +420,6 @@ namespace AltTesterEditor
 
         private static string[] getScenesForBuild()
         {
-            InsertAltTesterInTheFirstScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
             if (AltTesterEditorWindow.EditorConfiguration.Scenes.Count == 0)
             {
                 AltTesterEditorWindow.AddAllScenes();
@@ -441,6 +433,8 @@ namespace AltTesterEditor
                     sceneList.Add(scene.Path);
                 }
             }
+
+            InsertAltInTheFirstScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
 
             return sceneList.ToArray();
         }

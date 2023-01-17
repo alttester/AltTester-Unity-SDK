@@ -1,5 +1,9 @@
 package com.alttester;
 
+import java.util.Collection;
+import com.alttester.Commands.AltCommands.AltAddNotificationListenerParams;
+import com.alttester.Commands.AltCommands.NotificationType;
+
 public class TestsHelper {
     public static int GetAltDriverPort() {
         String port = System.getenv("PROXY_PORT");
@@ -20,4 +24,10 @@ public class TestsHelper {
 
         return "127.0.0.1";
     }
+
+    public static AltDriver GetAltDriver() {
+        AltDriver altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(), true);
+        return altDriver;
+    }
+
 }

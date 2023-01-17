@@ -52,7 +52,8 @@ public class AltNIPDebugScript : MonoBehaviour
             if (mouseCtrl.wasPressedThisFrame)
             {
                 pressedButton = mouseCtrl;
-                foreach (var e in AltKeyMapping.mouseKeyCodeToButtonControl)
+                var altKeyMapping = new AltKeyMapping(power);
+                foreach (var e in altKeyMapping.mouseKeyCodeToButtonControl)
                 {
                     if (mouseCtrl == e.Value)
                         MousePressed = e.Key.ToString();
@@ -60,7 +61,8 @@ public class AltNIPDebugScript : MonoBehaviour
             }
             else if (pressedButton == mouseCtrl && !mouseCtrl.isPressed)
             {
-                foreach (var e in AltKeyMapping.mouseKeyCodeToButtonControl)
+                var altKeyMapping = new AltKeyMapping(power);
+                foreach (var e in altKeyMapping.mouseKeyCodeToButtonControl)
                 {
                     if (mouseCtrl == e.Value)
                         MouseReleased = e.Key.ToString();

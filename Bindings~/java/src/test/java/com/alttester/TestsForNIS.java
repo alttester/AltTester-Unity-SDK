@@ -28,13 +28,11 @@ import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import static org.junit.Assert.assertNotEquals;
 import static junit.framework.TestCase.*;
 
-public class TestsForNIS {
-        private static AltDriver altDriver;
+public class TestsForNIS extends BaseTest {
         String scene7 = "Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity";
         String scene8 = "Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity";
         String scene9 = "Assets/AltTester/Examples/Scenes/scene 9 NIS.unity";
@@ -55,22 +53,7 @@ public class TestsForNIS {
                 public String name;
         }
 
-        @BeforeClass
-        public static void setUp() throws Exception {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(),
-                                TestsHelper.GetAltDriverPort(),
-                                true);
-        }
-
-        @AfterClass
-        public static void tearDown() throws Exception {
-                if (altDriver != null) {
-                        altDriver.stop();
-                }
-                Thread.sleep(1000);
-        }
-
-        public void loadLevel(String sceneName) throws Exception {
+        public void loadLevel(AltDriver altDriver, String sceneName) {
                 AltLoadSceneParams params = new AltLoadSceneParams.Builder(sceneName).build();
                 altDriver.loadScene(params);
         }
@@ -90,6 +73,7 @@ public class TestsForNIS {
         }
 
         private ImagesDrop getSpriteName(String sourceImageName, String imageSourceDropZoneName) {
+
                 AltFindObjectsParams imageSourceParams = new AltFindObjectsParams.Builder(
                                 AltDriver.By.NAME, sourceImageName).build();
                 AltFindObjectsParams imageSourceDropZoneParams = new AltFindObjectsParams.Builder(
@@ -108,8 +92,8 @@ public class TestsForNIS {
         }
 
         @Test
-        public void TestScroll() throws Exception {
-                loadLevel(scene10);
+        public void TestScroll() {
+                loadLevel(altDriver, scene10);
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "Player").build();
                 AltObject player = altDriver.findObject(altFindObjectsParams);
@@ -136,7 +120,7 @@ public class TestsForNIS {
                 String componentName = "AltExampleNewInputSystem";
                 String propertyName = "jumpCounter";
                 String assembly = "Assembly-CSharp";
-                loadLevel(scene11);
+                loadLevel(altDriver, scene11);
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "Capsule").build();
                 AltObject capsule = altDriver.findObject(altFindObjectsParams);
@@ -150,8 +134,8 @@ public class TestsForNIS {
         }
 
         @Test
-        public void TestTapCoordinates() throws Exception {
-                loadLevel(scene11);
+        public void TestTapCoordinates() {
+                loadLevel(altDriver, scene11);
                 AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                                 .build();
                 AltObject capsule = altDriver.findObject(findCapsuleParams);
@@ -166,8 +150,8 @@ public class TestsForNIS {
         }
 
         @Test
-        public void TestScrollElement() throws Exception {
-                loadLevel(scene9);
+        public void TestScrollElement() {
+                loadLevel(altDriver, scene9);
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "Scrollbar Vertical").build();
                 AltObject scrollbar = altDriver.findObject(altFindObjectsParams);
@@ -192,11 +176,11 @@ public class TestsForNIS {
         }
 
         @Test
-        public void TestClickElement() throws Exception {
+        public void TestClickElement() {
                 String componentName = "AltExampleNewInputSystem";
                 String propertyName = "jumpCounter";
                 String assembly = "Assembly-CSharp";
-                loadLevel(scene11);
+                loadLevel(altDriver, scene11);
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "Capsule").build();
                 AltObject capsule = altDriver.findObject(altFindObjectsParams);
@@ -210,8 +194,8 @@ public class TestsForNIS {
         }
 
         @Test
-        public void TestClickCoordinates() throws Exception {
-                loadLevel(scene11);
+        public void TestClickCoordinates() {
+                loadLevel(altDriver, scene11);
                 AltFindObjectsParams findCapsuleParams = new AltFindObjectsParams.Builder(By.NAME, "Capsule")
                                 .build();
                 AltObject capsule = altDriver.findObject(findCapsuleParams);
@@ -226,8 +210,8 @@ public class TestsForNIS {
         }
 
         @Test
-        public void TestTilt() throws Exception {
-                loadLevel(scene11);
+        public void TestTilt() {
+                loadLevel(altDriver, scene11);
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "Cube (1)").build();
                 AltObject capsule = altDriver.findObject(altFindObjectsParams);
@@ -242,8 +226,8 @@ public class TestsForNIS {
         }
 
         @Test
-        public void TestKeyDownAndKeyUp() throws Exception {
-                loadLevel(scene10);
+        public void TestKeyDownAndKeyUp() throws InterruptedException {
+                loadLevel(altDriver, scene10);
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "Player").build();
                 AltObject player = altDriver.findObject(altFindObjectsParams);
@@ -284,8 +268,8 @@ public class TestsForNIS {
         }
 
         @Test
-        public void TestPressKey() throws Exception {
-                loadLevel(scene10);
+        public void TestPressKey() {
+                loadLevel(altDriver, scene10);
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "Player").build();
                 AltObject player = altDriver.findObject(altFindObjectsParams);
@@ -318,8 +302,8 @@ public class TestsForNIS {
         }
 
         @Test
-        public void TestPressKeys() throws Exception {
-                loadLevel(scene10);
+        public void TestPressKeys() {
+                loadLevel(altDriver, scene10);
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "Player").build();
                 AltObject player = altDriver.findObject(altFindObjectsParams);
@@ -345,8 +329,8 @@ public class TestsForNIS {
         }
 
         @Test
-        public void TestMultipointSwipe() throws Exception {
-                loadLevel(scene7);
+        public void TestMultipointSwipe() {
+                loadLevel(altDriver, scene7);
                 List<String> objects1 = new ArrayList<String>();
                 List<String> objects2 = new ArrayList<String>();
                 objects1.add("Drag Image1");
@@ -371,8 +355,8 @@ public class TestsForNIS {
         }
 
         @Test
-        public void TestSwipe() throws Exception {
-                loadLevel(scene9);
+        public void TestSwipe() {
+                loadLevel(altDriver, scene9);
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.PATH,
                                 "//Scroll View/Viewport/Content/Button (4)").build();
 

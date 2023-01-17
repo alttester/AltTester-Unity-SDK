@@ -10,11 +10,13 @@ import com.alttester.Commands.AltCommands.AltAddNotificationListener;
 import com.alttester.Commands.AltCommands.AltAddNotificationListenerParams;
 import com.alttester.Commands.AltCommands.AltRemoveNotificationListener;
 import com.alttester.Commands.AltCommands.AltRemoveNotificationListenerParams;
+import com.alttester.Commands.AltCommands.AltResetInput;
 import com.alttester.Commands.AltCommands.AltSetServerLogging;
 import com.alttester.Commands.FindObject.*;
 import com.alttester.Commands.InputActions.*;
 import com.alttester.Commands.UnityCommand.*;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
+import com.alttester.Commands.ObjectCommand.AltSetComponentPropertyParams;
 import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.altTesterExceptions.*;
 import java.io.IOException;
@@ -41,7 +43,7 @@ public class AltDriver {
         }
     }
 
-    public static final String VERSION = "1.8.0";
+    public static final String VERSION = "1.8.1";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private WebsocketConnection connection = null;
@@ -76,6 +78,24 @@ public class AltDriver {
         this.connection.connect();
 
         checkServerVersion();
+    }
+
+    public int[] getApplicationScreenSize() {
+
+        AltCallStaticMethodParams altCallStaticMethodParamsWidth = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "get_width",
+                "UnityEngine.CoreModule", new Object[] {})
+                .build();
+        int screenWidth = callStaticMethod(altCallStaticMethodParamsWidth,
+                Integer.class);
+        AltCallStaticMethodParams altCallStaticMethodParamsHeight = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "get_height",
+                "UnityEngine.CoreModule", new Object[] {})
+                .build();
+        int screenHeight = callStaticMethod(altCallStaticMethodParamsHeight,
+                Integer.class);
+
+        return new int[] { screenWidth, screenHeight };
     }
 
     private String[] splitVersion(String version) {
@@ -657,6 +677,17 @@ public class AltDriver {
     }
 
     /**
+     * Sets the value of the static field or property
+     *
+     * @param parameters - String componentName* , String propertyName* , String
+     *                   assembly
+     */
+    public void setStaticProperty(AltSetComponentPropertyParams parameters) {
+        new AltSetStaticProperty(this.connection.messageHandler, parameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+    }
+
+    /**
      * Retrieves the Unity object at given coordinates
      * Uses EventSystem.RaycastAll to find object. If no object is found then it
      * uses UnityEngine.Physics.Raycast and UnityEngine.Physics2D.Raycast and
@@ -678,6 +709,13 @@ public class AltDriver {
 
     public void removeNotificationListener(AltRemoveNotificationListenerParams notificationType) {
         new AltRemoveNotificationListener(this.connection.messageHandler, notificationType).Execute();
+    }
+
+    /**
+     * Clears all active input simulated by AltTester
+     */
+    public void resetInput() {
+        new AltResetInput(this.connection.messageHandler).Execute();
     }
 
     public enum By {

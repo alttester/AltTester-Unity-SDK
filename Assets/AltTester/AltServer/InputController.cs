@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AltTester.AltDriver;
-using AltTester;
+using Altom.AltDriver;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 
 namespace AltTester
@@ -17,41 +15,23 @@ namespace AltTester
            Action<Exception> done)
         {
             Exception err = null;
-            while (true)
+
+            var CoroutineList = new List<Coroutine>();
+
+            try
             {
-                object current;
-                int cnt = 0;
-                try
+                for (int i = 0; i < enumerators.Count; i++)
                 {
-                    bool[] isDone = new bool[enumerators.Count];
-                    for (int i = 0; i < enumerators.Count; i++)
-                    {
-                        if (enumerators[i].MoveNext())
-                        {
-                            current = enumerators[i];
-                            isDone[i] = true;
-                            continue;
-                        }
-                    }
-                    for (int i = 0; i < enumerators.Count; i++)
-                    {
-                        if (isDone[i]) break;
-                        cnt++;
-
-                    }
-                    if (cnt == enumerators.Count)
-                        break;
-
-                    current = enumerators[0];
-
+                    CoroutineList.Add(AltRunner._altRunner.StartCoroutine(enumerators[i]));
                 }
-                catch (Exception ex)
-                {
-                    UnityEngine.Debug.LogError(ex.ToString());
-                    err = ex;
-                    yield break;
-                }
-                yield return null;
+            }
+            catch (Exception e)
+            {
+                err = e;
+            }
+            for (int i = 0; i < enumerators.Count; i++)
+            {
+                yield return CoroutineList[i];
             }
 
             done.Invoke(err);
@@ -229,16 +209,13 @@ namespace AltTester
 
         public static int BeginTouch(Vector3 screenPosition)
         {
-            int newFingerId = 0, oldFingerId = -1;
 #if ALTTESTER
+            int newFingerId = 0, oldFingerId = -1;
 #if ENABLE_INPUT_SYSTEM
             newFingerId = NewInputSystem.BeginTouch(screenPosition);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
             oldFingerId = Input.BeginTouch(screenPosition);
-#endif
-#else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
             if (newFingerId == 0)
                 return oldFingerId + 1;
@@ -247,6 +224,9 @@ namespace AltTester
             if (newFingerId - 1 == oldFingerId)
                 return newFingerId;
             throw new Exception("FingerIds are not identical! OldInput fingerId: " + oldFingerId + " New Input fingerId: " + newFingerId);
+#else
+            throw new AltInputModuleException(AltErrors.errorInputModule);
+#endif
         }
 
         public static void MoveTouch(int fingerId, Vector3 screenPosition)
@@ -276,6 +256,18 @@ namespace AltTester
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
             throw new AltInputModuleException(AltErrors.errorInputModule);
+#endif
+
+        }
+        public static void ResetInput()
+        {
+#if ALTTESTER
+#if ENABLE_INPUT_SYSTEM
+        NewInputSystem.Instance.ResetInput();
+#endif
+#if ENABLE_LEGACY_INPUT_MANAGER
+        Input._instance.ResetInput();
+#endif
 #endif
 
         }

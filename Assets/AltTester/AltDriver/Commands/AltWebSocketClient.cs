@@ -1,5 +1,5 @@
 using System;
-using WebSocketSharp;
+using AltWebSocketSharp;
 
 namespace AltTester.AltDriver.Commands
 {

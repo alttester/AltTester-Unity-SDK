@@ -1782,6 +1782,76 @@ Simulates device rotation action in your game.
 
 ```
 
+#### ResetInput
+
+Clears all active input actions simulated by AltTester.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+         [Test]
+        public void TestResetInput()
+        {
+            altDriver.KeyDown(AltKeyCode.P, 1);
+            Assert.True(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp"));
+            altDriver.ResetInput();
+            Assert.False(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp"));
+
+            int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
+            Assert.AreEqual(0, countKeyDown);
+        }
+
+    .. code-tab:: java
+
+           @Test
+            public void testResetInput() throws InterruptedException {
+                    AltFindObjectsParams prefab = new AltFindObjectsParams.Builder(
+                                    AltDriver.By.NAME, "AltTesterPrefab").build();
+
+                    AltGetComponentPropertyParams pIsPressed = new AltGetComponentPropertyParams.Builder(
+                                    "Altom.AltTester.NewInputSystem",
+                                    "Keyboard.pKey.isPressed", "Assembly-CSharp").build();
+                    AltGetComponentPropertyParams count = new AltGetComponentPropertyParams.Builder(
+                                    "Input",
+                                    "_keyCodesPressed.Count", "Assembly-CSharp").build();
+                    altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.P).build());
+                    assertTrue(altDriver.findObject(prefab).getComponentProperty(pIsPressed, Boolean.class));
+                    altDriver.resetInput();
+                    assertFalse(altDriver.findObject(prefab).getComponentProperty(pIsPressed, Boolean.class));
+
+                    int countKeyDown = altDriver.findObject(prefab).getComponentProperty(count, Integer.class);
+                    assertEquals(0, countKeyDown);
+            }
+
+
+    .. code-tab:: py
+
+        def test_reset_input(self):
+            self.altdriver.key_down(AltKeyCode.P, 1)
+            assert True == self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+                "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp")
+            self.altdriver.reset_input()
+            assert False == self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+                "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp")
+
+            countKeyDown = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+                "Input", "_keyCodesPressed.Count", "Assembly-CSharp")
+            assert 0 == countKeyDown
+
+```
+
 ### Screenshot
 
 #### GetPNGScreenshot
@@ -2478,6 +2548,63 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
 
 ```
 
+#### GetApplicationScreenSize
+
+Returns the value of the application screen size.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltVector2
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestGetApplicationScreenSize()
+        {
+            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
+            var screensize = altDriver.GetApplicationScreenSize();
+            Assert.AreEqual(1920, screensize.x);
+            Assert.AreEqual(1080, screensize.y);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestGetApplicationScreenSize() {
+            AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "SetResolution",
+                "UnityEngine.CoreModule", new Object[] { "1920", "1080", "True"})
+                .withTypeOfParameters(new String[] { "System.Int32", "System.Int32","System.Boolean" })
+                .build();
+            altDriver.callStaticMethod(altCallStaticMethodParams,Void.class);
+            int[] screensize = altDriver.getApplicationScreenSize();
+            
+            assertEquals(1920, screensize[0]);
+            assertEquals(1080, screensize[1]);
+        }
+
+    .. code-tab:: py
+
+        def test_get_application_screen_size(self):
+            self.altdriver.call_static_method("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
+            parameters=["1920", "1080", "True"],
+            type_of_parameters=["System.Int32", "System.Int32", "System.Boolean"],)
+            screensize = self.altdriver.get_application_screensize()
+
+            assert 1920 == screensize[0]
+            assert 1080 == screensize[1]
+
+```
+
 #### GetTimeScale
 
 Returns the value of the time scale.
@@ -2682,6 +2809,62 @@ Gets the value of the static field or property.
             width = self.altdriver.get_static_property(
                 "UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule")
             self.assertEqual(int(width), 1920)
+
+```
+
+#### SetStaticProperty
+
+Sets the value of the static field or property.
+
+**_Parameters_**
+
+| Name          | Type   | Required | Description                                                                                             |
+| ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
+| componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
+| propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
+| assembly      | string | Yes      | The name of the assembly the component belongs to.                                                      |
+| updatedProperty | object | Yes      | The new value of the component which has the static field or property to be seted. 
+
+**_Returns_**
+
+-   Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestSetStaticProperty()
+        {
+            var expectedValue = 5;
+            altDriver.SetStaticProperty("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue);
+            var value = altDriver.GetStaticProperty<int>("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp");
+            Assert.AreEqual(expectedValue, value);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testSetStaticProperty() {
+            final Integer expectedValue = 5;
+            AltSetComponentPropertyParams altSetComponentPropertyParams = new AltSetComponentPropertyParams.Builder(
+                "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue.toString()).build();
+            altDriver.setStaticProperty(altSetComponentPropertyParams);
+            AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp").build();
+            Integer value = altDriver.getStaticProperty(altGetComponentPropertyParams,Integer.class);
+            assertEquals(expectedValue, value);
+        }
+
+    .. code-tab:: py
+
+        def test_set_static_property(self):
+            expectedValue = 5
+            self.altdriver.set_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue)
+            value = self.altdriver.get_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
+            assert expectedValue == value
 
 ```
 
@@ -3549,6 +3732,64 @@ None
             color3 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
+```
+### UpdateObject
+
+Returns the object with new values.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltObject
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestUpdateAltObject()
+        {
+            var cube = altDriver.FindObject(By.NAME, "Player1");
+            AltVector3 cubeInitialPostion = cube.GetWorldPosition();
+
+            altDriver.PressKey(AltKeyCode.W, 1, 2);
+
+            Assert.AreNotEqual(cubeInitialPostion, cube.UpdateObject().GetWorldPosition());
+        }
+
+    .. code-tab:: java
+
+       @Test
+        public void TestUpdateAltObject() throws InterruptedException {
+                AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Player1").build();
+                AltObject cube = altDriver.findObject(altFindObjectsParameters);
+                float cubeInitWorldZ = cube.worldZ;
+
+                altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.W).withDuration(1).withPower(2)
+                                .withWait(false).build());
+                Thread.sleep(2000);
+                assertNotEquals(cubeInitWorldZ, cube.UpdateObject().worldZ);
+        }
+
+    .. code-tab:: py
+
+        def test_update_altObject(self):
+            cube = self.altdriver.find_object(By.NAME, "Player1")
+            initial_position_z = cube.worldZ
+
+            self.altdriver.press_key(AltKeyCode.W, power=1, duration=0.1, wait=False)
+            time.sleep(5)
+
+            assert initial_position_z != cube.update_object().worldZ
+
+
 ```
 
 ### GetParent

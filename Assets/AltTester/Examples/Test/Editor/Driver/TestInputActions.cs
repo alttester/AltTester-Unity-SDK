@@ -5,29 +5,16 @@ using NUnit.Framework;
 
 namespace AltTester.AltDriver.Tests
 {
-    public class TestInputActions
+    public class TestInputActions : TestBase
     {
-        private AltDriver altDriver;
-        //Before any test it connects with the socket
-        [OneTimeSetUp]
-        public void SetUp()
+        public TestInputActions()
         {
-            altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
-            DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
-            DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
-        }
-
-        //At the end of the test closes the connection with the socket
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            altDriver.Stop();
+            sceneName = "Scene6";
         }
 
         [Test]
         public void TestScrollAndWait()
         {
-            altDriver.LoadScene("Scene6");
 
             var scrollBar = altDriver.WaitForObject(By.PATH, "//ScrollCanvas//Handle");
 

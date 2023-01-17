@@ -4,24 +4,11 @@ using NUnit.Framework;
 
 namespace AltTester.AltDriver.Tests
 {
-    public class TestForScene4NoCameras
+    public class TestForScene4NoCameras : TestBase
     {
-        public AltDriver altDriver;
-        //Before any test it connects with the socket
-        [OneTimeSetUp]
-        public void SetUp()
+        public TestForScene4NoCameras()
         {
-            altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
-            DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
-            DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
-            altDriver.LoadScene("Scene 4 No Cameras");
-        }
-
-        //At the end of the test closes the connection with the socket
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            altDriver.Stop();
+            sceneName = "Scene 4 No Cameras";
         }
 
         [Test]

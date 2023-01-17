@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Security.Permissions;
 using System.Threading;
-using AltTester.AltDriver.Logging;
-using AltTester.AltDriver.Notifications;
+using Altom.AltDriver.Logging;
+using Altom.AltDriver.Notifications;
+using AltWebSocketSharp;
 using Newtonsoft.Json;
-using WebSocketSharp;
 
 namespace AltTester.AltDriver.Commands
 {
@@ -59,7 +59,8 @@ namespace AltTester.AltDriver.Commands
 
             while (_connectTimeout > watch.Elapsed.TotalSeconds)
             {
-                if (retries > 0) {
+                if (retries > 0)
+                {
                     logger.Debug(string.Format("Retrying #{0} to connect to: '{1}'.", retries, _uri));
                 }
                 wsClient.Connect();

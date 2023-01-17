@@ -12,6 +12,7 @@ class TestScene01:
     @pytest.fixture(autouse=True)
     def setup(self, altdriver):
         self.altdriver = altdriver
+        self.altdriver.reset_input()
         self.altdriver.load_scene(Scenes.Scene01)
 
     def test_tap_ui_object(self):
@@ -141,6 +142,16 @@ class TestScene01:
 
         assert plane.name == "Plane"
         assert capsule.name == "Capsule"
+
+    def test_get_application_screen_size(self):
+        self.altdriver.call_static_method(
+            "UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
+            parameters=["1920", "1080", "True"],
+            type_of_parameters=["System.Int32", "System.Int32", "System.Boolean"],
+        )
+        screensize = self.altdriver.get_application_screensize()
+        assert 1920 == screensize[0]
+        assert 1080 == screensize[1]
 
     def test_wait_for_object_with_text(self):
         text_to_wait_for = self.altdriver.find_object(By.NAME, "CapsuleInfo").get_text()
@@ -717,6 +728,23 @@ class TestScene01:
 
         assert int(width) == 1920
 
+    def test_set_static_property(self):
+        expectedValue = 5
+        self.altdriver.set_static_property(
+            "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue)
+        value = self.altdriver.get_static_property(
+            "AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
+        assert expectedValue == value
+
+    def test_set_static_property2(self):
+        newValue = 5
+        expectedArray = [1, 5, 3]
+        self.altdriver.set_static_property("AltExampleScriptCapsule",
+                                           "staticArrayOfInts[1]", "Assembly-CSharp", newValue)
+        value = self.altdriver.get_static_property(
+            "AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp")
+        assert expectedArray == value
+
     def test_get_static_property_instance_null(self):
 
         screen_width = self.altdriver.call_static_method(
@@ -792,3 +820,15 @@ class TestScene01:
                                               "callJump", "Assembly-CSharp", parameters=[])
         capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
         assert capsule_info.get_text() == "Capsule jumps!"
+
+    def test_reset_input(self):
+        self.altdriver.key_down(AltKeyCode.P, 1)
+        assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+            "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is True
+        self.altdriver.reset_input()
+        assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+            "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is False
+
+        countKeyDown = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+            "Input", "_keyCodesPressed.Count", "Assembly-CSharp")
+        assert 0 == countKeyDown

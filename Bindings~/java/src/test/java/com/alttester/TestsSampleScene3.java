@@ -20,8 +20,12 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class TestsSampleScene3 {
-        private static AltDriver altDriver;
+public class TestsSampleScene3 extends BaseTest {
+
+        @Before
+        public void loadLevel() {
+                altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").build());
+        }
 
         public static class ImagesDrop {
                 public static String imageSource;
@@ -35,27 +39,6 @@ public class TestsSampleScene3 {
 
         class AltSprite {
                 public String name;
-        }
-
-        @BeforeClass
-        public static void setUp() throws Exception {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                                true);
-        }
-
-        @AfterClass
-        public static void tearDown() throws Exception {
-                if (altDriver != null) {
-                        altDriver.stop();
-                }
-                Thread.sleep(1000);
-        }
-
-        @Before
-        public void loadLevel() throws Exception {
-
-                AltLoadSceneParams params = new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").build();
-                altDriver.loadScene(params);
         }
 
         private AltObject FindObject(By by, String name) {

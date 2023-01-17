@@ -1,3 +1,30 @@
+# Changes in version 1.8.1
+
+## New
+
+- "New command: Reset Input" !997
+- "Add SetStaticProperty Command" !926
+
+## Bug fixes and improvements
+
+- "Change websocket.dll to avoid conflict with other projects" !998
+- "InputSystem: Incorrect execution of coroutines for pressKey and other commands" !1008
+- "[New Input System] Double execution for EndTouch, BeginTouch, KeyUp and KeyDown commands" !985
+- "Change AltUnityCommands and AltUnityNotification names" !990
+- "GetScreenshot has duplicated code" !992
+
+
+## Contributors
+
+-   Gombos Kriszta @GombosKriszta
+-   Robert Dezmerean @robert-dezmerean
+-   Iuliana Todoran @iuliana.todoran
+-   Robert Poienar @robert_poienar
+-   Edvin Reich @ReichEdvin
+-   Ru Cindrea @ru.cindrea
+-   Sandrina-Emanuela Sere @sandrina.sere
+
+
 # Changes in version 1.8.0
 
 ## New

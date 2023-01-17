@@ -311,6 +311,10 @@ namespace AltTester.Communication
             {
                 return new AltFindObjectAtCoordinatesCommand(cmdParams as AltFindObjectAtCoordinatesParams).ExecuteAndSerialize;
             }
+            if (cmdParams is AltResetInputParams)
+            {
+                return new AltResetInputCommand(cmdParams as AltResetInputParams).ExecuteAndSerialize;
+            }
 
             return new AltInvalidCommand(cmdParams, new CommandNotFoundException(string.Format("Command {0} not handled", cmdParams.commandName))).ExecuteAndSerialize;
         }

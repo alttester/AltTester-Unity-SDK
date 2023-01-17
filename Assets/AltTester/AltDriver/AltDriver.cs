@@ -16,7 +16,7 @@ namespace AltTester.AltDriver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
-        public static readonly string VERSION = "1.8.0";
+        public static readonly string VERSION = "1.8.1";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
@@ -83,6 +83,11 @@ namespace AltTester.AltDriver
         public void Stop()
         {
             communicationHandler.Close();
+        }
+
+        public void ResetInput()
+        {
+            new AltResetInput(communicationHandler).Execute();
         }
 
         public void SetCommandResponseTimeout(int commandTimeout)
@@ -188,6 +193,12 @@ namespace AltTester.AltDriver
             var propertyValue = new AltGetStaticProperty<T>(communicationHandler, componentName, propertyName, assemblyName, maxDepth).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
             return propertyValue;
+        }
+
+        public void SetStaticProperty(string componentName, string propertyName, string assemblyName, object updatedProperty)
+        {
+            new AltSetStaticProperty(communicationHandler, componentName, propertyName, assemblyName, updatedProperty).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
         public void DeletePlayerPref()
@@ -476,6 +487,14 @@ namespace AltTester.AltDriver
             var listOfCameras = new AltGetAllActiveCameras(communicationHandler).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
             return listOfCameras;
+        }
+
+        public AltVector2 GetApplicationScreenSize()
+        {
+            var screenWidth = CallStaticMethod<short>("UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new string[] { }, null);
+            var screenHeight = CallStaticMethod<short>("UnityEngine.Screen", "get_height", "UnityEngine.CoreModule", new string[] { }, null);
+
+            return new AltVector2(screenWidth, screenHeight);
         }
 
         public AltTextureInformation GetScreenshot(AltVector2 size = default(AltVector2), int screenShotQuality = 100)
