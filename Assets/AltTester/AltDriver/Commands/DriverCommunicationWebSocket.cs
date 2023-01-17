@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Security.Permissions;
 using System.Threading;
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.Notifications;
-using AltWebSocketSharp;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Notifications;
 using Newtonsoft.Json;
+using AltWebSocketSharp;
 
 namespace AltTester.AltDriver.Commands
 {

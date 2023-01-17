@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Altom.AltTester.Commands;
 using AltTester.AltDriver;
 using AltTester.AltDriver.Commands;
 using AltTester.Commands;

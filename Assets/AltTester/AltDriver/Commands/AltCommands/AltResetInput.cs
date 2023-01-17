@@ -1,3 +1,5 @@
+using AltTester.AltDriver.Commands;
+
 namespace Altom.AltDriver.Commands
 {
     public class AltResetInput : AltBaseCommand

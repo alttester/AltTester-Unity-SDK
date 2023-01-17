@@ -1,15 +1,17 @@
 using System;
 using System.Threading;
-using AltTester.AltDriver;
-using AltTester.AltDriver.Logging;
-using AltTester.AltDriver.MockClasses;
-using AltTester.AltDriver.Notifications;
 using NUnit.Framework;
-using Altom.AltDriver.Tests;
+using AltTester.AltDriver.MockClasses;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Notifications;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Tests;
 
-namespace AltTester.AltDriver.Tests
+public class TestNotification
 {
-    public class TestNotification
+    private AltDriver altDriver;
+    [OneTimeSetUp]
+    public void SetUp()
     {
         string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
         int port = 13000;
@@ -56,27 +58,30 @@ namespace AltTester.AltDriver.Tests
             if (timeout <= 0)
                 throw new TimeoutException("Notification variable not set to the desired value in time");
         }
+    }
 
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            altDriver.RemoveNotificationListener(NotificationType.LOADSCENE);
-            altDriver.RemoveNotificationListener(NotificationType.UNLOADSCENE);
-            altDriver.RemoveNotificationListener(NotificationType.LOG);
-            altDriver.RemoveNotificationListener(NotificationType.APPLICATION_PAUSED);
-            altDriver.Stop();
-        }
+    [Test]
+    public void TestUnloadSceneNotification()
+    {
+        altDriver.LoadScene("Scene 2 Draggable Panel", false);
+        altDriver.UnloadScene("Scene 2 Draggable Panel");
+        waitForNotificationToBeSent(MockNotificationCallBacks.LastSceneUnloaded, "Scene 2 Draggable Panel", 10);
+        Assert.AreEqual("Scene 2 Draggable Panel", MockNotificationCallBacks.LastSceneUnloaded);
+    }
 
-        [SetUp]
-        public void LoadLevel()
-        {
+    [Test]
+    public void TestLogNotification()
+    {
+        StringAssert.Contains("\"commandName\":\"loadScene\"", MockNotificationCallBacks.LogMessage);
+        Assert.AreEqual(AltLogLevel.Debug, MockNotificationCallBacks.LogLevel);
+    }
 
-            // [Test]
-            // [Ignore("Testing")]
-            // public void TestApplicationPaused()
-            // {
-            //     var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
-            //     altElement.CallComponentMethod<string>("Altom.AltTester.AltRunner", "OnApplicationPause", new object[] { true }, new string[] { "System.Boolean" }, "Assembly-CSharp");
-            //     Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
-            // }
-        }
+    [Test]
+    [Ignore("Testing")]
+    public void TestApplicationPaused()
+    {
+        var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+        altElement.CallComponentMethod<string>("Altom.AltTester.AltRunner", "OnApplicationPause", "Assembly-CSharp", new object[] { true }, new string[] { "System.Boolean" });
+        Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
+    }
+}

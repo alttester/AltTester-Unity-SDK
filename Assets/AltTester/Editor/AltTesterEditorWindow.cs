@@ -15,6 +15,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Rendering;
+using Altom.AltTesterEditor;
 
 namespace AltTesterEditor
 {
@@ -1081,7 +1082,7 @@ namespace AltTesterEditor
 
         private void runInEditor()
         {
-            AltBuilder.InsertAltTesterInTheActiveScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
+            AltBuilder.InsertAltInTheActiveScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
             AltBuilder.CreateJsonFileForInputMappingOfAxis();
             AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             PlayInEditorPressed = true;

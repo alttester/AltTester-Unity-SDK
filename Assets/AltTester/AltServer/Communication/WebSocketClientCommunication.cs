@@ -1,5 +1,5 @@
 using System;
-using Altom.AltTester.Logging;
+using AltTester.Logging;
 using AltWebSocketSharp;
 
 namespace AltTester.Communication
