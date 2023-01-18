@@ -2,7 +2,7 @@ name: Push
 on:
   push:
   workflow_dispatch:
-  
+
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -56,8 +56,8 @@ jobs:
             path: |
               sampleGame.app
               buildMac.log
-
- if: contains(github.event.head_commit.message, 'C#')
+              
+  if: contains(github.event.head_commit.message, 'C#')
   run:
     test-CSharp-Editor:
       runs-on: [self-hosted, macOS]
