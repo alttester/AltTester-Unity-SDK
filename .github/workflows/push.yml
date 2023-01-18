@@ -6,42 +6,39 @@ on:
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-
+  
 jobs:
-  if: contains(github.event.head_commit.message, 'Editor')
-  run:
-    build-docs:
+  build-docs:
+    runs-on: [self-hosted, macOS]
+    if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'Editor') }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cached: 'pip'
+      - uses: syphar/restore-virtualenv@v1
+        id: cache-virtualenv
+
+      - uses: syphar/restore-pip-download-cache@v1
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
+      - run: pip install -r Docs/requirements.txt
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+      - run: pwd
+      - uses: rickstaa/sphinx-action@master
+        with:
+          docs-folder: Docs
+          build-command: make html
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: DocumentationHTML
+          path: Docs/build/html/
+
+  build-macOS:
       runs-on: [self-hosted, macOS]
-
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/setup-python@v4
-          with:
-            python-version: '3.10'
-            cached: 'pip'
-        - uses: syphar/restore-virtualenv@v1
-          id: cache-virtualenv
-
-        - uses: syphar/restore-pip-download-cache@v1
-          if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-
-        - run: pip install -r Docs/requirements.txt
-          if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-        - run: pwd
-        - uses: rickstaa/sphinx-action@master
-          with:
-            docs-folder: Docs
-            build-command: make html
-
-        - uses: actions/upload-artifact@v1
-          with:
-            name: DocumentationHTML
-            path: Docs/build/html/
-    
-  if: contains(github.event.head_commit.message, 'Editor')
-  run:
-    build-macOS:
-      runs-on: [self-hosted, macOS]
+      if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'Editor') }}
       steps:
         - uses: actions/checkout@v3
 
@@ -57,30 +54,29 @@ jobs:
               sampleGame.app
               buildMac.log
 
-  if: contains(github.event.head_commit.message, 'C#')
-  run:
-    test-CSharp-Editor:
-      runs-on: [self-hosted, macOS]
-      needs: build-macOS
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name:
-              BuildMacArtifact
-        - run: |
-            chmod -R 755  sampleGame.app
-            open sampleGame.app
-            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
+  test-CSharp-Editor:
+    runs-on: [self-hosted, macOS]
+    needs: build-macOS
+    if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'C#') }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name:
+            BuildMacArtifact
+      - run: |
+          chmod -R 755  sampleGame.app
+          open sampleGame.app
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
-        - uses: actions/upload-artifact@v3.1.0
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: TestCSharpArtifact
-            path: |
-              *.log
-              reportTest.xml
-          
+      - uses: actions/upload-artifact@v3.1.0
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestCSharpArtifact
+          path: |
+            *.log
+            reportTest.xml
+            
   test-DotNet:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
@@ -104,11 +100,10 @@ jobs:
             path: |
               *.log
   
-  if: contains(github.event.head_commit.message, 'Python')
-  run:
-    test-Python:
+  test-Python:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
+      if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'Python') }}
       steps:
         - uses: actions/checkout@v3
 
@@ -155,11 +150,10 @@ jobs:
             path: |
               *.log
 
-  if: contains(github.event.head_commit.message, 'Java')
-  run:
-    test-Java:
+  test-Java:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
+      if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'Java') }}
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
@@ -185,25 +179,25 @@ jobs:
             name: TestJavaArtifact
             path: |
               *.log
-  if: contains(github.event.head_commit.message, 'Docs')
-  run:           
-    dev-docs:
-      runs-on: [self-hosted, macOS]
-      needs: build-docs
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name: DocumentationHTML
-            path: DocumentationHTML/
+              
+  dev-docs:
+    runs-on: [self-hosted, macOS]
+    needs: build-docs
+    if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'Docs') }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name: DocumentationHTML
+          path: DocumentationHTML/
 
-        - name: Upload new documentation
-          uses: garygrossgarten/github-action-scp@release
-          with:
-            local: DocumentationHTML
-            remote: ${{ secrets.DOCUMENTATION_PATH }}
-            host: ${{ secrets.HOST_IP_ALTOM }}
-            port: ${{ secrets.PORT_DEV_ALTOM }}
-            username: ${{ secrets.USERNAME_ALTOM }}
-            password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-            rmRemote: true
+      - name: Upload new documentation
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: DocumentationHTML
+          remote: ${{ secrets.DOCUMENTATION_PATH }}
+          host: ${{ secrets.HOST_IP_ALTOM }}
+          port: ${{ secrets.PORT_DEV_ALTOM }}
+          username: ${{ secrets.USERNAME_ALTOM }}
+          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          rmRemote: true
