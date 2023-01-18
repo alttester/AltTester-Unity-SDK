@@ -1,7 +1,92 @@
 name: Push
 on:
   push:
+  paths:
+    - '**.java'
   workflow_dispatch:
+jobs:
+  test-Java:
+      runs-on: [self-hosted, macOS]
+      needs: build-macOS
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/download-artifact@v3.0.0
+          with:
+            name: 
+              BuildMacArtifact
+              
+        - name: Setup Java JDK
+          uses: actions/setup-java@v3.5.1
+          with:
+              distribution: temurin
+              java-version: 11
+        - uses: stCarolas/setup-maven@v4.4
+        - run: |
+            chmod -R 755  sampleGame.app
+            open sampleGame.app
+            cd "Bindings~/java"
+            mvn -Dtest=com.alttester.Tests* test
+
+        - uses: actions/upload-artifact@v3.1.0
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: TestJavaArtifact
+            path: |
+              *.log
+on:
+  push:
+  paths:
+    -'**.py'    
+jobs:
+ test-Python:
+      runs-on: [self-hosted, macOS]
+      needs: build-macOS
+      steps:
+        - uses: actions/checkout@v3
+
+        - uses: actions/download-artifact@v3.0.0
+          with:
+            name:
+              BuildMacArtifact
+
+        - uses: actions/setup-python@v4
+          with:
+            python-version: '3.10'
+            cached: 'pip'
+
+        - uses: syphar/restore-virtualenv@v1
+          id: cache-virtualenv
+
+        - uses: syphar/restore-pip-download-cache@v1
+          if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
+        - name: Install dependencies
+          run: |
+            pip install -r "Bindings~/python/requirements.txt"
+            pip install -r "Bindings~/python/requirements-dev.txt"
+            pip install --ignore-installed  -e "Bindings~/python" --root "Bindings~/python"
+
+        - name: Lint with flake8
+          run: |
+            flake8 Bindings~/python/tests --config Bindings~/python/.flake8
+
+        - name: Run unit tests
+          run: |
+            pytest Bindings~/python/tests/unit
+
+        - name: Run integration tests
+          run: |
+            chmod -R 755 sampleGame.app
+            open sampleGame.app
+            pytest Bindings~/python/tests/integration
+
+        - uses: actions/upload-artifact@v3.1.0
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: TestPythonArtifact
+            path: |
+              *.log
+
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -52,11 +137,7 @@ jobs:
               buildMac.log
 
   test-CSharp-Editor:
-    runs-on: [self-hosted, macOS]
-    on:
-      push:
-        paths:
-          - '**.cs'    
+    runs-on: [self-hosted, macOS]   
     needs: build-macOS
     steps:
       - uses: actions/checkout@v3
@@ -99,93 +180,6 @@ jobs:
             name: TestCSharpArtifact
             path: |
               *.log
-  
-  test-Python:
-      runs-on: [self-hosted, macOS]
-      on:
-        push:
-          paths:
-            - '**.py'  
-      needs: build-macOS
-      steps:
-        - uses: actions/checkout@v3
-
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name:
-              BuildMacArtifact
-
-        - uses: actions/setup-python@v4
-          with:
-            python-version: '3.10'
-            cached: 'pip'
-
-        - uses: syphar/restore-virtualenv@v1
-          id: cache-virtualenv
-
-        - uses: syphar/restore-pip-download-cache@v1
-          if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-
-        - name: Install dependencies
-          run: |
-            pip install -r "Bindings~/python/requirements.txt"
-            pip install -r "Bindings~/python/requirements-dev.txt"
-            pip install --ignore-installed  -e "Bindings~/python" --root "Bindings~/python"
-
-        - name: Lint with flake8
-          run: |
-            flake8 Bindings~/python/tests --config Bindings~/python/.flake8
-
-        - name: Run unit tests
-          run: |
-            pytest Bindings~/python/tests/unit
-
-        - name: Run integration tests
-          run: |
-            chmod -R 755 sampleGame.app
-            open sampleGame.app
-            pytest Bindings~/python/tests/integration
-
-        - uses: actions/upload-artifact@v3.1.0
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: TestPythonArtifact
-            path: |
-              *.log
-
-  test-Java:
-      runs-on: [self-hosted, macOS]
-      on:
-        push:
-          paths:
-            - '**.java'  
-      needs: build-macOS
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name: 
-              BuildMacArtifact
-              
-        - name: Setup Java JDK
-          uses: actions/setup-java@v3.5.1
-          with:
-              distribution: temurin
-              java-version: 11
-        - uses: stCarolas/setup-maven@v4.4
-        - run: |
-            chmod -R 755  sampleGame.app
-            open sampleGame.app
-            cd "Bindings~/java"
-            mvn -Dtest=com.alttester.Tests* test
-
-        - uses: actions/upload-artifact@v3.1.0
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: TestJavaArtifact
-            path: |
-              *.log
-              
   dev-docs:
     runs-on: [self-hosted, macOS]
     needs: build-docs
