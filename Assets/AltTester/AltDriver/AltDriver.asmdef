@@ -9,7 +9,7 @@
     "precompiledReferences": [
         "NLog.dll",
         "Newtonsoft.Json.dll",
-        "websocket-sharp.dll"
+        "altwebsocket-sharp.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
