@@ -56,7 +56,7 @@ jobs:
             path: |
               sampleGame.app
               buildMac.log
-              
+
   if: contains(github.event.head_commit.message, 'C#')
   run:
     test-CSharp-Editor:
@@ -69,9 +69,9 @@ jobs:
             name:
               BuildMacArtifact
         - run: |
-          chmod -R 755  sampleGame.app
-          open sampleGame.app
-          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
+            chmod -R 755  sampleGame.app
+            open sampleGame.app
+            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed
