@@ -33,8 +33,6 @@ jobs:
             name: TestJavaArtifact
             path: |
               *.log
-on:
-  push:
   paths:
     -'**.py'    
 jobs:
