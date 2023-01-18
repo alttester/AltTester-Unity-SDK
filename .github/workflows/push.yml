@@ -9,7 +9,6 @@ concurrency:
 jobs:
   build-docs:
     runs-on: [self-hosted, macOS]
-    if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'Editor') }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -37,7 +36,6 @@ jobs:
 
   build-macOS:
       runs-on: [self-hosted, macOS]
-      if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'Editor') }}
       steps:
         - uses: actions/checkout@v3
 
@@ -55,8 +53,11 @@ jobs:
 
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
+    on:
+      push:
+        paths:
+          - '**.cs'    
     needs: build-macOS
-    if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'C#') }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3.0.0
@@ -101,8 +102,11 @@ jobs:
   
   test-Python:
       runs-on: [self-hosted, macOS]
+      on:
+        push:
+          paths:
+            - '**.py'  
       needs: build-macOS
-      if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'Python') }}
       steps:
         - uses: actions/checkout@v3
 
@@ -151,8 +155,11 @@ jobs:
 
   test-Java:
       runs-on: [self-hosted, macOS]
+      on:
+        push:
+          paths:
+            - '**.java'  
       needs: build-macOS
-      if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'Java') }}
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
@@ -182,7 +189,6 @@ jobs:
   dev-docs:
     runs-on: [self-hosted, macOS]
     needs: build-docs
-    if: ${{ github.event_name == 'push' && contains( github.event.head_commit.message, 'Docs') }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3.0.0
