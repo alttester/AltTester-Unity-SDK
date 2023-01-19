@@ -9,7 +9,7 @@ public class MyFirstTest
     public void SetUp()
     {
         AltPortForwarding.ForwardIos();
-        altDriver = TestsHelper.getAltDriver();
+        altDriver = new AltDriver();
     }
 
     [OneTimeTearDown]

@@ -17,7 +17,7 @@ public class myFirstTest {
         @BeforeClass
         public static void setUp() throws IOException {
                 AltPortForwarding.forwardIos();
-                altDriver = TestsHelper.getAltDriver();
+                altDriver = new AltDriver();
         }
 
         @AfterClass
