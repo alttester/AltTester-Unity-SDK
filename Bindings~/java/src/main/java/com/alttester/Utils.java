@@ -18,6 +18,5 @@ public class Utils {
         } catch (InterruptedException e) {
             logger.warn("Could not sleep for " + timeToSleep + " ms");
         }
-
     }
 }

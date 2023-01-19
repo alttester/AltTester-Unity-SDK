@@ -76,9 +76,9 @@ jobs:
 
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
+    needs: build-macOS
     needs: paths-filter
     if: needs.paths-filter.outputs.csharp == 'true'
-    needs: build-macOS
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3.0.0
@@ -123,9 +123,9 @@ jobs:
   
   test-Python:
       runs-on: [self-hosted, macOS]
+      needs: build-macOS
       needs: paths-filter
       if: needs.paths-filter.outputs.python == 'true'
-      needs: build-macOS
       steps:
         - uses: actions/checkout@v3
 
@@ -177,9 +177,9 @@ jobs:
               - '.py**'
   test-Java:
       runs-on: [self-hosted, macOS]
+      needs: build-macOS
       needs: paths-filter
       if: needs.paths-filter.outputs.java == 'true'
-      needs: build-macOS
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
