@@ -124,55 +124,51 @@ jobs:
       needs: build-macOS
       needs: paths-filter
       if: needs.paths-filter.outputs.python == 'true'
-      steps:
-        - uses: actions/checkout@v3
+        steps:
+          - uses: actions/checkout@v3
 
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name:
-              BuildMacArtifact
+          - uses: actions/download-artifact@v3.0.0
+            with:
+              name:
+                BuildMacArtifact
 
-        - uses: actions/setup-python@v4
-          with:
-            python-version: '3.10'
-            cached: 'pip'
+          - uses: actions/setup-python@v4
+            with:
+              python-version: '3.10'
+              cached: 'pip'
 
-        - uses: syphar/restore-virtualenv@v1
-          id: cache-virtualenv
+          - uses: syphar/restore-virtualenv@v1
+            id: cache-virtualenv
 
-        - uses: syphar/restore-pip-download-cache@v1
-          if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+          - uses: syphar/restore-pip-download-cache@v1
+            if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-        - name: Install dependencies
-          run: |
-            pip install -r "Bindings~/python/requirements.txt"
-            pip install -r "Bindings~/python/requirements-dev.txt"
-            pip install --ignore-installed  -e "Bindings~/python" --root "Bindings~/python"
+          - name: Install dependencies
+            run: |
+              pip install -r "Bindings~/python/requirements.txt"
+              pip install -r "Bindings~/python/requirements-dev.txt"
+              pip install --ignore-installed  -e "Bindings~/python" --root "Bindings~/python"
 
-        - name: Lint with flake8
-          run: |
-            flake8 Bindings~/python/tests --config Bindings~/python/.flake8
+          - name: Lint with flake8
+            run: |
+              flake8 Bindings~/python/tests --config Bindings~/python/.flake8
 
-        - name: Run unit tests
-          run: |
-            pytest Bindings~/python/tests/unit
+          - name: Run unit tests
+            run: |
+              pytest Bindings~/python/tests/unit
 
-        - name: Run integration tests
-          run: |
-            chmod -R 755 sampleGame.app
-            open sampleGame.app
-            pytest Bindings~/python/tests/integration
+          - name: Run integration tests
+            run: |
+              chmod -R 755 sampleGame.app
+              open sampleGame.app
+              pytest Bindings~/python/tests/integration
 
-        - uses: actions/upload-artifact@v3.1.0
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: TestPythonArtifact
-            path: |
-              *.log
-        with:
-          filters: |
-            pythonfiles:
-              - '.py**'
+          - uses: actions/upload-artifact@v3.1.0
+            if: always() # run this step even if one of the previous step failed
+            with:
+              name: TestPythonArtifact
+              path: |
+                *.log
   test-Java:
       runs-on: [self-hosted, macOS]
       needs: paths-filter
