@@ -710,7 +710,9 @@ namespace Altom.AltDriver.Tests
             var button = altDriver.FindObject(By.NAME, "UIButton");
             altDriver.MoveMouse(button.GetScreenPosition());
             altDriver.PressKey(AltKeyCode.Mouse0, 1, duration);
-            var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
+            var text = altDriver.FindObject(By.NAME, "ChineseLetters").GetText();
+            Console.WriteLine(text);
+            var time = float.Parse(text);
             Assert.Greater(time, duration);
         }
 
