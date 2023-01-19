@@ -378,48 +378,35 @@ Waits until it finds an object that respects the given criteria or until timeout
 
     .. code-tab:: c#
 
-       [Test]
-        public void TestWaitForObjectToNotExistFail()
+        [Test]
+        public void TestWaitForExistingElement()
         {
-            try
-            {
-                altDriver.WaitForObjectNotBePresent(By.NAME,"Capsule", timeout: 1, interval: 0.5f);
-                Assert.Fail();
-            }
-            catch (WaitTimeOutException exception)
-            {
-                Assert.AreEqual("Element //Capsule still found after 1 seconds", exception.Message);
-            }
+            const string name = "Capsule";
+            var timeStart = DateTime.Now;
+            var altElement = altDriver.WaitForObject(By.NAME, name);
+            var timeEnd = DateTime.Now;
+            var time = timeEnd - timeStart;
+            Assert.Less(time.TotalSeconds, 20);
+            Assert.NotNull(altElement);
+            Assert.AreEqual(altElement.name, name);
         }
 
     .. code-tab:: java
 
         @Test
-        public void TestWaitForObjectWithCameraId() {
-            AltFindObjectsParams altFindObjectsParametersButton = new AltFindObjectsParams.Builder(
-                    AltDriver.By.PATH, "//Button").build();
-            AltObject altButton = altDriver.findObject(altFindObjectsParametersButton);
-            altButton.click();
-            altButton.click();
-            AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH,
-                    "//Camera").build();
-            AltObject camera = altDriver.findObject(altFindObjectsParametersCamera);
-            AltFindObjectsParams altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT,
-                    "CapsuleCollider").withCamera(By.ID, String.valueOf(camera.id)).build();
+        public void testWaitForExistingElement() {
+            String name = "Capsule";
+            long timeStart = System.currentTimeMillis();
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                            name).build();
             AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
-                    altFindObjectsParametersCapsule).build();
-            AltObject altObject = altDriver.waitForObject(altWaitForObjectsParams);
-
-            assertTrue("True", altObject.name.equals("Capsule"));
-
-            altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH, "//Main Camera").build();
-            AltObject camera2 = altDriver.findObject(altFindObjectsParametersCamera);
-            altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT, "CapsuleCollider")
-                    .withCamera(By.ID, String.valueOf(camera2.id)).build();
-            altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(altFindObjectsParametersCapsule).build();
-            AltObject altObject2 = altDriver.waitForObject(altWaitForObjectsParams);
-
-            assertNotEquals(altObject.getScreenPosition(), altObject2.getScreenPosition());
+                            altFindObjectsParams).build();
+            AltObject altElement = altDriver.waitForObject(altWaitForObjectsParams);
+            long timeEnd = System.currentTimeMillis();
+            long time = timeEnd - timeStart;
+            assertTrue(time / 1000 < 20);
+            assertNotNull(altElement);
+            assertEquals(altElement.name, name);
         }
 
     .. code-tab:: py
