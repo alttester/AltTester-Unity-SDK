@@ -12,9 +12,9 @@ jobs:
     outputs:
       # output1: ${{ steps.filter.outputs.workflows }}
       output2: ${{ steps.filter.outputs.java }}
-      # output3: ${{ steps.filter.outputs.python }}
-      # output4: ${{ steps.filter.outputs.c# }}
-      # output5: ${{ steps.filter.outputs.editor }}
+      output3: ${{ steps.filter.outputs.python }}
+      output4: ${{ steps.filter.outputs.c# }}
+      output5: ${{ steps.filter.outputs.editor }}
 
     steps:
     - uses: actions/checkout@v2
@@ -24,15 +24,51 @@ jobs:
         filters: |
           java:
             - '**.java'
-    # run only if 'workflows' files were changed
+          python:
+            - '**.py'
+          c#:
+            -'**.cs' 
+          editor:
+            -'**.cs'
+    # run only if 'java' files were changed
     - name: java tests
       if: steps.filter.outputs.java == 'true'
       run: echo "java file"
 
-    # run only if not 'workflows' files were changed
+    # run only if not 'java' files were changed
     - name: not java tests
       if: steps.filter.outputs.java != 'true'
-      run: echo "NOT workflow file"
+      run: echo "NOT java file"
+    
+    # run only if 'python' files were changed
+    - name: python tests
+      if: steps.filter.outputs.python == 'true'
+      run: echo "python file"
+
+    # run only if not 'python' files were changed
+    - name: not python tests
+      if: steps.filter.outputs.python != 'true'
+      run: echo "NOT python file"
+    
+    # run only if 'C#' files were changed
+    - name: java c#
+      if: steps.filter.outputs.c# == 'true'
+      run: echo "c# file"
+
+    # run only if not 'c#' files were changed
+    - name: not java c#
+      if: steps.filter.outputs.c# != 'true'
+      run: echo "NOT c# file"
+    
+    # run only if 'editor' files were changed
+    - name: python editor
+      if: steps.filter.outputs.editor == 'true'
+      run: echo "editor file"
+
+    # run only if not 'editor' files were changed
+    - name: not editor tests
+      if: steps.filter.outputs.editor != 'true'
+      run: echo "NOT editor file"
 
   # build-docs:
   #   runs-on: [self-hosted, macOS]

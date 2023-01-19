@@ -11,7 +11,6 @@ namespace Altom.AltDriver
     {
         TAG, LAYER, NAME, COMPONENT, PATH, ID, TEXT
     }
-
     public class AltDriver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
