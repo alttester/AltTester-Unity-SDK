@@ -10,12 +10,10 @@ jobs:
   paths-filter:
     runs-on: ubuntu-latest
     outputs:
-      # output1: ${{ steps.filter.outputs.workflows }}
       java: ${{ steps.filter.outputs.java }}
       python: ${{ steps.filter.outputs.python }}
       csharp: ${{ steps.filter.outputs.csharp }}
       editor: ${{ steps.filter.outputs.editor }}
-
     steps:
     - uses: actions/checkout@v2
     - uses: dorny/paths-filter@v2
@@ -76,8 +74,8 @@ jobs:
 
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
-    needs: build-macOS
     needs: paths-filter
+    needs: build-macOS
     if: needs.paths-filter.outputs.csharp == 'true'
     steps:
       - uses: actions/checkout@v3
@@ -177,8 +175,8 @@ jobs:
               - '.py**'
   test-Java:
       runs-on: [self-hosted, macOS]
-      needs: build-macOS
       needs: paths-filter
+      needs: build-macOS
       if: needs.paths-filter.outputs.java == 'true'
       steps:
         - uses: actions/checkout@v3
