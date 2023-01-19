@@ -63,6 +63,7 @@ namespace Altom.AltTester.UI
             Icon.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(ToggleDialog);
             TitleText.text = "AltTester v." + AltRunner.VERSION;
             CustomInputToggle.onValueChanged.AddListener(ToggleInput);
+            CustomInputToggle.isOn=false;
 
             StartAltTester();
         }
