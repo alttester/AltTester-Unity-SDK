@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using Altom.AltDriver.Logging;
 using NUnit.Framework;
 
 namespace Altom.AltDriver.Tests
@@ -710,7 +709,8 @@ namespace Altom.AltDriver.Tests
             var button = altDriver.FindObject(By.NAME, "UIButton");
             altDriver.MoveMouse(button.GetScreenPosition());
             altDriver.PressKey(AltKeyCode.Mouse0, 1, duration);
-            var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
+            var text = altDriver.FindObject(By.NAME, "ChineseLetters").GetText();
+            var time = float.Parse(text);
             Assert.Greater(time, duration);
         }
 
