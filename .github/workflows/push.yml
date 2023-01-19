@@ -76,6 +76,7 @@ jobs:
             path: |
               sampleGame.app
               buildMac.log
+        - uses: dorny/build-docs@v2
           id: filter
           with:
             filters: |
