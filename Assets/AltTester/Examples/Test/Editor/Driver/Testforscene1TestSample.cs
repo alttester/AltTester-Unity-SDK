@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using Altom.AltDriver.Logging;
+using Altom.AltTesterEditor.Logging;
 using NUnit.Framework;
 
 namespace Altom.AltDriver.Tests
@@ -12,6 +13,7 @@ namespace Altom.AltDriver.Tests
     public class TestForScene1TestSample : TestBase
     {
 
+        private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
         public TestForScene1TestSample()
         {
             sceneName = "Scene 1 AltDriverTestScene";
@@ -711,7 +713,7 @@ namespace Altom.AltDriver.Tests
             altDriver.MoveMouse(button.GetScreenPosition());
             altDriver.PressKey(AltKeyCode.Mouse0, 1, duration);
             var text = altDriver.FindObject(By.NAME, "ChineseLetters").GetText();
-            Console.WriteLine(text);
+            logger.Info(text);
             var time = float.Parse(text);
             Assert.Greater(time, duration);
         }

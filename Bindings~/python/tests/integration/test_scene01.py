@@ -695,7 +695,7 @@ class TestScene01:
 
     def test_key_down_and_key_up_mouse0(self):
         capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
-        self.altdriver.move_mouse(capsule_element.get_screen_position(), duration=0.1, wait=True)
+        self.altdriver.move_mouse(capsule_element.get_screen_position(), duration=0.2, wait=True)
 
         self.altdriver.key_down(AltKeyCode.Mouse0)
         self.altdriver.key_up(AltKeyCode.Mouse0)
