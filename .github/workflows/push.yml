@@ -27,9 +27,9 @@ jobs:
           python:
             - '**.py'
           csharp:
-            -'**.cs' 
+            - '**.cs' 
           editor:
-            -'**.cs'
+            - '**.cs'
     # run only if 'java' files were changed
     - name: java tests
       if: steps.filter.outputs.java == 'true'
