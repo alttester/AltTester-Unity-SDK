@@ -74,8 +74,8 @@ jobs:
 
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
-    needs: paths-filter
     needs: build-macOS
+    needs: paths-filter
     if: needs.paths-filter.outputs.csharp == 'true'
     steps:
       - uses: actions/checkout@v3
