@@ -7,27 +7,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  paths-filter:
-    runs-on: ubuntu-latest
-    outputs:
-      java: ${{ steps.filter.outputs.java }}
-      python: ${{ steps.filter.outputs.python }}
-      csharp: ${{ steps.filter.outputs.csharp }}
-      editor: ${{ steps.filter.outputs.editor }}
-    steps:
-    - uses: actions/checkout@v2
-    - uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          java:
-            - '**.java'
-          python:
-            - '**.py'
-          csharp:
-            - '**.cs' 
-          editor:
-            - '**.cs'
+  # paths-filter:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     java: ${{ steps.filter.outputs.java }}
+  #     python: ${{ steps.filter.outputs.python }}
+  #     csharp: ${{ steps.filter.outputs.csharp }}
+  #     editor: ${{ steps.filter.outputs.editor }}
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: dorny/paths-filter@v2
+  #     id: filter
+  #     with:
+  #       filters: |
+  #         java:
+  #           - '**.java'
+  #         python:
+  #           - '**.py'
+  #         csharp:
+  #           - '**.cs' 
+  #         editor:
+  #           - '**.cs'
   build-docs:
     runs-on: [self-hosted, macOS]
     steps:
@@ -57,6 +57,11 @@ jobs:
 
   build-macOS:
       runs-on: [self-hosted, macOS]
+      outputs:
+        java: ${{ steps.filter.outputs.java }}
+        python: ${{ steps.filter.outputs.python }}
+        csharp: ${{ steps.filter.outputs.csharp }}
+        editor: ${{ steps.filter.outputs.editor }}
       steps:
         - uses: actions/checkout@v3
 
@@ -71,11 +76,21 @@ jobs:
             path: |
               sampleGame.app
               buildMac.log
-
+          id: filter
+          with:
+            filters: |
+              java:
+                - '**.java'
+              python:
+                - '**.py'
+              csharp:
+                - '**.cs' 
+              editor:
+                - '**.cs'
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
-    needs: [build-macOS, paths-filter]
-    if: needs.paths-filter.outputs.csharp == 'true'
+    needs: build-macOS
+    if: needs.build-macOS.outputs.csharp == 'true'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3.0.0
@@ -120,8 +135,8 @@ jobs:
   
   test-Python:
       runs-on: [self-hosted, macOS]
-      needs: [build-macOS, paths-filter]
-      if: needs.paths-filter.outputs.python == 'true'
+      needs: build-macOS
+      if: needs.build-macOS.outputs.python == 'true'
       steps:
         - uses: actions/checkout@v3
 
@@ -169,8 +184,8 @@ jobs:
               *.log
   test-Java:
       runs-on: [self-hosted, macOS]
-      needs: [build-macOS, paths-filter]
-      if: needs.paths-filter.outputs.java == 'true'
+      needs: build-macOS
+      if: needs.build-macOS.outputs.java == 'true'
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
