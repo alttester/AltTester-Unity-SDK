@@ -10,7 +10,6 @@ namespace Altom.AltDriver.Tests
             {
                 return int.Parse(port);
             }
-
             return 13000;
         }
 
