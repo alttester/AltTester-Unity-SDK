@@ -13,7 +13,7 @@ jobs:
       # output1: ${{ steps.filter.outputs.workflows }}
       output2: ${{ steps.filter.outputs.java }}
       output3: ${{ steps.filter.outputs.python }}
-      output4: ${{ steps.filter.outputs.c# }}
+      output4: ${{ steps.filter.outputs.csharp }}
       output5: ${{ steps.filter.outputs.editor }}
 
     steps:
@@ -26,7 +26,7 @@ jobs:
             - '**.java'
           python:
             - '**.py'
-          c#:
+          csharp:
             -'**.cs' 
           editor:
             -'**.cs'
@@ -50,15 +50,15 @@ jobs:
       if: steps.filter.outputs.python != 'true'
       run: echo "NOT python file"
     
-    # run only if 'C#' files were changed
-    - name: java c#
-      if: steps.filter.outputs.c# == 'true'
-      run: echo "c# file"
+    # run only if 'csharp' files were changed
+    - name: java csharp
+      if: steps.filter.outputs.csharp == 'true'
+      run: echo "csharp file"
 
-    # run only if not 'c#' files were changed
-    - name: not java c#
-      if: steps.filter.outputs.c# != 'true'
-      run: echo "NOT c# file"
+    # run only if not 'csharp' files were changed
+    - name: not java csharp
+      if: steps.filter.outputs.csharp != 'true'
+      run: echo "NOT csharp file"
     
     # run only if 'editor' files were changed
     - name: python editor
