@@ -77,7 +77,6 @@ jobs:
               sampleGame.app
               buildMac.log
         - uses: actions/checkout@v3
-        - uses: ./
           id: filter
           with:
             filters: |
