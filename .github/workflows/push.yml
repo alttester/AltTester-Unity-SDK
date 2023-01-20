@@ -2,39 +2,15 @@ name: Push
 on:
   push:
   workflow_dispatch:
+
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-
+  
 jobs:
-  paths-filter:
-    runs-on: ubuntu-latest
-    outputs:
-      java: ${{ steps.filter.outputs.java }}
-      python: ${{ steps.filter.outputs.python }}
-      csharp: ${{ steps.filter.outputs.csharp }}
-      editor: ${{ steps.filter.outputs.editor }}
-      docs: ${{ steps.filter.outputs.docs }}
-    steps:
-    - uses: actions/checkout@v2
-    - uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          java:
-            - '**.java'
-          python:
-            - '**.py'
-          csharp:
-            - '**.cs' 
-          editor:
-            - '**.cs'
-          docs:
-            -'Docs/**'
   build-docs:
     runs-on: [self-hosted, macOS]
-    needs: paths-filter
-    if: needs.paths-filter.outputs.docs == 'true'
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -62,9 +38,9 @@ jobs:
 
   build-macOS:
       runs-on: [self-hosted, macOS]
-      needs: paths-filter
       steps:
         - uses: actions/checkout@v3
+
         - run: |
             $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
@@ -76,13 +52,20 @@ jobs:
             path: |
               sampleGame.app
               buildMac.log
-       
+
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
     needs: build-macOS
-    if: needs.paths-filter.outputs.csharp == 'true'
     steps:
       - uses: actions/checkout@v3
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          dotnet_format: true
       - uses: actions/download-artifact@v3.0.0
         with:
           name:
@@ -92,14 +75,6 @@ jobs:
           open sampleGame.app
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "6.0.x"
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          dotnet_format: true
       - uses: actions/upload-artifact@v3.1.0
         if: always() # run this step even if one of the previous step failed
         with:
@@ -111,7 +86,6 @@ jobs:
   test-DotNet:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
-      if: needs.paths-filter.outputs.csharp == 'true'
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
@@ -135,7 +109,6 @@ jobs:
   test-Python:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
-      if: needs.paths-filter.outputs.python == 'true'
       steps:
         - uses: actions/checkout@v3
 
@@ -181,10 +154,10 @@ jobs:
             name: TestPythonArtifact
             path: |
               *.log
+
   test-Java:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
-      if: 
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
