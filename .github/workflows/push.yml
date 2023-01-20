@@ -7,29 +7,34 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # paths-filter:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     java: ${{ steps.filter.outputs.java }}
-  #     python: ${{ steps.filter.outputs.python }}
-  #     csharp: ${{ steps.filter.outputs.csharp }}
-  #     editor: ${{ steps.filter.outputs.editor }}
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - uses: dorny/paths-filter@v2
-  #     id: filter
-  #     with:
-  #       filters: |
-  #         java:
-  #           - '**.java'
-  #         python:
-  #           - '**.py'
-  #         csharp:
-  #           - '**.cs' 
-  #         editor:
-  #           - '**.cs'
+  paths-filter:
+    runs-on: ubuntu-latest
+    outputs:
+      java: ${{ steps.filter.outputs.java }}
+      python: ${{ steps.filter.outputs.python }}
+      csharp: ${{ steps.filter.outputs.csharp }}
+      editor: ${{ steps.filter.outputs.editor }}
+      docs: ${{ steps.filter.outputs.docs }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          java:
+            - '**.java'
+          python:
+            - '**.py'
+          csharp:
+            - '**.cs' 
+          editor:
+            - '**.cs'
+          docs:
+            -'Docs/**'
   build-docs:
     runs-on: [self-hosted, macOS]
+    needs: paths-filter
+    if: needs.paths-filter.outputs.docs == 'true'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -57,24 +62,9 @@ jobs:
 
   build-macOS:
       runs-on: [self-hosted, macOS]
-      outputs:
-        java: ${{ steps.filter.outputs.java }}
-        python: ${{ steps.filter.outputs.python }}
-        csharp: ${{ steps.filter.outputs.csharp }}
-        editor: ${{ steps.filter.outputs.editor }}
+      needs: paths-filter
       steps:
         - uses: actions/checkout@v3
-          id: filter
-          with:
-            filters: |
-              java:
-                - '**.java'
-              python:
-                - '**.py'
-              csharp:
-                - '**.cs' 
-              editor:
-                - '**.cs'
         - run: |
             $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
@@ -86,18 +76,7 @@ jobs:
             path: |
               sampleGame.app
               buildMac.log
-        # - uses: actions/checkout@v3
-        #   id: filter
-        #   with:
-        #     filters: |
-        #       java:
-        #         - '**.java'
-        #       python:
-        #         - '**.py'
-        #       csharp:
-        #         - '**.cs' 
-        #       editor:
-        #         - '**.cs'
+       
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
     needs: build-macOS
@@ -124,6 +103,7 @@ jobs:
   test-DotNet:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
+      if: needs.build-macOS.outputs.csharp == 'true'
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
