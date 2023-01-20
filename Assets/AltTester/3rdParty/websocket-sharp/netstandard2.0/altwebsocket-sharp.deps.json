@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "websocket-sharp/1.0.0": {
+      "altwebsocket-sharp/1.0.0": {
         "dependencies": {
           "Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers": "0.2.236301",
           "NETStandard.Library": "2.0.3",
@@ -16,7 +16,7 @@
           "System.ServiceModel.NetTcp": "4.8.1"
         },
         "runtime": {
-          "websocket-sharp.dll": {}
+          "altwebsocket-sharp.dll": {}
         }
       },
       "Microsoft.CSharp/4.5.0": {
@@ -510,7 +510,7 @@
     }
   },
   "libraries": {
-    "websocket-sharp/1.0.0": {
+    "altwebsocket-sharp/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
