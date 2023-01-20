@@ -80,7 +80,7 @@ jobs:
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
     needs: build-macOS
-    if: needs.build-macOS.outputs.csharp == 'true'
+    if: needs.paths-filter.outputs.csharp == 'true'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3.0.0
@@ -103,7 +103,7 @@ jobs:
   test-DotNet:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
-      if: needs.build-macOS.outputs.csharp == 'true'
+      if: needs.paths-filter.outputs.csharp == 'true'
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
@@ -127,7 +127,7 @@ jobs:
   test-Python:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
-      if: needs.build-macOS.outputs.python == 'true'
+      if: needs.paths-filter.outputs.python == 'true'
       steps:
         - uses: actions/checkout@v3
 
@@ -176,7 +176,7 @@ jobs:
   test-Java:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
-      if: needs.build-macOS.outputs.java == 'true'
+      if: needs.paths-filter.outputs.java == 'true'
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
