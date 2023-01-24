@@ -57,13 +57,11 @@ jobs:
     runs-on: [self-hosted, macOS]
     needs: build-macOS
     steps:
-      - uses: actions/checkout@v3
-      - name: Add dotnet-format problem matcher
-        uses: xt0rted/dotnet-format-problem-matcher@v1
-      - name: Restore dotnet tools
-        uses: xt0rted/dotnet-tool-restore@v1
-      - name: Run dotnet format
-        uses: xt0rted/dotnet-format@v1
+      - name: Run clang-format style check for C/C++/Protobuf programs.
+        uses: jidicula/clang-format-action@v4.10.1
+        with:
+          clang-format-version: '13'
+          check-path: 'src'
       - uses: actions/download-artifact@v3.0.0
         with:
           name:
@@ -85,13 +83,11 @@ jobs:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
       steps:
-        - uses: actions/checkout@v3
-        - name: Add dotnet-format problem matcher
-          uses: xt0rted/dotnet-format-problem-matcher@v1
-        - name: Restore dotnet tools
-          uses: xt0rted/dotnet-tool-restore@v1
-        - name: Run dotnet format
-          uses: xt0rted/dotnet-format@v1
+        - name: Run clang-format style check for C/C++/Protobuf programs.
+          uses: jidicula/clang-format-action@v4.10.1
+          with:
+            clang-format-version: '13'
+            check-path: 'src'
         - uses: actions/download-artifact@v3.0.0
           with:
             name: 
