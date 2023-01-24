@@ -528,7 +528,7 @@ namespace Altom.AltTesterEditor
                 if (UnityEditor.EditorGUIUtility.currentViewWidth >= windowWidth)
                 {
 
-                    SetPopUpPositions(100, 92, 60, 30, 60, 300, 30);
+                    SetPopUpPositions(100, 92, 65, 30, 60, 300, 30);
                 }
                 else
                 {
