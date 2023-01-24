@@ -61,7 +61,7 @@ public class TestsSampleScene5 extends BaseTest {
 
         @Test
         // Test Keyboard button press
-        public void TestCameraMovement() {
+        public void TestCameraMovement() throws InterruptedException {
 
                 AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
                                 AltDriver.By.NAME, "Player1").build();
