@@ -152,6 +152,11 @@ jobs:
       needs: build-macOS
       steps:
         - uses: actions/checkout@v3
+        - uses: axel-op/googlejavaformat-action@v3
+          with:
+            args: "--skip-sorting-imports --replace"
+            # Recommended if you use MacOS:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
         - uses: actions/download-artifact@v3.0.0
           with:
             name: 
