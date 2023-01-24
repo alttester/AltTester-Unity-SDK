@@ -58,11 +58,10 @@ jobs:
     needs: build-macOS
     steps:
       - uses: actions/checkout@v3
-      - name: Run clang-format style check for C/C++/Protobuf programs.
-        uses: jidicula/clang-format-action@v4.10.1
+      - name: Run dotnet format
+        uses: xt0rted/dotnet-format@v1
         with:
-          clang-format-version: '13'
-          check-path: 'src'
+          only-changed-files: "true"
       - uses: actions/download-artifact@v3.0.0
         with:
           name:
@@ -85,11 +84,10 @@ jobs:
       needs: build-macOS
       steps:
         - uses: actions/checkout@v3
-        - name: Run clang-format style check for C/C++/Protobuf programs.
-          uses: jidicula/clang-format-action@v4.10.1
+        - name: Run dotnet format
+          uses: xt0rted/dotnet-format@v1
           with:
-            clang-format-version: '13'
-            check-path: 'src'
+            only-changed-files: "true"
         - uses: actions/download-artifact@v3.0.0
           with:
             name: 
