@@ -58,10 +58,6 @@ jobs:
     needs: build-macOS
     steps:
       - uses: actions/checkout@v3
-      - name: Run dotnet format
-        uses: xt0rted/dotnet-format@v1
-        with:
-          only-changed-files: "true"
       - uses: actions/download-artifact@v3.0.0
         with:
           name:
@@ -71,6 +67,11 @@ jobs:
           open sampleGame.app
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
+      - name: Run clang-format style check for C/C++/Protobuf programs.
+        uses: jidicula/clang-format-action@v4.10.1
+        with:
+          clang-format-version: '13'
+          check-path: 'src'
       - uses: actions/upload-artifact@v3.1.0
         if: always() # run this step even if one of the previous step failed
         with:
@@ -84,10 +85,6 @@ jobs:
       needs: build-macOS
       steps:
         - uses: actions/checkout@v3
-        - name: Run dotnet format
-          uses: xt0rted/dotnet-format@v1
-          with:
-            only-changed-files: "true"
         - uses: actions/download-artifact@v3.0.0
           with:
             name: 
