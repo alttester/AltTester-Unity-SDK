@@ -152,15 +152,10 @@ jobs:
       needs: build-macOS
       steps:
         - uses: actions/checkout@v3
-        - uses: axel-op/googlejavaformat-action@v3
-          with:
-            args: "--skip-sorting-imports --replace"
-            github-token: ${{ secrets.GITHUB_TOKEN }}
         - uses: actions/download-artifact@v3.0.0
           with:
             name: 
               BuildMacArtifact
-              
         - name: Setup Java JDK
           uses: actions/setup-java@v3.5.1
           with:
@@ -172,7 +167,10 @@ jobs:
             open sampleGame.app
             cd "Bindings~/java"
             mvn -Dtest=com.alttester.Tests* test
-
+        - uses: axel-op/googlejavaformat-action@v3
+          with:
+            args: "--skip-sorting-imports --replace"
+            github-token: ${{ secrets.GITHUB_TOKEN }}
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed
           with:
