@@ -186,11 +186,11 @@ Before running your tests you need to start the instrumented Unity application. 
 
             Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://altom.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
 
-```
 .. note::
 
     You can switch between regular and custom input by toggling the box with the `Custom Input` label. Take into consideration that if you are using the New Input System, then after activating the custom input, you will only be able to interact with the instrumented build via your automated tests or the AltDesktop.         
 
+```
 
 <!--
     .. tab:: WebGL
