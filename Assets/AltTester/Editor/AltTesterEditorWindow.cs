@@ -62,7 +62,7 @@ namespace Altom.AltTesterEditor
         public static UnityEngine.Texture2D PortForwardingTexture;
         public static UnityEngine.Texture2D selectedTestsCountTexture;
 
-        private const string regexSO = @"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*";
+        private const string regexPath = @"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*";
         private static string downloadURL;
         private const string RELEASENOTESURL = "https://altom.com/alttester/docs/desktop/pages/release-notes.html";
         private const string PREFABNAME = "AltTesterPrefab";
@@ -208,12 +208,12 @@ namespace Altom.AltTesterEditor
                     System.Text.RegularExpressions.Regex regex = null;
                     if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.Windows)
                     {
-                        regex = new System.Text.RegularExpressions.Regex(regexSO + ".exe");
+                        regex = new System.Text.RegularExpressions.Regex(regexPath + ".exe");
 
                     }
                     else if (UnityEngine.SystemInfo.operatingSystemFamily == UnityEngine.OperatingSystemFamily.MacOSX)
                     {
-                        regex = new System.Text.RegularExpressions.Regex(regexSO + ".dmg");
+                        regex = new System.Text.RegularExpressions.Regex(regexPath + ".dmg");
                     }
                     if (regex is not null)
                     {
