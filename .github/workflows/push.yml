@@ -41,8 +41,8 @@ jobs:
           - uses: actions/checkout@v3
           - name: Run clang-format style check for C/C++/Protobuf programs.
             uses: jidicula/clang-format-action@v4.10.1
-              with:
-                clang-format-version: '13'
+            with:
+              clang-format-version: '13'
   # build-macOS:
   #     runs-on: [self-hosted, macOS]
   #     steps:
