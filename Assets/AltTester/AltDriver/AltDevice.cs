@@ -16,7 +16,7 @@ namespace Altom.AltDriver
             RemotePort = remotePort;
             Active = active;
             Platform = platform;
-            Pid = pid;
+            Pid = pid
         }
     }
 }
