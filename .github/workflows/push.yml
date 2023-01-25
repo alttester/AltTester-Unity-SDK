@@ -43,6 +43,7 @@ jobs:
             uses: jidicula/clang-format-action@v4.10.1
             with:
               clang-format-version: '13'
+              check-path: 'Assets'
   # build-macOS:
   #     runs-on: [self-hosted, macOS]
   #     steps:
