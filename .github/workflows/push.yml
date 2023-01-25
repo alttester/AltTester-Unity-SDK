@@ -8,40 +8,38 @@ concurrency:
   cancel-in-progress: true
   
 jobs:
-  build-docs:
-    runs-on: [self-hosted, macOS]
+  # build-docs:
+  #   runs-on: [self-hosted, macOS]
 
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-          cached: 'pip'
-      - uses: syphar/restore-virtualenv@v1
-        id: cache-virtualenv
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.10'
+  #         cached: 'pip'
+  #     - uses: syphar/restore-virtualenv@v1
+  #       id: cache-virtualenv
 
-      - uses: syphar/restore-pip-download-cache@v1
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+  #     - uses: syphar/restore-pip-download-cache@v1
+  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-      - run: pip install -r Docs/requirements.txt
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-      - run: pwd
-      - uses: rickstaa/sphinx-action@master
-        with:
-          docs-folder: Docs
-          build-command: make html
+  #     - run: pip install -r Docs/requirements.txt
+  #       if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+  #     - run: pwd
+  #     - uses: rickstaa/sphinx-action@master
+  #       with:
+  #         docs-folder: Docs
+  #         build-command: make html
 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: DocumentationHTML
-          path: Docs/build/html/
+  #     - uses: actions/upload-artifact@v1
+  #       with:
+  #         name: DocumentationHTML
+  #         path: Docs/build/html/
   lint-CSharp:
-      runs-on: [self-hosted, macOS]
+      runs-on: ubuntu-latest
       steps:
         - name: Run dotnet format
-          uses: xt0rted/dotnet-format@v1
-          with:
-            only-changed-files: "true"
+          uses: xt0rted/dotnet-format@v1.2.0
   # build-macOS:
   #     runs-on: [self-hosted, macOS]
   #     steps:
