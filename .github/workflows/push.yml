@@ -39,11 +39,11 @@ jobs:
       runs-on: ubuntu-latest
       steps:
           - uses: actions/checkout@v3
-          - name: Run clang-format style check for C/C++/Protobuf programs.
-            uses: jidicula/clang-format-action@v4.10.1
-            with:
-              clang-format-version: '13'
-              check-path: 'Assets'
+          - name: Lint Code Base
+            uses: github/super-linter@v4
+            env:
+              VALIDATE_ALL_CODEBASE: true
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # build-macOS:
   #     runs-on: [self-hosted, macOS]
   #     steps:
