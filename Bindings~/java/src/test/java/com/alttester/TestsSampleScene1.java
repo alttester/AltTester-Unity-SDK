@@ -107,8 +107,8 @@ public class TestsSampleScene1 extends BaseTest {
         }
 
         @Test
-        public void testGetAllElements() {
-                Thread.sleep(1000);
+        public void testGetAllElements() throws Exception {
+                Thread.sleep(1000)
                 AltGetAllElementsParams allElementsParams = new AltGetAllElementsParams.Builder().build();
                 AltObject[] altElements = altDriver.getAllElements(allElementsParams);
                 assertNotNull(altElements);
