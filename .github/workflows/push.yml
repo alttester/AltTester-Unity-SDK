@@ -38,12 +38,11 @@ jobs:
   lint-Java:
       runs-on: ubuntu-latest
       steps:
-          - uses: actions/checkout@v3
-          - name: Setup Java JDK
-            uses: actions/setup-java@v3.5.1
-            with:
-              distribution: temurin
-              java-version: 11
+        - uses: actions/checkout@v3 # v2 minimum required
+        - uses: axel-op/googlejavaformat-action@v3
+          with:
+            args: "--skip-sorting-imports --replace"
+            github-token: ${{ secrets.GITHUB_TOKEN }}
             
   # build-macOS:
   #     runs-on: [self-hosted, macOS]
