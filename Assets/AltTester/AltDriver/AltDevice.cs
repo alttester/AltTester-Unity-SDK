@@ -20,4 +20,3 @@ namespace Altom.AltDriver
         }
     }
 }
-

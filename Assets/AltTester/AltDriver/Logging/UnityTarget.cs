@@ -34,6 +34,5 @@ namespace Altom.AltDriver.Logging
             }
         }
     }
-
 }
 #endif

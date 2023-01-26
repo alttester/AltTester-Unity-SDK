@@ -11,6 +11,4 @@ namespace Altom.AltDriver.Logging
         Fatal = 5,
         Off = 6,
     }
-
-
 }
