@@ -166,14 +166,13 @@ namespace Altom.AltTesterEditor
             }
         }
 
-        public static void AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildTargetGroup targetGroup)
+        public static void AddAltTesterInScriptingDefineSymbolsGroup(BuildTargetGroup targetGroup)
         {
-            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE))
-            {
-                scriptingDefineSymbolsForGroup += ";" + ALTTESTERDEFINE;
-            }
-            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
+            var scriptingDefineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+            if (scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE))
+                return;
+            scriptingDefineSymbolsForGroup += ";" + ALTTESTERDEFINE;
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
         }
 
         [System.Obsolete("Use AddAltTesterInScriptingDefineSymbolsGroup instead.")]
@@ -184,8 +183,7 @@ namespace Altom.AltTesterEditor
 
         public static bool CheckAltTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildTargetGroup targetGroup)
         {
-            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            return scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE);
+            return PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup).Contains(ALTTESTERDEFINE);
         }
 
         public static void CreateJsonFileForInputMappingOfAxis()
