@@ -43,11 +43,11 @@ jobs:
           - name: Lint Code Base
             uses: github/super-linter@v4
             env:
+              DEFAULT_BRANCH: ${{ github.base_ref }}
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               VALIDATE_JAVA: true
               VALIDATE_PYTHON_FLAKE8: true 
               VALIDATE_CSHARP: true 
-
   # build-macOS:
   #     runs-on: [self-hosted, macOS]
   #     steps:
