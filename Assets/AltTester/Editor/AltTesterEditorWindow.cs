@@ -846,7 +846,7 @@ namespace Altom.AltTesterEditor
             {
                 AltPlatform.Android => new BuildTarget[] { BuildTarget.Android },
                 AltPlatform.Standalone => new BuildTarget[] { BuildTarget.StandaloneWindows, BuildTarget.StandaloneWindows64, BuildTarget.StandaloneOSX, BuildTarget.StandaloneLinux64 },
-                AltPlatform.iOS => new BuildTarget[] { BuildTarget.Android },
+                AltPlatform.iOS => new BuildTarget[] { BuildTarget.iOS },
                 // AltPlatform.WebGL => new BuildTarget[] { BuildTarget.WebGL },
                 _ => throw new NotImplementedException(),
             };
