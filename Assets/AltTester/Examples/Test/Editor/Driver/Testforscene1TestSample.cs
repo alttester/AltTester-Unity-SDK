@@ -1721,7 +1721,7 @@ namespace Altom.AltDriver.Tests
         [TestCase("/Canvas[1]/Text", "Text", true)]
         [TestCase("//Dialog[0]", "Title", false)]
         [TestCase("//Dialog[1]", "Message", false)]
-        [TestCase("//Dialog[-1]", "CloseButton", false)]
+        [TestCase("//Dialog[-1]", "Toggle", false)]
         public void TestFindNthChild(string path, string expectedResult, bool enabled)
         {
             var altElement = altDriver.FindObject(By.PATH, path, enabled: enabled);
