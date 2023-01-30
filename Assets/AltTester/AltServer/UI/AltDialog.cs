@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AltTester;
 using AltTester.Communication;
 using AltTester.Logging;
@@ -46,13 +47,15 @@ namespace AltTester.UI
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
         private bool _wasConnectedBefore = false;
 
+        HashSet<string> _connectedDrivers = new HashSet<string>();
+
         protected void Start()
         {
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
 
             SetTitle("AltTester v." + AltRunner.VERSION);
             SetUpCloseButton();
-            setUpIcon();
+            SetUpIcon();
             SetUpHostInputField();
             SetUpPortInputField();
             SetUpGameNameInputField();
@@ -93,7 +96,7 @@ namespace AltTester.UI
             CloseButton.onClick.AddListener(ToggleDialog);
         }
 
-        private void setUpIcon()
+        private void SetUpIcon()
         {
             Icon.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(ToggleDialog);
         }
@@ -180,6 +183,8 @@ namespace AltTester.UI
         private void InitClient()
         {
             var cmdHandler = new CommandHandler();
+            cmdHandler.OnDriverConnect += OnDriverConnect;
+            cmdHandler.OnDriverDisconnect += OnDriverDisconnect;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
             _communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
@@ -198,11 +203,11 @@ namespace AltTester.UI
 
             try
             {
-                if (_communication == null || !_communication.IsListening) // start only if it is not already listening
+                if (_communication == null || !_communication.IsListening) // Start only if it is not already listening
                 {
                     _communication.Start();
                 }
-                if (!_communication.IsConnected) // display dialog only if not connected
+                if (!_communication.IsConnected) // Display dialog only if not connected
                 {
                     OnStart();
                 }
@@ -239,42 +244,25 @@ namespace AltTester.UI
         {
             string message = String.Format("Waiting to connect to AltProxy on {0}:{1} with game name: '{2}'.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
             SetMessage(message, SUCCESS_COLOR, Dialog.activeSelf || _wasConnectedBefore);
+
             _wasConnectedBefore = false;
         }
 
         private void OnConnect()
         {
-            string message = String.Format("Connected to AltProxy on {0}:{1} with game name: '{2}'.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
-
-#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-            Input.UseCustomInput = true;
-            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-#endif
+            string message = String.Format("Connected to AltProxy on {0}:{1} with game name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
 
             _updateQueue.ScheduleResponse(() =>
             {
-#if ALTTESTER && ENABLE_INPUT_SYSTEM
-                NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
-#endif
-
-                SetMessage(message, SUCCESS_COLOR, false);
+                SetMessage(message, SUCCESS_COLOR, true);
                 _wasConnectedBefore = true;
             });
         }
 
         private void OnDisconnect()
         {
-#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-            Input.UseCustomInput = false;
-            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-#endif
-
             _updateQueue.ScheduleResponse(() =>
             {
-#if ALTTESTER && ENABLE_INPUT_SYSTEM
-                NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
-#endif
-
                 StartClient();
             });
         }
@@ -286,6 +274,52 @@ namespace AltTester.UI
             if (ex != null)
             {
                 logger.Error(ex);
+            }
+        }
+
+        private void OnDriverConnect(string driverId) {
+            logger.Debug("Driver Connected: " + driverId);
+            string message = String.Format("Connected to AltProxy on {0}:{1} with game name: '{2}'. Driver connected.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
+
+            _connectedDrivers.Add(driverId);
+
+            if (_connectedDrivers.Count == 1) {
+                #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+                    Input.UseCustomInput = true;
+                    UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+                #endif
+
+                _updateQueue.ScheduleResponse(() =>
+                {
+                    SetMessage(message, SUCCESS_COLOR, false);
+
+                    #if ALTTESTER && ENABLE_INPUT_SYSTEM
+                        NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
+                    #endif
+                });
+            }
+        }
+
+        private void OnDriverDisconnect(string driverId) {
+            logger.Debug("Driver Disconect: " + driverId);
+            string message = String.Format("Connected to AltProxy on {0}:{1} with game name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
+
+            _connectedDrivers.Remove(driverId);
+
+            if (_connectedDrivers.Count == 0) {
+                #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+                    Input.UseCustomInput = false;
+                    UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+                #endif
+
+                _updateQueue.ScheduleResponse(() =>
+                {
+                    SetMessage(message, SUCCESS_COLOR, true);
+
+                    #if ALTTESTER && ENABLE_INPUT_SYSTEM
+                        NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
+                    #endif
+                });
             }
         }
     }

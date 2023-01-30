@@ -9,6 +9,8 @@ namespace AltTester.AltDriver.Commands
         public string messageId;
         public string driverId;
         public string commandName;
+        public bool isNotification;
+
         public CommandParams()
         {
             CommandAttribute cmdAttribute =
@@ -703,6 +705,7 @@ namespace AltTester.AltDriver.Commands
             this.fingerId = fingerId;
         }
     }
+
     [Command("activateNotification")]
     public class ActivateNotification : CommandParams
     {
@@ -713,6 +716,7 @@ namespace AltTester.AltDriver.Commands
             NotificationType = notificationType;
         }
     }
+
     [Command("deactivateNotification")]
     public class DeactivateNotification : CommandParams
     {

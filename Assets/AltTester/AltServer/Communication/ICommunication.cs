@@ -5,6 +5,7 @@ namespace AltTester.Communication
     public delegate void SendMessageHandler(string message);
     public delegate void CommunicationHandler();
     public delegate void CommunicationErrorHandler(string message, Exception error);
+
     public interface ICommunication
     {
         CommunicationHandler OnConnect { get; set; }
@@ -20,15 +21,13 @@ namespace AltTester.Communication
     {
         public UnhandledStartCommError(string message, Exception innerException) : base(message, innerException)
         {
-
         }
     }
+
     public class AddressInUseCommError : Exception
     {
         public AddressInUseCommError(string message) : base(message)
         {
-
         }
     }
-
 }

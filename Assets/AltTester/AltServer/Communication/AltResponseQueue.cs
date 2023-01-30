@@ -11,7 +11,9 @@ namespace AltTester.Communication
 
         public void Cycle()
         {
-            if (responseQueue.Count == 0) return;
+            if (responseQueue.Count == 0) {
+                return;
+            }
 
             lock (queueLock)
             {

@@ -14,7 +14,6 @@ namespace AltTester.Notification
             {
                 SceneManager.sceneLoaded += onSceneLoaded;
             }
-
         }
 
         static void onSceneLoaded(Scene scene, LoadSceneMode mode)
