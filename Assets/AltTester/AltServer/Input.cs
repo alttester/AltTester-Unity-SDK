@@ -1060,8 +1060,10 @@ public class Input : MonoBehaviour
 
                 pointerEventData.pointerPress = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
             }
-            monoBehaviourTarget?.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
-
+            if (monoBehaviourTarget != null)
+            {
+                monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            }
             time += UnityEngine.Time.unscaledDeltaTime;
             yield return null;
 
@@ -1073,8 +1075,11 @@ public class Input : MonoBehaviour
                 UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
                 UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
             }
-            monoBehaviourTarget?.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            monoBehaviourTarget?.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (monoBehaviourTarget != null)
+            {
+                monoBehaviourTarget.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                monoBehaviourTarget.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            }
 
             time += UnityEngine.Time.unscaledDeltaTime;
             yield return null;
@@ -1155,8 +1160,11 @@ public class Input : MonoBehaviour
                 UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
             }
 
-            target?.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            target?.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (target != null)
+            {
+                target.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                target.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            }
 
             time += UnityEngine.Time.unscaledDeltaTime;
             yield return null;
@@ -1179,8 +1187,8 @@ public class Input : MonoBehaviour
         {
             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
         }
-
-        target?.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        if (target != null)
+            target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
     }
 
     private static void updateTouchInTouchList(Touch touch)

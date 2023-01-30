@@ -1213,7 +1213,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        public void TestPressNextSceneButtton()
+        public void TestPressNextSceneButton()
         {
             var initialScene = altDriver.GetCurrentScene();
             altDriver.FindObject(By.NAME, "NextScene").Tap();
@@ -1977,8 +1977,8 @@ namespace Altom.AltDriver.Tests
             var swipeCoordinate = new AltVector2(incrementalClick.x + 10, incrementalClick.y + 10);
             altDriver.Swipe(swipeCoordinate, swipeCoordinate, 0.2f);
             var pointerPress = incrementalClick.GetComponentProperty<AltVector2>("AltExampleScriptIncrementOnClick", "pointerPress", "Assembly-CSharp");
-            Assert.AreEqual(10.0f, pointerPress.x);
-            Assert.AreEqual(10.0f, pointerPress.y);
+            Assert.AreEqual(swipeCoordinate.x, pointerPress.x);
+            Assert.AreEqual(swipeCoordinate.y, pointerPress.y);
         }
 
         [Test]
