@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using Altom.AltDriver.Logging;
 using NUnit.Framework;
 
 namespace Altom.AltDriver.Tests
@@ -1721,7 +1720,7 @@ namespace Altom.AltDriver.Tests
         [TestCase("/Canvas[1]/Text", "Text", true)]
         [TestCase("//Dialog[0]", "Title", false)]
         [TestCase("//Dialog[1]", "Message", false)]
-        [TestCase("//Dialog[-1]", "CloseButton", false)]
+        [TestCase("//Dialog[-1]", "Toggle", false)]
         public void TestFindNthChild(string path, string expectedResult, bool enabled)
         {
             var altElement = altDriver.FindObject(By.PATH, path, enabled: enabled);

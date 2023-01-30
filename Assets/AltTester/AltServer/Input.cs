@@ -57,8 +57,8 @@ public class Input : MonoBehaviour
         _keyCodesPressed.Clear();
         _keyCodesPressedDown.Clear();
         _keyCodesPressedUp.Clear();
-        mousePosition = Vector3.zero;
-        touches = new UnityEngine.Touch[0];
+        _mousePosition = Vector3.zero;
+        _touches = new UnityEngine.Touch[0];
         _touchCount = 0;
         _acceleration = Vector3.zero;
         _accelerationEvents = new AccelerationEvent[0];
@@ -633,7 +633,7 @@ public class Input : MonoBehaviour
         if (_useCustomInput)
         {
             var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
-            return 0 != _keyCodesPressed.FindAll(key => key.KeyCode == keyCode).Count || touches.Length > button;
+            return 0 != _keyCodesPressed.FindAll(key => key.KeyCode == keyCode).Count || _touches.Length > button;
         }
         else
         {
@@ -647,7 +647,7 @@ public class Input : MonoBehaviour
         if (_useCustomInput)
         {
             var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
-            return 0 != _keyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count || (touches.Length > button && touches[button].phase == UnityEngine.TouchPhase.Began);
+            return 0 != _keyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count || (_touches.Length > button && _touches[button].phase == UnityEngine.TouchPhase.Began);
         }
         else
         {
@@ -661,7 +661,7 @@ public class Input : MonoBehaviour
         if (_useCustomInput)
         {
             var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
-            return 0 != _keyCodesPressedUp.FindAll(key => key.KeyCode == keyCode).Count || touches.Length > button && touches[button].phase == UnityEngine.TouchPhase.Ended;
+            return 0 != _keyCodesPressedUp.FindAll(key => key.KeyCode == keyCode).Count || _touches.Length > button && _touches[button].phase == UnityEngine.TouchPhase.Ended;
         }
         else
         {
@@ -741,7 +741,7 @@ public class Input : MonoBehaviour
             position = positions[0]
         };
 
-        System.Collections.Generic.List<UnityEngine.Touch> currentTouches = touches.ToList();
+        System.Collections.Generic.List<UnityEngine.Touch> currentTouches = _touches.ToList();
         currentTouches.Sort((touch1, touch2) => (touch1.fingerId.CompareTo(touch2.fingerId)));
         int fingerId = 0;
         foreach (var iter in currentTouches)
@@ -755,10 +755,10 @@ public class Input : MonoBehaviour
         touchCount++;
 
         var touchListCopy = new UnityEngine.Touch[touchCount];
-        System.Array.Copy(touches, 0, touchListCopy, 0, touches.Length);
+        System.Array.Copy(_touches, 0, touchListCopy, 0, _touches.Length);
         touchListCopy[touchCount - 1] = touch;
-        touches = touchListCopy;
-        mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
+        _touches = touchListCopy;
+        mousePosition = new UnityEngine.Vector3(_touches[0].position.x, _touches[0].position.y, 0);
         var pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch);
         var markId = AltRunner._altRunner.ShowInput(touch.position);
 
@@ -788,7 +788,7 @@ public class Input : MonoBehaviour
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
                 touch.deltaPosition = touch.position - previousPosition;
                 updateTouchInTouchList(touch);
-                mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
+                mousePosition = new UnityEngine.Vector3(_touches[0].position.x, _touches[0].position.y, 0);
                 pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
                 AltRunner._altRunner.ShowInput(touch.position, markId);
 
@@ -803,7 +803,7 @@ public class Input : MonoBehaviour
         yield return null;
         var newTouches = new UnityEngine.Touch[touchCount - 1];
         int contor = 0;
-        foreach (var t in touches)
+        foreach (var t in _touches)
         {
             if (t.fingerId != touch.fingerId)
             {
@@ -812,7 +812,7 @@ public class Input : MonoBehaviour
             }
         }
 
-        touches = newTouches;
+        _touches = newTouches;
         touchCount--;
 
     }
@@ -932,7 +932,7 @@ public class Input : MonoBehaviour
             maximumPossiblePressure = 1.0f,
         };
 
-        List<int> fingerIds = touches.Select(t => t.fingerId).ToList();
+        List<int> fingerIds = _touches.Select(t => t.fingerId).ToList();
         fingerIds.Sort();
         int fingerId = 0;
         foreach (var iter in fingerIds)
@@ -945,18 +945,18 @@ public class Input : MonoBehaviour
 
 
         touchCount++;
-        var touchListCopy = new UnityEngine.Touch[touches.Length + 1];
-        System.Array.Copy(touches, 0, touchListCopy, 0, touches.Length);
-        touchListCopy[touches.Length] = touch;
-        touches = touchListCopy;
+        var touchListCopy = new UnityEngine.Touch[_touches.Length + 1];
+        System.Array.Copy(_touches, 0, touchListCopy, 0, _touches.Length);
+        touchListCopy[_touches.Length] = touch;
+        _touches = touchListCopy;
         return touch;
     }
 
     private static void destroyTouch(UnityEngine.Touch touch)
     {
-        var newTouches = new UnityEngine.Touch[touches.Length - 1];
+        var newTouches = new UnityEngine.Touch[_touches.Length - 1];
         int contor = 0;
-        foreach (var t in touches)
+        foreach (var t in _touches)
         {
             if (t.fingerId != touch.fingerId)
             {
@@ -965,7 +965,7 @@ public class Input : MonoBehaviour
             }
         }
 
-        touches = newTouches;
+        _touches = newTouches;
         touchCount--;
     }
 
@@ -1003,7 +1003,7 @@ public class Input : MonoBehaviour
 
     private static Touch findTouch(int fingerId)
     {
-        return touches.First(touch => touch.fingerId == fingerId);
+        return _touches.First(touch => touch.fingerId == fingerId);
     }
 
     /// <summary>
@@ -1187,11 +1187,11 @@ public class Input : MonoBehaviour
 
     private static void updateTouchInTouchList(Touch touch)
     {
-        for (var t = 0; t < touches.Length; t++)
+        for (var t = 0; t < _touches.Length; t++)
         {
-            if (touches[t].fingerId == touch.fingerId)
+            if (_touches[t].fingerId == touch.fingerId)
             {
-                touches[t] = touch;
+                _touches[t] = touch;
             }
         }
     }
