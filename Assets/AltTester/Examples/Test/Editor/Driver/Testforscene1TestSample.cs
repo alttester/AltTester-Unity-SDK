@@ -1212,7 +1212,7 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        public void TestPressNextSceneButtton()
+        public void TestPressNextSceneButton()
         {
             var initialScene = altDriver.GetCurrentScene();
             altDriver.FindObject(By.NAME, "NextScene").Tap();
@@ -1865,19 +1865,15 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestPointerEnter_PointerExit()
         {
-            altDriver.MoveMouse(new AltVector2(-1, -1), 1);
-            altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
-
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
-
-            altDriver.MoveMouse(counterElement.GetScreenPosition(), 1);
-            Thread.Sleep(800); // OnPointerEnter, OnPointerExit events are raised during the Update function. right now there is a delay from mouse moved to events raised.
+            counterElement.CallComponentMethod<string>("AltExampleScriptIncrementOnClick", "eventsRaised.Clear", "Assembly-CSharp", new object[] { }, null);
+            var counterElementPosition = counterElement.GetScreenPosition() + new AltVector2(50, 15);
+            altDriver.MoveMouse(counterElementPosition, 0.2f);
 
             var eventsRaised = counterElement.GetComponentProperty<List<string>>("AltExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
             Assert.IsFalse(eventsRaised.Contains("OnPointerExit"));
-            altDriver.MoveMouse(new AltVector2(200, 200));
-            Thread.Sleep(800);
+            altDriver.MoveMouse(new AltVector2(0, 0), 0.2f);
 
             eventsRaised = counterElement.GetComponentProperty<List<string>>("AltExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
@@ -1980,8 +1976,8 @@ namespace Altom.AltDriver.Tests
             var swipeCoordinate = new AltVector2(incrementalClick.x + 10, incrementalClick.y + 10);
             altDriver.Swipe(swipeCoordinate, swipeCoordinate, 0.2f);
             var pointerPress = incrementalClick.GetComponentProperty<AltVector2>("AltExampleScriptIncrementOnClick", "pointerPress", "Assembly-CSharp");
-            Assert.AreEqual(10.0f, pointerPress.x);
-            Assert.AreEqual(10.0f, pointerPress.y);
+            Assert.AreEqual(swipeCoordinate.x, pointerPress.x);
+            Assert.AreEqual(swipeCoordinate.y, pointerPress.y);
         }
 
         [Test]
