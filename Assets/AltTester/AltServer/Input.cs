@@ -839,17 +839,15 @@ public class Input : MonoBehaviour
         }
         do
         {
-            UnityEngine.Vector3 delta;
-
-            if (time + UnityEngine.Time.unscaledDeltaTime < duration)
+            Vector3 delta;
+            if (time + Time.unscaledDeltaTime < duration)
             {
-                delta = distance * UnityEngine.Time.unscaledDeltaTime / duration;
+                delta = distance * Time.unscaledDeltaTime / duration;
             }
             else
             {
-                delta = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
+                delta = location - new Vector2(mousePosition.x, mousePosition.y);
             }
-
             mousePosition += delta;
             if (mouseDownPointerEventData != null)
             {
@@ -859,8 +857,8 @@ public class Input : MonoBehaviour
                 findEventSystemObject(mouseDownPointerEventData);
             }
             AltRunner._altRunner.ShowInput(mousePosition, inputId);
+            time += Time.unscaledDeltaTime;
             yield return null;
-            time += UnityEngine.Time.unscaledDeltaTime;
         } while (time < duration);
     }
 
@@ -1062,10 +1060,10 @@ public class Input : MonoBehaviour
 
                 pointerEventData.pointerPress = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
             }
-            if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            monoBehaviourTarget?.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
-            yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
 
             _keyCodesPressedDown.Remove(keyStructure);
             beginKeyUpTouchEndedLifecycle(keyStructure, tap, ref touch);
@@ -1075,11 +1073,11 @@ public class Input : MonoBehaviour
                 UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
                 UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
             }
-            if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            monoBehaviourTarget?.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            monoBehaviourTarget?.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
-            yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
 
             endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
 
@@ -1088,8 +1086,8 @@ public class Input : MonoBehaviour
                 float elapsedTime = 0;
                 while (elapsedTime < interval - time)
                 {
-                    yield return null;
                     elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                    yield return null;
                 }
             }
         }
@@ -1145,8 +1143,8 @@ public class Input : MonoBehaviour
             if (target != null) target.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
             pointerEventData.pointerPress = target;
 
-            yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
 
             _keyCodesPressedDown.Remove(keyStructure);
             beginKeyUpTouchEndedLifecycle(keyStructure, tap, ref touch);
@@ -1157,11 +1155,11 @@ public class Input : MonoBehaviour
                 UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
             }
 
-            if (target != null) target.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            if (target != null) target.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            target?.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            target?.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
-            yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
 
             endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
 
@@ -1170,8 +1168,8 @@ public class Input : MonoBehaviour
                 float elapsedTime = 0;
                 while (elapsedTime < interval - time)
                 {
-                    yield return null;
                     elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                    yield return null;
                 }
             }
         }
@@ -1182,7 +1180,7 @@ public class Input : MonoBehaviour
             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
         }
 
-        if (target != null) target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        target?.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
     }
 
     private static void updateTouchInTouchList(Touch touch)
@@ -1254,8 +1252,8 @@ public class Input : MonoBehaviour
                 float elapsedTime = 0;
                 while (elapsedTime < duration)
                 {
-                    yield return null;
                     elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                    yield return null;
                 }
             }
         }
@@ -1336,8 +1334,8 @@ public class Input : MonoBehaviour
         float elapsedTime = 0;
         while (elapsedTime < duration)
         {
-            yield return null;
             elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
         }
 
         mouseUpTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
@@ -1349,8 +1347,8 @@ public class Input : MonoBehaviour
         while (timeSpent < duration)
         {
             _acceleration = accelarationValue;
-            yield return null;
             timeSpent += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
         }
         _acceleration = UnityEngine.Vector3.zero;//reset the value after acceleration ended
     }
