@@ -835,6 +835,7 @@ namespace Altom.AltTesterEditor
             {
                 AltPlatform.Android => BuildTargetGroup.Android,
                 AltPlatform.Standalone => BuildTargetGroup.Standalone,
+                AltPlatform.iOS => BuildTargetGroup.iOS,
                 // AltPlatform.WebGL => BuildTargetGroup.WebGL,
                 _ => throw new NotImplementedException(),
             };
@@ -845,6 +846,7 @@ namespace Altom.AltTesterEditor
             {
                 AltPlatform.Android => new BuildTarget[] { BuildTarget.Android },
                 AltPlatform.Standalone => new BuildTarget[] { BuildTarget.StandaloneWindows, BuildTarget.StandaloneWindows64, BuildTarget.StandaloneOSX, BuildTarget.StandaloneLinux64 },
+                AltPlatform.iOS => new BuildTarget[] { BuildTarget.Android },
                 // AltPlatform.WebGL => new BuildTarget[] { BuildTarget.WebGL },
                 _ => throw new NotImplementedException(),
             };
@@ -891,7 +893,6 @@ namespace Altom.AltTesterEditor
 
                     break;
                 case AltPlatform.Standalone:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows);
                     List<BuildTarget> optionsList = new List<BuildTarget>();
                     foreach (var key in availableTargetDictionary.Keys)
                     {
@@ -902,6 +903,7 @@ namespace Altom.AltTesterEditor
                     int selected = Math.Clamp(Array.IndexOf(options, EditorConfiguration.StandaloneTarget), 0, options.Length);
                     selected = EditorGUILayout.Popup("Build Target", selected, optionsList.ConvertAll(x => x.ToString()).ToArray());
                     EditorConfiguration.StandaloneTarget = options[selected];
+                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, EditorConfiguration.StandaloneTarget);
                     browseBuildLocation();
                     break;
 #if UNITY_EDITOR_OSX
