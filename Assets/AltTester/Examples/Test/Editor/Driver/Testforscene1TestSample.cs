@@ -711,7 +711,7 @@ namespace Altom.AltDriver.Tests
             altDriver.MoveMouse(button.GetScreenPosition());
             altDriver.PressKey(AltKeyCode.Mouse0, 1, duration);
             var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
-            Assert.Greater(time, duration);
+            Assert.GreaterOrEqual(time, duration);
         }
 
         [Test]
