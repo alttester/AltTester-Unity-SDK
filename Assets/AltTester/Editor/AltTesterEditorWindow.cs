@@ -835,7 +835,9 @@ namespace Altom.AltTesterEditor
             {
                 AltPlatform.Android => BuildTargetGroup.Android,
                 AltPlatform.Standalone => BuildTargetGroup.Standalone,
+#if UNITY_EDITOR_OSX
                 AltPlatform.iOS => BuildTargetGroup.iOS,
+#endif
                 // AltPlatform.WebGL => BuildTargetGroup.WebGL,
                 _ => throw new NotImplementedException(),
             };
@@ -846,7 +848,9 @@ namespace Altom.AltTesterEditor
             {
                 AltPlatform.Android => new BuildTarget[] { BuildTarget.Android },
                 AltPlatform.Standalone => new BuildTarget[] { BuildTarget.StandaloneWindows, BuildTarget.StandaloneWindows64, BuildTarget.StandaloneOSX, BuildTarget.StandaloneLinux64 },
+#if UNITY_EDITOR_OSX
                 AltPlatform.iOS => new BuildTarget[] { BuildTarget.iOS },
+#endif
                 // AltPlatform.WebGL => new BuildTarget[] { BuildTarget.WebGL },
                 _ => throw new NotImplementedException(),
             };
