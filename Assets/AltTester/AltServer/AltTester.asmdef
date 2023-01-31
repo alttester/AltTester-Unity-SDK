@@ -15,9 +15,9 @@
     "overrideReferences": true,
     "precompiledReferences": [
         "NLog.dll",
-        "websocket-sharp.dll",
         "Newtonsoft.Json.dll",
-        "nunit.framework.dll"
+        "nunit.framework.dll",
+        "altwebsocket-sharp.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
