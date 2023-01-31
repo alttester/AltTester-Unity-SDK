@@ -31,7 +31,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
         <PackageReference Include="NLog" Version="4.7.9" />
         <Reference Include="AltWebSocketSharp">
-            <HintPath>..\..\..\Assets\AltTester\3rdParty\websocket-sharp\netstandard2.0\websocket-sharp.dll</HintPath>
+            <HintPath>..\..\..\Assets\AltTester\3rdParty\websocket-sharp\netstandard2.0\altwebsocket-sharp.dll</HintPath>
         </Reference>
     </ItemGroup>
 </Project>
