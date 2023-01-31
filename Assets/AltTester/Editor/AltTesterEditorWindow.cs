@@ -83,6 +83,7 @@ namespace Altom.AltTesterEditor
         UnityEngine.Rect popUpContentPosition;
         UnityEngine.Rect closeButtonPosition;
         UnityEngine.Rect downloadButtonPosition;
+        UnityEngine.Rect textPosition;
         UnityEngine.Rect checkVersionChangesButtonPosition;
         float splitNormalizedPosition = 0.33f;
         float splitNormalizedPositionHorizontal = 0.33f;
@@ -94,6 +95,7 @@ namespace Altom.AltTesterEditor
         private static Dictionary<BuildTarget, string> availableTargetDictionary = new Dictionary<BuildTarget, string>();
         private int selectedTarget;
 
+        static float windowWidth = 600;
         bool resize;
         bool resizeHorizontal;
         public UnityEngine.Vector2 ScrollPositionVertical;
@@ -115,7 +117,7 @@ namespace Altom.AltTesterEditor
         public static void ShowWindow()
         {
             Window = (AltTesterEditorWindow)GetWindow(typeof(AltTesterEditorWindow));
-            Window.minSize = new UnityEngine.Vector2(600, 100);
+            Window.minSize = new UnityEngine.Vector2(windowWidth, 100);
             Window.titleContent = new UnityEngine.GUIContent("AltTester Editor");
             Window.Show();
         }
@@ -506,17 +508,32 @@ namespace Altom.AltTesterEditor
             }
         }
 
+        private void SetPopUpPositions(float popUpPositionHeight, float popUpContentPositionHeight, float downloadButtonPositionWidth, float downloadButtonPositionHeight, float checkVersionChangesButtonPositionHeight, float textPositionWidth, float textPositionHeight)
+        {
+
+            popUpPosition = new UnityEngine.Rect(0, 0, UnityEditor.EditorGUIUtility.currentViewWidth, popUpPositionHeight);
+            popUpContentPosition = new UnityEngine.Rect(4, 4, UnityEditor.EditorGUIUtility.currentViewWidth - 4, popUpContentPositionHeight);
+            closeButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 20, popUpPosition.yMin + 5, 15, 15);
+            downloadButtonPosition = new UnityEngine.Rect(UnityEditor.EditorGUIUtility.currentViewWidth / 2 + downloadButtonPositionWidth, popUpPosition.yMin + downloadButtonPositionHeight, 180, 30);
+            checkVersionChangesButtonPosition = new UnityEngine.Rect(UnityEditor.EditorGUIUtility.currentViewWidth / 2 + downloadButtonPositionWidth, popUpPosition.yMin + checkVersionChangesButtonPositionHeight, 180, 30);
+            textPosition = new UnityEngine.Rect(UnityEditor.EditorGUIUtility.currentViewWidth / 2 - textPositionWidth, popUpPosition.yMin + textPositionHeight, 370, popUpPositionHeight / 4);
+        }
         protected void DrawGUI()
         {
             var screenWidth = UnityEditor.EditorGUIUtility.currentViewWidth;
 
             if (EditorConfiguration.ShowDesktopPopUpInEditor)
             {
-                popUpPosition = new UnityEngine.Rect(screenWidth / 2 - 300, 0, 600, 100);
-                popUpContentPosition = new UnityEngine.Rect(screenWidth / 2 - 296, 4, 592, 92);
-                closeButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 20, popUpPosition.yMin + 5, 15, 15);
-                downloadButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 200, popUpPosition.yMin + 30, 180, 30);
-                checkVersionChangesButtonPosition = new UnityEngine.Rect(popUpPosition.xMax - 200, popUpPosition.yMin + 60, 180, 30);
+                if (UnityEditor.EditorGUIUtility.currentViewWidth >= windowWidth)
+                {
+
+                    SetPopUpPositions(100, 92, 65, 30, 60, 300, 30);
+                }
+                else
+                {
+                    SetPopUpPositions(150, 142, -90, 70, 100, 185, 15);
+
+                }
                 if (UnityEngine.Event.current.type == UnityEngine.EventType.MouseDown)
                 {
                     if (checkVersionChangesButtonPosition.Contains(UnityEngine.Event.current.mousePosition))
@@ -952,7 +969,7 @@ namespace Altom.AltTesterEditor
             {
                 wordWrap = true,
                 richText = true,
-                alignment = UnityEngine.TextAnchor.MiddleLeft,
+                alignment = UnityEngine.TextAnchor.MiddleCenter,
                 font = font
             };
             if (gUIStyleButton == null)
@@ -985,9 +1002,14 @@ namespace Altom.AltTesterEditor
             UnityEngine.GUI.Button(downloadButtonPosition, "<b><size=16>Download now!</size></b>", gUIStyleButton);
             UnityEngine.GUI.Button(checkVersionChangesButtonPosition, "<size=13>Check version history</size>", gUIStyleHistoryChanges);
             UnityEditor.EditorGUI.LabelField(checkVersionChangesButtonPosition, "<size=13>__________________</size>", gUIStyleHistoryChanges);
-
-            UnityEngine.Rect textPosition = new UnityEngine.Rect(popUpPosition.xMin + 20, popUpPosition.yMin + 30, 370, 30);
-            UnityEditor.EditorGUI.LabelField(textPosition, System.String.Format("<b><size=16>AltTester Desktop {0} has been released!</size></b>", version), gUIStyleText);
+            if (UnityEditor.EditorGUIUtility.currentViewWidth < 400)
+            {
+                UnityEditor.EditorGUI.LabelField(textPosition, System.String.Format("<b><size=16>AltTester Desktop {0} \n has been released!</size></b>", version), gUIStyleText);
+            }
+            else
+            {
+                UnityEditor.EditorGUI.LabelField(textPosition, System.String.Format("<b><size=16>AltTester Desktop {0} has been released!</size></b>", version), gUIStyleText);
+            }
         }
 
         #endregion

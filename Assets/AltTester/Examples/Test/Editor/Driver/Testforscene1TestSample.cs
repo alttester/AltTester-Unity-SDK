@@ -705,7 +705,7 @@ namespace Altom.AltDriver.Tests
         [Test]
         public void TestPressKeyWaitTheDuration()
         {
-            const int duration = 1;
+            const float duration = 1.0f;
             var button = altDriver.FindObject(By.NAME, "UIButton");
             altDriver.MoveMouse(button.GetScreenPosition());
             altDriver.PressKey(AltKeyCode.Mouse0, 1, duration);
