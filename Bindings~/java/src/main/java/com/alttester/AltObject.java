@@ -29,6 +29,7 @@ public class AltObject {
     private transient IMessageHandler messageHandler;
 
     public IMessageHandler getMessageHandler() {
+
         return messageHandler;
     }
 
