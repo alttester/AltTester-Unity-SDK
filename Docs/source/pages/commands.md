@@ -3170,9 +3170,9 @@ Sets value of the given component property.
 | ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
 | componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
 | propertyName  | string | Yes      | The name of the property of which value you want to set                                                                  |
+| value         | object | Yes      | The value to be set for the chosen component's property                                               |
 | assemblyName  | string | Yes       | The name of the assembly containing the component. It is NULL by default.                                               |
-| value         | object | Yes      | The value to be set for the chosen component's property                                                                  |
-
+                                                              
 **_Returns_**
 
 - Nothing
@@ -3191,7 +3191,7 @@ Sets value of the given component property.
             const string propertyName = "stringToSetFromTests";
             var altObject = altDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altObject);
-            altObject.SetComponentProperty(componentName, propertyName, "Assembly-CSharp", "2");
+            altObject.SetComponentProperty(componentName, propertyName, "2", "Assembly-CSharp");
 
             var propertyValue = altObject.GetComponentProperty<string>(componentName, propertyName);
             Assert.AreEqual("2", propertyValue);
@@ -3207,7 +3207,7 @@ Sets value of the given component property.
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);
             assertNotNull(altObject);
-            altElement.setComponentProperty(new AltSetComponentPropertyParams.Builder(componentName, propertyName, "Assembly-CSharp", "2").build());
+            altElement.setComponentProperty(new AltSetComponentPropertyParams.Builder(componentName, propertyName, "2", "Assembly-CSharp").build());
             String propertyValue = altElement.getComponentProperty(new AltGetComponentPropertyParams.Builder(componentName,propertyName).build(), String.class);
             assertEquals("2", propertyValue);
         }
@@ -3220,7 +3220,7 @@ Sets value of the given component property.
             propertyName = "stringToSetFromTests"
             altObject = self.altDriver.find_object(By.NAME, componentName)
             self.assertNotEqual(altObject, None)
-            altObject.set_component_property(componentName, propertyName, "Assembly-CSharp", "2")
+            altObject.set_component_property(componentName, propertyName, "2", "Assembly-CSharp")
             propertyValue = altObject.get_component_property(componentName, propertyName)
             self.assertEqual("2", propertyValue)
 
