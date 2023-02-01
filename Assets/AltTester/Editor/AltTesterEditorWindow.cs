@@ -870,7 +870,7 @@ namespace Altom.AltTesterEditor
                 BuildTargetGroup.Android => AltPlatform.Android,
                 // BuildTargetGroup.WebGL => AltPlatform.WebGL,
 #if UNITY_EDITOR_OSX
-                BuildTargetGroup.iOS => AltPlatform.Standalone;
+                BuildTargetGroup.iOS => AltPlatform.Standalone,
 #endif
                 _ => AltPlatform.Editor
             };
