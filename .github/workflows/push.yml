@@ -177,7 +177,7 @@ jobs:
               *.log
               
   dev-docs:
-    if: github.event.pull_request.merged == true
+    if: github.ref == 'refs/heads/development'
     runs-on: [self-hosted, macOS]
     needs: build-docs
     steps:
