@@ -12,8 +12,8 @@ namespace Altom.AltTesterEditor
         public string XcrunPath = "/usr/bin/xcrun";
         public List<AltMyTest> MyTests = new List<AltMyTest>();
         public List<AltMyScenes> Scenes = new List<AltMyScenes>();
-        public AltPlatform platform = AltPlatform.Editor;
-        public UnityEditor.BuildTarget StandaloneTarget = UnityEditor.BuildTarget.StandaloneWindows;
+        public AltPlatform platform = AltPlatform.Standalone;
+        public UnityEditor.BuildTarget StandaloneTarget = UnityEditor.BuildTarget.NoTarget;
         public bool RanInEditor = false;
         public bool ScenePathDisplayed;
         public bool InputVisualizer;

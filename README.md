@@ -25,3 +25,5 @@ See the created unity package under the project
 ## License
 
 Distributed under the **GNU General Public License v3.0**. See [LICENSE](https://github.com/alttester/AltTester-Unity-SDK/blob/master/LICENSE) for more information.
+
+This project is tested with [BrowserStack](https://www.browserstack.com/)
