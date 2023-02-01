@@ -23,9 +23,9 @@ jobs:
       with:
         filters: |
           java:
-            - 'java/**'
+            - 'Bindings~/java/**'
           python:
-            - 'python/**'
+            - 'Bindings~/python/**'
           csharp:
             - '**.cs' 
           editor:
@@ -33,7 +33,7 @@ jobs:
           docs:
             -'Docs/**'
           scenes:
-            -'Scenes/**'
+            -'Assets/AltTester/Examples/Scenes/**'
   build-docs:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
