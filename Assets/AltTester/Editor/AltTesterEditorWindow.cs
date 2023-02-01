@@ -918,6 +918,7 @@ namespace Altom.AltTesterEditor
                     }
             }
             var listOfPlatforms = availableTargetDictionary.Values.Distinct().ToArray();
+            selectedTarget = Array.IndexOf(listOfPlatforms, EditorConfiguration.platform.ToString());
             selectedTarget = GUILayout.SelectionGrid(selectedTarget, listOfPlatforms, size <= 300 ? 1 : listOfPlatforms.Length, guiStyleRadioButton);
             UnityEditor.EditorGUILayout.EndHorizontal();
             EditorGUI.EndDisabledGroup();
