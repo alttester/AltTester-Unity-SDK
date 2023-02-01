@@ -6,7 +6,6 @@ from enum import Enum, unique
 @unique
 class By(Enum):
     """Set of supported locator strategies."""
-
     NAME = 1
     TAG = 2
     LAYER = 3
