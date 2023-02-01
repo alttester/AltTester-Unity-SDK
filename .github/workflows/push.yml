@@ -15,6 +15,7 @@ jobs:
       csharp: ${{ steps.filter.outputs.csharp }}
       editor: ${{ steps.filter.outputs.editor }}
       docs: ${{ steps.filter.outputs.docs }}
+      scenes: ${{steps.filter.outputs.scenes}}
     steps:
     - uses: actions/checkout@v2
     - uses: dorny/paths-filter@v2
@@ -22,15 +23,17 @@ jobs:
       with:
         filters: |
           java:
-            - '**.java'
+            - 'java/**'
           python:
-            - '**.py'
+            - 'python/**'
           csharp:
             - '**.cs' 
           editor:
             - '**.cs'
           docs:
             -'Docs/**'
+          scenes:
+            -'Scenes/**'
   build-docs:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
@@ -80,7 +83,7 @@ jobs:
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
     needs: build-macOS
-    if: needs.paths-filter.outputs.csharp == 'true'
+    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3.0.0
@@ -103,7 +106,7 @@ jobs:
   test-DotNet:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
-      if: needs.paths-filter.outputs.csharp == 'true'
+      if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
@@ -127,7 +130,7 @@ jobs:
   test-Python:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
-      if: needs.paths-filter.outputs.python == 'true'
+      if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
       steps:
         - uses: actions/checkout@v3
 
@@ -176,7 +179,7 @@ jobs:
   test-Java:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
-      if: needs.paths-filter.outputs.java == 'true'
+      if: needs.paths-filter.outputs.java == 'true' || needs.paths-filter.outputs.scenes == 'true'
       steps:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
