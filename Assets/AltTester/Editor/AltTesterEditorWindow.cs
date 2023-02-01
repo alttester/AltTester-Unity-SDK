@@ -216,7 +216,7 @@ namespace Altom.AltTesterEditor
                     {
                         regex = new System.Text.RegularExpressions.Regex(regexPath + ".dmg");
                     }
-                    if (regex is not null)
+                    if (regex != null)
                     {
                         System.Text.RegularExpressions.Match match = regex.Match(textReceived);
                         if (match.Success)
@@ -862,6 +862,21 @@ namespace Altom.AltTesterEditor
                 _ => throw new NotImplementedException(),
             };
         }
+        private static AltPlatform getAltPlatformFromBuildTargetGroup(BuildTargetGroup targetGroup)
+        {
+            return targetGroup switch
+            {
+                BuildTargetGroup.Standalone => AltPlatform.Standalone,
+                BuildTargetGroup.Android => AltPlatform.Android,
+                // BuildTargetGroup.WebGL => AltPlatform.WebGL,
+#if UNITY_EDITOR_OSX
+                BuildTargetGroup.iOS => AltPlatform.Standalone;
+#endif
+                _ => AltPlatform.Editor
+            };
+
+
+        }
         private BuildTarget[] getBuildTargetFromAltPlatform(AltPlatform altPlatform)
         {
             return altPlatform switch
@@ -907,7 +922,7 @@ namespace Altom.AltTesterEditor
             UnityEditor.EditorGUILayout.EndHorizontal();
             EditorGUI.EndDisabledGroup();
 
-            EditorConfiguration.platform = Enum.Parse<AltPlatform>(listOfPlatforms[selectedTarget]);
+            EditorConfiguration.platform = (AltPlatform)Enum.Parse(typeof(AltPlatform), listOfPlatforms[selectedTarget]);
 
             switch (EditorConfiguration.platform)
             {
@@ -924,7 +939,7 @@ namespace Altom.AltTesterEditor
                             optionsList.Add(key);
                     }
                     var options = optionsList.ToArray();
-                    int selected = Math.Clamp(Array.IndexOf(options, EditorConfiguration.StandaloneTarget), 0, options.Length);
+                    int selected = Mathf.Clamp(Array.IndexOf(options, EditorConfiguration.StandaloneTarget), 0, options.Length);
                     selected = EditorGUILayout.Popup("Build Target", selected, optionsList.ConvertAll(x => x.ToString()).ToArray());
                     EditorConfiguration.StandaloneTarget = options[selected];
                     EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, EditorConfiguration.StandaloneTarget);
@@ -1026,6 +1041,7 @@ namespace Altom.AltTesterEditor
                 altTesterEditorFolderPath = Path.GetDirectoryName(altTesterEditorFolderPath);
                 EditorConfiguration = CreateInstance<AltEditorConfiguration>();
                 EditorConfiguration.MyTests = null;
+                EditorConfiguration.platform = getAltPlatformFromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
                 UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altTesterEditorFolderPath + "/AltTesterEditorSettings.asset");
                 UnityEditor.AssetDatabase.SaveAssets();
             }
@@ -1497,7 +1513,7 @@ namespace Altom.AltTesterEditor
                         if (!EditorConfiguration.ScenePathDisplayed)
                         {
                             var splittedPath = sceneName.Split('/');
-                            sceneName = splittedPath[^1];
+                            sceneName = splittedPath[splittedPath.Length - 1];
                         }
 
                         UnityEditor.EditorGUILayout.LabelField(sceneName, guiStyle);
@@ -1790,7 +1806,7 @@ namespace Altom.AltTesterEditor
                     if (test.ParentName == "")
                     {
                         var splitPath = testName.Split('/');
-                        testName = splitPath[^1];
+                        testName = splitPath[splitPath.Length - 1];
                     }
                     else
                     {
@@ -1802,7 +1818,7 @@ namespace Altom.AltTesterEditor
                         else
                         {
                             var splitPath = testName.Split('.');
-                            testName = splitPath[^1];
+                            testName = splitPath[splitPath.Length - 1];
                         }
                     }
 
@@ -1883,7 +1899,7 @@ namespace Altom.AltTesterEditor
             String[] lines = File.ReadAllLines(path);
             int index = nameOfTest.IndexOf("(");
             if (index > -1)
-                nameOfTest = nameOfTest[..index];
+                nameOfTest = nameOfTest.Substring(0, index);
             for (int i = 0; i < lines.Length; i++)
             {
                 if (isComment(lines[i]))
