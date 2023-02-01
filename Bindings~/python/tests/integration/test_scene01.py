@@ -143,6 +143,16 @@ class TestScene01:
         assert plane.name == "Plane"
         assert capsule.name == "Capsule"
 
+    def test_get_application_screen_size(self):
+        self.altdriver.call_static_method(
+            "UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
+            parameters=["1920", "1080", "True"],
+            type_of_parameters=["System.Int32", "System.Int32", "System.Boolean"],
+        )
+        screensize = self.altdriver.get_application_screensize()
+        assert 1920 == screensize[0]
+        assert 1080 == screensize[1]
+
     def test_wait_for_object_with_text(self):
         text_to_wait_for = self.altdriver.find_object(By.NAME, "CapsuleInfo").get_text()
         capsule_info = self.altdriver.wait_for_object(
@@ -684,12 +694,13 @@ class TestScene01:
         self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]", timeout=1)
 
     def test_key_down_and_key_up_mouse0(self):
-        capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
-        self.altdriver.move_mouse(capsule_element.get_screen_position(), duration=0.1, wait=True)
+        button = self.altdriver.find_object(By.NAME, "UIButton")
+        self.altdriver.move_mouse(button.get_screen_position(), duration=0.1, wait=True)
 
         self.altdriver.key_down(AltKeyCode.Mouse0)
         self.altdriver.key_up(AltKeyCode.Mouse0)
-        self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]", timeout=1)
+        text = self.altdriver.find_object(By.NAME, "ChineseLetters").get_text()
+        assert text != "哦伊娜哦"
 
     def test_camera_not_found_exception(self):
         with pytest.raises(exceptions.CameraNotFoundException):

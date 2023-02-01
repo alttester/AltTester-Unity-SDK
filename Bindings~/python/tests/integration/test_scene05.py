@@ -39,6 +39,16 @@ class TestScene05:
 
         assert initial_position != final_position
 
+    def test_update_altObject(self):
+
+        cube = self.altdriver.find_object(By.NAME, "Player1")
+        initial_position_z = cube.worldZ
+
+        self.altdriver.press_key(AltKeyCode.W, power=1, duration=0.1, wait=False)
+        time.sleep(5)
+
+        assert initial_position_z != cube.update_object().worldZ
+
     def test_creating_stars(self):
         stars = self.altdriver.find_objects_which_contain(By.NAME, "Star", By.NAME, "Player2")
         assert len(stars) == 1

@@ -7,32 +7,13 @@ using NUnit.Framework;
 
 namespace Altom.AltDriver.Tests
 {
-    public class TestForScene5KeyboardAndMouseInput
+    public class TestForScene5KeyboardAndMouseInput : TestBase
     {
 #pragma warning disable CS0618
 
-        public AltDriver altDriver;
-        //Before any test it connects with the socket
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
+        public TestForScene5KeyboardAndMouseInput()
         {
-            altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
-            DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
-            DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
-        }
-
-        //At the end of the test closes the connection with the socket
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            altDriver.Stop();
-        }
-        [SetUp]
-        public void SetUp()
-        {
-            altDriver.ResetInput();
-            altDriver.LoadScene("Scene 5 Keyboard Input");
-
+            sceneName = "Scene 5 Keyboard Input";
         }
 
         [Test]
@@ -66,6 +47,17 @@ namespace Altom.AltDriver.Tests
             AltVector3 cubeFinalPosition = cube.GetWorldPosition();
 
             Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
+        }
+
+        [Test]
+        public void TestUpdateAltObject()
+        {
+            var cube = altDriver.FindObject(By.NAME, "Player1");
+            AltVector3 cubeInitialPostion = cube.GetWorldPosition();
+
+            altDriver.PressKey(AltKeyCode.W, 1, 2);
+
+            Assert.AreNotEqual(cubeInitialPostion, cube.UpdateObject().GetWorldPosition());
         }
 
         [Test]

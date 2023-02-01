@@ -43,7 +43,7 @@ public class AltDriver {
         }
     }
 
-    public static final String VERSION = "1.8.1";
+    public static final String VERSION = "1.8.2";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private WebsocketConnection connection = null;
@@ -72,6 +72,24 @@ public class AltDriver {
         this.connection = new WebsocketConnection(host, port, connectTimeout);
         this.connection.connect();
         checkServerVersion();
+    }
+
+    public int[] getApplicationScreenSize() {
+
+        AltCallStaticMethodParams altCallStaticMethodParamsWidth = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "get_width",
+                "UnityEngine.CoreModule", new Object[] {})
+                .build();
+        int screenWidth = callStaticMethod(altCallStaticMethodParamsWidth,
+                Integer.class);
+        AltCallStaticMethodParams altCallStaticMethodParamsHeight = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "get_height",
+                "UnityEngine.CoreModule", new Object[] {})
+                .build();
+        int screenHeight = callStaticMethod(altCallStaticMethodParamsHeight,
+                Integer.class);
+
+        return new int[] { screenWidth, screenHeight };
     }
 
     private String[] splitVersion(String version) {
@@ -652,11 +670,11 @@ public class AltDriver {
         return response;
     }
 
-     /**
+    /**
      * Sets the value of the static field or property
      *
      * @param parameters - String componentName* , String propertyName* , String
-     *                   assembly 
+     *                   assembly
      */
     public void setStaticProperty(AltSetComponentPropertyParams parameters) {
         new AltSetStaticProperty(this.connection.messageHandler, parameters).Execute();

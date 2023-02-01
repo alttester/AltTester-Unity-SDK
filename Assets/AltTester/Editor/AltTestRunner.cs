@@ -350,7 +350,7 @@ namespace Altom.AltTesterEditor
             }
             setCorrectCheck(myTests);
             AltTesterEditorWindow.EditorConfiguration.MyTests = myTests;
-            AltTesterEditorWindow.loadTestCompleted = true;
+            AltTesterEditorWindow.LoadTestCompleted = true;
             AltTesterEditorWindow.Window.Repaint();
         }
 
@@ -370,7 +370,7 @@ namespace Altom.AltTesterEditor
             }
             setCorrectCheck(myTests);
             AltTesterEditorWindow.EditorConfiguration.MyTests = myTests;
-            AltTesterEditorWindow.loadTestCompleted = true;
+            AltTesterEditorWindow.LoadTestCompleted = true;
         }
 
 

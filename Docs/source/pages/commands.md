@@ -378,48 +378,35 @@ Waits until it finds an object that respects the given criteria or until timeout
 
     .. code-tab:: c#
 
-       [Test]
-        public void TestWaitForObjectToNotExistFail()
+        [Test]
+        public void TestWaitForExistingElement()
         {
-            try
-            {
-                altDriver.WaitForObjectNotBePresent(By.NAME,"Capsule", timeout: 1, interval: 0.5f);
-                Assert.Fail();
-            }
-            catch (WaitTimeOutException exception)
-            {
-                Assert.AreEqual("Element //Capsule still found after 1 seconds", exception.Message);
-            }
+            const string name = "Capsule";
+            var timeStart = DateTime.Now;
+            var altElement = altDriver.WaitForObject(By.NAME, name);
+            var timeEnd = DateTime.Now;
+            var time = timeEnd - timeStart;
+            Assert.Less(time.TotalSeconds, 20);
+            Assert.NotNull(altElement);
+            Assert.AreEqual(altElement.name, name);
         }
 
     .. code-tab:: java
 
         @Test
-        public void TestWaitForObjectWithCameraId() {
-            AltFindObjectsParams altFindObjectsParametersButton = new AltFindObjectsParams.Builder(
-                    AltDriver.By.PATH, "//Button").build();
-            AltObject altButton = altDriver.findObject(altFindObjectsParametersButton);
-            altButton.click();
-            altButton.click();
-            AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH,
-                    "//Camera").build();
-            AltObject camera = altDriver.findObject(altFindObjectsParametersCamera);
-            AltFindObjectsParams altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT,
-                    "CapsuleCollider").withCamera(By.ID, String.valueOf(camera.id)).build();
+        public void testWaitForExistingElement() {
+            String name = "Capsule";
+            long timeStart = System.currentTimeMillis();
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                            name).build();
             AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
-                    altFindObjectsParametersCapsule).build();
-            AltObject altObject = altDriver.waitForObject(altWaitForObjectsParams);
-
-            assertTrue("True", altObject.name.equals("Capsule"));
-
-            altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH, "//Main Camera").build();
-            AltObject camera2 = altDriver.findObject(altFindObjectsParametersCamera);
-            altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT, "CapsuleCollider")
-                    .withCamera(By.ID, String.valueOf(camera2.id)).build();
-            altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(altFindObjectsParametersCapsule).build();
-            AltObject altObject2 = altDriver.waitForObject(altWaitForObjectsParams);
-
-            assertNotEquals(altObject.getScreenPosition(), altObject2.getScreenPosition());
+                            altFindObjectsParams).build();
+            AltObject altElement = altDriver.waitForObject(altWaitForObjectsParams);
+            long timeEnd = System.currentTimeMillis();
+            long time = timeEnd - timeStart;
+            assertTrue(time / 1000 < 20);
+            assertNotNull(altElement);
+            assertEquals(altElement.name, name);
         }
 
     .. code-tab:: py
@@ -2548,6 +2535,63 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
 
 ```
 
+#### GetApplicationScreenSize
+
+Returns the value of the application screen size.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltVector2
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestGetApplicationScreenSize()
+        {
+            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
+            var screensize = altDriver.GetApplicationScreenSize();
+            Assert.AreEqual(1920, screensize.x);
+            Assert.AreEqual(1080, screensize.y);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestGetApplicationScreenSize() {
+            AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "SetResolution",
+                "UnityEngine.CoreModule", new Object[] { "1920", "1080", "True"})
+                .withTypeOfParameters(new String[] { "System.Int32", "System.Int32","System.Boolean" })
+                .build();
+            altDriver.callStaticMethod(altCallStaticMethodParams,Void.class);
+            int[] screensize = altDriver.getApplicationScreenSize();
+            
+            assertEquals(1920, screensize[0]);
+            assertEquals(1080, screensize[1]);
+        }
+
+    .. code-tab:: py
+
+        def test_get_application_screen_size(self):
+            self.altdriver.call_static_method("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
+            parameters=["1920", "1080", "True"],
+            type_of_parameters=["System.Int32", "System.Int32", "System.Boolean"],)
+            screensize = self.altdriver.get_application_screensize()
+
+            assert 1920 == screensize[0]
+            assert 1080 == screensize[1]
+
+```
+
 #### GetTimeScale
 
 Returns the value of the time scale.
@@ -3126,9 +3170,9 @@ Sets value of the given component property.
 | ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
 | componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
 | propertyName  | string | Yes      | The name of the property of which value you want to set                                                                  |
+| value         | object | Yes      | The value to be set for the chosen component's property                                               |
 | assemblyName  | string | Yes       | The name of the assembly containing the component. It is NULL by default.                                               |
-| value         | object | Yes      | The value to be set for the chosen component's property                                                                  |
-
+                                                              
 **_Returns_**
 
 - Nothing
@@ -3147,7 +3191,7 @@ Sets value of the given component property.
             const string propertyName = "stringToSetFromTests";
             var altObject = altDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altObject);
-            altObject.SetComponentProperty(componentName, propertyName, "Assembly-CSharp", "2");
+            altObject.SetComponentProperty(componentName, propertyName, "2", "Assembly-CSharp");
 
             var propertyValue = altObject.GetComponentProperty<string>(componentName, propertyName);
             Assert.AreEqual("2", propertyValue);
@@ -3163,7 +3207,7 @@ Sets value of the given component property.
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);
             assertNotNull(altObject);
-            altElement.setComponentProperty(new AltSetComponentPropertyParams.Builder(componentName, propertyName, "Assembly-CSharp", "2").build());
+            altElement.setComponentProperty(new AltSetComponentPropertyParams.Builder(componentName, propertyName, "2", "Assembly-CSharp").build());
             String propertyValue = altElement.getComponentProperty(new AltGetComponentPropertyParams.Builder(componentName,propertyName).build(), String.class);
             assertEquals("2", propertyValue);
         }
@@ -3176,7 +3220,7 @@ Sets value of the given component property.
             propertyName = "stringToSetFromTests"
             altObject = self.altDriver.find_object(By.NAME, componentName)
             self.assertNotEqual(altObject, None)
-            altObject.set_component_property(componentName, propertyName, "Assembly-CSharp", "2")
+            altObject.set_component_property(componentName, propertyName, "2", "Assembly-CSharp")
             propertyValue = altObject.get_component_property(componentName, propertyName)
             self.assertEqual("2", propertyValue)
 
@@ -3675,6 +3719,64 @@ None
             color3 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
+```
+### UpdateObject
+
+Returns the object with new values.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltObject
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestUpdateAltObject()
+        {
+            var cube = altDriver.FindObject(By.NAME, "Player1");
+            AltVector3 cubeInitialPostion = cube.GetWorldPosition();
+
+            altDriver.PressKey(AltKeyCode.W, 1, 2);
+
+            Assert.AreNotEqual(cubeInitialPostion, cube.UpdateObject().GetWorldPosition());
+        }
+
+    .. code-tab:: java
+
+       @Test
+        public void TestUpdateAltObject() throws InterruptedException {
+                AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Player1").build();
+                AltObject cube = altDriver.findObject(altFindObjectsParameters);
+                float cubeInitWorldZ = cube.worldZ;
+
+                altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.W).withDuration(1).withPower(2)
+                                .withWait(false).build());
+                Thread.sleep(2000);
+                assertNotEquals(cubeInitWorldZ, cube.UpdateObject().worldZ);
+        }
+
+    .. code-tab:: py
+
+        def test_update_altObject(self):
+            cube = self.altdriver.find_object(By.NAME, "Player1")
+            initial_position_z = cube.worldZ
+
+            self.altdriver.press_key(AltKeyCode.W, power=1, duration=0.1, wait=False)
+            time.sleep(5)
+
+            assert initial_position_z != cube.update_object().worldZ
+
+
 ```
 
 ### GetParent
