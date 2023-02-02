@@ -1,5 +1,7 @@
 name: release
-on: [workflow_dispatch, release]
+on: 
+  release:
+    types: [published]
 
 jobs:
   publish-pip-package:
