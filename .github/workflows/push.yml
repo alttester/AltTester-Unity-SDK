@@ -41,7 +41,7 @@ jobs:
       steps:
           - uses: actions/checkout@v3
           - name: Lint Code Base
-            uses: github/super-linter@v3.14.0
+            uses: github/super-linter@v4
             env:
               DEFAULT_BRANCH: ${{ github.ref }}
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
