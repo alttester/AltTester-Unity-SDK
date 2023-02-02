@@ -10,7 +10,7 @@ namespace Altom.AltTesterEditor
 
         public AltTestRunListener(TestRunDelegate callRunDelegate)
         {
-            this.callRunDelegate = callRunDelegate;
+            this.callRunDelegate = callRunDelegate
         }
 
         public void TestStarted(NUnit.Framework.Interfaces.ITest test)
