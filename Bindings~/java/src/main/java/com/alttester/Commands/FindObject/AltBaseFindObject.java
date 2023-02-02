@@ -1,7 +1,7 @@
 package com.alttester.Commands.FindObject;
 
-import com.alttester.IMessageHandler;
 import com.alttester.AltDriver;
+import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltCommandReturningAltObjects;
 
 public class AltBaseFindObject extends AltCommandReturningAltObjects {

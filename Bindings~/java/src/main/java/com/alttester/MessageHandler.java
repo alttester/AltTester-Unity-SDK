@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.lang.Thread;
 
 import javax.websocket.Session;
-import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +20,7 @@ import com.alttester.altTesterExceptions.AltInputModuleException;
 import com.alttester.altTesterExceptions.AltRecvallException;
 import com.alttester.altTesterExceptions.AssemblyNotFoundException;
 import com.alttester.altTesterExceptions.CameraNotFoundException;
+import com.alttester.altTesterExceptions.CommandResponseTimeoutException;
 import com.alttester.altTesterExceptions.ComponentNotFoundException;
 import com.alttester.altTesterExceptions.CouldNotPerformOperationException;
 import com.alttester.altTesterExceptions.FailedToParseArgumentsException;
@@ -39,7 +37,8 @@ import com.alttester.altTesterExceptions.PropertyNotFoundException;
 import com.alttester.altTesterExceptions.ResponseFormatException;
 import com.alttester.altTesterExceptions.SceneNotFoundException;
 import com.alttester.altTesterExceptions.UnknownErrorException;
-import com.alttester.altTesterExceptions.CommandResponseTimeoutException;
+import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 
 public class MessageHandler implements IMessageHandler {
     private Session session;

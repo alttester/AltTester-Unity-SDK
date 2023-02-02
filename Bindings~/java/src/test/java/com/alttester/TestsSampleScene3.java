@@ -1,8 +1,12 @@
 package com.alttester;
 
-import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alttester.AltDriver.By;
@@ -13,12 +17,6 @@ import com.alttester.Commands.InputActions.AltSwipeParams;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.position.Vector2;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class TestsSampleScene3 extends BaseTest {
 
@@ -32,8 +30,8 @@ public class TestsSampleScene3 extends BaseTest {
                 public static String imageSourceDropZone;
 
                 public ImagesDrop(String imageSource, String imageSourceDropZone) {
-                        this.imageSource = imageSource;
-                        this.imageSourceDropZone = imageSourceDropZone;
+                        ImagesDrop.imageSource = imageSource;
+                        ImagesDrop.imageSourceDropZone = imageSourceDropZone;
                 }
         }
 

@@ -1,8 +1,8 @@
 package com.alttester.Commands.FindObject;
 
-import com.alttester.Utils;
-import com.alttester.IMessageHandler;
 import com.alttester.AltObject;
+import com.alttester.IMessageHandler;
+import com.alttester.Utils;
 import com.alttester.altTesterExceptions.AltException;
 
 /**

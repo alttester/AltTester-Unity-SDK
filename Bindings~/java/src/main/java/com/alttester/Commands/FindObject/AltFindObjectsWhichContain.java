@@ -1,7 +1,7 @@
 package com.alttester.Commands.FindObject;
 
-import com.alttester.IMessageHandler;
 import com.alttester.AltObject;
+import com.alttester.IMessageHandler;
 
 /**
  * Find all the objects in the scene which respect the given criteria.

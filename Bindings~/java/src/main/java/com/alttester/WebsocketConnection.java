@@ -1,24 +1,24 @@
 package com.alttester;
 
 import java.io.IOException;
+import java.net.URI;
 
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
-import java.net.URI;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
 
-import com.alttester.altTesterExceptions.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.alttester.altTesterExceptions.ConnectionException;
+import com.alttester.altTesterExceptions.ConnectionTimeoutException;
 
 @ClientEndpoint
 public class WebsocketConnection {

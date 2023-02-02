@@ -1,11 +1,13 @@
 package com.alttester;
 
-import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+import java.util.ArrayList;
+
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.alttester.position.Vector3;
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
 import com.alttester.Commands.InputActions.AltKeyDownParams;
@@ -15,11 +17,7 @@ import com.alttester.Commands.InputActions.AltPressKeyParams;
 import com.alttester.Commands.InputActions.AltScrollParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.UnityStruct.AltKeyCode;
-
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import com.alttester.position.Vector3;
 
 public class TestsSampleScene5 extends BaseTest {
 

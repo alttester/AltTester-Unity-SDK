@@ -1,8 +1,8 @@
 package com.alttester.Commands.FindObject;
 
-import com.alttester.IMessageHandler;
-import com.alttester.AltObject;
 import com.alttester.AltDriver.By;
+import com.alttester.AltObject;
+import com.alttester.IMessageHandler;
 
 /**
  * Returns information about every object loaded in the currently loaded scenes.

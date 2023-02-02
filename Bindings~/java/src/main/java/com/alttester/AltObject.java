@@ -1,12 +1,26 @@
 package com.alttester;
 
-import lombok.Getter;
-import com.alttester.Commands.ObjectCommand.*;
+import com.alttester.AltDriver.By;
+import com.alttester.Commands.FindObject.AltFindObject;
+import com.alttester.Commands.FindObject.AltFindObjectsParams;
+import com.alttester.Commands.ObjectCommand.AltCallComponentMethod;
+import com.alttester.Commands.ObjectCommand.AltCallComponentMethodParams;
+import com.alttester.Commands.ObjectCommand.AltClickElement;
+import com.alttester.Commands.ObjectCommand.AltGetComponentProperty;
+import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
+import com.alttester.Commands.ObjectCommand.AltGetText;
+import com.alttester.Commands.ObjectCommand.AltGetTextParams;
+import com.alttester.Commands.ObjectCommand.AltSendActionAndEvaluateResult;
+import com.alttester.Commands.ObjectCommand.AltSetComponentProperty;
+import com.alttester.Commands.ObjectCommand.AltSetComponentPropertyParams;
+import com.alttester.Commands.ObjectCommand.AltSetText;
+import com.alttester.Commands.ObjectCommand.AltSetTextParams;
+import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
+import com.alttester.Commands.ObjectCommand.AltTapElement;
 import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
-import com.alttester.AltDriver.By;
-import com.alttester.Commands.FindObject.AltFindObjectsParams;
-import com.alttester.Commands.FindObject.AltFindObject;
+
+import lombok.Getter;
 
 @Getter
 public class AltObject {

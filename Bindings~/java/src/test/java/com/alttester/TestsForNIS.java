@@ -1,36 +1,35 @@
 package com.alttester;
 
-import org.junit.AfterClass;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertNotEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
+import com.alttester.Commands.FindObject.AltWaitForObjectsParams;
+import com.alttester.Commands.InputActions.AltKeyDownParams;
+import com.alttester.Commands.InputActions.AltKeyUpParams;
+import com.alttester.Commands.InputActions.AltMoveMouseParams;
 import com.alttester.Commands.InputActions.AltMultiPointSwipeParams;
 import com.alttester.Commands.InputActions.AltPressKeyParams;
 import com.alttester.Commands.InputActions.AltPressKeysParams;
 import com.alttester.Commands.InputActions.AltScrollParams;
 import com.alttester.Commands.InputActions.AltSwipeParams;
-import com.alttester.Commands.InputActions.AltKeyDownParams;
-import com.alttester.Commands.InputActions.AltKeyUpParams;
-import com.alttester.Commands.InputActions.AltMoveMouseParams;
 import com.alttester.Commands.InputActions.AltTapClickCoordinatesParams;
 import com.alttester.Commands.InputActions.AltTiltParams;
-import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
-import com.alttester.Commands.InputActions.AltTapClickCoordinatesParams;
-import com.alttester.Commands.FindObject.AltWaitForObjectsParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
-
-import java.util.ArrayList;
-import java.util.List;
-import static org.junit.Assert.assertNotEquals;
-import static junit.framework.TestCase.*;
 
 public class TestsForNIS extends BaseTest {
         String scene7 = "Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity";
@@ -44,8 +43,8 @@ public class TestsForNIS extends BaseTest {
                 public static String imageSourceDropZone;
 
                 public ImagesDrop(String imageSource, String imageSourceDropZone) {
-                        this.imageSource = imageSource;
-                        this.imageSourceDropZone = imageSourceDropZone;
+                        ImagesDrop.imageSource = imageSource;
+                        ImagesDrop.imageSourceDropZone = imageSourceDropZone;
                 }
         }
 

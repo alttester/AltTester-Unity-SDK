@@ -1,10 +1,17 @@
 package com.alttester;
 
-import com.google.gson.Gson;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertNotSame;
+import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertNotEquals;
 
-import org.junit.AfterClass;
+import java.io.File;
+
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alttester.AltDriver.By;
@@ -25,23 +32,29 @@ import com.alttester.Commands.InputActions.AltTiltParams;
 import com.alttester.Commands.ObjectCommand.AltCallComponentMethodParams;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.Commands.ObjectCommand.AltSetComponentPropertyParams;
-import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
 import com.alttester.Commands.ObjectCommand.AltSetTextParams;
+import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.Commands.UnityCommand.AltSetTimeScaleParams;
 import com.alttester.Commands.UnityCommand.AltUnloadSceneParams;
 import com.alttester.Commands.UnityCommand.AltWaitForCurrentSceneToBeParams;
 import com.alttester.UnityStruct.AltKeyCode;
-import com.alttester.altTesterExceptions.*;
+import com.alttester.altTesterExceptions.AssemblyNotFoundException;
+import com.alttester.altTesterExceptions.CameraNotFoundException;
+import com.alttester.altTesterExceptions.CommandResponseTimeoutException;
+import com.alttester.altTesterExceptions.ComponentNotFoundException;
+import com.alttester.altTesterExceptions.CouldNotPerformOperationException;
+import com.alttester.altTesterExceptions.InvalidParameterTypeException;
+import com.alttester.altTesterExceptions.InvalidPathException;
+import com.alttester.altTesterExceptions.MethodWithGivenParametersNotFoundException;
+import com.alttester.altTesterExceptions.NotFoundException;
+import com.alttester.altTesterExceptions.PropertyNotFoundException;
+import com.alttester.altTesterExceptions.ResponseFormatException;
+import com.alttester.altTesterExceptions.SceneNotFoundException;
+import com.alttester.altTesterExceptions.WaitTimeOutException;
 import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
-
-import static junit.framework.TestCase.*;
-import static org.junit.Assert.assertNotEquals;
-
-import java.lang.Void;
-
-import java.io.File;
+import com.google.gson.Gson;
 
 public class TestsSampleScene1 extends BaseTest {
 
@@ -697,25 +710,6 @@ public class TestsSampleScene1 extends BaseTest {
                 int a = altDriver.callStaticMethod(new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs",
                                 "GetInt", "", new Object[] { "Test", "2" }).build(), Integer.class);
                 assertEquals(1, a);
-        }
-
-        @Test
-        public void TestCallMethodWithMultipleDefinitions() throws Exception {
-
-                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                                AltDriver.By.NAME, "Capsule").build();
-                AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
-                                AltDriver.By.NAME, "CapsuleInfo").build();
-                AltObject capsule = altDriver.findObject(altFindObjectsParameters1);
-                capsule.callComponentMethod(
-                                new AltCallComponentMethodParams.Builder("AltExampleScriptCapsule", "Test",
-                                                "Assembly-CSharp",
-                                                new Object[] { 2 })
-                                                .withTypeOfParameters(new String[] { "System.Int32" })
-                                                .build(),
-                                Void.class);
-                AltObject capsuleInfo = altDriver.findObject(altFindObjectsParameters2);
-                assertEquals("6", capsuleInfo.getText());
         }
 
         @Test

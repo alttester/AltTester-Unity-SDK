@@ -1,6 +1,14 @@
 package com.alttester;
 
-import org.junit.*;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
@@ -14,11 +22,6 @@ import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.position.Vector2;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class TestsSampleScene2 extends BaseTest {
 
