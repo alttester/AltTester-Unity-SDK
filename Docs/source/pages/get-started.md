@@ -57,6 +57,17 @@ AltTester Unity SDK has support for Input System starting with version 1.7.1. To
 }
 ```
 
+-Editor Coroutines
+
+In order for AltTester Unity SDK to work with your project you need dependency for Editor Coroutines. Add `"com.unity.editorcoroutines": "1.0.0` to your project `manifest.json`, inside `dependencies`.
+
+```json
+{
+    "dependencies": {
+        "com.unity.editorcoroutines": "1.0.0"
+    }
+}
+```
 <!--
 To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity.
 
