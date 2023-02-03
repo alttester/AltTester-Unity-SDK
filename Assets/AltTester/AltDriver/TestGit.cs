@@ -1,1 +1,1 @@
-class TestGit {.}
+class TestGit {,}

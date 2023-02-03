@@ -48,6 +48,8 @@ jobs:
 
           - name: Run dotnet format
             uses: xt0rted/dotnet-format@v1
+            with:
+              only-changed-files: "true"
           # - name: Lint Code Base
           #   uses: github/super-linter@v4
           #   env:
