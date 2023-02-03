@@ -40,12 +40,6 @@ jobs:
       runs-on: ubuntu-latest
       steps:
           - uses: actions/checkout@v3
-          - name: Add dotnet-format problem matcher
-            uses: xt0rted/dotnet-format-problem-matcher@v1
-
-          - name: Restore dotnet tools
-            uses: xt0rted/dotnet-tool-restore@v1
-
           - name: Run dotnet format
             uses: xt0rted/dotnet-format@v1
             with:
