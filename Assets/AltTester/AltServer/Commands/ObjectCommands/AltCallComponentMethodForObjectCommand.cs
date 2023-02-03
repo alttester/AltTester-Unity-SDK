@@ -15,6 +15,7 @@ namespace Altom.AltTester.Commands
 
         public override object Execute()
         {
+			//
             if (CommandParams.typeOfParameters != null && CommandParams.typeOfParameters.Length != 0 && CommandParams.parameters.Length != CommandParams.typeOfParameters.Length)
             {
                 throw new InvalidParameterTypeException("Number of parameters different than number of types of parameters");
