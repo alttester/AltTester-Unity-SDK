@@ -40,14 +40,22 @@ jobs:
       runs-on: ubuntu-latest
       steps:
           - uses: actions/checkout@v3
-          - name: Lint Code Base
-            uses: github/super-linter@v4
-            env:
-              DEFAULT_BRANCH: ${{ github.ref }}
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-              VALIDATE_JAVA: true
-              VALIDATE_PYTHON_FLAKE8: true 
-              VALIDATE_CSHARP: true 
+          - name: Add dotnet-format problem matcher
+            uses: xt0rted/dotnet-format-problem-matcher@v1
+
+          - name: Restore dotnet tools
+            uses: xt0rted/dotnet-tool-restore@v1
+
+          - name: Run dotnet format
+            uses: xt0rted/dotnet-format@v1
+          # - name: Lint Code Base
+          #   uses: github/super-linter@v4
+          #   env:
+          #     DEFAULT_BRANCH: ${{ github.ref }}
+          #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          #     VALIDATE_JAVA: true
+          #     VALIDATE_PYTHON_FLAKE8: true 
+          #     VALIDATE_CSHARP: true 
   # build-macOS:
   #     runs-on: [self-hosted, macOS]
   #     steps:
