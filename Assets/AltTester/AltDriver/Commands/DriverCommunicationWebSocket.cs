@@ -85,6 +85,7 @@ namespace AltTester.AltDriver.Commands
             Uri proxyUri = GetProxyUri();
             if (proxyUri != null)
             {
+                logger.Debug("USING PROXY URI: " + proxyUri.ToString());
                 wsClient.SetProxy(proxyUri.ToString(), null, null);
             }
 
@@ -110,6 +111,7 @@ namespace AltTester.AltDriver.Commands
                 return null;
             }
 
+            logger.Debug("HTTP URI: " + resource.ToString());
             Uri resourceProxy = proxy.GetProxy(resource);
             if (resourceProxy != resource)
             {
