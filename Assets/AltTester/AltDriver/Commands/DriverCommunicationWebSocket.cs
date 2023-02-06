@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
+using System.Net;
+using System.Net.Http;
 using AltTester.AltDriver.Logging;
 using AltTester.AltDriver.Notifications;
 using Newtonsoft.Json;
@@ -79,6 +81,13 @@ namespace AltTester.AltDriver.Commands
             logger.Debug("Connected to: " + _uri);
 
             this.wsClient = new AltWebSocketClient(wsClient);
+
+            Uri proxyUri = GetProxyUri();
+            if (proxyUri != null)
+            {
+                wsClient.SetProxy(proxyUri.ToString(), null, null);
+            }
+
             this.wsClient.OnMessage += OnMessage;
             this.wsClient.OnError += (sender, args) =>
             {
@@ -90,6 +99,24 @@ namespace AltTester.AltDriver.Commands
             {
                 logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}]", args.Code, args.Reason);
             };
+        }
+
+        public Uri GetProxyUri() {
+            Uri resource;
+            WebProxy proxy = (WebProxy) WebProxy.GetDefaultProxy();
+
+            if (!Uri.TryCreate(string.Format("http://{0}:{1}", _host, _port), UriKind.Absolute, out resource))
+            {
+                return null;
+            }
+
+            Uri resourceProxy = proxy.GetProxy(resource);
+            if (resourceProxy != resource)
+            {
+                return resourceProxy;
+            }
+
+            return null;
         }
 
         public T Recvall<T>(CommandParams param)
@@ -135,7 +162,6 @@ namespace AltTester.AltDriver.Commands
                 }
             }
         }
-
 
         public void Send(CommandParams param)
         {

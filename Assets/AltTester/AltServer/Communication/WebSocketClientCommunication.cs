@@ -1,4 +1,6 @@
 using System;
+using System.Net;
+using System.Net.Http;
 using AltTester.Logging;
 using AltWebSocketSharp;
 
@@ -32,6 +34,12 @@ namespace AltTester.Communication
             wsClient.Log.Level = LogLevel.Fatal;
             websocketHandler = new AltClientWebSocketHandler(wsClient, cmdHandler);
 
+            Uri proxyUri = GetProxyUri();
+            if (proxyUri != null)
+            {
+                wsClient.SetProxy(proxyUri.ToString(), null, null);
+            }
+
             wsClient.OnOpen += (sender, message) =>
             {
                 if (this.OnConnect != null) this.OnConnect();
@@ -54,6 +62,24 @@ namespace AltTester.Communication
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationHandler OnDisconnect { get; set; }
         public CommunicationErrorHandler OnError { get; set; }
+
+        public Uri GetProxyUri() {
+            Uri resource;
+            WebProxy proxy = (WebProxy) WebProxy.GetDefaultProxy();
+
+            if (!Uri.TryCreate(string.Format("http://{0}:{1}", host, port), UriKind.Absolute, out resource))
+            {
+                return null;
+            }
+
+            Uri resourceProxy = proxy.GetProxy(resource);
+            if (resourceProxy != resource)
+            {
+                return resourceProxy;
+            }
+
+            return null;
+        }
 
         public void Start()
         {
