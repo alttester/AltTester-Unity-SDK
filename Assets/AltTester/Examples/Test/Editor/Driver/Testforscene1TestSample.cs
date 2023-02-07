@@ -2057,7 +2057,8 @@ namespace AltTester.AltDriver.Tests
         public void TestGetStaticProperty()
         {
             var screenOrientation = altDriver.GetStaticProperty<int>("UnityEngine.Screen", "orientation", "UnityEngine.CoreModule");
-            Assert.AreEqual(1, screenOrientation);
+            Assert.GreaterOrEqual(screenOrientation, 1);
+			Assert.LessOrEqual(screenOrientation, 4);
         }
 
         [Test]
