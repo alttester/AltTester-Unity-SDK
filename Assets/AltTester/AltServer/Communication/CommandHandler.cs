@@ -46,6 +46,7 @@ namespace AltTester.Communication
                 cmdParams = JsonConvert.DeserializeObject<CommandParams>(data, jsonSerializerSettings);
                 if (cmdParams.isNotification) {
                     handleNotifications(cmdParams);
+                    return;
                 }
 
                 var type = getCommandType((string)cmdParams.commandName);
