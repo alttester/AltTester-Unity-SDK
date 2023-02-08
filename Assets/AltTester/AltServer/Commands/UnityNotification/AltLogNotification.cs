@@ -16,7 +16,6 @@ namespace AltTester.Notification
             {
                 Application.logMessageReceived += onLogReceived;
             }
-
         }
 
         static void onLogReceived(string message, string stackTrace, LogType type)

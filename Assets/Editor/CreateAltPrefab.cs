@@ -144,10 +144,10 @@ namespace AltTesterTools
             var MessageRectTransform = MessageGameObject.GetComponent<RectTransform>();
             MessageRectTransform.SetParent(DialogTransform, false);
 
-            MessageRectTransform.localPosition = new Vector3(0, 60, 0);
+            MessageRectTransform.localPosition = new Vector3(0, 100, 0);
             MessageRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             MessageRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            MessageRectTransform.sizeDelta = new Vector2(400, 100);
+            MessageRectTransform.sizeDelta = new Vector2(400, 120);
             MessageRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var MessageText = MessageGameObject.GetComponent<Text>();

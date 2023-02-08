@@ -136,7 +136,6 @@ namespace AltTester.AltDriver.Commands
             }
         }
 
-
         public void Send(CommandParams param)
         {
             param.messageId = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
@@ -154,6 +153,7 @@ namespace AltTester.AltDriver.Commands
             logger.Info(string.Format("Closing connection to AltTester on: {0}", _uri));
             this.wsClient.Close();
         }
+
         public void SetCommandTimeout(int timeout)
         {
             commandTimeout = timeout;
@@ -172,7 +172,6 @@ namespace AltTester.AltDriver.Commands
                 messages.Enqueue(message);
                 logger.Debug("response received: " + trimLog(data));
             }
-
         }
 
         private void handleNotification(CommandResponse message)
@@ -266,6 +265,7 @@ namespace AltTester.AltDriver.Commands
             logger.Debug(error.type + " is not handled by driver.");
             throw new UnknownErrorException(error.message);
         }
+
         private string trimLog(string log, int maxLogLength = 1000)
         {
             if (string.IsNullOrEmpty(log)) return log;
@@ -334,6 +334,7 @@ namespace AltTester.AltDriver.Commands
                     break;
             }
         }
+
         public void SetDelayAfterCommand(float delay)
         {
             delayAfterCommand = delay;
