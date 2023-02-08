@@ -11,6 +11,9 @@ namespace Altom.AltInstrumentation.Tests
     {
         public SendMessageHandler OnSendMessage { get; set; }
 
+        public NotificationHandler OnDriverConnect { get; set; }
+        public NotificationHandler OnDriverDisconnect { get; set; }
+
         public void OnMessage(string data)
         {
             throw new System.NotImplementedException();
@@ -24,8 +27,6 @@ namespace Altom.AltInstrumentation.Tests
             }
         }
     }
-
-
 
     public class MockServerHandler : WebSocketBehavior
     {
@@ -45,6 +46,7 @@ namespace Altom.AltInstrumentation.Tests
         }
 
     }
+
     public class WebSocketClientCommunicationTests
     {
 

@@ -7,12 +7,10 @@ namespace AltTester.Communication
     {
         private readonly WebSocket _webSocket;
 
-
         public AltClientWebSocketHandler(WebSocket webSocket, ICommandHandler commandHandler) : base(commandHandler)
         {
             this._webSocket = webSocket;
             webSocket.OnMessage += this.onMessage;
-
 
             this._commandHandler.OnSendMessage += webSocket.Send;
         }
