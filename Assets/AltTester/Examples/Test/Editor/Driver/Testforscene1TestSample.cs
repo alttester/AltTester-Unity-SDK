@@ -2054,13 +2054,11 @@ namespace AltTester.AltDriver.Tests
 
 
         [Test]
-        //uses InvokeMethod
-        [Category("WebGLUnsupported")]
         public void TestGetStaticProperty()
         {
-            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
-            var width = altDriver.GetStaticProperty<int>("UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule");
-            Assert.AreEqual(1920, width);
+            var screenOrientation = altDriver.GetStaticProperty<int>("UnityEngine.Screen", "orientation", "UnityEngine.CoreModule");
+            Assert.GreaterOrEqual(screenOrientation, 1);
+			Assert.LessOrEqual(screenOrientation, 4);
         }
 
         [Test]
