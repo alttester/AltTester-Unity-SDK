@@ -20,7 +20,7 @@ namespace AltTester.AltDriver.Tests
 
             AltVector2 scrollBarInitialPosition = scrollBar.GetScreenPosition();
             altDriver.MoveMouse(scrollBarInitialPosition);
-            altDriver.Scroll(-20, 0.1f);
+            altDriver.Scroll(-20, 0.3f);
 
             scrollBar = altDriver.FindObject(By.PATH, "//ScrollCanvas//Handle");
             AltVector2 scrollBarFinalPosition = scrollBar.GetScreenPosition();

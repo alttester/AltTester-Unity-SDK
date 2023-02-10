@@ -40,6 +40,9 @@ namespace AltTester.UI
 
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Button RestartButton = null;
+        public UnityEngine.UI.Toggle CustomInputToggle = null;
+
+        private ICommunication communication;
 
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
@@ -48,6 +51,11 @@ namespace AltTester.UI
         private bool _wasConnectedBefore = false;
 
         HashSet<string> _connectedDrivers = new HashSet<string>();
+
+        public void Awake()
+        {
+            CustomInputToggle = UnityEngine.GameObject.Find("AltDialog/Dialog/Toggle").GetComponent<UnityEngine.UI.Toggle>();
+        }
 
         protected void Start()
         {
@@ -62,6 +70,9 @@ namespace AltTester.UI
             SetUpRestartButton();
 
             StartClient();
+            CustomInputToggle.onValueChanged.AddListener(ToggleInput);
+            CustomInputToggle.isOn = false;
+
         }
 
         protected void Update()
@@ -180,7 +191,36 @@ namespace AltTester.UI
             RestartButton.onClick.AddListener(OnRestartButtonPress);
         }
 
-        private void InitClient()
+
+        public void ToggleInput(bool value)
+        {
+            Icon.color = value ? UnityEngine.Color.white : UnityEngine.Color.grey;
+#if ALTTESTER
+#if ENABLE_LEGACY_INPUT_MANAGER
+            Input.UseCustomInput = value;
+            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
+#if ENABLE_INPUT_SYSTEM
+            if (value)
+                NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
+            else
+                NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
+#endif
+#endif
+        }
+
+        private void setDialog(string message, UnityEngine.Color color, bool visible)
+        {
+            Dialog.SetActive(visible);
+            MessageText.text = message;
+            Dialog.GetComponent<UnityEngine.UI.Image>().color = color;
+        }
+
+
+
+        #region proxy mode comm protocol
+
+        private void initProxyCommProtocol()
         {
             var cmdHandler = new CommandHandler();
             cmdHandler.OnDriverConnect += OnDriverConnect;
@@ -199,8 +239,6 @@ namespace AltTester.UI
 
         private void StartClient()
         {
-            InitClient();
-
             try
             {
                 if (_communication == null || !_communication.IsListening) // Start only if it is not already listening
@@ -277,48 +315,53 @@ namespace AltTester.UI
             }
         }
 
-        private void OnDriverConnect(string driverId) {
+        #endregion
+        private void OnDriverConnect(string driverId)
+        {
             logger.Debug("Driver Connected: " + driverId);
             string message = String.Format("Connected to AltProxy on {0}:{1} with game name: '{2}'. Driver connected.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
 
             _connectedDrivers.Add(driverId);
 
-            if (_connectedDrivers.Count == 1) {
-                #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-                    Input.UseCustomInput = true;
-                    UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-                #endif
+            if (_connectedDrivers.Count == 1)
+            {
+#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+                Input.UseCustomInput = true;
+                UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
 
                 _updateQueue.ScheduleResponse(() =>
                 {
                     SetMessage(message, SUCCESS_COLOR, false);
 
-                    #if ALTTESTER && ENABLE_INPUT_SYSTEM
-                        NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
-                    #endif
+#if ALTTESTER && ENABLE_INPUT_SYSTEM
+                    NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
+#endif
                 });
             }
         }
 
-        private void OnDriverDisconnect(string driverId) {
+        private void OnDriverDisconnect(string driverId)
+        {
             logger.Debug("Driver Disconect: " + driverId);
             string message = String.Format("Connected to AltProxy on {0}:{1} with game name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
 
             _connectedDrivers.Remove(driverId);
 
-            if (_connectedDrivers.Count == 0) {
-                #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-                    Input.UseCustomInput = false;
-                    UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-                #endif
+            if (_connectedDrivers.Count == 0)
+            {
+#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+                Input.UseCustomInput = false;
+                UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+#endif
 
                 _updateQueue.ScheduleResponse(() =>
                 {
                     SetMessage(message, SUCCESS_COLOR, true);
 
-                    #if ALTTESTER && ENABLE_INPUT_SYSTEM
-                        NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
-                    #endif
+#if ALTTESTER && ENABLE_INPUT_SYSTEM
+                    NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
+#endif
                 });
             }
         }

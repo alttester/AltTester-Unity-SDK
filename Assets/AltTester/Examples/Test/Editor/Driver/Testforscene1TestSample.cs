@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading;
-using AltTester.AltDriver.Logging;
 using NUnit.Framework;
 
 namespace AltTester.AltDriver.Tests
@@ -706,12 +704,12 @@ namespace AltTester.AltDriver.Tests
         [Test]
         public void TestPressKeyWaitTheDuration()
         {
-            const int duration = 1;
+            const float duration = 1.0f;
             var button = altDriver.FindObject(By.NAME, "UIButton");
             altDriver.MoveMouse(button.GetScreenPosition());
             altDriver.PressKey(AltKeyCode.Mouse0, 1, duration);
             var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
-            Assert.Greater(time, duration);
+            Assert.That(time, Is.EqualTo(duration).Within(0.1f));
         }
 
         [Test]
@@ -1213,7 +1211,7 @@ namespace AltTester.AltDriver.Tests
         }
 
         [Test]
-        public void TestPressNextSceneButtton()
+        public void TestPressNextSceneButton()
         {
             var initialScene = altDriver.GetCurrentScene();
             altDriver.FindObject(By.NAME, "NextScene").Tap();
@@ -1721,7 +1719,7 @@ namespace AltTester.AltDriver.Tests
         [TestCase("/Canvas[1]/Text", "Text", true)]
         [TestCase("//Dialog[0]", "Title", false)]
         [TestCase("//Dialog[1]", "Message", false)]
-        [TestCase("//Dialog[-1]", "CloseButton", false)]
+        [TestCase("//Dialog[-1]", "Toggle", false)]
         public void TestFindNthChild(string path, string expectedResult, bool enabled)
         {
             var altElement = altDriver.FindObject(By.PATH, path, enabled: enabled);
@@ -1866,19 +1864,15 @@ namespace AltTester.AltDriver.Tests
         [Test]
         public void TestPointerEnter_PointerExit()
         {
-            altDriver.MoveMouse(new AltVector2(-1, -1), 1);
-            altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
-
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
-
-            altDriver.MoveMouse(counterElement.GetScreenPosition(), 1);
-            Thread.Sleep(800); // OnPointerEnter, OnPointerExit events are raised during the Update function. right now there is a delay from mouse moved to events raised.
+            counterElement.CallComponentMethod<string>("AltExampleScriptIncrementOnClick", "eventsRaised.Clear", "Assembly-CSharp", new object[] { }, null);
+            var counterElementPosition = counterElement.GetScreenPosition() + new AltVector2(50, 15);
+            altDriver.MoveMouse(counterElementPosition, 0.2f);
 
             var eventsRaised = counterElement.GetComponentProperty<List<string>>("AltExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
             Assert.IsFalse(eventsRaised.Contains("OnPointerExit"));
-            altDriver.MoveMouse(new AltVector2(200, 200));
-            Thread.Sleep(800);
+            altDriver.MoveMouse(new AltVector2(0, 0), 0.2f);
 
             eventsRaised = counterElement.GetComponentProperty<List<string>>("AltExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
@@ -1981,8 +1975,8 @@ namespace AltTester.AltDriver.Tests
             var swipeCoordinate = new AltVector2(incrementalClick.x + 10, incrementalClick.y + 10);
             altDriver.Swipe(swipeCoordinate, swipeCoordinate, 0.2f);
             var pointerPress = incrementalClick.GetComponentProperty<AltVector2>("AltExampleScriptIncrementOnClick", "pointerPress", "Assembly-CSharp");
-            Assert.AreEqual(10.0f, pointerPress.x);
-            Assert.AreEqual(10.0f, pointerPress.y);
+            Assert.AreEqual(swipeCoordinate.x, pointerPress.x);
+            Assert.AreEqual(swipeCoordinate.y, pointerPress.y);
         }
 
         [Test]
@@ -2058,7 +2052,7 @@ namespace AltTester.AltDriver.Tests
         {
             var screenOrientation = altDriver.GetStaticProperty<int>("UnityEngine.Screen", "orientation", "UnityEngine.CoreModule");
             Assert.GreaterOrEqual(screenOrientation, 1);
-			Assert.LessOrEqual(screenOrientation, 4);
+            Assert.LessOrEqual(screenOrientation, 4);
         }
 
         [Test]

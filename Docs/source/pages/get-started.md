@@ -57,6 +57,17 @@ AltTester Unity SDK has support for Input System starting with version 1.7.1. To
 }
 ```
 
+- Editor Coroutines
+
+In order for AltTester Unity SDK to work with your project you need the dependency for Editor Coroutines. Add `"com.unity.editorcoroutines": "1.0.0` to your project `manifest.json`, inside `dependencies`.
+
+```json
+{
+    "dependencies": {
+        "com.unity.editorcoroutines": "1.0.0"
+    }
+}
+```
 <!--
 To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity.
 
@@ -185,6 +196,10 @@ Before running your tests you need to start the instrumented Unity application. 
 
             Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://altom.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
 
+.. note::
+
+    You can switch between regular and custom input by toggling the box with the `Custom Input` label. Take into consideration that if you are using the New Input System, then after activating the custom input, you will only be able to interact with the instrumented build via your automated tests or the AltTester Desktop.         
+
 ```
 
 <!--
@@ -265,7 +280,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
         .. code-block:: console
 
-            dotnet add package AltTester-Driver --version 1.8.1
+            dotnet add package AltTester-Driver --version 1.8.2
 
         Run your tests
 
@@ -305,7 +320,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
                 <dependency>
                     <groupId>com.alttester</groupId>
                     <artifactId>alttester</artifactId>
-                    <version>1.8.1</version>
+                    <version>1.8.2</version>
                 </dependency>
 
 
@@ -317,7 +332,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
                 .. code-block:: console
 
-                    mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.1 -Dpackaging=jar
+                    mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.2 -Dpackaging=jar
 
 
 
