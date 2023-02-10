@@ -851,7 +851,7 @@ namespace AltTesterEditor
 #if UNITY_EDITOR_OSX
                 AltPlatform.iOS => BuildTargetGroup.iOS,
 #endif
-                // AltPlatform.WebGL => BuildTargetGroup.WebGL,
+                AltPlatform.WebGL => BuildTargetGroup.WebGL,
                 _ => throw new NotImplementedException(),
             };
         }
@@ -861,7 +861,7 @@ namespace AltTesterEditor
             {
                 BuildTargetGroup.Standalone => AltPlatform.Standalone,
                 BuildTargetGroup.Android => AltPlatform.Android,
-                // BuildTargetGroup.WebGL => AltPlatform.WebGL,
+                BuildTargetGroup.WebGL => AltPlatform.WebGL,
 #if UNITY_EDITOR_OSX
                 BuildTargetGroup.iOS => AltPlatform.Standalone,
 #endif
@@ -879,7 +879,7 @@ namespace AltTesterEditor
 #if UNITY_EDITOR_OSX
                 AltPlatform.iOS => new BuildTarget[] { BuildTarget.iOS },
 #endif
-                // AltPlatform.WebGL => new BuildTarget[] { BuildTarget.WebGL },
+                AltPlatform.WebGL => new BuildTarget[] { BuildTarget.WebGL },
                 _ => throw new NotImplementedException(),
             };
         }

@@ -1,7 +1,6 @@
 using System;
-using Altom.AltTesterEditor;
-using AltTester;
 using AltTesterEditor;
+using AltTester;
 using AltTesterEditor.Logging;
 using UnityEditor;
 

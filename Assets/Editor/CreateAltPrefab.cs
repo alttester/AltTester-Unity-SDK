@@ -316,7 +316,7 @@ namespace AltTesterTools
             var RestartButtonRectTransform = RestartButtonGameObject.GetComponent<RectTransform>();
             RestartButtonRectTransform.SetParent(DialogTransform, false);
 
-            RestartButtonRectTransform.localPosition = new Vector3(0, -255, 0);
+            RestartButtonRectTransform.localPosition = new Vector3(0, -245, 0);
             RestartButtonRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             RestartButtonRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             RestartButtonRectTransform.sizeDelta = new Vector2(240, 34);
@@ -339,6 +339,13 @@ namespace AltTesterTools
             RestartButtonText.alignment = TextAnchor.MiddleCenter;
 
             var RestartButton = RestartButtonGameObject.GetComponent<Button>();
+
+            //Create CustomToggle
+
+            var Toggle = new GameObject("Toggle", new System.Type[] { typeof(RectTransform), typeof(Toggle) });
+
+            // var Background = new GameObject("Background", new )
+
 
             // Create CloseButton
             var CloseButtonGameObject = new GameObject("CloseButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
