@@ -147,3 +147,27 @@ After reopening Unity Editor, add again the AltTester package in your project.
 
 </details>
 <br>
+
+<details>
+<summary>I get the error: <strong>The type or namespace name 'InputSystem' does not exist in the namespace 'UnityEngine' (are you missing an assembly reference?)</strong></summary>
+<br>
+
+You get this error because you don't have the Input System (New) package. If you only want to use the Input Manager (Old) in your project, follow this steps:
+<br>
+- <strong>delete</strong>: 
+    - `Assets\AltTester\AltServer\NewInputSystem.cs`
+    - `Assets\AltTester\AltServer\AltKeyMapping.cs`
+- <strong>comment</strong> in `Assets\AltTester\AltServer\AltPrefabDrag.cs` the entire `#else` statement
+
+    ![Screenshot with the else statement to comment](../_static/img/faq-troubleshooting/comment-else.png)
+- <strong>comment</strong> in `Assets\AltTester\AltServer\Input.cs`:
+    - all `if` lines that contain `InputSystemUIInputModule` and the curly brackets inside these `if` statements making sure to leave the code inside the brackets uncommented
+
+        ![Screenshot with the ifs to comment](../_static/img/faq-troubleshooting/comment-ifs.png)
+    - all imports for using `UnityEngine.InputSystem.UI`
+    
+        ![Screenshot with the import to comment](../_static/img/faq-troubleshooting/comment-import.png)
+- <strong>comment</strong> in `Assets\AltTester\AltServer\AltMockUpPointerInputModule.cs` the same as the above
+
+</details>
+<br>
