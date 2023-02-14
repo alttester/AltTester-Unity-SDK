@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -343,8 +343,42 @@ namespace AltTesterTools
             //Create CustomToggle
 
             var Toggle = new GameObject("Toggle", new System.Type[] { typeof(RectTransform), typeof(Toggle) });
+            var ToggleRectTransform = Toggle.GetComponent<RectTransform>();
+            ToggleRectTransform.SetParent(DialogTransform, false);
+            ToggleRectTransform.localPosition = new Vector3(-15, -15, 0);
+            ToggleRectTransform.anchorMin = new Vector2(1f, 1f);
+            ToggleRectTransform.anchorMax = new Vector2(1f, 1f);
+            ToggleRectTransform.sizeDelta = new Vector2(130.34f, 25);
+            ToggleRectTransform.pivot = new Vector2(1f, 1f);
 
-            // var Background = new GameObject("Background", new )
+            var Background = new GameObject("Background", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
+            var BackgroundTransform = Background.GetComponent<RectTransform>();
+            BackgroundTransform.SetParent(DialogTransform, false);
+            BackgroundTransform.localPosition = new Vector3(-68, 0, 0);
+            BackgroundTransform.anchorMin = new Vector2(0f, 1f);
+            BackgroundTransform.anchorMax = new Vector2(0f, 1f);
+            BackgroundTransform.sizeDelta = new Vector2(20f, 20f);
+            BackgroundTransform.pivot = new Vector2(0.5f, 0.5f);
+            var Checkmark = new GameObject("Checkmark", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
+            var CheckMarkTransform = Checkmark.GetComponent<RectTransform>();
+            CheckMarkTransform.SetParent(DialogTransform, false);
+            CheckMarkTransform.localPosition = new Vector3(0, 0, 0);
+            CheckMarkTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            CheckMarkTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            CheckMarkTransform.sizeDelta = new Vector2(20f, 20f);
+            CheckMarkTransform.pivot = new Vector2(0.5f, 0.5f);
+            var Label = new GameObject("Label", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var LabelTransform = Label.GetComponent<RectTransform>();
+            LabelTransform.SetParent(DialogTransform, false);
+            LabelTransform.localPosition = new Vector3(13.25f, 0, 0);
+            LabelTransform.anchorMin = new Vector2(0f, 1f);
+            LabelTransform.anchorMax = new Vector2(0f, 1f);
+            LabelTransform.sizeDelta = new Vector2(130f, 25f);
+            LabelTransform.pivot = new Vector2(0.5f, 0.5f);
+            var LabelText = Label.GetComponent<Text>();
+            LabelText.text = "Custom input";
+            LabelText.fontSize = 18;
+            LabelText.alignment = TextAnchor.MiddleLeft;
 
 
             // Create CloseButton
