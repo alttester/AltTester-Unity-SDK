@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Altom.AltTester;
-using Altom.AltTester.UI;
+using AltTester;
+using AltTester.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Altom.AltTesterTools
+namespace AltTesterTools
 {
     public class CreateAltPrefab : MonoBehaviour
     {
@@ -111,7 +111,7 @@ namespace Altom.AltTesterTools
             DialogTransform.anchorMin = new Vector2(0.5f, 0.5f);
             DialogTransform.anchorMax = new Vector2(0.5f, 0.5f);
             DialogTransform.pivot = new Vector2(0.5f, 0.5f);
-            DialogTransform.sizeDelta = new Vector2(440, 440);
+            DialogTransform.sizeDelta = new Vector2(440, 600);
             DialogTransform.localPosition = new Vector3(0, 0, 0);
 
             var DialogImage = DialogGameObject.GetComponent<Image>();
@@ -144,10 +144,10 @@ namespace Altom.AltTesterTools
             var MessageRectTransform = MessageGameObject.GetComponent<RectTransform>();
             MessageRectTransform.SetParent(DialogTransform, false);
 
-            MessageRectTransform.localPosition = new Vector3(0, 60, 0);
+            MessageRectTransform.localPosition = new Vector3(0, 100, 0);
             MessageRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             MessageRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            MessageRectTransform.sizeDelta = new Vector2(400, 100);
+            MessageRectTransform.sizeDelta = new Vector2(400, 120);
             MessageRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var MessageText = MessageGameObject.GetComponent<Text>();
@@ -156,29 +156,75 @@ namespace Altom.AltTesterTools
             MessageText.color = Color.white;
             MessageText.alignment = TextAnchor.MiddleCenter;
 
-            // Create Port Label
-            var PortLabel = new GameObject("PortLabel", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
-            var PortLabelRectTransform = PortLabel.GetComponent<RectTransform>();
-            PortLabelRectTransform.SetParent(DialogTransform, false);
+            // Create Info Label
+            var InfoLabel = new GameObject("InfoLabel", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var InfoLabelRectTransform = InfoLabel.GetComponent<RectTransform>();
+            InfoLabelRectTransform.SetParent(DialogTransform, false);
 
-            PortLabelRectTransform.localPosition = new Vector3(0, -50, 0);
-            PortLabelRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            PortLabelRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            PortLabelRectTransform.sizeDelta = new Vector2(400, 75);
-            PortLabelRectTransform.pivot = new Vector2(0.5f, 0.5f);
+            InfoLabelRectTransform.localPosition = new Vector3(0, -50, 0);
+            InfoLabelRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            InfoLabelRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            InfoLabelRectTransform.sizeDelta = new Vector2(400, 75);
+            InfoLabelRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
-            var PortLabelText = PortLabel.GetComponent<Text>();
-            PortLabelText.text = "To change the port number input a new port and press the Restart button.";
-            PortLabelText.fontSize = 20;
-            PortLabelText.color = Color.white;
-            PortLabelText.alignment = TextAnchor.MiddleCenter;
+            var InfoLabelText = InfoLabel.GetComponent<Text>();
+            InfoLabelText.text = "To change the host, port or game name input a new value and press the Restart button.";
+            InfoLabelText.fontSize = 20;
+            InfoLabelText.color = Color.white;
+            InfoLabelText.alignment = TextAnchor.MiddleCenter;
+
+            // Create Host Input Field
+            var HostInputFieldGameObject = new GameObject("HostInputField", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(InputField) });
+            var HostInputFieldTransform = HostInputFieldGameObject.GetComponent<RectTransform>();
+            HostInputFieldTransform.SetParent(DialogTransform, false);
+
+            HostInputFieldTransform.localPosition = new Vector3(0, -110, 0);
+            HostInputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            HostInputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            HostInputFieldTransform.sizeDelta = new Vector2(240, 34);
+            HostInputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var HostInputFieldTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var HostInputFieldTextTransform = HostInputFieldTextGameObject.GetComponent<RectTransform>();
+            HostInputFieldTextTransform.SetParent(HostInputFieldTransform, false);
+
+            HostInputFieldTextTransform.localPosition = new Vector3(0, -0.5f, 0);
+            HostInputFieldTextTransform.sizeDelta = new Vector2(-20, -13);
+            HostInputFieldTextTransform.anchorMin = new Vector2(0, 0);
+            HostInputFieldTextTransform.anchorMax = new Vector2(1, 1);
+            HostInputFieldTextTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var HostInputFieldText = HostInputFieldTextGameObject.GetComponent<Text>();
+            HostInputFieldText.supportRichText = false;
+            HostInputFieldText.fontSize = 18;
+            HostInputFieldText.color = Color.black;
+
+            var HostInputFieldPlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var HostInputFieldPlaceholderTransform = HostInputFieldPlaceholderGameObject.GetComponent<RectTransform>();
+            HostInputFieldPlaceholderTransform.SetParent(HostInputFieldTransform, false);
+
+            HostInputFieldPlaceholderTransform.localPosition = new Vector3(0, -0.5f, 0);
+            HostInputFieldPlaceholderTransform.sizeDelta = new Vector2(-20, -13);
+            HostInputFieldPlaceholderTransform.anchorMin = new Vector2(0, 0);
+            HostInputFieldPlaceholderTransform.anchorMax = new Vector2(1, 1);
+            HostInputFieldPlaceholderTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var HostInputFieldPlaceholder = HostInputFieldPlaceholderGameObject.GetComponent<Text>();
+            HostInputFieldPlaceholder.supportRichText = false;
+            HostInputFieldPlaceholder.fontSize = 18;
+            HostInputFieldPlaceholder.text = "Enter host...";
+            HostInputFieldPlaceholder.color = Color.gray;
+
+            var HostInputField = HostInputFieldGameObject.GetComponent<InputField>();
+            HostInputField.textComponent = HostInputFieldText;
+            HostInputField.placeholder = HostInputFieldPlaceholder;
 
             // Create Port Input Field
             var PortInputFieldGameObject = new GameObject("PortInputField", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(InputField) });
             var PortInputFieldTransform = PortInputFieldGameObject.GetComponent<RectTransform>();
             PortInputFieldTransform.SetParent(DialogTransform, false);
 
-            PortInputFieldTransform.localPosition = new Vector3(0, -110, 0);
+            PortInputFieldTransform.localPosition = new Vector3(0, -155, 0);
             PortInputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             PortInputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
             PortInputFieldTransform.sizeDelta = new Vector2(240, 34);
@@ -219,12 +265,58 @@ namespace Altom.AltTesterTools
             PortInputField.textComponent = PortInputFieldText;
             PortInputField.placeholder = PortInputFieldPlaceholder;
 
+            // Create Game Name Input Field
+            var GameNameInputFieldGameObject = new GameObject("GameNameInputField", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(InputField) });
+            var GameNameInputFieldTransform = GameNameInputFieldGameObject.GetComponent<RectTransform>();
+            GameNameInputFieldTransform.SetParent(DialogTransform, false);
+
+            GameNameInputFieldTransform.localPosition = new Vector3(0, -200, 0);
+            GameNameInputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            GameNameInputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            GameNameInputFieldTransform.sizeDelta = new Vector2(240, 34);
+            GameNameInputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var GameNameInputFieldTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var GameNameInputFieldTextTransform = GameNameInputFieldTextGameObject.GetComponent<RectTransform>();
+            GameNameInputFieldTextTransform.SetParent(GameNameInputFieldTransform, false);
+
+            GameNameInputFieldTextTransform.localPosition = new Vector3(0, -0.5f, 0);
+            GameNameInputFieldTextTransform.sizeDelta = new Vector2(-20, -13);
+            GameNameInputFieldTextTransform.anchorMin = new Vector2(0, 0);
+            GameNameInputFieldTextTransform.anchorMax = new Vector2(1, 1);
+            GameNameInputFieldTextTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var GameNameInputFieldText = GameNameInputFieldTextGameObject.GetComponent<Text>();
+            GameNameInputFieldText.supportRichText = false;
+            GameNameInputFieldText.fontSize = 18;
+            GameNameInputFieldText.color = Color.black;
+
+            var GameNameInputFieldPlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var GameNameInputFieldPlaceholderTransform = GameNameInputFieldPlaceholderGameObject.GetComponent<RectTransform>();
+            GameNameInputFieldPlaceholderTransform.SetParent(GameNameInputFieldTransform, false);
+
+            GameNameInputFieldPlaceholderTransform.localPosition = new Vector3(0, -0.5f, 0);
+            GameNameInputFieldPlaceholderTransform.sizeDelta = new Vector2(-20, -13);
+            GameNameInputFieldPlaceholderTransform.anchorMin = new Vector2(0, 0);
+            GameNameInputFieldPlaceholderTransform.anchorMax = new Vector2(1, 1);
+            GameNameInputFieldPlaceholderTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var GameNameInputFieldPlaceholder = GameNameInputFieldPlaceholderGameObject.GetComponent<Text>();
+            GameNameInputFieldPlaceholder.supportRichText = false;
+            GameNameInputFieldPlaceholder.fontSize = 18;
+            GameNameInputFieldPlaceholder.text = "Enter game name...";
+            GameNameInputFieldPlaceholder.color = Color.gray;
+
+            var GameNameInputField = GameNameInputFieldGameObject.GetComponent<InputField>();
+            GameNameInputField.textComponent = GameNameInputFieldText;
+            GameNameInputField.placeholder = GameNameInputFieldPlaceholder;
+
             // Create Restart Button
             var RestartButtonGameObject = new GameObject("RestartButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
             var RestartButtonRectTransform = RestartButtonGameObject.GetComponent<RectTransform>();
             RestartButtonRectTransform.SetParent(DialogTransform, false);
 
-            RestartButtonRectTransform.localPosition = new Vector3(0, -155, 0);
+            RestartButtonRectTransform.localPosition = new Vector3(0, -245, 0);
             RestartButtonRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             RestartButtonRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             RestartButtonRectTransform.sizeDelta = new Vector2(240, 34);
@@ -248,6 +340,47 @@ namespace Altom.AltTesterTools
 
             var RestartButton = RestartButtonGameObject.GetComponent<Button>();
 
+            //Create CustomToggle
+
+            var Toggle = new GameObject("Toggle", new System.Type[] { typeof(RectTransform), typeof(Toggle) });
+            var ToggleRectTransform = Toggle.GetComponent<RectTransform>();
+            ToggleRectTransform.SetParent(DialogTransform, false);
+            ToggleRectTransform.localPosition = new Vector3(-15, -15, 0);
+            ToggleRectTransform.anchorMin = new Vector2(1f, 1f);
+            ToggleRectTransform.anchorMax = new Vector2(1f, 1f);
+            ToggleRectTransform.sizeDelta = new Vector2(130.34f, 25);
+            ToggleRectTransform.pivot = new Vector2(1f, 1f);
+
+            var Background = new GameObject("Background", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
+            var BackgroundTransform = Background.GetComponent<RectTransform>();
+            BackgroundTransform.SetParent(DialogTransform, false);
+            BackgroundTransform.localPosition = new Vector3(-68, 0, 0);
+            BackgroundTransform.anchorMin = new Vector2(0f, 1f);
+            BackgroundTransform.anchorMax = new Vector2(0f, 1f);
+            BackgroundTransform.sizeDelta = new Vector2(20f, 20f);
+            BackgroundTransform.pivot = new Vector2(0.5f, 0.5f);
+            var Checkmark = new GameObject("Checkmark", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
+            var CheckMarkTransform = Checkmark.GetComponent<RectTransform>();
+            CheckMarkTransform.SetParent(DialogTransform, false);
+            CheckMarkTransform.localPosition = new Vector3(0, 0, 0);
+            CheckMarkTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            CheckMarkTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            CheckMarkTransform.sizeDelta = new Vector2(20f, 20f);
+            CheckMarkTransform.pivot = new Vector2(0.5f, 0.5f);
+            var Label = new GameObject("Label", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var LabelTransform = Label.GetComponent<RectTransform>();
+            LabelTransform.SetParent(DialogTransform, false);
+            LabelTransform.localPosition = new Vector3(13.25f, 0, 0);
+            LabelTransform.anchorMin = new Vector2(0f, 1f);
+            LabelTransform.anchorMax = new Vector2(0f, 1f);
+            LabelTransform.sizeDelta = new Vector2(130f, 25f);
+            LabelTransform.pivot = new Vector2(0.5f, 0.5f);
+            var LabelText = Label.GetComponent<Text>();
+            LabelText.text = "Custom input";
+            LabelText.fontSize = 18;
+            LabelText.alignment = TextAnchor.MiddleLeft;
+
+
             // Create CloseButton
             var CloseButtonGameObject = new GameObject("CloseButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
             var CloseButtonRectTransform = CloseButtonGameObject.GetComponent<RectTransform>();
@@ -263,7 +396,6 @@ namespace Altom.AltTesterTools
             CloseButtonImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Editor/XIconWhite.png", typeof(Sprite)) as Sprite;
             CloseButtonImage.SetNativeSize();
             var CloseButton = CloseButtonGameObject.GetComponent<Button>();
-
 
             // Create Icon
             var Icon = new GameObject("Icon", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button), typeof(AltPrefabDrag) });
@@ -289,15 +421,15 @@ namespace Altom.AltTesterTools
             Altrunner.RunOnlyInDebugMode = true;
             Altrunner.InputsVisualizer = AltInputsVisualiser;
 
-
-            // Set AltDialog variables
+            // Set AltTesterDialog variables
             AltDialog.Dialog = DialogGameObject;
             AltDialog.TitleText = TitleText;
             AltDialog.MessageText = MessageText;
             AltDialog.CloseButton = CloseButton;
             AltDialog.Icon = IconImage;
-            AltDialog.PortLabel = PortLabelText;
+            AltDialog.HostInputField = HostInputField;
             AltDialog.PortInputField = PortInputField;
+            AltDialog.GameNameInputField = GameNameInputField;
             AltDialog.RestartButton = RestartButton;
 
             var testPath = "Assets/Editor/AltRunnerPrefab.prefab";
@@ -390,6 +522,7 @@ namespace Altom.AltTesterTools
                 checkObjectEquality(originalObject.transform.GetChild(i).gameObject, newObject.transform.GetChild(i).gameObject);
             }
         }
+
         private static void checkTranformEquality(RectTransform originalTransform, RectTransform newTransform)
         {
             if (!vector3Equality(originalTransform.position, newTransform.position))
@@ -425,6 +558,7 @@ namespace Altom.AltTesterTools
                 throw new System.Exception("RectTransform localRotation for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.localRotation + " and new: " + newTransform.localRotation);
             }
         }
+
         private static void checkImageEquality(Image originalImage, Image newImage)
         {
             if (originalImage.sprite != newImage.sprite)
@@ -440,6 +574,7 @@ namespace Altom.AltTesterTools
                 throw new System.Exception("Image fillMethod for: " + originalImage.gameObject + " is different. Original: " + originalImage.fillMethod + " and new: " + originalImage.fillMethod);
             }
         }
+
         private static void checkCanvasEquality(Canvas originalCanvas, Canvas newCanvas)
         {
             if (originalCanvas.sortingOrder != newCanvas.sortingOrder)
@@ -508,14 +643,17 @@ namespace Altom.AltTesterTools
                 throw new System.Exception("RunOnlyInDebugMode object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.RunOnlyInDebugMode + " and new: " + newRunner.RunOnlyInDebugMode);
             }
         }
+
         private static bool vector3Equality(Vector3 originalVector3, Vector3 newVector3)
         {
             return FloatApproximation(originalVector3.x, newVector3.x, 0.01f) && FloatApproximation(originalVector3.y, newVector3.y, 0.01f) && FloatApproximation(originalVector3.z, newVector3.z, 0.01f);
         }
+
         private static bool vector2Equality(Vector2 originalVector2, Vector2 newVector2)
         {
             return FloatApproximation(originalVector2.x, newVector2.x, 0.01f) && FloatApproximation(originalVector2.y, newVector2.y, 0.01f);
         }
+
         private static bool quaternionEquality(Quaternion originalQuaternion, Quaternion newQuaternion)
         {
             return FloatApproximation(originalQuaternion.x, newQuaternion.x, 0.01f) && FloatApproximation(originalQuaternion.y, newQuaternion.y, 0.01f) && FloatApproximation(originalQuaternion.z, newQuaternion.z, 0.01f) && FloatApproximation(originalQuaternion.w, newQuaternion.w, 0.01f);

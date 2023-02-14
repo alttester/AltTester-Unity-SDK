@@ -1,10 +1,10 @@
 using System.Reflection;
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.Notifications;
-using Altom.AltTester.Communication;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Notifications;
+using AltTester.Communication;
 using UnityEngine;
 
-namespace Altom.AltTester.Notification
+namespace AltTester.Notification
 {
     public class AltLogNotification : BaseNotification
     {
@@ -16,7 +16,6 @@ namespace Altom.AltTester.Notification
             {
                 Application.logMessageReceived += onLogReceived;
             }
-
         }
 
         static void onLogReceived(string message, string stackTrace, LogType type)

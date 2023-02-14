@@ -1,18 +1,16 @@
 using AltWebSocketSharp;
 using UnityEngine.Playables;
 
-namespace Altom.AltTester.Communication
+namespace AltTester.Communication
 {
     public class AltClientWebSocketHandler : BaseWebSocketHandler
     {
         private readonly WebSocket _webSocket;
 
-
         public AltClientWebSocketHandler(WebSocket webSocket, ICommandHandler commandHandler) : base(commandHandler)
         {
             this._webSocket = webSocket;
             webSocket.OnMessage += this.onMessage;
-
 
             this._commandHandler.OnSendMessage += webSocket.Send;
         }

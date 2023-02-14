@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Security.Permissions;
 using System.Threading;
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.Notifications;
-using AltWebSocketSharp;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Notifications;
 using Newtonsoft.Json;
+using AltWebSocketSharp;
 
-namespace Altom.AltDriver.Commands
+namespace AltTester.AltDriver.Commands
 {
     public class DriverCommunicationWebSocket : IDriverCommunication
     {
@@ -18,6 +17,7 @@ namespace Altom.AltDriver.Commands
         private readonly string _host;
         private readonly int _port;
         private readonly string _uri;
+        private readonly string _gameName;
         private readonly int _connectTimeout;
         private Queue<CommandResponse> messages;
         private List<Action<AltLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltLoadSceneNotificationResultParams>>();
@@ -29,11 +29,13 @@ namespace Altom.AltDriver.Commands
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
 
-        public DriverCommunicationWebSocket(string host, int port, int connectTimeout)
+        public DriverCommunicationWebSocket(string host, int port, int connectTimeout, string gameName)
         {
             _host = host;
             _port = port;
-            _uri = "ws://" + host + ":" + port + "/altws";
+            _gameName = gameName;
+
+            _uri = "ws://" + host + ":" + port + "/altws?game=" + Uri.EscapeUriString(gameName);
             _connectTimeout = connectTimeout;
 
             messages = new Queue<CommandResponse>();
@@ -43,7 +45,7 @@ namespace Altom.AltDriver.Commands
         {
             int delay = 100;
 
-            logger.Info("Connecting to host: {0} port: {1}.", _host, _port);
+            logger.Info("Connecting to: '{0}'.", _uri);
 
             WebSocket wsClient = new WebSocket(_uri);
             wsClient.OnError += (sender, args) =>
@@ -56,7 +58,10 @@ namespace Altom.AltDriver.Commands
 
             while (_connectTimeout > watch.Elapsed.TotalSeconds)
             {
-                if (retries > 0) logger.Debug(string.Format("Retrying #{0} to host: {1} port: {2}.", retries, _host, _port));
+                if (retries > 0)
+                {
+                    logger.Debug(string.Format("Retrying #{0} to connect to: '{1}'.", retries, _uri));
+                }
                 wsClient.Connect();
 
                 if (wsClient.IsAlive) break;
@@ -131,7 +136,6 @@ namespace Altom.AltDriver.Commands
             }
         }
 
-
         public void Send(CommandParams param)
         {
             param.messageId = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
@@ -149,6 +153,7 @@ namespace Altom.AltDriver.Commands
             logger.Info(string.Format("Closing connection to AltTester on: {0}", _uri));
             this.wsClient.Close();
         }
+
         public void SetCommandTimeout(int timeout)
         {
             commandTimeout = timeout;
@@ -167,7 +172,6 @@ namespace Altom.AltDriver.Commands
                 messages.Enqueue(message);
                 logger.Debug("response received: " + trimLog(data));
             }
-
         }
 
         private void handleNotification(CommandResponse message)
@@ -261,6 +265,7 @@ namespace Altom.AltDriver.Commands
             logger.Debug(error.type + " is not handled by driver.");
             throw new UnknownErrorException(error.message);
         }
+
         private string trimLog(string log, int maxLogLength = 1000)
         {
             if (string.IsNullOrEmpty(log)) return log;
@@ -329,6 +334,7 @@ namespace Altom.AltDriver.Commands
                     break;
             }
         }
+
         public void SetDelayAfterCommand(float delay)
         {
             delayAfterCommand = delay;

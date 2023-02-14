@@ -2,17 +2,19 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Altom.AltDriver;
-using Altom.AltDriver.Commands;
 using Altom.AltTester.Commands;
-using Altom.AltTester.Logging;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Commands;
+using AltTester.Commands;
+using AltTester.Logging;
 using Newtonsoft.Json;
 
-namespace Altom.AltTester.Communication
+namespace AltTester.Communication
 {
     public class CommandHandler : ICommandHandler
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings { Culture = CultureInfo.InvariantCulture };
 
         public CommandHandler()
         {
@@ -20,29 +22,33 @@ namespace Altom.AltTester.Communication
 
         public SendMessageHandler OnSendMessage { get; set; }
 
+        public NotificationHandler OnDriverConnect { get; set; }
+        public NotificationHandler OnDriverDisconnect { get; set; }
+
         public void Send(string data)
         {
             if (this.OnSendMessage != null)
             {
                 this.OnSendMessage.Invoke(data);
-                logger.Debug("response sent: " + trimLog(data));
+                logger.Debug(string.Format("response sent: {0}", trimLog(data)));
             }
         }
 
         public void OnMessage(string data)
         {
-            logger.Debug("command received: " + trimLog(data));
+            logger.Debug(string.Format("command received: {0}", trimLog(data)));
 
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                Culture = CultureInfo.InvariantCulture
-            };
             Func<string> executeAndSerialize = null;
             CommandParams cmdParams = null;
 
             try
             {
                 cmdParams = JsonConvert.DeserializeObject<CommandParams>(data, jsonSerializerSettings);
+                if (cmdParams.isNotification) {
+                    handleNotifications(cmdParams);
+                    return;
+                }
+
                 var type = getCommandType((string)cmdParams.commandName);
                 var commandParams = JsonConvert.DeserializeObject(data, type, jsonSerializerSettings) as CommandParams;
                 executeAndSerialize = createCommand(commandParams);
@@ -58,22 +64,30 @@ namespace Altom.AltTester.Communication
 
             AltRunner._responseQueue.ScheduleResponse(delegate
                 {
-
                     var response = executeAndSerialize();
-                    //TODO: remove this
-                    if (!cmdParams.commandName.Equals("endTouch")) //Temporary solution to ignore first "Ok"
+
+                    // TODO: Remove this if statement
+                    if (!cmdParams.commandName.Equals("endTouch")) // Temporary solution to ignore first "Ok"
                     {
-                        //Do not remove the send only the if
+                        // Do not remove the send only the if statement
                         this.Send(response);
                     }
                 });
         }
 
-        private string trimLog(string log, int maxLogLength = 1000)
-        {
-            if (string.IsNullOrEmpty(log)) return log;
-            if (log.Length <= maxLogLength) return log;
-            return log.Substring(0, maxLogLength) + "[...]";
+        public void handleNotifications(CommandParams cmdParams) {
+            if (cmdParams.commandName == "DriverConnectedNotification") {
+                if (this.OnDriverConnect != null)
+                {
+                    this.OnDriverConnect.Invoke(cmdParams.driverId);
+                }
+            }
+            else if (cmdParams.commandName == "DriverDisconnectedNotification") {
+                if (this.OnDriverDisconnect != null)
+                {
+                    this.OnDriverDisconnect.Invoke(cmdParams.driverId);
+                }
+            }
         }
 
         private Func<string> createCommand(CommandParams cmdParams)
@@ -326,16 +340,34 @@ namespace Altom.AltTester.Communication
             var derivedType = typeof(CommandParams);
             var type = assembly.GetTypes().FirstOrDefault(t =>
                {
-                   if (derivedType.IsAssignableFrom(t)) // if type derrives from CommandParams
-                   {
-                       CommandAttribute cmdAttribute = (CommandAttribute)Attribute.GetCustomAttribute(t, typeof(CommandAttribute));
-                       return cmdAttribute != null && cmdAttribute.Name == commandName;
-                   }
-                   return false;
+                    if (derivedType.IsAssignableFrom(t)) // If type derrives from CommandParams
+                    {
+                        CommandAttribute cmdAttribute = (CommandAttribute)Attribute.GetCustomAttribute(t, typeof(CommandAttribute));
+                        return cmdAttribute != null && cmdAttribute.Name == commandName;
+                    }
+
+                    return false;
                });
 
-            if (type == null) { throw new CommandNotFoundException(string.Format("Command `{0}` not found", commandName)); }
+            if (type == null)
+            {
+                throw new CommandNotFoundException(string.Format("Command `{0}` not found", commandName));
+            }
+
             return type;
+        }
+
+        private string trimLog(string log, int maxLogLength = 1000)
+        {
+            if (string.IsNullOrEmpty(log)) {
+                return log;
+            }
+
+            if (log.Length <= maxLogLength) {
+                return log;
+            }
+
+            return log.Substring(0, maxLogLength) + "[...]";
         }
     }
 }

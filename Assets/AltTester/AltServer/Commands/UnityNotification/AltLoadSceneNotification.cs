@@ -1,8 +1,8 @@
-using Altom.AltDriver.Notifications;
-using Altom.AltTester.Communication;
+using AltTester.AltDriver.Notifications;
+using AltTester.Communication;
 using UnityEngine.SceneManagement;
 
-namespace Altom.AltTester.Notification
+namespace AltTester.Notification
 {
     public class AltLoadSceneNotification : BaseNotification
     {
@@ -14,7 +14,6 @@ namespace Altom.AltTester.Notification
             {
                 SceneManager.sceneLoaded += onSceneLoaded;
             }
-
         }
 
         static void onSceneLoaded(Scene scene, LoadSceneMode mode)

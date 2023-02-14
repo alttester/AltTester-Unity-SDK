@@ -1,4 +1,4 @@
-namespace Altom.AltDriver.Logging
+namespace AltTester.AltDriver.Logging
 {
     public enum AltLogger
     {

@@ -1,7 +1,6 @@
 name: Push
-on:
-  push:
-  workflow_dispatch:
+
+on: [push, workflow_dispatch]
 
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
@@ -42,9 +41,10 @@ jobs:
         - uses: actions/checkout@v3
 
         - run: |
-            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
+            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
-        - run: ls
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed
           with:
@@ -62,10 +62,18 @@ jobs:
         with:
           name:
             BuildMacArtifact
+
       - run: |
-          chmod -R 755  sampleGame.app
+          export PROXY_PORT=13010
+          export PROXY_HOST="127.0.0.1"
+          chmod -R 755 sampleGame.app
           open sampleGame.app
-          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
+
+      - run: |
+          export PROXY_PORT=13010
+          export PROXY_HOST="127.0.0.1"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
+
       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
       - uses: actions/upload-artifact@v3.1.0
         if: always() # run this step even if one of the previous step failed
@@ -74,7 +82,7 @@ jobs:
           path: |
             *.log
             reportTest.xml
-            
+
   test-DotNet:
       runs-on: [self-hosted, macOS]
       needs: build-macOS
@@ -82,11 +90,14 @@ jobs:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
           with:
-            name: 
+            name:
               BuildMacArtifact
         - name: Setup .NET Core SDK
           uses: actions/setup-dotnet@v2.1.1
         - run: |
+            export PROXY_PORT=13010
+            echo $PROXY_PORT
+            export PROXY_HOST="127.0.0.1"
             chmod -R 755  sampleGame.app
             open sampleGame.app
             dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
@@ -97,55 +108,56 @@ jobs:
             name: TestCSharpArtifact
             path: |
               *.log
-  
+
   test-Python:
-      runs-on: [self-hosted, macOS]
-      needs: build-macOS
-      steps:
-        - uses: actions/checkout@v3
+    runs-on: [self-hosted, macOS]
+    needs: build-macOS
+    steps:
+      - uses: actions/checkout@v3
 
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name:
-              BuildMacArtifact
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name:
+            BuildMacArtifact
 
-        - uses: actions/setup-python@v4
-          with:
-            python-version: '3.10'
-            cached: 'pip'
+      - name: Open application
+        run: |
+          export PROXY_PORT=13010
+          export PROXY_HOST="127.0.0.1"
+          chmod -R 755 sampleGame.app
+          open sampleGame.app
 
-        - uses: syphar/restore-virtualenv@v1
-          id: cache-virtualenv
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-        - uses: syphar/restore-pip-download-cache@v1
-          if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip setuptools wheel
+          pip uninstall AltTester-Driver
+          pip install -r "Bindings~/python/requirements.txt"
+          pip install -r "Bindings~/python/requirements-dev.txt"
+          pip install -e "Bindings~/python" --root "Bindings~/python"
 
-        - name: Install dependencies
-          run: |
-            pip install -r "Bindings~/python/requirements.txt"
-            pip install -r "Bindings~/python/requirements-dev.txt"
-            pip install --ignore-installed  -e "Bindings~/python" --root "Bindings~/python"
+      - name: Lint with flake8
+        run: |
+          flake8 Bindings~/python/ --config Bindings~/python/.flake8
 
-        - name: Lint with flake8
-          run: |
-            flake8 Bindings~/python/tests --config Bindings~/python/.flake8
+      - name: Run unit tests
+        run: |
+          pytest Bindings~/python/tests/unit
 
-        - name: Run unit tests
-          run: |
-            pytest Bindings~/python/tests/unit
+      - name: Run integration tests
+        run: |
+          export PROXY_PORT=13010
+          export PROXY_HOST="127.0.0.1"
+          pytest Bindings~/python/tests/integration
 
-        - name: Run integration tests
-          run: |
-            chmod -R 755 sampleGame.app
-            open sampleGame.app
-            pytest Bindings~/python/tests/integration
-
-        - uses: actions/upload-artifact@v3.1.0
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: TestPythonArtifact
-            path: |
-              *.log
+      - uses: actions/upload-artifact@v3.1.0
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestPythonArtifact
+          path: "**/*.log"
 
   test-Java:
       runs-on: [self-hosted, macOS]
@@ -154,9 +166,9 @@ jobs:
         - uses: actions/checkout@v3
         - uses: actions/download-artifact@v3.0.0
           with:
-            name: 
+            name:
               BuildMacArtifact
-              
+
         - name: Setup Java JDK
           uses: actions/setup-java@v3.5.1
           with:
@@ -164,6 +176,9 @@ jobs:
               java-version: 11
         - uses: stCarolas/setup-maven@v4.4
         - run: |
+            export PROXY_PORT=13010
+            echo $PROXY_PORT
+            export PROXY_HOST="127.0.0.1"
             chmod -R 755  sampleGame.app
             open sampleGame.app
             cd "Bindings~/java"
@@ -175,7 +190,7 @@ jobs:
             name: TestJavaArtifact
             path: |
               *.log
-              
+
   dev-docs:
     if: github.ref == 'refs/heads/development'
     runs-on: [self-hosted, macOS]

@@ -2,7 +2,7 @@
     <PropertyGroup>
         <PackageId>AltTester-Driver</PackageId>
         <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
-        <RootNamespace>Altom.AltTester-Driver</RootNamespace>
+        <RootNamespace>AltTester.AltTester-Driver</RootNamespace>
         <IsPackable>true</IsPackable>
         <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">1.8.2</PackageVersion>
         <PackageVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</PackageVersion>

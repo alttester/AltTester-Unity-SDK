@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Altom.AltDriver.Commands;
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.Notifications;
+using AltTester.AltDriver.Commands;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Notifications;
 
-namespace Altom.AltDriver
+namespace AltTester.AltDriver
 {
     public enum By
     {
@@ -27,7 +28,7 @@ namespace Altom.AltDriver
         /// <param name="port">The port AltProxy is listening on.</param>
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
-        public AltDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60)
+        public AltDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60, string gameName = "__default__")
         {
 #if UNITY_EDITOR || ALTTESTER
             var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Unity, AltLogLevel.Debug } };
@@ -38,9 +39,17 @@ namespace Altom.AltDriver
             DriverLogManager.SetupAltDriverLogging(defaultLevels);
 
             if (!enableLogging)
+            {
                 DriverLogManager.StopLogging();
+            }
 
-            communicationHandler = new DriverCommunicationWebSocket(host, port, connectTimeout);
+            logger.Debug(
+                "Connecting to AltTester on host: '{0}', port: '{1}' and gameName: '{2}'.",
+                host,
+                port,
+                gameName
+            );
+            communicationHandler = new DriverCommunicationWebSocket(host, port, connectTimeout, gameName);
             communicationHandler.Connect();
 
             checkServerVersion();

@@ -1,10 +1,10 @@
 using System;
-using Altom.AltTester;
-using Altom.AltTesterEditor;
-using Altom.AltTesterEditor.Logging;
+using AltTesterEditor;
+using AltTester;
+using AltTesterEditor.Logging;
 using UnityEditor;
 
-namespace Altom.AltTesterTools
+namespace AltTesterTools
 {
     public class BuildAltTester
     {
@@ -270,13 +270,14 @@ namespace Altom.AltTesterTools
                 };
 
                 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.WebGL);
-
+                AltBuilder.AddScriptingDefineSymbol("UNITY_WEBGL", BuildTargetGroup.WebGL);
 
                 var instrumentationSettings = getInstrumentationSettings();
                 AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.WebGL);
+                AltBuilder.RemoveScriptingDefineSymbol("UNITY_WEBGL", BuildTargetGroup.WebGL);
 
 
 #if UNITY_2017
@@ -318,35 +319,28 @@ namespace Altom.AltTesterTools
 
         private static AltInstrumentationSettings getInstrumentationSettings()
         {
-            if (AltTesterEditorWindow.EditorConfiguration == null)
+
+            var instrumentationSettings = new AltInstrumentationSettings();
+            var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
+            if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
             {
-                var instrumentationSettings = new AltInstrumentationSettings();
-                var altTesterPort = System.Environment.GetEnvironmentVariable("ALTTESTER_PORT");
-
-                if (!string.IsNullOrEmpty(altTesterPort)) //server mode
-                {
-                    instrumentationSettings.AltTesterPort = int.Parse(altTesterPort);
-                    return instrumentationSettings;
-                }
-
-                var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
-
-                if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
-                {
-                    instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-                    instrumentationSettings.ProxyHost = proxyHost;
-                }
-                var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
-                if (!string.IsNullOrEmpty(proxyPort))//proxy mode
-                {
-                    instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-                    instrumentationSettings.ProxyPort = int.Parse(proxyPort);
-                }
-
-                return instrumentationSettings;
+                instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
+                instrumentationSettings.ProxyHost = proxyHost;
+            }
+            var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
+            if (!string.IsNullOrEmpty(proxyPort))//proxy mode
+            {
+                instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
+                instrumentationSettings.ProxyPort = int.Parse(proxyPort);
+            }
+            else
+            {
+                instrumentationSettings.ProxyPort = 13010;
             }
 
-            return AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings();
+            return instrumentationSettings;
+
+
         }
     }
 }

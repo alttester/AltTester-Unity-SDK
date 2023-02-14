@@ -1,19 +1,20 @@
 using System;
-using Altom.AltDriver.Commands;
-using Altom.AltDriver.Notifications;
-using Altom.AltTester.Communication;
-using Altom.AltTester.Notification;
+using AltTester.AltDriver.Commands;
+using AltTester.AltDriver.Notifications;
+using AltTester.Communication;
+using AltTester.Notification;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     public class AltActivateNotificationCommand : AltCommand<ActivateNotification, string>
     {
         ICommandHandler commandHandler;
+
         public AltActivateNotificationCommand(ICommandHandler commandHandler, ActivateNotification cmdParams) : base(cmdParams)
         {
             this.commandHandler = commandHandler;
-
         }
+
         public override string Execute()
         {
             switch (CommandParams.NotificationType)
@@ -33,6 +34,5 @@ namespace Altom.AltTester.Commands
             }
             return "Ok";
         }
-
     }
 }

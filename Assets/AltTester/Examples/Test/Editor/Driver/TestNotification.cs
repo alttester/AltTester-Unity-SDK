@@ -1,11 +1,11 @@
 using System;
 using System.Threading;
-using Altom.AltDriver;
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.MockClasses;
-using Altom.AltDriver.Notifications;
 using NUnit.Framework;
-using Altom.AltDriver.Tests;
+using AltTester.AltDriver.MockClasses;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Notifications;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Tests;
 
 public class TestNotification
 {
@@ -76,12 +76,12 @@ public class TestNotification
         Assert.AreEqual(AltLogLevel.Debug, MockNotificationCallBacks.LogLevel);
     }
 
-    // [Test]
-    // [Ignore("Testing")]
-    // public void TestApplicationPaused()
-    // {
-    //     var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
-    //     altElement.CallComponentMethod<string>("Altom.AltTester.AltRunner", "OnApplicationPause", new object[] { true }, new string[] { "System.Boolean" }, "Assembly-CSharp");
-    //     Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
-    // }
+    [Test]
+    [Ignore("Testing")]
+    public void TestApplicationPaused()
+    {
+        var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+        altElement.CallComponentMethod<string>("Altom.AltTester.AltRunner", "OnApplicationPause", "Assembly-CSharp", new object[] { true }, new string[] { "System.Boolean" });
+        Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
+    }
 }

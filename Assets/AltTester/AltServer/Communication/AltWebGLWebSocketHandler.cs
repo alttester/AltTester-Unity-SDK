@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Altom.AltTester.Communication
+namespace AltTester.Communication
 {
 #if UNITY_WEBGL
     public class AltWebGLWebSocketHandler : BaseWebSocketHandler
@@ -13,13 +13,11 @@ namespace Altom.AltTester.Communication
             this._webSocket.OnMessage += this.onMessage;
 
             _commandHandler.OnSendMessage += (message) =>
-             {
-                 this._webSocket.SendText(message).ConfigureAwait(false).GetAwaiter().GetResult();
-             };
-
-
-
+            {
+                this._webSocket.SendText(message).ConfigureAwait(false).GetAwaiter().GetResult();
+            };
         }
+
         private void onMessage(byte[] data)
         {
             var message = Encoding.UTF8.GetString(data);

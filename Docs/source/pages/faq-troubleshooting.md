@@ -60,13 +60,6 @@ The popup message shows up when you start your instrumented Unity App. It tells 
 <br>
 
 <details>
-<summary> Why do I get an <strong>error when trying to call the port forwarding </strong>methods? </summary>
-<br>
-You need to make sure the following third party tools are installed: ADB - Android  or iproxy - iOS. For more information you can check our <a href="advanced-usage.html#how-to-setup-port-forwarding">setup port forwarding guide</a>.
-</details>
-<br>
-
-<details>
 <summary>I get the error: <strong>Multiple precompiled assemblies with the same name Newtonsoft.Json.dll included or the current platform.</strong> </summary>
 <br>
 You get this error due to multiple imports of Newtonsoft.Json.dll library. You can remove the Newtonsoft.Json version from AltTester Unity SDK by deleting the <em>Newtonsonft</em> folder <em>Assets/AltTester/3rdParty/Newtonsonft</em>.

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Altom.AltTester.Communication
+namespace AltTester.Communication
 {
     public delegate void SendResponse();
 
@@ -11,7 +11,10 @@ namespace Altom.AltTester.Communication
 
         public void Cycle()
         {
-            if (responseQueue.Count == 0) return;
+            if (responseQueue.Count == 0) {
+                return;
+            }
+
             lock (queueLock)
             {
                 if (responseQueue.Count > 0)
@@ -31,7 +34,12 @@ namespace Altom.AltTester.Communication
                 }
             }
         }
+
+        public void Clear() {
+            lock (queueLock)
+            {
+                responseQueue.Clear();
+            }
+        }
     }
 }
-
-

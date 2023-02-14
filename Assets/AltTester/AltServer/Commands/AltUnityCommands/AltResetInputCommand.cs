@@ -1,5 +1,6 @@
-using Altom.AltDriver.Commands;
-using Altom.AltTester.Logging;
+using AltTester;
+using AltTester.AltDriver.Commands;
+using AltTester.Commands;
 
 namespace Altom.AltTester.Commands
 {

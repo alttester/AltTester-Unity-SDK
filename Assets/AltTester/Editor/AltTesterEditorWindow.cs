@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Altom.AltDriver;
-using Altom.AltTester;
-using Altom.AltTesterEditor.Logging;
+using AltTester.AltDriver;
+using AltTester;
+using AltTesterEditor.Logging;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Networking;
 
-namespace Altom.AltTesterEditor
+namespace AltTesterEditor
 {
     public class AltTesterEditorWindow : UnityEditor.EditorWindow
     {
@@ -23,7 +24,7 @@ namespace Altom.AltTesterEditor
         public static AltTesterEditorWindow Window;
         public static int SelectedTest = -1;
 
-        //TestResult after running a test
+        // TestResult after running a test
         public static bool IsTestRunResultAvailable = false;
         public static int ReportTestPassed;
         public static int ReportTestFailed;
@@ -70,8 +71,8 @@ namespace Altom.AltTesterEditor
 
         private static UnityEngine.GUIStyle labelStyle;
 
-
         private static long timeSinceLastClick;
+        private static UnityEngine.Font font;
         private static UnityEngine.Networking.UnityWebRequest www;
         private UnityEngine.Vector2 scrollPositionTestResult;
 
@@ -109,8 +110,6 @@ namespace Altom.AltTesterEditor
         UnityEngine.Rect availableRect;
         UnityEngine.Rect availableRectHorizontal;
 
-
-        private static UnityEngine.Font font;
         private bool playInEditorPressed;
         #region UnityEditor MenuItems
         // Add menu item named "My Window" to the Window menu
@@ -140,7 +139,7 @@ namespace Altom.AltTesterEditor
 #else
             System.Reflection.MethodInfo method = typeof(UnityEditor.ProjectWindowUtil).GetMethod("CreateScriptAsset", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
             if (method == null)
-                throw new Altom.AltDriver.NotFoundException("Method to create Script file was not found");
+                throw new AltTester.AltDriver.NotFoundException("Method to create Script file was not found");
             method.Invoke((object)null, new object[2]
             {
                 (object) templatePath,
@@ -392,11 +391,6 @@ namespace Altom.AltTesterEditor
                 SelectedTestsCountTexture = MakeTexture(20, 20, grayColor);
             }
 
-            if (PortForwardingTexture == null)
-            {
-                PortForwardingTexture = MakeTexture(20, 20, greenColor);
-            }
-
             getListOfSceneFromEditor();
         }
 
@@ -578,7 +572,6 @@ namespace Altom.AltTesterEditor
             displayScenes();
             UnityEditor.EditorGUILayout.Separator();
 
-            displayPortForwarding(leftSide);
             UnityEditor.EditorGUILayout.EndVertical();
             UnityEditor.EditorGUILayout.EndScrollView();
             UnityEditor.EditorGUILayout.EndScrollView();
@@ -641,10 +634,10 @@ namespace Altom.AltTesterEditor
                     {
                         AltBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: false);
                     }
-                    // else if (EditorConfiguration.platform == AltPlatform.WebGL)
-                    // {
-                    //     AltBuilder.BuildWebGLFromUI(autoRun: false);
-                    // }
+                    else if (EditorConfiguration.platform == AltPlatform.WebGL)
+                    {
+                        AltBuilder.BuildWebGLFromUI(autoRun: false);
+                    }
                     else
                     {
                         runInEditor();
@@ -697,10 +690,10 @@ namespace Altom.AltTesterEditor
                     {
                         AltBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: true);
                     }
-                    // else if (EditorConfiguration.platform == AltPlatform.WebGL)
-                    // {
-                    //     AltBuilder.BuildWebGLFromUI(autoRun: true);
-                    // }
+                    else if (EditorConfiguration.platform == AltPlatform.WebGL)
+                    {
+                        AltBuilder.BuildWebGLFromUI(autoRun: true);
+                    }
                     UnityEngine.GUIUtility.ExitGUI();
                 }
 
@@ -858,7 +851,7 @@ namespace Altom.AltTesterEditor
 #if UNITY_EDITOR_OSX
                 AltPlatform.iOS => BuildTargetGroup.iOS,
 #endif
-                // AltPlatform.WebGL => BuildTargetGroup.WebGL,
+                AltPlatform.WebGL => BuildTargetGroup.WebGL,
                 _ => throw new NotImplementedException(),
             };
         }
@@ -868,7 +861,7 @@ namespace Altom.AltTesterEditor
             {
                 BuildTargetGroup.Standalone => AltPlatform.Standalone,
                 BuildTargetGroup.Android => AltPlatform.Android,
-                // BuildTargetGroup.WebGL => AltPlatform.WebGL,
+                BuildTargetGroup.WebGL => AltPlatform.WebGL,
 #if UNITY_EDITOR_OSX
                 BuildTargetGroup.iOS => AltPlatform.Standalone,
 #endif
@@ -886,7 +879,7 @@ namespace Altom.AltTesterEditor
 #if UNITY_EDITOR_OSX
                 AltPlatform.iOS => new BuildTarget[] { BuildTarget.iOS },
 #endif
-                // AltPlatform.WebGL => new BuildTarget[] { BuildTarget.WebGL },
+                AltPlatform.WebGL => new BuildTarget[] { BuildTarget.WebGL },
                 _ => throw new NotImplementedException(),
             };
         }
@@ -952,10 +945,10 @@ namespace Altom.AltTesterEditor
                     showSettings(UnityEditor.BuildTargetGroup.iOS, AltPlatform.iOS);
                     break;
 #endif
-                    // case AltPlatform.WebGL:
-                    //     EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
-                    //     showSettings(UnityEditor.BuildTargetGroup.WebGL, AltPlatform.WebGL);
-                    //     break;
+                case AltPlatform.WebGL:
+                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
+                    showSettings(UnityEditor.BuildTargetGroup.WebGL, AltPlatform.WebGL);
+                    break;
             }
             checkAltTesterSymbol();
 
@@ -1209,10 +1202,11 @@ namespace Altom.AltTesterEditor
                 var keepATSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTTESTER symbol defined", ref EditorConfiguration.KeepAUTSymbolDefined);
                 if (keepATSymbolChanged)
                     checkAltTesterSymbol();
+                labelAndInputFieldHorizontalLayout("Proxy Host*", ref EditorConfiguration.ProxyHost);
+                labelAndInputFieldHorizontalLayout("AltTester Port*", ref EditorConfiguration.ProxyPort);
 
-                labelAndInputFieldHorizontalLayout("AltTester Port*", ref EditorConfiguration.AltTesterPort);
 
-
+                labelAndInputFieldHorizontalLayout("Game Name", ref EditorConfiguration.GameName);
             }
             GUIStyle style = new GUIStyle(GUI.skin.label)
             {

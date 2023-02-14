@@ -3000,7 +3000,7 @@ Invokes a method from an existing component of the object.
             const string methodName = "get_text";
             const string assemblyName = "UnityEngine.UI";
             const string elementText = "Change Camera Mode";
-            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/Button/Text");
+            var altElement = altDriver.FindObject(By.PATH, "/Canvas/Button/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, new object[] { });
             Assert.AreEqual(elementText, data);
         }
@@ -3014,7 +3014,7 @@ Invokes a method from an existing component of the object.
             const string assemblyName = "UnityEngine.UI";
             Int32 fontSizeExpected = 16;
             string[] parameters = new[] {"16"};
-            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
+            var altElement = altDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
             var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
             Assert.AreEqual(fontSizeExpected, fontSize);
@@ -3047,9 +3047,9 @@ Invokes a method from an existing component of the object.
             String methodName = "get_text";
             String assembly = "UnityEngine.UI";
             String expected_text = "Change Camera Mode";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.PATH,
                 "/Canvas/Button/Text").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
             assertEquals(expected_text, altElement.callComponentMethod(
                 new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, new Object[] {}).build(),
                 String.class));
@@ -3063,9 +3063,9 @@ Invokes a method from an existing component of the object.
             String methodExpectedName = "get_fontSize";
             String assembly = "UnityEngine.UI";
             String[] parameters = new String[] { "16"};
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.PATH,
             "/Canvas/UnityUIInputField/Text").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
             altElement.callComponentMethod(
                 new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, parameters)
                     .build(),
@@ -3128,7 +3128,7 @@ Returns the value of the given component property.
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "Altom.AltTester.AltRunner";
+            const string componentName = "AltTester.AltRunner";
             const string propertyName = "InstrumentationSettings.AltTesterPort";
             var altObject = altDriver.FindObject(By.NAME,"AltRunnerPrefab");
             Assert.NotNull(altObject);
@@ -3141,7 +3141,7 @@ Returns the value of the given component property.
         @Test
         public void testGetComponentProperty() throws Exception
         {
-            String componentName = "Altom.AltTester.AltRunner";
+            String componentName = "AltTester.AltRunner";
             String propertyName = "InstrumentationSettings.AltTesterPort";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "AltRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);

@@ -6,8 +6,9 @@ import com.alttester.Commands.AltCommands.NotificationType;
 
 public class TestsHelper {
     public static int GetAltDriverPort() {
-        String port = System.getenv("ALTDRIVER_PORT");
-        if (port != null && port == "") {
+        String port = System.getenv("PROXY_PORT");
+
+        if (port != null && port != "") {
             return Integer.parseInt(port);
         }
 
@@ -15,8 +16,9 @@ public class TestsHelper {
     }
 
     public static String GetAltDriverHost() {
-        String host = System.getenv("ALTDRIVER_HOST");
-        if (host != null && host == "") {
+        String host = System.getenv("PROXY_HOST");
+
+        if (host != null && host != "") {
             return host;
         }
 

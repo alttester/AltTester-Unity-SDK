@@ -1,9 +1,8 @@
-namespace Altom.AltTester.Communication
+namespace AltTester.Communication
 {
     public class BaseWebSocketHandler
     {
         protected readonly ICommandHandler _commandHandler;
-
 
         public BaseWebSocketHandler(ICommandHandler commandHandler)
         {

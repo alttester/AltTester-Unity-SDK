@@ -2,13 +2,13 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Altom.AltDriver;
-using Altom.AltDriver.Commands;
-using Altom.AltTester.Communication;
-using Altom.AltTester.Logging;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Commands;
+using AltTester.Communication;
+using AltTester.Logging;
 using Newtonsoft.Json;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     public abstract class AltBaseScreenshotCommand<TParams, TResult> : AltCommand<TParams, TResult> where TParams : CommandParams
     {

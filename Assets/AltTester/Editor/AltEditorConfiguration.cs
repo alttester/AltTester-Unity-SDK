@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Altom.AltTester;
+using AltTester;
 using UnityEngine;
 
-namespace Altom.AltTesterEditor
+namespace AltTesterEditor
 {
     public class AltEditorConfiguration : ScriptableObject
     {
@@ -24,8 +24,10 @@ namespace Altom.AltTesterEditor
         public bool createXMLReport = false;
         public string xMLFilePath = "";
 
-        public int AltTesterPort = 13000;
+        public int ProxyPort = 13000;
+        public string ProxyHost = "127.0.0.1";
 
+        public string GameName = "__default__";
 
         public AltInstrumentationSettings GetInstrumentationSettings()
         {
@@ -33,7 +35,9 @@ namespace Altom.AltTesterEditor
             {
                 ShowPopUp = ShowPopUp,
                 InputVisualizer = InputVisualizer,
-                AltTesterPort = AltTesterPort,
+                ProxyPort = ProxyPort,
+                ProxyHost = ProxyHost,
+                GameName = GameName
             };
         }
         public bool KeepAUTSymbolDefined = false;

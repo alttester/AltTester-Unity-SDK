@@ -1,4 +1,4 @@
-namespace Altom.AltTesterEditor
+namespace AltTesterEditor
 {
     public enum AltPlatform
     {
@@ -8,6 +8,6 @@ namespace Altom.AltTesterEditor
 #endif
         Editor,
         Standalone,
-        // WebGL
+        WebGL
     }
 }

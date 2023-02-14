@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
-using Altom.AltDriver;
-using Altom.AltTester;
-using Altom.AltTesterEditor.Logging;
-using UnityEditor;
+using AltTester;
+using AltTester.AltDriver;
+using AltTesterEditor;
+using AltTesterEditor.Logging;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace Altom.AltTesterEditor
+namespace AltTesterEditor
 {
     public static class PlatformName
     {
@@ -21,6 +21,8 @@ namespace Altom.AltTesterEditor
     {
         private const string ALTTESTERDEFINE = "ALTTESTER";
         private const string PREFABNAME = "AltTesterPrefab";
+        private const string WEBGLDEFINE = "UNITY_WEBGL";
+
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
         public enum InputType
         {
@@ -136,6 +138,10 @@ namespace Altom.AltTesterEditor
 
         public static void RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup)
         {
+            RemoveScriptingDefineSymbol(ALTTESTERDEFINE, targetGroup);
+        }
+        public static void RemoveScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
+        {
             if (AltTesterEditorWindow.EditorConfiguration != null && AltTesterEditorWindow.EditorConfiguration.KeepAUTSymbolDefined)
                 return;
             try
@@ -143,12 +149,12 @@ namespace Altom.AltTesterEditor
                 var scriptingDefineSymbolsForGroup =
                     UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
                 string newScriptingDefineSymbolsForGroup = "";
-                if (scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE))
+                if (scriptingDefineSymbolsForGroup.Contains(symbol))
                 {
                     var split = scriptingDefineSymbolsForGroup.Split(';');
                     foreach (var define in split)
                     {
-                        if (define != ALTTESTERDEFINE)
+                        if (define != symbol)
                         {
                             newScriptingDefineSymbolsForGroup += define + ";";
                         }
@@ -166,13 +172,19 @@ namespace Altom.AltTesterEditor
             }
         }
 
-        public static void AddAltTesterInScriptingDefineSymbolsGroup(BuildTargetGroup targetGroup)
+        public static void AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildTargetGroup targetGroup)
         {
-            var scriptingDefineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            if (scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE))
-                return;
-            scriptingDefineSymbolsForGroup += ";" + ALTTESTERDEFINE;
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
+            AddScriptingDefineSymbol(ALTTESTERDEFINE, targetGroup);
+        }
+        public static void AddScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
+        {
+
+            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+            if (!scriptingDefineSymbolsForGroup.Contains(symbol))
+            {
+                scriptingDefineSymbolsForGroup += ";" + symbol;
+            }
+            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
         }
 
         [System.Obsolete("Use AddAltTesterInScriptingDefineSymbolsGroup instead.")]
@@ -183,7 +195,8 @@ namespace Altom.AltTesterEditor
 
         public static bool CheckAltTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildTargetGroup targetGroup)
         {
-            return PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup).Contains(ALTTESTERDEFINE);
+            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+            return scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE);
         }
 
         public static void CreateJsonFileForInputMappingOfAxis()
