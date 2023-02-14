@@ -220,7 +220,7 @@ namespace AltTester.UI
 
         #region proxy mode comm protocol
 
-        private void initProxyCommProtocol()
+        private void initClient()
         {
             var cmdHandler = new CommandHandler();
             cmdHandler.OnDriverConnect += OnDriverConnect;
@@ -239,6 +239,7 @@ namespace AltTester.UI
 
         private void StartClient()
         {
+            initClient();
             try
             {
                 if (_communication == null || !_communication.IsListening) // Start only if it is not already listening
