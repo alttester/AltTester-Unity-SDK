@@ -718,7 +718,7 @@ namespace Altom.AltDriver.Tests
         public void TestClickElement()
         {
             const string name = "Capsule";
-            var altElement = altDriver.FindObject(By.NAME, name).Tap();
+            var altElement = altDriver.FindObject(By.NAME, name).Click();
             Assert.AreEqual(name, altElement.name);
             // altDriver.WaitForObjectWithText(By.NAME, "CapsuleInfo", "Capsule was clicked to jump!");
             altDriver.WaitForObject(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]");

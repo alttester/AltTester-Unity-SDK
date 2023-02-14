@@ -104,15 +104,15 @@ namespace Altom.AltTester
         {
 #if ALTTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
-#if ENABLE_INPUT_SYSTEM
-            coroutines.Add(NewInputSystem.ClickElementLifeCycle(target, count, interval));
-#endif
-#if ENABLE_LEGACY_INPUT_MANAGER
+// #if ENABLE_INPUT_SYSTEM
+//             coroutines.Add(NewInputSystem.ClickElementLifeCycle(target, count, interval));
+// #endif
+// #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.tapClickElementLifeCycle(target, count, interval, false));
-#endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
-#else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+// #endif
+//             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+// #else
+//             throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
