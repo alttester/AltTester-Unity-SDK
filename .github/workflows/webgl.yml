@@ -1,0 +1,26 @@
+name: Pipeline for WebGL
+
+on: [push, workflow_dispatch]
+
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+  
+jobs:
+  build-WebGL-Unity2021:
+      runs-on: [self-hosted, macOS]
+      steps:
+        - uses: actions/checkout@v3
+
+        - run: |
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
+            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WebGLBuildFromCommandLine -logFile buildWebGL.log -quit
+
+        - uses: actions/upload-artifact@v3.1.0
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: BuildWebGLArtifact
+            path: |
+              sampleGame.app
+              buildWebGL.log
