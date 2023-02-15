@@ -24,9 +24,8 @@ jobs:
             path: |
               build
               buildWebGL.log
-        - run: |
-              ls
-              ls build/
+        - run: ls
+        - run: ls build/
 
   test-DotNet:
       runs-on: [self-hosted, macOS]
