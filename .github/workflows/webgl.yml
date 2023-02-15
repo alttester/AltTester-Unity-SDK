@@ -22,6 +22,6 @@ jobs:
           with:
             name: BuildWebGLArtifact
             path: |
-              sampleGame
+              build
               buildWebGL.log
         - run: ls
