@@ -25,3 +25,30 @@ jobs:
               build
               buildWebGL.log
         - run: ls
+               ls build/
+
+  test-DotNet:
+      runs-on: [self-hosted, macOS]
+      needs: build-macOS
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/download-artifact@v3.0.0
+          with:
+            name:
+              BuildWebGLArtifact
+        - name: Setup .NET Core SDK
+          uses: actions/setup-dotnet@v2.1.1
+        - run: |
+            export PROXY_PORT=13010
+            echo $PROXY_PORT
+            export PROXY_HOST="127.0.0.1"
+            python -m http.server --cgi 8360
+            open http://localhost:8360/index.html
+            dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
+
+        - uses: actions/upload-artifact@v3.1.0
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: TestCSharpArtifact
+            path: |
+              *.log
