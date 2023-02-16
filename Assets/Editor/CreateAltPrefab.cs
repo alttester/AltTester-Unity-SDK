@@ -12,6 +12,130 @@ namespace AltTesterTools
 {
     public class CreateAltPrefab : MonoBehaviour
     {
+        public static InputField CreatePortInpurtField(RectTransform parent)
+        {
+        }
+
+        public static InputField CreateAppNameInputField(RectTransform parent)
+        {
+            var InputFieldGameObject = new GameObject("AppNameInputField", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(InputField) });
+            var InputFieldTransform = InputFieldGameObject.GetComponent<RectTransform>();
+            InputFieldTransform.SetParent(parent, false);
+
+            InputFieldTransform.localPosition = new Vector3(0, -200, 0);
+            InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            InputFieldTransform.sizeDelta = new Vector2(240, 34);
+            InputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var TextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var TextGameObjectTransform = TextGameObject.GetComponent<RectTransform>();
+            TextGameObjectTransform.SetParent(InputFieldTransform, false);
+
+            TextGameObjectTransform.localPosition = new Vector3(0, -0.5f, 0);
+            TextGameObjectTransform.sizeDelta = new Vector2(-20, -13);
+            TextGameObjectTransform.anchorMin = new Vector2(0, 0);
+            TextGameObjectTransform.anchorMax = new Vector2(1, 1);
+            TextGameObjectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var Text = TextGameObject.GetComponent<Text>();
+            Text.supportRichText = false;
+            Text.fontSize = 18;
+            Text.color = Color.black;
+
+            var PlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var PlaceholderTransform = PlaceholderGameObject.GetComponent<RectTransform>();
+            PlaceholderTransform.SetParent(InputFieldTransform, false);
+
+            PlaceholderTransform.localPosition = new Vector3(0, -0.5f, 0);
+            PlaceholderTransform.sizeDelta = new Vector2(-20, -13);
+            PlaceholderTransform.anchorMin = new Vector2(0, 0);
+            PlaceholderTransform.anchorMax = new Vector2(1, 1);
+            PlaceholderTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var Placeholder = PlaceholderGameObject.GetComponent<Text>();
+            Placeholder.supportRichText = false;
+            Placeholder.fontSize = 18;
+            Placeholder.text = "Enter app name...";
+            Placeholder.color = Color.gray;
+
+            var InputField = InputFieldGameObject.GetComponent<InputField>();
+            InputField.textComponent = Text;
+            InputField.placeholder = Placeholder;
+
+            return InputField;
+        }
+
+        public static Button CreateRestartButton(RectTransform parent)
+        {
+            var RestartButtonGameObject = new GameObject("RestartButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
+            var RestartButtonRectTransform = RestartButtonGameObject.GetComponent<RectTransform>();
+            RestartButtonRectTransform.SetParent(parent, false);
+
+            RestartButtonRectTransform.localPosition = new Vector3(0, -245, 0);
+            RestartButtonRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            RestartButtonRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            RestartButtonRectTransform.sizeDelta = new Vector2(240, 34);
+            RestartButtonRectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var RestartButtonTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+            var RestartButtonTextRectTransform = RestartButtonTextGameObject.GetComponent<RectTransform>();
+            RestartButtonTextRectTransform.SetParent(RestartButtonRectTransform, false);
+
+            RestartButtonTextRectTransform.localPosition = new Vector3(0, 0, 0);
+            RestartButtonTextRectTransform.anchorMin = new Vector2(0, 0);
+            RestartButtonTextRectTransform.anchorMax = new Vector2(1, 1);
+            RestartButtonTextRectTransform.sizeDelta = new Vector2(0, 0);
+            RestartButtonTextRectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var RestartButtonText = RestartButtonTextGameObject.GetComponent<Text>();
+            RestartButtonText.text = "Restart";
+            RestartButtonText.fontSize = 18;
+            RestartButtonText.color = Color.black;
+            RestartButtonText.alignment = TextAnchor.MiddleCenter;
+
+            return RestartButtonGameObject.GetComponent<Button>();
+        }
+
+        public static Button CreateCloseButton(RectTransform parent)
+        {
+            var CloseButtonGameObject = new GameObject("CloseButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
+
+            var CloseButtonRectTransform = CloseButtonGameObject.GetComponent<RectTransform>();
+            CloseButtonRectTransform.SetParent(parent, false);
+
+            CloseButtonRectTransform.localPosition = new Vector3(-15, -15, 0);
+            CloseButtonRectTransform.anchorMin = new Vector2(1f, 1f);
+            CloseButtonRectTransform.anchorMax = new Vector2(1f, 1f);
+            CloseButtonRectTransform.sizeDelta = new Vector2(30, 30);
+            CloseButtonRectTransform.pivot = new Vector2(1f, 1f);
+
+            var CloseButtonImage = CloseButtonGameObject.GetComponent<Image>();
+            CloseButtonImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Editor/XIconWhite.png", typeof(Sprite)) as Sprite;
+            CloseButtonImage.SetNativeSize();
+
+            return CloseButtonGameObject.GetComponent<Button>();
+        }
+
+        public static Image CreateIcon(RectTransform parent)
+        {
+            var Icon = new GameObject("Icon", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button), typeof(AltPrefabDrag) });
+
+            var IconRectTransform = Icon.GetComponent<RectTransform>();
+            IconRectTransform.SetParent(parent, false);
+
+            IconRectTransform.localPosition = new Vector3(0, 0, 0);
+            IconRectTransform.anchorMin = new Vector2(1f, 0f);
+            IconRectTransform.anchorMax = new Vector2(1f, 0f);
+            IconRectTransform.anchoredPosition = new Vector2(0, 0);
+            IconRectTransform.sizeDelta = new Vector2(100, 100);
+            IconRectTransform.pivot = new Vector2(1f, 0f);
+
+            var IconImage = Icon.GetComponent<Image>();
+            IconImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/altTester-512x512.png", typeof(Sprite)) as Sprite;
+
+            return IconImage;
+        }
 
         // Start is called before the first frame update
         [UnityEditor.MenuItem("AltTester/Create AltTester Prefab", false, 80)]
@@ -29,14 +153,9 @@ namespace AltTesterTools
 
             var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(Input), typeof(NewInputSystem) });
 
-            string path = "Assets/AltTester/Prefab/AltTesterPrefab.prefab";
-            string localPath = path;
-
-
             // Set RectTransform for rootObject
             var RectTransform = Prefab.GetComponent<Transform>();
             var Altrunner = Prefab.GetComponent<AltRunner>();
-
 
             // Create CanvasInputVisualiser
             var CanvasInputVisualiserGameObject = new GameObject("CanvasInputVisualiser", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster) });
@@ -266,82 +385,12 @@ namespace AltTesterTools
             PortInputField.placeholder = PortInputFieldPlaceholder;
 
             // Create Game Name Input Field
-            var GameNameInputFieldGameObject = new GameObject("GameNameInputField", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(InputField) });
-            var GameNameInputFieldTransform = GameNameInputFieldGameObject.GetComponent<RectTransform>();
-            GameNameInputFieldTransform.SetParent(DialogTransform, false);
-
-            GameNameInputFieldTransform.localPosition = new Vector3(0, -200, 0);
-            GameNameInputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            GameNameInputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            GameNameInputFieldTransform.sizeDelta = new Vector2(240, 34);
-            GameNameInputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
-
-            var GameNameInputFieldTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
-            var GameNameInputFieldTextTransform = GameNameInputFieldTextGameObject.GetComponent<RectTransform>();
-            GameNameInputFieldTextTransform.SetParent(GameNameInputFieldTransform, false);
-
-            GameNameInputFieldTextTransform.localPosition = new Vector3(0, -0.5f, 0);
-            GameNameInputFieldTextTransform.sizeDelta = new Vector2(-20, -13);
-            GameNameInputFieldTextTransform.anchorMin = new Vector2(0, 0);
-            GameNameInputFieldTextTransform.anchorMax = new Vector2(1, 1);
-            GameNameInputFieldTextTransform.pivot = new Vector2(0.5f, 0.5f);
-
-            var GameNameInputFieldText = GameNameInputFieldTextGameObject.GetComponent<Text>();
-            GameNameInputFieldText.supportRichText = false;
-            GameNameInputFieldText.fontSize = 18;
-            GameNameInputFieldText.color = Color.black;
-
-            var GameNameInputFieldPlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
-            var GameNameInputFieldPlaceholderTransform = GameNameInputFieldPlaceholderGameObject.GetComponent<RectTransform>();
-            GameNameInputFieldPlaceholderTransform.SetParent(GameNameInputFieldTransform, false);
-
-            GameNameInputFieldPlaceholderTransform.localPosition = new Vector3(0, -0.5f, 0);
-            GameNameInputFieldPlaceholderTransform.sizeDelta = new Vector2(-20, -13);
-            GameNameInputFieldPlaceholderTransform.anchorMin = new Vector2(0, 0);
-            GameNameInputFieldPlaceholderTransform.anchorMax = new Vector2(1, 1);
-            GameNameInputFieldPlaceholderTransform.pivot = new Vector2(0.5f, 0.5f);
-
-            var GameNameInputFieldPlaceholder = GameNameInputFieldPlaceholderGameObject.GetComponent<Text>();
-            GameNameInputFieldPlaceholder.supportRichText = false;
-            GameNameInputFieldPlaceholder.fontSize = 18;
-            GameNameInputFieldPlaceholder.text = "Enter game name...";
-            GameNameInputFieldPlaceholder.color = Color.gray;
-
-            var GameNameInputField = GameNameInputFieldGameObject.GetComponent<InputField>();
-            GameNameInputField.textComponent = GameNameInputFieldText;
-            GameNameInputField.placeholder = GameNameInputFieldPlaceholder;
+            var AppNameInputField = CreateAppNameInputField(DialogTransform);
 
             // Create Restart Button
-            var RestartButtonGameObject = new GameObject("RestartButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
-            var RestartButtonRectTransform = RestartButtonGameObject.GetComponent<RectTransform>();
-            RestartButtonRectTransform.SetParent(DialogTransform, false);
+            var RestartButton = CreateRestartButton(DialogTransform);
 
-            RestartButtonRectTransform.localPosition = new Vector3(0, -245, 0);
-            RestartButtonRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            RestartButtonRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            RestartButtonRectTransform.sizeDelta = new Vector2(240, 34);
-            RestartButtonRectTransform.pivot = new Vector2(0.5f, 0.5f);
-
-            var RestartButtonTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
-            var RestartButtonTextRectTransform = RestartButtonTextGameObject.GetComponent<RectTransform>();
-            RestartButtonTextRectTransform.SetParent(RestartButtonRectTransform, false);
-
-            RestartButtonTextRectTransform.localPosition = new Vector3(0, 0, 0);
-            RestartButtonTextRectTransform.anchorMin = new Vector2(0, 0);
-            RestartButtonTextRectTransform.anchorMax = new Vector2(1, 1);
-            RestartButtonTextRectTransform.sizeDelta = new Vector2(0, 0);
-            RestartButtonTextRectTransform.pivot = new Vector2(0.5f, 0.5f);
-
-            var RestartButtonText = RestartButtonTextGameObject.GetComponent<Text>();
-            RestartButtonText.text = "Restart";
-            RestartButtonText.fontSize = 18;
-            RestartButtonText.color = Color.black;
-            RestartButtonText.alignment = TextAnchor.MiddleCenter;
-
-            var RestartButton = RestartButtonGameObject.GetComponent<Button>();
-
-            //Create CustomToggle
-
+            // Create CustomToggle
             var Toggle = new GameObject("Toggle", new System.Type[] { typeof(RectTransform), typeof(Toggle) });
             var ToggleRectTransform = Toggle.GetComponent<RectTransform>();
             ToggleRectTransform.SetParent(DialogTransform, false);
@@ -359,6 +408,7 @@ namespace AltTesterTools
             BackgroundTransform.anchorMax = new Vector2(0f, 1f);
             BackgroundTransform.sizeDelta = new Vector2(20f, 20f);
             BackgroundTransform.pivot = new Vector2(0.5f, 0.5f);
+
             var Checkmark = new GameObject("Checkmark", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
             var CheckMarkTransform = Checkmark.GetComponent<RectTransform>();
             CheckMarkTransform.SetParent(DialogTransform, false);
@@ -367,6 +417,7 @@ namespace AltTesterTools
             CheckMarkTransform.anchorMax = new Vector2(0.5f, 0.5f);
             CheckMarkTransform.sizeDelta = new Vector2(20f, 20f);
             CheckMarkTransform.pivot = new Vector2(0.5f, 0.5f);
+
             var Label = new GameObject("Label", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
             var LabelTransform = Label.GetComponent<RectTransform>();
             LabelTransform.SetParent(DialogTransform, false);
@@ -375,43 +426,17 @@ namespace AltTesterTools
             LabelTransform.anchorMax = new Vector2(0f, 1f);
             LabelTransform.sizeDelta = new Vector2(130f, 25f);
             LabelTransform.pivot = new Vector2(0.5f, 0.5f);
+
             var LabelText = Label.GetComponent<Text>();
             LabelText.text = "Custom input";
             LabelText.fontSize = 18;
             LabelText.alignment = TextAnchor.MiddleLeft;
 
-
             // Create CloseButton
-            var CloseButtonGameObject = new GameObject("CloseButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
-            var CloseButtonRectTransform = CloseButtonGameObject.GetComponent<RectTransform>();
-            CloseButtonRectTransform.SetParent(DialogTransform, false);
-
-            CloseButtonRectTransform.localPosition = new Vector3(-15, -15, 0);
-            CloseButtonRectTransform.anchorMin = new Vector2(1f, 1f);
-            CloseButtonRectTransform.anchorMax = new Vector2(1f, 1f);
-            CloseButtonRectTransform.sizeDelta = new Vector2(30, 30);
-            CloseButtonRectTransform.pivot = new Vector2(1f, 1f);
-
-            var CloseButtonImage = CloseButtonGameObject.GetComponent<Image>();
-            CloseButtonImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Editor/XIconWhite.png", typeof(Sprite)) as Sprite;
-            CloseButtonImage.SetNativeSize();
-            var CloseButton = CloseButtonGameObject.GetComponent<Button>();
+            var CloseButton = CreateCloseButton(DialogTransform);
 
             // Create Icon
-            var Icon = new GameObject("Icon", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button), typeof(AltPrefabDrag) });
-            var IconRectTransform = Icon.GetComponent<RectTransform>();
-            IconRectTransform.SetParent(AltDialogTransform, false);
-
-            IconRectTransform.localPosition = new Vector3(0, 0, 0);
-            IconRectTransform.anchorMin = new Vector2(1f, 0f);
-            IconRectTransform.anchorMax = new Vector2(1f, 0f);
-            IconRectTransform.anchoredPosition = new Vector2(0, 0);
-            IconRectTransform.sizeDelta = new Vector2(100, 100);
-            IconRectTransform.pivot = new Vector2(1f, 0f);
-
-            var IconImage = Icon.GetComponent<Image>();
-            IconImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/altTester-512x512.png", typeof(Sprite)) as Sprite;
-
+            var Icon = CreateIcon(AltDialogTransform);
 
             // Set AltRunner variables
             var outlineShader = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Shader/OutlineShader.shader", typeof(Shader));
@@ -426,15 +451,15 @@ namespace AltTesterTools
             AltDialog.TitleText = TitleText;
             AltDialog.MessageText = MessageText;
             AltDialog.CloseButton = CloseButton;
-            AltDialog.Icon = IconImage;
+            AltDialog.Icon = Icon;
             AltDialog.HostInputField = HostInputField;
             AltDialog.PortInputField = PortInputField;
-            AltDialog.GameNameInputField = GameNameInputField;
+            AltDialog.GameNameInputField = AppNameInputField;
             AltDialog.RestartButton = RestartButton;
 
+            string path = "Assets/AltTester/Prefab/AltTesterPrefab.prefab";
             var testPath = "Assets/Editor/AltRunnerPrefab.prefab";
             PrefabUtility.SaveAsPrefabAsset(Prefab, testPath);
-
 
             var oldPrefab = PrefabUtility.LoadPrefabContents(path);
             var newPrefab = PrefabUtility.LoadPrefabContents(testPath);
@@ -628,6 +653,7 @@ namespace AltTesterTools
                 throw new System.Exception("Icon object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.Icon.name + " and new: " + newDialog.Icon.name);
             }
         }
+
         private static void checkaltRunnerEquality(AltRunner originalRunner, AltRunner newRunner)
         {
             if (originalRunner.outlineShader != newRunner.outlineShader)
