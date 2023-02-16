@@ -26,7 +26,7 @@ namespace AltTester
         /// </summary>
         public int ProxyPort = 13000;
 
-        public string GameName = "__default__";
+        public string AppName = "__default__";
 
 
         /// <summary>

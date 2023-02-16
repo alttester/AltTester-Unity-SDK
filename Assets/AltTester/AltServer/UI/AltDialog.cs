@@ -135,7 +135,7 @@ namespace AltTester.UI
 
         private void SetUpGameNameInputField()
         {
-            GameNameInputField.text = InstrumentationSettings.GameName;
+            GameNameInputField.text = InstrumentationSettings.AppName;
         }
 
         private void OnRestartButtonPress()
@@ -166,11 +166,11 @@ namespace AltTester.UI
 
             if (!string.IsNullOrEmpty(GameNameInputField.text))
             {
-                InstrumentationSettings.GameName = GameNameInputField.text;
+                InstrumentationSettings.AppName = GameNameInputField.text;
             }
             else
             {
-                SetMessage("Game name should not be empty.", ERROR_COLOR, true);
+                SetMessage("App name should not be empty.", ERROR_COLOR, true);
                 return;
             }
 
@@ -229,7 +229,7 @@ namespace AltTester.UI
 #if UNITY_WEBGL && !UNITY_EDITOR
             _communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort);
 #else
-            _communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
+            _communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.AppName);
 #endif
 
             _communication.OnConnect += OnConnect;
@@ -281,7 +281,7 @@ namespace AltTester.UI
 
         private void OnStart()
         {
-            string message = String.Format("Waiting to connect to AltProxy on {0}:{1} with game name: '{2}'.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
+            string message = String.Format("Waiting to connect to AltProxy on {0}:{1} with app name: '{2}'.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.AppName);
             SetMessage(message, SUCCESS_COLOR, Dialog.activeSelf || _wasConnectedBefore);
 
             _wasConnectedBefore = false;
@@ -289,7 +289,7 @@ namespace AltTester.UI
 
         private void OnConnect()
         {
-            string message = String.Format("Connected to AltProxy on {0}:{1} with game name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
+            string message = String.Format("Connected to AltProxy on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.AppName);
 
             _updateQueue.ScheduleResponse(() =>
             {
@@ -320,7 +320,7 @@ namespace AltTester.UI
         private void OnDriverConnect(string driverId)
         {
             logger.Debug("Driver Connected: " + driverId);
-            string message = String.Format("Connected to AltProxy on {0}:{1} with game name: '{2}'. Driver connected.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
+            string message = String.Format("Connected to AltProxy on {0}:{1} with app name: '{2}'. Driver connected.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.AppName);
 
             _connectedDrivers.Add(driverId);
 
@@ -345,7 +345,7 @@ namespace AltTester.UI
         private void OnDriverDisconnect(string driverId)
         {
             logger.Debug("Driver Disconect: " + driverId);
-            string message = String.Format("Connected to AltProxy on {0}:{1} with game name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.GameName);
+            string message = String.Format("Connected to AltProxy on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.AppName);
 
             _connectedDrivers.Remove(driverId);
 

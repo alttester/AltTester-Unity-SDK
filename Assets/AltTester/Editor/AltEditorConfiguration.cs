@@ -27,7 +27,7 @@ namespace AltTesterEditor
         public int ProxyPort = 13000;
         public string ProxyHost = "127.0.0.1";
 
-        public string GameName = "__default__";
+        public string AppName = "__default__";
 
         public AltInstrumentationSettings GetInstrumentationSettings()
         {
@@ -37,7 +37,7 @@ namespace AltTesterEditor
                 InputVisualizer = InputVisualizer,
                 ProxyPort = ProxyPort,
                 ProxyHost = ProxyHost,
-                GameName = GameName
+                AppName = AppName
             };
         }
         public bool KeepAUTSymbolDefined = false;

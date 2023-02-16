@@ -64,7 +64,7 @@ public class AltDriver {
         this(host, port, enableLogging, connectTimeout, "__default__");
     }
 
-    public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String gameName) {
+    public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String appName) {
         if (!enableLogging) {
             AltDriverConfigFactory.DisableLogging();
         }
@@ -73,8 +73,8 @@ public class AltDriver {
             throw new InvalidParameterException("Provided host address is null or empty.");
         }
 
-        logger.debug("Connecting to AltTester on host: '{}', port: '{}' and gameName: '{}'.", host, port, gameName);
-        this.connection = new WebsocketConnection(host, port, connectTimeout, gameName);
+        logger.debug("Connecting to AltTester on host: '{}', port: '{}' and appName: '{}'.", host, port, appName);
+        this.connection = new WebsocketConnection(host, port, connectTimeout, appName);
         this.connection.connect();
 
         checkServerVersion();

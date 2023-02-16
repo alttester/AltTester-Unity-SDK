@@ -24,33 +24,33 @@ class AltDriver:
     Args:
         host (:obj:`str`, optional): The proxy host to connect to.
         port (:obj:`int`, optional): The proxy port to connect to.
-        game_name (:obj:`str`, optional): The game name. Defaults to ``__default__``.
+        app_name (:obj:`str`, optional): The app name. Defaults to ``__default__``.
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
         timeout (:obj:`int`, :obj:`float`, optional): The connect timeout time in seconds.
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, game_name="__default__", enable_logging=False, timeout=None):
+    def __init__(self, host="127.0.0.1", port=13000, app_name="__default__", enable_logging=False, timeout=None):
         self.host = host
         self.port = port
-        self.game_name = game_name
+        self.app_name = app_name
         self.enable_logging = enable_logging
         self.timeout = timeout
 
         self._config_logging(self.enable_logging)
 
         logger.debug(
-            "Connecting to AltTester on host: '{}', port: '{}' and gameName: '{}'.",
+            "Connecting to AltTester on host: '{}', port: '{}' and app name: '{}'.",
             self.host,
             self.port,
-            self.game_name
+            self.app_name
         )
         self._connection = WebsocketConnection(
             host=self.host,
             port=self.port,
             timeout=self.timeout,
             path="altws",
-            params={"game": self.game_name}
+            params={"appNme": self.app_name}
         )
         self._connection.connect()
 
@@ -59,7 +59,7 @@ class AltDriver:
             self.__class__.__name__,
             self.host,
             self.port,
-            self.game_name,
+            self.app_name,
             self.enable_logging,
             self.timeout
         )
