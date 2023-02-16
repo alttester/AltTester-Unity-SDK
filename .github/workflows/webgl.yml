@@ -43,9 +43,8 @@ jobs:
             echo $PROXY_PORT
             export PROXY_HOST="127.0.0.1"
             ls
-            ls BuildWebGLArtifact/
-            ls BuildWebGLArtifact/build
-            cd BuildWebGLArtifact/build/webgl
+            ls build/webgl/
+            cd build/webgl
             python3 -m http.server --cgi 8360
             open http://localhost:8360/index.html
             dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
