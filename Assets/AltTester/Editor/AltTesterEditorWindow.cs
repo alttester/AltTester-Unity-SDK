@@ -1206,7 +1206,7 @@ namespace AltTesterEditor
                 labelAndInputFieldHorizontalLayout("AltTester Port*", ref EditorConfiguration.ProxyPort);
 
 
-                labelAndInputFieldHorizontalLayout("Game Name", ref EditorConfiguration.AppName);
+                labelAndInputFieldHorizontalLayout("App Name", ref EditorConfiguration.AppName);
             }
             GUIStyle style = new GUIStyle(GUI.skin.label)
             {
