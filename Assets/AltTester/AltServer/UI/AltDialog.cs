@@ -30,19 +30,22 @@ namespace AltTester.UI
         public UnityEngine.UI.Image Icon = null;
 
         [UnityEngine.SerializeField]
+        public UnityEngine.UI.Text InfoLabel = null;
+
+        [UnityEngine.SerializeField]
         public UnityEngine.UI.InputField HostInputField = null;
 
         [UnityEngine.SerializeField]
         public UnityEngine.UI.InputField PortInputField = null;
 
         [UnityEngine.SerializeField]
-        public UnityEngine.UI.InputField GameNameInputField = null;
+        public UnityEngine.UI.InputField AppNameInputField = null;
 
         [UnityEngine.SerializeField]
         public UnityEngine.UI.Button RestartButton = null;
-        public UnityEngine.UI.Toggle CustomInputToggle = null;
 
-        private ICommunication communication;
+        [UnityEngine.SerializeField]
+        public UnityEngine.UI.Toggle CustomInputToggle = null;
 
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
@@ -51,11 +54,6 @@ namespace AltTester.UI
         private bool _wasConnectedBefore = false;
 
         HashSet<string> _connectedDrivers = new HashSet<string>();
-
-        public void Awake()
-        {
-            CustomInputToggle = UnityEngine.GameObject.Find("AltDialog/Dialog/Toggle").GetComponent<UnityEngine.UI.Toggle>();
-        }
 
         protected void Start()
         {
@@ -66,13 +64,11 @@ namespace AltTester.UI
             SetUpIcon();
             SetUpHostInputField();
             SetUpPortInputField();
-            SetUpGameNameInputField();
+            SetUpAppNameInputField();
             SetUpRestartButton();
+            SetUpCutomImputToggle();
 
             StartClient();
-            CustomInputToggle.onValueChanged.AddListener(ToggleInput);
-            CustomInputToggle.isOn = false;
-
         }
 
         protected void Update()
@@ -133,9 +129,9 @@ namespace AltTester.UI
             PortInputField.characterValidation = UnityEngine.UI.InputField.CharacterValidation.Integer;
         }
 
-        private void SetUpGameNameInputField()
+        private void SetUpAppNameInputField()
         {
-            GameNameInputField.text = InstrumentationSettings.AppName;
+            AppNameInputField.text = InstrumentationSettings.AppName;
         }
 
         private void OnRestartButtonPress()
@@ -164,9 +160,9 @@ namespace AltTester.UI
                 return;
             }
 
-            if (!string.IsNullOrEmpty(GameNameInputField.text))
+            if (!string.IsNullOrEmpty(AppNameInputField.text))
             {
-                InstrumentationSettings.AppName = GameNameInputField.text;
+                InstrumentationSettings.AppName = AppNameInputField.text;
             }
             else
             {
@@ -191,10 +187,16 @@ namespace AltTester.UI
             RestartButton.onClick.AddListener(OnRestartButtonPress);
         }
 
+        public void SetUpCutomImputToggle()
+        {
+            CustomInputToggle.onValueChanged.AddListener(ToggleInput);
+            CustomInputToggle.isOn = false;
+        }
 
         public void ToggleInput(bool value)
         {
             Icon.color = value ? UnityEngine.Color.white : UnityEngine.Color.grey;
+
 #if ALTTESTER
 #if ENABLE_LEGACY_INPUT_MANAGER
             Input.UseCustomInput = value;
@@ -202,9 +204,13 @@ namespace AltTester.UI
 #endif
 #if ENABLE_INPUT_SYSTEM
             if (value)
+            {
                 NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
+            }
             else
+            {
                 NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
+            }
 #endif
 #endif
         }
