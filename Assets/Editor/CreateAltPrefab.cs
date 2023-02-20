@@ -10,8 +10,310 @@ using UnityEngine.UI;
 
 namespace AltTesterTools
 {
+    public class AltTesterPrefabChecker
+    {
+        public static bool FloatApproximation(float a, float b, float threshold)
+        {
+            return ((a - b) < 0 ? ((a - b) * -1) : (a - b)) <= threshold;
+        }
+
+        public static void CheckObjectEquality(GameObject originalObject, GameObject newObject)
+        {
+            if (originalObject.name != newObject.name)
+            {
+                throw new System.Exception("Object name for: " + originalObject.name + " is different. Original: " + originalObject.name + " and new: " + newObject.name);
+            }
+
+            //Check if all components are assigned to object
+            var originalObjectComponents = originalObject.GetComponents<Component>();
+            var newObjectComponents = newObject.GetComponents<Component>();
+
+            if (originalObjectComponents.Length != newObjectComponents.Length)
+            {
+                throw new System.Exception("Object components length for: " + originalObject.name + " is different. Original: " + originalObjectComponents.Length + " and new: " + newObjectComponents.Length);
+            }
+
+            foreach (var originalComponent in originalObjectComponents)
+            {
+                if (!Array.Exists(newObjectComponents, component => component.GetType() == originalComponent.GetType()))
+                {
+                    throw new System.Exception("Object component : " + originalComponent + " for " + originalObject.name + " is not in the new prefab");
+                }
+            }
+            foreach (var newComponent in newObjectComponents)
+            {
+                if (!Array.Exists(originalObjectComponents, component => component.GetType() == newComponent.GetType()))
+                {
+                    throw new System.Exception("Object component : " + newComponent + " for " + originalObject.name + " is not in the old prefab");
+                }
+            }
+
+            foreach (var newComponent in newObjectComponents)
+            {
+                if (newComponent.GetType() == typeof(RectTransform))
+                {
+                    checkTranformEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as RectTransform, newComponent as RectTransform);
+                    continue;
+                }
+                if (newComponent.GetType() == typeof(Image))
+                {
+                    checkImageEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as Image, newComponent as Image);
+                    continue;
+                }
+                if (newComponent.GetType() == typeof(Text))
+                {
+                    checkTextEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as Text, newComponent as Text);
+                    continue;
+                }
+                if (newComponent.GetType() == typeof(AltDialog))
+                {
+                    checkAltDialogEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as AltDialog, newComponent as AltDialog);
+                    continue;
+                }
+                if (newComponent.GetType() == typeof(AltRunner))
+                {
+                    checkaltRunnerEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as AltRunner, newComponent as AltRunner);
+                    continue;
+                }
+            }
+
+            //Check the children if exists
+
+            if (originalObject.transform.childCount != newObject.transform.childCount)
+            {
+                throw new System.Exception("Object: " + originalObject.name + " has different number of children. Original: " + originalObject.transform.childCount + " and new: " + newObject.transform.childCount);
+            }
+            for (int i = 0; i < originalObject.transform.childCount; i++)
+            {
+                CheckObjectEquality(originalObject.transform.GetChild(i).gameObject, newObject.transform.GetChild(i).gameObject);
+            }
+        }
+
+        private static void checkTranformEquality(RectTransform originalTransform, RectTransform newTransform)
+        {
+            if (!vector3Equality(originalTransform.position, newTransform.position))
+            {
+                throw new System.Exception("RectTransform position for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.position + " and new: " + newTransform.position);
+            }
+            if (!vector3Equality(originalTransform.localPosition, newTransform.localPosition))
+            {
+                throw new System.Exception("RectTransform localPosition for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.localPosition + " and new: " + newTransform.localPosition);
+            }
+            if (!vector2Equality(originalTransform.anchorMin, newTransform.anchorMin))
+            {
+                throw new System.Exception("RectTransform anchorMin for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.anchorMin + " and new: " + newTransform.anchorMin);
+            }
+            if (!vector2Equality(originalTransform.anchorMax, newTransform.anchorMax))
+            {
+                throw new System.Exception("RectTransform anchorMax for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.anchorMax + " and new: " + newTransform.anchorMax);
+            }
+            if (!vector2Equality(originalTransform.anchoredPosition, newTransform.anchoredPosition))
+            {
+                throw new System.Exception("RectTransform anchoredPosition for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.anchoredPosition + " and new: " + newTransform.anchoredPosition);
+            }
+            if (!vector2Equality(originalTransform.pivot, newTransform.pivot))
+            {
+                throw new System.Exception("RectTransform pivot for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.pivot + " and new: " + newTransform.pivot);
+            }
+            if (!quaternionEquality(originalTransform.rotation, newTransform.rotation))
+            {
+                throw new System.Exception("RectTransform rotation for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.rotation + " and new: " + newTransform.rotation);
+            }
+            if (!quaternionEquality(originalTransform.localRotation, newTransform.localRotation))
+            {
+                throw new System.Exception("RectTransform localRotation for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.localRotation + " and new: " + newTransform.localRotation);
+            }
+        }
+
+        private static void checkImageEquality(Image originalImage, Image newImage)
+        {
+            if (originalImage.sprite != newImage.sprite)
+            {
+                throw new System.Exception("Image sprite for: " + originalImage.gameObject + " is different. Original: " + originalImage.sprite.name + " and new: " + originalImage.sprite.name);
+            }
+            if (originalImage.color != newImage.color)
+            {
+                throw new System.Exception("Image color for: " + originalImage.gameObject + " is different. Original: " + originalImage.color + " and new: " + originalImage.color);
+            }
+            if (originalImage.fillMethod != newImage.fillMethod)
+            {
+                throw new System.Exception("Image fillMethod for: " + originalImage.gameObject + " is different. Original: " + originalImage.fillMethod + " and new: " + originalImage.fillMethod);
+            }
+        }
+
+        private static void checkCanvasEquality(Canvas originalCanvas, Canvas newCanvas)
+        {
+            if (originalCanvas.sortingOrder != newCanvas.sortingOrder)
+            {
+                throw new System.Exception("SortingOrder for: " + originalCanvas.gameObject + " is different. Original: " + originalCanvas.sortingOrder + " and new: " + newCanvas.sortingOrder);
+            }
+            if (originalCanvas.renderMode != newCanvas.renderMode)
+            {
+                throw new System.Exception("RenderMode for: " + originalCanvas.gameObject + " is different. Original: " + originalCanvas.renderMode + " and new: " + newCanvas.renderMode);
+            }
+        }
+
+        private static void checkTextEquality(Text originalText, Text newText)
+        {
+            if (originalText.text != newText.text)
+            {
+                throw new System.Exception("Text for: " + originalText.gameObject + " is different. Original: " + originalText.text + " and new: " + newText.text);
+            }
+            if (originalText.alignment != newText.alignment)
+            {
+                throw new System.Exception("Alignment for: " + originalText.gameObject + " is different. Original: " + originalText.alignment + " and new: " + newText.alignment);
+            }
+            if (originalText.fontSize != newText.fontSize)
+            {
+                throw new System.Exception("FontSize for: " + originalText.gameObject + " is different. Original: " + originalText.fontSize + " and new: " + newText.fontSize);
+            }
+            if (originalText.font != newText.font)
+            {
+                throw new System.Exception("Font for: " + originalText.gameObject + " is different. Original: " + originalText.font + " and new: " + newText.font);
+            }
+        }
+
+        private static void checkAltDialogEquality(AltDialog originalDialog, AltDialog newDialog)
+        {
+            if (originalDialog.Dialog.name != newDialog.Dialog.name)
+            {
+                throw new System.Exception("Dialog object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.Dialog.name + " and new: " + newDialog.Dialog.name);
+            }
+            if (originalDialog.TitleText.name != newDialog.TitleText.name)
+            {
+                throw new System.Exception("TitleText object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.TitleText.name + " and new: " + newDialog.TitleText.name);
+            }
+            if (originalDialog.MessageText.name != newDialog.MessageText.name)
+            {
+                throw new System.Exception("MessageText object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.MessageText.name + " and new: " + newDialog.MessageText.name);
+            }
+            if (originalDialog.Icon.name != newDialog.Icon.name)
+            {
+                throw new System.Exception("Icon object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.Icon.name + " and new: " + newDialog.Icon.name);
+            }
+        }
+
+        private static void checkaltRunnerEquality(AltRunner originalRunner, AltRunner newRunner)
+        {
+            if (originalRunner.outlineShader != newRunner.outlineShader)
+            {
+                throw new System.Exception("OutlineShader object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.outlineShader + " and new: " + newRunner.outlineShader);
+            }
+            if (originalRunner.panelHightlightPrefab.name != newRunner.panelHightlightPrefab.name)
+            {
+                throw new System.Exception("PanelHightlightPrefab object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.panelHightlightPrefab.name + " and new: " + newRunner.panelHightlightPrefab.name);
+            }
+            if (originalRunner.RunOnlyInDebugMode != newRunner.RunOnlyInDebugMode)
+            {
+                throw new System.Exception("RunOnlyInDebugMode object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.RunOnlyInDebugMode + " and new: " + newRunner.RunOnlyInDebugMode);
+            }
+        }
+
+        private static bool vector3Equality(Vector3 originalVector3, Vector3 newVector3)
+        {
+            return FloatApproximation(originalVector3.x, newVector3.x, 0.01f) && FloatApproximation(originalVector3.y, newVector3.y, 0.01f) && FloatApproximation(originalVector3.z, newVector3.z, 0.01f);
+        }
+
+        private static bool vector2Equality(Vector2 originalVector2, Vector2 newVector2)
+        {
+            return FloatApproximation(originalVector2.x, newVector2.x, 0.01f) && FloatApproximation(originalVector2.y, newVector2.y, 0.01f);
+        }
+
+        private static bool quaternionEquality(Quaternion originalQuaternion, Quaternion newQuaternion)
+        {
+            return FloatApproximation(originalQuaternion.x, newQuaternion.x, 0.01f) && FloatApproximation(originalQuaternion.y, newQuaternion.y, 0.01f) && FloatApproximation(originalQuaternion.z, newQuaternion.z, 0.01f) && FloatApproximation(originalQuaternion.w, newQuaternion.w, 0.01f);
+        }
+    }
+
     public class CreateAltPrefab : MonoBehaviour
     {
+        public static AltInputsVisualizer CreateInputVisualizer(Transform parent) {
+            var CanvasInputVisualiserGameObject = new GameObject("CanvasInputVisualiser", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster) });
+            var CanvasInputVisualiserRectTransform = CanvasInputVisualiserGameObject.GetComponent<RectTransform>();
+            CanvasInputVisualiserRectTransform.SetParent(parent, false);
+
+            CanvasInputVisualiserRectTransform.localPosition = new Vector3(0, 0, 0);
+            CanvasInputVisualiserRectTransform.anchorMin = Vector2.zero;
+            CanvasInputVisualiserRectTransform.anchorMax = Vector2.zero;
+            CanvasInputVisualiserRectTransform.anchoredPosition = new Vector2(960, 540);
+            CanvasInputVisualiserRectTransform.sizeDelta = new Vector2(1920, 1080);
+            CanvasInputVisualiserRectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var CanvasInputVisualiser = CanvasInputVisualiserGameObject.GetComponent<Canvas>();
+            CanvasInputVisualiser.renderMode = RenderMode.ScreenSpaceOverlay;
+            CanvasInputVisualiser.sortingOrder = 32767;
+
+            // Create InputVisualiser
+            var InputVisualiser = new GameObject("InputVisualiser", new System.Type[] { typeof(RectTransform), typeof(AltInputsVisualizer) });
+
+            var InputVisualiserRectTransform = InputVisualiser.GetComponent<RectTransform>();
+            InputVisualiserRectTransform.SetParent(CanvasInputVisualiserRectTransform, false);
+
+            InputVisualiserRectTransform.localPosition = new Vector3(0, 0, 0);
+            InputVisualiserRectTransform.anchorMin = Vector2.zero;
+            InputVisualiserRectTransform.anchorMax = Vector2.zero;
+            InputVisualiserRectTransform.sizeDelta = Vector2.zero;
+            InputVisualiserRectTransform.pivot = Vector2.zero;
+
+            var InputsVisualizer = InputVisualiser.GetComponent<AltInputsVisualizer>();
+
+            InputsVisualizer.VisibleTime = 1;
+            InputsVisualizer.approachSpeed = 0.02f;
+            InputsVisualizer.growthBound = 2;
+
+            var InputMark = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Prefab/InputMark.prefab", typeof(GameObject));
+            InputsVisualizer.Template = ((GameObject)InputMark).GetComponent<AltInputMark>();
+
+            return InputsVisualizer;
+        }
+
+        public static GameObject CreateAltDialog(Transform parent)
+        {
+            var AltDialogGameObject = new GameObject("AltDialog", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster), typeof(AltDialog) });
+            var AltDialogTransform = AltDialogGameObject.GetComponent<RectTransform>();
+            AltDialogTransform.SetParent(parent, false);
+
+            AltDialogTransform.localPosition = new Vector3(0, 0, 0);
+            AltDialogTransform.anchorMin = Vector2.zero;
+            AltDialogTransform.anchorMax = Vector2.zero;
+            AltDialogTransform.anchoredPosition = new Vector2(960, 540);
+            AltDialogTransform.sizeDelta = new Vector2(3135, 661);
+            AltDialogTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var AltDialogCanvas = AltDialogGameObject.GetComponent<Canvas>();
+            AltDialogCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            AltDialogCanvas.sortingOrder = 32767;
+
+            var AltDialogCanvasScaler = AltDialogGameObject.GetComponent<CanvasScaler>();
+            AltDialogCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            AltDialogCanvasScaler.referenceResolution = new Vector2(1920, 1080);
+            AltDialogCanvasScaler.matchWidthOrHeight = 0.5f;
+
+            return AltDialogGameObject;
+        }
+
+        public static GameObject CreateDialog(RectTransform parent)
+        {
+            var DialogGameObject = new GameObject("Dialog", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
+            var DialogTransform = DialogGameObject.GetComponent<RectTransform>();
+            DialogTransform.SetParent(parent, false);
+
+            DialogTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            DialogTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            DialogTransform.pivot = new Vector2(0.5f, 0.5f);
+            DialogTransform.sizeDelta = new Vector2(440, 600);
+            DialogTransform.localPosition = new Vector3(0, 0, 0);
+
+            var DialogImage = DialogGameObject.GetComponent<Image>();
+            DialogImage.color = new Color(0, 0.6470588f, 0.1411765f, 1);
+            DialogImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+            DialogImage.type = Image.Type.Sliced;
+            DialogImage.fillCenter = true;
+            DialogImage.pixelsPerUnitMultiplier = 1;
+
+            return DialogGameObject;
+        }
+
         public static Text CreateTitle(RectTransform parent)
         {
             var TitleGameObject = new GameObject("Title", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -350,9 +652,47 @@ namespace AltTesterTools
             return Toggle.GetComponent<Toggle>();
         }
 
+        public static void SetUpAltRunnerVariables(AltRunner altRunnerComponent, AltInputsVisualizer altInputsVisualizer)
+        {
+            var outlineShader = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Shader/OutlineShader.shader", typeof(Shader));
+            altRunnerComponent.outlineShader = outlineShader as Shader;
+
+            var panelHightlightPrefab = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Prefab/Panel.prefab", typeof(GameObject));
+            altRunnerComponent.panelHightlightPrefab = panelHightlightPrefab as GameObject;
+
+            altRunnerComponent.RunOnlyInDebugMode = true;
+            altRunnerComponent.InputsVisualizer = altInputsVisualizer;
+        }
+
+        public static void SavePrefab(GameObject prefab)
+        {
+            string Path = "Assets/AltTester/Prefab/AltTesterPrefab.prefab";
+            string TestPath = "Assets/Editor/AltTesterPrefab.prefab";
+
+            PrefabUtility.SaveAsPrefabAsset(prefab, TestPath);
+
+            var OldPrefab = PrefabUtility.LoadPrefabContents(Path);
+            var NewPrefab = PrefabUtility.LoadPrefabContents(TestPath);
+
+            AltTesterPrefabChecker.CheckObjectEquality(OldPrefab, NewPrefab);
+
+            AssetDatabase.DeleteAsset(Path);
+
+            var message = AssetDatabase.MoveAsset(TestPath, Path);
+
+            if (!String.IsNullOrEmpty(message))
+            {
+                Debug.LogError(message);
+            }
+            else
+            {
+                Debug.Log("Successfully updated AltTesterPrefab.");
+            }
+        }
+
         // Start is called before the first frame update
         [UnityEditor.MenuItem("AltTester/Create AltTester Prefab", false, 80)]
-        public static void CreateAUTPrefab()
+        public static void CreateAltTesterPrefab()
         {
             ///
             /// IMPORTANT! ALTTESTER MUST BE DEFINE TO CREATE CORRECTLY THE PREFAB
@@ -361,107 +701,23 @@ namespace AltTesterTools
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
             if (!scriptingDefineSymbolsForGroup.Contains("ALTTESTER"))
             {
-                Debug.LogError("ALTTESTER must be added as define before updating the prefab");
+                Debug.LogError("ALTTESTER must be added as define before updating the prefab.");
             }
 
             var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(Input), typeof(NewInputSystem) });
-
-            // Set RectTransform for rootObject
             var RectTransform = Prefab.GetComponent<Transform>();
-            var Altrunner = Prefab.GetComponent<AltRunner>();
+            var AltRunnerComponent = Prefab.GetComponent<AltRunner>();
+            var InputVisualizer = CreateInputVisualizer(RectTransform);
+            SetUpAltRunnerVariables(AltRunnerComponent, InputVisualizer);
 
-            // Create CanvasInputVisualiser
-            var CanvasInputVisualiserGameObject = new GameObject("CanvasInputVisualiser", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster) });
-            var CanvasInputVisualiserRectTransform = CanvasInputVisualiserGameObject.GetComponent<RectTransform>();
-
-            CanvasInputVisualiserRectTransform.SetParent(RectTransform, false);
-            CanvasInputVisualiserRectTransform.localPosition = new Vector3(0, 0, 0);
-            CanvasInputVisualiserRectTransform.anchorMin = Vector2.zero;
-            CanvasInputVisualiserRectTransform.anchorMax = Vector2.zero;
-            CanvasInputVisualiserRectTransform.anchoredPosition = new Vector2(960, 540);
-            CanvasInputVisualiserRectTransform.sizeDelta = new Vector2(1920, 1080);
-            CanvasInputVisualiserRectTransform.pivot = new Vector2(0.5f, 0.5f);
-
-            var CanvasInputVisualiser = CanvasInputVisualiserGameObject.GetComponent<Canvas>();
-            CanvasInputVisualiser.renderMode = RenderMode.ScreenSpaceOverlay;
-            CanvasInputVisualiser.sortingOrder = 32767;
-
-
-            // Create InputVisualiser
-            var InputVisualiser = new GameObject("InputVisualiser", new System.Type[] { typeof(RectTransform), typeof(AltInputsVisualizer) });
-
-            var InputVisualiserRectTransform = InputVisualiser.GetComponent<RectTransform>();
-            InputVisualiserRectTransform.SetParent(CanvasInputVisualiserRectTransform, false);
-
-            InputVisualiserRectTransform.localPosition = new Vector3(0, 0, 0);
-            InputVisualiserRectTransform.anchorMin = Vector2.zero;
-            InputVisualiserRectTransform.anchorMax = Vector2.zero;
-            InputVisualiserRectTransform.sizeDelta = Vector2.zero;
-            InputVisualiserRectTransform.pivot = Vector2.zero;
-
-
-            var AltInputsVisualiser = InputVisualiser.GetComponent<AltInputsVisualizer>();
-
-            AltInputsVisualiser.VisibleTime = 1;
-            AltInputsVisualiser.approachSpeed = 0.02f;
-            AltInputsVisualiser.growthBound = 2;
-
-            var InputMark = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Prefab/InputMark.prefab", typeof(GameObject));
-            AltInputsVisualiser.Template = ((GameObject)InputMark).GetComponent<AltInputMark>();
-
-
-
-            // Create AltDialog
-            var AltDialogGameObject = new GameObject("AltDialog", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster), typeof(AltDialog) });
+            var AltDialogGameObject = CreateAltDialog(RectTransform);
             var AltDialogTransform = AltDialogGameObject.GetComponent<RectTransform>();
-            AltDialogTransform.SetParent(RectTransform, false);
-
-            AltDialogTransform.localPosition = new Vector3(0, 0, 0);
-            AltDialogTransform.anchorMin = Vector2.zero;
-            AltDialogTransform.anchorMax = Vector2.zero;
-            AltDialogTransform.anchoredPosition = new Vector2(960, 540);
-            AltDialogTransform.sizeDelta = new Vector2(3135, 661);
-            AltDialogTransform.pivot = new Vector2(0.5f, 0.5f);
-
-            var AltDialogCanvas = AltDialogGameObject.GetComponent<Canvas>();
-            AltDialogCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            AltDialogCanvas.sortingOrder = 32767;
-
-            var AltDialogCanvasScaler = AltDialogGameObject.GetComponent<CanvasScaler>();
-            AltDialogCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            AltDialogCanvasScaler.referenceResolution = new Vector2(1920, 1080);
-            AltDialogCanvasScaler.matchWidthOrHeight = 0.5f;
-
             var AltDialog = AltDialogGameObject.GetComponent<AltDialog>();
 
-            // Create Dialog
-            var DialogGameObject = new GameObject("Dialog", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
-            var DialogTransform = DialogGameObject.GetComponent<RectTransform>();
-            DialogTransform.SetParent(AltDialogTransform, false);
+            var Dialog = CreateDialog(AltDialogTransform);
+            var DialogTransform = Dialog.GetComponent<RectTransform>();
 
-            DialogTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            DialogTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            DialogTransform.pivot = new Vector2(0.5f, 0.5f);
-            DialogTransform.sizeDelta = new Vector2(440, 600);
-            DialogTransform.localPosition = new Vector3(0, 0, 0);
-
-            var DialogImage = DialogGameObject.GetComponent<Image>();
-            DialogImage.color = new Color(0, 0.6470588f, 0.1411765f, 1);
-            DialogImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
-            DialogImage.type = Image.Type.Sliced;
-            DialogImage.fillCenter = true;
-            DialogImage.pixelsPerUnitMultiplier = 1;
-
-            // Set AltRunner variables
-            var outlineShader = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Shader/OutlineShader.shader", typeof(Shader));
-            Altrunner.outlineShader = outlineShader as Shader;
-            var panelHightlightPrefab = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Prefab/Panel.prefab", typeof(GameObject));
-            Altrunner.panelHightlightPrefab = panelHightlightPrefab as GameObject;
-            Altrunner.RunOnlyInDebugMode = true;
-            Altrunner.InputsVisualizer = AltInputsVisualiser;
-
-            // Set AltDialog variables
-            AltDialog.Dialog = DialogGameObject;
+            AltDialog.Dialog = Dialog;
             AltDialog.Icon = CreateIcon(AltDialogTransform);
             AltDialog.TitleText = CreateTitle(DialogTransform);
             AltDialog.MessageText = CreateStatusMessage(DialogTransform);
@@ -473,237 +729,7 @@ namespace AltTesterTools
             AltDialog.RestartButton = CreateRestartButton(DialogTransform);
             AltDialog.CustomInputToggle = CreateCutomInputToggle(DialogTransform);
 
-            string path = "Assets/AltTester/Prefab/AltTesterPrefab.prefab";
-            var testPath = "Assets/Editor/AltRunnerPrefab.prefab";
-            PrefabUtility.SaveAsPrefabAsset(Prefab, testPath);
-
-            var oldPrefab = PrefabUtility.LoadPrefabContents(path);
-            var newPrefab = PrefabUtility.LoadPrefabContents(testPath);
-            checkObjectEquality(oldPrefab, newPrefab);
-            AssetDatabase.DeleteAsset(path);
-            var message = AssetDatabase.MoveAsset(testPath, path);
-            if (!String.IsNullOrEmpty(message))
-            {
-                Debug.LogError(message);
-            }
-            else
-            {
-                Debug.Log("Successfully updated AltTesterPrefab");
-            }
-        }
-
-        private static void checkObjectEquality(GameObject originalObject, GameObject newObject)
-        {
-            if (originalObject.name != newObject.name)
-            {
-                throw new System.Exception("Object name for: " + originalObject.name + " is different. Original: " + originalObject.name + " and new: " + newObject.name);
-            }
-
-            //Check if all components are assigned to object
-            var originalObjectComponents = originalObject.GetComponents<Component>();
-            var newObjectComponents = newObject.GetComponents<Component>();
-
-            if (originalObjectComponents.Length != newObjectComponents.Length)
-            {
-                throw new System.Exception("Object components length for: " + originalObject.name + " is different. Original: " + originalObjectComponents.Length + " and new: " + newObjectComponents.Length);
-            }
-
-            foreach (var originalComponent in originalObjectComponents)
-            {
-                if (!Array.Exists(newObjectComponents, component => component.GetType() == originalComponent.GetType()))
-                {
-                    throw new System.Exception("Object component : " + originalComponent + " for " + originalObject.name + " is not in the new prefab");
-                }
-            }
-            foreach (var newComponent in newObjectComponents)
-            {
-                if (!Array.Exists(originalObjectComponents, component => component.GetType() == newComponent.GetType()))
-                {
-                    throw new System.Exception("Object component : " + newComponent + " for " + originalObject.name + " is not in the old prefab");
-                }
-            }
-
-            foreach (var newComponent in newObjectComponents)
-            {
-                if (newComponent.GetType() == typeof(RectTransform))
-                {
-                    checkTranformEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as RectTransform, newComponent as RectTransform);
-                    continue;
-                }
-                if (newComponent.GetType() == typeof(Image))
-                {
-                    checkImageEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as Image, newComponent as Image);
-                    continue;
-                }
-                if (newComponent.GetType() == typeof(Text))
-                {
-                    checkTextEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as Text, newComponent as Text);
-                    continue;
-                }
-                if (newComponent.GetType() == typeof(AltDialog))
-                {
-                    checkAltDialogEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as AltDialog, newComponent as AltDialog);
-                    continue;
-                }
-                if (newComponent.GetType() == typeof(AltRunner))
-                {
-                    checkaltRunnerEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as AltRunner, newComponent as AltRunner);
-                    continue;
-                }
-            }
-
-            //Check the children if exists
-
-            if (originalObject.transform.childCount != newObject.transform.childCount)
-            {
-                throw new System.Exception("Object: " + originalObject.name + " has different number of children. Original: " + originalObject.transform.childCount + " and new: " + newObject.transform.childCount);
-            }
-            for (int i = 0; i < originalObject.transform.childCount; i++)
-            {
-                checkObjectEquality(originalObject.transform.GetChild(i).gameObject, newObject.transform.GetChild(i).gameObject);
-            }
-        }
-
-        private static void checkTranformEquality(RectTransform originalTransform, RectTransform newTransform)
-        {
-            if (!vector3Equality(originalTransform.position, newTransform.position))
-            {
-                throw new System.Exception("RectTransform position for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.position + " and new: " + newTransform.position);
-            }
-            if (!vector3Equality(originalTransform.localPosition, newTransform.localPosition))
-            {
-                throw new System.Exception("RectTransform localPosition for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.localPosition + " and new: " + newTransform.localPosition);
-            }
-            if (!vector2Equality(originalTransform.anchorMin, newTransform.anchorMin))
-            {
-                throw new System.Exception("RectTransform anchorMin for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.anchorMin + " and new: " + newTransform.anchorMin);
-            }
-            if (!vector2Equality(originalTransform.anchorMax, newTransform.anchorMax))
-            {
-                throw new System.Exception("RectTransform anchorMax for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.anchorMax + " and new: " + newTransform.anchorMax);
-            }
-            if (!vector2Equality(originalTransform.anchoredPosition, newTransform.anchoredPosition))
-            {
-                throw new System.Exception("RectTransform anchoredPosition for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.anchoredPosition + " and new: " + newTransform.anchoredPosition);
-            }
-            if (!vector2Equality(originalTransform.pivot, newTransform.pivot))
-            {
-                throw new System.Exception("RectTransform pivot for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.pivot + " and new: " + newTransform.pivot);
-            }
-            if (!quaternionEquality(originalTransform.rotation, newTransform.rotation))
-            {
-                throw new System.Exception("RectTransform rotation for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.rotation + " and new: " + newTransform.rotation);
-            }
-            if (!quaternionEquality(originalTransform.localRotation, newTransform.localRotation))
-            {
-                throw new System.Exception("RectTransform localRotation for: " + originalTransform.gameObject + " is different. Original: " + originalTransform.localRotation + " and new: " + newTransform.localRotation);
-            }
-        }
-
-        private static void checkImageEquality(Image originalImage, Image newImage)
-        {
-            if (originalImage.sprite != newImage.sprite)
-            {
-                throw new System.Exception("Image sprite for: " + originalImage.gameObject + " is different. Original: " + originalImage.sprite.name + " and new: " + originalImage.sprite.name);
-            }
-            if (originalImage.color != newImage.color)
-            {
-                throw new System.Exception("Image color for: " + originalImage.gameObject + " is different. Original: " + originalImage.color + " and new: " + originalImage.color);
-            }
-            if (originalImage.fillMethod != newImage.fillMethod)
-            {
-                throw new System.Exception("Image fillMethod for: " + originalImage.gameObject + " is different. Original: " + originalImage.fillMethod + " and new: " + originalImage.fillMethod);
-            }
-        }
-
-        private static void checkCanvasEquality(Canvas originalCanvas, Canvas newCanvas)
-        {
-            if (originalCanvas.sortingOrder != newCanvas.sortingOrder)
-            {
-                throw new System.Exception("SortingOrder for: " + originalCanvas.gameObject + " is different. Original: " + originalCanvas.sortingOrder + " and new: " + newCanvas.sortingOrder);
-            }
-            if (originalCanvas.renderMode != newCanvas.renderMode)
-            {
-                throw new System.Exception("RenderMode for: " + originalCanvas.gameObject + " is different. Original: " + originalCanvas.renderMode + " and new: " + newCanvas.renderMode);
-            }
-
-        }
-
-        private static void checkTextEquality(Text originalText, Text newText)
-        {
-            if (originalText.text != newText.text)
-            {
-                throw new System.Exception("Text for: " + originalText.gameObject + " is different. Original: " + originalText.text + " and new: " + newText.text);
-            }
-            if (originalText.alignment != newText.alignment)
-            {
-                throw new System.Exception("Alignment for: " + originalText.gameObject + " is different. Original: " + originalText.alignment + " and new: " + newText.alignment);
-            }
-            if (originalText.fontSize != newText.fontSize)
-            {
-                throw new System.Exception("FontSize for: " + originalText.gameObject + " is different. Original: " + originalText.fontSize + " and new: " + newText.fontSize);
-            }
-            if (originalText.font != newText.font)
-            {
-                throw new System.Exception("Font for: " + originalText.gameObject + " is different. Original: " + originalText.font + " and new: " + newText.font);
-            }
-
-        }
-
-        private static void checkAltDialogEquality(AltDialog originalDialog, AltDialog newDialog)
-        {
-            if (originalDialog.Dialog.name != newDialog.Dialog.name)
-            {
-                throw new System.Exception("Dialog object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.Dialog.name + " and new: " + newDialog.Dialog.name);
-            }
-            if (originalDialog.TitleText.name != newDialog.TitleText.name)
-            {
-                throw new System.Exception("TitleText object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.TitleText.name + " and new: " + newDialog.TitleText.name);
-            }
-            if (originalDialog.MessageText.name != newDialog.MessageText.name)
-            {
-                throw new System.Exception("MessageText object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.MessageText.name + " and new: " + newDialog.MessageText.name);
-            }
-            if (originalDialog.Icon.name != newDialog.Icon.name)
-            {
-                throw new System.Exception("Icon object for: " + originalDialog.gameObject + " is different. Original: " + originalDialog.Icon.name + " and new: " + newDialog.Icon.name);
-            }
-        }
-
-        private static void checkaltRunnerEquality(AltRunner originalRunner, AltRunner newRunner)
-        {
-            if (originalRunner.outlineShader != newRunner.outlineShader)
-            {
-                throw new System.Exception("OutlineShader object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.outlineShader + " and new: " + newRunner.outlineShader);
-            }
-            if (originalRunner.panelHightlightPrefab.name != newRunner.panelHightlightPrefab.name)
-            {
-                throw new System.Exception("PanelHightlightPrefab object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.panelHightlightPrefab.name + " and new: " + newRunner.panelHightlightPrefab.name);
-            }
-            if (originalRunner.RunOnlyInDebugMode != newRunner.RunOnlyInDebugMode)
-            {
-                throw new System.Exception("RunOnlyInDebugMode object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.RunOnlyInDebugMode + " and new: " + newRunner.RunOnlyInDebugMode);
-            }
-        }
-
-        private static bool vector3Equality(Vector3 originalVector3, Vector3 newVector3)
-        {
-            return FloatApproximation(originalVector3.x, newVector3.x, 0.01f) && FloatApproximation(originalVector3.y, newVector3.y, 0.01f) && FloatApproximation(originalVector3.z, newVector3.z, 0.01f);
-        }
-
-        private static bool vector2Equality(Vector2 originalVector2, Vector2 newVector2)
-        {
-            return FloatApproximation(originalVector2.x, newVector2.x, 0.01f) && FloatApproximation(originalVector2.y, newVector2.y, 0.01f);
-        }
-
-        private static bool quaternionEquality(Quaternion originalQuaternion, Quaternion newQuaternion)
-        {
-            return FloatApproximation(originalQuaternion.x, newQuaternion.x, 0.01f) && FloatApproximation(originalQuaternion.y, newQuaternion.y, 0.01f) && FloatApproximation(originalQuaternion.z, newQuaternion.z, 0.01f) && FloatApproximation(originalQuaternion.w, newQuaternion.w, 0.01f);
-        }
-
-        public static bool FloatApproximation(float a, float b, float threshold)
-        {
-            return ((a - b) < 0 ? ((a - b) * -1) : (a - b)) <= threshold;
+            SavePrefab(Prefab);
         }
     }
 }
