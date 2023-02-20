@@ -37,6 +37,7 @@ namespace AltTester.AltDriver.Tests
         }
 
         [Test]
+		[Category("WebGLUnsupported")]
         public void TestGetApplicationScreenSize()
         {
             altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });

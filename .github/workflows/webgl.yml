@@ -76,8 +76,8 @@ jobs:
             python3 -m http.server --cgi 8360 &
             open http://localhost:8360/index.html
             cd ../..
-            ls
-            dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
+            dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
+            osascript -e 'quit app "Chrome'
 
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed
