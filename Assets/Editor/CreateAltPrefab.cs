@@ -24,7 +24,7 @@ namespace AltTesterTools
                 throw new System.Exception("Object name for: " + originalObject.name + " is different. Original: " + originalObject.name + " and new: " + newObject.name);
             }
 
-            //Check if all components are assigned to object
+            // Check if all components are assigned to object
             var originalObjectComponents = originalObject.GetComponents<Component>();
             var newObjectComponents = newObject.GetComponents<Component>();
 
@@ -77,8 +77,7 @@ namespace AltTesterTools
                 }
             }
 
-            //Check the children if exists
-
+            // Check the children if exists
             if (originalObject.transform.childCount != newObject.transform.childCount)
             {
                 throw new System.Exception("Object: " + originalObject.name + " has different number of children. Original: " + originalObject.transform.childCount + " and new: " + newObject.transform.childCount);
@@ -624,6 +623,9 @@ namespace AltTesterTools
             BackgroundTransform.anchorMax = new Vector2(0, 1);
             BackgroundTransform.pivot = new Vector2(0.5f, 0.5f);
 
+            var BackgroundImage = Background.GetComponent<Image>();
+            BackgroundImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+
             var CheckMark = new GameObject("Checkmark", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
             var CheckMarkTransform = CheckMark.GetComponent<RectTransform>();
             CheckMarkTransform.SetParent(BackgroundTransform, false);
@@ -633,6 +635,9 @@ namespace AltTesterTools
             CheckMarkTransform.anchorMin = new Vector2(0.5f, 0.5f);
             CheckMarkTransform.anchorMax = new Vector2(0.5f, 0.5f);
             CheckMarkTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var CheckMarkImage = CheckMark.GetComponent<Image>();
+            CheckMarkImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Checkmark.psd");
 
             var Label = new GameObject("Label", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
             var LabelTransform = Label.GetComponent<RectTransform>();
@@ -649,7 +654,11 @@ namespace AltTesterTools
             LabelText.fontSize = 18;
             LabelText.alignment = TextAnchor.MiddleLeft;
 
-            return Toggle.GetComponent<Toggle>();
+            var ToggleComponet = Toggle.GetComponent<Toggle>();
+            ToggleComponet.targetGraphic = BackgroundImage;
+            ToggleComponet.graphic = CheckMarkImage;
+
+            return ToggleComponet;
         }
 
         public static void SetUpAltRunnerVariables(AltRunner altRunnerComponent, AltInputsVisualizer altInputsVisualizer)
@@ -689,6 +698,7 @@ namespace AltTesterTools
                 Debug.Log("Successfully updated AltTesterPrefab.");
             }
         }
+
 
         // Start is called before the first frame update
         [UnityEditor.MenuItem("AltTester/Create AltTester Prefab", false, 80)]
