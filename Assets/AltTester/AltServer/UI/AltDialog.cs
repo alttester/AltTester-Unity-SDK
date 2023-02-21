@@ -189,12 +189,13 @@ namespace AltTester.UI
 
         public void SetUpCutomImputToggle()
         {
-            CustomInputToggle.onValueChanged.AddListener(ToggleInput);
-            CustomInputToggle.isOn = false;
+            CustomInputToggle.onValueChanged.AddListener(ToggleCutomInput);
+            ToggleCutomInput(false);
         }
 
-        public void ToggleInput(bool value)
+        public void ToggleCutomInput(bool value)
         {
+            CustomInputToggle.isOn = value;
             Icon.color = value ? UnityEngine.Color.white : UnityEngine.Color.grey;
 
 #if ALTTESTER
@@ -203,30 +204,19 @@ namespace AltTester.UI
             UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
 #endif
 #if ENABLE_INPUT_SYSTEM
-            if (value)
-            {
-                NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
-            }
-            else
-            {
-                NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
-            }
+                if (value)
+                {
+                    NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
+                }
+                else
+                {
+                    NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
+                }
 #endif
 #endif
         }
 
-        private void setDialog(string message, UnityEngine.Color color, bool visible)
-        {
-            Dialog.SetActive(visible);
-            MessageText.text = message;
-            Dialog.GetComponent<UnityEngine.UI.Image>().color = color;
-        }
-
-
-
-        #region proxy mode comm protocol
-
-        private void initClient()
+        private void InitClient()
         {
             var cmdHandler = new CommandHandler();
             cmdHandler.OnDriverConnect += OnDriverConnect;
@@ -245,7 +235,7 @@ namespace AltTester.UI
 
         private void StartClient()
         {
-            initClient();
+            InitClient();
             try
             {
                 if (_communication == null || !_communication.IsListening) // Start only if it is not already listening
@@ -306,8 +296,11 @@ namespace AltTester.UI
 
         private void OnDisconnect()
         {
+            _connectedDrivers.Clear();
+
             _updateQueue.ScheduleResponse(() =>
             {
+                ToggleCutomInput(false);
                 StartClient();
             });
         }
@@ -322,7 +315,6 @@ namespace AltTester.UI
             }
         }
 
-        #endregion
         private void OnDriverConnect(string driverId)
         {
             logger.Debug("Driver Connected: " + driverId);
@@ -332,18 +324,10 @@ namespace AltTester.UI
 
             if (_connectedDrivers.Count == 1)
             {
-#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-                Input.UseCustomInput = true;
-                UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-#endif
-
                 _updateQueue.ScheduleResponse(() =>
                 {
+                    ToggleCutomInput(true);
                     SetMessage(message, SUCCESS_COLOR, false);
-
-#if ALTTESTER && ENABLE_INPUT_SYSTEM
-                    NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
-#endif
                 });
             }
         }
@@ -357,18 +341,11 @@ namespace AltTester.UI
 
             if (_connectedDrivers.Count == 0)
             {
-#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-                Input.UseCustomInput = false;
-                UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
-#endif
 
                 _updateQueue.ScheduleResponse(() =>
                 {
+                    ToggleCutomInput(false);
                     SetMessage(message, SUCCESS_COLOR, true);
-
-#if ALTTESTER && ENABLE_INPUT_SYSTEM
-                    NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
-#endif
                 });
             }
         }
