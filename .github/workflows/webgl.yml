@@ -40,6 +40,7 @@ jobs:
             export PROXY_HOST="127.0.0.1"
             cd build/webgl
             python3 -m http.server --cgi 8360 &
+            osascript -e 'quit app "Chrome"'
             open http://localhost:8360/index.html
             cd ../..
 
@@ -48,12 +49,11 @@ jobs:
             export PROXY_HOST="127.0.0.1"
             $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
 
-        - run: 
-            osascript -e 'quit app "Chrome"'
-
         #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed
+          run: 
+            osascript -e 'quit app "Chrome"'
           with:
             name: TestCSharpArtifact
             path: |
@@ -78,6 +78,7 @@ jobs:
             export PROXY_HOST="127.0.0.1"
             cd build/webgl
             python3 -m http.server --cgi 8360 &
+            osascript -e 'quit app "Chrome"'
             open http://localhost:8360/index.html
             cd ../..
             dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
@@ -85,6 +86,8 @@ jobs:
 
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed
+          run: 
+            osascript -e 'quit app "Chrome"'
           with:
             name: TestCSharpArtifact
             path: |
@@ -107,6 +110,7 @@ jobs:
             export PROXY_HOST="127.0.0.1"
             cd build/webgl
             python3 -m http.server --cgi 8360 &
+            osascript -e 'quit app "Chrome"'
             open http://localhost:8360/index.html
             cd ../..
 
@@ -141,6 +145,8 @@ jobs:
 
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed
+          run: 
+            osascript -e 'quit app "Chrome"'
           with:
             name: TestPythonArtifact
             path: "**/*.log"
@@ -167,6 +173,7 @@ jobs:
             export PROXY_HOST="127.0.0.1"
             cd build/webgl
             python3 -m http.server --cgi 8360 &
+            osascript -e 'quit app "Chrome"'
             open http://localhost:8360/index.html
             cd ../../Bindings~/java
             mvn -Dtest=com.alttester.Tests* test
@@ -174,6 +181,8 @@ jobs:
 
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed
+          run:
+            osascript -e 'quit app "Chrome"'
           with:
             name: TestJavaArtifact
             path: |
