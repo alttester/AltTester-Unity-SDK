@@ -51,7 +51,6 @@ namespace AltTester.UI
 
         private ICommunication _communication;
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
-        private bool _wasConnectedBefore = false;
 
         HashSet<string> _connectedDrivers = new HashSet<string>();
 
@@ -81,7 +80,7 @@ namespace AltTester.UI
             StopClient();
         }
 
-        private void SetMessage(string message, UnityEngine.Color color, bool visible)
+        private void SetMessage(string message, UnityEngine.Color color, bool visible = true)
         {
             Dialog.SetActive(visible);
             Dialog.GetComponent<UnityEngine.UI.Image>().color = color;
@@ -145,7 +144,7 @@ namespace AltTester.UI
             }
             else
             {
-                SetMessage("The host should be a valid host.", ERROR_COLOR, true);
+                SetMessage("The host should be a valid host.", color: ERROR_COLOR, visible: true);
                 return;
             }
 
@@ -156,7 +155,7 @@ namespace AltTester.UI
             }
             else
             {
-                SetMessage("The port number should be between 1 and 65535.", ERROR_COLOR, true);
+                SetMessage("The port number should be between 1 and 65535.", color: ERROR_COLOR, visible: true);
                 return;
             }
 
@@ -166,7 +165,7 @@ namespace AltTester.UI
             }
             else
             {
-                SetMessage("App name should not be empty.", ERROR_COLOR, true);
+                SetMessage("App name should not be empty.", color: ERROR_COLOR, visible: true);
                 return;
             }
 
@@ -176,7 +175,7 @@ namespace AltTester.UI
             }
             catch (Exception ex)
             {
-                SetMessage("An unexpected error occurred while restarting the AltTester client.", ERROR_COLOR, true);
+                SetMessage("An unexpected error occurred while restarting the AltTester client.", color: ERROR_COLOR, visible: true);
                 logger.Error("An unexpected error occurred while restarting the AltTester client.");
                 logger.Error(ex.GetType().ToString(), ex.Message);
             }
@@ -278,9 +277,7 @@ namespace AltTester.UI
         private void OnStart()
         {
             string message = String.Format("Waiting to connect to AltProxy on {0}:{1} with app name: '{2}'.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.AppName);
-            SetMessage(message, SUCCESS_COLOR, Dialog.activeSelf || _wasConnectedBefore);
-
-            _wasConnectedBefore = false;
+            SetMessage(message, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
         }
 
         private void OnConnect()
@@ -289,8 +286,7 @@ namespace AltTester.UI
 
             _updateQueue.ScheduleResponse(() =>
             {
-                SetMessage(message, SUCCESS_COLOR, true);
-                _wasConnectedBefore = true;
+                SetMessage(message, color: SUCCESS_COLOR, visible: true);
             });
         }
 
@@ -327,7 +323,7 @@ namespace AltTester.UI
                 _updateQueue.ScheduleResponse(() =>
                 {
                     ToggleCustomInput(true);
-                    SetMessage(message, SUCCESS_COLOR, false);
+                    SetMessage(message, color: SUCCESS_COLOR, visible: false);
                 });
             }
         }
@@ -345,7 +341,7 @@ namespace AltTester.UI
                 _updateQueue.ScheduleResponse(() =>
                 {
                     ToggleCustomInput(false);
-                    SetMessage(message, SUCCESS_COLOR, true);
+                    SetMessage(message, color: SUCCESS_COLOR, visible: true);
                 });
             }
         }
