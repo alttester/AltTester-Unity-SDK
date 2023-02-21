@@ -25,40 +25,40 @@ jobs:
               build
               buildWebGL.log
 
-    # test-CSharp-Editor:
-    #     runs-on: [self-hosted, macOS]
-    #     needs: build-WebGL-Unity2021
-    #     steps:
-    #       - uses: actions/checkout@v3
-    #       - uses: actions/download-artifact@v3.0.0
-    #         with:
-    #           name:
-    #             BuildWebGLArtifact
+  test-CSharp-Editor:
+      runs-on: [self-hosted, macOS]
+      needs: build-WebGL-Unity2021
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/download-artifact@v3.0.0
+          with:
+            name:
+              BuildWebGLArtifact
 
-    #       - run: |
-    #           export PROXY_PORT=13010
-    #           export PROXY_HOST="127.0.0.1"
-    #           cd build/webgl
-    #           python3 -m http.server --cgi 8360 &
-    #           open http://localhost:8360/index.html
-    #           cd ../..
+        - run: |
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
+            cd build/webgl
+            python3 -m http.server --cgi 8360 &
+            open http://localhost:8360/index.html
+            cd ../..
 
-    #       - run: |
-    #           export PROXY_PORT=13010
-    #           export PROXY_HOST="127.0.0.1"
-    #           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
+        - run: |
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
+            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
 
-    #       - run: 
-    #           osascript -e 'quit app "Chrome"'
+        - run: 
+            osascript -e 'quit app "Chrome"'
 
-    #       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
-    #       - uses: actions/upload-artifact@v3.1.0
-    #         if: always() # run this step even if one of the previous step failed
-    #         with:
-    #           name: TestCSharpArtifact
-    #           path: |
-    #             *.log
-    #             reportTest.xml
+        #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
+        - uses: actions/upload-artifact@v3.1.0
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: TestCSharpArtifact
+            path: |
+              *.log
+              reportTest.xml
 
 
     # test-DotNet:
