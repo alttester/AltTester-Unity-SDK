@@ -224,7 +224,7 @@ namespace AltTester.AltDriver.Tests
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
-            string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
+            string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
             if (string.IsNullOrEmpty(portStr)) portStr = "13010";
             int port = int.Parse(portStr);
 

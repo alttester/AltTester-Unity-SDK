@@ -9,12 +9,12 @@ namespace AltTester
     public class AltInstrumentationSettings
     {
         /// <summary>
-        /// The proxy host to which the Instrumented Unity App will connect to.
+        /// The host to which the Instrumented Unity App will connect to.
         /// </summary>
         public string AltServerHost = "127.0.0.1";
 
         /// <summary>
-        /// The proxy port to which the Instrumented Unity App will connect to.
+        /// The port to which the Instrumented Unity App will connect to.
         /// </summary>
         public int AltServerPort = 13000;
 

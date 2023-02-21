@@ -320,15 +320,17 @@ namespace AltTesterTools
         private static AltInstrumentationSettings getInstrumentationSettings()
         {
             var instrumentationSettings = new AltInstrumentationSettings();
-            var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
-            if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
+
+            var host = System.Environment.GetEnvironmentVariable("ALTSERVER_HOST");
+            if (!string.IsNullOrEmpty(host))
             {
-                instrumentationSettings.AltServerHost = proxyHost;
+                instrumentationSettings.AltServerHost = host;
             }
-            var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
-            if (!string.IsNullOrEmpty(proxyPort))//proxy mode
+
+            var port = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
+            if (!string.IsNullOrEmpty(port)
             {
-                instrumentationSettings.AltServerPort = int.Parse(proxyPort);
+                instrumentationSettings.AltServerPort = int.Parse(port);
             }
             else
             {

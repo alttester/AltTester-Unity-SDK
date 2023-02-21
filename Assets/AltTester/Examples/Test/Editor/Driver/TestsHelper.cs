@@ -5,7 +5,7 @@ namespace AltTester.AltDriver.Tests
     {
         public static int GetAltDriverPort()
         {
-            string port = System.Environment.GetEnvironmentVariable("PROXY_PORT");
+            string port = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
             if (!string.IsNullOrEmpty(port))
             {
                 return int.Parse(port);
@@ -16,7 +16,7 @@ namespace AltTester.AltDriver.Tests
 
         public static string GetAltDriverHost()
         {
-            string host = System.Environment.GetEnvironmentVariable("PROXY_HOST");
+            string host = System.Environment.GetEnvironmentVariable("ALTSERVER_HOST");
             if (!string.IsNullOrEmpty(host))
             {
                 return host;

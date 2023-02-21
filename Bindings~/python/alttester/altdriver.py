@@ -22,8 +22,8 @@ class AltDriver:
     instance will connect to the AltServer.
 
     Args:
-        host (:obj:`str`, optional): The proxy host to connect to.
-        port (:obj:`int`, optional): The proxy port to connect to.
+        host (:obj:`str`, optional): The host to connect to.
+        port (:obj:`int`, optional): The port to connect to.
         app_name (:obj:`str`, optional): The app name. Defaults to ``__default__``.
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
         timeout (:obj:`int`, :obj:`float`, optional): The connect timeout time in seconds.

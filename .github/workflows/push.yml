@@ -5,7 +5,7 @@ on: [push, workflow_dispatch]
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-  
+
 jobs:
   build-docs:
     runs-on: [self-hosted, macOS]
@@ -41,8 +41,8 @@ jobs:
         - uses: actions/checkout@v3
 
         - run: |
-            export PROXY_PORT=13010
-            export PROXY_HOST="127.0.0.1"
+            export ALTSERVER_PORT=13010
+            export ALTSERVER_HOST="127.0.0.1"
             $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
         - uses: actions/upload-artifact@v3.1.0
@@ -64,14 +64,14 @@ jobs:
             BuildMacArtifact
 
       - run: |
-          export PROXY_PORT=13010
-          export PROXY_HOST="127.0.0.1"
+          export ALTSERVER_PORT=13010
+          export ALTSERVER_HOST="127.0.0.1"
           chmod -R 755 sampleGame.app
           open sampleGame.app
 
       - run: |
-          export PROXY_PORT=13010
-          export PROXY_HOST="127.0.0.1"
+          export ALTSERVER_PORT=13010
+          export ALTSERVER_HOST="127.0.0.1"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
 
       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
@@ -95,9 +95,9 @@ jobs:
         - name: Setup .NET Core SDK
           uses: actions/setup-dotnet@v2.1.1
         - run: |
-            export PROXY_PORT=13010
-            echo $PROXY_PORT
-            export PROXY_HOST="127.0.0.1"
+            export ALTSERVER_PORT=13010
+            echo $ALTSERVER_PORT
+            export ALTSERVER_HOST="127.0.0.1"
             chmod -R 755  sampleGame.app
             open sampleGame.app
             dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
@@ -122,8 +122,8 @@ jobs:
 
       - name: Open application
         run: |
-          export PROXY_PORT=13010
-          export PROXY_HOST="127.0.0.1"
+          export ALTSERVER_PORT=13010
+          export ALTSERVER_HOST="127.0.0.1"
           chmod -R 755 sampleGame.app
           open sampleGame.app
 
@@ -149,8 +149,8 @@ jobs:
 
       - name: Run integration tests
         run: |
-          export PROXY_PORT=13010
-          export PROXY_HOST="127.0.0.1"
+          export ALTSERVER_PORT=13010
+          export ALTSERVER_HOST="127.0.0.1"
           pytest Bindings~/python/tests/integration
 
       - uses: actions/upload-artifact@v3.1.0
@@ -176,9 +176,9 @@ jobs:
               java-version: 11
         - uses: stCarolas/setup-maven@v4.4
         - run: |
-            export PROXY_PORT=13010
-            echo $PROXY_PORT
-            export PROXY_HOST="127.0.0.1"
+            export ALTSERVER_PORT=13010
+            echo $ALTSERVER_PORT
+            export ALTSERVER_HOST="127.0.0.1"
             chmod -R 755  sampleGame.app
             open sampleGame.app
             cd "Bindings~/java"
