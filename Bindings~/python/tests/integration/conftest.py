@@ -8,8 +8,7 @@ from alttester import AltDriver
 
 
 def get_alttester_port():
-    port = os.environ.get("PROXY_PORT", 13000)
-    return int(port)
+    return int(os.environ.get("PROXY_PORT", 13000))
 
 
 def get_alttester_host():

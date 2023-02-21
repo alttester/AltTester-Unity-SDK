@@ -19,7 +19,7 @@ class AltDriver:
 
     When you instantiate an ``AltDriver`` object in your tests, you can use it to “drive” your game like one of
     your users would, by interacting with all the game objects, their properties and methods.  An ``AltDriver``
-    instance will connect to the AltProxy.
+    instance will connect to the AltServer.
 
     Args:
         host (:obj:`str`, optional): The proxy host to connect to.

@@ -73,7 +73,7 @@ namespace AltTester.Communication
             }
             catch (Exception ex)
             {
-                throw new UnhandledStartCommError("An error occurred while starting the CommunicationProtocol Proxy mode.", ex);
+                throw new UnhandledStartCommError("An error occurred while starting the AltTester client.", ex);
             }
         }
     }

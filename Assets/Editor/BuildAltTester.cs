@@ -319,23 +319,20 @@ namespace AltTesterTools
 
         private static AltInstrumentationSettings getInstrumentationSettings()
         {
-
             var instrumentationSettings = new AltInstrumentationSettings();
             var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
             if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
             {
-                instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-                instrumentationSettings.ProxyHost = proxyHost;
+                instrumentationSettings.AltServerHost = proxyHost;
             }
             var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
             if (!string.IsNullOrEmpty(proxyPort))//proxy mode
             {
-                instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-                instrumentationSettings.ProxyPort = int.Parse(proxyPort);
+                instrumentationSettings.AltServerPort = int.Parse(proxyPort);
             }
             else
             {
-                instrumentationSettings.ProxyPort = 13010;
+                instrumentationSettings.AltServerPort = 13010;
             }
 
             return instrumentationSettings;

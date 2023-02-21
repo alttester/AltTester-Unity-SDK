@@ -220,7 +220,7 @@ namespace AltTester.AltDriver.Tests
         public void TestGetComponentProperty()
         {
             const string componentName = "AltTester.AltRunner";
-            const string propertyName = "InstrumentationSettings.ProxyPort";
+            const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");

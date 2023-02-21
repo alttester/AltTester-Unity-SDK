@@ -1202,8 +1202,8 @@ namespace AltTesterEditor
                 var keepATSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTTESTER symbol defined", ref EditorConfiguration.KeepAUTSymbolDefined);
                 if (keepATSymbolChanged)
                     checkAltTesterSymbol();
-                labelAndInputFieldHorizontalLayout("Proxy Host*", ref EditorConfiguration.ProxyHost);
-                labelAndInputFieldHorizontalLayout("AltTester Port*", ref EditorConfiguration.ProxyPort);
+                labelAndInputFieldHorizontalLayout("AltServer Host*", ref EditorConfiguration.AltServerHost);
+                labelAndInputFieldHorizontalLayout("AltTester Port*", ref EditorConfiguration.AltServerPort);
 
 
                 labelAndInputFieldHorizontalLayout("App Name", ref EditorConfiguration.AppName);

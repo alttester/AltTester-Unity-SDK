@@ -22,10 +22,10 @@ namespace AltTester.AltDriver
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
         /// <summary>
-        /// Initiates AltDriver and begins connection with the instrumented Unity application through to AltProxy
+        /// Initiates AltDriver and begins connection with the instrumented Unity application through to AltServer
         /// </summary>
-        /// <param name="host">The ip or hostname  AltProxy is listening on.</param>
-        /// <param name="port">The port AltProxy is listening on.</param>
+        /// <param name="host">The IP or hostname AltServer is listening on.</param>
+        /// <param name="port">The port AltServer is listening on.</param>
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
         public AltDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60, string appName = "__default__")
