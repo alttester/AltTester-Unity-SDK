@@ -601,7 +601,7 @@ namespace AltTesterTools
             return IconImage;
         }
 
-        public static Toggle CreateCutomInputToggle(RectTransform parent) {
+        public static Toggle CreateCustomInputToggle(RectTransform parent) {
             var Toggle = new GameObject("Toggle", new System.Type[] { typeof(RectTransform), typeof(Toggle) });
 
             var ToggleTransform = Toggle.GetComponent<RectTransform>();
@@ -736,7 +736,7 @@ namespace AltTesterTools
             AltDialog.PortInputField = CreatePortInputField(DialogTransform);
             AltDialog.AppNameInputField = CreateAppNameInputField(DialogTransform);
             AltDialog.RestartButton = CreateRestartButton(DialogTransform);
-            AltDialog.CustomInputToggle = CreateCutomInputToggle(DialogTransform);
+            AltDialog.CustomInputToggle = CreateCustomInputToggle(DialogTransform);
 
             SavePrefab(Prefab);
         }
