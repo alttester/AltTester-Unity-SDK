@@ -52,7 +52,7 @@ namespace AltTesterTools
             {
                 if (newComponent.GetType() == typeof(RectTransform))
                 {
-                    checkTranformEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as RectTransform, newComponent as RectTransform);
+                    checkTransformEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as RectTransform, newComponent as RectTransform);
                     continue;
                 }
                 if (newComponent.GetType() == typeof(Image))
@@ -72,7 +72,7 @@ namespace AltTesterTools
                 }
                 if (newComponent.GetType() == typeof(AltRunner))
                 {
-                    checkaltRunnerEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as AltRunner, newComponent as AltRunner);
+                    checkAltRunnerEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as AltRunner, newComponent as AltRunner);
                     continue;
                 }
             }
@@ -88,7 +88,7 @@ namespace AltTesterTools
             }
         }
 
-        private static void checkTranformEquality(RectTransform originalTransform, RectTransform newTransform)
+        private static void checkTransformEquality(RectTransform originalTransform, RectTransform newTransform)
         {
             if (!vector3Equality(originalTransform.position, newTransform.position))
             {
@@ -192,7 +192,7 @@ namespace AltTesterTools
             }
         }
 
-        private static void checkaltRunnerEquality(AltRunner originalRunner, AltRunner newRunner)
+        private static void checkAltRunnerEquality(AltRunner originalRunner, AltRunner newRunner)
         {
             if (originalRunner.outlineShader != newRunner.outlineShader)
             {
@@ -228,6 +228,7 @@ namespace AltTesterTools
     {
         public static AltInputsVisualizer CreateInputVisualizer(Transform parent) {
             var CanvasInputVisualiserGameObject = new GameObject("CanvasInputVisualiser", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster) });
+
             var CanvasInputVisualiserRectTransform = CanvasInputVisualiserGameObject.GetComponent<RectTransform>();
             CanvasInputVisualiserRectTransform.SetParent(parent, false);
 
@@ -313,7 +314,7 @@ namespace AltTesterTools
             return DialogGameObject;
         }
 
-        public static Text CreateTitle(RectTransform parent)
+        public static Text CreateTitle(RectTransform parent, string version = "1.8.x")
         {
             var TitleGameObject = new GameObject("Title", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
 
@@ -327,7 +328,7 @@ namespace AltTesterTools
             TitleRectTransform.pivot = new Vector2(0.5f, 1f);
 
             var TitleText = TitleGameObject.GetComponent<Text>();
-            TitleText.text = "AltTester v.1.8.2";
+            TitleText.text = "AltTester v." + version;
             TitleText.fontSize = 30;
             TitleText.color = Color.white;
             TitleText.alignment = TextAnchor.MiddleCenter;
@@ -728,7 +729,7 @@ namespace AltTesterTools
 
             AltDialog.Dialog = Dialog;
             AltDialog.Icon = CreateIcon(AltDialogTransform);
-            AltDialog.TitleText = CreateTitle(DialogTransform);
+            AltDialog.TitleText = CreateTitle(DialogTransform, AltRunner.VERSION);
             AltDialog.MessageText = CreateStatusMessage(DialogTransform);
             AltDialog.CloseButton = CreateCloseButton(DialogTransform);
             AltDialog.InfoLabel = CreateInfoLabel(DialogTransform);

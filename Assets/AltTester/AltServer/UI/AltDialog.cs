@@ -66,7 +66,7 @@ namespace AltTester.UI
             SetUpPortInputField();
             SetUpAppNameInputField();
             SetUpRestartButton();
-            SetUpCutomImputToggle();
+            SetUpCustomInputToggle();
 
             StartClient();
         }
@@ -156,7 +156,7 @@ namespace AltTester.UI
             }
             else
             {
-                SetMessage("The port number should be beteween 1 and 65535.", ERROR_COLOR, true);
+                SetMessage("The port number should be between 1 and 65535.", ERROR_COLOR, true);
                 return;
             }
 
@@ -187,13 +187,13 @@ namespace AltTester.UI
             RestartButton.onClick.AddListener(OnRestartButtonPress);
         }
 
-        public void SetUpCutomImputToggle()
+        public void SetUpCustomInputToggle()
         {
-            CustomInputToggle.onValueChanged.AddListener(ToggleCutomInput);
-            ToggleCutomInput(false);
+            CustomInputToggle.onValueChanged.AddListener(ToggleCustomInput);
+            ToggleCustomInput(false);
         }
 
-        public void ToggleCutomInput(bool value)
+        public void ToggleCustomInput(bool value)
         {
             CustomInputToggle.isOn = value;
             Icon.color = value ? UnityEngine.Color.white : UnityEngine.Color.grey;
@@ -249,13 +249,13 @@ namespace AltTester.UI
             }
             catch (UnhandledStartCommError ex)
             {
-                SetMessage("An unexpected error occurred while starting the communication protocol.", ERROR_COLOR, true);
-                logger.Error(ex.InnerException, "An unexpected error occurred while starting the communication protocol.");
+                SetMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
+                logger.Error(ex.InnerException, "An unexpected error occurred while starting the AltTester client.");
             }
             catch (Exception ex)
             {
-                SetMessage("An unexpected error occurred while starting the communication protocol.", ERROR_COLOR, true);
-                logger.Error(ex, "An unexpected error occurred while starting the communication protocol.");
+                SetMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
+                logger.Error(ex, "An unexpected error occurred while starting the AltTester client.");
             }
         }
 
@@ -300,7 +300,7 @@ namespace AltTester.UI
 
             _updateQueue.ScheduleResponse(() =>
             {
-                ToggleCutomInput(false);
+                ToggleCustomInput(false);
                 StartClient();
             });
         }
@@ -326,7 +326,7 @@ namespace AltTester.UI
             {
                 _updateQueue.ScheduleResponse(() =>
                 {
-                    ToggleCutomInput(true);
+                    ToggleCustomInput(true);
                     SetMessage(message, SUCCESS_COLOR, false);
                 });
             }
@@ -334,7 +334,7 @@ namespace AltTester.UI
 
         private void OnDriverDisconnect(string driverId)
         {
-            logger.Debug("Driver Disconect: " + driverId);
+            logger.Debug("Driver Disconnect: " + driverId);
             string message = String.Format("Connected to AltProxy on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.ProxyHost, InstrumentationSettings.ProxyPort, InstrumentationSettings.AppName);
 
             _connectedDrivers.Remove(driverId);
@@ -344,7 +344,7 @@ namespace AltTester.UI
 
                 _updateQueue.ScheduleResponse(() =>
                 {
-                    ToggleCutomInput(false);
+                    ToggleCustomInput(false);
                     SetMessage(message, SUCCESS_COLOR, true);
                 });
             }
