@@ -25,40 +25,40 @@ jobs:
               build
               buildWebGL.log
 
-test-CSharp-Editor:
-    runs-on: [self-hosted, macOS]
-    needs: build-WebGL-Unity2021
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3.0.0
-        with:
-          name:
-            BuildWebGLArtifact
+  test-CSharp-Editor:
+      runs-on: [self-hosted, macOS]
+      needs: build-WebGL-Unity2021
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/download-artifact@v3.0.0
+          with:
+            name:
+              BuildWebGLArtifact
 
-      - run: |
-          export PROXY_PORT=13010
-          export PROXY_HOST="127.0.0.1"
-          cd build/webgl
-          python3 -m http.server --cgi 8360 &
-          open http://localhost:8360/index.html
-          cd ../..
+        - run: |
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
+            cd build/webgl
+            python3 -m http.server --cgi 8360 &
+            open http://localhost:8360/index.html
+            cd ../..
 
-      - run: |
-          export PROXY_PORT=13010
-          export PROXY_HOST="127.0.0.1"
-          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
+        - run: |
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
+            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
 
         - run: 
             osascript -e 'quit app "Chrome"'
 
-      #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
-      - uses: actions/upload-artifact@v3.1.0
-        if: always() # run this step even if one of the previous step failed
-        with:
-          name: TestCSharpArtifact
-          path: |
-            *.log
-            reportTest.xml
+        #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
+        - uses: actions/upload-artifact@v3.1.0
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: TestCSharpArtifact
+            path: |
+              *.log
+              reportTest.xml
 
 
   test-DotNet:
@@ -90,91 +90,91 @@ test-CSharp-Editor:
             path: |
               *.log
 
-test-Python:
-    runs-on: [self-hosted, macOS]
-    needs: build-WebGL-Unity2021
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/download-artifact@v3.0.0
-        with:
-          name:
-            BuildWebGLArtifact
-
-      - name: Open application
-        run: |
-          export PROXY_PORT=13010
-          export PROXY_HOST="127.0.0.1"
-          cd build/webgl
-          python3 -m http.server --cgi 8360 &
-          open http://localhost:8360/index.html
-          cd ../..
-
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip setuptools wheel
-          pip uninstall AltTester-Driver
-          pip install -r "Bindings~/python/requirements.txt"
-          pip install -r "Bindings~/python/requirements-dev.txt"
-          pip install -e "Bindings~/python" --root "Bindings~/python"
-
-      - name: Lint with flake8
-        run: |
-          flake8 Bindings~/python/ --config Bindings~/python/.flake8
-
-      - name: Run unit tests
-        run: |
-          pytest Bindings~/python/tests/unit
-
-      - name: Run integration tests
-        run: |
-          export PROXY_PORT=13010
-          export PROXY_HOST="127.0.0.1"
-          pytest Bindings~/python/tests/integration
-
-        - run:
-          osascript -e 'quit app "Chrome"'
-
-      - uses: actions/upload-artifact@v3.1.0
-        if: always() # run this step even if one of the previous step failed
-        with:
-          name: TestPythonArtifact
-          path: "**/*.log"
-
-  test-Java:
+  test-Python:
       runs-on: [self-hosted, macOS]
       needs: build-WebGL-Unity2021
       steps:
         - uses: actions/checkout@v3
+
         - uses: actions/download-artifact@v3.0.0
           with:
             name:
               BuildWebGLArtifact
 
-        - name: Setup Java JDK
-          uses: actions/setup-java@v3.5.1
-          with:
-              distribution: temurin
-              java-version: 11
-        - uses: stCarolas/setup-maven@v4.4
-        - run: |
+        - name: Open application
+          run: |
             export PROXY_PORT=13010
-            echo $PROXY_PORT
             export PROXY_HOST="127.0.0.1"
             cd build/webgl
             python3 -m http.server --cgi 8360 &
             open http://localhost:8360/index.html
-            cd ../../Bindings~/java
-            mvn -Dtest=com.alttester.Tests* test
-            osascript -e 'quit app "Chrome"'
+            cd ../..
+
+        - uses: actions/setup-python@v4
+          with:
+            python-version: '3.10'
+
+        - name: Install dependencies
+          run: |
+            pip install --upgrade pip setuptools wheel
+            pip uninstall AltTester-Driver
+            pip install -r "Bindings~/python/requirements.txt"
+            pip install -r "Bindings~/python/requirements-dev.txt"
+            pip install -e "Bindings~/python" --root "Bindings~/python"
+
+        - name: Lint with flake8
+          run: |
+            flake8 Bindings~/python/ --config Bindings~/python/.flake8
+
+        - name: Run unit tests
+          run: |
+            pytest Bindings~/python/tests/unit
+
+        - name: Run integration tests
+          run: |
+            export PROXY_PORT=13010
+            export PROXY_HOST="127.0.0.1"
+            pytest Bindings~/python/tests/integration
+
+        - run:
+          osascript -e 'quit app "Chrome"'
 
         - uses: actions/upload-artifact@v3.1.0
           if: always() # run this step even if one of the previous step failed
           with:
-            name: TestJavaArtifact
-            path: |
-              *.log
+            name: TestPythonArtifact
+            path: "**/*.log"
+
+    test-Java:
+        runs-on: [self-hosted, macOS]
+        needs: build-WebGL-Unity2021
+        steps:
+          - uses: actions/checkout@v3
+          - uses: actions/download-artifact@v3.0.0
+            with:
+              name:
+                BuildWebGLArtifact
+
+          - name: Setup Java JDK
+            uses: actions/setup-java@v3.5.1
+            with:
+                distribution: temurin
+                java-version: 11
+          - uses: stCarolas/setup-maven@v4.4
+          - run: |
+              export PROXY_PORT=13010
+              echo $PROXY_PORT
+              export PROXY_HOST="127.0.0.1"
+              cd build/webgl
+              python3 -m http.server --cgi 8360 &
+              open http://localhost:8360/index.html
+              cd ../../Bindings~/java
+              mvn -Dtest=com.alttester.Tests* test
+              osascript -e 'quit app "Chrome"'
+
+          - uses: actions/upload-artifact@v3.1.0
+            if: always() # run this step even if one of the previous step failed
+            with:
+              name: TestJavaArtifact
+              path: |
+                *.log
