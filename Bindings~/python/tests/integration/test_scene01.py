@@ -142,7 +142,8 @@ class TestScene01:
 
         assert plane.name == "Plane"
         assert capsule.name == "Capsule"
-
+        
+    @pytest.mark.WebGLUnsupported
     def test_get_application_screen_size(self):
         self.altdriver.call_static_method(
             "UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
@@ -715,6 +716,7 @@ class TestScene01:
         assert input_field.get_component_property(
             "AltInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp")
 
+    @pytest.mark.WebGLUnsupported
     def test_get_static_property(self):
 
         self.altdriver.call_static_method(
