@@ -41,7 +41,7 @@ jobs:
         - uses: actions/checkout@v3
 
         - run: |
-            export ALTSERVER_PORT=13010
+            export ALTSERVER_PORT=13020
             export ALTSERVER_HOST="127.0.0.1"
             $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
@@ -64,13 +64,13 @@ jobs:
             BuildMacArtifact
 
       - run: |
-          export ALTSERVER_PORT=13010
+          export ALTSERVER_PORT=13020
           export ALTSERVER_HOST="127.0.0.1"
           chmod -R 755 sampleGame.app
           open sampleGame.app
 
       - run: |
-          export ALTSERVER_PORT=13010
+          export ALTSERVER_PORT=13020
           export ALTSERVER_HOST="127.0.0.1"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
 
@@ -95,7 +95,7 @@ jobs:
         - name: Setup .NET Core SDK
           uses: actions/setup-dotnet@v2.1.1
         - run: |
-            export ALTSERVER_PORT=13010
+            export ALTSERVER_PORT=13020
             echo $ALTSERVER_PORT
             export ALTSERVER_HOST="127.0.0.1"
             chmod -R 755  sampleGame.app
@@ -122,7 +122,7 @@ jobs:
 
       - name: Open application
         run: |
-          export ALTSERVER_PORT=13010
+          export ALTSERVER_PORT=13020
           export ALTSERVER_HOST="127.0.0.1"
           chmod -R 755 sampleGame.app
           open sampleGame.app
@@ -149,7 +149,7 @@ jobs:
 
       - name: Run integration tests
         run: |
-          export ALTSERVER_PORT=13010
+          export ALTSERVER_PORT=13020
           export ALTSERVER_HOST="127.0.0.1"
           pytest Bindings~/python/tests/integration
 
@@ -176,7 +176,7 @@ jobs:
               java-version: 11
         - uses: stCarolas/setup-maven@v4.4
         - run: |
-            export ALTSERVER_PORT=13010
+            export ALTSERVER_PORT=13020
             echo $ALTSERVER_PORT
             export ALTSERVER_HOST="127.0.0.1"
             chmod -R 755  sampleGame.app
