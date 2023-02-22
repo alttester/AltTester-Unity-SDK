@@ -328,7 +328,7 @@ namespace AltTesterTools
             }
 
             var port = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
-            if (!string.IsNullOrEmpty(port)
+            if (!string.IsNullOrEmpty(port))
             {
                 instrumentationSettings.AltServerPort = int.Parse(port);
             }
