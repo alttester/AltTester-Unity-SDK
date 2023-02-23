@@ -5,30 +5,26 @@ on: [push, workflow_dispatch]
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-  
+
 jobs:
   build-docs:
-    runs-on: [self-hosted, macOS]
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          cached: 'pip'
-      - uses: syphar/restore-virtualenv@v1
-        id: cache-virtualenv
 
-      - uses: syphar/restore-pip-download-cache@v1
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+      - name: Install dependencies
+        run: |
+          pip install -r "Bindings~/python/requirements-dev.txt"
 
-      - run: pip install -r Docs/requirements.txt
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-      - run: pwd
-      - uses: rickstaa/sphinx-action@master
-        with:
-          docs-folder: Docs
-          build-command: make html
+      - name: Build docs
+        run: |
+         cd Docs
+         make html
 
       - uses: actions/upload-artifact@v1
         with:
@@ -191,24 +187,52 @@ jobs:
             path: |
               *.log
 
-  dev-docs:
-    if: github.ref == 'refs/heads/development'
-    runs-on: [self-hosted, macOS]
+  deploy-dev-docs:
     needs: build-docs
+    runs-on: [self-hosted, macOS]
+
+    if: github.ref == 'refs/heads/development'
+
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/download-artifact@v3.0.0
         with:
           name: DocumentationHTML
           path: DocumentationHTML/
 
-      - name: Upload new documentation
+      - name: Upload documentation
         uses: garygrossgarten/github-action-scp@release
         with:
           local: DocumentationHTML
           remote: ${{ secrets.DOCUMENTATION_PATH }}
           host: ${{ secrets.HOST_IP_ALTOM }}
           port: ${{ secrets.PORT_DEV_ALTOM }}
+          username: ${{ secrets.USERNAME_ALTOM }}
+          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          rmRemote: true
+
+  deploy-docs:
+    runs-on: ubuntu-latest
+    needs: build-docs
+
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name: DocumentationHTML
+          path: DocumentationHTML/
+
+      - name: Upload documentation
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: DocumentationHTML
+          remote: ${{ secrets.DOCUMENTATION_PATH }}
+          host: ${{ secrets.HOST_IP_ALTOM }}
+          port: ${{ secrets.PORT_LIVE_ALTOM }}
           username: ${{ secrets.USERNAME_ALTOM }}
           password: ${{ secrets.PASSWORD_DEV_ALTOM }}
           rmRemote: true
