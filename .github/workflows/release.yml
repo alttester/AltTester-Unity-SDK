@@ -6,23 +6,24 @@ on:
 
 jobs:
   publish-pip-package:
-      runs-on: ubuntu-18.04
+    runs-on: ubuntu-18.04
 
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/setup-python@v4
-          with:
-            python-version: '3.10'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-        - run: pip install -r "Bindings~/python/requirements.txt"
-        - run: pip install -r "Bindings~/python/requirements-dev.txt"
-        - run: pip install -e "Bindings~/python" --root "Bindings~/python"
+      - name: Install dependencies
+        run: |
+          pip install -r "Bindings~/python/requirements.txt"
+          pip install -r "Bindings~/python/requirements-dev.txt"
 
-        - name: Upload to PyPi
-          run: |
-            cd "Bindings~/python"
-            python3 setup.py sdist bdist_wheel
-            python3 -m twine upload dist/*
+      - name: Upload to PyPi
+        run: |
+          cd "Bindings~/python"
+          python3 setup.py sdist bdist_wheel
+          python3 -m twine upload dist/*
 
   publish-nuget-package:
     runs-on:  ubuntu-18.04

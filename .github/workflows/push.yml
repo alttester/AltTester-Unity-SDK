@@ -32,22 +32,23 @@ jobs:
           path: Docs/build/html/
 
   build-macOS:
-      runs-on: [self-hosted, macOS]
-      steps:
-        - uses: actions/checkout@v3
+    runs-on: [self-hosted, macOS]
+    steps:
+      - uses: actions/checkout@v3
 
-        - run: |
-            export PROXY_PORT=13010
-            export PROXY_HOST="127.0.0.1"
-            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
+      - name: Build SampleGame
+        run: |
+          export PROXY_PORT=13010
+          export PROXY_HOST="127.0.0.1"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
-        - uses: actions/upload-artifact@v3
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: BuildMacArtifact
-            path: |
-              sampleGame.app
-              buildMac.log
+      - uses: actions/upload-artifact@v3
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildMacArtifact
+          path: |
+            sampleGame.app
+            buildMac.log
 
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
@@ -156,36 +157,34 @@ jobs:
           path: "**/*.log"
 
   test-Java:
-      runs-on: [self-hosted, macOS]
-      needs: build-macOS
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/download-artifact@v3
-          with:
-            name:
-              BuildMacArtifact
+    runs-on: [self-hosted, macOS]
+    needs: build-macOS
+    steps:
+      - uses: actions/checkout@v3
 
-        - name: Setup Java JDK
-          uses: actions/setup-java@v3.5.1
-          with:
-              distribution: temurin
-              java-version: 11
-        - uses: stCarolas/setup-maven@v4.4
-        - run: |
-            export PROXY_PORT=13010
-            echo $PROXY_PORT
-            export PROXY_HOST="127.0.0.1"
-            chmod -R 755  sampleGame.app
-            open sampleGame.app
-            cd "Bindings~/java"
-            mvn -Dtest=com.alttester.Tests* test
+      - uses: actions/download-artifact@v3
+        with:
+          name:
+            BuildMacArtifact
 
-        - uses: actions/upload-artifact@v3
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: TestJavaArtifact
-            path: |
-              *.log
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+
+      - run: |
+          export PROXY_PORT=13010
+          echo $PROXY_PORT
+          export PROXY_HOST="127.0.0.1"
+          chmod -R 755  sampleGame.app
+          open sampleGame.app
+          cd "Bindings~/java"
+          mvn -Dtest=com.alttester.Tests* test
+
+      - uses: actions/upload-artifact@v3
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestJavaArtifact
+          path: |
+            *.log
 
   deploy-dev-docs:
     runs-on: ubuntu-latest
