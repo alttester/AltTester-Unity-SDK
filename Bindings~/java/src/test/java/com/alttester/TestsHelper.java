@@ -29,5 +29,4 @@ public class TestsHelper {
         AltDriver altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(), true);
         return altDriver;
     }
-
 }
