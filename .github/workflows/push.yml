@@ -172,6 +172,9 @@ jobs:
           distribution: 'temurin'
           java-version: 11
 
+      - name: Set up Maven # setup-java does't install maven on self-hosted driver
+        uses: stCarolas/setup-maven@v4.5
+
       - run: |
           export PROXY_PORT=13010
           echo $PROXY_PORT
