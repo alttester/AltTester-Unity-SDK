@@ -48,7 +48,7 @@ jobs:
           name: BuildMacArtifact
           path: |
             sampleGame.app
-            buildMac.log
+            "**/*.log"
 
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
@@ -77,7 +77,7 @@ jobs:
         with:
           name: TestCSharpArtifact
           path: |
-            *.log
+            "**/*.log"
             reportTest.xml
 
   test-DotNet:
@@ -103,8 +103,7 @@ jobs:
           if: always() # run this step even if one of the previous step failed
           with:
             name: TestCSharpArtifact
-            path: |
-              *.log
+            path: "**/*.log"
 
   test-Python:
     runs-on: [self-hosted, macOS]
@@ -169,6 +168,9 @@ jobs:
 
       - name: Setup Java JDK
         uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 11
 
       - run: |
           export PROXY_PORT=13010
@@ -183,8 +185,7 @@ jobs:
         if: always() # run this step even if one of the previous step failed
         with:
           name: TestJavaArtifact
-          path: |
-            *.log
+          path: "**/*.log"
 
   deploy-dev-docs:
     runs-on: ubuntu-latest
