@@ -147,3 +147,56 @@ After reopening Unity Editor, add again the AltTester package in your project.
 
 </details>
 <br>
+
+<details>
+<summary>I get the error: <strong>The type or namespace name 'InputSystem' does not exist in the namespace 'UnityEngine' (are you missing an assembly reference?)</strong></summary>
+<br>
+
+You get this error because you don't have the Input System (New) package. If you only want to use the Input Manager (Old) in your project, follow this steps:
+<br>
+- <strong>delete</strong>: 
+    - `Assets\AltTester\AltServer\NewInputSystem.cs`
+    - `Assets\AltTester\AltServer\AltKeyMapping.cs`
+- <strong>comment</strong> in `Assets\AltTester\AltServer\AltPrefabDrag.cs` the entire `#else` statement
+
+    ```
+    #if ENABLE_LEGACY_INPUT_MANAGER
+                eventData.pointerDrag.transform.position = Input.mousePosition;
+    // #else
+            // eventData.pointerDrag.gameObject.transform.position = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+    #endif
+    ```
+- <strong>comment</strong> in `Assets\AltTester\AltServer\Input.cs`:
+    - all imports for using `UnityEngine.InputSystem.UI`
+        ```   
+        #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+
+        using System;
+        using System.Collections;
+        using System.Collections.Generic;
+        using System.Linq;
+        using Altom.AltDriver;
+        using Altom.AltTester;
+        using Altom.AltTester.InputModule;
+        using UnityEngine;
+        using UnityEngine.EventSystems;
+        // using UnityEngine.InputSystem.UI;
+        using UnityEngine.Scripting;
+        ```  
+    - all `if` lines that contain `InputSystemUIInputModule` and the curly brackets inside these `if` statements making sure to leave the code inside the brackets uncommented
+        ```
+        // if (EventSystem.current.currentInputModule != null && EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                // {
+                    if (eventSystemTarget != previousEventSystemTarget)
+                    {
+                        if (previousEventSystemTarget != null) UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+                        if (eventSystemTarget != null && previousMousePosition != mousePosition) UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
+                        previousEventSystemTarget = eventSystemTarget;
+                    }
+                // }
+        ```
+     
+- <strong>comment</strong> in `Assets\AltTester\AltServer\AltMockUpPointerInputModule.cs` the same as the above
+
+</details>
+<br>
