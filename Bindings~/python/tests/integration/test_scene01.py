@@ -142,7 +142,7 @@ class TestScene01:
 
         assert plane.name == "Plane"
         assert capsule.name == "Capsule"
-        
+
     @pytest.mark.WebGLUnsupported
     def test_get_application_screen_size(self):
         self.altdriver.call_static_method(
@@ -769,16 +769,9 @@ class TestScene01:
         assert type(plane.worldZ) == float
 
     def test_set_command_response_timeout(self):
-        alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         self.altdriver.set_command_response_timeout(1)
-
         with pytest.raises(exceptions.CommandResponseTimeoutException) as execinfo:
-
-            alt_object.call_component_method(
-                "AltExampleScriptCapsule", "JumpWithDelay", "Assembly-CSharp",
-                parameters=[], type_of_parameters=[],
-            )
-
+            self.altdriver.tilt([1, 1, 1], duration=2, wait=True)
         self.altdriver.set_command_response_timeout(60)
         assert str(execinfo.value) == ""
 
