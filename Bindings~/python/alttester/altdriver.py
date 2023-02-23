@@ -50,7 +50,7 @@ class AltDriver:
             port=self.port,
             timeout=self.timeout,
             path="altws",
-            params={"appNme": self.app_name}
+            params={"appName": self.app_name}
         )
         self._connection.connect()
 
