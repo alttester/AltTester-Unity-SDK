@@ -6,9 +6,11 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.AltCallStaticMethodParams;
+import com.alttester.Commands.WebGLUnsupported;
 import com.alttester.Commands.FindObject.AltFindObjectAtCoordinatesParams;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
 import com.alttester.Commands.FindObject.AltGetAllElementsParams;
@@ -224,6 +226,7 @@ public class TestsSampleScene1 extends BaseTest {
         }
 
         @Test
+		@Category(WebGLUnsupported.class)
         public void TestGetApplicationScreenSize() {
                 AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
                                 "UnityEngine.Screen", "SetResolution",
@@ -1325,6 +1328,7 @@ public class TestsSampleScene1 extends BaseTest {
         }
 
         @Test
+		@Category(WebGLUnsupported.class)
         public void testGetStaticProperty() {
                 AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
                                 "UnityEngine.Screen", "SetResolution",
