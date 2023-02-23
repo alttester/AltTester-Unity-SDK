@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r "Bindings~/python/requirements-dev.txt"
+          pip install -r "Docs/python/requirements.txt"
 
       - name: Build docs
         run: |
