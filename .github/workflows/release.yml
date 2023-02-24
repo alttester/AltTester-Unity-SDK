@@ -1,33 +1,29 @@
 name: release
-on: 
+
+on:
   release:
     types: [published]
 
 jobs:
   publish-pip-package:
-      runs-on: ubuntu-18.04
+    runs-on: ubuntu-18.04
 
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/setup-python@v4
-          with:
-            python-version: '3.10'
-            cached: 'pip'
-        - uses: syphar/restore-virtualenv@v1
-          id: cache-virtualenv
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-        - uses: syphar/restore-pip-download-cache@v1
-          if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+      - name: Install dependencies
+        run: |
+          pip install -r "Bindings~/python/requirements.txt"
+          pip install -r "Bindings~/python/requirements-dev.txt"
 
-        - run: pip install -r "Bindings~/python/requirements.txt"
-        - run: pip install -r "Bindings~/python/requirements-dev.txt"
-        - run: pip install -e "Bindings~/python" --root "Bindings~/python"
-
-        - name: Upload to Pypi
-          run: |
-            cd "Bindings~/python"
-            python3 setup.py sdist
-            python3 -m twine upload dist/*
+      - name: Upload to PyPi
+        run: |
+          cd "Bindings~/python"
+          python3 setup.py sdist bdist_wheel
+          python3 -m twine upload dist/*
 
   publish-nuget-package:
     runs-on:  ubuntu-18.04
@@ -45,7 +41,6 @@ jobs:
           dotnet pack AltDriver/AltDriver.csproj -c release
           dotnet nuget push AltDriver/bin/release/AltTester-Driver.1.8.2.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
-  
   create-unity-package:
     runs-on: ubuntu-18.04
     steps:
@@ -125,39 +120,3 @@ jobs:
           nexus_password: ${{ secrets.nexus_password }}
           directory: Bindings~/java/
           maven_args: -f pom-release.xml -DskipTests
-
-  build-docs:
-    runs-on: ubuntu-18.04
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-          cached: "pip"
-      - uses: syphar/restore-virtualenv@v1
-        id: cache-virtualenv
-
-      - uses: syphar/restore-pip-download-cache@v1
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-
-      - run: pip install -r Docs/requirements.txt
-        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-      - run: pwd
-      - uses: rickstaa/sphinx-action@master
-        with:
-          docs-folder: Docs
-          build-command: make html
-
-      - name: Upload to Altom.com
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: Docs/build/html
-          remote: ${{ secrets.DOCUMENTATION_PATH }}
-          host: ${{ secrets.HOST_IP_ALTOM }}
-          port: ${{ secrets.PORT_LIVE_ALTOM }}
-          username: ${{ secrets.USERNAME_ALTOM }}
-          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
-          rmRemote: true
-
- 
