@@ -1,10 +1,11 @@
 package com.alttester.Commands;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import com.alttester.AltDriver;
 import com.alttester.TestsHelper;
@@ -19,6 +20,7 @@ public class TestsAltCommands {
         }
 
         @Test
+		@Tag("WebGLUnsupported")
         public void testSetServerLogging() {
                 AltDriver altDriver = TestsHelper.GetAltDriver();
                 altDriver.setServerLogging(

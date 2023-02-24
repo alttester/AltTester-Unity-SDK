@@ -1,10 +1,5 @@
 package com.alttester;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
 import com.alttester.Commands.InputActions.AltMultiPointSwipeParams;
@@ -19,18 +14,21 @@ import com.alttester.Commands.InputActions.AltTapClickCoordinatesParams;
 import com.alttester.Commands.InputActions.AltTiltParams;
 import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
-import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
-import com.alttester.Commands.InputActions.AltTapClickCoordinatesParams;
 import com.alttester.Commands.FindObject.AltWaitForObjectsParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.assertNotEquals;
-import static junit.framework.TestCase.*;
+
+import org.junit.jupiter.api.Test;
 
 public class TestsForNIS extends BaseTest {
         String scene7 = "Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity";
@@ -243,28 +241,28 @@ public class TestsForNIS extends BaseTest {
                 Vector3 posUp = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(initialPos.x, posUp.x);
+                assertNotEquals(initialPos.x, posUp.x);
                 altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.D).build());
                 Thread.sleep(1000);
                 altDriver.keyUp(new AltKeyUpParams.Builder(AltKeyCode.D).build());
                 Vector3 posDown = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posUp.x, posDown.x);
+                assertNotEquals(posUp.x, posDown.x);
                 altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.W).build());
                 Thread.sleep(1000);
                 altDriver.keyUp(new AltKeyUpParams.Builder(AltKeyCode.W).build());
                 Vector3 posLeft = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posDown.z, posLeft.z);
+                assertNotEquals(posDown.z, posLeft.z);
                 altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.S).build());
                 Thread.sleep(1000);
                 altDriver.keyUp(new AltKeyUpParams.Builder(AltKeyCode.S).build());
                 Vector3 posRight = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posLeft.z, posRight.z);
+                assertNotEquals(posLeft.z, posRight.z);
         }
 
         @Test
@@ -283,22 +281,22 @@ public class TestsForNIS extends BaseTest {
                 Vector3 posUp = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(initialPos.x, posUp.x);
+                assertNotEquals(initialPos.x, posUp.x);
                 altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.D).withDuration(1).build());
                 Vector3 posDown = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posUp.x, posDown.x);
+                assertNotEquals(posUp.x, posDown.x);
                 altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.W).withDuration(1).build());
                 Vector3 posLeft = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posDown.z, posLeft.z);
+                assertNotEquals(posDown.z, posLeft.z);
                 altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.S).withDuration(1).build());
                 Vector3 posRight = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(posLeft.z, posRight.z);
+                assertNotEquals(posLeft.z, posRight.z);
         }
 
         @Test
@@ -319,7 +317,7 @@ public class TestsForNIS extends BaseTest {
                 Vector3 finalPos = player
                                 .getComponentProperty(altGetComponentPropertyParams,
                                                 Vector3.class);
-                Assert.assertNotEquals(initialPos.z, finalPos.z);
+                assertNotEquals(initialPos.z, finalPos.z);
                 AltFindObjectsParams findObjectParams = new AltFindObjectsParams.Builder(By.NAME,
                                 "SimpleProjectile(Clone)").build();
                 AltWaitForObjectsParams waitParams = new AltWaitForObjectsParams.Builder(findObjectParams)

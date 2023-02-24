@@ -1,18 +1,18 @@
 package com.alttester;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 public class BaseTest {
     static AltDriver altDriver;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws Exception {
         altDriver = TestsHelper.GetAltDriver();
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws Exception {
         if (altDriver != null) {
             altDriver.stop();
@@ -20,7 +20,7 @@ public class BaseTest {
         Thread.sleep(1000);
     }
 
-    @Before
+    @BeforeEach
     public void resetInput() throws Exception {
         altDriver.resetInput();
     }

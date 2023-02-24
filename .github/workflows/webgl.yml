@@ -140,7 +140,7 @@ jobs:
             osascript -e 'quit app "Chrome"'
             open http://localhost:8360/index.html
             cd ../../Bindings~/java
-            mvn -Dtest=com.alttester.Tests* -Dtest.test.excludes="WebGLUnsupported.java" test
+            mvn clean  -Dtest=com.alttester.Tests* test -Dgroups=\!WebGLUnsupported
 
         - name: Close Chrome
           if: always() 
