@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '17 10 * * *' # run on every Sunday
+    - cron:  '22 * * * *' # run on every Sunday
 
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
