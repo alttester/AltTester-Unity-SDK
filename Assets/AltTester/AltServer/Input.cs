@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.Scripting;
+using System.Runtime.InteropServices;
 
 [Preserve]
 public class Input : MonoBehaviour
@@ -1105,90 +1106,114 @@ public class Input : MonoBehaviour
         if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
     }
 
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+static extern bool SetCursorPos(int x, int y);
+
+[System.Runtime.InteropServices.DllImport("user32.dll")]
+public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+
+public const int MOUSEEVENTF_LEFTDOWN = 0x02;
+public const int MOUSEEVENTF_LEFTUP = 0x04;
+
+//This simulates a left mouse click
+public static void LeftMouseClick(int xpos, int ypos)
+{
+    SetCursorPos(xpos, ypos);
+    mouse_event(MOUSEEVENTF_LEFTDOWN, xpos, ypos, 0, 0);
+    mouse_event(MOUSEEVENTF_LEFTUP, xpos, ypos, 0, 0);
+}
+
     internal static IEnumerator tapClickElementLifeCycle(UnityEngine.GameObject target, int count, float interval, bool tap)
     {
-        UnityEngine.Vector3 screenPosition;
-        AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
-        yield return new WaitForEndOfFrame();//run after Update
+        UnityEngine.Debug.Log("1");
+        UnityEngine.Debug.Log("posx: " + (int)target.transform.position.x);
+        UnityEngine.Debug.Log("posy: " + (int)target.transform.position.y);
+        LeftMouseClick(810, 390);
+        UnityEngine.Debug.Log("2");
+        return null;
+        // yield return new WaitForEndOfFrame();
+    //     UnityEngine.Vector3 screenPosition;
+    //     AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
+    //     yield return new WaitForEndOfFrame();//run after Update
 
-        var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
-        {
-            position = screenPosition,
-            button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
-            eligibleForClick = true,
-            pressPosition = screenPosition
-        };
-        mousePosition = screenPosition;
-        pointerEventData.pointerEnter = target;
-        //repeat
-        for (int i = 0; i < count; i++)
-        {
-            float time = 0;
-            AltRunner._altRunner.ShowClick(screenPosition);
+    //     var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
+    //     {
+    //         position = screenPosition,
+    //         button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
+    //         eligibleForClick = true,
+    //         pressPosition = screenPosition
+    //     };
+    //     mousePosition = screenPosition;
+    //     pointerEventData.pointerEnter = target;
+    //     //repeat
+    //     for (int i = 0; i < count; i++)
+    //     {
+    //         float time = 0;
+    //         AltRunner._altRunner.ShowClick(screenPosition);
 
-            /* pointer/touch down */
-            UnityEngine.Touch touch = new UnityEngine.Touch();
-            int pointerId = 0;
-            if (tap)
-            {
-                touch = createTouch(screenPosition);
-                pointerId = touch.fingerId;
-            }
-            pointerEventData.pointerId = pointerId;
+    //         /* pointer/touch down */
+    //         UnityEngine.Touch touch = new UnityEngine.Touch();
+    //         int pointerId = 0;
+    //         if (tap)
+    //         {
+    //             touch = createTouch(screenPosition);
+    //             pointerId = touch.fingerId;
+    //         }
+    //         pointerEventData.pointerId = pointerId;
 
-            var keyStructure = new KeyStructure(UnityEngine.KeyCode.Mouse0, 1.0f);//power 1
-            _keyCodesPressedDown.Add(keyStructure);
-            _keyCodesPressed.Add(keyStructure);
-            if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
-            {
-                UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
+    //         var keyStructure = new KeyStructure(UnityEngine.KeyCode.Mouse0, 1.0f);//power 1
+    //         _keyCodesPressedDown.Add(keyStructure);
+    //         _keyCodesPressed.Add(keyStructure);
+    //         if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+    //         {
+    //             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
 
-                UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
-            }
-            if (target != null) target.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            pointerEventData.pointerPress = target;
+    //             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
+    //         }
+    //         if (target != null) target.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+    //         pointerEventData.pointerPress = target;
 
-            time += UnityEngine.Time.unscaledDeltaTime;
-            yield return null;
+    //         time += UnityEngine.Time.unscaledDeltaTime;
+    //         yield return null;
 
-            _keyCodesPressedDown.Remove(keyStructure);
-            beginKeyUpTouchEndedLifecycle(keyStructure, tap, ref touch);
+    //         _keyCodesPressedDown.Remove(keyStructure);
+    //         beginKeyUpTouchEndedLifecycle(keyStructure, tap, ref touch);
 
-            if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
-            {
-                UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
-                UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
-            }
+    //         if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+    //         {
+    //             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
+    //             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+    //         }
 
-            if (target != null)
-            {
-                target.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-                target.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            }
+    //         if (target != null)
+    //         {
+    //             target.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+    //             target.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+    //         }
 
-            time += UnityEngine.Time.unscaledDeltaTime;
-            yield return null;
+    //         time += UnityEngine.Time.unscaledDeltaTime;
+    //         yield return null;
 
-            endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
+    //         endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
 
-            if (i != count - 1 && time < interval)//do not wait at last click/tap
-            {
-                float elapsedTime = 0;
-                while (elapsedTime < interval - time)
-                {
-                    elapsedTime += UnityEngine.Time.unscaledDeltaTime;
-                    yield return null;
-                }
-            }
-        }
+    //         if (i != count - 1 && time < interval)//do not wait at last click/tap
+    //         {
+    //             float elapsedTime = 0;
+    //             while (elapsedTime < interval - time)
+    //             {
+    //                 elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+    //                 yield return null;
+    //             }
+    //         }
+    //     }
 
-        // mouse position doesn't change  but we fire on mouse exit
-        if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
-        {
-            UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-        }
-        if (target != null)
-            target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+    //     // mouse position doesn't change  but we fire on mouse exit
+    //     if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+    //     {
+    //         UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+    //     }
+    //     if (target != null)
+    //         target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
     }
 
     private static void updateTouchInTouchList(Touch touch)
@@ -1553,7 +1578,7 @@ namespace AltTester.InputModule
     }
 }
 #else
-            using UnityEngine;
+using UnityEngine;
 
 namespace AltTester.InputModule
 {
