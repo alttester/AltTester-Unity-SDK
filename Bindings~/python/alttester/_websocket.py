@@ -15,7 +15,7 @@ from .commands.Notifications.load_scene_mode import LoadSceneMode
 
 
 class Store:
-    """Stores the responses from AltTester."""
+    """Stores the responses from AltServer."""
 
     def __init__(self, dict=None):
         self._store = dict or defaultdict(deque)
@@ -40,7 +40,7 @@ class Store:
 
 
 class NotificationHandler:
-    """Handles the parsing of the notification messages from AltTester."""
+    """Handles the parsing of the notification messages from AltServer."""
 
     def __init__(self):
         self._notification_callbacks = defaultdict(list)
@@ -87,7 +87,7 @@ class NotificationHandler:
 
 
 class CommandHandler:
-    """Handles the parsing of command messages from AltTester."""
+    """Handles the parsing of command messages from AltServer."""
 
     def __init__(self):
         self._store = Store()
@@ -105,14 +105,14 @@ class CommandHandler:
         return self._current_command
 
     def timeout(self):
-        """Mark the current command as timedout."""
+        """Mark the current command as timeout."""
 
         self._timeout_commands.append(self._current_command)
 
     def handle_command(self, message):
         command = (message.get("messageId"), message.get("commandName"))
 
-        # Skip messages for commands that timedout
+        # Skip messages for commands that timeout
         if command in self._timeout_commands:
             return
 
@@ -126,7 +126,7 @@ class CommandHandler:
 
 
 class WebsocketConnection:
-    """Handles the websocket connection with AltTester.
+    """Handles the websocket connection with AltServer.
 
     Args:
         host (:obj:`str`, optional): The host to connect to. Defaults to ``127.0.0.1``.
@@ -224,7 +224,7 @@ class WebsocketConnection:
         """A callback which is called when the connection is closed."""
 
         logger.debug(
-            "Connection to AltTester closed with status code: {} and message: '{}'.",
+            "Connection to AltServer closed with status code: {} and message: '{}'.",
             close_status_code,
             close_msg
         )
@@ -296,7 +296,7 @@ class WebsocketConnection:
             raise exceptions.CommandResponseTimeoutException()
 
     def close(self):
-        logger.info("Closing connection to AltTester on host: {} port: {}", self.host, self.port)
+        logger.info("Closing connection to AltServer on host: {} port: {}", self.host, self.port)
 
         if self._websocket:
             self._websocket.close()
