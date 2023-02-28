@@ -4,7 +4,7 @@ import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
 
 /**
- * Simulate scroll mouse action in your game.
+ * Simulate scroll mouse action in your application.
  */
 public class AltScroll extends AltBaseCommand {
     private AltScrollParams params;

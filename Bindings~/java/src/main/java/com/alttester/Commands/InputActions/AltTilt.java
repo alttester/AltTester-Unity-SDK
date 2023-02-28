@@ -4,7 +4,7 @@ import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
 
 /**
- * Simulates device rotation action in your game.
+ * Simulates device rotation action in your application.
  */
 public class AltTilt extends AltBaseCommand {
     private AltTiltParams altTiltParameters;
