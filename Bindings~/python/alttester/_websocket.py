@@ -7,11 +7,11 @@ from threading import Thread
 from loguru import logger
 import websocket
 
+from . import exceptions
 from .commands.Notifications.notification_type import NotificationType
 from .commands.Notifications.load_scene_notification_result import LoadSceneNotificationResult
 from .commands.Notifications.log_notification_result import LogNotificationResult
 from .commands.Notifications.load_scene_mode import LoadSceneMode
-from .exceptions import ConnectionError, ConnectionTimeoutError, CommandResponseTimeoutException
 
 
 class Store:
@@ -150,6 +150,7 @@ class WebsocketConnection:
         self.delay = 0.1
 
         self._errors = deque()
+        self._close_message = None
 
         self._thread = None
         self._websocket = None
@@ -181,15 +182,26 @@ class WebsocketConnection:
         )
         self._thread = Thread(target=self._websocket.run_forever, daemon=True).start()
 
-    def _ensure_connection_is_open(self):
+    def _check_close_message(self):
+        if self._close_message:
+            if self._close_message[0] == 4001:
+                raise exceptions.NoAppConnected(self._close_message[1])
+
+            raise exceptions.ConnectionError("Connection closed by AltServer.")
+
+    def _check_errors(self):
         if self._errors:
             error = self._errors.pop()
             self.close()
-            raise ConnectionError(error)
+            raise exceptions.ConnectionError(error)
+
+    def _ensure_connection_is_open(self):
+        self._check_close_message()
+        self._check_errors()
 
         if self._websocket is None or not self._is_open:
             self.close()
-            raise ConnectionError("Connection already closed.")
+            raise exceptions.ConnectionError("Connection closed. An unexpected error ocurred.")
 
     def _on_message(self, ws, message):
         """A callback which is called when the connection receives data."""
@@ -212,10 +224,12 @@ class WebsocketConnection:
         """A callback which is called when the connection is closed."""
 
         logger.debug(
-            "Connection to AltTester closed with status code: {} and message: {}.",
+            "Connection to AltTester closed with status code: {} and message: '{}'.",
             close_status_code,
             close_msg
         )
+
+        self._close_message = (close_status_code, close_msg)
 
         self._is_open = False
         self._websocket = None
@@ -242,21 +256,18 @@ class WebsocketConnection:
             time.sleep(self.delay)
             elapsed_time += self.delay
 
-            if self._errors:
+            if self._errors or self._close_message:
                 self.close()
                 self._create_connection()
 
-        if self._errors and not self._is_open:
-            error = self._errors.pop()
-            self.close()
-
-            raise ConnectionError(error)
+        self._check_close_message()
+        self._check_errors()
 
         if not self._is_open:
             self.close()
 
-            raise ConnectionTimeoutError(
-                "Failed to connect to AltTester host: {} port: {}.".format(self.host, self.port)
+            raise exceptions.ConnectionTimeoutError(
+                "Failed to connect to AltServer host: {} port: {}.".format(self.host, self.port)
             )
 
     def send(self, data):
@@ -282,7 +293,7 @@ class WebsocketConnection:
 
         if elapsed_time > self.command_timeout:
             self._command_handler.timeout()
-            raise CommandResponseTimeoutException()
+            raise exceptions.CommandResponseTimeoutException()
 
     def close(self):
         logger.info("Closing connection to AltTester on host: {} port: {}", self.host, self.port)
