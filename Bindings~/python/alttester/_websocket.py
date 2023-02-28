@@ -307,6 +307,7 @@ class WebsocketConnection:
             self._thread = None
 
         self._errors = []
+        self._close_message = None
         self._is_open = False
 
     def add_notification_listener(self, notification_type, callback, overwrite=False):
