@@ -1203,7 +1203,7 @@ namespace AltTesterEditor
                 if (keepATSymbolChanged)
                     checkAltTesterSymbol();
                 labelAndInputFieldHorizontalLayout("AltServer Host*", ref EditorConfiguration.AltServerHost);
-                labelAndInputFieldHorizontalLayout("AltTester Port*", ref EditorConfiguration.AltServerPort);
+                labelAndInputFieldHorizontalLayout("AltServer Port*", ref EditorConfiguration.AltServerPort);
 
 
                 labelAndInputFieldHorizontalLayout("App Name", ref EditorConfiguration.AppName);
