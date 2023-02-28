@@ -205,7 +205,7 @@ class WebsocketConnection:
     def _on_error(self, ws, error):
         """A callback which is called when the connection gets an error."""
 
-        logger.debug("Error: {}", error)
+        logger.error("Error: {}", error)
         self._errors.append(error)
 
     def _on_close(self, ws, close_status_code, close_msg):

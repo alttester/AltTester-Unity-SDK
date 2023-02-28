@@ -10,11 +10,15 @@ class ConnectionError(AltException):
 
 
 class ConnectionTimeoutError(ConnectionError):
-    """Raised when the client connection timesout."""
+    """Raised when the client connection timeouts."""
+
+
+class NoAppConnected(ConnectionError):
+    """Raised when the client tries to connect to a server without an app."""
 
 
 class AltTesterInvalidServerResponse(AltException):
-    """Raised when the server responds with an invalid respose."""
+    """Raised when the server responds with an invalid response."""
 
     def __init__(self, expected, received):
         super().__init__("Expected to get response {}; got {}".format(expected, received))
@@ -73,7 +77,7 @@ class AssemblyNotFoundException(NotFoundException):
 
 
 class CouldNotPerformOperationException(AltException):
-    """Raised when an opperation could not be performed."""
+    """Raised when an operation could not be performed."""
 
 
 class CouldNotParseJsonStringException(AltException):
@@ -105,7 +109,7 @@ class FormatException(AltException):
 
 
 class InvalidPathException(AltException):
-    """Raised when a command recives an invalid path."""
+    """Raised when a command receives an invalid path."""
 
 
 class AltTesterInputModuleException(AltException):
