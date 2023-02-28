@@ -1202,11 +1202,11 @@ namespace AltTesterEditor
                 var keepATSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTTESTER symbol defined", ref EditorConfiguration.KeepAUTSymbolDefined);
                 if (keepATSymbolChanged)
                     checkAltTesterSymbol();
-                labelAndInputFieldHorizontalLayout("Proxy Host*", ref EditorConfiguration.ProxyHost);
-                labelAndInputFieldHorizontalLayout("AltTester Port*", ref EditorConfiguration.ProxyPort);
+                labelAndInputFieldHorizontalLayout("AltServer Host*", ref EditorConfiguration.AltServerHost);
+                labelAndInputFieldHorizontalLayout("AltServer Port*", ref EditorConfiguration.AltServerPort);
 
 
-                labelAndInputFieldHorizontalLayout("Game Name", ref EditorConfiguration.GameName);
+                labelAndInputFieldHorizontalLayout("App Name", ref EditorConfiguration.AppName);
             }
             GUIStyle style = new GUIStyle(GUI.skin.label)
             {

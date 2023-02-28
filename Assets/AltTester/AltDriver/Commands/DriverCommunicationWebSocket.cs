@@ -17,7 +17,7 @@ namespace AltTester.AltDriver.Commands
         private readonly string _host;
         private readonly int _port;
         private readonly string _uri;
-        private readonly string _gameName;
+        private readonly string _appName;
         private readonly int _connectTimeout;
         private Queue<CommandResponse> messages;
         private List<Action<AltLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltLoadSceneNotificationResultParams>>();
@@ -29,13 +29,13 @@ namespace AltTester.AltDriver.Commands
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
 
-        public DriverCommunicationWebSocket(string host, int port, int connectTimeout, string gameName)
+        public DriverCommunicationWebSocket(string host, int port, int connectTimeout, string appName)
         {
             _host = host;
             _port = port;
-            _gameName = gameName;
+            _appName = appName;
 
-            _uri = "ws://" + host + ":" + port + "/altws?game=" + Uri.EscapeUriString(gameName);
+            _uri = "ws://" + host + ":" + port + "/altws?appName=" + Uri.EscapeUriString(appName);
             _connectTimeout = connectTimeout;
 
             messages = new Queue<CommandResponse>();

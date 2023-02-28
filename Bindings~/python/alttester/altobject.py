@@ -5,7 +5,7 @@ from alttester.by import By
 
 
 class AltObject:
-    """The AltObject class represents an object present in the game and it allows you to interact with it.
+    """The AltObject class represents an object present in the application and it allows you to interact with it.
 
     It is the return type of the methods in the “find_*” category from the AltDriver class.
     """

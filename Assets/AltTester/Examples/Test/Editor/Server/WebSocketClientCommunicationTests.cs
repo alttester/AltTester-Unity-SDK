@@ -86,7 +86,7 @@ namespace Altom.AltInstrumentation.Tests
 
             var wsServer = new WebSocketServer("ws://0.0.0.0:13420");
 
-            wsServer.AddWebSocketService<MockServerHandler>("/altws/game", (context, handler) =>
+            wsServer.AddWebSocketService<MockServerHandler>("/altws/app", (context, handler) =>
             {
 
             });

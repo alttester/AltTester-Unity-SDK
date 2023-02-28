@@ -4,7 +4,7 @@ import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
 
 /**
- * Simulate scroll mouse action in your game. This command does not wait for the
+ * Simulate scroll mouse action in your application. This command does not wait for the
  * action to finish.
  */
 public class AltSwipe extends AltBaseCommand {

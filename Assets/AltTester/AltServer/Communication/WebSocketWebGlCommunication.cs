@@ -45,7 +45,7 @@ namespace AltTester.Communication
         public WebSocketWebGLCommunication(ICommandHandler cmdHandler, string host, int port)
         {
             Uri uri;
-            if (!Uri.TryCreate(string.Format("ws://{0}:{1}/altws/game", host, port), UriKind.Absolute, out uri))
+            if (!Uri.TryCreate(string.Format("ws://{0}:{1}/altws/app", host, port), UriKind.Absolute, out uri))
             {
                 throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
             }

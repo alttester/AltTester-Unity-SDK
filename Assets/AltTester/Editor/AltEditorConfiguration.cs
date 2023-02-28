@@ -24,10 +24,10 @@ namespace AltTesterEditor
         public bool createXMLReport = false;
         public string xMLFilePath = "";
 
-        public int ProxyPort = 13000;
-        public string ProxyHost = "127.0.0.1";
+        public int AltServerPort = 13000;
+        public string AltServerHost = "127.0.0.1";
 
-        public string GameName = "__default__";
+        public string AppName = "__default__";
 
         public AltInstrumentationSettings GetInstrumentationSettings()
         {
@@ -35,9 +35,9 @@ namespace AltTesterEditor
             {
                 ShowPopUp = ShowPopUp,
                 InputVisualizer = InputVisualizer,
-                ProxyPort = ProxyPort,
-                ProxyHost = ProxyHost,
-                GameName = GameName
+                AltServerPort = AltServerPort,
+                AltServerHost = AltServerHost,
+                AppName = AppName
             };
         }
         public bool KeepAUTSymbolDefined = false;
