@@ -371,7 +371,7 @@ namespace AltTesterTools
             LabelRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var LabelText = LabelGameObject.GetComponent<Text>();
-            LabelText.text = "To change the host, port or game name input a new value and press the Restart button.";
+            LabelText.text = "To change the host, port or app name input a new value and press the Restart button.";
             LabelText.fontSize = 20;
             LabelText.color = Color.white;
             LabelText.alignment = TextAnchor.MiddleCenter;
