@@ -5,7 +5,7 @@ import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
 
 /**
- * Delete entire player pref of the game
+ * Delete entire player pref of the application.
  */
 public class AltDeletePlayerPref extends AltBaseCommand {
     public AltDeletePlayerPref(IMessageHandler messageHandler) {

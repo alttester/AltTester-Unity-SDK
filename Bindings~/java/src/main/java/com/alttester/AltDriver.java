@@ -319,13 +319,13 @@ public class AltDriver {
     }
 
     /**
-     * Invokes static methods from your game.
+     * Invokes static methods from your application.
      *
      * @param altCallStaticMethodParams - String component* , String method* ,
      *                                  Object[] parameters* , String[]
      *                                  typeOfParameters , String assembly
      * @param returnType
-     * @return Static methods from your game
+     * @return Static methods from your application
      */
     public <T> T callStaticMethod(AltCallStaticMethodParams altCallStaticMethodParams, Class<T> returnType) {
         T response = new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParams)
@@ -366,7 +366,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulates device rotation action in your game.
+     * Simulates device rotation action in your application.
      *
      * @param altTiltParameter - Vector3 acceleration* , float duration , boolean
      *                         wait
@@ -377,7 +377,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulates key press action in your game.
+     * Simulates key press action in your application.
      *
      * @param altPressKeyParameters - AltKeyCode keyCode* , float power , float
      *                              duration , boolean wait
@@ -390,7 +390,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulates multiple keys pressed action in your game.
+     * Simulates multiple keys pressed action in your application.
      *
      * @param altPressKeysParameters - AltKeyCode[] keyCodes* , float power ,
      *                               float duration , boolean wait
@@ -444,7 +444,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulate mouse movement in your game.
+     * Simulate mouse movement in your application.
      *
      * @param altMoveMouseParams - Vector2 coordinates* , float duration , boolean
      *                           wait
@@ -455,7 +455,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulate scroll action in your game.
+     * Simulate scroll action in your application.
      *
      * @param altScrollParams - float speed , float speedHorizontal , float duration
      *                        , boolean wait
