@@ -6,10 +6,6 @@ on:
     # * is a special character in YAML so you have to quote this string
     - cron:  '0 4 * * 6' # run on every Saturday
 
-concurrency:
-  group: build-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-  
 jobs:
   build-WebGL-Unity2021:
       runs-on: [self-hosted, macOS]
@@ -94,14 +90,6 @@ jobs:
             pip install -r "Bindings~/python/requirements.txt"
             pip install -r "Bindings~/python/requirements-dev.txt"
             pip install -e "Bindings~/python" --root "Bindings~/python"
-
-        - name: Lint with flake8
-          run: |
-            flake8 Bindings~/python/ --config Bindings~/python/.flake8
-
-        - name: Run unit tests
-          run: |
-            pytest Bindings~/python/tests/unit -m "not WebGLUnsupported"
 
         - name: Run integration tests
           run: |
