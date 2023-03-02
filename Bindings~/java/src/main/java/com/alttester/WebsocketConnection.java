@@ -26,22 +26,22 @@ public class WebsocketConnection {
     private String _uri;
     private String _host;
     private int _port;
-    private String _gameName;
+    private String _appName;
     private int _connectTimeout;
 
     public Session session = null;
     public IMessageHandler messageHandler = null;
 
-    public WebsocketConnection(String host, int port, int connectTimeout, String gameName) {
+    public WebsocketConnection(String host, int port, int connectTimeout, String appName) {
         _host = host;
         _port = port;
-        _gameName = gameName;
+        _appName = appName;
         _connectTimeout = connectTimeout;
     }
 
     public URI getURI() throws ConnectionException {
         try {
-            return new URI("ws", null, _host, _port, "/altws", "game=" + _gameName, null);
+            return new URI("ws", null, _host, _port, "/altws", "appName=" + _appName, null);
         } catch (URISyntaxException e) {
             logger.error(e);
             throw new ConnectionException(e.getMessage(), e);

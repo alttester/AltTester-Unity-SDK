@@ -94,7 +94,7 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
 Steps:
 
-1. Open the AltTester Editor window from Unity Editor -> AltTester -> AltTester Editor <!--2. In the Build Settings section set the **Proxy host** to the IP/hostname of the device where the Proxy is running. Set the **Proxy port** to the port configured in the Proxy. -->
+1. Open the AltTester Editor window from Unity Editor -> AltTester -> AltTester Editor <!--2. In the Build Settings section set the **AltServer host** to the IP/hostname of the device where the AltServer is running. Set the **AltServer port** to the port configured in the AltServer. -->
 2. In the Build Settings section set **AltTester Port** to 13000
 3. In the Scene Manager section select the scenes you want to include in your build
 4. In the Platform section select desired platform and set the path to where you want to save the build
@@ -135,9 +135,9 @@ Steps:
 
 ```
 
-## Start the Proxy Module
+## Start the AltServer Module
 
-The Proxy Module is incorporated in AltTester Desktop. In order to start it, all you have to do is to start AltTester Desktop.
+The AltServer Module is incorporated in AltTester Desktop. In order to start it, all you have to do is to start AltTester Desktop.
 
 
 ## Run your game in Unity or on desired platform
@@ -198,7 +198,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
 .. note::
 
-    You can switch between regular and custom input by toggling the box with the `Custom Input` label. Take into consideration that if you are using the New Input System, then after activating the custom input, you will only be able to interact with the instrumented build via your automated tests or the AltTester Desktop.         
+    You can switch between regular and custom input by toggling the box with the `Custom Input` label. Take into consideration that if you are using the New Input System, then after activating the custom input, you will only be able to interact with the instrumented build via your automated tests or the AltTester Desktop.
 
 ```
 
@@ -423,7 +423,7 @@ Now your project can use all the [AltDriver Commands](./commands.md).
 ```eval_rst
 
 .. note::
-    Before running your tests, start the Proxy and the Instrumented Unity app.
+    Before running your tests, start the AltServer and the Instrumented Unity app.
 
 ```
 -->

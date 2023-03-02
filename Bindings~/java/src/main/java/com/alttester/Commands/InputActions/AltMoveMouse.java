@@ -4,7 +4,7 @@ import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
 
 /**
- * Simulate mouse movement in your game. This command does not wait for the
+ * Simulate mouse movement in your application. This command does not wait for the
  * movement to finish.
  */
 public class AltMoveMouse extends AltBaseCommand {

@@ -13,7 +13,7 @@ public class TestNotification
     [OneTimeSetUp]
     public void SetUp()
     {
-        string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
+        string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
         int port = 13000;
         if (!string.IsNullOrEmpty(portStr)) port = int.Parse(portStr);
         altDriver = TestsHelper.GetAltDriver();

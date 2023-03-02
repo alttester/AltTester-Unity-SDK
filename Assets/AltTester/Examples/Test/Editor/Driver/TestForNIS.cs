@@ -304,39 +304,38 @@ public class TestForNIS
         Assert.AreEqual("Capsule was tapped!", text);
     }
 
- 	// flaky test, there is a ticket created for fixing it 
-    // [TestCase(1)]
-    // [TestCase(2)]
-    // [TestCase(3)]
-    // public void TestCheckActionDoNotDoubleClick(int numberOfClicks)
-    // {
-    //     altDriver.LoadScene(scene11);
-    //     float interval = 0.3f;
-    //     altDriver.SetDelayAfterCommand(0.1f);
-    //     var counterButton = altDriver.FindObject(By.NAME, "Canvas/Button");
-    //     var text = altDriver.FindObject(By.NAME, "Canvas/Button/Text");
-    //     counterButton.Click(numberOfClicks, interval);
-    //     Assert.AreEqual(numberOfClicks, int.Parse(text.GetText()));
-    //     counterButton.Tap(numberOfClicks, interval);
-    //     Assert.AreEqual(2 * numberOfClicks, int.Parse(text.GetText()));
-    //     altDriver.Click(counterButton.GetScreenPosition(), numberOfClicks, interval);
-    //     Assert.AreEqual(3 * numberOfClicks, int.Parse(text.GetText()));
-    //     altDriver.Tap(counterButton.GetScreenPosition(), numberOfClicks, interval);
-    //     Assert.AreEqual(4 * numberOfClicks, int.Parse(text.GetText()));
-    //     altDriver.MoveMouse(counterButton.GetScreenPosition(), interval);
-    //     for (int i = 0; i < numberOfClicks; i++)
-    //     {
-    //         altDriver.KeyDown(AltKeyCode.Mouse0);
-    //         altDriver.KeyUp(AltKeyCode.Mouse0);
-    //     }
-    //     Assert.AreEqual(5 * numberOfClicks, int.Parse(text.GetText()));
-    //     for (int i = 0; i < numberOfClicks; i++)
-    //     {
-    //         altDriver.HoldButton(counterButton.GetScreenPosition(), 0.1f);
-    //     }
-    //     Assert.AreEqual(6 * numberOfClicks, int.Parse(text.GetText()));
-    //     altDriver.SetDelayAfterCommand(0);
-
-    // }
+    [Ignore("Flaky. Skip until https://github.com/alttester/AltTester-Unity-SDK/issues/1130 is fixed.")]
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void TestCheckActionDoNotDoubleClick(int numberOfClicks)
+    {
+        altDriver.LoadScene(scene11);
+        float interval = 0.3f;
+        altDriver.SetDelayAfterCommand(0.1f);
+        var counterButton = altDriver.FindObject(By.NAME, "Canvas/Button");
+        var text = altDriver.FindObject(By.NAME, "Canvas/Button/Text");
+        counterButton.Click(numberOfClicks, interval);
+        Assert.AreEqual(numberOfClicks, int.Parse(text.GetText()));
+        counterButton.Tap(numberOfClicks, interval);
+        Assert.AreEqual(2 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.Click(counterButton.GetScreenPosition(), numberOfClicks, interval);
+        Assert.AreEqual(3 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.Tap(counterButton.GetScreenPosition(), numberOfClicks, interval);
+        Assert.AreEqual(4 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.MoveMouse(counterButton.GetScreenPosition(), interval);
+        for (int i = 0; i < numberOfClicks; i++)
+        {
+            altDriver.KeyDown(AltKeyCode.Mouse0);
+            altDriver.KeyUp(AltKeyCode.Mouse0);
+        }
+        Assert.AreEqual(5 * numberOfClicks, int.Parse(text.GetText()));
+        for (int i = 0; i < numberOfClicks; i++)
+        {
+            altDriver.HoldButton(counterButton.GetScreenPosition(), 0.1f);
+        }
+        Assert.AreEqual(6 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.SetDelayAfterCommand(0);
+    }
 
 }

@@ -13,17 +13,17 @@ namespace AltTester.Communication
 
         private readonly int port;
         private readonly string host;
-        private readonly string gameName;
+        private readonly string appName;
 
-        public WebSocketClientCommunication(ICommandHandler cmdHandler, string host, int port, string gameName)
+        public WebSocketClientCommunication(ICommandHandler cmdHandler, string host, int port, string appName)
         {
             this.port = port;
             this.host = host;
-            this.gameName = gameName;
+            this.appName = appName;
 
             Uri uri;
 
-            if (!Uri.TryCreate(string.Format("ws://{0}:{1}/altws/game?game={2}", host, port, Uri.EscapeUriString(gameName)), UriKind.Absolute, out uri))
+            if (!Uri.TryCreate(string.Format("ws://{0}:{1}/altws/app?appName={2}", host, port, Uri.EscapeUriString(appName)), UriKind.Absolute, out uri))
             {
                 throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
             }
@@ -73,7 +73,7 @@ namespace AltTester.Communication
             }
             catch (Exception ex)
             {
-                throw new UnhandledStartCommError("An error occurred while starting the CommunicationProtocol Proxy mode.", ex);
+                throw new UnhandledStartCommError("An error occurred while starting the AltTester client.", ex);
             }
         }
     }
