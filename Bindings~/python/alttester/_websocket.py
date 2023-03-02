@@ -186,6 +186,8 @@ class WebsocketConnection:
         if self._close_message:
             if self._close_message[0] == 4001:
                 raise exceptions.NoAppConnected(self._close_message[1])
+            if self._close_message[0] == 4002:
+                raise exceptions.AppDisconnectedError(self._close_message[1])
 
             raise exceptions.ConnectionError("Connection closed by AltServer.")
 
@@ -253,12 +255,12 @@ class WebsocketConnection:
         self._create_connection()
 
         while not self._is_open and (self.timeout is None or elapsed_time < self.timeout):
-            time.sleep(self.delay)
-            elapsed_time += self.delay
-
             if self._errors or self._close_message:
                 self.close()
                 self._create_connection()
+
+            time.sleep(self.delay)
+            elapsed_time += self.delay
 
         self._check_close_message()
         self._check_errors()

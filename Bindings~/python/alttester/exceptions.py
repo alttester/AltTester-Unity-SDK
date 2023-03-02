@@ -6,7 +6,7 @@ class AltException(Exception):
 
 
 class ConnectionError(AltException):
-    """Raised when the client can not connect to the server."""
+    """Raised when the client can not connect to the server. Used as base class for all connection exceptions."""
 
 
 class ConnectionTimeoutError(ConnectionError):
@@ -15,6 +15,10 @@ class ConnectionTimeoutError(ConnectionError):
 
 class NoAppConnected(ConnectionError):
     """Raised when the client tries to connect to a server without an app."""
+
+
+class AppDisconnectedError(ConnectionError):
+    """Raised when the app closed the connection or unexpectedly disconnected."""
 
 
 class AltTesterInvalidServerResponse(AltException):
