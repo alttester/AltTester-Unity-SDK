@@ -1,4 +1,4 @@
-﻿namespace Altom.AltDriver
+﻿namespace AltTester.AltDriver
 {
     [System.Serializable]
     public class AltAxis

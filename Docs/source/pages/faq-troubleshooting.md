@@ -24,7 +24,7 @@ Yes, AltTester Unity SDK can be used alongside Appium. Appium allows you to acce
 <details>
 <summary> What versions of Unity does AltTester Unity SDK work with? </summary>
 <br>
-AltTester Unity SDK works with Unity 2018.1 or higher. If you encounter any issues we'd like to hear about them. You can <a href="contributing.html#did-you-find-a-bug">raise an issue</a> or join our community on <a href="https://discord.gg/Ag9RSuS">Discord</a> or <a href="https://groups.google.com/a/altom.com/g/alttesterforum">Google Groups</a>.
+AltTester Unity SDK works with Unity 2020.3.0 or higher. If you encounter any issues we'd like to hear about them. You can <a href="contributing.html#did-you-find-a-bug">raise an issue</a> or join our community on <a href="https://discord.gg/Ag9RSuS">Discord</a> or <a href="https://groups.google.com/a/altom.com/g/alttesterforum">Google Groups</a>.
 </details>
 <br>
 
@@ -56,13 +56,6 @@ In order to run tests using AltTester Unity SDK you require an <a href="get-star
 <summary> I get <strong>`waiting for connection on port 13000`</strong> popup message when i start my Unity App </summary>
 <br>
 The popup message shows up when you start your instrumented Unity App. It tells you that the AltTester Unity SDK is ready and you can start running your tests.
-</details>
-<br>
-
-<details>
-<summary> Why do I get an <strong>error when trying to call the port forwarding </strong>methods? </summary>
-<br>
-You need to make sure the following third party tools are installed: ADB - Android  or iproxy - iOS. For more information you can check our <a href="advanced-usage.html#how-to-setup-port-forwarding">setup port forwarding guide</a>.
 </details>
 <br>
 
@@ -144,6 +137,59 @@ Pass the full path of iproxy to <em>AltPortForwarding.ForwardIos</em>
 
 After reopening Unity Editor, add again the AltTester package in your project.
 <br>
+
+</details>
+<br>
+
+<details>
+<summary>I get the error: <strong>The type or namespace name 'InputSystem' does not exist in the namespace 'UnityEngine' (are you missing an assembly reference?)</strong></summary>
+<br>
+
+You get this error because you don't have the Input System (New) package. If you only want to use the Input Manager (Old) in your project, follow this steps:
+<br>
+- <strong>delete</strong>: 
+    - `Assets\AltTester\AltServer\NewInputSystem.cs`
+    - `Assets\AltTester\AltServer\AltKeyMapping.cs`
+- <strong>comment</strong> in `Assets\AltTester\AltServer\AltPrefabDrag.cs` the entire `#else` statement
+
+    ```
+    #if ENABLE_LEGACY_INPUT_MANAGER
+                eventData.pointerDrag.transform.position = Input.mousePosition;
+    // #else
+            // eventData.pointerDrag.gameObject.transform.position = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+    #endif
+    ```
+- <strong>comment</strong> in `Assets\AltTester\AltServer\Input.cs`:
+    - all imports for using `UnityEngine.InputSystem.UI`
+        ```   
+        #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+
+        using System;
+        using System.Collections;
+        using System.Collections.Generic;
+        using System.Linq;
+        using Altom.AltDriver;
+        using Altom.AltTester;
+        using Altom.AltTester.InputModule;
+        using UnityEngine;
+        using UnityEngine.EventSystems;
+        // using UnityEngine.InputSystem.UI;
+        using UnityEngine.Scripting;
+        ```  
+    - all `if` lines that contain `InputSystemUIInputModule` and the curly brackets inside these `if` statements making sure to leave the code inside the brackets uncommented
+        ```
+        // if (EventSystem.current.currentInputModule != null && EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                // {
+                    if (eventSystemTarget != previousEventSystemTarget)
+                    {
+                        if (previousEventSystemTarget != null) UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+                        if (eventSystemTarget != null && previousMousePosition != mousePosition) UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
+                        previousEventSystemTarget = eventSystemTarget;
+                    }
+                // }
+        ```
+     
+- <strong>comment</strong> in `Assets\AltTester\AltServer\AltMockUpPointerInputModule.cs` the same as the above
 
 </details>
 <br>

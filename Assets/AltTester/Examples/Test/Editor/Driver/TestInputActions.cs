@@ -1,9 +1,9 @@
-using Altom.AltDriver;
-using Altom.AltDriver.Logging;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Logging;
 using NUnit.Framework;
 
 
-namespace Altom.AltDriver.Tests
+namespace AltTester.AltDriver.Tests
 {
     public class TestInputActions : TestBase
     {
@@ -20,7 +20,7 @@ namespace Altom.AltDriver.Tests
 
             AltVector2 scrollBarInitialPosition = scrollBar.GetScreenPosition();
             altDriver.MoveMouse(scrollBarInitialPosition);
-            altDriver.Scroll(-20, 0.1f);
+            altDriver.Scroll(-20, 0.3f);
 
             scrollBar = altDriver.FindObject(By.PATH, "//ScrollCanvas//Handle");
             AltVector2 scrollBarFinalPosition = scrollBar.GetScreenPosition();

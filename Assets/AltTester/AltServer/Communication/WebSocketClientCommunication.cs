@@ -1,23 +1,29 @@
 using System;
-using Altom.AltTester.Logging;
+using AltTester.Logging;
 using AltWebSocketSharp;
 
-namespace Altom.AltTester.Communication
+namespace AltTester.Communication
 {
     public class WebSocketClientCommunication : ICommunication
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
         private readonly AltClientWebSocketHandler websocketHandler;
+
         WebSocket wsClient;
+
         private readonly int port;
         private readonly string host;
+        private readonly string appName;
 
-        public WebSocketClientCommunication(ICommandHandler cmdHandler, string host, int port)
+        public WebSocketClientCommunication(ICommandHandler cmdHandler, string host, int port, string appName)
         {
             this.port = port;
             this.host = host;
+            this.appName = appName;
+
             Uri uri;
-            if (!Uri.TryCreate(string.Format("ws://{0}:{1}/altws/game", host, port), UriKind.Absolute, out uri))
+
+            if (!Uri.TryCreate(string.Format("ws://{0}:{1}/altws/app?appName={2}", host, port, Uri.EscapeUriString(appName)), UriKind.Absolute, out uri))
             {
                 throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
             }
@@ -25,10 +31,12 @@ namespace Altom.AltTester.Communication
             wsClient = new WebSocket(uri.ToString());
             wsClient.Log.Level = LogLevel.Fatal;
             websocketHandler = new AltClientWebSocketHandler(wsClient, cmdHandler);
+
             wsClient.OnOpen += (sender, message) =>
             {
                 if (this.OnConnect != null) this.OnConnect();
             };
+
             wsClient.OnClose += (sender, args) =>
             {
                 if (this.OnDisconnect != null) this.OnDisconnect();
@@ -65,7 +73,7 @@ namespace Altom.AltTester.Communication
             }
             catch (Exception ex)
             {
-                throw new UnhandledStartCommError("An error occurred while starting the CommunicationProtocol Proxy mode.", ex);
+                throw new UnhandledStartCommError("An error occurred while starting the AltTester client.", ex);
             }
         }
     }

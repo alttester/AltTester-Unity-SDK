@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using static UnityEngine.EventSystems.ExecuteEvents;
 
-namespace Altom.AltTester
+namespace AltTester
 {
     public class AltMockUpPointerInputModule : StandaloneInputModule
     {

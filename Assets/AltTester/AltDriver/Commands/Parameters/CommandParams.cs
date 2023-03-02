@@ -1,13 +1,16 @@
 using System;
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.Notifications;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Notifications;
 using Newtonsoft.Json;
-namespace Altom.AltDriver.Commands
+namespace AltTester.AltDriver.Commands
 {
     public class CommandParams
     {
         public string messageId;
+        public string driverId;
         public string commandName;
+        public bool isNotification;
+
         public CommandParams()
         {
             CommandAttribute cmdAttribute =
@@ -46,6 +49,7 @@ namespace Altom.AltDriver.Commands
     public class CommandResponse
     {
         public string messageId;
+        public string driverId;
         public string commandName;
         public CommandError error;
         public String data;
@@ -701,6 +705,7 @@ namespace Altom.AltDriver.Commands
             this.fingerId = fingerId;
         }
     }
+
     [Command("activateNotification")]
     public class ActivateNotification : CommandParams
     {
@@ -711,6 +716,7 @@ namespace Altom.AltDriver.Commands
             NotificationType = notificationType;
         }
     }
+
     [Command("deactivateNotification")]
     public class DeactivateNotification : CommandParams
     {

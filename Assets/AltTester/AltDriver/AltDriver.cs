@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Altom.AltDriver.Commands;
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.Notifications;
+using AltTester.AltDriver.Commands;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Notifications;
 
-namespace Altom.AltDriver
+namespace AltTester.AltDriver
 {
     public enum By
     {
@@ -21,13 +22,14 @@ namespace Altom.AltDriver
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
         /// <summary>
-        /// Initiates AltDriver and begins connection with the instrumented Unity application through to AltProxy
+        /// Initiates AltDriver and begins connection with the instrumented Unity application through to AltServer.
         /// </summary>
-        /// <param name="host">The ip or hostname  AltProxy is listening on.</param>
-        /// <param name="port">The port AltProxy is listening on.</param>
+        /// <param name="host">The IP or hostname AltServer is listening on.</param>
+        /// <param name="port">The port AltServer is listening on.</param>
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
-        public AltDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60)
+        /// <param name="appName">The name of the Unity application.</param>
+        public AltDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60, string appName = "__default__")
         {
 #if UNITY_EDITOR || ALTTESTER
             var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Unity, AltLogLevel.Debug } };
@@ -38,9 +40,17 @@ namespace Altom.AltDriver
             DriverLogManager.SetupAltDriverLogging(defaultLevels);
 
             if (!enableLogging)
+            {
                 DriverLogManager.StopLogging();
+            }
 
-            communicationHandler = new DriverCommunicationWebSocket(host, port, connectTimeout);
+            logger.Debug(
+                "Connecting to AltTester on host: '{0}', port: '{1}' and appName: '{2}'.",
+                host,
+                port,
+                appName
+            );
+            communicationHandler = new DriverCommunicationWebSocket(host, port, connectTimeout, appName);
             communicationHandler.Connect();
 
             checkServerVersion();
@@ -288,7 +298,7 @@ namespace Altom.AltDriver
         }
 
         /// <summary>
-        /// Simulates key press action in your game.
+        /// Simulates key press action in your app.
         /// </summary>
         /// <param name="keyCode">The key code of the key simulated to be pressed.</param>
         /// <param name="power" >A value between [-1,1] used for joysticks to indicate how hard the button was pressed. Defaults to <c>1</c>.</param>
@@ -301,7 +311,7 @@ namespace Altom.AltDriver
         }
 
         /// <summary>
-        /// Simulates multiple keys pressed action in your game.
+        /// Simulates multiple keys pressed action in your app.
         /// </summary>
         /// <param name="keyCodes">The list of key codes of the keys simulated to be pressed.</param>
         /// <param name="power" >A value between [-1,1] used for joysticks to indicate how hard the button was pressed. Defaults to <c>1</c>.</param>
@@ -320,7 +330,7 @@ namespace Altom.AltDriver
         }
 
         /// <summary>
-        /// Simulates multiple keys down action in your game.
+        /// Simulates multiple keys down action in your app.
         /// </summary>
         /// <param name="keyCodes">The key codes of the keys simulated to be down.</param>
         /// <param name="power" >A value between [-1,1] used for joysticks to indicate how hard the button was pressed. Defaults to <c>1</c>.</param>
@@ -337,7 +347,7 @@ namespace Altom.AltDriver
         }
 
         /// <summary>
-        /// Simulates multiple keys up action in your game.
+        /// Simulates multiple keys up action in your app.
         /// </summary>
         /// <param name="keyCodes">The key codes of the keys simulated to be up.</param>
         public void KeysUp(AltKeyCode[] keyCodes)
@@ -347,7 +357,7 @@ namespace Altom.AltDriver
         }
 
         /// <summary>
-        /// Simulate mouse movement in your game.
+        /// Simulate mouse movement in your app.
         /// </summary>
         /// <param name="coordinates">The screen coordinates</param>
         /// <param name="duration">The time measured in seconds to move the mouse from the current mouse position to the set coordinates. Defaults to <c>0.1f</c></param>
@@ -359,7 +369,7 @@ namespace Altom.AltDriver
         }
 
         /// <summary>
-        /// Simulate scroll action in your game.
+        /// Simulate scroll action in your app.
         /// </summary>
         /// <param name="speed">Set how fast to scroll. Positive values will scroll up and negative values will scroll down. Defaults to <code> 1 </code></param>
         /// <param name="duration">The duration of the scroll in seconds. Defaults to <code> 0.1 </code></param>
@@ -371,7 +381,7 @@ namespace Altom.AltDriver
         }
 
         /// <summary>
-        /// Simulate scroll action in your game.
+        /// Simulate scroll action in your app.
         /// </summary>
         /// <param name="scrollValue">Set how fast to scroll. X is horizontal and Y is vertical. Defaults to <code> 1 </code></param>
         /// <param name="duration">The duration of the scroll in seconds. Defaults to <code> 0.1 </code></param>
@@ -409,7 +419,7 @@ namespace Altom.AltDriver
         }
 
         /// <summary>
-        /// Simulates device rotation action in your game.
+        /// Simulates device rotation action in your app.
         /// </summary>
         /// <param name="acceleration">The linear acceleration of a device.</param>
         /// <param name="duration">How long the rotation will take in seconds. Defaults to <code>0.1<code>.</param>

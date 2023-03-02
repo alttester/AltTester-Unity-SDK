@@ -2,11 +2,14 @@ package com.alttester;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -17,8 +20,7 @@ import javax.websocket.WebSocketContainer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.alttester.altTesterExceptions.ConnectionException;
-import com.alttester.altTesterExceptions.ConnectionTimeoutException;
+import com.alttester.altTesterExceptions.*;
 
 @ClientEndpoint
 public class WebsocketConnection {
@@ -26,13 +28,94 @@ public class WebsocketConnection {
     private String _uri;
     private String _host;
     private int _port;
+    private String _appName;
     private int _connectTimeout;
+
     public Session session = null;
     public IMessageHandler messageHandler = null;
 
+    public WebsocketConnection(String host, int port, int connectTimeout, String appName) {
+        _host = host;
+        _port = port;
+        _appName = appName;
+        _connectTimeout = connectTimeout;
+    }
+
+    public URI getURI() throws ConnectionException {
+        try {
+            return new URI("ws", null, _host, _port, "/altws", "appName=" + _appName, null);
+        } catch (URISyntaxException e) {
+            logger.error(e);
+            throw new ConnectionException(e.getMessage(), e);
+        }
+    }
+
+    public void connect() {
+        URI uri = getURI();
+        logger.info("Connecting to: '{}'.", uri.toString());
+
+        int delay = 100;
+        int retries = 0;
+        long timeout = _connectTimeout * 1000;
+        long start = System.currentTimeMillis();
+        long finish = System.currentTimeMillis();
+
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+
+        Exception connectionError = null;
+
+        while (finish - start < timeout) {
+            try {
+                if (retries > 0) {
+                    logger.debug("Retrying #{} to: '{}'.", retries, uri);
+                }
+
+                this.session = container.connectToServer(this, uri);
+            } catch (IllegalStateException e) {
+                logger.error(e);
+                throw new ConnectionException(e.getMessage(), e);
+            } catch (DeploymentException | IOException e) {
+                connectionError = e;
+            }
+
+            try {
+                Thread.sleep(delay); // delay between retries
+            } catch (InterruptedException e) {
+                break;
+            }
+
+            if (this.session != null && this.session.isOpen()) {
+                break;
+            }
+
+            retries++;
+            finish = System.currentTimeMillis();
+        }
+
+        if (this.session == null || (!this.session.isOpen() && finish - start >= timeout)) {
+            throw new ConnectionTimeoutException(
+                    String.format("Failed to connect to AltTester on host: %s port: %s.", _host, _port),
+                    connectionError);
+        }
+
+        if (!this.session.isOpen()) {
+            throw new ConnectionException(
+                    String.format("Failed to connect to AltTester on host: %s port: %s.", _host, _port),
+                    connectionError);
+        }
+    }
+
+    public void close() throws IOException {
+        logger.info(String.format("Closing connection to AltTester on host: %s port: %s.", _host, _port));
+
+        if (this.session != null) {
+            this.session.close();
+        }
+    }
+
     @OnOpen
     public void onOpen(Session session) {
-        logger.debug("Connected to: " + _uri);
+        logger.debug("Connected to: " + session.getRequestURI().toString());
         this.session = session;
         this.messageHandler = new MessageHandler(session);
     }
@@ -53,67 +136,5 @@ public class WebsocketConnection {
     @OnClose
     public void onClose(Session session, CloseReason reason) {
         logger.debug("Connection to AltTester closed: {}.", reason.toString());
-    }
-
-    public WebsocketConnection(String host, int port, int connectTimeout) {
-        _host = host;
-        _port = port;
-        _uri = "ws://" + host + ":" + port + "/altws/";
-        _connectTimeout = connectTimeout;
-    }
-
-    public void connect() {
-        int delay = 100;
-        logger.info("Connecting to host: {} port: {}.", _host, _port);
-        long start = System.currentTimeMillis();
-        long finish = System.currentTimeMillis();
-        int retries = 0;
-
-        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-
-        Exception connectionError = null;
-        while (finish - start < _connectTimeout * 1000) {
-            try {
-                if (retries > 0) {
-                    logger.debug("Retrying #{} to host: {} port: {}.", retries, _host, _port);
-                }
-
-                this.session = container.connectToServer(this, URI.create(_uri));
-
-            } catch (IllegalStateException e) {
-                logger.error(e);
-                throw new ConnectionException(e.getMessage(), e);
-            } catch (DeploymentException | IOException e) {
-                connectionError = e;
-            }
-            try {
-                Thread.sleep(delay); // delay between retries
-            } catch (InterruptedException e) {
-                break;
-            }
-
-            if (this.session != null && this.session.isOpen())
-                break;
-
-            retries++;
-            finish = System.currentTimeMillis();
-        }
-        if (this.session == null || (!this.session.isOpen() && finish - start >= _connectTimeout * 1000)) {
-            throw new ConnectionTimeoutException(
-                    String.format("Failed to connect to AltTester on host: %s port: %s.", _host, _port),
-                    connectionError);
-        }
-        if (!this.session.isOpen())
-            throw new ConnectionException(
-                    String.format("Failed to connect to AltTester on host: %s port: %s.", _host, _port),
-                    connectionError);
-    }
-
-    public void close() throws IOException {
-        logger.info(String.format("Closing connection to AltTester on host: %s port: %s.", _host, _port));
-
-        if (this.session != null) {
-            this.session.close();
-        }
     }
 }

@@ -1,8 +1,8 @@
 ﻿
 using System;
-using Altom.AltDriver.Logging;
+using AltTester.AltDriver.Logging;
 
-namespace Altom.AltDriver
+namespace AltTester.AltDriver
 {
     public class AltErrors
     {

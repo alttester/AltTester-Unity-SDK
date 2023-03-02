@@ -3,6 +3,10 @@
 This guide covers some of the more advanced features, patterns and
 configuration options of AltTester Unity SDK.
 
+## Custom input vs. regular input
+
+AltTester's custom input is active, by default, in any instrumented build. This means that certain input related actions (the ones that are part of Unity's `Input` class) will be inactive for regular input (the device's input). Because of this, pressing a key from the keyboard for example will not have any effect on the game. However, the simulated input from the tests, like the `PressKey` command, will be able to manipulate the object within the scene. While the custom input is active, the icon from the right bottom corner is green. You can change this behaviour by clicking on the AltTester's icon and unchecking the box with the `Custom Input` message. Now the icon will turn darker, signaling that the regular input is active. In this state, you can interfere with the object from the game using the keyboard or other input. Keep in mind that, input actions from the AltTester Desktop won't have any effect while regular input is active. At the same time, if you want to run some automated tests, the custom input will be activated automatically for you.
+
 ## Build games from the command line
 
 To build your Unity application from command line you need a static method in
@@ -97,7 +101,7 @@ commands:
 
     .. tab:: C#
 
-        Available Alt command line arguments:
+        Available AltTester SDK command line arguments:
 
         ``-testsClass`` - runs tests from given class/classes
 
@@ -105,13 +109,13 @@ commands:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass MyTestClass -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass MyTestClass -logFile logFile.log -batchmode -quit
 
         Example command running tests from two test classes:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass MyTestClass1 MyTestClass2 -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsClass MyTestClass1 MyTestClass2 -logFile logFile.log -batchmode -quit
 
         ``-tests`` - runs given test/tests
 
@@ -119,13 +123,13 @@ commands:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyTestClass.MyTestName -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyTestClass.MyTestName -logFile logFile.log -batchmode -quit
 
         Example command running two tests:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyTestClass1.MyTestName1 MyTestClass2.MyTestName2 -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyTestClass1.MyTestName1 MyTestClass2.MyTestName2 -logFile logFile.log -batchmode -quit
 
         ``-testsAssembly`` - runs tests from given assembly/assemblies
 
@@ -133,19 +137,19 @@ commands:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly -logFile logFile.log -batchmode -quit
 
         Example command running tests from two assemblies:
 
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly1 MyAssembly2 -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly1 MyAssembly2 -logFile logFile.log -batchmode -quit
 
         ``-reportPath`` - the xml test report will be generated here
         
         .. code-block:: bash
 
-            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -reportPath $PROJECT_DIR/testReport.xml -logFile logFile.log -batchmode -quit
+            <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -reportPath $PROJECT_DIR/testReport.xml -logFile logFile.log -batchmode -quit
 
     .. tab:: Java
 
@@ -188,7 +192,7 @@ When you run your game instrumented with AltTester Unity SDK, on a device, you n
 to tell your AltDriver how to connect to it.
 
 Port forwarding can be set up either through a command line command or in the
-test code by using the methods available in Alt classes.
+test code by using the methods available in AltTester SDK classes.
 
 The following are some cases when Port Forwarded is needed:
 
@@ -200,7 +204,7 @@ The following are some cases when Port Forwarded is needed:
 Port forwarding can be set up in three ways:
 
 - through a command line command (using ADB/IProxy)
-- in the test code by using the methods available in Alt classes
+- in the test code by using the methods available in AltTester SDK classes
 - from AltTester Editor - Port Forwarding Section
 
 All methods listed above require that you have ADB or IProxy installed.
@@ -328,11 +332,23 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
 There are multiple scenarios on how to connect to the AltTester Unity SDK running inside a game:
 
-1. [Connect to the game running on the same machine as the test code](#connect-to-the-game-running-on-the-same-machine-as-the-test-code)
-2. [Connect to the game running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device) by using [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it).
-3. [Connect to the device running the game by using an IP address](#connect-to-the-device-running-the-game-by-using-an-ip-address)
-4. [Connect to multiple devices running the game](#connect-to-multiple-devices-running-the-game) by using [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it).
-5. [Connect to multiple builds of the application running on the same device](#connect-to-multiple-builds-of-the-application-running-on-the-same-device)
+- [Advanced Usage](#advanced-usage)
+  - [Build games from the command line](#build-games-from-the-command-line)
+  - [Run tests from the command line](#run-tests-from-the-command-line)
+  - [Run tests on a Continuous Integration Server](#run-tests-on-a-continuous-integration-server)
+  - [What is port forwarding and when to use it](#what-is-port-forwarding-and-when-to-use-it)
+    - [How to setup port forwarding](#how-to-setup-port-forwarding)
+  - [Connect to AltTester Unity SDK running inside the game](#connect-to-alttester-unity-sdk-running-inside-the-game)
+    - [Connect to the game running on the same machine as the test code](#connect-to-the-game-running-on-the-same-machine-as-the-test-code)
+    - [Connect to the game running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device)
+    - [Connect to the device running the game by using an IP address](#connect-to-the-device-running-the-game-by-using-an-ip-address)
+    - [Connect to multiple devices running the game](#connect-to-multiple-devices-running-the-game)
+    - [Connect to multiple builds of the application running on the same device](#connect-to-multiple-builds-of-the-application-running-on-the-same-device)
+  - [Using AltTester Unity SDK in Release mode](#using-alttester-unity-sdk-in-release-mode)
+  - [Logging](#logging)
+    - [AltTester Unity SDK logging](#alttester-unity-sdk-logging)
+    - [AltDriver logging](#altdriver-logging)
+  - [Code Stripping](#code-stripping)
 
 ### Connect to the game running on the same machine as the test code
 
@@ -437,7 +453,7 @@ There are two types of logging that can be configured in AltTester Unity SDK. Th
 
 ### AltTester Unity SDK logging
 
-Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `Altom.AltTester.Logging.ServerLogManager.Instance`
+Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `AltTester.Logging.ServerLogManager.Instance`
 
 There are two logger targets that you can configure on the server:
 
@@ -475,7 +491,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
     .. tab:: C#
 
-        Logging is handled using a custom NLog LogFactory.  The Driver LogFactory can be accessed here: `Altom.AltDriver.Logging.DriverLogManager.Instance`
+        Logging is handled using a custom NLog LogFactory.  The Driver LogFactory can be accessed here: `AltTester.AltDriver.Logging.DriverLogManager.Instance`
 
         There are three logger targets that you can configure on the driver:
 
@@ -483,7 +499,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
         * UnityLogger //available only when runnning tests from Unity
         * ConsoleLogger //available only when runnning tests using the Nuget package
 
-        If you want to configure different level of logging for different targets you can use `Altom.AltDriver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info)`
+        If you want to configure different level of logging for different targets you can use `AltTester.AltDriver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info)`
 
         .. code-block:: c#
 
@@ -500,7 +516,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
             altDriver.SetLogging(enableLogging: true);
 
             /* set logging level to Info for File target */
-            Altom.AltDriver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info);
+            AltTester.AltDriver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info);
 
 
 
@@ -508,17 +524,17 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         Logging is handled via log4j. You can use log4j configuration files to customize your logging.
 
-        Setting the `enableLogging` in `AltDriver` initializes logger named `ro.altom.alttester` configured with two appenders, a file appender `AltFileAppender` and a console appender `AltConsoleAppender`
+        Setting the `enableLogging` in `AltDriver` initializes logger named `ro.AltTester` configured with two appenders, a file appender `AltFileAppender` and a console appender `AltConsoleAppender`
 
         .. code-block:: java
 
             /* start AltDriver with logging enabled */
             altDriver = new AltDriver("127.0.0.1", 13000, true);
 
-            /* disable logging for ro.altom.alttester logger */
+            /* disable logging for ro.AltTester logger */
             final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
             final Configuration config = ctx.getConfiguration();
-            config.getLoggerConfig("ro.altom.alttester").setLevel(Level.OFF);
+            config.getLoggerConfig("ro.AltTester").setLevel(Level.OFF);
 
             ctx.updateLoggers();
 
@@ -538,6 +554,12 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
             loguru.logger.disable("alttesterr")
 
 ```
+
+## Logging in WebGL
+
+The logs for a WebGL instrumented build are displaied in the browser's console. You can open the `Console` tab by pressing `F12`. To download the logs right click inside the `Console` and choose `Save as...`.
+
+![Save as...](../_static/img/advanced-usage/save.png)
 
 ## Code Stripping
 

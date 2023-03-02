@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Altom.AltDriver;
-using Altom.AltDriver.Logging;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Logging;
 using NUnit.Framework;
 
-namespace Altom.AltDriver.Tests
+namespace AltTester.AltDriver.Tests
 {
     public class TestForScene5KeyboardAndMouseInput : TestBase
     {
@@ -190,7 +190,6 @@ namespace Altom.AltDriver.Tests
         }
 
         [Test]
-        [Category("WebGLUnsupported")]
         public void TestCheckShadersSetCorrectlyAfterHighlight()
         {
             var cube = altDriver.FindObject(By.NAME, "2MaterialCube");

@@ -1,12 +1,12 @@
-namespace Altom.AltTesterEditor
+namespace AltTesterEditor
 {
     public class AltDesktopPage : UnityEditor.EditorWindow
     {
         public static AltDesktopPage _window;
         //TODO change image to gif once we have a final gif
         public static UnityEngine.Texture2D image;
-        private readonly string titleOfPage = "<b><size=16>AltTester Desktop is a desktop app which can help you visualize the game objects hierarchy and get all the properties easily.</size></b>";
-        private readonly string contentText = "<b>Main features </b> \n    • get object’s components, assemblies, methods, fields and properties without accessing the source code \n    • interact with your game from AltTester Desktop using keyboard, mouse, touchscreen and joystick actions \n    • load any scene or level\n    • control the speed of the game for debugging and test design purposes\n    • verify if a selector is correct and highlight the matching objects";
+        private readonly string titleOfPage = "<b><size=16>AltTester Desktop is a desktop app which can help you visualize the application objects hierarchy and get all the properties easily.</size></b>";
+        private readonly string contentText = "<b>Main features </b> \n    • get object’s components, assemblies, methods, fields and properties without accessing the source code \n    • interact with your application from AltTester Desktop using keyboard, mouse, touchscreen and joystick actions \n    • load any scene or level\n    • control the speed of the game for debugging and test design purposes\n    • verify if a selector is correct and highlight the matching objects";
         private readonly string buttonText = "<b><size=16>Start free trial</size></b>";
         private UnityEngine.Vector2 scrollPos;
         private UnityEngine.GUIStyle gUIStyleText;

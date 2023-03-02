@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Altom.AltDriver;
-using Altom.AltDriver.Commands;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Commands;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     class AltGetAllMethodsCommand : AltReflectionMethodsCommand<AltGetAllMethodsParams, List<string>>
     {

@@ -1,7 +1,7 @@
-using Altom.AltDriver.Commands;
-using Altom.AltTester.Communication;
+using AltTester.AltDriver.Commands;
+using AltTester.Communication;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     class AltMoveMouseCommand : AltCommandWithWait<AltMoveMouseParams, string>
     {

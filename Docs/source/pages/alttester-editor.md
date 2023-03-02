@@ -38,14 +38,14 @@ In the following sections you can see a breakdown of all the sections in the GUI
 ![Build Settings Section Screenshot](../_static/img/alttester-editor/build-settings.png)
 
 <!--
--   Proxy host
+-   AltServer Host
 
-    Refers to the host the AltProxy is listening on.
+    Refers to the host the AltServer is listening on.
      You can change this value and make a new game build if you want to use another host.
 
--   Proxy port
+-   AltServer Port
 
-    Refers to the port the AltProxy is listening on.
+    Refers to the port the AltServer is listening on.
      You can change this value and make a new game build if you want to use another port.
 -->
 
@@ -137,15 +137,6 @@ You can also activate this option from within the test using the following code:
 - Display scene full path: displays the full path where the scenes are located.
 - Add Scene: displays all the scenes in the project. User can add scenes to the "Scene Manager" from the "Add Scene" popup.
 - Action buttons (add / select / remove scenes).
-
-## Port Forwarding
-
-```eval_rst
-
-In this section you can setup :ref:`Port Forwarding <pages/advanced-usage:What is port forwarding and when to use it>`
-on your device. Your device needs to be connected to the computer through USB and you need to click the Refresh button in the section to view it in the list.
-
-```
 
 ## Build & Run Settings
 

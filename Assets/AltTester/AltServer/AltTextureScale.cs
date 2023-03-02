@@ -1,4 +1,4 @@
-namespace Altom.AltTester
+namespace AltTester
 {
     public class AltTextureScale
     {

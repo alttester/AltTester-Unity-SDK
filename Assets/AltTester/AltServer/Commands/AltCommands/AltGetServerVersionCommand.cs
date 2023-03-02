@@ -1,6 +1,6 @@
-using Altom.AltDriver.Commands;
+using AltTester.AltDriver.Commands;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     public class AltGetServerVersionCommand : AltCommand<AltGetServerVersionParams, string>
     {

@@ -1,15 +1,18 @@
 using System;
 using System.Diagnostics;
-using Altom.AltTester.Communication;
-using AltWebSocketSharp;
-using AltWebSocketSharp.Server;
+using AltTester.Communication;
 using NUnit.Framework;
+using AltWebSocketSharp.Server;
+using AltWebSocketSharp;
 
 namespace Altom.AltInstrumentation.Tests
 {
     public class MockCommandHandler : ICommandHandler
     {
         public SendMessageHandler OnSendMessage { get; set; }
+
+        public NotificationHandler OnDriverConnect { get; set; }
+        public NotificationHandler OnDriverDisconnect { get; set; }
 
         public void OnMessage(string data)
         {
@@ -24,8 +27,6 @@ namespace Altom.AltInstrumentation.Tests
             }
         }
     }
-
-
 
     public class MockServerHandler : WebSocketBehavior
     {
@@ -45,6 +46,7 @@ namespace Altom.AltInstrumentation.Tests
         }
 
     }
+
     public class WebSocketClientCommunicationTests
     {
 
@@ -53,7 +55,7 @@ namespace Altom.AltInstrumentation.Tests
         {
             var cmdHandler = new MockCommandHandler();
 
-            var client = new WebSocketClientCommunication(cmdHandler, "localhost", 13420);
+            var client = new WebSocketClientCommunication(cmdHandler, "localhost", 13420, "__default__");
             bool onConnect = false;
             client.OnConnect += () =>
             {
@@ -84,7 +86,7 @@ namespace Altom.AltInstrumentation.Tests
 
             var wsServer = new WebSocketServer("ws://0.0.0.0:13420");
 
-            wsServer.AddWebSocketService<MockServerHandler>("/altws/game", (context, handler) =>
+            wsServer.AddWebSocketService<MockServerHandler>("/altws/app", (context, handler) =>
             {
 
             });
@@ -98,7 +100,7 @@ namespace Altom.AltInstrumentation.Tests
                 bool connected = false;
                 bool disconnected = false;
 
-                var client = new WebSocketClientCommunication(cmdHandler, "localhost", 13420);
+                var client = new WebSocketClientCommunication(cmdHandler, "localhost", 13420, "__default__");
 
                 client.OnConnect += () =>
                 {

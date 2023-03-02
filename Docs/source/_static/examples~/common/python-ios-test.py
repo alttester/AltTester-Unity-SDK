@@ -4,7 +4,6 @@ from alttester import *
 
 
 class MyFirstTest(unittest.TestCase):
-
     altdriver = None
 
     @classmethod

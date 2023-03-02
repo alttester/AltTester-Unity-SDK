@@ -2,7 +2,7 @@
     <PropertyGroup>
         <PackageId>AltTester-Driver</PackageId>
         <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
-        <RootNamespace>Altom.AltTester-Driver</RootNamespace>
+        <RootNamespace>AltTester.AltTester-Driver</RootNamespace>
         <IsPackable>true</IsPackable>
         <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">1.8.2</PackageVersion>
         <PackageVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</PackageVersion>
@@ -31,7 +31,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
         <PackageReference Include="NLog" Version="4.7.9" />
         <Reference Include="AltWebSocketSharp">
-            <HintPath>..\..\..\Assets\AltTester\3rdParty\websocket-sharp\netstandard2.0\websocket-sharp.dll</HintPath>
+            <HintPath>..\..\..\Assets\AltTester\3rdParty\websocket-sharp\netstandard2.0\altwebsocket-sharp.dll</HintPath>
         </Reference>
     </ItemGroup>
 </Project>

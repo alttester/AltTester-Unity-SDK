@@ -4,13 +4,13 @@
    contain the root `toctree` directive.
 
 AltTester
-==============
+=========
 
 Through AltTester, we provide a UI Test Automation solution for Unity
-games.
+applications.
 
 - AltTester Unity SDK is a free, open source asset. Its main goal is to enable UI
-  test automation, by instrumenting games to get access and programmatically
+  test automation, by instrumenting applications to get access and programmatically
   control the Unity objects. Get AltTester Unity SDK from
   `our website <https://altom.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
 

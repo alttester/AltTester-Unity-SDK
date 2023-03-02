@@ -1,9 +1,9 @@
 using System.Globalization;
-using Altom.AltDriver.Commands;
-using Altom.AltTester.Communication;
+using AltTester.AltDriver.Commands;
+using AltTester.Communication;
 using Newtonsoft.Json;
 
-namespace Altom.AltTester.Notification
+namespace AltTester.Notification
 {
     public class BaseNotification
     {

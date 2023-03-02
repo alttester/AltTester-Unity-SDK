@@ -283,7 +283,7 @@ public class TestsSampleScene1 extends BaseTest {
         @Test
         public void testFindElementByComponentWithNamespace() throws InterruptedException {
                 Thread.sleep(1000);
-                String componentName = "Altom.AltTester.AltRunner";
+                String componentName = "AltTester.AltRunner";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                                 AltDriver.By.COMPONENT, componentName).build();
                 AltObject altElement = altDriver.findObject(altFindObjectsParams);
@@ -294,7 +294,7 @@ public class TestsSampleScene1 extends BaseTest {
         @Test
         public void testGetComponentProperty() throws InterruptedException {
                 Thread.sleep(1000);
-                String componentName = "Altom.AltTester.AltRunner";
+                String componentName = "AltTester.AltRunner";
                 String propertyName = "InstrumentationSettings.ShowPopUp";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
@@ -310,7 +310,7 @@ public class TestsSampleScene1 extends BaseTest {
 
         @Test
         public void testGetComponentPropertyInvalidDeserialization() {
-                String componentName = "Altom.AltTester.AltRunner";
+                String componentName = "AltTester.AltRunner";
                 String propertyName = "InstrumentationSettings.ShowPopUp";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
@@ -331,7 +331,7 @@ public class TestsSampleScene1 extends BaseTest {
         @Test(expected = PropertyNotFoundException.class)
         public void testGetNonExistingComponentProperty() throws InterruptedException {
                 Thread.sleep(1000);
-                String componentName = "Altom.AltTester.AltRunner";
+                String componentName = "AltTester.AltRunner";
                 String propertyName = "socketPort";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
@@ -1490,7 +1490,7 @@ public class TestsSampleScene1 extends BaseTest {
                                 AltDriver.By.NAME, "AltTesterPrefab").build();
 
                 AltGetComponentPropertyParams pIsPressed = new AltGetComponentPropertyParams.Builder(
-                                "Altom.AltTester.NewInputSystem",
+                                "AltTester.NewInputSystem",
                                 "Keyboard.pKey.isPressed", "Assembly-CSharp").build();
                 AltGetComponentPropertyParams count = new AltGetComponentPropertyParams.Builder(
                                 "Input",

@@ -1,6 +1,4 @@
 from alttester.commands.base_command import BaseCommand
-from alttester.logging import AltLogger, AltLogLevel
-from alttester.exceptions import InvalidParameterTypeException
 
 
 class ResetInput(BaseCommand):

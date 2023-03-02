@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Altom.AltDriver.Commands
+namespace AltTester.AltDriver.Commands
 {
     public class AltGetAllMethods : AltBaseCommand
     {

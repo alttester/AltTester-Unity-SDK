@@ -1,7 +1,6 @@
-using System.Threading;
-using Altom.AltDriver;
-using Altom.AltDriver.Logging;
-using Altom.AltDriver.Tests;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.Tests;
 using NUnit.Framework;
 
 public class TestBase

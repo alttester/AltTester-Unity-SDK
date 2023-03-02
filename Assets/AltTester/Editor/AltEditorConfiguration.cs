@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Altom.AltTester;
+using AltTester;
 using UnityEngine;
 
-namespace Altom.AltTesterEditor
+namespace AltTesterEditor
 {
     public class AltEditorConfiguration : ScriptableObject
     {
@@ -12,8 +12,8 @@ namespace Altom.AltTesterEditor
         public string XcrunPath = "/usr/bin/xcrun";
         public List<AltMyTest> MyTests = new List<AltMyTest>();
         public List<AltMyScenes> Scenes = new List<AltMyScenes>();
-        public AltPlatform platform = AltPlatform.Editor;
-        public UnityEditor.BuildTarget StandaloneTarget = UnityEditor.BuildTarget.StandaloneWindows;
+        public AltPlatform platform = AltPlatform.Standalone;
+        public UnityEditor.BuildTarget StandaloneTarget = UnityEditor.BuildTarget.NoTarget;
         public bool RanInEditor = false;
         public bool ScenePathDisplayed;
         public bool InputVisualizer;
@@ -24,8 +24,10 @@ namespace Altom.AltTesterEditor
         public bool createXMLReport = false;
         public string xMLFilePath = "";
 
-        public int AltTesterPort = 13000;
+        public int AltServerPort = 13000;
+        public string AltServerHost = "127.0.0.1";
 
+        public string AppName = "__default__";
 
         public AltInstrumentationSettings GetInstrumentationSettings()
         {
@@ -33,7 +35,9 @@ namespace Altom.AltTesterEditor
             {
                 ShowPopUp = ShowPopUp,
                 InputVisualizer = InputVisualizer,
-                AltTesterPort = AltTesterPort,
+                AltServerPort = AltServerPort,
+                AltServerHost = AltServerHost,
+                AppName = AppName
             };
         }
         public bool KeepAUTSymbolDefined = false;

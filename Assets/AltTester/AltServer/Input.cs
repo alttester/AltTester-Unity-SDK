@@ -4,9 +4,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Altom.AltDriver;
-using Altom.AltTester;
-using Altom.AltTester.InputModule;
+using AltTester.AltDriver;
+using AltTester;
+using AltTester.InputModule;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -57,8 +57,8 @@ public class Input : MonoBehaviour
         _keyCodesPressed.Clear();
         _keyCodesPressedDown.Clear();
         _keyCodesPressedUp.Clear();
-        mousePosition = Vector3.zero;
-        touches = new UnityEngine.Touch[0];
+        _mousePosition = Vector3.zero;
+        _touches = new UnityEngine.Touch[0];
         _touchCount = 0;
         _acceleration = Vector3.zero;
         _accelerationEvents = new AccelerationEvent[0];
@@ -633,7 +633,7 @@ public class Input : MonoBehaviour
         if (_useCustomInput)
         {
             var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
-            return 0 != _keyCodesPressed.FindAll(key => key.KeyCode == keyCode).Count || touches.Length > button;
+            return 0 != _keyCodesPressed.FindAll(key => key.KeyCode == keyCode).Count || _touches.Length > button;
         }
         else
         {
@@ -647,7 +647,7 @@ public class Input : MonoBehaviour
         if (_useCustomInput)
         {
             var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
-            return 0 != _keyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count || (touches.Length > button && touches[button].phase == UnityEngine.TouchPhase.Began);
+            return 0 != _keyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count || (_touches.Length > button && _touches[button].phase == UnityEngine.TouchPhase.Began);
         }
         else
         {
@@ -661,7 +661,7 @@ public class Input : MonoBehaviour
         if (_useCustomInput)
         {
             var keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), "Mouse" + button);
-            return 0 != _keyCodesPressedUp.FindAll(key => key.KeyCode == keyCode).Count || touches.Length > button && touches[button].phase == UnityEngine.TouchPhase.Ended;
+            return 0 != _keyCodesPressedUp.FindAll(key => key.KeyCode == keyCode).Count || _touches.Length > button && _touches[button].phase == UnityEngine.TouchPhase.Ended;
         }
         else
         {
@@ -741,7 +741,7 @@ public class Input : MonoBehaviour
             position = positions[0]
         };
 
-        System.Collections.Generic.List<UnityEngine.Touch> currentTouches = touches.ToList();
+        System.Collections.Generic.List<UnityEngine.Touch> currentTouches = _touches.ToList();
         currentTouches.Sort((touch1, touch2) => (touch1.fingerId.CompareTo(touch2.fingerId)));
         int fingerId = 0;
         foreach (var iter in currentTouches)
@@ -755,10 +755,10 @@ public class Input : MonoBehaviour
         touchCount++;
 
         var touchListCopy = new UnityEngine.Touch[touchCount];
-        System.Array.Copy(touches, 0, touchListCopy, 0, touches.Length);
+        System.Array.Copy(_touches, 0, touchListCopy, 0, _touches.Length);
         touchListCopy[touchCount - 1] = touch;
-        touches = touchListCopy;
-        mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
+        _touches = touchListCopy;
+        mousePosition = new UnityEngine.Vector3(_touches[0].position.x, _touches[0].position.y, 0);
         var pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch);
         var markId = AltRunner._altRunner.ShowInput(touch.position);
 
@@ -788,7 +788,7 @@ public class Input : MonoBehaviour
                 touch.phase = touch.deltaPosition != UnityEngine.Vector2.zero ? UnityEngine.TouchPhase.Moved : UnityEngine.TouchPhase.Stationary;
                 touch.deltaPosition = touch.position - previousPosition;
                 updateTouchInTouchList(touch);
-                mousePosition = new UnityEngine.Vector3(touches[0].position.x, touches[0].position.y, 0);
+                mousePosition = new UnityEngine.Vector3(_touches[0].position.x, _touches[0].position.y, 0);
                 pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch, pointerEventData);
                 AltRunner._altRunner.ShowInput(touch.position, markId);
 
@@ -803,7 +803,7 @@ public class Input : MonoBehaviour
         yield return null;
         var newTouches = new UnityEngine.Touch[touchCount - 1];
         int contor = 0;
-        foreach (var t in touches)
+        foreach (var t in _touches)
         {
             if (t.fingerId != touch.fingerId)
             {
@@ -812,7 +812,7 @@ public class Input : MonoBehaviour
             }
         }
 
-        touches = newTouches;
+        _touches = newTouches;
         touchCount--;
 
     }
@@ -839,17 +839,15 @@ public class Input : MonoBehaviour
         }
         do
         {
-            UnityEngine.Vector3 delta;
-
-            if (time + UnityEngine.Time.unscaledDeltaTime < duration)
+            Vector3 delta;
+            if (time + Time.unscaledDeltaTime < duration)
             {
-                delta = distance * UnityEngine.Time.unscaledDeltaTime / duration;
+                delta = distance * Time.unscaledDeltaTime / duration;
             }
             else
             {
-                delta = location - new UnityEngine.Vector2(mousePosition.x, mousePosition.y);
+                delta = location - new Vector2(mousePosition.x, mousePosition.y);
             }
-
             mousePosition += delta;
             if (mouseDownPointerEventData != null)
             {
@@ -859,8 +857,8 @@ public class Input : MonoBehaviour
                 findEventSystemObject(mouseDownPointerEventData);
             }
             AltRunner._altRunner.ShowInput(mousePosition, inputId);
+            time += Time.unscaledDeltaTime;
             yield return null;
-            time += UnityEngine.Time.unscaledDeltaTime;
         } while (time < duration);
     }
 
@@ -932,7 +930,7 @@ public class Input : MonoBehaviour
             maximumPossiblePressure = 1.0f,
         };
 
-        List<int> fingerIds = touches.Select(t => t.fingerId).ToList();
+        List<int> fingerIds = _touches.Select(t => t.fingerId).ToList();
         fingerIds.Sort();
         int fingerId = 0;
         foreach (var iter in fingerIds)
@@ -945,18 +943,18 @@ public class Input : MonoBehaviour
 
 
         touchCount++;
-        var touchListCopy = new UnityEngine.Touch[touches.Length + 1];
-        System.Array.Copy(touches, 0, touchListCopy, 0, touches.Length);
-        touchListCopy[touches.Length] = touch;
-        touches = touchListCopy;
+        var touchListCopy = new UnityEngine.Touch[_touches.Length + 1];
+        System.Array.Copy(_touches, 0, touchListCopy, 0, _touches.Length);
+        touchListCopy[_touches.Length] = touch;
+        _touches = touchListCopy;
         return touch;
     }
 
     private static void destroyTouch(UnityEngine.Touch touch)
     {
-        var newTouches = new UnityEngine.Touch[touches.Length - 1];
+        var newTouches = new UnityEngine.Touch[_touches.Length - 1];
         int contor = 0;
-        foreach (var t in touches)
+        foreach (var t in _touches)
         {
             if (t.fingerId != touch.fingerId)
             {
@@ -965,7 +963,7 @@ public class Input : MonoBehaviour
             }
         }
 
-        touches = newTouches;
+        _touches = newTouches;
         touchCount--;
     }
 
@@ -1003,7 +1001,7 @@ public class Input : MonoBehaviour
 
     private static Touch findTouch(int fingerId)
     {
-        return touches.First(touch => touch.fingerId == fingerId);
+        return _touches.First(touch => touch.fingerId == fingerId);
     }
 
     /// <summary>
@@ -1062,10 +1060,12 @@ public class Input : MonoBehaviour
 
                 pointerEventData.pointerPress = UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
             }
-            if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
-
-            yield return null;
+            if (monoBehaviourTarget != null)
+            {
+                monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            }
             time += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
 
             _keyCodesPressedDown.Remove(keyStructure);
             beginKeyUpTouchEndedLifecycle(keyStructure, tap, ref touch);
@@ -1075,11 +1075,14 @@ public class Input : MonoBehaviour
                 UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
                 UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
             }
-            if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (monoBehaviourTarget != null)
+            {
+                monoBehaviourTarget.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                monoBehaviourTarget.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            }
 
-            yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
 
             endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
 
@@ -1088,8 +1091,8 @@ public class Input : MonoBehaviour
                 float elapsedTime = 0;
                 while (elapsedTime < interval - time)
                 {
-                    yield return null;
                     elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                    yield return null;
                 }
             }
         }
@@ -1145,8 +1148,8 @@ public class Input : MonoBehaviour
             if (target != null) target.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
             pointerEventData.pointerPress = target;
 
-            yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
 
             _keyCodesPressedDown.Remove(keyStructure);
             beginKeyUpTouchEndedLifecycle(keyStructure, tap, ref touch);
@@ -1157,11 +1160,14 @@ public class Input : MonoBehaviour
                 UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
             }
 
-            if (target != null) target.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            if (target != null) target.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (target != null)
+            {
+                target.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                target.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            }
 
-            yield return null;
             time += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
 
             endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
 
@@ -1170,8 +1176,8 @@ public class Input : MonoBehaviour
                 float elapsedTime = 0;
                 while (elapsedTime < interval - time)
                 {
-                    yield return null;
                     elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                    yield return null;
                 }
             }
         }
@@ -1181,17 +1187,17 @@ public class Input : MonoBehaviour
         {
             UnityEngine.EventSystems.ExecuteEvents.Execute(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
         }
-
-        if (target != null) target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        if (target != null)
+            target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
     }
 
     private static void updateTouchInTouchList(Touch touch)
     {
-        for (var t = 0; t < touches.Length; t++)
+        for (var t = 0; t < _touches.Length; t++)
         {
-            if (touches[t].fingerId == touch.fingerId)
+            if (_touches[t].fingerId == touch.fingerId)
             {
-                touches[t] = touch;
+                _touches[t] = touch;
             }
         }
     }
@@ -1254,8 +1260,8 @@ public class Input : MonoBehaviour
                 float elapsedTime = 0;
                 while (elapsedTime < duration)
                 {
-                    yield return null;
                     elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+                    yield return null;
                 }
             }
         }
@@ -1336,8 +1342,8 @@ public class Input : MonoBehaviour
         float elapsedTime = 0;
         while (elapsedTime < duration)
         {
-            yield return null;
             elapsedTime += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
         }
 
         mouseUpTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
@@ -1349,8 +1355,8 @@ public class Input : MonoBehaviour
         while (timeSpent < duration)
         {
             _acceleration = accelarationValue;
-            yield return null;
             timeSpent += UnityEngine.Time.unscaledDeltaTime;
+            yield return null;
         }
         _acceleration = UnityEngine.Vector3.zero;//reset the value after acceleration ended
     }
@@ -1511,7 +1517,7 @@ public class Input : MonoBehaviour
     #endregion
 }
 
-namespace Altom.AltTester.InputModule
+namespace AltTester.InputModule
 {
 
     public class KeyStructure
@@ -1549,7 +1555,7 @@ namespace Altom.AltTester.InputModule
 #else
             using UnityEngine;
 
-namespace Altom.AltTester.InputModule
+namespace AltTester.InputModule
 {
 
     public class Input : MonoBehaviour

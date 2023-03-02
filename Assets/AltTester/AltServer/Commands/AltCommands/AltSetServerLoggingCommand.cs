@@ -1,7 +1,7 @@
-using Altom.AltDriver.Commands;
-using Altom.AltTester.Logging;
+using AltTester.AltDriver.Commands;
+using AltTester.Logging;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     public class AltSetServerLoggingCommand : AltCommand<AltSetServerLoggingParams, string>
     {

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Altom.AltDriver;
-using Altom.AltDriver.Commands;
-using Altom.AltTester.Logging;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Commands;
+using AltTester.Logging;
 
-namespace Altom.AltTester.Commands
+namespace AltTester.Commands
 {
     class AltGetAllFieldsCommand : AltReflectionMethodsCommand<AltGetAllFieldsParams, List<AltProperty>>
     {

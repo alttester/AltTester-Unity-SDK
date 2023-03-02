@@ -1,9 +1,9 @@
 using System;
-using Altom.AltDriver.Logging;
+using AltTester.AltDriver.Logging;
 using NLog;
 using NLog.Layouts;
 
-namespace Altom.AltTesterEditor.Logging
+namespace AltTesterEditor.Logging
 {
     public class EditorLogManager
     {

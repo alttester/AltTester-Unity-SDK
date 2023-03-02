@@ -694,12 +694,13 @@ class TestScene01:
         self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]", timeout=1)
 
     def test_key_down_and_key_up_mouse0(self):
-        capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
-        self.altdriver.move_mouse(capsule_element.get_screen_position(), duration=0.2, wait=True)
+        button = self.altdriver.find_object(By.NAME, "UIButton")
+        self.altdriver.move_mouse(button.get_screen_position(), duration=0.1, wait=True)
 
         self.altdriver.key_down(AltKeyCode.Mouse0)
         self.altdriver.key_up(AltKeyCode.Mouse0)
-        self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]", timeout=1)
+        text = self.altdriver.find_object(By.NAME, "ChineseLetters").get_text()
+        assert text != "哦伊娜哦"
 
     def test_camera_not_found_exception(self):
         with pytest.raises(exceptions.CameraNotFoundException):
@@ -824,10 +825,10 @@ class TestScene01:
     def test_reset_input(self):
         self.altdriver.key_down(AltKeyCode.P, 1)
         assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is True
+            "AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is True
         self.altdriver.reset_input()
         assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is False
+            "AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is False
 
         countKeyDown = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
             "Input", "_keyCodesPressed.Count", "Assembly-CSharp")

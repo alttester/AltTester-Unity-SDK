@@ -53,7 +53,7 @@ instead.
 **Affects**: AltUnity Tester v1.7.1, v1.7.2 and AltTester Unity SDK v1.8.*
 
 Player Input is not working when connected to AltTester Unity SDK/Desktop
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Problem**: Player Input is not working in the instrumented build when
 connected to the tests or to AltTester Desktop.
@@ -67,7 +67,7 @@ BlueStacks
 ----------
 
 Instrumented game with AltTester Unity SDK stops working in BlueStacks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Workaround**: The issue seems to happen because of the communication protocol
 used inside the AltTester Unity SDK. There are other alternatives that work with

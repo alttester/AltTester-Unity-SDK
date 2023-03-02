@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Altom.AltTester;
+using AltTester;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;

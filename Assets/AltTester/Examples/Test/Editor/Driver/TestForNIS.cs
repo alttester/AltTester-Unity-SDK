@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using Altom.AltDriver;
-using Altom.AltDriver.Tests;
+using AltTester.AltDriver;
+using AltTester.AltDriver.Tests;
 using NUnit.Framework;
 
 public class TestForNIS
@@ -305,6 +304,7 @@ public class TestForNIS
         Assert.AreEqual("Capsule was tapped!", text);
     }
 
+    [Ignore("Flaky. Skip until https://github.com/alttester/AltTester-Unity-SDK/issues/1130 is fixed.")]
     [TestCase(1)]
     [TestCase(2)]
     [TestCase(3)]

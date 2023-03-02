@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Altom.AltDriver.Commands
+namespace AltTester.AltDriver.Commands
 {
     public class AltGetAllElementsLight : AltBaseFindObjects
     {

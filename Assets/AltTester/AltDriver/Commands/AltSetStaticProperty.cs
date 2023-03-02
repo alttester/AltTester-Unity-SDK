@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using Newtonsoft.Json;
+using AltTester.AltDriver.Commands;
 
 namespace Altom.AltDriver.Commands
 {
