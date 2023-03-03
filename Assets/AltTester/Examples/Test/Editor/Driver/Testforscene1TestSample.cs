@@ -232,6 +232,25 @@ namespace AltTester.AltDriver.Tests
         }
 
         [Test]
+        public void TestWaitForComponentProperty()
+        {
+            const string componentName = "AltTester.AltRunner";
+            const string propertyName = "InstrumentationSettings.AltServerPort";
+            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+
+            Assert.NotNull(altElement);
+
+            string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
+            int port = int.Parse(portStr);
+
+
+            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "Assembly-CSharp");
+
+            Assert.AreEqual(port, propertyValue);
+        }
+
+
+        [Test]
         public void TestGetComponentPropertyInvalidDeserialization()
         {
             const string componentName = "AltTester.AltRunner";
