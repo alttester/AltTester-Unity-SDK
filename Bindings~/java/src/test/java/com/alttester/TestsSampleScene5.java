@@ -1,10 +1,5 @@
 package com.alttester;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.alttester.position.Vector3;
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
@@ -18,12 +13,15 @@ import com.alttester.UnityStruct.AltKeyCode;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TestsSampleScene5 extends BaseTest {
 
-        @Before
+        @BeforeEach
         public void loadLevel() {
                 altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 5 Keyboard Input").build());
         }

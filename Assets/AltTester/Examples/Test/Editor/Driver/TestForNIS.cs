@@ -336,7 +336,6 @@ public class TestForNIS
         }
         Assert.AreEqual(6 * numberOfClicks, int.Parse(text.GetText()));
         altDriver.SetDelayAfterCommand(0);
-
     }
 
 }
