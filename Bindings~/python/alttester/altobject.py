@@ -157,9 +157,8 @@ class AltObject:
                 property inside of another property you can get by doing ``property.subProperty``.
             property_value(:obj:`str`): The value of the component expected
             assembly (:obj:`str`): The name of the assembly containing the component.
-            timeout (:obj:`int`, optional): The timeout for wait duration
-            interval (:obj:`float`, optional): 
-
+            timeout (:obj:`int`, optional): The timeout for wait duration.
+            interval (:obj:`float`, optional): The interval.
         Returns:
             str: The property value is serialized to a JSON string.
 
