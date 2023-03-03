@@ -145,7 +145,8 @@ class AltObject:
 
         return commands.GetAllComponents.run(self._connection, self)
 
-    def wait_for_component_property(self, component_name, property_name, property_value, assembly,  timeout=20, interval=0.5):
+    def wait_for_component_property(self, component_name, property_name,
+                                    property_value, assembly,  timeout=20, interval=0.5):
         """Returns the value of the given component property.
 
         Args:
