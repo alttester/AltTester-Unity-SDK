@@ -19,7 +19,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_JAVA: true
           VALIDATE_PYTHON_FLAKE8: true
-          VALIDATE_CSHARP: false
+          # VALIDATE_CSHARP: false
 
   build-docs:
     runs-on: ubuntu-latest
