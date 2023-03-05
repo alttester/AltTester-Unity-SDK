@@ -1,21 +1,6 @@
 package com.alttester;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNotSame;
-import static junit.framework.TestCase.assertNull;
-import static junit.framework.TestCase.assertTrue;
-import static junit.framework.TestCase.fail;
-import static org.junit.Assert.assertNotEquals;
-
 import java.io.File;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.AltCallStaticMethodParams;
@@ -41,26 +26,27 @@ import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.Commands.UnityCommand.AltSetTimeScaleParams;
 import com.alttester.Commands.UnityCommand.AltUnloadSceneParams;
 import com.alttester.Commands.UnityCommand.AltWaitForCurrentSceneToBeParams;
+import com.alttester.Exceptions.AssemblyNotFoundException;
+import com.alttester.Exceptions.CameraNotFoundException;
+import com.alttester.Exceptions.CommandResponseTimeoutException;
+import com.alttester.Exceptions.ComponentNotFoundException;
+import com.alttester.Exceptions.CouldNotPerformOperationException;
+import com.alttester.Exceptions.InvalidParameterTypeException;
+import com.alttester.Exceptions.InvalidPathException;
+import com.alttester.Exceptions.MethodWithGivenParametersNotFoundException;
+import com.alttester.Exceptions.NotFoundException;
+import com.alttester.Exceptions.PropertyNotFoundException;
+import com.alttester.Exceptions.ResponseFormatException;
+import com.alttester.Exceptions.SceneNotFoundException;
+import com.alttester.Exceptions.WaitTimeOutException;
+import com.alttester.Position.Vector2;
+import com.alttester.Position.Vector3;
 import com.alttester.UnityStruct.AltKeyCode;
-import com.alttester.altTesterExceptions.AssemblyNotFoundException;
-import com.alttester.altTesterExceptions.CameraNotFoundException;
-import com.alttester.altTesterExceptions.CommandResponseTimeoutException;
-import com.alttester.altTesterExceptions.ComponentNotFoundException;
-import com.alttester.altTesterExceptions.CouldNotPerformOperationException;
-import com.alttester.altTesterExceptions.InvalidParameterTypeException;
-import com.alttester.altTesterExceptions.InvalidPathException;
-import com.alttester.altTesterExceptions.MethodWithGivenParametersNotFoundException;
-import com.alttester.altTesterExceptions.NotFoundException;
-import com.alttester.altTesterExceptions.PropertyNotFoundException;
-import com.alttester.altTesterExceptions.ResponseFormatException;
-import com.alttester.altTesterExceptions.SceneNotFoundException;
-import com.alttester.altTesterExceptions.WaitTimeOutException;
-import com.alttester.position.Vector2;
-import com.alttester.position.Vector3;
+
 import com.google.gson.Gson;
-
-import java.lang.Void;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -70,8 +56,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-
-import java.io.File;
 
 public class TestsSampleScene1 extends BaseTest {
 

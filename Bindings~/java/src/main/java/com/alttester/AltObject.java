@@ -17,14 +17,13 @@ import com.alttester.Commands.ObjectCommand.AltSetText;
 import com.alttester.Commands.ObjectCommand.AltSetTextParams;
 import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
 import com.alttester.Commands.ObjectCommand.AltTapElement;
-import com.alttester.position.Vector2;
-import com.alttester.position.Vector3;
+import com.alttester.Position.Vector2;
+import com.alttester.Position.Vector3;
 
 import lombok.Getter;
 
 @Getter
 public class AltObject {
-
     public String name;
     public int id;
     public int x;
@@ -42,11 +41,11 @@ public class AltObject {
 
     private transient IMessageHandler messageHandler;
 
-    public IMessageHandler getMessageHandler() {
+    public final IMessageHandler getMessageHandler() {
         return messageHandler;
     }
 
-    public void setMesssageHandler(IMessageHandler messageHandler) {
+    public final void setMesssageHandler(final IMessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
@@ -54,8 +53,10 @@ public class AltObject {
 
     }
 
-    public AltObject(String name, int id, int x, int y, int z, int mobileY, String type, boolean enabled,
-            float worldX, float worldY, float worldZ, int idCamera, int transformParentId, int transformId) {
+    public AltObject(final String name, final int id, final int x, final int y, final int z, final int mobileY,
+            final String type, final boolean enabled,
+            final float worldX, final float worldY, final float worldZ, final int idCamera, final int transformParentId,
+            final int transformId) {
         this.name = name;
         this.id = id;
         this.x = x;
@@ -72,7 +73,7 @@ public class AltObject {
         this.transformParentId = transformParentId;
     }
 
-    public AltObject UpdateObject() {
+    public final AltObject updateObject() {
         AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(By.ID, String.valueOf(this.id))
                 .build();
         AltObject altObject = new AltFindObject(messageHandler, altFindObjectsParameters).Execute();
@@ -96,7 +97,7 @@ public class AltObject {
     }
 
     /**
-     * Returns the parent of the AltTester object on which it is called
+     * Returns the parent of the AltTester object on which it is called.
      *
      * @return - The parent object
      */
@@ -109,7 +110,7 @@ public class AltObject {
     }
 
     /**
-     * Returns the screen position of the AltTester object
+     * Returns the screen position of the AltTester object.
      *
      * @return - The screen position
      */
@@ -118,7 +119,7 @@ public class AltObject {
     }
 
     /**
-     * Returns the world position of the AltTester object
+     * Returns the world position of the AltTester object.
      *
      * @return - The world position
      */
@@ -128,14 +129,14 @@ public class AltObject {
 
     /**
      * Returns the value of the given component property.
-     * 
+     *
      * @param altGetComponentPropertyParameters - String componentName* , String
      *                                          propertyName* , String assembly ,
      *                                          int maxDepth
      * @return - The value of the given component property
      */
-    public <T> T getComponentProperty(AltGetComponentPropertyParams altGetComponentPropertyParameters,
-            Class<T> returnType) {
+    public <T> T getComponentProperty(final AltGetComponentPropertyParams altGetComponentPropertyParameters,
+            final Class<T> returnType) {
         altGetComponentPropertyParameters.setAltObject(this);
         T response = new AltGetComponentProperty(messageHandler, altGetComponentPropertyParameters).Execute(returnType);
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
@@ -144,12 +145,12 @@ public class AltObject {
 
     /**
      * Sets value of the given component property.
-     * 
+     *
      * @param altSetComponentPropertyParameters - String componentName* , String
      *                                          propertyName* , String assembly ,
      *                                          String value*
      */
-    public void setComponentProperty(AltSetComponentPropertyParams altSetComponentPropertyParameters) {
+    public void setComponentProperty(final AltSetComponentPropertyParams altSetComponentPropertyParameters) {
         altSetComponentPropertyParameters.setAltObject(this);
         new AltSetComponentProperty(messageHandler, altSetComponentPropertyParameters).Execute();
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
@@ -157,7 +158,7 @@ public class AltObject {
 
     /**
      * Invokes a method from an existing component of the object.
-     * 
+     *
      * @param altCallComponentMethodParameters - String componentName* , String
      *                                         methodName* , Object[] parameters*,
      *                                         String[] typeOfParameters , String
@@ -165,8 +166,8 @@ public class AltObject {
      * @param returnType
      * @return Actions of the method invoked
      */
-    public <T> T callComponentMethod(AltCallComponentMethodParams altCallComponentMethodParameters,
-            Class<T> returnType) {
+    public <T> T callComponentMethod(final AltCallComponentMethodParams altCallComponentMethodParameters,
+            final Class<T> returnType) {
         altCallComponentMethodParameters.setAltObject(this);
         T response = new AltCallComponentMethod(messageHandler, altCallComponentMethodParameters).Execute(returnType);
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
@@ -176,7 +177,7 @@ public class AltObject {
     /**
      * Returns text value from a Button, Text, InputField. This also works with
      * TextMeshPro elements.
-     * 
+     *
      * @return Text value
      */
     public String getText() {
@@ -189,11 +190,11 @@ public class AltObject {
     /**
      * Sets text value for a Button, Text, InputField. This also works with
      * TextMeshPro elements.
-     * 
+     *
      * @param text
      * @return Element that have text value changed
      */
-    public AltObject setText(String text) {
+    public AltObject setText(final String text) {
         AltSetTextParams parameters = new AltSetTextParams.Builder(text).build();
         parameters.setAltObject(this);
 
@@ -205,11 +206,11 @@ public class AltObject {
     /**
      * Sets text value for a Button, Text, InputField. This also works with
      * TextMeshPro elements.
-     * 
+     *
      * @param parameters
      * @return Element that have text value changed
      */
-    public AltObject setText(AltSetTextParams parameters) {
+    public AltObject setText(final AltSetTextParams parameters) {
         parameters.setAltObject(this);
         AltObject response = new AltSetText(messageHandler, parameters).Execute();
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
@@ -218,7 +219,7 @@ public class AltObject {
 
     /**
      * Simulates pointer up action on the object.
-     * 
+     *
      * @return Element that simulates pointer up action
      */
     public AltObject pointerUp() {
@@ -227,7 +228,7 @@ public class AltObject {
 
     /**
      * Simulates pointer down action on the object.
-     * 
+     *
      * @return Element that simulates pointer down action
      */
     public AltObject pointerDown() {
@@ -236,7 +237,7 @@ public class AltObject {
 
     /**
      * Simulates pointer enter action on the object.
-     * 
+     *
      * @return Element that simulates pointer enter action
      */
     public AltObject pointerEnter() {
@@ -245,7 +246,7 @@ public class AltObject {
 
     /**
      * Simulates pointer exit action on the object.
-     * 
+     *
      * @return Element that simulates pointer exit action
      */
     public AltObject pointerExit() {
@@ -262,12 +263,12 @@ public class AltObject {
     }
 
     /**
-     * Tap current object
+     * Tap current object.
      *
      * @param parameters Tap parameters
      * @return The tapped object
      */
-    public AltObject tap(AltTapClickElementParams parameters) {
+    public AltObject tap(final AltTapClickElementParams parameters) {
         parameters.setAltObject(this);
         return new AltTapElement(messageHandler, parameters).Execute();
     }
@@ -288,14 +289,14 @@ public class AltObject {
      * @param parameters Click parameters
      * @return The clicked object
      */
-    public AltObject click(AltTapClickElementParams parameters) {
+    public AltObject click(final AltTapClickElementParams parameters) {
         parameters.setAltObject(this);
         AltObject response = new AltClickElement(messageHandler, parameters).Execute();
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
         return response;
     }
 
-    private AltObject sendActionAndEvaluateResult(String command) {
+    private AltObject sendActionAndEvaluateResult(final String command) {
         AltObject response = new AltSendActionAndEvaluateResult(messageHandler, this, command).Execute();
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
         return response;

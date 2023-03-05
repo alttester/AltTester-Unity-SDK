@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.alttester.AltMessage;
 import com.alttester.IMessageHandler;
-import com.alttester.altTesterExceptions.AltInvalidServerResponse;
+import com.alttester.Exceptions.AltInvalidServerResponse;
 
 public class AltBaseCommand {
     protected static final Logger logger = LogManager.getLogger(AltBaseCommand.class);

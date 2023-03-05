@@ -1,7 +1,7 @@
 package com.alttester.Commands.InputActions;
 
 import com.alttester.AltMessage;
-import com.alttester.position.Vector3;
+import com.alttester.Position.Vector3;
 
 public class AltTiltParams extends AltMessage {
     public static class Builder {

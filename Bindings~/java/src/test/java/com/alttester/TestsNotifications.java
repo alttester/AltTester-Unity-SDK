@@ -15,8 +15,8 @@ import com.alttester.Commands.FindObject.AltFindObjectsParams;
 import com.alttester.Commands.ObjectCommand.AltCallComponentMethodParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.Commands.UnityCommand.AltUnloadSceneParams;
+import com.alttester.Exceptions.WaitTimeOutException;
 import com.alttester.Logging.AltLogLevel;
-import com.alttester.altTesterExceptions.WaitTimeOutException;
 
 public class TestsNotifications {
         private static AltDriver altDriver;

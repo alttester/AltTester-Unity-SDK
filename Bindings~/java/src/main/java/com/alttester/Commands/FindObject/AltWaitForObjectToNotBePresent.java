@@ -3,7 +3,7 @@ package com.alttester.Commands.FindObject;
 import com.alttester.AltObject;
 import com.alttester.IMessageHandler;
 import com.alttester.Utils;
-import com.alttester.altTesterExceptions.AltException;
+import com.alttester.Exceptions.AltException;
 
 /**
  * Wait until the object in the scene that respect the given criteria is no

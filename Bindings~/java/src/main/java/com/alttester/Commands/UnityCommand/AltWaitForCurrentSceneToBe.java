@@ -3,7 +3,7 @@ package com.alttester.Commands.UnityCommand;
 import com.alttester.Utils;
 import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
-import com.alttester.altTesterExceptions.WaitTimeOutException;
+import com.alttester.Exceptions.WaitTimeOutException;
 
 public class AltWaitForCurrentSceneToBe extends AltBaseCommand {
     private AltWaitForCurrentSceneToBeParams params;

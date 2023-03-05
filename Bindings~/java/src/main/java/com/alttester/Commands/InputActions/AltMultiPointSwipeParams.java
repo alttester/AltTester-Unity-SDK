@@ -3,7 +3,7 @@ package com.alttester.Commands.InputActions;
 import java.util.List;
 
 import com.alttester.AltMessage;
-import com.alttester.position.Vector2;
+import com.alttester.Position.Vector2;
 
 public class AltMultiPointSwipeParams extends AltMessage {
     public static class Builder {
