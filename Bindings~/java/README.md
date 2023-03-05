@@ -14,7 +14,7 @@ mvn test -Dtest="com.alttester.*"
 
 ## Contributing
 
-Check out the full contributing guide [contributing](https://altom.com/alttester/docs/sdk/pages/contributing.html).
+Check out the full contributing guide [here](https://altom.com/alttester/docs/sdk/pages/contributing.html).
 
 ## Support
 
