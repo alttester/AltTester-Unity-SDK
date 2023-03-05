@@ -45,7 +45,8 @@
 
   <!-- Checks that a package-info.java file exists for each package.     -->
   <!-- See https://checkstyle.org/config_javadoc.html#JavadocPackage -->
-  <module name="JavadocPackage"/>
+  <!-- TODO: Uncomment the following module after adding Javadocs -->
+  <!-- <module name="JavadocPackage"/> -->
 
   <!-- Checks whether files end with a new line.                        -->
   <!-- See https://checkstyle.org/config_misc.html#NewlineAtEndOfFile -->
@@ -90,9 +91,10 @@
     <!-- Checks for Javadoc comments.                     -->
     <!-- See https://checkstyle.org/config_javadoc.html -->
     <module name="InvalidJavadocPosition"/>
-    <module name="JavadocMethod"/>
-    <module name="JavadocType"/>
-    <module name="JavadocVariable"/>
+    <!-- TODO: Uncomment the following tree modules after adding Javadocs -->
+    <!-- <module name="JavadocMethod"/> -->
+    <!-- <module name="JavadocType"/> -->
+    <!-- <module name="JavadocVariable"/> -->
     <module name="JavadocStyle"/>
     <module name="MissingJavadocMethod"/>
     <!-- Enables @SuppressWarnings Support                -->
@@ -183,21 +185,6 @@
     <module name="SuppressionXpathFilter">
       <property name="file" value="${org.checkstyle.sun.suppressionxpathfilter.config}" default="checkstyle-xpath-suppressions.xml" />
       <property name="optional" value="true"/>
-    </module>
-
-    <!-- Disable Javadoc checks -->
-    <!-- TODO: Remove this after adding Javadocs -->
-    <module name="JavadocPackage"/>
-      <property name="SeverityLevel" value="warning"/>
-    </module>
-    <module name="JavadocType">
-      <property name="SeverityLevel" value="warning"/>
-    </module>
-    <module name="JavadocMethod">
-      <property name="SeverityLevel" value="warning"/>
-    </module>
-    <module name="JavadocVariable">
-      <property name="SeverityLevel" value="warning"/>
     </module>
   </module>
 </module>
