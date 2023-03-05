@@ -864,7 +864,11 @@ class AltDriver:
 
         """
 
-        self._notification_handler.add_notification_listener(notification_type, notification_callback, overwrite=overwrite)
+        self._notification_handler.add_notification_listener(
+            notification_type,
+            notification_callback,
+            overwrite=overwrite
+        )
 
     def remove_notification_listener(self, notification_type):
         """Clear list of callback for the notification type and turn off the notification in tester.

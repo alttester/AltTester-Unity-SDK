@@ -137,7 +137,8 @@ class WebsocketConnection:
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, path="/", params=None, timeout=None, command_handler=None, notification_handler=None):
+    def __init__(self, host="127.0.0.1", port=13000, path="/", params=None, timeout=None, command_handler=None,
+                 notification_handler=None):
         self.host = host
         self.port = port
         self.path = path
