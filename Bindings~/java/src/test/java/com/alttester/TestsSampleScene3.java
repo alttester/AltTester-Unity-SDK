@@ -18,9 +18,18 @@ import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.position.Vector2;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 public class TestsSampleScene3 extends BaseTest {
 
-        @Before
+        @BeforeEach
         public void loadLevel() {
                 altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").build());
         }

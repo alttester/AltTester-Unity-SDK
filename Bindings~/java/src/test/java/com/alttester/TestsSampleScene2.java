@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
@@ -23,9 +25,16 @@ import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.position.Vector2;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class TestsSampleScene2 extends BaseTest {
 
-        @Before
+        @BeforeEach
         public void loadLevel() {
                 altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build());
         }

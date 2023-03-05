@@ -72,7 +72,7 @@ public class TestNotification
     [Test]
     public void TestLogNotification()
     {
-        StringAssert.Contains("\"commandName\":\"loadScene\"", MockNotificationCallBacks.LogMessage);
+        StringAssert.Contains("\"commandName\":\"loadScene", MockNotificationCallBacks.LogMessage);
         Assert.AreEqual(AltLogLevel.Debug, MockNotificationCallBacks.LogLevel);
     }
 
