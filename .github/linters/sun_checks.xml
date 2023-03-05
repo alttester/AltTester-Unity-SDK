@@ -185,6 +185,19 @@
       <property name="optional" value="true"/>
     </module>
 
+    <!-- Disable Javadoc checks -->
+    <!-- TODO: Remove this after adding Javadocs -->
+    <module name="JavadocPackage"/>
+        <property name="severity" value="warning"/>
+    </module>
+    <module name="JavadocType">
+        <property name="severity" value="warning"/>
+    </module>
+    <module name="JavadocMethod">
+        <property name="severity" value="warning"/>
+    </module>
+    <module name="JavadocVariable">
+        <property name="severity" value="warning"/>
+    </module>
   </module>
-
 </module>
