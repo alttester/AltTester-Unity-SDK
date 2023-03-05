@@ -6,7 +6,7 @@ from loguru import logger
 import alttester.commands as commands
 from alttester.commands.base_command import Command
 from alttester.__version__ import VERSION
-from alttester._websocket import WebsocketConnection
+from alttester._websocket import WebsocketConnection, CommandHandler, NotificationHandler
 from alttester.altobject import AltObject
 from alttester.by import By
 
@@ -45,12 +45,17 @@ class AltDriver:
             self.port,
             self.app_name
         )
+
+        self._command_handler = CommandHandler()
+        self._notification_handler = NotificationHandler()
         self._connection = WebsocketConnection(
             host=self.host,
             port=self.port,
             timeout=self.timeout,
             path="altws",
-            params={"appName": self.app_name}
+            params={"appName": self.app_name},
+            command_handler=self._command_handler,
+            notification_handler=self._notification_handler
         )
         self._connection.connect()
 
@@ -769,7 +774,7 @@ class AltDriver:
             "UnityEngine.Screen", "get_height",
             "UnityEngine.CoreModule"
         )
-        return [screen_width, screen_height]
+        return (screen_width, screen_height)
 
     def get_png_screenshot(self, path):
         """Creates a screenshot of the current scene in png format at the given path.
@@ -848,18 +853,6 @@ class AltDriver:
         data = commands.FindObjectAtCoordinates.run(self._connection, coordinates)
         return self._get_alt_object(data)
 
-    def set_notification(self, notification_type, notification_callback=None):
-        """Sets what notifications will the tester send and what to do with those notifications.
-
-        Args:
-            notification_type (:obj:`int`): Flag that sets which notification to be turned on.
-            notification_callback (:obj:`class`): Class which contains callbacks used by notifications.
-
-        """
-
-        self._connection.notification_callbacks = notification_callback
-        commands.SetNotification.run(self._connection, notification_type)
-
     def add_notification_listener(self, notification_type, notification_callback, overwrite=True):
         """Activates a notification that the tester will send.
 
@@ -871,7 +864,7 @@ class AltDriver:
 
         """
 
-        commands.AddNotificationListener.run(self._connection, notification_type, notification_callback, overwrite)
+        self._notification_handler.add_notification_listener(notification_type, notification_callback, overwrite=overwrite)
 
     def remove_notification_listener(self, notification_type):
         """Clear list of callback for the notification type and turn off the notification in tester.
@@ -881,9 +874,9 @@ class AltDriver:
 
         """
 
-        commands.RemoveNotificationListener.run(self._connection, notification_type)
+        self._notification_handler.remove_notification_listener(notification_type)
 
     def reset_input(self):
-        """Clear all active input actions simulated by AltTester.
-        """
+        """Clear all active input actions simulated by AltTester."""
+
         commands.ResetInput.run(self._connection)

@@ -137,7 +137,7 @@ class WebsocketConnection:
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, path="/", params=None, timeout=None):
+    def __init__(self, host="127.0.0.1", port=13000, path="/", params=None, timeout=None, command_handler=None, notification_handler=None):
         self.host = host
         self.port = port
         self.path = path
@@ -156,8 +156,8 @@ class WebsocketConnection:
         self._websocket = None
         self._is_open = False
 
-        self._command_handler = CommandHandler()
-        self._notification_handler = NotificationHandler()
+        self._command_handler = command_handler
+        self._notification_handler = notification_handler
 
     def __repr__(self):
         return "{}({!r}, {!r}, {!r}, {!r}, {!r})".format(
@@ -311,9 +311,3 @@ class WebsocketConnection:
         self._errors = []
         self._close_message = None
         self._is_open = False
-
-    def add_notification_listener(self, notification_type, callback, overwrite=False):
-        self._notification_handler.add_notification_listener(notification_type, callback, overwrite=overwrite)
-
-    def remove_notification_listener(self, notification_type):
-        self._notification_handler.remove_notification_listener(notification_type)
