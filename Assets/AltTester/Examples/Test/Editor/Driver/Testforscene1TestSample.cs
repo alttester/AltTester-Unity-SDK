@@ -37,6 +37,7 @@ namespace AltTester.AltDriver.Tests
         }
 
         [Test]
+		[Category("WebGLUnsupported")]
         public void TestGetApplicationScreenSize()
         {
             altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
@@ -709,7 +710,8 @@ namespace AltTester.AltDriver.Tests
             altDriver.MoveMouse(button.GetScreenPosition());
             altDriver.PressKey(AltKeyCode.Mouse0, 1, duration);
             var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
-            Assert.That(time, Is.EqualTo(duration).Within(0.1f));
+            Assert.That(time, Is.GreaterThanOrEqualTo(duration));
+            Assert.That(time, Is.LessThan(duration + 0.1f));
         }
 
         [Test]

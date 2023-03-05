@@ -88,6 +88,7 @@ class TestDriver:
         with pytest.raises(exceptions.CouldNotPerformOperationException):
             self.altdriver.unload_scene(Scenes.Scene01)
 
+    @pytest.mark.WebGLUnsupported
     def test_set_server_logging(self):
         rule = self.altdriver.call_static_method(
             "AltTester.Logging.ServerLogManager",
