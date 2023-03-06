@@ -864,11 +864,7 @@ class AltDriver:
 
         """
 
-        self._notification_handler.add_notification_listener(
-            notification_type,
-            notification_callback,
-            overwrite=overwrite
-        )
+        commands.AddNotificationListener.run(self._connection, notification_type, notification_callback, overwrite)
 
     def remove_notification_listener(self, notification_type):
         """Clear list of callback for the notification type and turn off the notification in tester.
@@ -878,7 +874,7 @@ class AltDriver:
 
         """
 
-        self._notification_handler.remove_notification_listener(notification_type)
+        commands.RemoveNotificationListener.run(self._connection, notification_type)
 
     def reset_input(self):
         """Clear all active input actions simulated by AltTester."""
