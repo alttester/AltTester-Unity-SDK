@@ -19,7 +19,7 @@ namespace AltTester.AltDriver.Commands
 
         public AltWaitForComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, T propertyValue, string assemblyName, double timeout, double interval, AltObject obj) : base(commHandler)
         {
-
+            this.obj = obj;
             this.componentName = componentName;
             this.propertyName = propertyName;
             this.propertyValue = propertyValue;
