@@ -80,6 +80,9 @@ namespace AltTester.AltDriver.Commands
                 Thread.Sleep(delay); // delay between retries
             }
 
+            this.CheckCloseMessage();
+            this.CheckError();
+
             if (watch.Elapsed.TotalSeconds > _connectTimeout && !wsClient.IsAlive) {
                 throw new ConnectionTimeoutException(string.Format("Failed to connect to AltTester on host: {0} port: {1}.", _host, _port));
             }
@@ -123,8 +126,12 @@ namespace AltTester.AltDriver.Commands
                 {
                     throw new AltRecvallMessageIdException(string.Format("Response received does not match command send. Expected {0}:{1}. Got {2}:{3}", param.commandName, param.messageId, message.commandName, message.messageId));
                 }
+
                 handleErrors(message.error);
-                if (message.data == null) return default(T);
+                if (message.data == null) {
+                    return default(T);
+                }
+
                 try
                 {
                     return JsonConvert.DeserializeObject<T>(message.data);
@@ -152,6 +159,30 @@ namespace AltTester.AltDriver.Commands
         {
             logger.Info(string.Format("Closing connection to AltTester on: {0}", _uri));
             this.wsClient.Close();
+        }
+
+        private void CheckCloseMessage()
+        {
+            if (this.closeCode != 0 && this.closeReason != null)
+            {
+                if (this.closeCode == 4001)
+                {
+                    throw new NoAppConnectedException(this.closeReason);
+                }
+
+                if (this.closeCode == 4002)
+                {
+                    throw new AppDisconnectedException(this.closeReason);
+                }
+            }
+        }
+
+        private void CheckError()
+        {
+            if (this.error != null)
+            {
+                throw new ConnectionException(this.error);
+            }
         }
 
         public void SetCommandTimeout(int timeout)
