@@ -2968,7 +2968,7 @@ Invokes a method from an existing component of the object.
 | componentName    | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName".                                                                          |
 | methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
 | assemblyName     | string | Yes      | The name of the assembly containing the component.                                                                                                                                                |
-| parameters       | array  | No       | An array containing the serialized parameters to be sent to the component method.                                                                                                                 |
+| parameters       | array  | Yes       | An array containing the serialized parameters to be sent to the component method.                                                                                                                 |
 | typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                         |
 
 **_Returns_**
