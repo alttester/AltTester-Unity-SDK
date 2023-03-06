@@ -22,17 +22,21 @@ namespace AltTester.AltDriver.Commands
         private readonly string _appName;
         private readonly int _connectTimeout;
 
+        private int commandTimeout = 60;
+        private float delayAfterCommand = 0;
+
         private Queue<CommandResponse> messages;
+        private List<string> messageIdTimeouts = new List<string>();
+
+        private String error = null;
+
+        private int closeCode = 0;
+        private String closeReason = null;
 
         private List<Action<AltLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltLoadSceneNotificationResultParams>>();
         private List<Action<String>> unloadSceneCallbacks = new List<Action<String>>();
         private List<Action<AltLogNotificationResultParams>> logCallbacks = new List<Action<AltLogNotificationResultParams>>();
         private List<Action<bool>> applicationPausedCallbacks = new List<Action<bool>>();
-
-        private List<string> messageIdTimeouts = new List<string>();
-
-        private int commandTimeout = 60;
-        private float delayAfterCommand = 0;
 
         public DriverCommunicationWebSocket(string host, int port, int connectTimeout, string appName)
         {
@@ -84,17 +88,8 @@ namespace AltTester.AltDriver.Commands
 
             this.wsClient = new AltWebSocketClient(wsClient);
             this.wsClient.OnMessage += OnMessage;
-            this.wsClient.OnError += (sender, args) =>
-            {
-                logger.Error(args.Message);
-                if (args.Exception != null) {
-                    logger.Error(args.Exception);
-                }
-            };
-            this.wsClient.OnClose += (sender, args) =>
-            {
-                logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}]", args.Code, args.Reason);
-            };
+            this.wsClient.OnError += OnError;
+            this.wsClient.OnClose += OnClose;
         }
 
         public T Recvall<T>(CommandParams param)
@@ -177,6 +172,24 @@ namespace AltTester.AltDriver.Commands
                 messages.Enqueue(message);
                 logger.Debug("response received: " + trimLog(data));
             }
+        }
+
+        protected void OnError(object sender, ErrorEventArgs e)
+        {
+            logger.Error(e.Message);
+            if (e.Exception != null) {
+                logger.Error(e.Exception);
+            }
+
+            this.error = e.Message;
+        }
+
+        protected void OnClose(object sender, CloseEventArgs e)
+        {
+            logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}]", e.Code, e.Reason);
+
+            this.closeCode = e.Code;
+            this.closeReason = e.Reason;
         }
 
         private void handleNotification(CommandResponse message)
