@@ -6,9 +6,8 @@ from alttester.exceptions import NotFoundException, WaitTimeOutException
 
 
 class WaitForComponentProperty(Command):
-    def __init__(self, connection, component_name, property_name,
+    def __init__(self, component_name, property_name,
                  property_value, assembly, obj, timeout=20, interval=0.5):
-        super().__init__(connection, "waitForComponentProperty")
         self.component_name = component_name
         self.property_name = property_name
         self.property_value = property_value
