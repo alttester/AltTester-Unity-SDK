@@ -8,7 +8,8 @@ from alttester.exceptions import NotFoundException, WaitTimeOutException
 
 
 class WaitForComponentProperty(Command):
-    def __init__(self, component_name, property_name, property_value, assembly, timeout, interval, obj):
+    def __init__(self, component_name, property_name, property_value, assembly,
+                 obj, timeout=20, interval=0.5):
 
         self.component_name = component_name
         self.property_name = property_name
@@ -25,7 +26,8 @@ class WaitForComponentProperty(Command):
 
         while (t <= self.timeout):
             try:
-                property_found = self.obj.get_component_property(self.component_name, self.property_name, self.assembly)
+                property_found = self.obj.get_component_property(
+                    self.component_name, self.property_name, self.assembly)
                 if (property_found.__eq__(self.property_value)):
                     break
             except NotFoundException:
@@ -34,7 +36,8 @@ class WaitForComponentProperty(Command):
                 t += self.interval
 
         if t >= self.timeout:
-            raise WaitTimeOutException("Property {} not found after {} seconds".format(
-                self.property_name, self.timeout))
+            raise WaitTimeOutException("Property {} not found after {} seconds"
+                                       .format(
+                                           self.property_name, self.timeout))
 
         return property_found

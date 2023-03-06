@@ -230,7 +230,8 @@ class TestScene01:
     def test_wait_for_component_property(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         result = alt_object.wait_for_component_property(
-            "AltExampleScriptCapsule", "arrayOfInts", [1, 2, 3], "Assembly-CSharp")
+            "AltExampleScriptCapsule", "arrayOfInts", [1, 2, 3],
+            "Assembly-CSharp", self)
 
         assert result == [1, 2, 3]
 
