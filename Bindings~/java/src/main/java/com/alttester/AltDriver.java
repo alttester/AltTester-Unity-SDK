@@ -23,12 +23,13 @@ import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.altTesterExceptions.*;
 
 public class AltDriver {
+    private static final Logger logger = LogManager.getLogger(AltDriver.class);
+    public static final String VERSION = "1.8.2";
+
     static {
         ConfigurationFactory custom = new AltDriverConfigFactory();
         ConfigurationFactory.setConfigurationFactory(custom);
     }
-
-    private static final Logger logger = LogManager.getLogger(AltDriver.class);
 
     public static enum PlayerPrefsKeyType {
         Int(1), String(2), Float(3);
@@ -43,9 +44,6 @@ public class AltDriver {
             return val;
         }
     }
-
-    public static final String VERSION = "1.8.2";
-    public static final int READ_TIMEOUT = 5 * 1000;
 
     private WebsocketConnection connection = null;
 
@@ -125,7 +123,7 @@ public class AltDriver {
     }
 
     /**
-     * Closes the connection to the running instrumented app
+     * Closes the connection to the running instrumented app.
      *
      * @throws IOException
      */
@@ -134,7 +132,7 @@ public class AltDriver {
     }
 
     /**
-     * Gets the AltTester version, used to instrument the app
+     * Gets the AltTester version, used to instrument the app.
      *
      * @return AltTester version
      */
@@ -143,7 +141,7 @@ public class AltDriver {
     }
 
     /**
-     * Gets the delay after a command
+     * Gets the delay after a command.
      *
      * @return The delay after a command
      */
@@ -152,7 +150,7 @@ public class AltDriver {
     }
 
     /**
-     * Sets the delay after a command
+     * Sets the delay after a command.
      *
      * @param delay - Double
      */
@@ -599,7 +597,7 @@ public class AltDriver {
     }
 
     /**
-     * Sets the level of logging on AltTester
+     * Sets the level of logging on AltTester.
      *
      * @param parameters - AltLogger logger* , AltLogLevel logLevel*
      */
@@ -653,7 +651,7 @@ public class AltDriver {
     }
 
     /**
-     * Click at screen coordinates
+     * Click at screen coordinates.
      *
      * @param parameters - Vector2 coordinates* , int count , float interval ,
      *                   boolean wait
@@ -664,7 +662,7 @@ public class AltDriver {
     }
 
     /**
-     * Gets the value of the static field or property
+     * Gets the value of the static field or property.
      *
      * @param parameters - String componentName* , String propertyName* , String
      *                   assembly , int maxDept
@@ -678,7 +676,7 @@ public class AltDriver {
     }
 
     /**
-     * Sets the value of the static field or property
+     * Sets the value of the static field or property.
      *
      * @param parameters - String componentName* , String propertyName* , String
      *                   assembly
@@ -689,7 +687,7 @@ public class AltDriver {
     }
 
     /**
-     * Retrieves the Unity object at given coordinates
+     * Retrieves the Unity object at given coordinates.
      * Uses EventSystem.RaycastAll to find object. If no object is found then it
      * uses UnityEngine.Physics.Raycast and UnityEngine.Physics2D.Raycast and
      * returns the one closer to the camera.
@@ -697,7 +695,6 @@ public class AltDriver {
      * @param parameters - Vector2 coordinates
      * @return The UI object hit by event system Raycast, null otherwise
      */
-
     public AltObject findObjectAtCoordinates(AltFindObjectAtCoordinatesParams parameters) {
         AltObject response = new AltFindObjectAtCoordinates(this.connection.messageHandler, parameters).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
@@ -713,7 +710,7 @@ public class AltDriver {
     }
 
     /**
-     * Clears all active input simulated by AltTester
+     * Clears all active input simulated by AltTester.
      */
     public void resetInput() {
         new AltResetInput(this.connection.messageHandler).Execute();
