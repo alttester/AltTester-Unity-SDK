@@ -165,7 +165,8 @@ class AltObject:
         """
         return commands.WaitForComponentProperty.run(
             self._connection,
-            component_name, property_name, property_value, assembly, timeout, interval, self
+            component_name, property_name, property_value,
+            assembly, self, timeout, interval
         )
 
     def get_component_property(self, component_name, property_name, assembly, max_depth=2):
