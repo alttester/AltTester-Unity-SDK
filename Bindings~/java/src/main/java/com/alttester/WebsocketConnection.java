@@ -1,6 +1,7 @@
 package com.alttester;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -18,33 +19,74 @@ import javax.websocket.OnOpen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.alttester.altTesterExceptions.*;
+import com.alttester.altTesterExceptions.ConnectionException;
+import com.alttester.altTesterExceptions.ConnectionTimeoutException;
+import com.alttester.altTesterExceptions.NoAppConnectedException;
 
 @ClientEndpoint
 public class WebsocketConnection {
     private static final Logger logger = LogManager.getLogger(AltDriver.class);
-    private String _uri;
-    private String _host;
-    private int _port;
-    private String _appName;
-    private int _connectTimeout;
+
+    private String host;
+    private int port;
+    private String appName;
+    private int connectTimeout;
+
+    private String error = null;
+    private CloseReason closeReason = null;
 
     public Session session = null;
     public IMessageHandler messageHandler = null;
 
-    public WebsocketConnection(String host, int port, int connectTimeout, String appName) {
-        _host = host;
-        _port = port;
-        _appName = appName;
-        _connectTimeout = connectTimeout;
+    public WebsocketConnection(String host, int port, String appName, int connectTimeout) {
+        this.host = host;
+        this.port = port;
+        this.appName = appName;
+        this.connectTimeout = connectTimeout;
     }
 
-    public URI getURI() throws ConnectionException {
+    public boolean isOpen() {
+        return this.session.isOpen();
+    }
+
+    private URI getURI() {
         try {
-            return new URI("ws", null, _host, _port, "/altws", "appName=" + _appName, null);
+            return new URI("ws", null, host, port, "/altws", "appName=" + appName, null);
         } catch (URISyntaxException e) {
             logger.error(e);
             throw new ConnectionException(e.getMessage(), e);
+        }
+    }
+
+    private void checkErrors() {
+        if (this.error != null) {
+            throw new ConnectionException(this.error);
+        }
+    }
+
+    private void checkCloseReason() {
+        if (closeReason != null) {
+            int code = closeReason.getCloseCode().getCode();
+            String reason = closeReason.getReasonPhrase();
+
+            if (code == 4001) {
+                throw new NoAppConnectedException(reason);
+            }
+
+            if (code == 4002) {
+                throw new ConnectionException(reason);
+            }
+
+            throw new ConnectionException("Connection closed by AltServer.");
+        }
+    }
+
+    private void ensureConnectionIsOpen() {
+        this.checkCloseReason();
+        this.checkErrors();
+
+        if (!this.isOpen()) {
+            throw new ConnectionException("Connection closed. An unexpected error ocurred.");
         }
     }
 
@@ -54,7 +96,7 @@ public class WebsocketConnection {
 
         int delay = 100;
         int retries = 0;
-        long timeout = _connectTimeout * 1000;
+        long timeout = connectTimeout * 1000;
         long start = System.currentTimeMillis();
         long finish = System.currentTimeMillis();
 
@@ -90,32 +132,48 @@ public class WebsocketConnection {
             finish = System.currentTimeMillis();
         }
 
+        this.checkCloseReason();
+        this.checkErrors();
+
         if (this.session == null || (!this.session.isOpen() && finish - start >= timeout)) {
             throw new ConnectionTimeoutException(
-                    String.format("Failed to connect to AltTester on host: %s port: %s.", _host, _port),
+                    String.format("Failed to connect to AltTester on host: %s port: %s.", host, port),
                     connectionError);
         }
 
         if (!this.session.isOpen()) {
             throw new ConnectionException(
-                    String.format("Failed to connect to AltTester on host: %s port: %s.", _host, _port),
+                    String.format("Failed to connect to AltTester on host: %s port: %s.", host, port),
                     connectionError);
         }
     }
 
-    public void close() throws IOException {
-        logger.info(String.format("Closing connection to AltTester on host: %s port: %s.", _host, _port));
+    public void close() {
+        logger.info("Closing connection to AltTester on host: {} port: {}.", host, port);
 
         if (this.session != null) {
-            this.session.close();
+            try {
+                this.session.close();
+            } catch (Exception e) {
+                throw new ConnectionException("An unexpected error occurred while closing the connection.", e);
+            }
+        }
+    }
+
+    public void send(String message) {
+        this.ensureConnectionIsOpen();
+
+        if (this.session != null) {
+            session.getAsyncRemote().sendText(message);
         }
     }
 
     @OnOpen
     public void onOpen(Session session) {
-        logger.debug("Connected to: " + session.getRequestURI().toString());
+        logger.debug("Connected to: {}.", session.getRequestURI().toString());
+
         this.session = session;
-        this.messageHandler = new MessageHandler(session);
+        this.messageHandler = new MessageHandler(this);
     }
 
     @OnMessage
@@ -123,16 +181,18 @@ public class WebsocketConnection {
         messageHandler.onMessage(message);
     }
 
-    // Processing when receiving a message
     @OnError
     public void onError(Throwable th) {
         logger.error(th.getMessage());
         logger.error(th);
+
+        this.error = th.getMessage();
     }
 
-    // Processing at session release
     @OnClose
     public void onClose(Session session, CloseReason reason) {
         logger.debug("Connection to AltTester closed: {}.", reason.toString());
+
+        this.closeReason = reason;
     }
 }

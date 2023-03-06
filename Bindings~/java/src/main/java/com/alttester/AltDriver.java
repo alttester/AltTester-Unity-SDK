@@ -1,5 +1,7 @@
 package com.alttester;
 
+import java.io.IOException;
+
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.ConfigurationFactory;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +21,6 @@ import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.Commands.ObjectCommand.AltSetComponentPropertyParams;
 import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.altTesterExceptions.*;
-import java.io.IOException;
 
 public class AltDriver {
     static {
@@ -74,7 +75,7 @@ public class AltDriver {
         }
 
         logger.debug("Connecting to AltTester on host: '{}', port: '{}' and appName: '{}'.", host, port, appName);
-        this.connection = new WebsocketConnection(host, port, connectTimeout, appName);
+        this.connection = new WebsocketConnection(host, port, appName, connectTimeout);
         this.connection.connect();
 
         checkServerVersion();

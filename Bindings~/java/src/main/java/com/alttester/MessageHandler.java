@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Queue;
 import java.lang.Thread;
 
-import javax.websocket.Session;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
@@ -42,19 +41,24 @@ import com.alttester.altTesterExceptions.UnknownErrorException;
 import com.alttester.altTesterExceptions.CommandResponseTimeoutException;
 
 public class MessageHandler implements IMessageHandler {
-    private Session session;
-    private Queue<AltMessageResponse> responses = new LinkedList<AltMessageResponse>();
     private static final Logger logger = LogManager.getLogger(MessageHandler.class);
+
+    private WebsocketConnection connection;
+
+    private Queue<AltMessageResponse> responses = new LinkedList<AltMessageResponse>();
+
     private List<INotificationCallbacks> loadSceneNotificationList = new ArrayList<INotificationCallbacks>();
     private List<INotificationCallbacks> unloadSceneNotificationList = new ArrayList<INotificationCallbacks>();
     private List<INotificationCallbacks> logNotificationList = new ArrayList<INotificationCallbacks>();
     private List<INotificationCallbacks> applicationPausedNotificationList = new ArrayList<INotificationCallbacks>();
+
     private List<String> messageIdTimeout = new ArrayList<String>();
+
     private double commandTimeout = 60;
     private double delayAfterCommand = 0;
 
-    public MessageHandler(Session session) {
-        this.session = session;
+    public MessageHandler(WebsocketConnection connection) {
+        this.connection = connection;
     }
 
     public double getDelayAfterCommand() {
@@ -70,7 +74,7 @@ public class MessageHandler implements IMessageHandler {
         double delay = 0.1;
         long sleepDelay = (long) (delay * 1000);
         while (true) {
-            while (responses.isEmpty() && session.isOpen() && commandTimeout >= time) {
+            while (responses.isEmpty() && connection.isOpen() && commandTimeout >= time) {
                 try {
                     Thread.sleep(sleepDelay);
                 } catch (InterruptedException e) {
@@ -78,11 +82,11 @@ public class MessageHandler implements IMessageHandler {
                 }
                 time += delay;
             }
-            if (commandTimeout < time && session.isOpen()) {
+            if (commandTimeout < time && connection.isOpen()) {
                 messageIdTimeout.add(data.messageId());
                 throw new CommandResponseTimeoutException();
             }
-            if (!session.isOpen()) {
+            if (!connection.isOpen()) {
                 throw new AltException("Driver disconnected");
             }
             AltMessageResponse responseMessage = responses.remove();
@@ -110,7 +114,7 @@ public class MessageHandler implements IMessageHandler {
 
     public void send(AltMessage altMessage) {
         String message = new Gson().toJson(altMessage);
-        session.getAsyncRemote().sendText(message);
+        connection.send(message);
         logger.debug("command sent: {}", trimLogData(message));
     }
 
@@ -127,7 +131,6 @@ public class MessageHandler implements IMessageHandler {
     }
 
     private void handleNotification(AltMessageResponse message) {
-
         switch (message.commandName) {
             case "loadSceneNotification":
                 AltLoadSceneNotificationResultParams data = new Gson().fromJson(message.data,
@@ -254,7 +257,6 @@ public class MessageHandler implements IMessageHandler {
                 break;
             default:
                 break;
-
         }
     }
 
@@ -274,7 +276,6 @@ public class MessageHandler implements IMessageHandler {
                 break;
             default:
                 break;
-
         }
     }
 }
