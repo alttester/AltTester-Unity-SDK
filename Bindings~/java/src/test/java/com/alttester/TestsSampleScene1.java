@@ -307,11 +307,11 @@ public class TestsSampleScene1 extends BaseTest {
                 AltObject altElement = altDriver.findObject(altFindObjectsParams);
                 assertNotNull(altElement);
 
+                AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                                componentName, propertyName, "AltTester").build();
                 Boolean propertyValue = altElement.WaitForComponentProperty(
                                 new AltWaitForComponentPropertyParams.Builder<Boolean>(
-                                                new AltGetComponentPropertyParams.Builder(componentName, propertyName,
-                                                                "AltTester").build())
-                                                .build(),
+                                                altGetComponentPropertyParams).build(),
                                 Boolean.TRUE,
                                 Boolean.class);
                 assertEquals(Boolean.TRUE, propertyValue);
