@@ -1,6 +1,7 @@
 package com.alttester.Commands.FindObject;
 
 import com.alttester.AltMessage;
+import com.alttester.AltObject;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 
 public class AltWaitForComponentPropertyParams<T> extends AltMessage {
@@ -9,6 +10,7 @@ public class AltWaitForComponentPropertyParams<T> extends AltMessage {
         private double timeout = 20;
         private double interval = 0.5;
         private T propertyValue;
+        private AltObject obj;
 
         public Builder(AltGetComponentPropertyParams altGetComponentPropertyParams) {
             this.altGetComponentPropertyParams = altGetComponentPropertyParams;
@@ -29,7 +31,9 @@ public class AltWaitForComponentPropertyParams<T> extends AltMessage {
             altWaitForComponentPropertyParams.altGetComponentPropertyParams = altGetComponentPropertyParams;
             altWaitForComponentPropertyParams.timeout = this.timeout;
             altWaitForComponentPropertyParams.interval = this.interval;
-            altWaitForComponentPropertyParams.propertyValue = propertyValue;
+            altWaitForComponentPropertyParams.propertyValue = this.propertyValue;
+            altWaitForComponentPropertyParams.obj = this.obj;
+
             return altWaitForComponentPropertyParams;
         }
     }
@@ -41,6 +45,7 @@ public class AltWaitForComponentPropertyParams<T> extends AltMessage {
     private T propertyValue;
     private double timeout = 20;
     private double interval = 0.5;
+    private AltObject obj;
 
     public AltGetComponentPropertyParams getAltGetComponentPropertyParams() {
         return altGetComponentPropertyParams;
@@ -48,6 +53,14 @@ public class AltWaitForComponentPropertyParams<T> extends AltMessage {
 
     public void setAltGetComponentPropertyParams(AltGetComponentPropertyParams altGetComponentPropertyParams) {
         this.altGetComponentPropertyParams = altGetComponentPropertyParams;
+    }
+
+    public AltObject getAltObject() {
+        return obj;
+    }
+
+    public void setAltObject(AltObject obj) {
+        this.obj = obj;
     }
 
     public T getPropertyValue() {

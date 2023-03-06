@@ -11,25 +11,29 @@ import com.alttester.altTesterExceptions.WaitTimeOutException;
  */
 public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
     /**
-     * @param altFindObjectsParameters the properties parameter for finding the
-     *                                 objects in a scene.
+     * @param altWaitForComponentPropertyParams the properties parameter for waiting
+     *                                          the
+     *                                          object
+     * @param obj                               the AltObject element
+     * @param property                          the wanted value of the property
      */
     private AltObject obj;
     private AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams;
+    private T property;
 
     /**
      * @param messageHandler
      * @param altWaitForComponentPropertyParams
      */
     public AltWaitForComponentProperty(IMessageHandler messageHandler,
-            AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams) {
+            AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams, T property) {
         super(messageHandler);
         this.altWaitForComponentPropertyParams = altWaitForComponentPropertyParams;
+        this.property = property;
     }
 
     public T Execute(Class<T> returnType) {
         T propertyFound;
-
         double time = 0;
         while (time < altWaitForComponentPropertyParams.getTimeout()) {
             logger.debug("Waiting for element where name contains "
@@ -39,10 +43,9 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
                         altWaitForComponentPropertyParams.getAltGetComponentPropertyParams(),
                         returnType);
 
-                if (propertyFound.equals(
-                        altWaitForComponentPropertyParams.getPropertyValue())) {
+                if (propertyFound.equals(property))
                     return propertyFound;
-                }
+
             } catch (Exception e) {
                 logger.warn("Exception thrown: " + e.getLocalizedMessage());
             }

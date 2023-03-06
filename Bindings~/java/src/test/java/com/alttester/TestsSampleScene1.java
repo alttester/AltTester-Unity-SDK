@@ -12,6 +12,7 @@ import com.alttester.Commands.AltCallStaticMethodParams;
 import com.alttester.Commands.FindObject.AltFindObjectAtCoordinatesParams;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
 import com.alttester.Commands.FindObject.AltGetAllElementsParams;
+import com.alttester.Commands.FindObject.AltWaitForComponentPropertyParams;
 import com.alttester.Commands.FindObject.AltWaitForObjectsParams;
 import com.alttester.Commands.InputActions.AltHoldParams;
 import com.alttester.Commands.InputActions.AltKeyDownParams;
@@ -293,6 +294,27 @@ public class TestsSampleScene1 extends BaseTest {
                                                 propertyName, "AltTester").build(),
                                 Boolean.class);
                 assertTrue(propertyValue);
+        }
+
+        @Test
+        public void testWaitForComponentProperty() throws InterruptedException {
+                Thread.sleep(1000);
+                String componentName = "AltTester.AltRunner";
+                String propertyName = "InstrumentationSettings.ShowPopUp";
+
+                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                                "AltTesterPrefab").build();
+                AltObject altElement = altDriver.findObject(altFindObjectsParams);
+                assertNotNull(altElement);
+
+                Boolean propertyValue = altElement.WaitForComponentProperty(
+                                new AltWaitForComponentPropertyParams.Builder<Boolean>(
+                                                new AltGetComponentPropertyParams.Builder(componentName, propertyName,
+                                                                "AltTester").build())
+                                                .build(),
+                                Boolean.TRUE,
+                                Boolean.class);
+                assertEquals(Boolean.TRUE, propertyValue);
         }
 
         @Test
