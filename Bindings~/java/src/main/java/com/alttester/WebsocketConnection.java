@@ -1,7 +1,6 @@
 package com.alttester;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -119,7 +118,7 @@ public class WebsocketConnection {
             }
 
             try {
-                Thread.sleep(delay); // delay between retries
+                Thread.sleep(delay); // Delay between retries.
             } catch (InterruptedException e) {
                 break;
             }

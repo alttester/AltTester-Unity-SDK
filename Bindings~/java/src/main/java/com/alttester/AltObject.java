@@ -1,6 +1,7 @@
 package com.alttester;
 
 import lombok.Getter;
+
 import com.alttester.Commands.ObjectCommand.*;
 import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
@@ -114,7 +115,7 @@ public class AltObject {
 
     /**
      * Returns the value of the given component property.
-     * 
+     *
      * @param altGetComponentPropertyParameters - String componentName* , String
      *                                          propertyName* , String assembly ,
      *                                          int maxDepth
@@ -130,7 +131,7 @@ public class AltObject {
 
     /**
      * Sets value of the given component property.
-     * 
+     *
      * @param altSetComponentPropertyParameters - String componentName* , String
      *                                          propertyName* , String assembly ,
      *                                          String value*
@@ -143,7 +144,7 @@ public class AltObject {
 
     /**
      * Invokes a method from an existing component of the object.
-     * 
+     *
      * @param altCallComponentMethodParameters - String componentName* , String
      *                                         methodName* , Object[] parameters*,
      *                                         String[] typeOfParameters , String
@@ -162,7 +163,7 @@ public class AltObject {
     /**
      * Returns text value from a Button, Text, InputField. This also works with
      * TextMeshPro elements.
-     * 
+     *
      * @return Text value
      */
     public String getText() {
@@ -175,7 +176,7 @@ public class AltObject {
     /**
      * Sets text value for a Button, Text, InputField. This also works with
      * TextMeshPro elements.
-     * 
+     *
      * @param text
      * @return Element that have text value changed
      */
@@ -191,7 +192,7 @@ public class AltObject {
     /**
      * Sets text value for a Button, Text, InputField. This also works with
      * TextMeshPro elements.
-     * 
+     *
      * @param parameters
      * @return Element that have text value changed
      */
@@ -204,7 +205,7 @@ public class AltObject {
 
     /**
      * Simulates pointer up action on the object.
-     * 
+     *
      * @return Element that simulates pointer up action
      */
     public AltObject pointerUp() {
@@ -213,7 +214,7 @@ public class AltObject {
 
     /**
      * Simulates pointer down action on the object.
-     * 
+     *
      * @return Element that simulates pointer down action
      */
     public AltObject pointerDown() {
@@ -222,7 +223,7 @@ public class AltObject {
 
     /**
      * Simulates pointer enter action on the object.
-     * 
+     *
      * @return Element that simulates pointer enter action
      */
     public AltObject pointerEnter() {
@@ -231,7 +232,7 @@ public class AltObject {
 
     /**
      * Simulates pointer exit action on the object.
-     * 
+     *
      * @return Element that simulates pointer exit action
      */
     public AltObject pointerExit() {

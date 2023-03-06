@@ -9,7 +9,7 @@ public class BaseTest {
 
     @BeforeAll
     public static void setUp() throws Exception {
-        altDriver = TestsHelper.GetAltDriver();
+        altDriver = TestsHelper.getAltDriver();
     }
 
     @AfterAll
