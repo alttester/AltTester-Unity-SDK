@@ -13,17 +13,22 @@ namespace AltTester.AltDriver.Commands
     public class DriverCommunicationWebSocket : IDriverCommunication
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+
         private IWebSocketClient wsClient = null;
+
         private readonly string _host;
         private readonly int _port;
         private readonly string _uri;
         private readonly string _appName;
         private readonly int _connectTimeout;
+
         private Queue<CommandResponse> messages;
+
         private List<Action<AltLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltLoadSceneNotificationResultParams>>();
         private List<Action<String>> unloadSceneCallbacks = new List<Action<String>>();
         private List<Action<AltLogNotificationResultParams>> logCallbacks = new List<Action<AltLogNotificationResultParams>>();
         private List<Action<bool>> applicationPausedCallbacks = new List<Action<bool>>();
+
         private List<string> messageIdTimeouts = new List<string>();
 
         private int commandTimeout = 60;
@@ -70,11 +75,10 @@ namespace AltTester.AltDriver.Commands
 
                 Thread.Sleep(delay); // delay between retries
             }
-            if (watch.Elapsed.TotalSeconds > _connectTimeout && !wsClient.IsAlive)
-                throw new ConnectionTimeoutException(string.Format("Failed to connect to AltTester on host: {0} port: {1}.", _host, _port));
 
-            if (!wsClient.IsAlive)
-                throw new ConnectionException(string.Format("Failed to connect to AltTester on host: {0} port: {1}.", _host, _port));
+            if (watch.Elapsed.TotalSeconds > _connectTimeout && !wsClient.IsAlive) {
+                throw new ConnectionTimeoutException(string.Format("Failed to connect to AltTester on host: {0} port: {1}.", _host, _port));
+            }
 
             logger.Debug("Connected to: " + _uri);
 
@@ -83,8 +87,9 @@ namespace AltTester.AltDriver.Commands
             this.wsClient.OnError += (sender, args) =>
             {
                 logger.Error(args.Message);
-                if (args.Exception != null)
+                if (args.Exception != null) {
                     logger.Error(args.Exception);
+                }
             };
             this.wsClient.OnClose += (sender, args) =>
             {
