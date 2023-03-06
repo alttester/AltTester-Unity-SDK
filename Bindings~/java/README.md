@@ -9,7 +9,7 @@ Read the documentation on https://altom.com/alttester/docs/sdk/
 ### Test
 
 ```
-mvn test -Dtest="com.alttester.*"
+mvn test -Dtest="com.alttester.Tests*"
 ```
 
 ## Contributing
