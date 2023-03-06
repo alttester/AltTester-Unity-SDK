@@ -231,7 +231,7 @@ class TestScene01:
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         result = alt_object.wait_for_component_property(
             "AltExampleScriptCapsule", "TestBool", True,
-            "Assembly-CSharp", self)
+            "Assembly-CSharp")
 
         assert result is True
 
