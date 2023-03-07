@@ -309,9 +309,11 @@ public class TestsSampleScene1 extends BaseTest {
 
                 AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                                 componentName, propertyName, "AltTester").build();
+                AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
+                                altGetComponentPropertyParams).build();
+
                 Boolean propertyValue = altElement.WaitForComponentProperty(
-                                new AltWaitForComponentPropertyParams.Builder<Boolean>(
-                                                altGetComponentPropertyParams).build(),
+                                altWaitForComponentPropertyParams,
                                 Boolean.TRUE,
                                 Boolean.class);
                 assertEquals(Boolean.TRUE, propertyValue);
