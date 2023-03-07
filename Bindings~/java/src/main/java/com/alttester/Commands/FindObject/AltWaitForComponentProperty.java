@@ -26,10 +26,11 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
      * @param altWaitForComponentPropertyParams
      */
     public AltWaitForComponentProperty(IMessageHandler messageHandler,
-            AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams, T property) {
+            AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams, T property, AltObject obj) {
         super(messageHandler);
         this.altWaitForComponentPropertyParams = altWaitForComponentPropertyParams;
         this.property = property;
+        this.obj = obj;
     }
 
     public T Execute(Class<T> returnType) {
@@ -53,7 +54,6 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
             time += altWaitForComponentPropertyParams.getInterval();
         }
         throw new WaitTimeOutException(
-
                 "Property " + altWaitForComponentPropertyParams.getAltGetComponentPropertyParams().getPropertyName()
                         + " still not found after " + altWaitForComponentPropertyParams.getTimeout() + " seconds");
     }

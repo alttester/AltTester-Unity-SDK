@@ -299,24 +299,24 @@ public class TestsSampleScene1 extends BaseTest {
         @Test
         public void testWaitForComponentProperty() throws InterruptedException {
                 Thread.sleep(1000);
-                String componentName = "AltTester.AltRunner";
-                String propertyName = "InstrumentationSettings.ShowPopUp";
-
+                String componentName = "UnityEngine.CapsuleCollider";
+                String propertyName = "isTrigger";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                                "AltTesterPrefab").build();
+                                "Capsule").build();
+
                 AltObject altElement = altDriver.findObject(altFindObjectsParams);
                 assertNotNull(altElement);
 
                 AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                                componentName, propertyName, "AltTester").build();
+                                componentName, propertyName, "").build();
                 AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
                                 altGetComponentPropertyParams).build();
 
                 Boolean propertyValue = altElement.WaitForComponentProperty(
                                 altWaitForComponentPropertyParams,
-                                true,
+                                false,
                                 Boolean.class);
-                assertEquals(Boolean.TRUE, propertyValue);
+                assertEquals(Boolean.FALSE, propertyValue);
         }
 
         @Test
