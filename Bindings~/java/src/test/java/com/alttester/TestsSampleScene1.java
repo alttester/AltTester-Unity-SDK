@@ -314,7 +314,7 @@ public class TestsSampleScene1 extends BaseTest {
 
                 Boolean propertyValue = altElement.WaitForComponentProperty(
                                 altWaitForComponentPropertyParams,
-                                Boolean.TRUE,
+                                true,
                                 Boolean.class);
                 assertEquals(Boolean.TRUE, propertyValue);
         }
