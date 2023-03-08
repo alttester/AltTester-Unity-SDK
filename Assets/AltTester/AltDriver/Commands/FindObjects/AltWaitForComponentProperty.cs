@@ -30,7 +30,7 @@ namespace AltTester.AltDriver.Commands
         public T Execute()
         {
             double time = 0;
-            T propertyFound = null;
+            T propertyFound = default(T);
 
             logger.Debug("Waiting for property " + propertyName + " to be present.");
             while (time < timeout)
