@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using AltTester.AltDriver;
 using AltTester;
+using AltTester.AltDriver;
 using AltTesterEditor.Logging;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
@@ -1168,7 +1168,7 @@ namespace AltTesterEditor
 
         private void runInEditor()
         {
-            AltBuilder.InsertAltTesterInTheActiveScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
+            AltBuilder.InsertAltInTheActiveScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
             AltBuilder.CreateJsonFileForInputMappingOfAxis();
             AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             playInEditorPressed = true;
