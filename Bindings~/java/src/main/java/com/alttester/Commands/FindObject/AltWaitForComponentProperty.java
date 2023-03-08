@@ -14,10 +14,10 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
      * @param altWaitForComponentPropertyParams the properties parameter for waiting
      *                                          the
      *                                          object
-     * @param obj                               the AltObject element
+     * @param altObject                         the AltObject element
      * @param property                          the wanted value of the property
      */
-    private AltObject obj;
+    private AltObject altObject;
     private AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams;
     private T property;
 
@@ -26,11 +26,11 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
      * @param altWaitForComponentPropertyParams
      */
     public AltWaitForComponentProperty(IMessageHandler messageHandler,
-            AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams, T property, AltObject obj) {
+            AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams, T property, AltObject altObject) {
         super(messageHandler);
         this.altWaitForComponentPropertyParams = altWaitForComponentPropertyParams;
         this.property = property;
-        this.obj = obj;
+        this.altObject = altObject;
     }
 
     public T Execute(Class<T> returnType) {
@@ -40,7 +40,7 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
             logger.debug("Waiting for element where name contains "
                     + altWaitForComponentPropertyParams.getAltGetComponentPropertyParams().getPropertyName() + "....");
             try {
-                propertyFound = obj.getComponentProperty(
+                propertyFound = altObject.getComponentProperty(
                         altWaitForComponentPropertyParams.getAltGetComponentPropertyParams(),
                         returnType);
 

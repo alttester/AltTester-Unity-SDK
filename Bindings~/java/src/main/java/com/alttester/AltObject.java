@@ -131,7 +131,8 @@ public class AltObject {
     }
 
     /**
-     * Returns the value of the given component property.
+     * Wait until wanted property is found and returns the value of the given
+     * component property.
      *
      * @param altWaitForComponentPropertyParams -AltGetComponentPropertyParams
      *                                          altGetComponentPropertyParams* ,

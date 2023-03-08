@@ -10,7 +10,7 @@ public class AltWaitForComponentPropertyParams<T> extends AltMessage {
         private double timeout = 20;
         private double interval = 0.5;
         private T propertyValue;
-        private AltObject obj;
+        private AltObject altObject;
 
         public Builder(AltGetComponentPropertyParams altGetComponentPropertyParams) {
             this.altGetComponentPropertyParams = altGetComponentPropertyParams;
@@ -32,7 +32,7 @@ public class AltWaitForComponentPropertyParams<T> extends AltMessage {
             altWaitForComponentPropertyParams.timeout = this.timeout;
             altWaitForComponentPropertyParams.interval = this.interval;
             altWaitForComponentPropertyParams.propertyValue = this.propertyValue;
-            altWaitForComponentPropertyParams.obj = this.obj;
+            altWaitForComponentPropertyParams.altObject = this.altObject;
 
             return altWaitForComponentPropertyParams;
         }
@@ -45,7 +45,7 @@ public class AltWaitForComponentPropertyParams<T> extends AltMessage {
     private T propertyValue;
     private double timeout = 20;
     private double interval = 0.5;
-    private AltObject obj;
+    private AltObject altObject;
 
     public AltGetComponentPropertyParams getAltGetComponentPropertyParams() {
         return altGetComponentPropertyParams;
@@ -56,11 +56,11 @@ public class AltWaitForComponentPropertyParams<T> extends AltMessage {
     }
 
     public AltObject getAltObject() {
-        return obj;
+        return altObject;
     }
 
-    public void setAltObject(AltObject obj) {
-        this.obj = obj;
+    public void setAltObject(AltObject altObject) {
+        this.altObject = altObject;
     }
 
     public T getPropertyValue() {
