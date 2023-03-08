@@ -1,15 +1,17 @@
 using System;
 using System.Threading;
-using NUnit.Framework;
-using AltTester.AltDriver.MockClasses;
-using AltTester.AltDriver.Logging;
-using AltTester.AltDriver.Notifications;
 using AltTester.AltDriver;
+using AltTester.AltDriver.Logging;
+using AltTester.AltDriver.MockClasses;
+using AltTester.AltDriver.Notifications;
 using AltTester.AltDriver.Tests;
+using NUnit.Framework;
 
-namespace AltTester.AltDriver.Tests
+public class TestNotification
 {
-    public class TestNotification
+    private AltDriver altDriver;
+    [OneTimeSetUp]
+    public void SetUp()
     {
         string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
         int port = 13000;
@@ -40,30 +42,32 @@ namespace AltTester.AltDriver.Tests
         altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
     }
 
-        [SetUp]
-        public void LoadLevel()
-        {
+    [Test]
+    public void TestLoadSceneNotification()
+    {
+        waitForNotificationToBeSent(MockNotificationCallBacks.LastSceneLoaded, "Scene 1 AltDriverTestScene", 10);
+        Assert.AreEqual("Scene 1 AltDriverTestScene", MockNotificationCallBacks.LastSceneLoaded);
+    }
 
-            altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
-        }
-
-        [Test]
-        public void TestLoadSceneNotification()
+    private void waitForNotificationToBeSent(string lastSceneLoaded, string expectedValue, float timeout)
+    {
+        while (!lastSceneLoaded.Equals(expectedValue))
         {
-            waitForNotificationToBeSent(MockNotificationCallBacks.LastSceneLoaded, "Scene 1 AltDriverTestScene", 10);
-            Assert.AreEqual("Scene 1 AltDriverTestScene", MockNotificationCallBacks.LastSceneLoaded);
+            Thread.Sleep(200);
+            timeout -= 0.2f;
+            if (timeout <= 0)
+                throw new TimeoutException("Notification variable not set to the desired value in time");
         }
+    }
 
-        private void waitForNotificationToBeSent(string lastSceneLoaded, string expectedValue, float timeout)
-        {
-            while (!lastSceneLoaded.Equals(expectedValue))
-            {
-                Thread.Sleep(200);
-                timeout -= 0.2f;
-                if (timeout <= 0)
-                    throw new TimeoutException("Notification variable not set to the desired value in time");
-            }
-        }
+    [Test]
+    public void TestUnloadSceneNotification()
+    {
+        altDriver.LoadScene("Scene 2 Draggable Panel", false);
+        altDriver.UnloadScene("Scene 2 Draggable Panel");
+        waitForNotificationToBeSent(MockNotificationCallBacks.LastSceneUnloaded, "Scene 2 Draggable Panel", 10);
+        Assert.AreEqual("Scene 2 Draggable Panel", MockNotificationCallBacks.LastSceneUnloaded);
+    }
 
     [Test]
     public void TestLogNotification()

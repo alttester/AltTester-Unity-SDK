@@ -1,6 +1,6 @@
 using System;
-using AltTesterEditor;
 using AltTester;
+using AltTesterEditor;
 using AltTesterEditor.Logging;
 using UnityEditor;
 
@@ -42,7 +42,7 @@ namespace AltTesterTools
 
 
 
-                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.Standalone);
@@ -115,7 +115,7 @@ namespace AltTesterTools
 
 
 
-                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.Android);
@@ -204,7 +204,7 @@ namespace AltTesterTools
 
                 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.iOS);
                 var instrumentationSettings = getInstrumentationSettings();
-                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
@@ -273,7 +273,7 @@ namespace AltTesterTools
                 AltBuilder.AddScriptingDefineSymbol("UNITY_WEBGL", BuildTargetGroup.WebGL);
 
                 var instrumentationSettings = getInstrumentationSettings();
-                AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+                AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.WebGL);
