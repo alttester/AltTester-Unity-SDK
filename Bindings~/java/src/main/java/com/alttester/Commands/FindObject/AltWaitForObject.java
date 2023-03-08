@@ -1,9 +1,9 @@
 package com.alttester.Commands.FindObject;
 
-import com.alttester.Utils;
-import com.alttester.IMessageHandler;
 import com.alttester.AltObject;
-import com.alttester.altTesterExceptions.WaitTimeOutException;
+import com.alttester.IMessageHandler;
+import com.alttester.Utils;
+import com.alttester.Exceptions.WaitTimeOutException;
 
 /**
  * Wait until there are no longer any objects that respect the given criteria or

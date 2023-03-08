@@ -348,4 +348,3 @@ namespace AltTester.AltDriver
         }
     }
 }
-

@@ -1,12 +1,12 @@
 package com.alttester.Commands;
 
-import com.alttester.AltMessage;
-import com.alttester.IMessageHandler;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+
+import com.alttester.AltMessage;
+import com.alttester.IMessageHandler;
 
 /**
  * Create a screenshot of the current scene in png format.

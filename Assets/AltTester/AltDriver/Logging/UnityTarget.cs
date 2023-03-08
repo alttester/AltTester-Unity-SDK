@@ -34,6 +34,5 @@ namespace AltTester.AltDriver.Logging
             }
         }
     }
-
 }
 #endif

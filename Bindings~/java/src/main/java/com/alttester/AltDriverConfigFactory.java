@@ -19,27 +19,26 @@ import org.apache.logging.log4j.core.config.plugins.Plugin;
 
 @Plugin(name = "AltDriverConfigFactory", category = ConfigurationFactory.CATEGORY)
 @Order(50)
-
 public class AltDriverConfigFactory extends ConfigurationFactory {
 
     @Override
-    public Configuration getConfiguration(final LoggerContext loggerContext, final ConfigurationSource source) {
+    public final Configuration getConfiguration(final LoggerContext loggerContext, final ConfigurationSource source) {
         return getConfiguration(loggerContext, source.toString(), null);
     }
 
     @Override
-    public Configuration getConfiguration(final LoggerContext loggerContext, final String name,
+    public final Configuration getConfiguration(final LoggerContext loggerContext, final String name,
             final URI configLocation) {
         ConfigurationBuilder<BuiltConfiguration> builder = newConfigurationBuilder();
         return createConfiguration(name, builder);
     }
 
     @Override
-    protected String[] getSupportedTypes() {
-        return new String[] { "*" };
+    protected final String[] getSupportedTypes() {
+        return new String[] {"*"};
     }
 
-    public static void DisableLogging() {
+    public static void disableLogging() {
         final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
         final Configuration config = ctx.getConfiguration();
         config.getLoggerConfig("com.alttester").setLevel(Level.OFF);
@@ -47,7 +46,8 @@ public class AltDriverConfigFactory extends ConfigurationFactory {
         ctx.updateLoggers();
     }
 
-    static Configuration createConfiguration(final String name, ConfigurationBuilder<BuiltConfiguration> builder) {
+    static Configuration createConfiguration(final String name,
+            final ConfigurationBuilder<BuiltConfiguration> builder) {
         builder.setStatusLevel(Level.ERROR);
         builder.setConfigurationName(name);
 

@@ -1,6 +1,6 @@
 package com.alttester.Commands.InputActions;
 
-import com.alttester.position.Vector2;
+import com.alttester.Position.Vector2;
 
 public class AltHoldParams extends AltSwipeParams {
     public static class Builder {

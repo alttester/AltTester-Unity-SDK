@@ -1,7 +1,7 @@
 package com.alttester.Commands.InputActions;
 
 import com.alttester.AltMessage;
-import com.alttester.position.Vector2;
+import com.alttester.Position.Vector2;
 
 public class AltSwipeParams extends AltMessage {
     public static class Builder {

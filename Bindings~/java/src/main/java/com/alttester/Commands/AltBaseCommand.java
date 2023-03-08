@@ -3,9 +3,9 @@ package com.alttester.Commands;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.alttester.IMessageHandler;
 import com.alttester.AltMessage;
-import com.alttester.altTesterExceptions.*;
+import com.alttester.IMessageHandler;
+import com.alttester.Exceptions.AltInvalidServerResponse;
 
 public class AltBaseCommand {
     protected static final Logger logger = LogManager.getLogger(AltBaseCommand.class);

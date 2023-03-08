@@ -11,6 +11,4 @@ namespace AltTester.AltDriver.Logging
         Fatal = 5,
         Off = 6,
     }
-
-
 }

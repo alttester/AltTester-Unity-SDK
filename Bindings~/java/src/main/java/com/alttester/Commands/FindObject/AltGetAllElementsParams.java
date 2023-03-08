@@ -1,7 +1,7 @@
 package com.alttester.Commands.FindObject;
 
-import com.alttester.AltMessage;
 import com.alttester.AltDriver.By;
+import com.alttester.AltMessage;
 
 public class AltGetAllElementsParams extends AltMessage {
 

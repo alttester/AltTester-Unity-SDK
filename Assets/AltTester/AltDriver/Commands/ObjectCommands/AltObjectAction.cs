@@ -9,7 +9,6 @@ namespace AltTester.AltDriver.Commands
         public string Method;
         public string Parameters;
         public string TypeOfParameters;
-
         public AltObjectAction(string component = "", string method = "", string parameters = "", string typeOfParameters = "", string assembly = "")
         {
             Component = component;
@@ -18,8 +17,6 @@ namespace AltTester.AltDriver.Commands
             TypeOfParameters = typeOfParameters;
             Assembly = assembly;
         }
-
-
         public string Assembly;
     }
 }

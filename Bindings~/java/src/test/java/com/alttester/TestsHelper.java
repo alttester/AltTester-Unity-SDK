@@ -1,9 +1,5 @@
 package com.alttester;
 
-import java.util.Collection;
-import com.alttester.Commands.AltCommands.AltAddNotificationListenerParams;
-import com.alttester.Commands.AltCommands.NotificationType;
-
 public class TestsHelper {
     public static int GetAltDriverPort() {
         String port = System.getenv("ALTSERVER_PORT");

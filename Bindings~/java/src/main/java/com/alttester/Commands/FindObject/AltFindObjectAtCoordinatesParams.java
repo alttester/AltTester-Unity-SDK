@@ -1,7 +1,7 @@
 package com.alttester.Commands.FindObject;
 
 import com.alttester.AltMessage;
-import com.alttester.position.Vector2;
+import com.alttester.Position.Vector2;
 
 public class AltFindObjectAtCoordinatesParams extends AltMessage {
 

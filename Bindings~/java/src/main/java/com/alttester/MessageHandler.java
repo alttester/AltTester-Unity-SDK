@@ -4,47 +4,48 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.lang.Thread;
 
 import javax.websocket.Session;
-import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
+
 import com.alttester.Commands.AltCommands.NotificationType;
+import com.alttester.Exceptions.AltErrors;
+import com.alttester.Exceptions.AltException;
+import com.alttester.Exceptions.AltInputModuleException;
+import com.alttester.Exceptions.AltRecvallException;
+import com.alttester.Exceptions.AssemblyNotFoundException;
+import com.alttester.Exceptions.CameraNotFoundException;
+import com.alttester.Exceptions.CommandResponseTimeoutException;
+import com.alttester.Exceptions.ComponentNotFoundException;
+import com.alttester.Exceptions.CouldNotPerformOperationException;
+import com.alttester.Exceptions.FailedToParseArgumentsException;
+import com.alttester.Exceptions.FormatException;
+import com.alttester.Exceptions.InvalidCommandException;
+import com.alttester.Exceptions.InvalidParameterTypeException;
+import com.alttester.Exceptions.InvalidPathException;
+import com.alttester.Exceptions.MethodNotFoundException;
+import com.alttester.Exceptions.MethodWithGivenParametersNotFoundException;
+import com.alttester.Exceptions.NotFoundException;
+import com.alttester.Exceptions.NullReferenceException;
+import com.alttester.Exceptions.ObjectWasNotFoundException;
+import com.alttester.Exceptions.PropertyNotFoundException;
+import com.alttester.Exceptions.ResponseFormatException;
+import com.alttester.Exceptions.SceneNotFoundException;
+import com.alttester.Exceptions.UnknownErrorException;
 import com.alttester.Notifications.AltLoadSceneNotificationResultParams;
 import com.alttester.Notifications.AltLogNotificationResultParams;
 import com.alttester.Notifications.INotificationCallbacks;
-import com.alttester.altTesterExceptions.AltErrors;
-import com.alttester.altTesterExceptions.AltException;
-import com.alttester.altTesterExceptions.AltInputModuleException;
-import com.alttester.altTesterExceptions.AltRecvallException;
-import com.alttester.altTesterExceptions.AssemblyNotFoundException;
-import com.alttester.altTesterExceptions.CameraNotFoundException;
-import com.alttester.altTesterExceptions.ComponentNotFoundException;
-import com.alttester.altTesterExceptions.CouldNotPerformOperationException;
-import com.alttester.altTesterExceptions.FailedToParseArgumentsException;
-import com.alttester.altTesterExceptions.FormatException;
-import com.alttester.altTesterExceptions.InvalidCommandException;
-import com.alttester.altTesterExceptions.InvalidParameterTypeException;
-import com.alttester.altTesterExceptions.InvalidPathException;
-import com.alttester.altTesterExceptions.MethodNotFoundException;
-import com.alttester.altTesterExceptions.MethodWithGivenParametersNotFoundException;
-import com.alttester.altTesterExceptions.NotFoundException;
-import com.alttester.altTesterExceptions.NullReferenceException;
-import com.alttester.altTesterExceptions.ObjectWasNotFoundException;
-import com.alttester.altTesterExceptions.PropertyNotFoundException;
-import com.alttester.altTesterExceptions.ResponseFormatException;
-import com.alttester.altTesterExceptions.SceneNotFoundException;
-import com.alttester.altTesterExceptions.UnknownErrorException;
-import com.alttester.altTesterExceptions.CommandResponseTimeoutException;
 
 public class MessageHandler implements IMessageHandler {
+    private static Logger logger = LogManager.getLogger(MessageHandler.class);
+
     private Session session;
     private Queue<AltMessageResponse> responses = new LinkedList<AltMessageResponse>();
-    private static final Logger logger = LogManager.getLogger(MessageHandler.class);
     private List<INotificationCallbacks> loadSceneNotificationList = new ArrayList<INotificationCallbacks>();
     private List<INotificationCallbacks> unloadSceneNotificationList = new ArrayList<INotificationCallbacks>();
     private List<INotificationCallbacks> logNotificationList = new ArrayList<INotificationCallbacks>();
@@ -53,19 +54,19 @@ public class MessageHandler implements IMessageHandler {
     private double commandTimeout = 60;
     private double delayAfterCommand = 0;
 
-    public MessageHandler(Session session) {
+    public MessageHandler(final Session session) {
         this.session = session;
     }
 
-    public double getDelayAfterCommand() {
+    public final double getDelayAfterCommand() {
         return this.delayAfterCommand;
     }
 
-    public void setDelayAfterCommand(double delay) {
+    public final void setDelayAfterCommand(final double delay) {
         this.delayAfterCommand = delay;
     }
 
-    public <T> T receive(AltMessage data, Class<T> type) {
+    public final <T> T receive(final AltMessage data, final Class<T> type) {
         double time = 0;
         double delay = 0.1;
         long sleepDelay = (long) (delay * 1000);
@@ -108,13 +109,13 @@ public class MessageHandler implements IMessageHandler {
         }
     }
 
-    public void send(AltMessage altMessage) {
+    public final void send(final AltMessage altMessage) {
         String message = new Gson().toJson(altMessage);
         session.getAsyncRemote().sendText(message);
         logger.debug("command sent: {}", trimLogData(message));
     }
 
-    public void onMessage(String message) {
+    public final void onMessage(final String message) {
         logger.debug("response received: {}", trimLogData(message));
 
         AltMessageResponse response = new Gson().fromJson(message, AltMessageResponse.class);
@@ -126,7 +127,7 @@ public class MessageHandler implements IMessageHandler {
         }
     }
 
-    private void handleNotification(AltMessageResponse message) {
+    private void handleNotification(final AltMessageResponse message) {
 
         switch (message.commandName) {
             case "loadSceneNotification":
@@ -155,10 +156,12 @@ public class MessageHandler implements IMessageHandler {
                     callback.ApplicationPausedCallBack(data2);
                 }
                 break;
+            default:
+                break;
         }
     }
 
-    private void handleErrors(CommandError error) {
+    private void handleErrors(final CommandError error) {
         if (error == null) {
             return;
         }
@@ -204,29 +207,32 @@ public class MessageHandler implements IMessageHandler {
                 throw new AltInputModuleException(error.message);
             case AltErrors.errorCameraNotFound:
                 throw new CameraNotFoundException(error.message);
+            default:
+                break;
         }
 
         logger.error(error.type + " is not handled by driver.");
         throw new UnknownErrorException(error.message);
     }
 
-    public void setCommandTimeout(int timeout) {
+    public final void setCommandTimeout(final int timeout) {
         commandTimeout = timeout;
     }
 
-    private String trimLogData(String data) {
+    private String trimLogData(final String data) {
         return trimLogData(data, 1024 * 10);
     }
 
-    private String trimLogData(String data, int maxSize) {
+    private String trimLogData(final String data, final int maxSize) {
         if (data.length() > maxSize) {
             return data.substring(0, 10 * 1024) + "[...]";
         }
         return data;
     }
 
-    public void addNotificationListener(NotificationType notificationType, INotificationCallbacks callbacks,
-            boolean overwrite) {
+    public final void addNotificationListener(final NotificationType notificationType,
+            final INotificationCallbacks callbacks,
+            final boolean overwrite) {
         switch (notificationType) {
             case LOADSCENE:
                 if (overwrite) {
@@ -258,7 +264,7 @@ public class MessageHandler implements IMessageHandler {
         }
     }
 
-    public void removeNotificationListener(NotificationType notificationType) {
+    public final void removeNotificationListener(final NotificationType notificationType) {
         switch (notificationType) {
             case LOADSCENE:
                 loadSceneNotificationList.clear();

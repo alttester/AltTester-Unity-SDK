@@ -1,7 +1,7 @@
 package com.alttester.Commands.FindObject;
 
-import com.alttester.IMessageHandler;
 import com.alttester.AltObject;
+import com.alttester.IMessageHandler;
 
 /**
  * Builder for finding the first object in the scene that respects the given

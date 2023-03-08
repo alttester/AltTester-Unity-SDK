@@ -1,6 +1,12 @@
 package com.alttester;
 
-import com.alttester.position.Vector3;
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
 import com.alttester.Commands.InputActions.AltKeyDownParams;
@@ -9,15 +15,8 @@ import com.alttester.Commands.InputActions.AltMoveMouseParams;
 import com.alttester.Commands.InputActions.AltPressKeyParams;
 import com.alttester.Commands.InputActions.AltScrollParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
+import com.alttester.Position.Vector3;
 import com.alttester.UnityStruct.AltKeyCode;
-
-import java.util.ArrayList;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TestsSampleScene5 extends BaseTest {
 
@@ -86,7 +85,7 @@ public class TestsSampleScene5 extends BaseTest {
                 altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.W).withDuration(1).withPower(2)
                                 .withWait(false).build());
                 Thread.sleep(2000);
-                assertNotEquals(cubeInitWorldZ, cube.UpdateObject().worldZ);
+                assertNotEquals(cubeInitWorldZ, cube.updateObject().worldZ);
         }
 
         @Test

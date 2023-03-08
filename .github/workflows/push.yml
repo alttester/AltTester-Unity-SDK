@@ -7,6 +7,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_JAVA: true
+          VALIDATE_PYTHON_FLAKE8: true
+          # VALIDATE_CSHARP: false
+          FILTER_REGEX_EXCLUDE: .*Docs/**/*.[py|cs|java]
+
   build-docs:
     runs-on: ubuntu-latest
 

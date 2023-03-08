@@ -1,4 +1,4 @@
-package com.alttester.position;
+package com.alttester.Position;
 
 import lombok.Data;
 import lombok.Getter;

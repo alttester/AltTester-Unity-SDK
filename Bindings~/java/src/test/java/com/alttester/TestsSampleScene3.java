@@ -1,5 +1,8 @@
 package com.alttester;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
 import com.alttester.Commands.FindObject.AltWaitForObjectsParams;
@@ -7,14 +10,10 @@ import com.alttester.Commands.InputActions.AltMultiPointSwipeParams;
 import com.alttester.Commands.InputActions.AltSwipeParams;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
-import com.alttester.position.Vector2;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.alttester.Position.Vector2;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -30,8 +29,8 @@ public class TestsSampleScene3 extends BaseTest {
                 public static String imageSourceDropZone;
 
                 public ImagesDrop(String imageSource, String imageSourceDropZone) {
-                        this.imageSource = imageSource;
-                        this.imageSourceDropZone = imageSourceDropZone;
+                        ImagesDrop.imageSource = imageSource;
+                        ImagesDrop.imageSourceDropZone = imageSourceDropZone;
                 }
         }
 

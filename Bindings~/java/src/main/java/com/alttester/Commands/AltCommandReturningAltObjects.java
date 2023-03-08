@@ -1,8 +1,8 @@
 package com.alttester.Commands;
 
-import com.alttester.IMessageHandler;
 import com.alttester.AltMessage;
 import com.alttester.AltObject;
+import com.alttester.IMessageHandler;
 
 public class AltCommandReturningAltObjects extends AltBaseCommand {
 

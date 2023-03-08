@@ -18,7 +18,7 @@ import javax.websocket.OnOpen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.alttester.altTesterExceptions.*;
+import com.alttester.Exceptions.*;
 
 @ClientEndpoint
 public class WebsocketConnection {
@@ -32,14 +32,14 @@ public class WebsocketConnection {
     public Session session = null;
     public IMessageHandler messageHandler = null;
 
-    public WebsocketConnection(String host, int port, int connectTimeout, String appName) {
+    public WebsocketConnection(final String host, final int port, final int connectTimeout, final String appName) {
         _host = host;
         _port = port;
         _appName = appName;
         _connectTimeout = connectTimeout;
     }
 
-    public URI getURI() throws ConnectionException {
+    public final URI getURI() throws ConnectionException {
         try {
             return new URI("ws", null, _host, _port, "/altws", "appName=" + _appName, null);
         } catch (URISyntaxException e) {
@@ -48,7 +48,7 @@ public class WebsocketConnection {
         }
     }
 
-    public void connect() {
+    public final void connect() {
         URI uri = getURI();
         logger.info("Connecting to: '{}'.", uri.toString());
 
@@ -103,7 +103,7 @@ public class WebsocketConnection {
         }
     }
 
-    public void close() throws IOException {
+    public final void close() throws IOException {
         logger.info(String.format("Closing connection to AltTester on host: %s port: %s.", _host, _port));
 
         if (this.session != null) {
@@ -112,27 +112,27 @@ public class WebsocketConnection {
     }
 
     @OnOpen
-    public void onOpen(Session session) {
+    public final void onOpen(final Session session) {
         logger.debug("Connected to: " + session.getRequestURI().toString());
         this.session = session;
         this.messageHandler = new MessageHandler(session);
     }
 
     @OnMessage
-    public void onMessage(String message) {
+    public final void onMessage(final String message) {
         messageHandler.onMessage(message);
     }
 
     // Processing when receiving a message
     @OnError
-    public void onError(Throwable th) {
+    public final void onError(final Throwable th) {
         logger.error(th.getMessage());
         logger.error(th);
     }
 
     // Processing at session release
     @OnClose
-    public void onClose(Session session, CloseReason reason) {
+    public final void onClose(final Session session, final CloseReason reason) {
         logger.debug("Connection to AltTester closed: {}.", reason.toString());
     }
 }

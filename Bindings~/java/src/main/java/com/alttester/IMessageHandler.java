@@ -4,21 +4,20 @@ import com.alttester.Commands.AltCommands.NotificationType;
 import com.alttester.Notifications.INotificationCallbacks;
 
 public interface IMessageHandler {
+    <T> T receive(AltMessage altMessage, Class<T> type);
 
-    public <T> T receive(AltMessage altMessage, Class<T> type);
+    void send(AltMessage altMessage);
 
-    public void send(AltMessage altMessage);
+    void onMessage(String message);
 
-    public void onMessage(String message);
+    void setCommandTimeout(int timeout);
 
-    public void setCommandTimeout(int timeout);
-
-    public void addNotificationListener(NotificationType notificationType, INotificationCallbacks callbacks,
+    void addNotificationListener(NotificationType notificationType, INotificationCallbacks callbacks,
             boolean overwrite);
 
-    public void removeNotificationListener(NotificationType notificationType);
+    void removeNotificationListener(NotificationType notificationType);
 
-    public double getDelayAfterCommand();
+    double getDelayAfterCommand();
 
-    public void setDelayAfterCommand(double delay);
+    void setDelayAfterCommand(double delay);
 }

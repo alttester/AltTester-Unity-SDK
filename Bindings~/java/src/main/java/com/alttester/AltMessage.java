@@ -1,10 +1,10 @@
 package com.alttester;
 
-import javax.websocket.Encoder;
-import javax.websocket.EndpointConfig;
 import javax.websocket.DecodeException;
 import javax.websocket.Decoder;
 import javax.websocket.EncodeException;
+import javax.websocket.Encoder;
+import javax.websocket.EndpointConfig;
 
 import com.google.gson.Gson;
 
