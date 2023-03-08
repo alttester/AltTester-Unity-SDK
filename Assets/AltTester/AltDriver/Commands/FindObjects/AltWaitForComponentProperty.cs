@@ -8,7 +8,6 @@ namespace AltTester.AltDriver.Commands
     {
         readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         AltObject altObject;
-        T propertyFound;
         string componentName;
         string propertyName;
         T propertyValue;
@@ -31,6 +30,7 @@ namespace AltTester.AltDriver.Commands
         public T Execute()
         {
             double time = 0;
+            T propertyFound;
 
             logger.Debug("Waiting for property " + propertyName + " to be present.");
             while (time < timeout)

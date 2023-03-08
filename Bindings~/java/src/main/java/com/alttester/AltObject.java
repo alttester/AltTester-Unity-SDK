@@ -131,15 +131,16 @@ public class AltObject {
     }
 
     /**
-     * Wait until wanted property is found and returns the value of the given
+     * Wait until a property has a specific value and returns the value of the given
      * component property.
      *
+     * 
      * @param altWaitForComponentPropertyParams -AltGetComponentPropertyParams
      *                                          altGetComponentPropertyParams* ,
      *                                          double timeout , double interval , T
      *                                          propertyValue* , Altoject obj*.
      * @param propertyValue                     - The value of the property expected
-     * @param returnType                        -The type of the property
+     * @param returnType                        - The type of the property
      * @return - The value of the given component property
      */
     public <T> T WaitForComponentProperty(AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams,

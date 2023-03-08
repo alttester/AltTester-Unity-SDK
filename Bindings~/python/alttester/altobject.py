@@ -147,7 +147,7 @@ class AltObject:
 
     def wait_for_component_property(self, component_name, property_name,
                                     property_value, assembly,  timeout=20, interval=0.5):
-        """Returns the value of the given component property.
+        """Wait until a property has a specific value and returns the value of the given component property.
 
         Args:
             component_name (:obj:`str`): The name of the component. If the component has a namespace the format should
@@ -157,8 +157,9 @@ class AltObject:
                 property inside of another property you can get by doing ``property.subProperty``.
             property_value(:obj:`str`): The value of the component expected
             assembly (:obj:`str`): The name of the assembly containing the component.
-            timeout (:obj:`int`, optional): The timeout for wait duration.
-            interval (:obj:`float`, optional): The interval.
+            timeout (:obj:`int`, optional): The number of seconds that it will wait for property.
+            interval (:obj:`float`, optional): The number of seconds after which it will try to find the object again.
+                The interval should be smaller than timeout.
 
         Returns:
             str: The property value is serialized to a JSON string.
