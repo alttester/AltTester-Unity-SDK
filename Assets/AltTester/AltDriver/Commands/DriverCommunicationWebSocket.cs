@@ -14,7 +14,7 @@ namespace AltTester.AltDriver.Commands
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
 
-        private IWebSocketClient wsClient = null;
+        private WebSocket wsClient = null;
 
         private readonly string _host;
         private readonly int _port;
@@ -52,14 +52,15 @@ namespace AltTester.AltDriver.Commands
 
         public void Connect()
         {
-            int delay = 100;
-
             logger.Info("Connecting to: '{0}'.", _uri);
 
-            WebSocket wsClient = new WebSocket(_uri);
-            wsClient.OnError += (sender, args) =>
-            {
-                logger.Error(args.Exception, args.Message);
+            int delay = 100;
+
+            this.wsClient = new WebSocket(_uri);
+            this.wsClient.OnError += OnError;
+            this.wsClient.OnClose += OnClose;
+            this.wsClient.OnMessage += (sender, e) => {
+                OnMessage(sender, e.Data);
             };
 
             Stopwatch watch = Stopwatch.StartNew();
@@ -73,11 +74,12 @@ namespace AltTester.AltDriver.Commands
                 }
                 wsClient.Connect();
 
-                if (wsClient.IsAlive) break;
+                if (wsClient.IsAlive) {
+                    break;
+                }
 
                 retries++;
-
-                Thread.Sleep(delay); // delay between retries
+                Thread.Sleep(delay); // Delay between retries.
             }
 
             this.CheckCloseMessage();
@@ -88,11 +90,6 @@ namespace AltTester.AltDriver.Commands
             }
 
             logger.Debug("Connected to: " + _uri);
-
-            this.wsClient = new AltWebSocketClient(wsClient);
-            this.wsClient.OnMessage += OnMessage;
-            this.wsClient.OnError += OnError;
-            this.wsClient.OnClose += OnClose;
         }
 
         public T Recvall<T>(CommandParams param)
@@ -102,17 +99,17 @@ namespace AltTester.AltDriver.Commands
 
             {
 
-                while (messages.Count == 0 && wsClient.IsAlive() && commandTimeout >= watch.Elapsed.TotalSeconds)
+                while (messages.Count == 0 && wsClient.IsAlive && commandTimeout >= watch.Elapsed.TotalSeconds)
                 {
                     Thread.Sleep(10);
                 }
-                if (commandTimeout < watch.Elapsed.TotalSeconds && wsClient.IsAlive())
+                if (commandTimeout < watch.Elapsed.TotalSeconds && wsClient.IsAlive)
                 {
                     messageIdTimeouts.Add(param.messageId);
                     throw new CommandResponseTimeoutException();
                 }
 
-                if (!wsClient.IsAlive())
+                if (!wsClient.IsAlive)
                 {
                     throw new AltException("Driver disconnected");
                 }
