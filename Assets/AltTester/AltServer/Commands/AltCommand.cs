@@ -139,6 +139,7 @@ namespace AltTester.Commands
             var cmdResponse = new CommandResponse();
             cmdResponse.commandName = CommandParams.commandName;
             cmdResponse.messageId = CommandParams.messageId;
+            cmdResponse.driverId = CommandParams.driverId;
 
             if (response != null)
             {

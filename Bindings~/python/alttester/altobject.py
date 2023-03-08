@@ -5,7 +5,7 @@ from alttester.by import By
 
 
 class AltObject:
-    """The AltObject class represents an object present in the game and it allows you to interact with it.
+    """The AltObject class represents an object present in the application and it allows you to interact with it.
 
     It is the return type of the methods in the “find_*” category from the AltDriver class.
     """
@@ -97,6 +97,13 @@ class AltObject:
             "transformId": self.transformId,
             "idCamera": self.idCamera
         }
+
+    def update_object(self):
+        altObject = commands.FindObject.run(
+            self._connection,
+            By.ID, self.id, By.NAME, "", enabled=True
+        )
+        return AltObject(self._altdriver, altObject)
 
     def get_screen_position(self):
         """Returns the screen position.

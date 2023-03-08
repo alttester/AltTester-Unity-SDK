@@ -2,24 +2,46 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using AltTester.AltDriver;
+using AltTester.AltDriver.Tests;
 using NUnit.Framework;
 
 
 namespace AltTester.AltDriver.Tests
 {
-    public class TestForNIS
+    public AltDriver altDriver;
+    //Before any test it connects with the socket
+    string scene7 = "Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity";
+    string scene8 = "Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity";
+    string scene9 = "Assets/AltTester/Examples/Scenes/scene 9 NIS.unity";
+    string scene10 = "Assets/AltTester/Examples/Scenes/Scene 10 Sample NIS.unity";
+    string scene11 = "Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity";
+
+    [OneTimeSetUp]
+    public void OneTimeSetUp()
     {
-        public AltDriver altDriver;
+        altDriver = TestsHelper.GetAltDriver();
+    }
 
-        //Before any test it connects with the socket
-        string scene7 = "Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity";
-        string scene8 = "Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity";
-        string scene9 = "Assets/AltTester/Examples/Scenes/scene 9 NIS.unity";
-        string scene10 = "Assets/AltTester/Examples/Scenes/Scene 10 Sample NIS.unity";
-        string scene11 = "Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity";
-
-        [OneTimeSetUp]
-        public void SetUp()
+    //At the end of the test closes the connection with the socket
+    [OneTimeTearDown]
+    public void TearDown()
+    {
+        altDriver.Stop();
+    }
+    [SetUp]
+    public void SetUp()
+    {
+        altDriver.ResetInput();
+    }
+    private void getSpriteName(out string imageSource, out string imageSourceDropZone, string sourceImageName, string imageSourceDropZoneName)
+    {
+        imageSource = altDriver.FindObject(By.NAME, sourceImageName).GetComponentProperty<string>("UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI");
+        imageSourceDropZone = altDriver.FindObject(By.NAME, imageSourceDropZoneName).GetComponentProperty<string>("UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI");
+    }
+    private void dropImageWithMultipointSwipe(string[] objectNames, float duration = 1f, bool wait = true)
+    {
+        AltVector2[] listPositions = new AltVector2[objectNames.Length];
+        for (int i = 0; i < objectNames.Length; i++)
         {
             altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
         }
@@ -240,16 +262,14 @@ namespace AltTester.AltDriver.Tests
             altDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]");
         }
 
-        [Test]
-        public void TestTilt()
-        {
-            altDriver.LoadScene(scene11);
-            var cube = altDriver.FindObject(By.NAME, "Cube (1)");
-            var initialPosition = cube.GetWorldPosition();
-            altDriver.Tilt(new AltVector3(5, 0, 5f), 1f);
-            Assert.AreNotEqual(initialPosition, altDriver.FindObject(By.NAME, "Cube (1)").GetWorldPosition());
-            Assert.IsTrue(cube.GetComponentProperty<bool>("AltCubeNIS", "isMoved", "Assembly-CSharp"));
-        }
+    [Test]
+    public void TestClickCoordinates()
+    {
+        altDriver.LoadScene(scene11);
+        var capsule = altDriver.FindObject(By.NAME, "Capsule");
+        altDriver.Click(capsule.GetScreenPosition());
+        altDriver.WaitForObject(By.PATH, "//ActionText[@text=Capsule was clicked!]", timeout: 1);
+    }
 
         [Test]
         public void TestSwipe()
@@ -290,15 +310,63 @@ namespace AltTester.AltDriver.Tests
             Assert.AreNotEqual(initialPanelPos, finalPanelPos);
         }
 
-        // [Test]
-        // public void TestCapsuleJumps()
-        // {
-        //     altDriver.LoadScene(scene11);
-        //     var capsule = altDriver.FindObject(By.NAME, "Capsule");
-        //     var fingerId = altDriver.BeginTouch(capsule.getScreenPosition());
-        //     altDriver.EndTouch(fingerId);
-        //     var text = capsule.GetComponentProperty<string>("AltExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
-        //     Assert.AreEqual("Capsule was tapped!", text);
-        // }
+    [Test]
+    public void TestBeginMoveEndTouch()
+    {
+        altDriver.LoadScene(scene8);
+        var panelToDrag = altDriver.FindObject(By.PATH, "//Panel/Drag Zone");
+        var initialPanelPos = panelToDrag.GetScreenPosition();
+        var fingerId = altDriver.BeginTouch(initialPanelPos);
+        altDriver.MoveTouch(fingerId, new AltVector2(initialPanelPos.x + 1, initialPanelPos.y + 1));
+        altDriver.MoveTouch(fingerId, new AltVector2(initialPanelPos.x + 200, initialPanelPos.y + 20));
+        altDriver.EndTouch(fingerId);
+        var finalPanelPos = altDriver.FindObject(By.PATH, "//Panel/Drag Zone").GetScreenPosition();
+        Assert.AreNotEqual(initialPanelPos, finalPanelPos);
     }
+
+    [Test]
+    public void TestCapsuleJumps()
+    {
+        altDriver.LoadScene(scene11);
+        var capsule = altDriver.FindObject(By.NAME, "Capsule");
+        var fingerId = altDriver.BeginTouch(capsule.GetScreenPosition());
+        altDriver.EndTouch(fingerId);
+        var text = capsule.GetComponentProperty<string>("AltExampleNewInputSystem", "actionText.text", "Assembly-CSharp");
+        Assert.AreEqual("Capsule was tapped!", text);
+    }
+
+    [Ignore("Flaky. Skip until https://github.com/alttester/AltTester-Unity-SDK/issues/1130 is fixed.")]
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void TestCheckActionDoNotDoubleClick(int numberOfClicks)
+    {
+        altDriver.LoadScene(scene11);
+        float interval = 0.3f;
+        altDriver.SetDelayAfterCommand(0.1f);
+        var counterButton = altDriver.FindObject(By.NAME, "Canvas/Button");
+        var text = altDriver.FindObject(By.NAME, "Canvas/Button/Text");
+        counterButton.Click(numberOfClicks, interval);
+        Assert.AreEqual(numberOfClicks, int.Parse(text.GetText()));
+        counterButton.Tap(numberOfClicks, interval);
+        Assert.AreEqual(2 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.Click(counterButton.GetScreenPosition(), numberOfClicks, interval);
+        Assert.AreEqual(3 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.Tap(counterButton.GetScreenPosition(), numberOfClicks, interval);
+        Assert.AreEqual(4 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.MoveMouse(counterButton.GetScreenPosition(), interval);
+        for (int i = 0; i < numberOfClicks; i++)
+        {
+            altDriver.KeyDown(AltKeyCode.Mouse0);
+            altDriver.KeyUp(AltKeyCode.Mouse0);
+        }
+        Assert.AreEqual(5 * numberOfClicks, int.Parse(text.GetText()));
+        for (int i = 0; i < numberOfClicks; i++)
+        {
+            altDriver.HoldButton(counterButton.GetScreenPosition(), 0.1f);
+        }
+        Assert.AreEqual(6 * numberOfClicks, int.Parse(text.GetText()));
+        altDriver.SetDelayAfterCommand(0);
+    }
+
 }

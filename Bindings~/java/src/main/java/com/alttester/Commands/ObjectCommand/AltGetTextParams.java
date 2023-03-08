@@ -5,7 +5,7 @@ import com.alttester.AltObject;
 
 public class AltGetTextParams extends AltMessage {
     /**
-     * @param altObject The game object
+     * @param altObject The application object
      */
     private AltObject altObject;
 

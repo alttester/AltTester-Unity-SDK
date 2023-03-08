@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeshRendererPreserve : MonoBehaviour
 {
-    string name;
+    new string name;
     // Start is called before the first frame update
     void Start()
     {

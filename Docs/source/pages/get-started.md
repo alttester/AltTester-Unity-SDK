@@ -57,6 +57,17 @@ AltTester Unity SDK has support for Input System starting with version 1.7.1. To
 }
 ```
 
+- Editor Coroutines
+
+In order for AltTester Unity SDK to work with your project you need the dependency for Editor Coroutines. Add `"com.unity.editorcoroutines": "1.0.0` to your project `manifest.json`, inside `dependencies`.
+
+```json
+{
+    "dependencies": {
+        "com.unity.editorcoroutines": "1.0.0"
+    }
+}
+```
 <!--
 To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity.
 
@@ -83,7 +94,7 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
 Steps:
 
-1. Open the AltTester Editor window from Unity Editor -> AltTester -> AltTester Editor <!--2. In the Build Settings section set the **Proxy host** to the IP/hostname of the device where the Proxy is running. Set the **Proxy port** to the port configured in the Proxy. -->
+1. Open the AltTester Editor window from Unity Editor -> AltTester -> AltTester Editor <!--2. In the Build Settings section set the **AltServer host** to the IP/hostname of the device where the AltServer is running. Set the **AltServer port** to the port configured in the AltServer. -->
 2. In the Build Settings section set **AltTester Port** to 13000
 3. In the Scene Manager section select the scenes you want to include in your build
 4. In the Platform section select desired platform and set the path to where you want to save the build
@@ -114,21 +125,20 @@ Steps:
 
     To be able to run your instrumented game in the background, go to File -> Build Settings -> Player Settings -> Project Settings -> Player -> Resolution and presentation and check the box next to Run in background.
 
-```
+.. note::
 
-<!--
+    To make sure you can catch possible exceptions thrown from your tests, you'll have to go to `Edit -> Project Settings -> Player -> Publishing Settings` and set `Enable Exceptions` to `Full With Stacktrace`.
 
-```eval_rst
 .. note::
 
     When running the WebGL build of your game in browser, even with the Run in background setting enabled, you still might experience slow performance if the tab with your content is not on focus. Make sure that the tab with your app is visible, otherwise your content will only update once per second in most browsers.
 
 ```
 
-## Start the Proxy Module
+## Start the AltServer Module
 
-The Proxy Module is incorporated in AltTester Desktop. In order to start it, all you have to do is to start AltTester Desktop.
--->
+The AltServer Module is incorporated in AltTester Desktop. In order to start it, all you have to do is to start AltTester Desktop.
+
 
 ## Run your game in Unity or on desired platform
 
@@ -185,6 +195,10 @@ Before running your tests you need to start the instrumented Unity application. 
         .. note::
 
             Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://altom.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
+
+.. note::
+
+    You can switch between regular and custom input by toggling the box with the `Custom Input` label. Take into consideration that if you are using the New Input System, then after activating the custom input, you will only be able to interact with the instrumented build via your automated tests or the AltTester Desktop.
 
 ```
 
@@ -266,7 +280,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
         .. code-block:: console
 
-            dotnet add package AltTester-Driver --version 1.8.0
+            dotnet add package AltTester-Driver --version 1.8.2
 
         Run your tests
 
@@ -306,7 +320,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
                 <dependency>
                     <groupId>com.alttester</groupId>
                     <artifactId>alttester</artifactId>
-                    <version>1.8.0</version>
+                    <version>1.8.2</version>
                 </dependency>
 
 
@@ -318,7 +332,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
                 .. code-block:: console
 
-                    mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.0 -Dpackaging=jar
+                    mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.2 -Dpackaging=jar
 
 
 
@@ -409,7 +423,7 @@ Now your project can use all the [AltDriver Commands](./commands.md).
 ```eval_rst
 
 .. note::
-    Before running your tests, start the Proxy and the Instrumented Unity app.
+    Before running your tests, start the AltServer and the Instrumented Unity app.
 
 ```
 -->

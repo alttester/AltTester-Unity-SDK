@@ -10,11 +10,13 @@ import com.alttester.Commands.AltCommands.AltAddNotificationListener;
 import com.alttester.Commands.AltCommands.AltAddNotificationListenerParams;
 import com.alttester.Commands.AltCommands.AltRemoveNotificationListener;
 import com.alttester.Commands.AltCommands.AltRemoveNotificationListenerParams;
+import com.alttester.Commands.AltCommands.AltResetInput;
 import com.alttester.Commands.AltCommands.AltSetServerLogging;
 import com.alttester.Commands.FindObject.*;
 import com.alttester.Commands.InputActions.*;
 import com.alttester.Commands.UnityCommand.*;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
+import com.alttester.Commands.ObjectCommand.AltSetComponentPropertyParams;
 import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.altTesterExceptions.*;
 import java.io.IOException;
@@ -41,7 +43,7 @@ public class AltDriver {
         }
     }
 
-    public static final String VERSION = "1.8.0";
+    public static final String VERSION = "1.8.2";
     public static final int READ_TIMEOUT = 5 * 1000;
 
     private WebsocketConnection connection = null;
@@ -62,7 +64,7 @@ public class AltDriver {
         this(host, port, enableLogging, connectTimeout, "__default__");
     }
 
-    public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String gameName) {
+    public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String appName) {
         if (!enableLogging) {
             AltDriverConfigFactory.DisableLogging();
         }
@@ -71,11 +73,29 @@ public class AltDriver {
             throw new InvalidParameterException("Provided host address is null or empty.");
         }
 
-        logger.debug("Connecting to AltTester on host: '{}', port: '{}' and gameName: '{}'.", host, port, gameName);
-        this.connection = new WebsocketConnection(host, port, connectTimeout, gameName);
+        logger.debug("Connecting to AltTester on host: '{}', port: '{}' and appName: '{}'.", host, port, appName);
+        this.connection = new WebsocketConnection(host, port, connectTimeout, appName);
         this.connection.connect();
 
         checkServerVersion();
+    }
+
+    public int[] getApplicationScreenSize() {
+
+        AltCallStaticMethodParams altCallStaticMethodParamsWidth = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "get_width",
+                "UnityEngine.CoreModule", new Object[] {})
+                .build();
+        int screenWidth = callStaticMethod(altCallStaticMethodParamsWidth,
+                Integer.class);
+        AltCallStaticMethodParams altCallStaticMethodParamsHeight = new AltCallStaticMethodParams.Builder(
+                "UnityEngine.Screen", "get_height",
+                "UnityEngine.CoreModule", new Object[] {})
+                .build();
+        int screenHeight = callStaticMethod(altCallStaticMethodParamsHeight,
+                Integer.class);
+
+        return new int[] { screenWidth, screenHeight };
     }
 
     private String[] splitVersion(String version) {
@@ -299,13 +319,13 @@ public class AltDriver {
     }
 
     /**
-     * Invokes static methods from your game.
+     * Invokes static methods from your application.
      *
      * @param altCallStaticMethodParams - String component* , String method* ,
      *                                  Object[] parameters* , String[]
      *                                  typeOfParameters , String assembly
      * @param returnType
-     * @return Static methods from your game
+     * @return Static methods from your application
      */
     public <T> T callStaticMethod(AltCallStaticMethodParams altCallStaticMethodParams, Class<T> returnType) {
         T response = new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParams)
@@ -346,7 +366,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulates device rotation action in your game.
+     * Simulates device rotation action in your application.
      *
      * @param altTiltParameter - Vector3 acceleration* , float duration , boolean
      *                         wait
@@ -357,7 +377,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulates key press action in your game.
+     * Simulates key press action in your application.
      *
      * @param altPressKeyParameters - AltKeyCode keyCode* , float power , float
      *                              duration , boolean wait
@@ -370,7 +390,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulates multiple keys pressed action in your game.
+     * Simulates multiple keys pressed action in your application.
      *
      * @param altPressKeysParameters - AltKeyCode[] keyCodes* , float power ,
      *                               float duration , boolean wait
@@ -424,7 +444,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulate mouse movement in your game.
+     * Simulate mouse movement in your application.
      *
      * @param altMoveMouseParams - Vector2 coordinates* , float duration , boolean
      *                           wait
@@ -435,7 +455,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulate scroll action in your game.
+     * Simulate scroll action in your application.
      *
      * @param altScrollParams - float speed , float speedHorizontal , float duration
      *                        , boolean wait
@@ -657,6 +677,17 @@ public class AltDriver {
     }
 
     /**
+     * Sets the value of the static field or property
+     *
+     * @param parameters - String componentName* , String propertyName* , String
+     *                   assembly
+     */
+    public void setStaticProperty(AltSetComponentPropertyParams parameters) {
+        new AltSetStaticProperty(this.connection.messageHandler, parameters).Execute();
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+    }
+
+    /**
      * Retrieves the Unity object at given coordinates
      * Uses EventSystem.RaycastAll to find object. If no object is found then it
      * uses UnityEngine.Physics.Raycast and UnityEngine.Physics2D.Raycast and
@@ -678,6 +709,13 @@ public class AltDriver {
 
     public void removeNotificationListener(AltRemoveNotificationListenerParams notificationType) {
         new AltRemoveNotificationListener(this.connection.messageHandler, notificationType).Execute();
+    }
+
+    /**
+     * Clears all active input simulated by AltTester
+     */
+    public void resetInput() {
+        new AltResetInput(this.connection.messageHandler).Execute();
     }
 
     public enum By {

@@ -2,14 +2,17 @@ using System;
 using System.Diagnostics;
 using AltTester.Communication;
 using NUnit.Framework;
-using WebSocketSharp;
-using WebSocketSharp.Server;
+using AltWebSocketSharp.Server;
+using AltWebSocketSharp;
 
 namespace Altom.AltInstrumentation.Tests
 {
     public class MockCommandHandler : ICommandHandler
     {
         public SendMessageHandler OnSendMessage { get; set; }
+
+        public NotificationHandler OnDriverConnect { get; set; }
+        public NotificationHandler OnDriverDisconnect { get; set; }
 
         public void OnMessage(string data)
         {
@@ -24,8 +27,6 @@ namespace Altom.AltInstrumentation.Tests
             }
         }
     }
-
-
 
     public class MockServerHandler : WebSocketBehavior
     {
@@ -45,6 +46,7 @@ namespace Altom.AltInstrumentation.Tests
         }
 
     }
+
     public class WebSocketClientCommunicationTests
     {
 
@@ -84,7 +86,7 @@ namespace Altom.AltInstrumentation.Tests
 
             var wsServer = new WebSocketServer("ws://0.0.0.0:13420");
 
-            wsServer.AddWebSocketService<MockServerHandler>("/altws/game", (context, handler) =>
+            wsServer.AddWebSocketService<MockServerHandler>("/altws/app", (context, handler) =>
             {
 
             });

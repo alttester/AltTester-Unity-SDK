@@ -1,10 +1,5 @@
 package com.alttester;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.alttester.position.Vector3;
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
@@ -18,89 +13,81 @@ import com.alttester.UnityStruct.AltKeyCode;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class TestsSampleScene5 {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-        private static AltDriver altDriver;
+public class TestsSampleScene5 extends BaseTest {
 
-        @BeforeClass
-        public static void setUp() throws Exception {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                                true);
+        @BeforeEach
+        public void loadLevel() {
+                altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 5 Keyboard Input").build());
         }
 
-        @AfterClass
-        public static void tearDown() throws Exception {
-                if (altDriver != null) {
-                        altDriver.stop();
-                }
-                Thread.sleep(1000);
+        @Test
+        public void TestMovementCube() throws InterruptedException {
+
+                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Player2").build();
+                AltObject cube = altDriver.findObject(altFindObjectsParameters1);
+                float cubeInitWorldX = cube.worldX;
+                float cubeInitWorldZ = cube.worldZ;
+
+                AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Player1").build();
+                cube = altDriver.findObject(altFindObjectsParameters2);
+                cubeInitWorldX = cube.worldX;
+                cubeInitWorldZ = cube.worldZ;
+
+                altDriver.scroll(new AltScrollParams.Builder().withSpeed(30).withDuration(20).withWait(false).build());
+                altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.K).withDuration(2).withPower(1)
+                                .withWait(false).build());
+                Thread.sleep(2000);
+
+                altDriver
+                                .pressKey(new AltPressKeyParams.Builder(AltKeyCode.O).withDuration(1).withPower(1)
+                                                .build());
+                cube = altDriver.findObject(altFindObjectsParameters1);
+                float cubeFinalWorldX = cube.worldX;
+                float cubeFinalWorldZ = cube.worldZ;
+
+                assertNotEquals(cubeInitWorldX, cubeFinalWorldX);
+                assertNotEquals(cubeInitWorldZ, cubeFinalWorldZ);
         }
 
-        @Before
-        public void loadLevel() throws Exception {
-                AltLoadSceneParams params = new AltLoadSceneParams.Builder("Scene 5 Keyboard Input").build();
-                altDriver.loadScene(params);
+        @Test
+        // Test Keyboard button press
+        public void TestCameraMovement() throws InterruptedException {
+
+                AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Player1").build();
+                AltObject cube = altDriver.findObject(altFindObjectsParameters2);
+                float cubeInitWorldZ = cube.worldZ;
+
+                altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.W).withDuration(2).withPower(1)
+                                .withWait(false).build());
+                Thread.sleep(2000);
+                cube = altDriver.findObject(altFindObjectsParameters2);
+                float cubeFinalWorldZ = cube.worldZ;
+
+                assertNotEquals(cubeInitWorldZ, cubeFinalWorldZ);
         }
 
-        // @Test
-        // public void TestMovementCube() throws InterruptedException {
+        @Test
+        public void TestUpdateAltObject() throws InterruptedException {
 
-        // AltFindObjectsParams altFindObjectsParameters1 = new
-        // AltFindObjectsParams.Builder(
-        // AltDriver.By.NAME, "Player2").build();
-        // AltObject cube = altDriver.findObject(altFindObjectsParameters1);
-        // float cubeInitWorldX = cube.worldX;
-        // float cubeInitWorldZ = cube.worldZ;
+                AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "Player1").build();
+                AltObject cube = altDriver.findObject(altFindObjectsParameters);
+                float cubeInitWorldZ = cube.worldZ;
 
-        // AltFindObjectsParams altFindObjectsParameters2 = new
-        // AltFindObjectsParams.Builder(
-        // AltDriver.By.NAME, "Player1").build();
-        // cube = altDriver.findObject(altFindObjectsParameters2);
-        // cubeInitWorldX = cube.worldX;
-        // cubeInitWorldZ = cube.worldZ;
-
-        // altDriver.scroll(new
-        // AltScrollParams.Builder().withSpeed(30).withDuration(20).withWait(false).build());
-        // altDriver.pressKey(new
-        // AltPressKeyParams.Builder(AltKeyCode.K).withDuration(2).withPower(1)
-        // .withWait(false).build());
-        // Thread.sleep(2000);
-
-        // altDriver
-        // .pressKey(new
-        // AltPressKeyParams.Builder(AltKeyCode.O).withDuration(1).withPower(1)
-        // .build());
-        // cube = altDriver.findObject(altFindObjectsParameters1);
-        // float cubeFinalWorldX = cube.worldX;
-        // float cubeFinalWorldZ = cube.worldZ;
-
-        // assertNotEquals(cubeInitWorldX, cubeFinalWorldX);
-        // assertNotEquals(cubeInitWorldZ, cubeFinalWorldZ);
-        // }
-
-        // @Test
-        // // Test Keyboard button press
-        // public void TestCameraMovement() throws InterruptedException {
-
-        // AltFindObjectsParams altFindObjectsParameters2 = new
-        // AltFindObjectsParams.Builder(
-        // AltDriver.By.NAME, "Player1").build();
-        // AltObject cube = altDriver.findObject(altFindObjectsParameters2);
-        // float cubeInitWorldZ = cube.worldZ;
-
-        // altDriver.pressKey(new
-        // AltPressKeyParams.Builder(AltKeyCode.W).withDuration(2).withPower(1)
-        // .withWait(false).build());
-        // Thread.sleep(2000);
-        // cube = altDriver.findObject(altFindObjectsParameters2);
-        // float cubeFinalWorldZ = cube.worldZ;
-
-        // assertNotEquals(cubeInitWorldZ, cubeFinalWorldZ);
-
-        // }
+                altDriver.pressKey(new AltPressKeyParams.Builder(AltKeyCode.W).withDuration(1).withPower(2)
+                                .withWait(false).build());
+                Thread.sleep(2000);
+                assertNotEquals(cubeInitWorldZ, cube.UpdateObject().worldZ);
+        }
 
         @Test
         // Testing mouse movement and clicking
@@ -131,95 +118,84 @@ public class TestsSampleScene5 {
                 assertEquals(3, stars.length);
         }
 
-        // @Test
-        // public void TestPowerJoystick() {
-        // ArrayList<String> ButtonNames = new ArrayList<String>();
-        // ButtonNames.add("Horizontal");
-        // ButtonNames.add("Vertical");
-        // ArrayList<AltKeyCode> KeyToPressForButtons = new ArrayList<AltKeyCode>();
-        // KeyToPressForButtons.add(AltKeyCode.D);
-        // KeyToPressForButtons.add(AltKeyCode.W);
-        // AltLoadSceneParams loadSceneParams = new AltLoadSceneParams.Builder("Scene 5
-        // Keyboard Input").build();
-        // altDriver.loadScene(loadSceneParams);
+        @Test
+        public void TestPowerJoystick() {
+                ArrayList<String> ButtonNames = new ArrayList<String>();
+                ButtonNames.add("Horizontal");
+                ButtonNames.add("Vertical");
+                ArrayList<AltKeyCode> KeyToPressForButtons = new ArrayList<AltKeyCode>();
+                KeyToPressForButtons.add(AltKeyCode.D);
+                KeyToPressForButtons.add(AltKeyCode.W);
+                AltLoadSceneParams loadSceneParams = new AltLoadSceneParams.Builder("Scene 5 Keyboard Input").build();
+                altDriver.loadScene(loadSceneParams);
 
-        // AltFindObjectsParams findObjectParams = new
-        // AltFindObjectsParams.Builder(By.NAME, "AxisName").build();
-        // AltObject axisName = altDriver.findObject(findObjectParams);
+                AltFindObjectsParams findObjectParams = new AltFindObjectsParams.Builder(By.NAME, "AxisName").build();
+                AltObject axisName = altDriver.findObject(findObjectParams);
 
-        // findObjectParams = new AltFindObjectsParams.Builder(By.NAME,
-        // "AxisValue").build();
-        // AltObject axisValue = altDriver.findObject(findObjectParams);
-        // int i = 0;
-        // for (AltKeyCode key : KeyToPressForButtons) {
-        // altDriver.pressKey(
-        // new
-        // AltPressKeyParams.Builder(key).withPower(0.5f).withDuration(0.1f).build());
-        // assertEquals("0.5", axisValue.getText());
-        // assertEquals(ButtonNames.get(i), axisName.getText());
-        // i++;
-        // }
-        // }
+                findObjectParams = new AltFindObjectsParams.Builder(By.NAME,
+                                "AxisValue").build();
+                AltObject axisValue = altDriver.findObject(findObjectParams);
+                int i = 0;
+                for (AltKeyCode key : KeyToPressForButtons) {
+                        altDriver.pressKey(
+                                        new AltPressKeyParams.Builder(key).withPower(0.5f).withDuration(0.1f).build());
+                        assertEquals("0.5", axisValue.getText());
+                        assertEquals(ButtonNames.get(i), axisName.getText());
+                        i++;
+                }
+        }
 
-        // @Test
-        // public void TestScroll() throws InterruptedException {
-        // AltFindObjectsParams altFindObjectsParameters = new
-        // AltFindObjectsParams.Builder(AltDriver.By.NAME,
-        // "Player2").build();
-        // AltObject player2 = altDriver.findObject(altFindObjectsParameters);
-        // Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY,
-        // player2.worldY);
-        // altDriver.scroll(new
-        // AltScrollParams.Builder().withSpeed(4).withDuration(2).withWait(false).build());
-        // Thread.sleep(2000);
-        // player2 = altDriver.findObject(altFindObjectsParameters);
-        // Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY,
-        // player2.worldY);
-        // assertNotEquals(cubeInitialPostion, cubeFinalPosition);
-        // }
+        @Test
+        public void TestScroll() throws InterruptedException {
+                AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                                "Player2").build();
+                AltObject player2 = altDriver.findObject(altFindObjectsParameters);
+                Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY,
+                                player2.worldY);
+                altDriver.scroll(new AltScrollParams.Builder().withSpeed(4).withDuration(2).withWait(false).build());
+                Thread.sleep(2000);
+                player2 = altDriver.findObject(altFindObjectsParameters);
+                Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY,
+                                player2.worldY);
+                assertNotEquals(cubeInitialPostion, cubeFinalPosition);
+        }
 
-        // @Test
-        // public void TestScrollAndWait() throws InterruptedException {
-        // AltFindObjectsParams altFindObjectsParameters = new
-        // AltFindObjectsParams.Builder(AltDriver.By.NAME,
-        // "Player2").build();
-        // AltObject player2 = altDriver.findObject(altFindObjectsParameters);
-        // Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY,
-        // player2.worldY);
-        // altDriver.scroll(new
-        // AltScrollParams.Builder().withSpeed(4).withDuration(2).build());
+        @Test
+        public void TestScrollAndWait() throws InterruptedException {
+                AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                                "Player2").build();
+                AltObject player2 = altDriver.findObject(altFindObjectsParameters);
+                Vector3 cubeInitialPostion = new Vector3(player2.worldX, player2.worldY,
+                                player2.worldY);
+                altDriver.scroll(new AltScrollParams.Builder().withSpeed(4).withDuration(2).build());
 
-        // player2 = altDriver.findObject(altFindObjectsParameters);
-        // Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY,
-        // player2.worldY);
-        // assertNotEquals(cubeInitialPostion, cubeFinalPosition);
-        // }
+                player2 = altDriver.findObject(altFindObjectsParameters);
+                Vector3 cubeFinalPosition = new Vector3(player2.worldX, player2.worldY,
+                                player2.worldY);
+                assertNotEquals(cubeInitialPostion, cubeFinalPosition);
+        }
 
-        // @Test
-        // public void TestKeyDownAndKeyUp() throws Exception {
-        // AltFindObjectsParams altFindObjectsParameters1 = new
-        // AltFindObjectsParams.Builder(
-        // AltDriver.By.NAME, "LastKeyDownValue").build();
-        // AltFindObjectsParams altFindObjectsParameters2 = new
-        // AltFindObjectsParams.Builder(
-        // AltDriver.By.NAME, "LastKeyUpValue").build();
-        // AltFindObjectsParams altFindObjectsParameters3 = new
-        // AltFindObjectsParams.Builder(
-        // AltDriver.By.NAME, "LastKeyPressedValue").build();
-        // AltKeyCode keycode = AltKeyCode.A;
-        // AltKeyDownParams altKeyParams = new
-        // AltKeyDownParams.Builder(keycode).build();
+        @Test
+        public void TestKeyDownAndKeyUp() throws Exception {
+                AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "LastKeyDownValue").build();
+                AltFindObjectsParams altFindObjectsParameters2 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "LastKeyUpValue").build();
+                AltFindObjectsParams altFindObjectsParameters3 = new AltFindObjectsParams.Builder(
+                                AltDriver.By.NAME, "LastKeyPressedValue").build();
+                AltKeyCode keycode = AltKeyCode.A;
+                AltKeyDownParams altKeyParams = new AltKeyDownParams.Builder(keycode).build();
 
-        // altDriver.keyDown(altKeyParams);
-        // Thread.sleep(2000);
-        // AltObject lastKeyDown = altDriver.findObject(altFindObjectsParameters1);
-        // AltObject lastKeyPress = altDriver.findObject(altFindObjectsParameters3);
-        // assertEquals("97", lastKeyDown.getText());
-        // assertEquals("97", lastKeyPress.getText());
+                altDriver.keyDown(altKeyParams);
+                Thread.sleep(2000);
+                AltObject lastKeyDown = altDriver.findObject(altFindObjectsParameters1);
+                AltObject lastKeyPress = altDriver.findObject(altFindObjectsParameters3);
+                assertEquals("97", lastKeyDown.getText());
+                assertEquals("97", lastKeyPress.getText());
 
-        // altDriver.keyUp(new AltKeyUpParams.Builder(keycode).build());
-        // Thread.sleep(2000);
-        // AltObject lastKeyUp = altDriver.findObject(altFindObjectsParameters2);
-        // assertEquals("97", lastKeyUp.getText());
-        // }
+                altDriver.keyUp(new AltKeyUpParams.Builder(keycode).build());
+                Thread.sleep(2000);
+                AltObject lastKeyUp = altDriver.findObject(altFindObjectsParameters2);
+                assertEquals("97", lastKeyUp.getText());
+        }
 }

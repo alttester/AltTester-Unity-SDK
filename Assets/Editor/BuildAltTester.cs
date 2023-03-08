@@ -1,6 +1,6 @@
 using System;
-using AltTester;
 using AltTesterEditor;
+using AltTester;
 using AltTesterEditor.Logging;
 using UnityEditor;
 
@@ -23,7 +23,7 @@ namespace AltTesterTools
                 PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Standalone, "com.altom.sampleGame");
                 PlayerSettings.bundleVersion = versionNumber;
                 PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Standalone, ApiCompatibilityLevel.NET_4_6);
-                AltBuilder.AddAltTesterInScritpingDefineSymbolsGroup(BuildTargetGroup.Standalone);
+                AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.Standalone);
                 var instrumentationSettings = getInstrumentationSettings();
                 PlayerSettings.fullScreenMode = UnityEngine.FullScreenMode.Windowed;
                 PlayerSettings.defaultScreenHeight = 1080;
@@ -257,7 +257,7 @@ namespace AltTesterTools
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
                 PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.WebGL, ApiCompatibilityLevel.NET_4_6);
                 PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
-                PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.FullWithoutStacktrace;
+                PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.FullWithStacktrace;
 
                 logger.Debug("Starting WebGL build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
                 var buildPlayerOptions = new BuildPlayerOptions
@@ -270,13 +270,14 @@ namespace AltTesterTools
                 };
 
                 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.WebGL);
-
+                AltBuilder.AddScriptingDefineSymbol("UNITY_WEBGL", BuildTargetGroup.WebGL);
 
                 var instrumentationSettings = getInstrumentationSettings();
                 AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.WebGL);
+                AltBuilder.RemoveScriptingDefineSymbol("UNITY_WEBGL", BuildTargetGroup.WebGL);
 
 
 #if UNITY_2017
@@ -318,30 +319,27 @@ namespace AltTesterTools
 
         private static AltInstrumentationSettings getInstrumentationSettings()
         {
-            if (AltTesterEditorWindow.EditorConfiguration == null)
-            {
-                var instrumentationSettings = new AltInstrumentationSettings();
-                var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
-                if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
-                {
-                    instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-                    instrumentationSettings.ProxyHost = proxyHost;
-                }
-                var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
-                if (!string.IsNullOrEmpty(proxyPort))//proxy mode
-                {
-                    instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-                    instrumentationSettings.ProxyPort = int.Parse(proxyPort);
-                }
-                else
-                {
-                    instrumentationSettings.ProxyPort = 13010;
-                }
+            var instrumentationSettings = new AltInstrumentationSettings();
 
-                return instrumentationSettings;
+            var host = System.Environment.GetEnvironmentVariable("ALTSERVER_HOST");
+            if (!string.IsNullOrEmpty(host))
+            {
+                instrumentationSettings.AltServerHost = host;
             }
 
-            return AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings();
+            var port = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
+            if (!string.IsNullOrEmpty(port))
+            {
+                instrumentationSettings.AltServerPort = int.Parse(port);
+            }
+            else
+            {
+                instrumentationSettings.AltServerPort = 13010;
+            }
+
+            return instrumentationSettings;
+
+
         }
     }
 }

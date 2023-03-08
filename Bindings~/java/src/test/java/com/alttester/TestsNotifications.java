@@ -1,12 +1,12 @@
 package com.alttester;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.alttester.Commands.AltCommands.AltAddNotificationListenerParams;
 import com.alttester.Commands.AltCommands.AltRemoveNotificationListenerParams;
@@ -21,10 +21,9 @@ import com.alttester.altTesterExceptions.WaitTimeOutException;
 public class TestsNotifications {
         private static AltDriver altDriver;
 
-        @BeforeClass
+        @BeforeAll
         public static void setUp() throws Exception {
-                altDriver = new AltDriver(TestsHelper.GetAltDriverHost(), TestsHelper.GetAltDriverPort(),
-                                true);
+                altDriver = TestsHelper.GetAltDriver();
                 AltAddNotificationListenerParams altSetNotificationParams = new AltAddNotificationListenerParams.Builder(
                                 NotificationType.LOADSCENE, new MockNotificationCallBacks()).build();
                 AltAddNotificationListenerParams altSetNotificationParams2 = new AltAddNotificationListenerParams.Builder(
@@ -39,7 +38,7 @@ public class TestsNotifications {
                 altDriver.addNotification(altSetNotificationParams4);
         }
 
-        @AfterClass
+        @AfterAll
         public static void tearDown() throws Exception {
 
                 AltRemoveNotificationListenerParams altSetNotificationParams = new AltRemoveNotificationListenerParams.Builder(
@@ -60,9 +59,10 @@ public class TestsNotifications {
                 Thread.sleep(1000);
         }
 
-        @Before
+        @BeforeEach
         public void loadLevel() throws Exception {
 
+                altDriver.resetInput();
                 altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 1 AltDriverTestScene").build());
         }
 

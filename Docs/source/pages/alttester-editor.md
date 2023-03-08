@@ -38,14 +38,14 @@ In the following sections you can see a breakdown of all the sections in the GUI
 ![Build Settings Section Screenshot](../_static/img/alttester-editor/build-settings.png)
 
 <!--
--   Proxy host
+-   AltServer Host
 
-    Refers to the host the AltProxy is listening on.
+    Refers to the host the AltServer is listening on.
      You can change this value and make a new game build if you want to use another host.
 
--   Proxy port
+-   AltServer Port
 
-    Refers to the port the AltProxy is listening on.
+    Refers to the port the AltServer is listening on.
      You can change this value and make a new game build if you want to use another port.
 -->
 

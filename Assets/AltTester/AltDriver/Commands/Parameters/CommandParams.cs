@@ -7,7 +7,10 @@ namespace AltTester.AltDriver.Commands
     public class CommandParams
     {
         public string messageId;
+        public string driverId;
         public string commandName;
+        public bool isNotification;
+
         public CommandParams()
         {
             CommandAttribute cmdAttribute =
@@ -46,6 +49,7 @@ namespace AltTester.AltDriver.Commands
     public class CommandResponse
     {
         public string messageId;
+        public string driverId;
         public string commandName;
         public CommandError error;
         public String data;
@@ -108,6 +112,12 @@ namespace AltTester.AltDriver.Commands
         public AltGetServerVersionParams() : base()
         {
         }
+    }
+
+    [Command("resetInput")]
+    public class AltResetInputParams : CommandParams
+    {
+        public AltResetInputParams() : base() { }
     }
 
     [Command("moveMouse")]
@@ -337,6 +347,8 @@ namespace AltTester.AltDriver.Commands
         {
         }
     }
+
+
 
     [Command("setText")]
     public class AltSetTextParams : BaseAltObjectParams
@@ -693,6 +705,7 @@ namespace AltTester.AltDriver.Commands
             this.fingerId = fingerId;
         }
     }
+
     [Command("activateNotification")]
     public class ActivateNotification : CommandParams
     {
@@ -703,6 +716,7 @@ namespace AltTester.AltDriver.Commands
             NotificationType = notificationType;
         }
     }
+
     [Command("deactivateNotification")]
     public class DeactivateNotification : CommandParams
     {

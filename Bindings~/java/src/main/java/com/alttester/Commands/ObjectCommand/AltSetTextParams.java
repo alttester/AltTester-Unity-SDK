@@ -1,7 +1,5 @@
 package com.alttester.Commands.ObjectCommand;
 
-import com.alttester.AltObject;
-
 public class AltSetTextParams extends AltObjectParams {
     private String newText;
     private boolean submit = true;

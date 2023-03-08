@@ -7,28 +7,11 @@ using NUnit.Framework;
 namespace AltTester.AltDriver.Tests
 {
     [Timeout(10000)]
-    public class TestForScene2DraggablePanel
+    public class TestForScene2DraggablePanel : TestBase
     {
-        private AltDriver altDriver;
-
-        [OneTimeSetUp]
-        public void SetUp()
+        public TestForScene2DraggablePanel()
         {
-            altDriver = new AltDriver(host: TestsHelper.GetAltDriverHost(), port: TestsHelper.GetAltDriverPort(), enableLogging: true);
-            DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
-            DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
-        }
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            altDriver.Stop();
-        }
-
-        [SetUp]
-        public void LoadLevel()
-        {
-            altDriver.LoadScene("Scene 2 Draggable Panel");
+            sceneName = "Scene 2 Draggable Panel";
         }
 
         [Test]
