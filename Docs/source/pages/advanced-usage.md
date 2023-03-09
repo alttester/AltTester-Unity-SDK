@@ -5,16 +5,16 @@ configuration options of AltTester Unity SDK.
 
 ## Custom input vs. regular input
 
-AltTester's custom input is active, by default, in any instrumented build. This means that certain input related actions (the ones that are part of Unity's `Input` class) will be inactive for regular input (the device's input). Because of this, pressing a key from the keyboard for example will not have any effect on the game. However, the simulated input from the tests, like the `PressKey` command, will be able to manipulate the object within the scene. While the custom input is active, the icon from the right bottom corner is green. You can change this behaviour by clicking on the AltTester's icon and unchecking the box with the `Custom Input` message. Now the icon will turn darker, signaling that the regular input is active. In this state, you can interfere with the object from the game using the keyboard or other input. Keep in mind that, input actions from the AltTester Desktop won't have any effect while regular input is active. At the same time, if you want to run some automated tests, the custom input will be activated automatically for you.
+AltTester's custom input is active, by default, in any instrumented build. This means that certain input related actions (the ones that are part of Unity's `Input` class) will be inactive for regular input (the device's input). Because of this, pressing a key from the keyboard for example will not have any effect on the app. However, the simulated input from the tests, like the `PressKey` command, will be able to manipulate the object within the scene. While the custom input is active, the icon from the right bottom corner is green. You can change this behaviour by clicking on the AltTester's icon and unchecking the box with the `Custom Input` message. Now the icon will turn darker, signaling that the regular input is active. In this state, you can interfere with the object from the app using the keyboard or other input. Keep in mind that, input actions from the AltTester Desktop won't have any effect while regular input is active. At the same time, if you want to run some automated tests, the custom input will be activated automatically for you.
 
-## Build games from the command line
+## Build apps from the command line
 
 To build your Unity application from command line you need a static method in
 your project that handles the build logic. To instrument your Unity application
 with AltTester Unity SDK, your build method must define `ALTTESTER` scripting
-symbol and must insert AltTester Prefab in the first scene of the game.
+symbol and must insert AltTester Prefab in the first scene of the app.
 
-Depending on your project's setup, there are two ways in which games can be
+Depending on your project's setup, there are two ways in which apps can be
 built from the command line:
 
 
@@ -22,7 +22,7 @@ built from the command line:
 .. note::
 
     AltTester Unity SDK does not work by default in release mode. If you instrument
-    your game in release mode, AltTester Prefab self removes from the scenes and
+    your app in release mode, AltTester Prefab self removes from the scenes and
     the socket server does not start. Best case practice is to customize your
     build script to insert AltTester Prefab only in Debug mode.
 
@@ -32,9 +32,9 @@ built from the command line:
 ```
 
 
-**1. If you already have a custom build method for your game**
+**1. If you already have a custom build method for your app**
 
-If you already have a custom build method for your game, you can add the
+If you already have a custom build method for your app, you can add the
 following lines to your build method. Also, the BuildPlayerOptions should
 check for *BuildOptions.Development* and *BuildOptions.IncludeTestAssemblies*.
 
@@ -45,7 +45,7 @@ if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone) {
     AltBuilder.CreateJsonFileForInputMappingOfAxis();
 }
 var instrumentationSettings = new AltInstrumentationSettings();
-AltBuilder.InsertAltInScene(FirstSceneOfTheGame, instrumentationSettings);
+AltBuilder.InsertAltInScene(FirstSceneOfTheApp, instrumentationSettings);
 ```
 
 ```eval_rst
@@ -57,7 +57,7 @@ AltBuilder.InsertAltInScene(FirstSceneOfTheGame, instrumentationSettings);
 ```
 
 
-**2. If you create a new custom build method for your game**
+**2. If you create a new custom build method for your app**
 
 The following example script can be used. It sets all the project settings
 needed and uses the same two important lines from point 1 above.
@@ -175,8 +175,8 @@ commands:
 
 ## Run tests on a Continuous Integration Server
 
-1. Instrument your game build with AltTester Unity SDK from Unity or by [building from the command line](#build-games-from-the-command-line).
-2. Start the game build on a device.
+1. Instrument your app build with AltTester Unity SDK from Unity or by [building from the command line](#build-games-from-the-command-line).
+2. Start the app build on a device.
 3. Run your tests - see commands in the ["Run tests from the command line" section](#run-tests-from-the-command-line).
 
 An example CI configuration file can be viewed in the [GitLab repository](https://gitlab.com/altom/altunity/altunitytester/-/blob/master/.gitlab-ci.yml).
@@ -188,7 +188,7 @@ Port forwarding, or tunneling, is the behind-the-scenes process of intercepting
 data traffic headed for a computer’s IP/port combination and redirecting it to
 a different IP and/or port.
 
-When you run your game instrumented with AltTester Unity SDK, on a device, you need
+When you run your app instrumented with AltTester Unity SDK, on a device, you need
 to tell your AltDriver how to connect to it.
 
 Port forwarding can be set up either through a command line command or in the
@@ -196,8 +196,8 @@ test code by using the methods available in AltTester SDK classes.
 
 The following are some cases when Port Forwarded is needed:
 
-1. [Connect to the game running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device)
-2. [Connect to multiple devices running the game](#connect-to-multiple-devices-running-the-game)
+1. [Connect to the app running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device)
+2. [Connect to multiple devices running the app](#connect-to-multiple-devices-running-the-game)
 
 ### How to setup port forwarding
 
@@ -325,24 +325,24 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 ```eval_rst
 .. note::
     The default port on which the AltTester Unity SDK is running is 13000.
-    Port can be changed when making a new game build or make use of port forwarding if needed.
+    Port can be changed when making a new app build or make use of port forwarding if needed.
 ```
 
-## Connect to AltTester Unity SDK running inside the game
+## Connect to AltTester Unity SDK running inside the app
 
-There are multiple scenarios on how to connect to the AltTester Unity SDK running inside a game:
+There are multiple scenarios on how to connect to the AltTester Unity SDK running inside a app:
 
 - [Advanced Usage](#advanced-usage)
-  - [Build games from the command line](#build-games-from-the-command-line)
+  - [Build apps from the command line](#build-games-from-the-command-line)
   - [Run tests from the command line](#run-tests-from-the-command-line)
   - [Run tests on a Continuous Integration Server](#run-tests-on-a-continuous-integration-server)
   - [What is port forwarding and when to use it](#what-is-port-forwarding-and-when-to-use-it)
     - [How to setup port forwarding](#how-to-setup-port-forwarding)
-  - [Connect to AltTester Unity SDK running inside the game](#connect-to-alttester-unity-sdk-running-inside-the-game)
-    - [Connect to the game running on the same machine as the test code](#connect-to-the-game-running-on-the-same-machine-as-the-test-code)
-    - [Connect to the game running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device)
-    - [Connect to the device running the game by using an IP address](#connect-to-the-device-running-the-game-by-using-an-ip-address)
-    - [Connect to multiple devices running the game](#connect-to-multiple-devices-running-the-game)
+  - [Connect to AltTester Unity SDK running inside the app](#connect-to-alttester-unity-sdk-running-inside-the-game)
+    - [Connect to the app running on the same machine as the test code](#connect-to-the-game-running-on-the-same-machine-as-the-test-code)
+    - [Connect to the app running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device)
+    - [Connect to the device running the app by using an IP address](#connect-to-the-device-running-the-game-by-using-an-ip-address)
+    - [Connect to multiple devices running the app](#connect-to-multiple-devices-running-the-game)
     - [Connect to multiple builds of the application running on the same device](#connect-to-multiple-builds-of-the-application-running-on-the-same-device)
   - [Using AltTester Unity SDK in Release mode](#using-alttester-unity-sdk-in-release-mode)
   - [Logging](#logging)
@@ -350,15 +350,15 @@ There are multiple scenarios on how to connect to the AltTester Unity SDK runnin
     - [AltDriver logging](#altdriver-logging)
   - [Code Stripping](#code-stripping)
 
-### Connect to the game running on the same machine as the test code
+### Connect to the app running on the same machine as the test code
 
 ![port forwarding case 1](../_static/img/advanced-usage/case1.png)
 
-In this case Port Forwarding is not needed as both the game and tests are using localhost (127.0.0.1) connection and the default 13000 port.
+In this case Port Forwarding is not needed as both the app and tests are using localhost (127.0.0.1) connection and the default 13000 port.
 
-### Connect to the game running on a USB connected device
+### Connect to the app running on a USB connected device
 
-If the device running the game is connected through a USB connection, commands sent to localhost port 13000 can be automatically forwarded to the device.
+If the device running the app is connected through a USB connection, commands sent to localhost port 13000 can be automatically forwarded to the device.
 
 ![port forwarding case 2](../_static/img/advanced-usage/case2.png)
 
@@ -366,7 +366,7 @@ In this scenario you can use Port Forwarding to enable AltDriver to connect to t
 
 Check [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it) for more details about Port Forwarding and [Setup Port Forwarding](#how-to-setup-port-forwarding) section on how to make the setup.
 
-### Connect to the device running the game by using an IP address
+### Connect to the device running the app by using an IP address
 
 ![port forwarding case 3](../_static/img/advanced-usage/case3.png)
 
@@ -390,7 +390,7 @@ The following command can be used to connect to the running instrumented Unity A
             cls.altDriver = AltDriver(host='deviceIp', port=13000)
 ```
 
-### Connect to multiple devices running the game
+### Connect to multiple devices running the app
 
 ![port forwarding case 4](../_static/img/advanced-usage/case4.png)
 
@@ -409,7 +409,7 @@ The same happens with n devices, repeat the steps n times.
 
 If you want to run two builds on the same device you will need to change the AltTester Unity SDK Port during instrumentation.
 
-For example, you will instrument a game with AltTester Unity SDK to listen on port 13001 and another one to listen on port 13002.
+For example, you will instrument a app with AltTester Unity SDK to listen on port 13001 and another one to listen on port 13002.
 
 ![port forwarding case 5](../_static/img/advanced-usage/case5.png)
 
@@ -418,21 +418,21 @@ Then in your tests you will need to create two AltDriver instances, one for each
 ```eval_rst
 .. important::
 
-    On mobile devices, AltDriver can only interact with a single game at a time and the game needs to be in focus.
+    On mobile devices, AltDriver can only interact with a single app at a time and the app needs to be in focus.
 
     On Android/iOS only one application is in focus at a time so you need to switch (in code) between the applications if using two drivers at the same time.
     This applies even when using split screen mode.
 
 ```
 
-You can change the port for your game build from the AltTester Editor window inside your Unity project.
+You can change the port for your app build from the AltTester Editor window inside your Unity project.
 
 ![Alt Editor Server Settings Screenshot](../_static/img/advanced-usage/server-settings.png)
 
 ```eval_rst
 
 .. note::
-    After you have done the AltTester Unity SDK Port forwarding or connected to the AltDriver directly, you can use it in your tests to send commands to the server and receive information from the game.
+    After you have done the AltTester Unity SDK Port forwarding or connected to the AltDriver directly, you can use it in your tests to send commands to the server and receive information from the app.
 
 ```
 

@@ -6,7 +6,7 @@ Some of these cloud services allow running Appium automated tests by giving you 
 
 If your tests are running locally, on your machine, and the device is running in the cloud, your local tests cannot communicate with the Web Socket that AltTester Unity SDK opens on a specific port inside the device. That's because AltTester Unity SDK requires you to configure your port forwarding from the device to the machine running the tests.
 
-However, some of these cloud services give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. This means you can configure your port forwarding so that the tests can connect to the Web Socket opened by AltTester Unity SDK inside the game running on the device.
+However, some of these cloud services give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. This means you can configure your port forwarding so that the tests can connect to the Web Socket opened by AltTester Unity SDK inside the app running on the device.
 
 So far, we know that **AWS Device Farm** and **BitBar Cloud** both offer this type of "server-side" running, so they both support running AltTester tests. If you know of any other device cloud providers that might support this, please let us know and we will try them out.
 

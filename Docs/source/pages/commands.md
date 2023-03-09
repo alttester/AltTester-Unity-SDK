@@ -4,7 +4,7 @@ If you are looking for information on a specific function, class or method, this
 
 ## AltDriver
 
-The **AltDriver** class represents the main game driver component. When you instantiate an AltDriver in your tests, you can use it to "drive" your game like one of your users would, by interacting with all the game objects, their properties and methods.
+The **AltDriver** class represents the main app driver component. When you instantiate an AltDriver in your tests, you can use it to "drive" your app like one of your users would, by interacting with all the app objects, their properties and methods.
 
 An AltDriver instance will connect to the running instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the instrumented Unity App is running. We can also set some more advanced parameters, as shown in the table below:
 
@@ -16,7 +16,7 @@ An AltDriver instance will connect to the running instrumented Unity application
 | port          | int     | No       | The default value is 13000.                                                           |
 | enableLogging | boolean | No       | The default value is false.                                                           |
 
-Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the game. The available methods are the following:
+Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the app. The available methods are the following:
 
 ### Find Objects
 
@@ -859,7 +859,7 @@ Simulates holding left click button down for a specified amount of time at given
 
 #### MoveMouse
 
-Simulate mouse movement in your game.
+Simulate mouse movement in your app.
 
 **_Parameters_**
 
@@ -942,7 +942,7 @@ Simulate mouse movement in your game.
 
 #### PressKey
 
-Simulates key press action in your game.
+Simulates key press action in your app.
 
 **_Parameters_**
 
@@ -1025,7 +1025,7 @@ Simulates key press action in your game.
 
 #### PressKeys
 
-Simulates multiple key press action in your game.
+Simulates multiple key press action in your app.
 
 **_Parameters_**
 
@@ -1095,7 +1095,7 @@ Simulates multiple key press action in your game.
 
 #### Scroll
 
-Simulate scroll action in your game.
+Simulate scroll action in your app.
 
 **_Parameters_**
 
@@ -1707,7 +1707,7 @@ Tap at screen coordinates.
 
 #### Tilt
 
-Simulates device rotation action in your game.
+Simulates device rotation action in your app.
 
 **_Parameters_**
 
@@ -2616,8 +2616,8 @@ None
         {
             altDriver.SetTimeScale(0.1f);
             Thread.Sleep(1000);
-            var timeScaleFromGame = altDriver.GetTimeScale();
-            Assert.AreEqual(0.1f, timeScaleFromGame);
+            var timeScaleFromApp = altDriver.GetTimeScale();
+            Assert.AreEqual(0.1f, timeScaleFromApp);
         }
 
     .. code-tab:: java
@@ -2665,8 +2665,8 @@ Sets the value of the time scale.
         {
             altDriver.SetTimeScale(0.1f);
             Thread.Sleep(1000);
-            var timeScaleFromGame = altDriver.GetTimeScale();
-            Assert.AreEqual(0.1f, timeScaleFromGame);
+            var timeScaleFromApp = altDriver.GetTimeScale();
+            Assert.AreEqual(0.1f, timeScaleFromApp);
         }
 
     .. code-tab:: java
@@ -2690,7 +2690,7 @@ Sets the value of the time scale.
 
 #### CallStaticMethod
 
-Invokes static methods from your game.
+Invokes static methods from your app.
 
 **_Parameters_**
 
@@ -2934,7 +2934,7 @@ If activated this notification will be called every time the application has pau
 
 ## AltObject
 
-The **AltObject** class represents the objects present in the game and it allows you through the methods listed below to interact with them. It is the return type of the methods in the [FindObjects](#findobjects) category.
+The **AltObject** class represents the objects present in the app and it allows you through the methods listed below to interact with them. It is the return type of the methods in the [FindObjects](#findobjects) category.
 
 **_Fields_**
 
@@ -2945,11 +2945,11 @@ The **AltObject** class represents the objects present in the game and it allows
 | x                 | int    | The value for x axis coordinate on screen.                                                                                           |
 | y                 | int    | The value for y axis coordinate on screen.                                                                                           |
 | mobileY           | int    | The value for y axis for appium.                                                                                                     |
-| type              | string | Object's type, for objects from the game is gameObject.                                                                              |
+| type              | string | Object's type, for objects from the app is gameObject.                                                                              |
 | enabled           | bool   | The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true. |
-| worldX            | float  | The value for x axis coordinate in the game's world.                                                                                 |
-| worldY            | float  | The value for y axis coordinate in the game's world.                                                                                 |
-| worldZ            | float  | The value for z axis coordinate in the game's world.                                                                                 |
+| worldX            | float  | The value for x axis coordinate in the app's world.                                                                                 |
+| worldY            | float  | The value for y axis coordinate in the app's world.                                                                                 |
+| worldZ            | float  | The value for z axis coordinate in the app's world.                                                                                 |
 | idCamera          | int    | The camera's id.                                                                                                                     |
 | transformId       | int    | The transform's component id.                                                                                                        |
 | parentId          | int    | The transform parent's id. It's obsolete. Use transformParentId instead.                                                             |
@@ -4023,7 +4023,7 @@ There are several characters that you need to escape when you try to find an obj
 ### AltId
 
 Is a solution offered by AltTester Unity SDK in order to find object easier. This is an unique identifier stored in an component and added to every object.
-**A limitation of this is that only the object already in the scene before building the game will have an AltId. Object instantiated during run time will not have an AltId**
+**A limitation of this is that only the object already in the scene before building the app will have an AltId. Object instantiated during run time will not have an AltId**
 
 To add AltId to every object simply just click _Add AltId to every object_ from AltTester menu.
 
