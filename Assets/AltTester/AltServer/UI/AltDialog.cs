@@ -4,6 +4,11 @@ using AltTester;
 using AltTester.Communication;
 using AltTester.Logging;
 
+using System.Collections;
+using UnityEngine;
+using AltWebSocketSharp;
+
+
 namespace AltTester.UI
 {
     public class AltDialog : UnityEngine.MonoBehaviour
@@ -54,6 +59,9 @@ namespace AltTester.UI
 
         HashSet<string> _connectedDrivers = new HashSet<string>();
 
+        private float update;
+        private WebSocket wsClient = null;
+
         protected void Start()
         {
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
@@ -68,16 +76,43 @@ namespace AltTester.UI
             SetUpCustomInputToggle();
 
             StartClient();
+
+            this.wsClient = new WebSocket($"ws://{InstrumentationSettings.AltServerHost}:{InstrumentationSettings.AltServerPort}/altws/screenshot/app");
+            this.wsClient.Connect();
+        }
+
+        protected byte[] getScreenshot() {
+            var quality = 75;
+            var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
+            var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality: quality);
+
+            UnityEngine.Debug.LogWarning("ScreenCompressed: " + screenshotSerialized.Length);
+
+            UnityEngine.Object.Destroy(screenshot);
+            return screenshotSerialized;
         }
 
         protected void Update()
         {
             _updateQueue.Cycle();
+            int frames = 24;
+
+            update += Time.deltaTime;
+            if (update > 1.0f / frames)
+            {
+                update = 0.0f;
+                this.wsClient.Send(getScreenshot());
+
+                // _updateQueue.ScheduleResponse(() =>
+                // {
+                // });
+            }
         }
 
         protected void OnApplicationQuit()
         {
             StopClient();
+            this.wsClient.Close();
         }
 
         private void SetMessage(string message, UnityEngine.Color color, bool visible = true)
