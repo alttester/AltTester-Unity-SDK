@@ -114,7 +114,7 @@ Steps:
 
 .. note::
 
-    If you have a custom build, check how you can build from the command line using the instructions in the :ref:`Advanced Usage<pages/advanced-usage:Build games from the command line>` section.
+    If you have a custom build, check how you can build from the command line using the instructions in the :ref:`Advanced Usage<pages/advanced-usage:Build apps from the command line>` section.
 
 .. note::
 

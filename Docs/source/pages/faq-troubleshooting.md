@@ -39,14 +39,14 @@ These give you access to a virtual machine or a Docker container that has a clou
 <details>
 <summary> Do I need access to the source code of the Unity App to write tests?</summary>
 <br>
-In order to run tests using AltTester Unity SDK you require an <a href="get-started.html#instrument-your-game-with-alttester-unity-sdk">instrumented build</a> of the Unity App. To create an instrumented build of the Unity App you need to <a href="get-started.html#import-alttester-package-in-unity-editor">import</a> the AltTester package in Unity Editor.
+In order to run tests using AltTester Unity SDK you require an <a href="get-started.html#instrument-your-app-with-alttester-unity-sdk">instrumented build</a> of the Unity App. To create an instrumented build of the Unity App you need to <a href="get-started.html#import-alttester-package-in-unity-editor">import</a> the AltTester package in Unity Editor.
 </details>
 <br>
 
 <details>
 <summary> I don’t have access to source code, but I do have access to an instrumented build. How can I begin to write tests?</summary>
 <br>
- We’ve published AltTester Desktop, which allows you to inspect the game objects outside the unity editor without access to the source code. More information about AltTester Desktop can be found in this <a href="https://altom.com/alttester/docs/desktop/">documentation</a>.
+ We’ve published AltTester Desktop, which allows you to inspect the app objects outside the unity editor without access to the source code. More information about AltTester Desktop can be found in this <a href="https://altom.com/alttester/docs/desktop/">documentation</a>.
 </details>
 <br>
 

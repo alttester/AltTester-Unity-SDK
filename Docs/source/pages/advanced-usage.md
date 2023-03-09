@@ -175,7 +175,7 @@ commands:
 
 ## Run tests on a Continuous Integration Server
 
-1. Instrument your app build with AltTester Unity SDK from Unity or by [building from the command line](#build-games-from-the-command-line).
+1. Instrument your app build with AltTester Unity SDK from Unity or by [building from the command line](#build-apps-from-the-command-line).
 2. Start the app build on a device.
 3. Run your tests - see commands in the ["Run tests from the command line" section](#run-tests-from-the-command-line).
 
@@ -196,8 +196,8 @@ test code by using the methods available in AltTester SDK classes.
 
 The following are some cases when Port Forwarded is needed:
 
-1. [Connect to the app running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device)
-2. [Connect to multiple devices running the app](#connect-to-multiple-devices-running-the-game)
+1. [Connect to the app running on a USB connected device](#connect-to-the-app-running-on-a-usb-connected-device)
+2. [Connect to multiple devices running the app](#connect-to-multiple-devices-running-the-app)
 
 ### How to setup port forwarding
 
@@ -333,16 +333,16 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 There are multiple scenarios on how to connect to the AltTester Unity SDK running inside a app:
 
 - [Advanced Usage](#advanced-usage)
-  - [Build apps from the command line](#build-games-from-the-command-line)
+  - [Build apps from the command line](#build-apps-from-the-command-line)
   - [Run tests from the command line](#run-tests-from-the-command-line)
   - [Run tests on a Continuous Integration Server](#run-tests-on-a-continuous-integration-server)
   - [What is port forwarding and when to use it](#what-is-port-forwarding-and-when-to-use-it)
     - [How to setup port forwarding](#how-to-setup-port-forwarding)
-  - [Connect to AltTester Unity SDK running inside the app](#connect-to-alttester-unity-sdk-running-inside-the-game)
-    - [Connect to the app running on the same machine as the test code](#connect-to-the-game-running-on-the-same-machine-as-the-test-code)
-    - [Connect to the app running on a USB connected device](#connect-to-the-game-running-on-a-usb-connected-device)
-    - [Connect to the device running the app by using an IP address](#connect-to-the-device-running-the-game-by-using-an-ip-address)
-    - [Connect to multiple devices running the app](#connect-to-multiple-devices-running-the-game)
+  - [Connect to AltTester Unity SDK running inside the app](#connect-to-alttester-unity-sdk-running-inside-the-app)
+    - [Connect to the app running on the same machine as the test code](#connect-to-the-app-running-on-the-same-machine-as-the-test-code)
+    - [Connect to the app running on a USB connected device](#connect-to-the-app-running-on-a-usb-connected-device)
+    - [Connect to the device running the app by using an IP address](#connect-to-the-device-running-the-app-by-using-an-ip-address)
+    - [Connect to multiple devices running the app](#connect-to-multiple-devices-running-the-app)
     - [Connect to multiple builds of the application running on the same device](#connect-to-multiple-builds-of-the-application-running-on-the-same-device)
   - [Using AltTester Unity SDK in Release mode](#using-alttester-unity-sdk-in-release-mode)
   - [Logging](#logging)
