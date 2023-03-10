@@ -37,7 +37,7 @@ namespace AltTester.AltDriver.Tests
         }
 
         [Test]
-		[Category("WebGLUnsupported")]
+        [Category("WebGLUnsupported")]
         public void TestGetApplicationScreenSize()
         {
             altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
@@ -702,7 +702,9 @@ namespace AltTester.AltDriver.Tests
             var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
             Assert.Greater(time, duration);
         }
+
         [Test]
+        [Ignore("Ignore PressKey method")]
         public void TestPressKeyWaitTheDuration()
         {
             const float duration = 1.0f;

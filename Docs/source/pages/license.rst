@@ -15,9 +15,9 @@ engine).
 The only obligation you have regarding this open source software is related to
 distribution. If you want to distribute AltTester Unity SDK, or some parts of it
 you have to make sure you distribute it under the same license terms. For
-example, if you plan to release a game containing AltTester Unity SDK, then you’d
-have to apply the same GPL3 terms to your game. Otherwise, if you only use it
-for developing and testing your game, you don't have any obligations.
+example, if you plan to release a app containing AltTester Unity SDK, then you’d
+have to apply the same GPL3 terms to your app. Otherwise, if you only use it
+for developing and testing your app, you don't have any obligations.
 
 License Text
 ------------
