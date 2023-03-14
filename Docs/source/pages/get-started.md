@@ -194,7 +194,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         .. note::
 
-            Check the following link to see how to build and run your app for iOS (.ipa file) -- `link <https://altom.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
+            Check the following link to see how to build and run your app for iOS (.ipa file) -- `link <https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
 
 .. note::
 
