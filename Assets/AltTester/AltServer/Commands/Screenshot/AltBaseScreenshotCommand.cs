@@ -94,47 +94,12 @@ namespace AltTester.Commands
         private AltGetScreenshotResponse getTexturedScreenshot(UnityEngine.Vector2 size, int quality)
         {
             var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
-            int width = (int)size.x;
-            int height = (int)size.y;
-
-            if (width == 0 && height == 0)
-            {
-                width = screenshot.width;
-                height = screenshot.height;
-            }
-            else
-            {
-                var heightDifference = screenshot.height - height;
-                var widthDifference = screenshot.width - width;
-
-                if (heightDifference > widthDifference)
-                {
-                    width = height * screenshot.width / screenshot.height;
-                }
-                else
-                {
-                    height = width * screenshot.height / screenshot.width;
-                }
-            }
-
             AltGetScreenshotResponse response = new AltGetScreenshotResponse();
 
             response.scaleDifference = new AltVector2(screenshot.width, screenshot.height);
-            quality = UnityEngine.Mathf.Clamp(quality, 1, 100);
-            if (quality != 100)
-            {
-                width = width * quality / 100;
-                height = height * quality / 100;
-                AltTextureScale.Bilinear(screenshot, width, height);
-            }
-            var screenshotSerialized = UnityEngine.ImageConversion.EncodeToPNG(screenshot);
-
-            logger.Trace("Start Compression");
-            var screenshotCompressed = AltRunner.CompressScreenshot(screenshotSerialized);
-            logger.Trace("Finished Compression");
-
+            var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality);
             response.textureSize = new AltVector3(screenshot.width, screenshot.height);
-            response.compressedImage = screenshotCompressed;
+            response.compressedImage = screenshotSerialized;
 
             UnityEngine.Object.DestroyImmediate(screenshot);
             return response;

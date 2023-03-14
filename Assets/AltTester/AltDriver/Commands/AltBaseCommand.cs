@@ -22,30 +22,5 @@ namespace AltTester.AltDriver.Commands
             }
         }
 
-        protected static byte[] DecompressScreenshot(byte[] screenshotCompressed)
-        {
-            using (var memoryStreamInput = new System.IO.MemoryStream(screenshotCompressed))
-            using (var memoryStreamOutput = new System.IO.MemoryStream())
-            {
-                using (var gs = new System.IO.Compression.GZipStream(memoryStreamInput, System.IO.Compression.CompressionMode.Decompress))
-                {
-                    copyTo(gs, memoryStreamOutput);
-                }
-
-                return memoryStreamOutput.ToArray();
-            }
-        }
-
-        private static void copyTo(System.IO.Stream src, System.IO.Stream dest)
-        {
-            byte[] bytes = new byte[4096];
-
-            int cnt;
-
-            while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
-            {
-                dest.Write(bytes, 0, cnt);
-            }
-        }
     }
 }
