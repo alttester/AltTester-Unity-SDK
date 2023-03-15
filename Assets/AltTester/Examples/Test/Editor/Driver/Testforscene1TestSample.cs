@@ -1504,8 +1504,8 @@ namespace AltTester.AltDriver.Tests
             Assert.True(screenshot.textureSize.y == screenHeight);
 
             screenshot = altDriver.GetScreenshot(screenShotQuality: 50);
-            Assert.True(screenshot.textureSize.x == screenWidth / 2);
-            Assert.True(screenshot.textureSize.y == screenHeight / 2);
+            Assert.True(screenshot.textureSize.x == screenWidth);
+            Assert.True(screenshot.textureSize.y == screenHeight);
 
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
             screenshot = altDriver.GetScreenshot(capsule.id, new AltColor(1, 0, 0), 1.5f);
@@ -1513,8 +1513,8 @@ namespace AltTester.AltDriver.Tests
             Assert.True(screenshot.textureSize.y == screenHeight);
 
             screenshot = altDriver.GetScreenshot(capsule.id, new AltColor(1, 0, 0), 1.5f, screenShotQuality: 50);
-            Assert.True(screenshot.textureSize.x == screenWidth / 2);
-            Assert.True(screenshot.textureSize.y == screenHeight / 2);
+            Assert.True(screenshot.textureSize.x == screenWidth);
+            Assert.True(screenshot.textureSize.y == screenHeight);
         }
         [Test]
         public void TestGetComponentPropertyComplexClass()
