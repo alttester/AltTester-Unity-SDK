@@ -91,6 +91,10 @@ You can find more information about the build command and arguments
 
 ```
 
+## How to make a production build
+
+There is no need to remove the AltTester package entirely from the project, only the `ALTTESTER` Scripting Define Symbol should be deleted from the Player Settings. After that you can build normally as you would do in Unity.
+
 ## Run tests from the command line
 
 In order to run tests from the command line you can use the following example
