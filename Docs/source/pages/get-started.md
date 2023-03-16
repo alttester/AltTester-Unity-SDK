@@ -198,7 +198,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
 .. note::
 
-    You can switch between regular and custom input by toggling the box with the `Custom Input` label. Take into consideration that if you are using the New Input System, then after activating the custom input, you will only be able to interact with the instrumented build via your automated tests or the AltTester Desktop.
+    You can switch between the regular and the AltTester input by toggling the box with the `AltTester Input` label. Take into consideration that if you are using the New Input System, then after activating the AltTester input, you will only be able to interact with the instrumented build via your automated tests or the AltTester Desktop.
 
 ```
 
