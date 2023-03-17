@@ -226,7 +226,8 @@ namespace AltTesterTools
 
     public class CreateAltPrefab : MonoBehaviour
     {
-        public static AltInputsVisualizer CreateInputVisualizer(Transform parent) {
+        public static AltInputsVisualizer CreateInputVisualizer(Transform parent)
+        {
             var CanvasInputVisualiserGameObject = new GameObject("CanvasInputVisualiser", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster) });
 
             var CanvasInputVisualiserRectTransform = CanvasInputVisualiserGameObject.GetComponent<RectTransform>();
@@ -602,7 +603,8 @@ namespace AltTesterTools
             return IconImage;
         }
 
-        public static Toggle CreateCustomInputToggle(RectTransform parent) {
+        public static Toggle CreateCustomInputToggle(RectTransform parent)
+        {
             var Toggle = new GameObject("Toggle", new System.Type[] { typeof(RectTransform), typeof(Toggle) });
 
             var ToggleTransform = Toggle.GetComponent<RectTransform>();
@@ -651,7 +653,7 @@ namespace AltTesterTools
             LabelTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var LabelText = Label.GetComponent<Text>();
-            LabelText.text = "Custom input";
+            LabelText.text = "AltTester input";
             LabelText.fontSize = 18;
             LabelText.alignment = TextAnchor.MiddleLeft;
 
