@@ -2,6 +2,7 @@ import abc
 import json
 import time
 from datetime import datetime
+
 from loguru import logger
 
 import alttester.exceptions as exceptions

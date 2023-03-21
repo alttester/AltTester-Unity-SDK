@@ -1,8 +1,7 @@
 package com.alttester;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import java.io.File;
+import java.lang.Void;
 
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.AltCallStaticMethodParams;
@@ -45,10 +44,11 @@ import com.alttester.altTesterExceptions.SceneNotFoundException;
 import com.alttester.altTesterExceptions.WaitTimeOutException;
 import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
+
 import com.google.gson.Gson;
-
-import java.lang.Void;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -58,8 +58,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-
-import java.io.File;
 
 public class TestsSampleScene1 extends BaseTest {
 

@@ -8,5 +8,4 @@ public enum LoadSceneMode {
 
     @SerializedName("1")
     ADDITIVE,
-
 }
