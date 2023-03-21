@@ -102,7 +102,12 @@ namespace AltTester.AltDriver
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return propertyValue;
         }
-
+        public T WaitForComponentProperty<T>(string componentName, string propertyName, T propertyValue, string assemblyName, double timeout = 20, double interval = 0.5)
+        {
+            var propertyFound = new AltWaitForComponentProperty<T>(CommHandler, componentName, propertyName, propertyValue, assemblyName, timeout, interval, this).Execute();
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return propertyFound;
+        }
         public void SetComponentProperty(string componentName, string propertyName, object value, string assemblyName)
         {
             new AltSetComponentProperty(CommHandler, componentName, propertyName, value, assemblyName, this).Execute();

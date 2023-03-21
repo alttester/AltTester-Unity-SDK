@@ -3,9 +3,9 @@
 This guide covers some of the more advanced features, patterns and
 configuration options of AltTester Unity SDK.
 
-## Custom input vs. regular input
+## AltTester input vs. regular input
 
-AltTester's custom input is active, by default, in any instrumented build. This means that certain input related actions (the ones that are part of Unity's `Input` class) will be inactive for regular input (the device's input). Because of this, pressing a key from the keyboard for example will not have any effect on the app. However, the simulated input from the tests, like the `PressKey` command, will be able to manipulate the object within the scene. While the custom input is active, the icon from the right bottom corner is green. You can change this behaviour by clicking on the AltTester's icon and unchecking the box with the `Custom Input` message. Now the icon will turn darker, signaling that the regular input is active. In this state, you can interfere with the object from the app using the keyboard or other input. Keep in mind that, input actions from the AltTester Desktop won't have any effect while regular input is active. At the same time, if you want to run some automated tests, the custom input will be activated automatically for you.
+AltTester's custom input is active, by default, in any instrumented build. This means that certain input related actions (the ones that are part of Unity's `Input` class) will be inactive for regular input (the device's input). Because of this, pressing a key from the keyboard for example will not have any effect on the app. However, the simulated input from the tests, like the `PressKey` command, will be able to manipulate the object within the scene. While the AltTester input is active, the icon from the right bottom corner is green. You can change this behaviour by clicking on the AltTester's icon and unchecking the box with the `AltTester Input` message. Now the icon will turn darker, signaling that the regular input is active. In this state, you can interfere with the object from the app using the keyboard or other input. Keep in mind that, input actions from the AltTester Desktop won't have any effect while regular input is active. At the same time, if you want to run some automated tests, the AltTester input will be activated automatically for you.
 
 ## Build apps from the command line
 
@@ -90,6 +90,10 @@ You can find more information about the build command and arguments
     commands from the `next section <#run-tests-from-the-command-line>`_.
 
 ```
+
+## How to make a production build
+
+There is no need to remove the AltTester package entirely from the project, only the `ALTTESTER` Scripting Define Symbol should be deleted from the Player Settings. Also, make sure that the `Keep ALTTESTER symbol defined` checkbox is unchecked. After that, you can build your app normally as you would do in Unity.
 
 ## Run tests from the command line
 

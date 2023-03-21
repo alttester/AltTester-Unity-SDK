@@ -11,19 +11,22 @@ Our documentation is available here:
 ## Support
 
 * Join our Discord Server: https://discord.gg/Ag9RSuS
-
 * Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/g/alttesterforum
 
-## Build a unity package from source
+## Development Setup
 
-Open your project in Unity
+### Build a Unity package from source
 
-From ``` AltTester ``` menu choose ``` Create AltTester Package ```
+1. Open your project in Unity.
+1. From `AltTester` menu choose `Create AltTester Package`.
+1. See the created unity package under the project.
 
-See the created unity package under the project
+## Contributing
+
+Check out the full contributing guide [here](https://altom.com/alttester/docs/sdk/pages/contributing.html).
 
 ## License
 
 Distributed under the **GNU General Public License v3.0**. See [LICENSE](https://github.com/alttester/AltTester-Unity-SDK/blob/master/LICENSE) for more information.
 
-This project is tested with [BrowserStack](https://www.browserstack.com/)
+This project is tested with [BrowserStack](https://www.browserstack.com/).

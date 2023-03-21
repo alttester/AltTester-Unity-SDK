@@ -3,7 +3,7 @@ import unittest.mock as mock
 
 import pytest
 
-from alttester._websocket import Store, WebsocketConnection
+from alttester._websocket import Store, WebsocketConnection, CommandHandler, NotificationHandler
 from alttester.exceptions import ConnectionError
 
 
@@ -83,7 +83,9 @@ class TestWebsocketConnection:
         self.connection = WebsocketConnection(
             host=self.host,
             port=self.port,
-            timeout=self.timeout
+            timeout=self.timeout,
+            command_handler=CommandHandler(),
+            notification_handler=NotificationHandler()
         )
         self.connection._create_connection = self.create_connection_mock
         self.connection._is_open = True

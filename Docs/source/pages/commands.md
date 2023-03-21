@@ -3100,6 +3100,84 @@ Invokes a method from an existing component of the object.
             assert fontSizeExpected == fontSize
 
 ```
+### WaitForComponentProperty
+
+Wait until a property has a specific value and returns the value of the given component property.
+
+**_Parameters_**
+
+| Name          | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"  
+
+                                      |
+| propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                                                                                                      
+
+| propertyValue  | T | Yes       | The value that property shoud have.                             |
+
+| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                              
+
+| timeout     | double             | No       | The number of seconds that it will wait for property.                                                                                                                                                                                                                                                                                                                                                        |
+| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than timeout.                                                                                                                                                                                                                                                                                       |
+
+**_Returns_**
+
+- Object
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestWaitForComponentProperty()
+        {
+            const string componentName = "AltTester.AltRunner";
+            const string propertyName = "InstrumentationSettings.AltServerPort";
+            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+            Assert.NotNull(altElement);
+
+            string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
+            int port = int.Parse(portStr);
+            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "Assembly-CSharp");
+            Assert.AreEqual(port, propertyValue);
+        }
+
+
+    .. code-tab:: java
+
+        @Test
+        public void testWaitForComponentProperty() throws InterruptedException {
+            Thread.sleep(1000);
+            String componentName = "UnityEngine.CapsuleCollider";
+            String propertyName = "isTrigger";
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                "Capsule").build();
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
+                assertNotNull(altElement);
+            AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                componentName, propertyName, "").build();
+            AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.       Builder<Boolean>(altGetComponentPropertyParams).build();
+
+            Boolean propertyValue = altElement.WaitForComponentProperty(
+                altWaitForComponentPropertyParams,
+                false,
+                Boolean.class);
+            assertEquals(Boolean.FALSE, propertyValue);
+        }
+
+    .. code-tab:: py
+
+        def test_wait_for_component_property(self):
+            alt_object = self.altdriver.find_object(By.NAME, "Capsule")
+            result = alt_object.wait_for_component_property(
+                "AltExampleScriptCapsule", "TestBool", True,
+                "Assembly-CSharp")
+            assert result is True
+
+```
 
 ### GetComponentProperty
 
