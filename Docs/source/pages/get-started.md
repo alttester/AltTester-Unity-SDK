@@ -26,7 +26,7 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
     .. tab:: UnityPackage from Altom website
 
-        1. Download from `Altom website - link <https://altom.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
+        1. Download from `Altom website - link <https://alttester.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
         2. Import it by drag and drop inside your Unity project.
 
 ```
@@ -73,7 +73,7 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
 ```eval_rst
 
-    1. Download `AltTester Unity SDK <https://altom.com/app/uploads/altUnityProAlpha/AltUnityTesterUnityPackage>`_.
+    1. Download `AltTester Unity SDK <https://alttester.com/app/uploads/altUnityProAlpha/AltUnityTesterUnityPackage>`_.
 
     2. Import it by drag and drop inside your Unity project.
 
@@ -326,7 +326,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
 
             **Method 2**: Use the ``.jar`` file from GIT (**without building it from source**)
 
-                * Download `AltTester-Driver for Java <https://altom.com/app/uploads/AltTesterJAR/AltTester-Driver.jar>`__.
+                * Download `AltTester-Driver for Java <https://alttester.com/app/uploads/AltTesterJAR/AltTester-Driver.jar>`__.
 
                 * Install the ``.jar`` file:
 

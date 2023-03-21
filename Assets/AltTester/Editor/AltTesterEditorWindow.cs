@@ -60,7 +60,7 @@ namespace AltTesterEditor
         public static UnityEngine.Texture2D PortForwardingTexture;
         public static UnityEngine.Texture2D SelectedTestsCountTexture;
 
-        private const string regexPath = @"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*";
+        private const string regexPath = @"https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*";
         private static string downloadURL;
         private const string RELEASENOTESURL = "https://alttester.com/docs/desktop/pages/release-notes.html";
         private const string PREFABNAME = "AltTesterPrefab";
@@ -181,7 +181,7 @@ namespace AltTesterEditor
 
         private static void sendDesktopVersionRequest()
         {
-            www = UnityEngine.Networking.UnityWebRequest.Get("https://altom.com/alttester-desktop-versions/?id=unityeditor&alttesterversion=" + AltRunner.VERSION);
+            www = UnityEngine.Networking.UnityWebRequest.Get("https://alttester.com/alttester-desktop-versions/?id=unityeditor&alttesterversion=" + AltRunner.VERSION);
             var wwwOp = www.SendWebRequest();
             UnityEditor.EditorApplication.update += CheckDesktopVersionRequest;
 
