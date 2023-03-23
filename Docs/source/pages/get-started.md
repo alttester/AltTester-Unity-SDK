@@ -26,7 +26,7 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
     .. tab:: UnityPackage from Altom website
 
-        1. Download from `Altom website - link <https://altom.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
+        1. Download from `Altom website - link <https://alttester.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
         2. Import it by drag and drop inside your Unity project.
 
 ```
@@ -73,7 +73,7 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
 ```eval_rst
 
-    1. Download `AltTester Unity SDK <https://altom.com/app/uploads/altUnityProAlpha/AltUnityTesterUnityPackage>`_.
+    1. Download `AltTester Unity SDK <https://alttester.com/app/uploads/altUnityProAlpha/AltUnityTesterUnityPackage>`_.
 
     2. Import it by drag and drop inside your Unity project.
 
@@ -195,7 +195,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         .. note::
 
-            Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://altom.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
+            Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
 
 .. note::
 
@@ -327,7 +327,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
             **Method 2**: Use the ``.jar`` file from GIT (**without building it from source**)
 
-                * Download `AltTester-Driver for Java <https://altom.com/app/uploads/AltTesterJAR/AltTester-Driver.jar>`__.
+                * Download `AltTester-Driver for Java <https://alttester.com/app/uploads/AltTesterJAR/AltTester-Driver.jar>`__.
 
                 * Install the ``.jar`` file:
 

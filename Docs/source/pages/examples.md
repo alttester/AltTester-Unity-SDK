@@ -35,7 +35,7 @@ We plan to add more examples in the near future.
 
 **2.** Example test project for AltTester Unity SDK:
 
-* C# tests [SampleScenes](https://altom.com/app/uploads/AltTester/sdks/SampleScene.unitypackage)
+* C# tests [SampleScenes](https://alttester.com/app/uploads/AltTester/sdks/SampleScene.unitypackage)
 
     Import this package under your AltTester package in Unity, to have access to the SampleScenes and C# tests.
 

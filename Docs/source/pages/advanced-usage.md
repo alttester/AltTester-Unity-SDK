@@ -27,7 +27,7 @@ built from the command line:
     build script to insert AltTester Prefab only in Debug mode.
 
     If you do want to use AltTester Unity SDK in release mode see
-    `Using AltTester Unity SDK in Release mode section <#using-alttester-in-release-mode>`_.
+    `Using AltTester Unity SDK in Release mode section <#using-alttester-unity-sdk-in-release-mode>`_.
 
 ```
 
