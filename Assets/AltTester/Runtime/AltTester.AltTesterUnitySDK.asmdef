@@ -14,10 +14,10 @@
     "allowUnsafeCode": true,
     "overrideReferences": true,
     "precompiledReferences": [
-        "NLog.dll",
         "Newtonsoft.Json.dll",
         "nunit.framework.dll",
-        "altwebsocket-sharp.dll"
+        "altwebsocket-sharp.dll",
+        "NLog.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
