@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
-using AltTester.AltDriver;
-using AltTesterEditor.Logging;
+using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySDK.Editor.Logging;
 using Newtonsoft.Json;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal.Filters;
 using Unity.EditorCoroutines.Editor;
 
-namespace AltTesterEditor
+namespace AltTester.AltTesterUnitySDK.Editor
 {
     public delegate void TestRunDelegate(string name);
 

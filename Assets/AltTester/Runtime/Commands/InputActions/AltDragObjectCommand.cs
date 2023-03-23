@@ -1,9 +1,9 @@
-﻿using AltTester.AltDriver;
-using AltTester.AltDriver.Commands;
+﻿using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySdk.Driver.Commands;
 
 
 
-namespace AltTester.Commands
+namespace AltTester.AltTesterUnitySdk.Commands
 {
     class AltDragObjectCommand : AltCommand<AltDragObjectParams, AltObject>
     {

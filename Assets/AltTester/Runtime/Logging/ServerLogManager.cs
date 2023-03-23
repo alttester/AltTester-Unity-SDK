@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using AltTester.AltDriver.Logging;
+using AltTester.AltTesterUnitySdk.Driver.Logging;
 using NLog;
 using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
 
-namespace AltTester.Logging
+namespace AltTester.AltTesterUnitySdk.Logging
 {
     public class ServerLogManager
     {

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using AltTester.AltDriver;
-using AltTester.AltDriver.Commands;
-using AltTester.Communication;
+using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySdk.Driver.Commands;
+using AltTester.AltTesterUnitySdk.Communication;
 using UnityEngine;
 
-namespace AltTester.Commands
+namespace AltTester.AltTesterUnitySdk.Commands
 {
     class AltHighlightObjectFromCoordinatesCommand : AltBaseScreenshotCommand<AltHighlightObjectFromCoordinatesScreenshotParams, string>
     {

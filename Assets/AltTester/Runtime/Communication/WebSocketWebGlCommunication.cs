@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using AOT;
 
-namespace AltTester.Communication
+namespace AltTester.AltTesterUnitySdk.Communication
 {
 #if UNITY_WEBGL
     public enum WebSocketCloseCode

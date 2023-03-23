@@ -1,7 +1,7 @@
 using System;
-using AltTesterEditor;
-using AltTester;
-using AltTesterEditor.Logging;
+using AltTester.AltTesterUnitySDK.Editor;
+using AltTester.AltTesterUnitySdk;
+using AltTester.AltTesterUnitySDK.Editor.Logging;
 using UnityEditor;
 
 namespace AltTesterTools

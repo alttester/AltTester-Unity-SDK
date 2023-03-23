@@ -1,5 +1,5 @@
 
-namespace AltTester.AltDriver.Notifications
+namespace AltTester.AltTesterUnitySdk.Driver.Notifications
 {
     public interface INotificationCallbacks
     {

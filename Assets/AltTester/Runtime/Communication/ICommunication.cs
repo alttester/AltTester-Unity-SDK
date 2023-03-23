@@ -1,6 +1,6 @@
 using System;
 
-namespace AltTester.Communication
+namespace AltTester.AltTesterUnitySdk.Communication
 {
     public delegate void SendMessageHandler(string message);
     public delegate void CommunicationHandler();

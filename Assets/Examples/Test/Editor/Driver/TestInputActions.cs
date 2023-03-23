@@ -1,9 +1,9 @@
-using AltTester.AltDriver;
-using AltTester.AltDriver.Logging;
+using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySdk.Driver.Logging;
 using NUnit.Framework;
 
 
-namespace AltTester.AltDriver.Tests
+namespace AltTester.AltTesterUnitySdk.Driver.Tests
 {
     public class TestInputActions : TestBase
     {

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
-using AltTester.AltDriver.Logging;
-using AltTester.AltDriver.Notifications;
+using AltTester.AltTesterUnitySdk.Driver.Logging;
+using AltTester.AltTesterUnitySdk.Driver.Notifications;
 using Newtonsoft.Json;
 using AltWebSocketSharp;
 
-namespace AltTester.AltDriver.Commands
+namespace AltTester.AltTesterUnitySdk.Driver.Commands
 {
     public class DriverCommunicationWebSocket : IDriverCommunication
     {

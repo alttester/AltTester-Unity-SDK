@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace AltTester.Communication
+namespace AltTester.AltTesterUnitySdk.Communication
 {
 #if UNITY_WEBGL
     public class AltWebGLWebSocketHandler : BaseWebSocketHandler

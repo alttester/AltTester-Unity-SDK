@@ -1,7 +1,7 @@
 using System;
-using AltTester.AltDriver.Logging;
+using AltTester.AltTesterUnitySdk.Driver.Logging;
 
-namespace AltTester.AltDriver.Commands
+namespace AltTester.AltTesterUnitySdk.Driver.Commands
 {
     public class AltBaseCommand
     {

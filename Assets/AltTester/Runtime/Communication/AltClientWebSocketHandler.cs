@@ -1,7 +1,7 @@
 using AltWebSocketSharp;
 using UnityEngine.Playables;
 
-namespace AltTester.Communication
+namespace AltTester.AltTesterUnitySdk.Communication
 {
     public class AltClientWebSocketHandler : BaseWebSocketHandler
     {

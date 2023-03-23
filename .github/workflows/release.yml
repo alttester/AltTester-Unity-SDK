@@ -48,7 +48,7 @@ jobs:
         run: |
           mkdir -p public/AltTester || true
           mkdir -p public/SampleScenes || true
-          ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterEditor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+          ${UNITY_2021_3_HOME:-/Applications/Unity/Hub/Editor/2019.2.0f1/Unity.app/Contents/MacOS/Unity} -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
           cp $AUT public/AltTester/AltTester.unitypackage

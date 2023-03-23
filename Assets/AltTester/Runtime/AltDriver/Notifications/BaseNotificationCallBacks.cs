@@ -1,7 +1,7 @@
 using System;
-using AltTester.AltDriver.Logging;
+using AltTester.AltTesterUnitySdk.Driver.Logging;
 
-namespace AltTester.AltDriver.Notifications
+namespace AltTester.AltTesterUnitySdk.Driver.Notifications
 {
     public class BaseNotificationCallBacks : INotificationCallbacks
     {

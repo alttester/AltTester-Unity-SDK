@@ -4,7 +4,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace AltTester.Commands
+namespace AltTester.AltTesterUnitySdk.Commands
 {
     public class AltContractResolver : DefaultContractResolver
     {

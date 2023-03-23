@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using AltTester;
-using AltTester.AltDriver;
-using AltTesterEditor.Logging;
+using AltTester.AltTesterUnitySdk;
+using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySDK.Editor.Logging;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace AltTesterEditor
+namespace AltTester.AltTesterUnitySDK.Editor
 {
     public class AltTesterEditorWindow : UnityEditor.EditorWindow
     {
@@ -127,7 +127,7 @@ namespace AltTesterEditor
 #else
             System.Reflection.MethodInfo method = typeof(UnityEditor.ProjectWindowUtil).GetMethod("CreateScriptAsset", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
             if (method == null)
-                throw new AltTester.AltDriver.NotFoundException("Method to create Script file was not found");
+                throw new AltTester.AltTesterUnitySdk.Driver.NotFoundException("Method to create Script file was not found");
             method.Invoke((object)null, new object[2]
             {
                 (object) templatePath,
@@ -156,7 +156,7 @@ namespace AltTesterEditor
         {
             UnityEngine.Debug.Log("SampleScenes - Unity Package creation started...");
             string packageName = "SampleScenes.unitypackage";
-            string assetPathNames = "Assets/AltTester/Examples";
+            string assetPathNames = "Assets/Examples";
             UnityEditor.AssetDatabase.ExportPackage(assetPathNames, packageName, UnityEditor.ExportPackageOptions.Recurse);
             UnityEngine.Debug.Log("SampleScenes - Unity Package done.");
         }

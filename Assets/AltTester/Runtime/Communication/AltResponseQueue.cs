@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AltTester.Communication
+namespace AltTester.AltTesterUnitySdk.Communication
 {
     public delegate void SendResponse();
 
@@ -11,7 +11,8 @@ namespace AltTester.Communication
 
         public void Cycle()
         {
-            if (responseQueue.Count == 0) {
+            if (responseQueue.Count == 0)
+            {
                 return;
             }
 
@@ -35,7 +36,8 @@ namespace AltTester.Communication
             }
         }
 
-        public void Clear() {
+        public void Clear()
+        {
             lock (queueLock)
             {
                 responseQueue.Clear();

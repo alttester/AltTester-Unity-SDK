@@ -1,6 +1,6 @@
-﻿using AltTesterEditor.Logging;
+﻿using AltTester.AltTesterUnitySDK.Editor.Logging;
 
-namespace AltTesterEditor
+namespace AltTester.AltTesterUnitySDK.Editor
 {
     public class AltTestRunListener : NUnit.Framework.Interfaces.ITestListener
     {

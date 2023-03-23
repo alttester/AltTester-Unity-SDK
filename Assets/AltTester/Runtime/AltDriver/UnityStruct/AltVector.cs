@@ -1,4 +1,4 @@
-namespace AltTester.AltDriver
+namespace AltTester.AltTesterUnitySdk.Driver
 {
     public struct AltVector2
     {

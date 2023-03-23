@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using AltTester;
-using AltTester.Communication;
-using AltTester.Logging;
+using AltTester.AltTesterUnitySdk.Communication;
+using AltTester.AltTesterUnitySdk.Logging;
 
-namespace AltTester.UI
+namespace AltTester.AltTesterUnitySdk.UI
 {
     public class AltDialog : UnityEngine.MonoBehaviour
     {

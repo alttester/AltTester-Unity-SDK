@@ -1,6 +1,6 @@
-using AltTester.AltDriver.Commands;
+using AltTester.AltTesterUnitySdk.Driver.Commands;
 
-namespace AltTester.Commands
+namespace AltTester.AltTesterUnitySdk.Commands
 {
     public class AltGetServerVersionCommand : AltCommand<AltGetServerVersionParams, string>
     {

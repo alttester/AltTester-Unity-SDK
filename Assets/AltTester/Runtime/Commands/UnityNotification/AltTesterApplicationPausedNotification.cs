@@ -1,6 +1,6 @@
-using AltTester.Communication;
+using AltTester.AltTesterUnitySdk.Communication;
 
-namespace AltTester.Notification
+namespace AltTester.AltTesterUnitySdk.Notification
 {
     public class AltTesterApplicationPausedNotification : BaseNotification
     {

@@ -7,7 +7,7 @@ using UnityEngine.InputSystem.UI;
 #endif
 using static UnityEngine.EventSystems.ExecuteEvents;
 
-namespace AltTester
+namespace AltTester.AltTesterUnitySdk
 {
     public class AltMockUpPointerInputModule : StandaloneInputModule
     {

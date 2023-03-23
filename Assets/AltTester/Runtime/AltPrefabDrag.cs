@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace AltTester.UI
+namespace AltTester.AltTesterUnitySdk.UI
 {
 
     public class AltPrefabDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -29,9 +29,9 @@ namespace AltTester.UI
                 eventData.pointerDrag.gameObject.transform.position = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
 #endif
                 var objectTranform = (RectTransform)eventData.pointerDrag.transform;
-                if (objectTranform.position.x < objectTranform.rect.width )
+                if (objectTranform.position.x < objectTranform.rect.width)
                 {
-                    objectTranform.position = new Vector3(objectTranform.rect.width , objectTranform.position.y, objectTranform.position.z);
+                    objectTranform.position = new Vector3(objectTranform.rect.width, objectTranform.position.y, objectTranform.position.z);
                 }
                 else if (objectTranform.position.x > Screen.width)
                 {
@@ -41,9 +41,9 @@ namespace AltTester.UI
                 {
                     objectTranform.position = new Vector3(objectTranform.position.x, 0, objectTranform.position.z);
                 }
-                else if (objectTranform.position.y > Screen.height - objectTranform.rect.height )
+                else if (objectTranform.position.y > Screen.height - objectTranform.rect.height)
                 {
-                    objectTranform.position = new Vector3(objectTranform.position.x, Screen.height - objectTranform.rect.height , objectTranform.position.z);
+                    objectTranform.position = new Vector3(objectTranform.position.x, Screen.height - objectTranform.rect.height, objectTranform.position.z);
                 }
 
             }

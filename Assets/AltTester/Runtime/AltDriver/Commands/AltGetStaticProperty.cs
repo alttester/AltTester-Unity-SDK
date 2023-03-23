@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace AltTester.AltDriver.Commands
+namespace AltTester.AltTesterUnitySdk.Driver.Commands
 {
     public class AltGetStaticProperty<T> : AltBaseCommand
     {

@@ -1,10 +1,10 @@
 using System.Reflection;
-using AltTester.AltDriver.Logging;
-using AltTester.AltDriver.Notifications;
-using AltTester.Communication;
+using AltTester.AltTesterUnitySdk.Driver.Logging;
+using AltTester.AltTesterUnitySdk.Driver.Notifications;
+using AltTester.AltTesterUnitySdk.Communication;
 using UnityEngine;
 
-namespace AltTester.Notification
+namespace AltTester.AltTesterUnitySdk.Notification
 {
     public class AltLogNotification : BaseNotification
     {

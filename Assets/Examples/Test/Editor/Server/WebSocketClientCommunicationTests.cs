@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-using AltTester.Communication;
+using AltTester.AltTesterUnitySdk.Communication;
 using NUnit.Framework;
 using AltWebSocketSharp.Server;
 using AltWebSocketSharp;

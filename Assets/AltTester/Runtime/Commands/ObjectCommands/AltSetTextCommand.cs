@@ -1,10 +1,10 @@
 using System;
-using AltTester.AltDriver;
-using AltTester.AltDriver.Commands;
+using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySdk.Driver.Commands;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace AltTester.Commands
+namespace AltTester.AltTesterUnitySdk.Commands
 {
     class AltSetTextCommand : AltReflectionMethodsCommand<AltSetTextParams, AltObject>
     {

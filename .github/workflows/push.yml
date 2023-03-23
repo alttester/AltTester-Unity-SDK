@@ -69,7 +69,7 @@ jobs:
       - run: |
           export ALTSERVER_PORT=13020
           export ALTSERVER_HOST="127.0.0.1"
-          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
 
       - uses: actions/upload-artifact@v3

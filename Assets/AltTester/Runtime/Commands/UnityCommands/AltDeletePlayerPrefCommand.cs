@@ -1,6 +1,6 @@
-﻿using AltTester.AltDriver.Commands;
+﻿using AltTester.AltTesterUnitySdk.Driver.Commands;
 
-namespace AltTester.Commands
+namespace AltTester.AltTesterUnitySdk.Commands
 {
     class AltDeletePlayerPrefCommand : AltCommand<AltDeletePlayerPrefParams, string>
     {

@@ -1,9 +1,9 @@
 using System.Globalization;
-using AltTester.AltDriver.Commands;
-using AltTester.Communication;
+using AltTester.AltTesterUnitySdk.Driver.Commands;
+using AltTester.AltTesterUnitySdk.Communication;
 using Newtonsoft.Json;
 
-namespace AltTester.Notification
+namespace AltTester.AltTesterUnitySdk.Notification
 {
     public class BaseNotification
     {

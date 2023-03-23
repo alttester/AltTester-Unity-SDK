@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
-using AltTester.AltDriver;
-using AltTester.AltDriver.Commands;
-using AltTester.Communication;
+using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySdk.Driver.Commands;
+using AltTester.AltTesterUnitySdk.Communication;
 
-namespace AltTester.Commands
+namespace AltTester.AltTesterUnitySdk.Commands
 {
     public class AltMultipointSwipeCommand : AltCommandWithWait<AltMultipointSwipeParams, string>
     {

@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
-using AltTester;
-using AltTester.AltDriver;
-using AltTesterEditor;
-using AltTesterEditor.Logging;
+using AltTester.AltTesterUnitySdk;
+using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySDK.Editor;
+using AltTester.AltTesterUnitySDK.Editor.Logging;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace AltTesterEditor
+namespace AltTester.AltTesterUnitySDK.Editor
 {
     public static class PlatformName
     {

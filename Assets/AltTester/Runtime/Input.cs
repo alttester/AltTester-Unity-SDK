@@ -4,9 +4,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using AltTester.AltDriver;
-using AltTester;
-using AltTester.InputModule;
+using AltTester.AltTesterUnitySdk;
+using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySdk.InputModule;
 using UnityEngine;
 using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM
@@ -1547,7 +1547,7 @@ public class Input : MonoBehaviour
     #endregion
 }
 
-namespace AltTester.InputModule
+namespace AltTester.AltTesterUnitySdk.InputModule
 {
 
     public class KeyStructure
@@ -1585,7 +1585,7 @@ namespace AltTester.InputModule
 #else
             using UnityEngine;
 
-namespace AltTester.InputModule
+namespace AltTester.AltTesterUnitySdk.InputModule
 {
 
     public class Input : MonoBehaviour

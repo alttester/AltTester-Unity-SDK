@@ -1,6 +1,6 @@
-using AltTester.AltDriver;
+using AltTester.AltTesterUnitySdk.Driver;
 
-namespace AltTester
+namespace AltTester.AltTesterUnitySdk
 {
     public static class AltVectorExtensions
     {

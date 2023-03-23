@@ -1,8 +1,8 @@
 using System;
-using AltTester.AltDriver.Logging;
-using AltTester.AltDriver.Notifications;
+using AltTester.AltTesterUnitySdk.Driver.Logging;
+using AltTester.AltTesterUnitySdk.Driver.Notifications;
 using Newtonsoft.Json;
-namespace AltTester.AltDriver.Commands
+namespace AltTester.AltTesterUnitySdk.Driver.Commands
 {
     public class CommandParams
     {

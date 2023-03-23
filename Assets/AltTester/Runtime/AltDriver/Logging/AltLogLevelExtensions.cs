@@ -1,6 +1,6 @@
 using NLog;
 
-namespace AltTester.AltDriver.Logging
+namespace AltTester.AltTesterUnitySdk.Driver.Logging
 {
     public static class AltLogLevelExtensions
     {

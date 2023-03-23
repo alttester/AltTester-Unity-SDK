@@ -1,4 +1,4 @@
-using AltTesterEditor;
+using AltTester.AltTesterUnitySDK.Editor;
 
 namespace alttester.Assets.ShortCuts.Editor
 {

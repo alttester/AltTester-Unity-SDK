@@ -1,4 +1,4 @@
-namespace AltTester.AltDriver.Commands
+namespace AltTester.AltTesterUnitySdk.Driver.Commands
 {
     public class AltDragObject : AltCommandReturningAltElement
     {

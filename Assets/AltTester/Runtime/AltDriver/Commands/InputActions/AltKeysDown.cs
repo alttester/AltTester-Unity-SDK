@@ -1,6 +1,6 @@
 using System;
 
-namespace AltTester.AltDriver.Commands
+namespace AltTester.AltTesterUnitySdk.Driver.Commands
 {
     public class AltKeysDown : AltBaseCommand
     {

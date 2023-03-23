@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace AltTesterEditor
+namespace AltTester.AltTesterUnitySDK.Editor
 {
     [System.Serializable]
     public class AltMyTest

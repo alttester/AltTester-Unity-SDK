@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace AltTester
+namespace AltTester.AltTesterUnitySdk
 {
     public class FindObjectViaRayCast
     {

@@ -2,14 +2,14 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Altom.AltTester.Commands;
-using AltTester.AltDriver;
-using AltTester.AltDriver.Commands;
-using AltTester.Commands;
-using AltTester.Logging;
+using Altom.AltTester.AltTesterUnitySdk.Commands;
+using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySdk.Driver.Commands;
+using AltTester.AltTesterUnitySdk.Commands;
+using AltTester.AltTesterUnitySdk.Logging;
 using Newtonsoft.Json;
 
-namespace AltTester.Communication
+namespace AltTester.AltTesterUnitySdk.Communication
 {
     public class CommandHandler : ICommandHandler
     {
@@ -44,7 +44,8 @@ namespace AltTester.Communication
             try
             {
                 cmdParams = JsonConvert.DeserializeObject<CommandParams>(data, jsonSerializerSettings);
-                if (cmdParams.isNotification) {
+                if (cmdParams.isNotification)
+                {
                     handleNotifications(cmdParams);
                     return;
                 }
@@ -75,14 +76,17 @@ namespace AltTester.Communication
                 });
         }
 
-        public void handleNotifications(CommandParams cmdParams) {
-            if (cmdParams.commandName == "DriverConnectedNotification") {
+        public void handleNotifications(CommandParams cmdParams)
+        {
+            if (cmdParams.commandName == "DriverConnectedNotification")
+            {
                 if (this.OnDriverConnect != null)
                 {
                     this.OnDriverConnect.Invoke(cmdParams.driverId);
                 }
             }
-            else if (cmdParams.commandName == "DriverDisconnectedNotification") {
+            else if (cmdParams.commandName == "DriverDisconnectedNotification")
+            {
                 if (this.OnDriverDisconnect != null)
                 {
                     this.OnDriverDisconnect.Invoke(cmdParams.driverId);
@@ -340,13 +344,13 @@ namespace AltTester.Communication
             var derivedType = typeof(CommandParams);
             var type = assembly.GetTypes().FirstOrDefault(t =>
                {
-                    if (derivedType.IsAssignableFrom(t)) // If type derrives from CommandParams
-                    {
-                        CommandAttribute cmdAttribute = (CommandAttribute)Attribute.GetCustomAttribute(t, typeof(CommandAttribute));
-                        return cmdAttribute != null && cmdAttribute.Name == commandName;
-                    }
+                   if (derivedType.IsAssignableFrom(t)) // If type derrives from CommandParams
+                   {
+                       CommandAttribute cmdAttribute = (CommandAttribute)Attribute.GetCustomAttribute(t, typeof(CommandAttribute));
+                       return cmdAttribute != null && cmdAttribute.Name == commandName;
+                   }
 
-                    return false;
+                   return false;
                });
 
             if (type == null)
@@ -359,11 +363,13 @@ namespace AltTester.Communication
 
         private string trimLog(string log, int maxLogLength = 1000)
         {
-            if (string.IsNullOrEmpty(log)) {
+            if (string.IsNullOrEmpty(log))
+            {
                 return log;
             }
 
-            if (log.Length <= maxLogLength) {
+            if (log.Length <= maxLogLength)
+            {
                 return log;
             }
 

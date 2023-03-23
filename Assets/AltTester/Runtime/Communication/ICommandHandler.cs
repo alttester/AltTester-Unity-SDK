@@ -1,4 +1,4 @@
-namespace AltTester.Communication
+namespace AltTester.AltTesterUnitySdk.Communication
 {
     public delegate void NotificationHandler(string driverId);
 

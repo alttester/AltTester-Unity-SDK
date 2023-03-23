@@ -1,4 +1,4 @@
-namespace AltTesterEditor
+namespace AltTester.AltTesterUnitySDK.Editor
 {
     public enum AltPlatform
     {

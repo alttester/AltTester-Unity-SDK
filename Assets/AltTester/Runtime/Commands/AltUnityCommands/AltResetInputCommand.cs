@@ -1,8 +1,8 @@
-using AltTester;
-using AltTester.AltDriver.Commands;
-using AltTester.Commands;
+using AltTester.AltTesterUnitySdk;
+using AltTester.AltTesterUnitySdk.Driver.Commands;
+using AltTester.AltTesterUnitySdk.Commands;
 
-namespace Altom.AltTester.Commands
+namespace Altom.AltTester.AltTesterUnitySdk.Commands
 {
     public class AltResetInputCommand : AltCommand<AltResetInputParams, string>
     {

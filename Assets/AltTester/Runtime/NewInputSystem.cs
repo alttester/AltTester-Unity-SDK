@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace AltTester
+namespace AltTester.AltTesterUnitySdk
 {
     public class NewInputSystem : MonoBehaviour
     {
@@ -489,7 +489,7 @@ public class TestExample
 #else
 using UnityEngine;
 
-namespace AltTester
+namespace AltTester.AltTesterUnitySdk
 {
     public class NewInputSystem : MonoBehaviour
     {

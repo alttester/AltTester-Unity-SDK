@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Altom.AltDriver;
-using AltTester.AltDriver;
+using AltTester.AltTesterUnitySdk.Driver;
 using UnityEngine;
 
 
-namespace AltTester
+namespace AltTester.AltTesterUnitySdk
 {
     public static class InputController
     {

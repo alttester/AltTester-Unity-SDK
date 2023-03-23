@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Altom.AltDriver.Commands;
-using AltTester.AltDriver.Commands;
-using AltTester.AltDriver.Logging;
-using AltTester.AltDriver.Notifications;
+using AltTester.AltTesterUnitySdk.Driver.Commands;
+using AltTester.AltTesterUnitySdk.Driver.Logging;
+using AltTester.AltTesterUnitySdk.Driver.Notifications;
 
-namespace AltTester.AltDriver
+namespace AltTester.AltTesterUnitySdk.Driver
 {
     public enum By
     {

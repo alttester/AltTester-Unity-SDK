@@ -18,7 +18,7 @@ MonoBehaviour:
   XcrunPath: /usr/bin/xcrun
   MyTests:
   - _selected: 0
-    _testName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _testName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testAssembly: Assembly-CSharp-Editor
     _status: 0
     _isSuite: 1
@@ -37,7 +37,7 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestSuite
-    _parentName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _parentName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 2
     _foldOut: 0
     _testResultMessage: 
@@ -99,7 +99,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/WebSocketClientCommunicationTests.cs
+    path: Assets/Examples/Test/Editor/Server/WebSocketClientCommunicationTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: Altom.AltInstrumentation.Tests.WebSocketClientCommunicationTests.TestConnectWithServer
@@ -113,7 +113,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/WebSocketClientCommunicationTests.cs
+    path: Assets/Examples/Test/Editor/Server/WebSocketClientCommunicationTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester
@@ -121,7 +121,7 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestSuite
-    _parentName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _parentName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 232
     _foldOut: 0
     _testResultMessage: 
@@ -183,7 +183,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Commands/AltCommandsTests.cs
+    path: Assets/Examples/Test/Editor/Driver/Commands/AltCommandsTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample
@@ -211,7 +211,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestAccelerationAndWait
@@ -225,7 +225,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallGameObjectMethod
@@ -239,7 +239,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodAssemblyNotFound
@@ -253,7 +253,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodInsideAListOfSubObject
@@ -267,7 +267,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodInsideASubObject
@@ -281,7 +281,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodInsideSubObjectOfGameObject
@@ -295,7 +295,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodInvalidMethodArgumentTypes
@@ -309,7 +309,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodInvalidParameterType
@@ -323,7 +323,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodSetFontSizeWithParameters
@@ -337,7 +337,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodWithAssembly
@@ -351,7 +351,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodWithIncorrectNumberOfParameters
@@ -365,7 +365,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodWithIncorrectNumberOfParameters2
@@ -379,7 +379,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodWithManyParameters
@@ -393,7 +393,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodWithMultipleDefinitions
@@ -407,7 +407,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodWithNoParameters
@@ -421,7 +421,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodWithOptionalParemeters
@@ -435,7 +435,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodWithOptionalParemetersString
@@ -449,7 +449,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodWithOptionalParemetersString2
@@ -463,7 +463,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallMethodWithParameters
@@ -477,7 +477,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallPrivateMethod
@@ -491,7 +491,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallStaticMethod
@@ -505,7 +505,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCallStaticMethodInsideASubObject
@@ -519,7 +519,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCameraNotFoundException
@@ -533,7 +533,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClick
@@ -547,7 +547,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClick_MouseDownUp
@@ -561,7 +561,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClick_MultipleClicks
@@ -575,7 +575,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickButtonInWolrdSpaceCanvas
@@ -589,7 +589,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickCoordinates
@@ -603,7 +603,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickCoordinates_ColliderNoParent
@@ -617,7 +617,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickCoordinates_ColliderParentCollider
@@ -631,7 +631,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickCoordinates_MouseDownUp
@@ -645,7 +645,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickCoordinates_MultipleClicks
@@ -659,7 +659,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickCoordinatesCheckPressRaycastObject
@@ -673,7 +673,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickElement
@@ -687,7 +687,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickOnChangingSceneButton
@@ -701,7 +701,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickWithMouse0Capsule
@@ -715,7 +715,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickWithMouse1Capsule
@@ -729,7 +729,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestClickWithMouse2Capsule
@@ -743,7 +743,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestCustomTap
@@ -757,7 +757,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestDeleteKey
@@ -771,7 +771,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestDifferentCamera
@@ -785,7 +785,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestDifferentObjectSelectedClickingOnScreenshot
@@ -799,7 +799,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestDoubleTap
@@ -813,7 +813,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindChild
@@ -827,7 +827,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindElement
@@ -841,7 +841,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindElementAtCoordinates_3dElement
@@ -855,7 +855,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindElementAtCoordinates_NoElement
@@ -869,7 +869,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindElements
@@ -883,7 +883,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindElementsWhereNameContains
@@ -897,7 +897,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindElementThatContainsText
@@ -911,7 +911,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindElementWhereNameContains
@@ -925,7 +925,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindElementWithText
@@ -939,7 +939,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindElementWithTextByPath
@@ -953,7 +953,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindingDifferentObjects
@@ -981,7 +981,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindingDifferentObjects("//RotateMainCameraButton/../*[contains(@name,Seconda)]/Text","Text")
@@ -995,7 +995,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindingDifferentObjects("//*[@component=BoxCollider]","Cube")
@@ -1009,7 +1009,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindingDifferentObjects("/Capsule/../Plane","Plane")
@@ -1023,7 +1023,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindNonExistentObject
@@ -1037,7 +1037,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindNonExistentObjectByName
@@ -1051,7 +1051,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindNthChild
@@ -1079,7 +1079,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindNthChild("/Canvas[1]","UIButton",True)
@@ -1093,7 +1093,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindNthChild("/Canvas[-1]","TapClickEventsButtonCollider",True)
@@ -1107,7 +1107,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindNthChild("/Canvas[-2]","NextScene",True)
@@ -1121,7 +1121,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindNthChild("/Canvas[@layer=UI][5]","UnityUIInputField",True)
@@ -1135,7 +1135,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindNthChild("/Canvas[1]/Text","Text",True)
@@ -1149,7 +1149,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindNthChild("//Dialog[0]","Title",False)
@@ -1163,7 +1163,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindNthChild("//Dialog[1]","Message",False)
@@ -1177,7 +1177,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindNthChild("//Dialog[-1]","Toggle",False)
@@ -1191,7 +1191,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectByAltId
@@ -1205,7 +1205,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectByCamera
@@ -1219,7 +1219,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectByComponent
@@ -1233,7 +1233,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectByComponent2
@@ -1247,7 +1247,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectByComponentWithNamespace
@@ -1261,7 +1261,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectByLayer
@@ -1275,7 +1275,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectByTag
@@ -1289,7 +1289,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectByUnityComponent
@@ -1303,7 +1303,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjects
@@ -1317,7 +1317,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectsByCamera
@@ -1331,7 +1331,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectsByComponent
@@ -1345,7 +1345,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectsByContainName
@@ -1359,7 +1359,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectsByLayer
@@ -1373,7 +1373,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectsByTag
@@ -1387,7 +1387,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectScene1
@@ -1401,7 +1401,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectScene6
@@ -1415,7 +1415,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectsWithCameraId
@@ -1429,7 +1429,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectsWithTag
@@ -1443,7 +1443,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectWhichContains
@@ -1457,7 +1457,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectWithMultipleSelector
@@ -1471,7 +1471,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindObjectWithTag
@@ -1485,7 +1485,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindParentUsingPath
@@ -1499,7 +1499,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestFindWithFindObjectWhichContainsNotExistingObject
@@ -1513,7 +1513,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestForSetText
@@ -1527,7 +1527,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGet3DObjectFromScreenshot
@@ -1541,7 +1541,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllActiveCameras
@@ -1555,7 +1555,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllCameras
@@ -1569,7 +1569,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllClassFields
@@ -1583,7 +1583,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllClassProperties
@@ -1597,7 +1597,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllComponents
@@ -1611,7 +1611,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllElementsLight
@@ -1625,7 +1625,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllFields
@@ -1639,7 +1639,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllInheritedFields
@@ -1653,7 +1653,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllInheritedProperties
@@ -1667,7 +1667,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllMethods
@@ -1681,7 +1681,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllMethodsFromClass
@@ -1695,7 +1695,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllMethodsFromInherited
@@ -1709,7 +1709,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllProperties
@@ -1723,7 +1723,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllScenes
@@ -1737,7 +1737,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAllScenesAndObjectDisableEnableOption
@@ -1751,7 +1751,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetAltObjectWithCanvasParentButOnlyTransform
@@ -1765,7 +1765,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetApplicationScreenSize
@@ -1779,7 +1779,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetChineseLetters
@@ -1793,7 +1793,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetComponentProperty
@@ -1807,7 +1807,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetComponentPropertyArray
@@ -1821,7 +1821,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetComponentPropertyComplexClass
@@ -1835,7 +1835,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetComponentPropertyComplexClass2
@@ -1849,7 +1849,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetComponentPropertyInvalidDeserialization
@@ -1863,7 +1863,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetComponentPropertyNotFoundWithAssembly
@@ -1877,7 +1877,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetComponentPropertyNullValue
@@ -1891,7 +1891,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetComponentPropertyPrivate
@@ -1905,7 +1905,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetComponentPropertyStatic
@@ -1919,7 +1919,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetComponentPropertyStaticPublic
@@ -1933,7 +1933,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetComponentPropertyUnityEngine
@@ -1947,7 +1947,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetCurrentScene
@@ -1961,7 +1961,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetNonExistingComponentProperty
@@ -1975,7 +1975,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetObjectWithNumberAsName
@@ -1989,7 +1989,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetScreenshot
@@ -2003,7 +2003,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetScreensizeScreenshot
@@ -2017,7 +2017,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetStaticProperty
@@ -2031,7 +2031,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetStaticPropertyInstanceNull
@@ -2045,7 +2045,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetTextCallMethodWithNoParameters
@@ -2059,7 +2059,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetUIObjectFromScreenshot
@@ -2073,7 +2073,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestGetVersion
@@ -2087,7 +2087,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestHoldButton
@@ -2101,7 +2101,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestInactiveObject
@@ -2115,7 +2115,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestInvalidPaths
@@ -2129,7 +2129,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestKeyDownAndKeyUpMouse0
@@ -2143,7 +2143,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestKeyPressNumberOfReads
@@ -2157,7 +2157,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestKeysDown
@@ -2171,7 +2171,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestLoadAdditiveScenes
@@ -2185,7 +2185,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestLoadNonExistentScene
@@ -2199,7 +2199,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestNonEnglishText
@@ -2213,7 +2213,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestObjectFromScreenshot
@@ -2227,7 +2227,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestOpenDialogWithBeginEndTouch
@@ -2241,7 +2241,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestPointerEnter_PointerExit
@@ -2255,7 +2255,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestPointerPressSet
@@ -2269,7 +2269,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestPressKeys
@@ -2283,7 +2283,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestPressKeyWaitTheDuration
@@ -2297,7 +2297,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestPressNextSceneButton
@@ -2311,7 +2311,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestResetInput
@@ -2325,7 +2325,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestScrollViewSwipe
@@ -2339,7 +2339,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetCommandTimeout
@@ -2353,7 +2353,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetComponentProperty
@@ -2367,7 +2367,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetComponentPropertyComplexClass
@@ -2381,7 +2381,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetComponentPropertyComplexClass2
@@ -2395,7 +2395,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetComponentPropertyComplexClass3
@@ -2409,7 +2409,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetKeyFloat
@@ -2423,7 +2423,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetKeyInt
@@ -2437,7 +2437,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetKeyString
@@ -2451,7 +2451,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetNonExistingComponentProperty
@@ -2465,7 +2465,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetStaticProperty
@@ -2479,7 +2479,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetStaticProperty2
@@ -2493,7 +2493,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetStructureProperty
@@ -2507,7 +2507,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetStructureProperty2
@@ -2521,7 +2521,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetStructureProperty3
@@ -2535,7 +2535,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetTextForTextMeshInputField
@@ -2549,7 +2549,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetTextForUnityUIInputField
@@ -2563,7 +2563,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSetTimeScale
@@ -2577,7 +2577,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestStringIsMarkedAsPrimitive
@@ -2591,7 +2591,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSwipeClickWhenMovedButRemainsOnTheSameObject
@@ -2605,7 +2605,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestSwipeWithDuration0
@@ -2619,7 +2619,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestTap
@@ -2633,7 +2633,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestTap_MultipleTaps
@@ -2647,7 +2647,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestTouchAreUpdatedWhenMoved
@@ -2661,7 +2661,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestUnloadOnlyScene
@@ -2675,7 +2675,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestUnloadScene
@@ -2689,7 +2689,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForCurrentSceneToBe
@@ -2703,7 +2703,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForCurrentSceneToBeANonExistingScene
@@ -2717,7 +2717,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForElementWithText
@@ -2731,7 +2731,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForElementWithTextByCamera
@@ -2745,7 +2745,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForElementWithTextWithCameraId
@@ -2759,7 +2759,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForElementWithTextWithTag
@@ -2773,7 +2773,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForExistingDisabledElement
@@ -2787,7 +2787,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForExistingElement
@@ -2801,7 +2801,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForExistingElementWhereNameContains
@@ -2815,7 +2815,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForNonExistingElementWhereNameContains
@@ -2829,7 +2829,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForNonExistingObject
@@ -2843,7 +2843,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectByCamera
@@ -2857,7 +2857,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectNotBePresentByCamera
@@ -2871,7 +2871,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectNotBePresentWithCameraId
@@ -2885,7 +2885,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectNotBePresentWithTag
@@ -2899,7 +2899,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectToNotExist
@@ -2913,7 +2913,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectToNotExistFail
@@ -2927,7 +2927,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectWhichContains
@@ -2941,7 +2941,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectWhichContainsByCamera
@@ -2955,7 +2955,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectWhichContainsWithCameraId
@@ -2969,7 +2969,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectWhichContainsWithTag
@@ -2983,7 +2983,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectWithCameraId
@@ -2997,7 +2997,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectWithTag
@@ -3011,7 +3011,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene1TestSample.TestWaitForObjectWithTextWrongText
@@ -3025,7 +3025,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
+    path: Assets/Examples/Test/Editor/Driver/Testforscene1TestSample.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel
@@ -3053,7 +3053,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel.TestCreateTouchTwice
@@ -3067,7 +3067,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel.TestGetAllElements
@@ -3081,7 +3081,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel.TestGetAllEnabledElements
@@ -3095,7 +3095,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel.TestGetAllScenesAndElements
@@ -3109,7 +3109,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel.TestGetParent
@@ -3123,7 +3123,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel.TestMovePanel
@@ -3137,7 +3137,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel.TestNewTouchCommands
@@ -3151,7 +3151,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel.TestPointerDownFromObject
@@ -3165,7 +3165,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel.TestPointerUpFromObject
@@ -3179,7 +3179,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel.TestResizePanel
@@ -3193,7 +3193,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene2DraggablePanel.TestResizePanelWithMultipointSwipe
@@ -3207,7 +3207,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForscene2DraggablePanel.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene3DragAndDrop
@@ -3235,7 +3235,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene3DragAndDrop.MultipleDragAndDropWait
@@ -3249,7 +3249,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene3DragAndDrop.MultipleDragAndDropWaitWithMultipointSwipe
@@ -3263,7 +3263,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene3DragAndDrop.TestDragAndDrop
@@ -3277,7 +3277,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene3DragAndDrop.TestPointerEnterAndExit
@@ -3291,7 +3291,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene3DragAndDrop.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene4NoCameras
@@ -3319,7 +3319,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene4NoCameras.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene4NoCameras.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene4NoCameras.TestFindUIElementInASceneWithNoCameras
@@ -3333,7 +3333,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene4NoCameras.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene4NoCameras.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene5KeyboardAndMouseInput
@@ -3361,7 +3361,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestCameraMovement
@@ -3375,7 +3375,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestCheckShadersSetCorrectlyAfterHighlight
@@ -3389,7 +3389,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestCreatingStars
@@ -3403,7 +3403,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestKeyboardPress
@@ -3417,7 +3417,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestKeyDownAndKeyUp
@@ -3431,7 +3431,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestMovementCube
@@ -3445,7 +3445,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestPowerJoystick
@@ -3459,7 +3459,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestScroll
@@ -3473,7 +3473,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestScrollAndWait
@@ -3487,7 +3487,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestForScene5KeyboardAndMouseInput.TestUpdateAltObject
@@ -3501,7 +3501,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForScene5KeyboardAndMouseInput.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: AltTester.AltDriver.Tests.TestInputActions
@@ -3529,7 +3529,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestInputActions.cs
+    path: Assets/Examples/Test/Editor/Driver/TestInputActions.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests
@@ -3537,7 +3537,7 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestFixture
-    _parentName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _parentName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 40
     _foldOut: 0
     _testResultMessage: 
@@ -3571,7 +3571,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@tag,\\/na\\/me\\/)]","/na/me/")
@@ -3585,7 +3585,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@text,\\;na\\;me\\;)]",";na;me;")
@@ -3599,7 +3599,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@component,\\\\na\\\\me\\\\)]","\\na\\me\\")
@@ -3613,7 +3613,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@name,\\&na\\&me\\&)]","&na&me&")
@@ -3627,7 +3627,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@tag,\\!na\\!me\\!)]","!na!me!")
@@ -3641,7 +3641,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideFunctions("//*[contains(@tag,\\(na\\)me\\()]","(na)me(")
@@ -3655,7 +3655,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName
@@ -3683,7 +3683,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//\\/name","/name")
@@ -3697,7 +3697,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//na\\/me","na/me")
@@ -3711,7 +3711,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//name\\/","name/")
@@ -3725,7 +3725,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//na\\;me","na;me")
@@ -3739,7 +3739,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//\\;name",";name")
@@ -3753,7 +3753,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//name\\;","name;")
@@ -3767,7 +3767,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//\\\\na\\\\me\\\\","\\na\\me\\")
@@ -3781,7 +3781,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//\\&na\\&me\\&","&na&me&")
@@ -3795,7 +3795,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideName("//\\!na\\!me\\!","!na!me!")
@@ -3809,7 +3809,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors
@@ -3837,7 +3837,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors("//*[@tag=\\/na\\/me\\/]","/na/me/")
@@ -3851,7 +3851,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors("//*[@text=\\;na\\;me\\;]",";na;me;")
@@ -3865,7 +3865,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors("//*[@component=\\\\na\\\\me\\\\]","\\na\\me\\")
@@ -3879,7 +3879,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors("//*[@name=\\&na\\&me\\&]","&na&me&")
@@ -3893,7 +3893,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestEscapedCharactersInsideSelectors("//*[@tag=\\!na\\!me\\!]","!na!me!")
@@ -3907,7 +3907,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors
@@ -3936,7 +3936,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("///","Expected object
@@ -3951,7 +3951,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//[@text=123]","Expected
@@ -3966,7 +3966,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//name[contains(@invalid,2)","Condition
@@ -3981,7 +3981,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//name[invalid]","Expected
@@ -3996,7 +3996,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: 'PathSelectorTests.TestInvalidPathSelectors("//name[@invalid=22]","Invalid
@@ -4011,7 +4011,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//[1]","Expected object
@@ -4026,7 +4026,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//test////name","Expected
@@ -4041,7 +4041,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//test///name","Expected
@@ -4056,7 +4056,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//name//..","Expected
@@ -4071,7 +4071,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//name\\","Final \\ must
@@ -4086,7 +4086,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestInvalidPathSelectors("//*[contains(@name,Pla]","Expected
@@ -4101,7 +4101,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestValidSelectors_Any
@@ -4115,7 +4115,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestValidSelectors_Function
@@ -4129,7 +4129,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestValidSelectors_Indexer
@@ -4143,7 +4143,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestValidSelectors_Name
@@ -4157,7 +4157,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: PathSelectorTests.TestValidSelectors_Property
@@ -4171,7 +4171,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Server/PathSelectorTests.cs
+    path: Assets/Examples/Test/Editor/Server/PathSelectorTests.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS
@@ -4179,7 +4179,7 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestFixture
-    _parentName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _parentName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 18
     _foldOut: 0
     _testResultMessage: 
@@ -4199,7 +4199,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestCapsuleJumps
@@ -4213,7 +4213,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestCheckActionDoNotDoubleClick
@@ -4241,7 +4241,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestCheckActionDoNotDoubleClick(2)
@@ -4255,7 +4255,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestCheckActionDoNotDoubleClick(3)
@@ -4269,7 +4269,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestClickCoordinates
@@ -4283,7 +4283,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestClickElement
@@ -4297,7 +4297,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestKeyDownAndKeyUp
@@ -4311,7 +4311,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestMultipointSwipe
@@ -4325,7 +4325,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestPressAllKeys
@@ -4339,7 +4339,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestPressKey
@@ -4353,7 +4353,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestPressKeys
@@ -4367,7 +4367,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestScroll
@@ -4381,7 +4381,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestScrollElement
@@ -4395,7 +4395,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestSwipe
@@ -4409,7 +4409,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestTapCoordinates
@@ -4423,7 +4423,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestTapElement
@@ -4437,7 +4437,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestForNIS.TestTilt
@@ -4451,7 +4451,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestForNIS.cs
+    path: Assets/Examples/Test/Editor/Driver/TestForNIS.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestNotification
@@ -4459,7 +4459,7 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestFixture
-    _parentName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+    _parentName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
     _testCaseCount: 5
     _foldOut: 0
     _testResultMessage: 
@@ -4479,7 +4479,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestNotification.cs
+    path: Assets/Examples/Test/Editor/Driver/TestNotification.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestNotification.TestApplicationPaused
@@ -4493,7 +4493,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestNotification.cs
+    path: Assets/Examples/Test/Editor/Driver/TestNotification.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestNotification.TestLoadSceneNotification
@@ -4507,7 +4507,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestNotification.cs
+    path: Assets/Examples/Test/Editor/Driver/TestNotification.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestNotification.TestLogNotification
@@ -4521,7 +4521,7 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestNotification.cs
+    path: Assets/Examples/Test/Editor/Driver/TestNotification.cs
     _testSelectedCount: 0
   - _selected: 0
     _testName: TestNotification.TestUnloadSceneNotification
@@ -4535,10 +4535,10 @@ MonoBehaviour:
     _testResultMessage: 
     _testStackTrace: 
     _testDuration: 0
-    path: Assets/AltTester/Examples/Test/Editor/Driver/TestNotification.cs
+    path: Assets/Examples/Test/Editor/Driver/TestNotification.cs
     _testSelectedCount: 0
   - _selected: 1
-    _testName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll
+    _testName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll
     _testAssembly: Unity.VisualStudio.Editor
     _status: 0
     _isSuite: 1
@@ -4552,7 +4552,7 @@ MonoBehaviour:
     path: 
     _testSelectedCount: 0
   - _selected: 1
-    _testName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/UnityEngine.TestRunner.dll
+    _testName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/UnityEngine.TestRunner.dll
     _testAssembly: UnityEngine.TestRunner
     _status: 0
     _isSuite: 1
@@ -4565,50 +4565,8 @@ MonoBehaviour:
     _testDuration: 0
     path: 
     _testSelectedCount: 0
-  - _selected: 0
-    _testName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/AltTester.dll
-    _testAssembly: AltTester
-    _status: 0
-    _isSuite: 1
-    _type: NUnit.Framework.Internal.TestAssembly
-    _parentName: 
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 
-    _testStackTrace: 
-    _testDuration: 0
-    path: 
-    _testSelectedCount: 0
-  - _selected: 0
-    _testName: TestExample
-    _testAssembly: AltTester
-    _status: 0
-    _isSuite: 1
-    _type: NUnit.Framework.Internal.TestFixture
-    _parentName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/AltTester.dll
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 
-    _testStackTrace: 
-    _testDuration: 0
-    path: 
-    _testSelectedCount: 0
-  - _selected: 0
-    _testName: TestExample.Test
-    _testAssembly: AltTester
-    _status: 0
-    _isSuite: 0
-    _type: NUnit.Framework.Internal.TestMethod
-    _parentName: TestExample
-    _testCaseCount: 1
-    _foldOut: 0
-    _testResultMessage: 
-    _testStackTrace: 
-    _testDuration: 0
-    path: Assets/AltTester/Editor/DefaultTestExample.txt
-    _testSelectedCount: 0
   - _selected: 1
-    _testName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/UnityEditor.TestRunner.dll
+    _testName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/UnityEditor.TestRunner.dll
     _testAssembly: UnityEditor.TestRunner
     _status: 0
     _isSuite: 1
@@ -4622,7 +4580,7 @@ MonoBehaviour:
     path: 
     _testSelectedCount: 0
   - _selected: 1
-    _testName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.Rider.Editor.dll
+    _testName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.Rider.Editor.dll
     _testAssembly: Unity.Rider.Editor
     _status: 0
     _isSuite: 1
@@ -4636,7 +4594,7 @@ MonoBehaviour:
     path: 
     _testSelectedCount: 0
   - _selected: 0
-    _testName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.InputSystem.IntegrationTests.dll
+    _testName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.InputSystem.IntegrationTests.dll
     _testAssembly: Unity.InputSystem.IntegrationTests
     _status: 0
     _isSuite: 1
@@ -4655,7 +4613,7 @@ MonoBehaviour:
     _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestFixture
-    _parentName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.InputSystem.IntegrationTests.dll
+    _parentName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.InputSystem.IntegrationTests.dll
     _testCaseCount: 4
     _foldOut: 0
     _testResultMessage: 
@@ -4720,8 +4678,8 @@ MonoBehaviour:
     path: Packages/com.unity.inputsystem/Tests/IntegrationTests
     _testSelectedCount: 0
   - _selected: 1
-    _testName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/AltTesterEditor.dll
-    _testAssembly: AltTesterEditor
+    _testName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/AltTester.AltTesterUnitySDK.Editor.dll
+    _testAssembly: AltTester.AltTesterUnitySDK.Editor
     _status: 0
     _isSuite: 1
     _type: NUnit.Framework.Internal.TestAssembly
@@ -4734,7 +4692,7 @@ MonoBehaviour:
     path: 
     _testSelectedCount: 0
   - _selected: 1
-    _testName: D:/test/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.InputSystem.TestFramework.dll
+    _testName: D:/github/AltTester-Unity-SDK/Library/ScriptAssemblies/Unity.InputSystem.TestFramework.dll
     _testAssembly: Unity.InputSystem.TestFramework
     _status: 0
     _isSuite: 1
@@ -4749,37 +4707,37 @@ MonoBehaviour:
     _testSelectedCount: 0
   Scenes:
   - _toBeBuilt: 1
-    _path: Assets/AltTester/Examples/Scenes/Scene 1 AltDriverTestScene.unity
+    _path: Assets/Examples/Scenes/Scene 1 AltDriverTestScene.unity
     _buildIndex: 0
   - _toBeBuilt: 1
-    _path: Assets/AltTester/Examples/Scenes/Scene 2 Draggable Panel.unity
+    _path: Assets/Examples/Scenes/Scene 2 Draggable Panel.unity
     _buildIndex: 1
   - _toBeBuilt: 1
-    _path: Assets/AltTester/Examples/Scenes/Scene 3 Drag And Drop.unity
+    _path: Assets/Examples/Scenes/Scene 3 Drag And Drop.unity
     _buildIndex: 2
   - _toBeBuilt: 1
-    _path: Assets/AltTester/Examples/Scenes/Scene 4 No Cameras.unity
+    _path: Assets/Examples/Scenes/Scene 4 No Cameras.unity
     _buildIndex: 3
   - _toBeBuilt: 1
-    _path: Assets/AltTester/Examples/Scenes/Scene 5 Keyboard Input.unity
+    _path: Assets/Examples/Scenes/Scene 5 Keyboard Input.unity
     _buildIndex: 4
   - _toBeBuilt: 1
-    _path: Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity
+    _path: Assets/Examples/Scenes/Scene 7 Drag And Drop NIS.unity
     _buildIndex: 5
   - _toBeBuilt: 1
-    _path: Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity
+    _path: Assets/Examples/Scenes/Scene 7 New Input System Actions.unity
     _buildIndex: 6
   - _toBeBuilt: 1
-    _path: Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity
+    _path: Assets/Examples/Scenes/Scene 8 Draggable Panel NIP.unity
     _buildIndex: 7
   - _toBeBuilt: 1
-    _path: Assets/AltTester/Examples/Scenes/scene 9 NIS.unity
+    _path: Assets/Examples/Scenes/scene 9 NIS.unity
     _buildIndex: 8
   - _toBeBuilt: 1
-    _path: Assets/AltTester/Examples/Scenes/Scene 10 Sample NIS.unity
+    _path: Assets/Examples/Scenes/Scene 10 Sample NIS.unity
     _buildIndex: 9
   - _toBeBuilt: 1
-    _path: Assets/AltTester/Examples/Scenes/Scene6.unity
+    _path: Assets/Examples/Scenes/Scene6.unity
     _buildIndex: 10
   platform: 1
   StandaloneTarget: 5

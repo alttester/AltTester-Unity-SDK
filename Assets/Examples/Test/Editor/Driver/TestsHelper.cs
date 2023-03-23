@@ -1,5 +1,5 @@
 
-namespace AltTester.AltDriver.Tests
+namespace AltTester.AltTesterUnitySdk.Driver.Tests
 {
     public class TestsHelper
     {

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AltTester.AltDriver;
-using AltTester.AltDriver.Commands;
-using AltTester.Logging;
+using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySdk.Driver.Commands;
+using AltTester.AltTesterUnitySdk.Logging;
 using Newtonsoft.Json;
 
-namespace AltTester.Commands
+namespace AltTester.AltTesterUnitySdk.Commands
 {
     class AltGetAllPropertiesCommand : AltReflectionMethodsCommand<AltGetAllPropertiesParams, List<AltProperty>>
     {

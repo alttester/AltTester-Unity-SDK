@@ -1,9 +1,9 @@
 using System;
-using AltTester.AltDriver.Logging;
+using AltTester.AltTesterUnitySdk.Driver.Logging;
 using NLog;
 using NLog.Layouts;
 
-namespace AltTesterEditor.Logging
+namespace AltTester.AltTesterUnitySDK.Editor.Logging
 {
     public class EditorLogManager
     {

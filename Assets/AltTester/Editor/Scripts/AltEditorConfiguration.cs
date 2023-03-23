@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using AltTester;
+using AltTester.AltTesterUnitySdk;
 using UnityEngine;
 
-namespace AltTesterEditor
+namespace AltTester.AltTesterUnitySDK.Editor
 {
     public class AltEditorConfiguration : ScriptableObject
     {
