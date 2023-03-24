@@ -118,6 +118,9 @@ Steps:
 ```eval_rst
 .. note::
 
+    Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your game.
+.. note::
+
     If you have a custom build, check how you can build from the command line using the instructions in the :ref:`Advanced Usage<pages/advanced-usage:Build apps from the command line>` section.
 
 .. note::
