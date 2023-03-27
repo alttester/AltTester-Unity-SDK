@@ -11,6 +11,7 @@ namespace AltTester.AltTesterUnitySdk.Driver.Commands
         {
             this.cmdParams = new DeactivateNotification(notificationType);
         }
+
         public void Execute()
         {
             this.CommHandler.RemoveNotificationListener(cmdParams.NotificationType);

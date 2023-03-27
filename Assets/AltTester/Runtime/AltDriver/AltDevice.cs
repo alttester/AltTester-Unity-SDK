@@ -20,4 +20,3 @@ namespace AltTester.AltTesterUnitySdk.Driver
         }
     }
 }
-

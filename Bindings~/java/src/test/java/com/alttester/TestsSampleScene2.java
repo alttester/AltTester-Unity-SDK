@@ -1,7 +1,7 @@
 package com.alttester;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import java.util.Arrays;
+import java.util.List;
 
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
@@ -16,9 +16,8 @@ import com.alttester.Commands.ObjectCommand.AltTapClickElementParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.position.Vector2;
 
-import java.util.Arrays;
-import java.util.List;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;

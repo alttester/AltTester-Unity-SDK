@@ -6,7 +6,6 @@ import com.alttester.Notifications.AltLogNotificationResultParams;
 import com.alttester.Notifications.BaseNotificationCallbacks;
 
 public class MockNotificationCallBacks extends BaseNotificationCallbacks {
-
     public static String lastLoadedScene;
     public static String lastUnloadedScene;
     public static String logMessage;
