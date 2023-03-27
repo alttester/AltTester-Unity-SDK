@@ -163,18 +163,18 @@ namespace AltTesterTools
         {
             return new string[]
                     {
-                    "Assets/AltTester/Examples/Scenes/Scene 1 AltDriverTestScene.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 2 Draggable Panel.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 3 Drag And Drop.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 4 No Cameras.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 5 Keyboard Input.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene6.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity",
-                    "Assets/AltTester/Examples/Scenes/scene 9 NIS.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 10 Sample NIS.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 11 ScrollView Scene.unity"
+                    "Assets/Examples/Scenes/Scene 1 AltDriverTestScene.unity",
+                    "Assets/Examples/Scenes/Scene 2 Draggable Panel.unity",
+                    "Assets/Examples/Scenes/Scene 3 Drag And Drop.unity",
+                    "Assets/Examples/Scenes/Scene 4 No Cameras.unity",
+                    "Assets/Examples/Scenes/Scene 5 Keyboard Input.unity",
+                    "Assets/Examples/Scenes/Scene6.unity",
+                    "Assets/Examples/Scenes/Scene 7 Drag And Drop NIS.unity",
+                    "Assets/Examples/Scenes/Scene 8 Draggable Panel NIP.unity",
+                    "Assets/Examples/Scenes/scene 9 NIS.unity",
+                    "Assets/Examples/Scenes/Scene 10 Sample NIS.unity",
+                    "Assets/Examples/Scenes/Scene 7 New Input System Actions.unity",
+                    "Assets/Examples/Scenes/Scene 11 ScrollView Scene.unity"
                     };
         }
 
