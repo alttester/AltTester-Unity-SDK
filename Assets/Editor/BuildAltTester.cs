@@ -36,7 +36,7 @@ namespace AltTesterTools
                     scenes = GetScene(),
 
                     locationPathName = "sampleGame",
-                    target = BuildTarget.StandaloneOSX,
+                    target = BuildTarget.StandaloneWindows,
                     options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer
                 };
 
@@ -52,13 +52,13 @@ namespace AltTesterTools
             if (results.Equals(""))
             {
                 logger.Info("Build succeeded!");
-                EditorApplication.Exit(0);
+                // EditorApplication.Exit(0);
 
             }
             else
             {
                 logger.Error("Build failed!");
-                EditorApplication.Exit(1);
+                // EditorApplication.Exit(1);
             }
 
 #else
@@ -66,19 +66,19 @@ namespace AltTesterTools
                 {
                     logger.Info("Build succeeded!");
                     logger.Info("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-                    EditorApplication.Exit(0);
+                    // EditorApplication.Exit(0);
                 }
 
                 logger.Error("Total Errors: " + results.summary.totalErrors);
                 logger.Error("Build failed! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
-                EditorApplication.Exit(1);
+                // EditorApplication.Exit(1);
 #endif
 
             }
             catch (Exception exception)
             {
                 logger.Error(exception);
-                EditorApplication.Exit(1);
+                // EditorApplication.Exit(1);
             }
 
         }
@@ -216,7 +216,7 @@ namespace AltTesterTools
             }
             else
             logger.Error("Build failed!");
-            EditorApplication.Exit(1);
+            // EditorApplication.Exit(1);
 
 #else
                 if (results.summary.totalErrors == 0)
@@ -227,18 +227,18 @@ namespace AltTesterTools
                 else
                 {
                     logger.Error("Build failed!");
-                    EditorApplication.Exit(1);
+                    // EditorApplication.Exit(1);
                 }
 
 #endif
                 logger.Info("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-                EditorApplication.Exit(0);
+                // EditorApplication.Exit(0);
 
             }
             catch (Exception exception)
             {
                 logger.Error(exception);
-                EditorApplication.Exit(1);
+                // EditorApplication.Exit(1);
             }
         }
 
