@@ -9,11 +9,12 @@ namespace AltTester.Commands
     public class AltActivateNotificationCommand : AltCommand<ActivateNotification, string>
     {
         ICommandHandler commandHandler;
+
         public AltActivateNotificationCommand(ICommandHandler commandHandler, ActivateNotification cmdParams) : base(cmdParams)
         {
             this.commandHandler = commandHandler;
-
         }
+
         public override string Execute()
         {
             switch (CommandParams.NotificationType)
@@ -33,6 +34,5 @@ namespace AltTester.Commands
             }
             return "Ok";
         }
-
     }
 }

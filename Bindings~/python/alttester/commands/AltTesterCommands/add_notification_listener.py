@@ -42,7 +42,11 @@ class AddNotificationListener(BaseCommand):
         return parameters
 
     def execute(self):
-        self.connection.add_notification_listener(self.notification_type, self.notification_callback, self.overwrite)
+        self.connection._notification_handler.add_notification_listener(
+            self.notification_type,
+            self.notification_callback,
+            self.overwrite
+        )
         data = self.send()
         self.validate_response("Ok", data)
 

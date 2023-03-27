@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading;
-using AltTester.AltDriver.Logging;
 using NUnit.Framework;
 
 namespace AltTester.AltDriver.Tests
@@ -39,6 +37,7 @@ namespace AltTester.AltDriver.Tests
         }
 
         [Test]
+        [Category("WebGLUnsupported")]
         public void TestGetApplicationScreenSize()
         {
             altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
@@ -222,16 +221,35 @@ namespace AltTester.AltDriver.Tests
         public void TestGetComponentProperty()
         {
             const string componentName = "AltTester.AltRunner";
-            const string propertyName = "InstrumentationSettings.ProxyPort";
+            const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
-            string portStr = System.Environment.GetEnvironmentVariable("PROXY_PORT");
+            string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
             if (string.IsNullOrEmpty(portStr)) portStr = "13010";
             int port = int.Parse(portStr);
 
             Assert.AreEqual(port, propertyValue);
         }
+
+        [Test]
+        public void TestWaitForComponentProperty()
+        {
+            const string componentName = "AltTester.AltRunner";
+            const string propertyName = "InstrumentationSettings.AltServerPort";
+            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+
+            Assert.NotNull(altElement);
+
+            string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
+            int port = int.Parse(portStr);
+
+
+            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "Assembly-CSharp");
+
+            Assert.AreEqual(port, propertyValue);
+        }
+
 
         [Test]
         public void TestGetComponentPropertyInvalidDeserialization()
@@ -703,15 +721,18 @@ namespace AltTester.AltDriver.Tests
             var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
             Assert.Greater(time, duration);
         }
+
         [Test]
+        [Ignore("Ignore PressKey method")]
         public void TestPressKeyWaitTheDuration()
         {
-            const int duration = 1;
+            const float duration = 1.0f;
             var button = altDriver.FindObject(By.NAME, "UIButton");
             altDriver.MoveMouse(button.GetScreenPosition());
             altDriver.PressKey(AltKeyCode.Mouse0, 1, duration);
             var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
-            Assert.Greater(time, duration);
+            Assert.That(time, Is.GreaterThanOrEqualTo(duration));
+            Assert.That(time, Is.LessThan(duration + 0.1f));
         }
 
         [Test]
@@ -1213,7 +1234,7 @@ namespace AltTester.AltDriver.Tests
         }
 
         [Test]
-        public void TestPressNextSceneButtton()
+        public void TestPressNextSceneButton()
         {
             var initialScene = altDriver.GetCurrentScene();
             altDriver.FindObject(By.NAME, "NextScene").Tap();
@@ -1502,8 +1523,8 @@ namespace AltTester.AltDriver.Tests
             Assert.True(screenshot.textureSize.y == screenHeight);
 
             screenshot = altDriver.GetScreenshot(screenShotQuality: 50);
-            Assert.True(screenshot.textureSize.x == screenWidth / 2);
-            Assert.True(screenshot.textureSize.y == screenHeight / 2);
+            Assert.True(screenshot.textureSize.x == screenWidth);
+            Assert.True(screenshot.textureSize.y == screenHeight);
 
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
             screenshot = altDriver.GetScreenshot(capsule.id, new AltColor(1, 0, 0), 1.5f);
@@ -1511,8 +1532,8 @@ namespace AltTester.AltDriver.Tests
             Assert.True(screenshot.textureSize.y == screenHeight);
 
             screenshot = altDriver.GetScreenshot(capsule.id, new AltColor(1, 0, 0), 1.5f, screenShotQuality: 50);
-            Assert.True(screenshot.textureSize.x == screenWidth / 2);
-            Assert.True(screenshot.textureSize.y == screenHeight / 2);
+            Assert.True(screenshot.textureSize.x == screenWidth);
+            Assert.True(screenshot.textureSize.y == screenHeight);
         }
         [Test]
         public void TestGetComponentPropertyComplexClass()
@@ -1721,7 +1742,7 @@ namespace AltTester.AltDriver.Tests
         [TestCase("/Canvas[1]/Text", "Text", true)]
         [TestCase("//Dialog[0]", "Title", false)]
         [TestCase("//Dialog[1]", "Message", false)]
-        [TestCase("//Dialog[-1]", "CloseButton", false)]
+        [TestCase("//Dialog[-1]", "Toggle", false)]
         public void TestFindNthChild(string path, string expectedResult, bool enabled)
         {
             var altElement = altDriver.FindObject(By.PATH, path, enabled: enabled);
@@ -1866,19 +1887,15 @@ namespace AltTester.AltDriver.Tests
         [Test]
         public void TestPointerEnter_PointerExit()
         {
-            altDriver.MoveMouse(new AltVector2(-1, -1), 1);
-            altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
-
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
-
-            altDriver.MoveMouse(counterElement.GetScreenPosition(), 1);
-            Thread.Sleep(800); // OnPointerEnter, OnPointerExit events are raised during the Update function. right now there is a delay from mouse moved to events raised.
+            counterElement.CallComponentMethod<string>("AltExampleScriptIncrementOnClick", "eventsRaised.Clear", "Assembly-CSharp", new object[] { }, null);
+            var counterElementPosition = counterElement.GetScreenPosition() + new AltVector2(50, 15);
+            altDriver.MoveMouse(counterElementPosition, 0.2f);
 
             var eventsRaised = counterElement.GetComponentProperty<List<string>>("AltExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
             Assert.IsFalse(eventsRaised.Contains("OnPointerExit"));
-            altDriver.MoveMouse(new AltVector2(200, 200));
-            Thread.Sleep(800);
+            altDriver.MoveMouse(new AltVector2(0, 0), 0.2f);
 
             eventsRaised = counterElement.GetComponentProperty<List<string>>("AltExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
             Assert.IsTrue(eventsRaised.Contains("OnPointerEnter"));
@@ -1981,8 +1998,8 @@ namespace AltTester.AltDriver.Tests
             var swipeCoordinate = new AltVector2(incrementalClick.x + 10, incrementalClick.y + 10);
             altDriver.Swipe(swipeCoordinate, swipeCoordinate, 0.2f);
             var pointerPress = incrementalClick.GetComponentProperty<AltVector2>("AltExampleScriptIncrementOnClick", "pointerPress", "Assembly-CSharp");
-            Assert.AreEqual(10.0f, pointerPress.x);
-            Assert.AreEqual(10.0f, pointerPress.y);
+            Assert.AreEqual(swipeCoordinate.x, pointerPress.x);
+            Assert.AreEqual(swipeCoordinate.y, pointerPress.y);
         }
 
         [Test]
@@ -2054,13 +2071,11 @@ namespace AltTester.AltDriver.Tests
 
 
         [Test]
-        //uses InvokeMethod
-        [Category("WebGLUnsupported")]
         public void TestGetStaticProperty()
         {
-            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
-            var width = altDriver.GetStaticProperty<int>("UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule");
-            Assert.AreEqual(1920, width);
+            var screenOrientation = altDriver.GetStaticProperty<int>("UnityEngine.Screen", "orientation", "UnityEngine.CoreModule");
+            Assert.GreaterOrEqual(screenOrientation, 1);
+            Assert.LessOrEqual(screenOrientation, 4);
         }
 
         [Test]

@@ -4,8 +4,8 @@ from setuptools import setup, find_packages
 NAME = 'AltTester-Driver'
 DESCRIPTION = "Python bindings for the AltTester framework. AltTester is an open-source UI driven test " \
     "automation tool that helps you find objects in your game and interacts with them."
-URL = 'https://altom.com/alttester/docs/sdk'
-EMAIL = 'suport.alttester@altom.com'
+URL = 'https://alttester.com/docs/sdk'
+EMAIL = 'contact@alttester.com'
 AUTHOR = 'Altom Consulting'
 REQUIRES_PYTHON = '>=3.4.0'
 LICENSE = 'GNU GPLv3'
@@ -33,7 +33,7 @@ setup(
     url=URL,
     project_urls={
         "Bug Tracker": "https://github.com/alttester/AltTester-Unity-SDK/issues",
-        "Documentation": "https://altom.com/alttester/docs/sdk",
+        "Documentation": "https://alttester.com/docs/sdk",
         "Source": "https://github.com/alttester/AltTester-Unity-SDK",
     },
 

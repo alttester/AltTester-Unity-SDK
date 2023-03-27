@@ -15,29 +15,38 @@ namespace AltTester.AltDriver.Commands
     public class DriverCommunicationWebSocket : IDriverCommunication
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
-        private IWebSocketClient wsClient = null;
+
+        private WebSocket wsClient = null;
+
         private readonly string _host;
         private readonly int _port;
         private readonly string _uri;
-        private readonly string _gameName;
+        private readonly string _appName;
         private readonly int _connectTimeout;
-        private Queue<CommandResponse> messages;
-        private List<Action<AltLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltLoadSceneNotificationResultParams>>();
-        private List<Action<String>> unloadSceneCallbacks = new List<Action<String>>();
-        private List<Action<AltLogNotificationResultParams>> logCallbacks = new List<Action<AltLogNotificationResultParams>>();
-        private List<Action<bool>> applicationPausedCallbacks = new List<Action<bool>>();
-        private List<string> messageIdTimeouts = new List<string>();
 
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
 
-        public DriverCommunicationWebSocket(string host, int port, int connectTimeout, string gameName)
+        private Queue<CommandResponse> messages;
+        private List<string> messageIdTimeouts = new List<string>();
+
+        private String error = null;
+
+        private int closeCode = 0;
+        private String closeReason = null;
+
+        private List<Action<AltLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltLoadSceneNotificationResultParams>>();
+        private List<Action<String>> unloadSceneCallbacks = new List<Action<String>>();
+        private List<Action<AltLogNotificationResultParams>> logCallbacks = new List<Action<AltLogNotificationResultParams>>();
+        private List<Action<bool>> applicationPausedCallbacks = new List<Action<bool>>();
+
+        public DriverCommunicationWebSocket(string host, int port, int connectTimeout, string appName)
         {
             _host = host;
             _port = port;
-            _gameName = gameName;
+            _appName = appName;
 
-            _uri = "ws://" + host + ":" + port + "/altws?game=" + Uri.EscapeUriString(gameName);
+            _uri = "ws://" + host + ":" + port + "/altws?appName=" + Uri.EscapeUriString(appName);
             _connectTimeout = connectTimeout;
 
             messages = new Queue<CommandResponse>();
@@ -45,14 +54,15 @@ namespace AltTester.AltDriver.Commands
 
         public void Connect()
         {
-            int delay = 100;
-
             logger.Info("Connecting to: '{0}'.", _uri);
 
-            WebSocket wsClient = new WebSocket(_uri);
-            wsClient.OnError += (sender, args) =>
-            {
-                logger.Error(args.Exception, args.Message);
+            int delay = 100;
+
+            this.wsClient = new WebSocket(_uri);
+            this.wsClient.OnError += OnError;
+            this.wsClient.OnClose += OnClose;
+            this.wsClient.OnMessage += (sender, e) => {
+                OnMessage(sender, e.Data);
             };
 
             Stopwatch watch = Stopwatch.StartNew();
@@ -66,40 +76,22 @@ namespace AltTester.AltDriver.Commands
                 }
                 wsClient.Connect();
 
-                if (wsClient.IsAlive) break;
+                if (wsClient.IsAlive) {
+                    break;
+                }
 
                 retries++;
-
-                Thread.Sleep(delay); // delay between retries
+                Thread.Sleep(delay); // Delay between retries.
             }
-            if (watch.Elapsed.TotalSeconds > _connectTimeout && !wsClient.IsAlive)
-                throw new ConnectionTimeoutException(string.Format("Failed to connect to AltTester on host: {0} port: {1}.", _host, _port));
 
-            if (!wsClient.IsAlive)
-                throw new ConnectionException(string.Format("Failed to connect to AltTester on host: {0} port: {1}.", _host, _port));
+            this.CheckCloseMessage();
+            this.CheckError();
+
+            if (watch.Elapsed.TotalSeconds > _connectTimeout && !wsClient.IsAlive) {
+                throw new ConnectionTimeoutException(string.Format("Failed to connect to AltTester on host: {0} port: {1}.", _host, _port));
+            }
 
             logger.Debug("Connected to: " + _uri);
-
-            this.wsClient = new AltWebSocketClient(wsClient);
-
-            Uri proxyUri = GetProxyUri();
-            if (proxyUri != null)
-            {
-                logger.Debug("USING PROXY URI: " + proxyUri.ToString());
-                wsClient.SetProxy(proxyUri.ToString(), null, null);
-            }
-
-            this.wsClient.OnMessage += OnMessage;
-            this.wsClient.OnError += (sender, args) =>
-            {
-                logger.Error(args.Message);
-                if (args.Exception != null)
-                    logger.Error(args.Exception);
-            };
-            this.wsClient.OnClose += (sender, args) =>
-            {
-                logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}]", args.Code, args.Reason);
-            };
         }
 
         public Uri GetProxyUri() {
@@ -128,17 +120,17 @@ namespace AltTester.AltDriver.Commands
 
             {
 
-                while (messages.Count == 0 && wsClient.IsAlive() && commandTimeout >= watch.Elapsed.TotalSeconds)
+                while (messages.Count == 0 && wsClient.IsAlive && commandTimeout >= watch.Elapsed.TotalSeconds)
                 {
                     Thread.Sleep(10);
                 }
-                if (commandTimeout < watch.Elapsed.TotalSeconds && wsClient.IsAlive())
+                if (commandTimeout < watch.Elapsed.TotalSeconds && wsClient.IsAlive)
                 {
                     messageIdTimeouts.Add(param.messageId);
                     throw new CommandResponseTimeoutException();
                 }
 
-                if (!wsClient.IsAlive())
+                if (!wsClient.IsAlive)
                 {
                     throw new AltException("Driver disconnected");
                 }
@@ -152,8 +144,12 @@ namespace AltTester.AltDriver.Commands
                 {
                     throw new AltRecvallMessageIdException(string.Format("Response received does not match command send. Expected {0}:{1}. Got {2}:{3}", param.commandName, param.messageId, message.commandName, message.messageId));
                 }
+
                 handleErrors(message.error);
-                if (message.data == null) return default(T);
+                if (message.data == null) {
+                    return default(T);
+                }
+
                 try
                 {
                     return JsonConvert.DeserializeObject<T>(message.data);
@@ -182,6 +178,31 @@ namespace AltTester.AltDriver.Commands
             logger.Info(string.Format("Closing connection to AltTester on: {0}", _uri));
             this.wsClient.Close();
         }
+
+        private void CheckCloseMessage()
+        {
+            if (this.closeCode != 0 && this.closeReason != null)
+            {
+                if (this.closeCode == 4001)
+                {
+                    throw new NoAppConnectedException(this.closeReason);
+                }
+
+                if (this.closeCode == 4002)
+                {
+                    throw new AppDisconnectedException(this.closeReason);
+                }
+            }
+        }
+
+        private void CheckError()
+        {
+            if (this.error != null)
+            {
+                throw new ConnectionException(this.error);
+            }
+        }
+
         public void SetCommandTimeout(int timeout)
         {
             commandTimeout = timeout;
@@ -200,7 +221,24 @@ namespace AltTester.AltDriver.Commands
                 messages.Enqueue(message);
                 logger.Debug("response received: " + trimLog(data));
             }
+        }
 
+        protected void OnError(object sender, ErrorEventArgs e)
+        {
+            logger.Error(e.Message);
+            if (e.Exception != null) {
+                logger.Error(e.Exception);
+            }
+
+            this.error = e.Message;
+        }
+
+        protected void OnClose(object sender, CloseEventArgs e)
+        {
+            logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}]", e.Code, e.Reason);
+
+            this.closeCode = e.Code;
+            this.closeReason = e.Reason;
         }
 
         private void handleNotification(CommandResponse message)
@@ -294,6 +332,7 @@ namespace AltTester.AltDriver.Commands
             logger.Debug(error.type + " is not handled by driver.");
             throw new UnknownErrorException(error.message);
         }
+
         private string trimLog(string log, int maxLogLength = 1000)
         {
             if (string.IsNullOrEmpty(log)) return log;
@@ -362,6 +401,7 @@ namespace AltTester.AltDriver.Commands
                     break;
             }
         }
+
         public void SetDelayAfterCommand(float delay)
         {
             delayAfterCommand = delay;

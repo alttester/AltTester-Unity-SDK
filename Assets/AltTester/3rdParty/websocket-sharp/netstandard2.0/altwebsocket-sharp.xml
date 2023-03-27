@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>websocket-sharp</name>
+        <name>altwebsocket-sharp</name>
     </assembly>
     <members>
         <member name="T:AltWebSocketSharp.ByteOrder">

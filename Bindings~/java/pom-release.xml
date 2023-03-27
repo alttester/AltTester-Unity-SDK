@@ -6,7 +6,7 @@
     <groupId>com.alttester</groupId>
     <artifactId>alttester</artifactId>
     <packaging>jar</packaging>
-    <version>1.8.1</version>
+    <version>1.8.2</version>
 
     <name>AltTester-Driver</name>
     <description>An automated tool for testing Unity Games</description>
@@ -31,12 +31,12 @@
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
             <layout>default</layout>
         </snapshotRepository>
         <repository>
             <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
             <layout>default</layout>
         </repository>
     </distributionManagement>
@@ -55,7 +55,7 @@
         <maven.compiler.version>3.3</maven.compiler.version>
         <maven.surefire.version>2.22.1</maven.surefire.version>
         <mockito.version>1.10.19</mockito.version>
-        <lombok.version>1.18.2</lombok.version>
+        <lombok.version>1.18.26</lombok.version>
     </properties>
 
     <dependencies>
@@ -189,7 +189,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ro.altom.alttester</mainClass>
+                            <mainClass>com.alttester.alttester</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -229,20 +229,27 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+           <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-gpg-plugin</artifactId>
+              <version>1.6</version>
+              <executions>
+                  <execution>
+                      <id>sign-artifacts</id>
+                      <phase>verify</phase>
+                      <goals>
+                          <goal>sign</goal>
+                      </goals>
+                      <configuration>
+                          <!-- Prevent `gpg` from using pinentry programs -->
+                          <gpgArguments>
+                              <arg>--pinentry-mode</arg>
+                              <arg>loopback</arg>
+                          </gpgArguments>
+                      </configuration>
+                  </execution>
+              </executions>
+          </plugin>
 
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
@@ -265,7 +272,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <nexusUrl>https://s01.oss.sonatype.org</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>

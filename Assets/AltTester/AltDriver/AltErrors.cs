@@ -29,20 +29,77 @@ namespace AltTester.AltDriver
         public const string errorInputModule = "ALTTESTERNotAddedAsDefineVariable";
     }
 
+    /// <summary>
+    /// Base exception class for AltTester.
+    /// </summary>
     public class AltException : Exception
     {
         public AltException()
         {
-
         }
 
         public AltException(string message) : base(message)
         {
-
         }
+
         public AltException(string message, Exception inner) : base(message, inner)
         {
+        }
+    }
 
+    /// <summary>
+    /// Raised when the driver can not connect to the server.
+    /// </summary>
+    public class ConnectionException : AltException
+    {
+        public ConnectionException()
+        {
+        }
+
+        public ConnectionException(string message) : base(message)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Raised when the client connection timeouts.
+    /// </summary>
+    public class ConnectionTimeoutException : ConnectionException
+    {
+        public ConnectionTimeoutException()
+        {
+        }
+
+        public ConnectionTimeoutException(string message) : base(message)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Raised when the client tries to connect to a server without an app.
+    /// </summary>
+    public class NoAppConnectedException : ConnectionException
+    {
+        public NoAppConnectedException()
+        {
+        }
+
+        public NoAppConnectedException(string message) : base(message)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Raised when the app closed the connection or unexpectedly disconnected.
+    /// </summary>
+    public class AppDisconnectedException : ConnectionException
+    {
+        public AppDisconnectedException()
+        {
+        }
+
+        public AppDisconnectedException(string message) : base(message)
+        {
         }
     }
 
@@ -222,36 +279,6 @@ namespace AltTester.AltDriver
         }
     }
 
-    /// <summary>
-    /// Raised when the client connection timesout.
-    /// </summary>
-    public class ConnectionTimeoutException : AltException
-    {
-        public ConnectionTimeoutException()
-        {
-
-        }
-        public ConnectionTimeoutException(string message) : base(message)
-        {
-
-        }
-    }
-
-    /// <summary>
-    /// Raised when the client can not connect to the server
-    /// </summary>
-    public class ConnectionException : AltException
-    {
-        public ConnectionException()
-        {
-
-        }
-        public ConnectionException(string message) : base(message)
-        {
-
-        }
-    }
-
     public class CommandNotFoundException : AltException
     {
         public CommandNotFoundException()
@@ -278,12 +305,10 @@ namespace AltTester.AltDriver
     {
         public AltRecvallException()
         {
-
         }
 
         public AltRecvallException(string message) : base(message)
         {
-
         }
     }
 
@@ -291,12 +316,10 @@ namespace AltTester.AltDriver
     {
         public AltRecvallMessageIdException()
         {
-
         }
 
         public AltRecvallMessageIdException(string message) : base(message)
         {
-
         }
     }
 
@@ -304,7 +327,6 @@ namespace AltTester.AltDriver
     {
         public AltRecvallMessageFormatException()
         {
-
         }
 
         public AltRecvallMessageFormatException(string message) : base(message)
@@ -327,7 +349,6 @@ namespace AltTester.AltDriver
         }
     }
 
-
     public class AltInvalidServerResponse : AltException
     {
         public AltInvalidServerResponse(string expected, string received) : base(string.Format("Expected to get response '{0}'; Got  '{1}'", expected, received))
@@ -348,7 +369,6 @@ namespace AltTester.AltDriver
 
     public class AltInputModuleException : AltException
     {
-
         public AltInputModuleException()
         {
         }
@@ -360,7 +380,6 @@ namespace AltTester.AltDriver
 
     public class AltInnerException : AltException
     {
-
         public AltInnerException(Exception inner) : base(AltErrors.errorUnknownError, inner)
         {
         }
@@ -401,10 +420,12 @@ namespace AltTester.AltDriver
 
     public class ResponseFormatException : AltException
     {
-        public ResponseFormatException() { }
+        public ResponseFormatException()
+        {
+        }
+
         public ResponseFormatException(Type t, string data) : base("Could not deserialize response data: `" + data + "` into " + t.FullName)
         {
-
         }
     }
 }

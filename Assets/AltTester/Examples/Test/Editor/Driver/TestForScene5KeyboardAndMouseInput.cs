@@ -190,7 +190,6 @@ namespace AltTester.AltDriver.Tests
         }
 
         [Test]
-        [Category("WebGLUnsupported")]
         public void TestCheckShadersSetCorrectlyAfterHighlight()
         {
             var cube = altDriver.FindObject(By.NAME, "2MaterialCube");

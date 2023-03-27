@@ -28,8 +28,7 @@ namespace AltTester.AltDriver.Commands
             ValidateResponse("Ok", data);
 
             var imageData = CommHandler.Recvall<AltGetScreenshotResponse>(commandParams);
-            byte[] decompressedImage = DecompressScreenshot(imageData.compressedImage);
-            return new AltTextureInformation(decompressedImage, imageData.scaleDifference, imageData.textureSize);
+            return new AltTextureInformation(imageData.compressedImage, imageData.scaleDifference, imageData.textureSize);
         }
     }
 

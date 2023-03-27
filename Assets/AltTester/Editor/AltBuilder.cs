@@ -7,7 +7,7 @@ using AltTesterEditor.Logging;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace Altom.AltTesterEditor
+namespace AltTesterEditor
 {
     public static class PlatformName
     {

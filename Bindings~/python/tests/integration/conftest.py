@@ -8,12 +8,11 @@ from alttester import AltDriver
 
 
 def get_alttester_port():
-    port = os.environ.get("PROXY_PORT", 13000)
-    return int(port)
+    return int(os.environ.get("ALTSERVER_PORT", 13000))
 
 
 def get_alttester_host():
-    return os.environ.get("PROXY_HOST", "127.0.0.1")
+    return os.environ.get("ALTSERVER_HOST", "127.0.0.1")
 
 
 @pytest.fixture(scope="session")

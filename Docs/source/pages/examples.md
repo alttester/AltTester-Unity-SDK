@@ -1,6 +1,6 @@
 # Examples
 
-We used AltTester Unity SDK to test some sample games to help you understand better how to use it.
+We used AltTester Unity SDK to test some sample apps to help you understand better how to use it.
 We plan to add more examples in the near future.
 
 ```eval_rst
@@ -19,7 +19,7 @@ We plan to add more examples in the near future.
 <!-- * Java tests [Standalone](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [iOS](https://github.com/alttester-test-examples/Java-iOS-AltTrashCat) -->
 * Java tests [Standalone](https://github.com/alttester/EXAMPLES-Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester/EXAMPLES-Java-Standalone-and-Android-AltTrashCat)| [iOS](https://github.com/alttester/EXAMPLES-Java-iOS-AltTrashCat)
 
-    You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
+    You can get the sample app from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
 
 <!-- **2.** Example test project for multiplayer features:
 
@@ -30,12 +30,12 @@ We plan to add more examples in the near future.
 
 * C# tests [WebGL](https://gitlab.com/altom/altunity/examples/altunity-pro-alpha-example)
 
-    You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-tutorial-46209).
+    You can get the sample app from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-tutorial-46209).
  -->
 
 **2.** Example test project for AltTester Unity SDK:
 
-* C# tests [SampleScenes](https://altom.com/app/uploads/AltTester/sdks/SampleScene.unitypackage)
+* C# tests [SampleScenes](https://alttester.com/app/uploads/AltTester/sdks/SampleScene.unitypackage)
 
     Import this package under your AltTester package in Unity, to have access to the SampleScenes and C# tests.
 
@@ -50,4 +50,4 @@ We plan to add more examples in the near future.
 
 * C# tests [Endless Runner](https://github.com/alttester-test-examples/Unity-Test-Runner-AltTester)
 
-    You can get the sample game from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).-->
+    You can get the sample app from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).-->

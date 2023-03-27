@@ -24,7 +24,7 @@ namespace AltTester.AltDriver.Tests
         }
 
         [Test]
-        [Category("WebGLUnsupported")]
+        [Category("WebGLUnsupported")] //in WebGL we do not save logs to file but in the console
         public void TestSetServerLogging()
         {
             var rule = altDriver.CallStaticMethod<dynamic>("AltTester.Logging.ServerLogManager", "Instance.Configuration.FindRuleByName", "Assembly-CSharp", new[] { "AltServerFileRule" }, null);

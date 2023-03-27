@@ -1,7 +1,6 @@
 using System;
-using Altom.AltTesterEditor;
-using AltTester;
 using AltTesterEditor;
+using AltTester;
 using AltTesterEditor.Logging;
 using UnityEditor;
 
@@ -258,7 +257,7 @@ namespace AltTesterTools
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
                 PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.WebGL, ApiCompatibilityLevel.NET_4_6);
                 PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
-                PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.FullWithoutStacktrace;
+                PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.FullWithStacktrace;
 
                 logger.Debug("Starting WebGL build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
                 var buildPlayerOptions = new BuildPlayerOptions
@@ -320,28 +319,25 @@ namespace AltTesterTools
 
         private static AltInstrumentationSettings getInstrumentationSettings()
         {
-
             var instrumentationSettings = new AltInstrumentationSettings();
-            var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
-            if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
+
+            var host = System.Environment.GetEnvironmentVariable("ALTSERVER_HOST");
+            if (!string.IsNullOrEmpty(host))
             {
-                instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-                instrumentationSettings.ProxyHost = proxyHost;
+                instrumentationSettings.AltServerHost = host;
             }
-            var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
-            if (!string.IsNullOrEmpty(proxyPort))//proxy mode
+
+            var port = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
+            if (!string.IsNullOrEmpty(port))
             {
-                instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-                instrumentationSettings.ProxyPort = int.Parse(proxyPort);
+                instrumentationSettings.AltServerPort = int.Parse(port);
             }
             else
             {
-                instrumentationSettings.ProxyPort = 13010;
+                instrumentationSettings.AltServerPort = 13010;
             }
 
             return instrumentationSettings;
-
-
         }
     }
 }

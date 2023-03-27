@@ -12,7 +12,7 @@ namespace AltTester
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "1.8.1";
+        public static readonly string VERSION = "1.8.2";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
         public AltInstrumentationSettings InstrumentationSettings = null;
@@ -202,31 +202,6 @@ namespace AltTester
             return InputsVisualizer.ShowContinuousInput(position, markId, color);
         }
 
-        public static void CopyTo(System.IO.Stream src, System.IO.Stream dest)
-        {
-            byte[] bytes = new byte[4096];
-
-            int cnt;
-
-            while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
-            {
-                dest.Write(bytes, 0, cnt);
-            }
-        }
-
-        public static byte[] CompressScreenshot(byte[] screenshotSerialized)
-        {
-            using (var memoryStreamInput = new System.IO.MemoryStream(screenshotSerialized))
-            using (var memoryStreamOutout = new System.IO.MemoryStream())
-            {
-                using (var gZipStream = new System.IO.Compression.GZipStream(memoryStreamOutout, System.IO.Compression.CompressionMode.Compress))
-                {
-                    CopyTo(memoryStreamInput, gZipStream);
-                }
-
-                return memoryStreamOutout.ToArray();
-            }
-        }
         #endregion
         #region private methods
         private UnityEngine.Vector3 getObjectScreenPosition(UnityEngine.GameObject gameObject, UnityEngine.Camera camera)
