@@ -31,21 +31,21 @@ jobs:
           path: Docs/build/html/
 
   build-macOS:
-      runs-on: [self-hosted, macOS]
-      steps:
-        - uses: actions/checkout@v3
+    runs-on: [self-hosted, macOS]
+    steps:
+      - uses: actions/checkout@v3
 
-        - run: |
-            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
+      - run: |
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
-        - run: ls
-        - uses: actions/upload-artifact@v3.1.0
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: BuildMacArtifact
-            path: |
-              sampleGame.app
-              buildMac.log
+      - run: ls
+      - uses: actions/upload-artifact@v3.1.0
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildMacArtifact
+          path: |
+            sampleGame.app
+            buildMac.log
 
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
@@ -70,129 +70,135 @@ jobs:
             reportTest.xml
 
   test-DotNet:
-      runs-on: [self-hosted, macOS]
-      needs: build-macOS
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name:
-              BuildMacArtifact
-        - name: Setup .NET Core SDK
-          uses: actions/setup-dotnet@v2.1.1
-        - run: |
-            chmod -R 755  sampleGame.app
-            open sampleGame.app
-            dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
+    runs-on: [self-hosted, macOS]
+    needs: build-macOS
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name:
+            BuildMacArtifact
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v2.1.1
+      - run: |
+          chmod -R 755  sampleGame.app
+          open sampleGame.app
+          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
 
-        - uses: actions/upload-artifact@v3.1.0
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: TestCSharpArtifact
-            path: |
-              *.log
+      - uses: actions/upload-artifact@v3.1.0
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestCSharpArtifact
+          path: |
+            *.log
 
   test-Python:
-      runs-on: [self-hosted, macOS]
-      needs: build-macOS
-      steps:
-        - uses: actions/checkout@v3
+    runs-on: [self-hosted, macOS]
+    needs: build-macOS
+    steps:
+      - uses: actions/checkout@v3
 
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name:
-              BuildMacArtifact
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name:
+            BuildMacArtifact
 
-        - uses: actions/setup-python@v4
-          with:
-            python-version: '3.10'
-            cached: 'pip'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cached: 'pip'
 
-        - uses: syphar/restore-virtualenv@v1
-          id: cache-virtualenv
+      - uses: syphar/restore-virtualenv@v1
+        id: cache-virtualenv
 
-        - uses: syphar/restore-pip-download-cache@v1
-          if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+      - uses: syphar/restore-pip-download-cache@v1
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-        - name: Install dependencies
-          run: |
-            pip install -r "Bindings~/python/requirements.txt"
-            pip install -r "Bindings~/python/requirements-dev.txt"
-            pip install --ignore-installed  -e "Bindings~/python" --root "Bindings~/python"
+      - name: Install dependencies
+        run: |
+          pip install -r "Bindings~/python/requirements.txt"
+          pip install -r "Bindings~/python/requirements-dev.txt"
+          pip install --ignore-installed  -e "Bindings~/python" --root "Bindings~/python"
 
-        - name: Lint with flake8
-          run: |
-            flake8 Bindings~/python/tests --config Bindings~/python/.flake8
+      - name: Lint with flake8
+        run: |
+          flake8 Bindings~/python/tests --config Bindings~/python/.flake8
 
-        - name: Run unit tests
-          run: |
-            pytest Bindings~/python/tests/unit
+      - name: Run unit tests
+        run: |
+          pytest Bindings~/python/tests/unit
 
-        - name: Run integration tests
-          run: |
-            chmod -R 755 sampleGame.app
-            open sampleGame.app
-            pytest Bindings~/python/tests/integration
+      - name: Run integration tests
+        run: |
+          chmod -R 755 sampleGame.app
+          open sampleGame.app
+          pytest Bindings~/python/tests/integration
 
-        - uses: actions/upload-artifact@v3.1.0
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: TestPythonArtifact
-            path: |
-              *.log
+      - uses: actions/upload-artifact@v3.1.0
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestPythonArtifact
+          path: |
+            *.log
 
   test-Java:
-      runs-on: [self-hosted, macOS]
-      needs: build-macOS
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/download-artifact@v3.0.0
-          with:
-            name:
-              BuildMacArtifact
+    runs-on: [self-hosted, macOS]
+    needs: build-macOS
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name:
+            BuildMacArtifact
 
-        - name: Setup Java JDK
-          uses: actions/setup-java@v3.5.1
-          with:
-              distribution: temurin
-              java-version: 11
-        - uses: stCarolas/setup-maven@v4.4
-        - run: |
-            chmod -R 755  sampleGame.app
-            open sampleGame.app
-            cd "Bindings~/java"
-            mvn -Dtest=com.alttester.Tests* test
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.5.1
+        with:
+            distribution: temurin
+            java-version: 11
+      - uses: stCarolas/setup-maven@v4.4
+      - run: |
+          chmod -R 755  sampleGame.app
+          open sampleGame.app
+          cd "Bindings~/java"
+          mvn -Dtest=com.alttester.Tests* test
 
-        - uses: actions/upload-artifact@v3.1.0
-          if: always() # run this step even if one of the previous step failed
-          with:
-            name: TestJavaArtifact
-            path: |
-              *.log
+      - uses: actions/upload-artifact@v3.1.0
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestJavaArtifact
+          path: |
+            *.log
 
   deploy-dev-docs:
     runs-on: ubuntu-latest
     needs: build-docs
-
+    
     if: github.ref == 'refs/heads/development'
-
+    
     steps:
       - uses: actions/checkout@v3
-
       - uses: actions/download-artifact@v3
         with:
           name: DocumentationHTML
           path: DocumentationHTML/
+
+      - name: Replace URL
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: ${{ secrets.LIVE_URL_ALTTESTER }}
+          replace: ${{ secrets.DEV_URL_ALTTESTER }}
+          regex: true
 
       - name: Upload documentation
         uses: garygrossgarten/github-action-scp@release
         with:
           local: DocumentationHTML
           remote: ${{ secrets.DOCUMENTATION_PATH }}
-          host: ${{ secrets.HOST_IP_ALTOM }}
-          port: ${{ secrets.PORT_DEV_ALTOM }}
-          username: ${{ secrets.USERNAME_ALTOM }}
-          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          host: ${{ secrets.HOST_IP_ALTTESTER }}
+          port: ${{ secrets.PORT_DEV_ALTTESTER }}
+          username: ${{ secrets.USERNAME_ALTTESTER }}
+          password: ${{ secrets.PASSWORD_ALTTESTER }}
           rmRemote: true
 
   deploy-docs:
@@ -200,22 +206,20 @@ jobs:
     needs: build-docs
 
     if: github.ref == 'refs/heads/master'
-
+    
     steps:
       - uses: actions/checkout@v3
-
       - uses: actions/download-artifact@v3
         with:
           name: DocumentationHTML
           path: DocumentationHTML/
-
       - name: Upload documentation
         uses: garygrossgarten/github-action-scp@release
         with:
           local: DocumentationHTML
           remote: ${{ secrets.DOCUMENTATION_PATH }}
-          host: ${{ secrets.HOST_IP_ALTOM }}
-          port: ${{ secrets.PORT_LIVE_ALTOM }}
-          username: ${{ secrets.USERNAME_ALTOM }}
-          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          host: ${{ secrets.HOST_IP_ALTTESTER }}
+          port: ${{ secrets.PORT_LIVE_ALTTESTER }}
+          username: ${{ secrets.USERNAME_ALTTESTER }}
+          password: ${{ secrets.PASSWORD_ALTTESTER }}
           rmRemote: true
