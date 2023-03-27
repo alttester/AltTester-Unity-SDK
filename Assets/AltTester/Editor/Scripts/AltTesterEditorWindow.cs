@@ -577,6 +577,12 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 UnityEngine.GUILayout.Button("Build & Run", UnityEngine.GUILayout.MinWidth(50));
                 UnityEditor.EditorGUI.EndDisabledGroup();
             }
+            GUIStyle style = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 10,
+                wordWrap = true
+            };
+            UnityEditor.EditorGUILayout.LabelField("Building or Playing in editor will add ALTTESTER as a define", style);
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
