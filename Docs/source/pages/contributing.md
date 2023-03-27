@@ -5,7 +5,7 @@ First off, thank you for considering contributing to AltTester Unity SDK.
 
 ## Leave a review
 
-It would help us enormously if you would send a review to [our email](mailto:alttester@altom.com).
+It would help us enormously if you would send a review to [our email](mailto:contact@alttester.com).
 
 
 ## Did you find a bug?

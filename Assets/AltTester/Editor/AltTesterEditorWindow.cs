@@ -59,9 +59,9 @@ namespace Altom.AltTesterEditor
         public static UnityEngine.Texture2D PortForwardingTexture;
         public static UnityEngine.Texture2D SelectedTestsCountTexture;
 
-        private const string regexPath = @"https://altom.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*";
+        private const string regexPath = @"https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*";
         private static string downloadURL;
-        private const string RELEASENOTESURL = "https://altom.com/alttester/docs/desktop/pages/release-notes.html";
+        private const string RELEASENOTESURL = "https://alttester.com/docs/desktop/pages/release-notes.html";
         private const string PREFABNAME = "AltTesterPrefab";
         private static string version;
         private static UnityEngine.GUIStyle gUIStyleButton;
@@ -182,7 +182,7 @@ namespace Altom.AltTesterEditor
 
         private static void sendDesktopVersionRequest()
         {
-            www = UnityEngine.Networking.UnityWebRequest.Get("https://altom.com/alttester-desktop-versions/?id=unityeditor&alttesterversion=" + AltRunner.VERSION);
+            www = UnityEngine.Networking.UnityWebRequest.Get("https://alttester.com/alttester-desktop-versions/?id=unityeditor&alttesterversion=" + AltRunner.VERSION);
             var wwwOp = www.SendWebRequest();
             UnityEditor.EditorApplication.update += CheckDesktopVersionRequest;
 
@@ -326,7 +326,7 @@ namespace Altom.AltTesterEditor
         [UnityEditor.MenuItem("AltTester/Support/Documentation", false, 800)]
         public static void GoToDocumentation()
         {
-            Application.OpenURL("https://altom.com/alttester/docs/sdk/");
+            Application.OpenURL("https://alttester.com/docs/sdk/");
         }
 
         [UnityEditor.MenuItem("AltTester/Support/Discord", false, 800)]
