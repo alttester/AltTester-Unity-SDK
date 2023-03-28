@@ -36,7 +36,7 @@ namespace AltTesterTools
                     scenes = GetScene(),
 
                     locationPathName = "sampleGame",
-                    target = BuildTarget.StandaloneWindows,
+                    target = BuildTarget.StandaloneOSX,
                     options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer
                 };
 
@@ -52,13 +52,13 @@ namespace AltTesterTools
             if (results.Equals(""))
             {
                 logger.Info("Build succeeded!");
-                // EditorApplication.Exit(0);
+                EditorApplication.Exit(0);
 
             }
             else
             {
                 logger.Error("Build failed!");
-                // EditorApplication.Exit(1);
+                EditorApplication.Exit(1);
             }
 
 #else
@@ -66,12 +66,12 @@ namespace AltTesterTools
                 {
                     logger.Info("Build succeeded!");
                     logger.Info("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-                    // EditorApplication.Exit(0);
+                    EditorApplication.Exit(0);
                 }
 
                 logger.Error("Total Errors: " + results.summary.totalErrors);
                 logger.Error("Build failed! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
-                // EditorApplication.Exit(1);
+                EditorApplication.Exit(1);
 #endif
 
             }
