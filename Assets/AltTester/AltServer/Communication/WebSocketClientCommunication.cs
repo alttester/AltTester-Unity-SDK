@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using AltTester.Logging;
 using AltWebSocketSharp;
+using AltTester.AltDriver.Proxy;
 
 namespace AltTester.Communication
 {
@@ -34,11 +35,11 @@ namespace AltTester.Communication
             wsClient.Log.Level = LogLevel.Fatal;
             websocketHandler = new AltClientWebSocketHandler(wsClient, cmdHandler);
 
-            Uri proxyUri = GetProxyUri();
+            string proxyUri = new ProxyFinder().GetProxy(uri.ToString());
             if (proxyUri != null)
             {
-                logger.Debug("USING PROXY URI: " + proxyUri.ToString());
-                wsClient.SetProxy(proxyUri.ToString(), null, null);
+                logger.Debug("USING PROXY URI: " + proxyUri);
+                wsClient.SetProxy(proxyUri, null, null);
             }
 
             wsClient.OnOpen += (sender, message) =>
@@ -63,25 +64,6 @@ namespace AltTester.Communication
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationHandler OnDisconnect { get; set; }
         public CommunicationErrorHandler OnError { get; set; }
-
-        public Uri GetProxyUri() {
-            Uri resource;
-            WebProxy proxy = (WebProxy) WebProxy.GetDefaultProxy();
-
-            if (!Uri.TryCreate(string.Format("http://{0}:{1}", host, port), UriKind.Absolute, out resource))
-            {
-                return null;
-            }
-
-            logger.Debug("HTTP URI: " + resource.ToString());
-            Uri resourceProxy = proxy.GetProxy(resource);
-            if (resourceProxy != resource)
-            {
-                return resourceProxy;
-            }
-
-            return null;
-        }
 
         public void Start()
         {

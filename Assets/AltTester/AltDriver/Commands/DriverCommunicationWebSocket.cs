@@ -9,6 +9,7 @@ using AltTester.AltDriver.Logging;
 using AltTester.AltDriver.Notifications;
 using Newtonsoft.Json;
 using AltWebSocketSharp;
+using AltTester.AltDriver.Proxy;
 
 namespace AltTester.AltDriver.Commands
 {
@@ -59,6 +60,14 @@ namespace AltTester.AltDriver.Commands
             int delay = 100;
 
             this.wsClient = new WebSocket(_uri);
+
+            string proxyUri = new ProxyFinder().GetProxy(_uri);
+            if (proxyUri != null)
+            {
+                logger.Debug("USING PROXY URI: " + proxyUri);
+                wsClient.SetProxy(proxyUri, null, null);
+            }
+
             this.wsClient.OnError += OnError;
             this.wsClient.OnClose += OnClose;
             this.wsClient.OnMessage += (sender, e) => {
@@ -92,25 +101,6 @@ namespace AltTester.AltDriver.Commands
             }
 
             logger.Debug("Connected to: " + _uri);
-        }
-
-        public Uri GetProxyUri() {
-            Uri resource;
-            WebProxy proxy = (WebProxy) WebProxy.GetDefaultProxy();
-
-            if (!Uri.TryCreate(string.Format("http://{0}:{1}", _host, _port), UriKind.Absolute, out resource))
-            {
-                return null;
-            }
-
-            logger.Debug("HTTP URI: " + resource.ToString());
-            Uri resourceProxy = proxy.GetProxy(resource);
-            if (resourceProxy != resource)
-            {
-                return resourceProxy;
-            }
-
-            return null;
         }
 
         public T Recvall<T>(CommandParams param)
