@@ -208,15 +208,22 @@ jobs:
           name: DocumentationHTML
           path: DocumentationHTML/
 
+      - name: Replace URL
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: ${{ secrets.LIVE_URL_ALTTESTER }}
+          replace: ${{ secrets.DEV_URL_ALTTESTER }}
+          regex: true
+
       - name: Upload documentation
         uses: garygrossgarten/github-action-scp@release
         with:
           local: DocumentationHTML
           remote: ${{ secrets.DOCUMENTATION_PATH }}
-          host: ${{ secrets.HOST_IP_ALTOM }}
-          port: ${{ secrets.PORT_DEV_ALTOM }}
-          username: ${{ secrets.USERNAME_ALTOM }}
-          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          host: ${{ secrets.HOST_IP_ALTTESTER }}
+          port: ${{ secrets.PORT_DEV_ALTTESTER }}
+          username: ${{ secrets.USERNAME_ALTTESTER }}
+          password: ${{ secrets.PASSWORD_ALTTESTER }}
           rmRemote: true
 
   deploy-docs:
@@ -238,8 +245,8 @@ jobs:
         with:
           local: DocumentationHTML
           remote: ${{ secrets.DOCUMENTATION_PATH }}
-          host: ${{ secrets.HOST_IP_ALTOM }}
-          port: ${{ secrets.PORT_LIVE_ALTOM }}
-          username: ${{ secrets.USERNAME_ALTOM }}
-          password: ${{ secrets.PASSWORD_DEV_ALTOM }}
+          host: ${{ secrets.HOST_IP_ALTTESTER }}
+          port: ${{ secrets.PORT_LIVE_ALTTESTER }}
+          username: ${{ secrets.USERNAME_ALTTESTER }}
+          password: ${{ secrets.PASSWORD_ALTTESTER }}
           rmRemote: true

@@ -239,7 +239,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
         [UnityEditor.MenuItem("AltTester/Support/Documentation", false, 800)]
         public static void GoToDocumentation()
         {
-            Application.OpenURL("https://altom.com/alttester/docs/sdk/");
+            Application.OpenURL("https://alttester.com/docs/sdk/");
         }
 
         [UnityEditor.MenuItem("AltTester/Support/Discord", false, 800)]
