@@ -110,8 +110,15 @@ Steps:
 
 .. note::
 
-    Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your app.
+    If you want to build your intrumented app from outside the AltTester Editor window you will have to make sure to uncheck the `Development Build` setting from the Build Settings menu in Unity (go to File -> Build Settings) after selecting your Scenes, as seen bellow.
+```
 
+![Build Settings menu from Unity](../_static/img/get-started/create-build-outside-alttestereditor.png)
+
+```eval_rst
+.. note::
+
+    Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your game.
 .. note::
 
     If you have a custom build, check how you can build from the command line using the instructions in the :ref:`Advanced Usage<pages/advanced-usage:Build apps from the command line>` section.
