@@ -120,7 +120,7 @@ class TestScene01:
 
     def test_get_all_components(self):
         components = self.altdriver.find_object(By.NAME, "Canvas").get_all_components()
-        assert len(components) == 5
+        assert len(components) == 4
         assert components[0]["componentName"] == "UnityEngine.RectTransform"
         assert components[0]["assemblyName"] == "UnityEngine.CoreModule"
 
@@ -828,10 +828,10 @@ class TestScene01:
     def test_reset_input(self):
         self.altdriver.key_down(AltKeyCode.P, 1)
         assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is True
+            "AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is True
         self.altdriver.reset_input()
         assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is False
+            "AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is False
 
         countKeyDown = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
             "Input", "_keyCodesPressed.Count", "Assembly-CSharp")

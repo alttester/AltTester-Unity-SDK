@@ -71,7 +71,7 @@ class TestNotifications:
         self.altdriver.load_scene(Scenes.Scene01)
         alt_object = self.altdriver.find_object(By.NAME, "AltTesterPrefab")
         alt_object.call_component_method(
-            "AltTester.AltRunner", "OnApplicationPause", "Assembly-CSharp",
+            "AltTester.AltTesterUnitySDK.AltRunner", "OnApplicationPause", "Assembly-CSharp",
             parameters=[True],
             type_of_parameters=["System.Boolean"]
         )

@@ -39,31 +39,8 @@ public class TestNotification
     public void LoadLevel()
     {
         altDriver.ResetInput();
-        // altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
+        altDriver.LoadScene("Scene 1 AltDriverTestScene", true);
     }
-    [Test]
-    public void Test()
-    {
-        Thread.Sleep(2000);
-        altDriver.MoveMouse(new AltVector2(490.0625f, 615.9324f), 0.01f);
-        altDriver.KeyDown(AltKeyCode.Mouse0, 1);
-        altDriver.MoveMouse(new AltVector2(484.9176f, 615.9324f), 0.01f);
-        altDriver.KeyUp(AltKeyCode.Mouse0);
-        altDriver.KeyDown(AltKeyCode.LeftArrow, 1);
-        altDriver.KeyUp(AltKeyCode.LeftArrow);
-        altDriver.KeyDown(AltKeyCode.LeftArrow, 1);
-        altDriver.KeyUp(AltKeyCode.LeftArrow);
-        altDriver.KeyDown(AltKeyCode.RightArrow, 1);
-        altDriver.KeyUp(AltKeyCode.RightArrow);
-        altDriver.KeyDown(AltKeyCode.RightArrow, 1);
-        altDriver.KeyUp(AltKeyCode.RightArrow);
-    }
-
-
-
-
-
-
 
     [Test]
     public void TestLoadSceneNotification()
@@ -104,7 +81,7 @@ public class TestNotification
     public void TestApplicationPaused()
     {
         var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
-        altElement.CallComponentMethod<string>("Altom.AltTester.AltRunner", "OnApplicationPause", "Assembly-CSharp", new object[] { true }, new string[] { "System.Boolean" });
+        altElement.CallComponentMethod<string>("AltTester.AltTesterUnitySDK.AltRunner", "OnApplicationPause", "Assembly-CSharp", new object[] { true }, new string[] { "System.Boolean" });
         Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
     }
 }
