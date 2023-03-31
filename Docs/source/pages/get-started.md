@@ -373,33 +373,64 @@ AltTester package contains AltDriver class used to connect to the instrumented a
 
     .. tab:: Python
 
-        There are two methods of installing the AltTester-Driver for Python package:
+        **Prerequisite:**
+            - `Python <https://www.python.org/downloads/>`_ installed.
+            - Instrumented build.
+            - The AltTester Desktop installed on your PC.
+         
+        **Connection:**
+            From version Pro 1.0, the AltTester Desktop must be running on your PC while the tests are running.
+            
+            1. The AltTester Desktop app is running.
+            2. The instrumented build is running.
+            3. Configure the IP of the build in order to match the IP of the machine (PC) the Desktop app is running on.
+            4. Then press the restart button in the AltTester dialog and wait until the `Connected to AltServer…` message is displayed in the dialog.
 
-            **Method 1**: Installing using Pip:
-
+        **Test Setup:**
+            - We suggest using the ``git bash`` terminal type for all the commands below.
+            - You can use any IDE you want. As a suggestion, we prefer `Visual Studio Code <https://code.visualstudio.com/>`_  and `PyCharm <https://www.jetbrains.com/pycharm/download/>`_.
+            - To actually run the tests we need a test framework. One of the most popular python testing frameworks is `pytest <https://pypi.org/project/pytest/>`_ which is easy to download because you just need to use the following command in your terminal:
+            .. code-block:: console
+                
+                pip install pytest
+            
+            - To be able to interact with the game through your tests, you need AltDriver. It contains all the methods you need such as ``tap()``, ``wait_for_object()``, ``find_object()`` and so on. To add the `AltDriver <https://pypi.org/project/AltTester-Driver/>`_ to your testing project, all you need to do is to use the following command in your terminal:
             .. code-block:: console
 
                 pip install AltTester-Driver
 
-            **Method 2**: Install from the source code in the repository:
-
+            The following setup steps are not mandatory, but if you choose to use them, you will act like a pro.
+            
+            - Install `assertpy <https://pypi.org/project/assertpy/>`_ - for easy and nice assertions.
+            - Most of the time on a project, you will have to provide some reports with the results of your tests. In order to provide them, you can use ``pytest-html-reporter`` which generates nice and detailed reports with the results of your tests. To install ``pytest-html-reporter`` use the following command:
             .. code-block:: console
 
-                git clone git@github.com:alttester/AltTester-Unity-SDK.git
-                cd alttester/Bindings~/python
-                python setup.py install
+                pip install pytest-html-reporter
 
-        Run your test file using the ``unittest`` module:
+        **Writing tests:**
+            - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into pages folders and tests folders.
+            - The AltDriver can be used in your code after you import it. Here is the import syntax: ``from alttester import AltDriver``, then you can instantiate an object of AltDriver type: ``altdriver = AltDriver()`` . By doing this, you are able to use all the methods that come from AltDriver().
+            - Considering that we are using ``pytest``, the names of the tests should start with ``test``.
+        **Running the tests:**
+            - Running tests using pytest can be easily done using the commands for cmd.
+            - Run all the tests: navigate through the cmd in the folder that contains the tests folder and use the following command:
+            .. code-block:: console
+            
+                pytest tests/
+            - Run a specific test file: navigate into the tests folder and use the following command:
+            .. code-block:: console
+                
+                pytest test_name.py
 
-        .. code-block:: bash
-
-            python -m unittest <name_of_your_test_file.py>
-
-        Run your test file using the ``pytest`` package:
-
-        .. code-block:: bash
-
-            pytest <name_of_your_test_file.py>
+            - Run a specific test method from a file: navigate into the tests folder and use the following command:
+            .. code-block:: console
+            
+                pytest test_name.py -k name_of_test_you_wanna_run
+            - For running tests with the HTML reporter, all you have to do is to add this extra argument   to your running command:
+            .. code-block:: console
+                
+                --html-report=./report/report.html.
+            This will generate a report under the report folder.
 
         Example test file:
 
