@@ -144,7 +144,7 @@ Steps:
 
 ## Start the AltServer Module
 
-The AltServer Module is incorporated in AltTester Desktop. In order to start it, all you have to do is to start AltTester Desktop.
+The AltServer Module is incorporated in AltTester Desktop. In order to start it, all you have to do is to open AltTester Desktop.
 
 
 ## Run your app in Unity or on desired platform
@@ -241,7 +241,8 @@ AltTester package contains AltDriver class used to connect to the instrumented a
         2.  Right-click on Editor folder and select `Create -> AltTest`. This will create a template file in which you could start to write your test.
         3.  Name the file MyFirstTest.
         4.  Open AltTester Editor.
-        5.  In the `Run Tests` section press "Run All Tests" button. You should see the output of the tests in Unity Editor Console
+        5.  Make sure that the AltTester Desktop app is running (Starting with version Pro ``1.0``, AltTester Desktop must be running on your PC while the tests are running).
+        6.  In the `Run Tests` section press "Run All Tests" button. You should see the output of the tests in Unity Editor Console
 
         Example test file:
 
@@ -279,7 +280,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
             - The AltTester Desktop installed on your PC.
          
         **Connection:**
-            From version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
+            Starting with version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
             
             1. The AltTester Desktop app is running.
             2. The instrumented build is running.
@@ -340,7 +341,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
             - The AltTester Desktop installed on your PC.
          
         **Connection:**
-            From version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
+            Starting with version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
             
             1. The AltTester Desktop app is running.
             2. The instrumented build is running.
@@ -392,7 +393,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
             - The AltTester Desktop installed on your PC.
          
         **Connection:**
-            From version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
+            Starting with version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
             
             1. The AltTester Desktop app is running.
             2. The instrumented build is running.
@@ -482,6 +483,6 @@ Now your project can use all the [AltDriver Commands](./commands.md).
 ```eval_rst
 
 .. note::
-    Before running your tests, start the instrumented app and wait for popup with the message: *Waiting for connection on port: 13000*.
+    Before the connection step, start the instrumented app and wait for the green popup with the message: `Waiting to connect to AltServer on IP:port with app name: 'your app name'`.
 
 ```
