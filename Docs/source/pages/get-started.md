@@ -273,27 +273,43 @@ AltTester package contains AltDriver class used to connect to the instrumented a
 
     .. tab:: C#
 
-        AltTester-Driver for C# is available also as a nuget package. You can use the nuget package to write your tests in a separate tests project, independent of the Unity application.
+        **Prerequisite:**
+            - `.NET <https://dotnet.microsoft.com/en-us/download>`_ installed.
+            - Instrumented build.
+            - The AltTester Desktop installed on your PC.
+         
+        **Connection:**
+            From version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
+            
+            1. The AltTester Desktop app is running.
+            2. The instrumented build is running.
+            3. Configure the IP of the build in order to match the IP of the machine (PC) the Desktop app is running on.
+            4. Then press the restart button in the AltTester dialog and wait until the `Connected to AltServer…` message is displayed in the dialog.
 
-        Create a new test project
+        **Test Setup:**
+            - You can use any IDE you want. As a suggestion, we prefer `Visual Studio Code <https://code.visualstudio.com/>`_.
+            - To be able to run our test scripts, we should use a testing framework. For this tutorial, we will use the `NUnit testing framework <https://nunit.org/>`_.
+            - In order to use ``NUnit``, you should start by creating an NUnit project. To do this, you need to create an empty folder (this will be the project folder) and open it in Visual Studio Code. `Open a terminal <https://code.visualstudio.com/docs/terminal/basics>`_ (we preferred git bash) and run the command below. This command will create a basic NUnit project for you:
+            .. code-block:: console
+                
+                dotnet new nunit
+            
+            - To be able to interact with the game through your tests, you need AltDriver. To add the AltDriver to your testing project, all you need to do is to use the following command in your terminal:
+            .. code-block:: console
+                
+                dotnet add package AltTester-Driver --version x.y.z
+            
+            **Note** that the ``x.y.z`` is the version of AltDriver you want to install.
 
-        .. code-block:: console
-
-            mkdir <test-project-name>
-            cd <test-project-name>
-            dotnet new nunit
-
-        Install AltTester-Driver nuget package
-
-        .. code-block:: console
-
-            dotnet add package AltTester-Driver --version 1.8.2
-
-        Run your tests
-
-        .. code-block:: console
-
-            dotnet test
+        **Writing tests:**
+            - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into `pages` folders and `tests` folders.
+            - To initialize the AltDriver in your project, you should import it. You can do it by using the following syntax: ``using AltTester.AltDriver;``.
+            - After that you can initialize the AltDriver: ``altDriver = new AltDriver();``.
+        **Running the tests:**
+            - To run your test, open a terminal window in the project folder and paste the following command:
+            .. code-block:: console
+                
+                dotnet test
 
         Example test file:
 
@@ -318,36 +334,33 @@ AltTester package contains AltDriver class used to connect to the instrumented a
 
     .. tab:: Java
 
-        AltTester-Driver for Java is available as a maven package or as a standalone jar. Use one of the following methods to import the driver in your tests project.
+        **Prerequisite:**
+            - `Java <https://www.java.com/download/ie_manual.jsp>`_ installed.
+            - Instrumented build.
+            - The AltTester Desktop installed on your PC.
+         
+        **Connection:**
+            From version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
+            
+            1. The AltTester Desktop app is running.
+            2. The instrumented build is running.
+            3. Configure the IP of the build in order to match the IP of the machine (PC) the Desktop app is running on.
+            4. Then press the restart button in the AltTester dialog and wait until the `Connected to AltServer…` message is displayed in the dialog.
 
-            **Method 1**: Add AltTester-Driver for Java as a dependency in your ``pom.xml`` file:
+        **Test Setup:**
+            - You can use any IDE that works with Java, but for this setup tutorial, we will use `IntelliJ <https://www.jetbrains.com/idea/download/#section=windows>`_.
+            - In order to have the structure already created for us and the possibility to install/update dependencies in an easy way, we can choose to create a `MAVEN project <https://www.jetbrains.com/idea/guide/tutorials/working-with-maven/creating-a-project/>`_.
+            - In the new ``pom.xml`` generated, you should add the following dependencies by searching these names in the manage dependencies window: ``AltTester-Driver``, ``JUnit`` (if it was not added by default).
+            - When you have these steps completed and you don’t have any errors, you are able to jump into the next section.
 
-            .. code-block:: xml
+        **Writing tests:**
+            - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into `pages` folders and `tests` folders.
+            - To initialize the AltDriver in your project, you should import it. You can do it by using the following syntax: ``import com.alttester.AltDriver;``.
+            - After that you can initialize the AltDriver: ``driver = new AltDriver();``.
+            - Considering that we’re using JUnit as a testing framework, you can find more information about JUnit in its official `documentation <https://junit.org/junit5/docs/current/user-guide/>`_.
 
-                <dependency>
-                    <groupId>com.alttester</groupId>
-                    <artifactId>alttester</artifactId>
-                    <version>1.8.2</version>
-                </dependency>
-
-
-            **Method 2**: Use the ``.jar`` file from GIT (**without building it from source**)
-
-                * Download `AltTester-Driver for Java <https://alttester.com/app/uploads/AltTesterJAR/AltTester-Driver.jar>`__.
-
-                * Install the ``.jar`` file:
-
-                .. code-block:: console
-
-                    mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.2 -Dpackaging=jar
-
-
-
-        Run your tests by using the following command (in the test project folder):
-
-        .. code-block:: console
-
-            mvn test
+        **Running the tests:**
+            - Considering that we are using IntelliJ, the tests can be run using the runner that is inside of it. More information about this can be found in the official `documentation <https://www.jetbrains.com/help/idea/performing-tests.html>`_ of IntelliJ.
 
         Example test file:
 
@@ -379,7 +392,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
             - The AltTester Desktop installed on your PC.
          
         **Connection:**
-            From version Pro 1.0, the AltTester Desktop must be running on your PC while the tests are running.
+            From version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
             
             1. The AltTester Desktop app is running.
             2. The instrumented build is running.
@@ -408,21 +421,21 @@ AltTester package contains AltDriver class used to connect to the instrumented a
                 pip install pytest-html-reporter
 
         **Writing tests:**
-            - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into pages folders and tests folders.
+            - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into `pages` folders and `tests` folders.
             - The AltDriver can be used in your code after you import it. Here is the import syntax: ``from alttester import AltDriver``, then you can instantiate an object of AltDriver type: ``altdriver = AltDriver()`` . By doing this, you are able to use all the methods that come from AltDriver().
             - Considering that we are using ``pytest``, the names of the tests should start with ``test``.
         **Running the tests:**
             - Running tests using pytest can be easily done using the commands for cmd.
-            - Run all the tests: navigate through the cmd in the folder that contains the tests folder and use the following command:
+            - Run **all the tests**: navigate through the cmd in the folder that contains the tests folder and use the following command:
             .. code-block:: console
             
                 pytest tests/
-            - Run a specific test file: navigate into the tests folder and use the following command:
+            - Run **a specific test file**: navigate into the tests folder and use the following command:
             .. code-block:: console
                 
                 pytest test_name.py
 
-            - Run a specific test method from a file: navigate into the tests folder and use the following command:
+            - Run a **specific test method** from a file: navigate into the tests folder and use the following command:
             .. code-block:: console
             
                 pytest test_name.py -k name_of_test_you_wanna_run
@@ -430,7 +443,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
             .. code-block:: console
                 
                 --html-report=./report/report.html.
-            This will generate a report under the report folder.
+            This will generate a report under the `report` folder.
 
         Example test file:
 
