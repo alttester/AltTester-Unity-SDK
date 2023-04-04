@@ -1724,9 +1724,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestFindObjectByAltId()
         {
-            var capsule = altDriver.FindObject(By.ID, "2b78431c-2251-4489-8d50-7634304a5630");
+            var capsule = altDriver.FindObject(By.ID, "13b211d0-eafa-452d-8708-cc70f5075e93");
             Assert.AreEqual("Capsule", capsule.name);
-            var plane = altDriver.FindObject(By.PATH, "//*[@id=5277849a-16c3-469e-b3aa-ead06f0a37d2]");
+            var plane = altDriver.FindObject(By.PATH, "//*[@id=58af4167-0971-415f-901c-7c5226c3c170]");
             Assert.AreEqual("Plane", plane.name);
             var mainCamera = altDriver.FindObject(By.NAME, "Main Camera");
             mainCamera = altDriver.FindObject(By.ID, mainCamera.id.ToString());
