@@ -26,7 +26,8 @@ class AltDriver:
         port (:obj:`int`, optional): The port to connect to.
         app_name (:obj:`str`, optional): The application name. Defaults to ``__default__``.
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
-        timeout (:obj:`int`, :obj:`float`, optional): The timeout duration for establishing a connection, in seconds. If set to ``None``, the connection attempt will wait indefinitely. The default value is ``60`` seconds.
+        timeout (:obj:`int`, :obj:`float`, optional): The timeout duration for establishing a connection, in seconds. 
+            If set to ``None``, the connection attempt will wait indefinitely. The default value is ``60`` seconds.
 
     """
 
