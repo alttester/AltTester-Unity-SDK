@@ -1,9 +1,9 @@
 using System;
 using System.Threading;
 using AltTester.AltDriver.Commands;
-using AltTester.AltTesterUnitySdk.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
 
-namespace AltTester.AltTesterUnitySdk.Driver
+namespace AltTester.AltTesterUnitySDK.Driver
 {
     public class AltObject
     {

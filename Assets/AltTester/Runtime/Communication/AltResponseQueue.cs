@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AltTester.AltTesterUnitySdk.Communication
+namespace AltTester.AltTesterUnitySDK.Communication
 {
     public delegate void SendResponse();
 

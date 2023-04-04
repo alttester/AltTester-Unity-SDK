@@ -1,8 +1,8 @@
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySdk.Commands
+namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltKeysDownCommand : AltCommand<AltKeysDownParams, string>
     {

@@ -1,8 +1,8 @@
-using AltTester.AltTesterUnitySdk.Driver.Notifications;
-using AltTester.AltTesterUnitySdk.Communication;
+using AltTester.AltTesterUnitySDK.Driver.Notifications;
+using AltTester.AltTesterUnitySDK.Communication;
 using UnityEngine.SceneManagement;
 
-namespace AltTester.AltTesterUnitySdk.Notification
+namespace AltTester.AltTesterUnitySDK.Notification
 {
     public class AltLoadSceneNotification : BaseNotification
     {

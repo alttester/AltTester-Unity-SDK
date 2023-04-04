@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Driver.Commands;
-using AltTester.AltTesterUnitySdk.Logging;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Logging;
 
-namespace AltTester.AltTesterUnitySdk.Commands
+namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltGetAllComponentsCommand : AltCommand<AltGetAllComponentsParams, List<AltComponent>>
     {

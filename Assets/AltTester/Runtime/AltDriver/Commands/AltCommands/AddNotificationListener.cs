@@ -1,7 +1,7 @@
 using System;
-using AltTester.AltTesterUnitySdk.Driver.Notifications;
+using AltTester.AltTesterUnitySDK.Driver.Notifications;
 
-namespace AltTester.AltTesterUnitySdk.Driver.Commands
+namespace AltTester.AltTesterUnitySDK.Driver.Commands
 {
     public class AddNotificationListener<T> : AltBaseCommand
     {

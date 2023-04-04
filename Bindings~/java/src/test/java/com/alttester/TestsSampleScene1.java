@@ -343,7 +343,7 @@ public class TestsSampleScene1 extends BaseTest {
 
         @Test
         public void testGetComponentPropertyInvalidDeserialization() {
-                String componentName = "AltTesterUnitySDK.AltRunner";
+                String componentName = "AltTesterUnitySdk.AltRunner";
                 String propertyName = "InstrumentationSettings.ShowPopUp";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
@@ -352,7 +352,7 @@ public class TestsSampleScene1 extends BaseTest {
                         altElement.getComponentProperty(
                                         new AltGetComponentPropertyParams.Builder(componentName,
                                                         propertyName,
-                                                        "AltTester").build(),
+                                                        "AltTester.AltTesterUnitySDK").build(),
                                         int.class);
                         fail("Expected ResponseFormatException");
                 } catch (ResponseFormatException ex) {
@@ -1560,11 +1560,11 @@ public class TestsSampleScene1 extends BaseTest {
                                 AltDriver.By.NAME, "AltTesterPrefab").build();
 
                 AltGetComponentPropertyParams pIsPressed = new AltGetComponentPropertyParams.Builder(
-                                "AltTesterUnitySDK.NewInputSystem",
-                                "Keyboard.pKey.isPressed", "Assembly-CSharp").build();
+                                "AltTesterUnitySdk.NewInputSystem",
+                                "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK").build();
                 AltGetComponentPropertyParams count = new AltGetComponentPropertyParams.Builder(
                                 "Input",
-                                "_keyCodesPressed.Count", "Assembly-CSharp").build();
+                                "_keyCodesPressed.Count", "AltTester.AltTesterUnitySDK").build();
                 altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.P).build());
                 assertTrue(altDriver.findObject(prefab).getComponentProperty(pIsPressed, Boolean.class));
                 altDriver.resetInput();

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using AltTester.AltTesterUnitySdk.Driver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Logging;
 
-namespace AltTester.AltTesterUnitySdk.Driver
+namespace AltTester.AltTesterUnitySDK.Driver
 {
     /// <summary>
     /// API to interact with adb, iproxy and xcrun programatically

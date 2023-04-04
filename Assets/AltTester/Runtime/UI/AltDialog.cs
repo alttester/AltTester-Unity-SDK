@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using AltTester;
-using AltTester.AltTesterUnitySdk.Communication;
-using AltTester.AltTesterUnitySdk.Logging;
+using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Logging;
 
-namespace AltTester.AltTesterUnitySdk.UI
+namespace AltTester.AltTesterUnitySDK.UI
 {
     public class AltDialog : UnityEngine.MonoBehaviour
     {
@@ -203,14 +203,14 @@ namespace AltTester.AltTesterUnitySdk.UI
             UnityEngine.Debug.Log("AltTester input: " + Input.UseCustomInput);
 #endif
 #if ENABLE_INPUT_SYSTEM
-                if (value)
-                {
-                    NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
-                }
-                else
-                {
-                    NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
-                }
+            if (value)
+            {
+                NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
+            }
+            else
+            {
+                NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
+            }
 #endif
 #endif
         }

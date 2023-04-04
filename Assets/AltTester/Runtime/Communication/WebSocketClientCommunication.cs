@@ -1,8 +1,8 @@
 using System;
-using AltTester.AltTesterUnitySdk.Logging;
+using AltTester.AltTesterUnitySDK.Logging;
 using AltWebSocketSharp;
 
-namespace AltTester.AltTesterUnitySdk.Communication
+namespace AltTester.AltTesterUnitySDK.Communication
 {
     public class WebSocketClientCommunication : ICommunication
     {

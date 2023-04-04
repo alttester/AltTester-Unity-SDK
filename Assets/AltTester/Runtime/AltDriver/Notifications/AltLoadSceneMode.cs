@@ -1,4 +1,4 @@
-namespace AltTester.AltTesterUnitySdk.Driver.Notifications
+namespace AltTester.AltTesterUnitySDK.Driver.Notifications
 {
     public enum AltLoadSceneMode
     {

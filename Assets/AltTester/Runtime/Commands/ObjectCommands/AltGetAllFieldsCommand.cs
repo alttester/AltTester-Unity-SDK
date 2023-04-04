@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Driver.Commands;
-using AltTester.AltTesterUnitySdk.Logging;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Logging;
 
-namespace AltTester.AltTesterUnitySdk.Commands
+namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltGetAllFieldsCommand : AltReflectionMethodsCommand<AltGetAllFieldsParams, List<AltProperty>>
     {

@@ -1,6 +1,6 @@
-using AltTester.AltTesterUnitySdk.Driver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Logging;
 
-namespace AltTester.AltTesterUnitySdk.Driver.Notifications
+namespace AltTester.AltTesterUnitySDK.Driver.Notifications
 {
     public class AltLogNotificationResultParams
     {

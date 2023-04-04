@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySDK.Driver;
 
 public class MyFirstTest
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using NUnit.Framework;
 
-namespace AltTester.AltTesterUnitySdk.Driver.Tests
+namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
     [Timeout(30000)]
     public class TestForScene1TestSample : TestBase
@@ -205,7 +205,7 @@ namespace AltTester.AltTesterUnitySdk.Driver.Tests
         public void TestFindObjectByComponentWithNamespace()
         {
             Thread.Sleep(1000);
-            const string componentName = "AltTester.AltTesterUnitySdk.Driver.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Driver.AltRunner";
             var altElement = altDriver.FindObject(By.COMPONENT, componentName);
             Assert.NotNull(altElement);
             Assert.AreEqual(altElement.name, "AltTesterPrefab");

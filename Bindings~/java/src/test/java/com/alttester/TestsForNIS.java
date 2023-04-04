@@ -34,7 +34,7 @@ public class TestsForNIS extends BaseTest {
         String scene8 = "Assets/Examples/Scenes/Scene 8 Draggable Panel NIP.unity";
         String scene9 = "Assets/Examples/Scenes/scene 9 NIS.unity";
         String scene10 = "Assets/Examples/Scenes/Scene 10 Sample NIS.unity";
-        String scene11 = "Assets`/Examples/Scenes/Scene 7 New Input System Actions.unity";
+        String scene11 = "Assets/Examples/Scenes/Scene 7 New Input System Actions.unity";
 
         public static class ImagesDrop {
                 public static String imageSource;

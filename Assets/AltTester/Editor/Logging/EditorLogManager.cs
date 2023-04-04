@@ -1,5 +1,5 @@
 using System;
-using AltTester.AltTesterUnitySdk.Driver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Logging;
 using NLog;
 using NLog.Layouts;
 

@@ -1,9 +1,9 @@
 using System;
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Driver.Commands;
-using AltTester.AltTesterUnitySdk.Communication;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Communication;
 
-namespace AltTester.AltTesterUnitySdk.Commands
+namespace AltTester.AltTesterUnitySDK.Commands
 {
     public class AltClickCoordinatesCommand : AltCommandWithWait<AltClickCoordinatesParams, string>
     {

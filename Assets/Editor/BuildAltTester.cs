@@ -1,6 +1,6 @@
 using System;
 using AltTester.AltTesterUnitySDK.Editor;
-using AltTester.AltTesterUnitySdk;
+using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using UnityEditor;
 

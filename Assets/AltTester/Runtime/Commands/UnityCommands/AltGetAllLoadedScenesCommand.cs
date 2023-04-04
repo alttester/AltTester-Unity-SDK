@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using AltTester.AltTesterUnitySdk.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
 
-namespace AltTester.AltTesterUnitySdk.Commands
+namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltGetAllLoadedScenesCommand : AltCommand<AltGetAllLoadedScenesParams, List<string>>
     {

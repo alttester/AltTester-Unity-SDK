@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Driver.Commands;
-using AltTester.AltTesterUnitySdk.Driver.Logging;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Driver.Logging;
 
 namespace AltTester.AltDriver.Commands
 {

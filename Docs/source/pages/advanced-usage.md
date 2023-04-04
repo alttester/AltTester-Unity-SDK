@@ -457,7 +457,7 @@ There are two types of logging that can be configured in AltTester Unity SDK. Th
 
 ### AltTester Unity SDK logging
 
-Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `AltTester.AltTesterUnitySdk.Logging.ServerLogManager.Instance`
+Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `AltTester.AltTesterUnitySDK.Logging.ServerLogManager.Instance`
 
 There are two logger targets that you can configure on the server:
 
@@ -495,7 +495,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
     .. tab:: C#
 
-        Logging is handled using a custom NLog LogFactory.  The Driver LogFactory can be accessed here: `AltTester.AltTesterUnitySdk.Driver.Logging.DriverLogManager.Instance`
+        Logging is handled using a custom NLog LogFactory.  The Driver LogFactory can be accessed here: `AltTester.AltTesterUnitySDK.Driver.Logging.DriverLogManager.Instance`
 
         There are three logger targets that you can configure on the driver:
 
@@ -503,7 +503,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
         * UnityLogger //available only when runnning tests from Unity
         * ConsoleLogger //available only when runnning tests using the Nuget package
 
-        If you want to configure different level of logging for different targets you can use `AltTester.AltTesterUnitySdk.Driver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info)`
+        If you want to configure different level of logging for different targets you can use `AltTester.AltTesterUnitySDK.Driver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info)`
 
         .. code-block:: c#
 
@@ -520,7 +520,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
             altDriver.SetLogging(enableLogging: true);
 
             /* set logging level to Info for File target */
-            AltTester.AltTesterUnitySdk.Driver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info);
+            AltTester.AltTesterUnitySDK.Driver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info);
 
 
 

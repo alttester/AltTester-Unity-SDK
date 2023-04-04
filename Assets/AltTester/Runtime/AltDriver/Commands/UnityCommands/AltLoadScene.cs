@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace AltTester.AltTesterUnitySdk.Driver.Commands
+namespace AltTester.AltTesterUnitySDK.Driver.Commands
 {
     public class AltLoadScene : AltBaseCommand
     {

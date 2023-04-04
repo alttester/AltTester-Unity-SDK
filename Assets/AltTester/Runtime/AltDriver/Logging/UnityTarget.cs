@@ -3,7 +3,7 @@ using NLog;
 using NLog.Targets;
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySdk.Driver.Logging
+namespace AltTester.AltTesterUnitySDK.Driver.Logging
 {
     /// <summary> An appender which logs to the unity console. </summary>
     public class UnityTarget : TargetWithLayout

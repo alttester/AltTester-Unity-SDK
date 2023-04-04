@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using AltTester.AltTesterUnitySdk;
+using AltTester.AltTesterUnitySDK;
 using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Editor

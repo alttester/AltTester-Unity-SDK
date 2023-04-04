@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using AltTester.AltTesterUnitySdk;
-using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySDK;
+using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
@@ -127,7 +127,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
 #else
             System.Reflection.MethodInfo method = typeof(UnityEditor.ProjectWindowUtil).GetMethod("CreateScriptAsset", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
             if (method == null)
-                throw new AltTester.AltTesterUnitySdk.Driver.NotFoundException("Method to create Script file was not found");
+                throw new AltTester.AltTesterUnitySDK.Driver.NotFoundException("Method to create Script file was not found");
             method.Invoke((object)null, new object[2]
             {
                 (object) templatePath,

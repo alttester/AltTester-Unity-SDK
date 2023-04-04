@@ -1,6 +1,6 @@
 using System;
 
-namespace AltTester.AltTesterUnitySdk
+namespace AltTester.AltTesterUnitySDK
 {
     /// <summary>
     /// Unity App Instrumentation settings for AltTester

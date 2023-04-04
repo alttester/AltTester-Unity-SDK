@@ -1,5 +1,5 @@
 using System;
-namespace AltTester.AltTesterUnitySdk.Driver.Notifications
+namespace AltTester.AltTesterUnitySDK.Driver.Notifications
 {
     public enum NotificationType
     {

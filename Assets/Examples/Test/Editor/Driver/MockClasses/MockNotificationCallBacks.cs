@@ -1,7 +1,7 @@
-using AltTester.AltTesterUnitySdk.Driver.Logging;
-using AltTester.AltTesterUnitySdk.Driver.Notifications;
+using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Notifications;
 
-namespace AltTester.AltTesterUnitySdk.Driver.MockClasses
+namespace AltTester.AltTesterUnitySDK.Driver.MockClasses
 {
     internal class MockNotificationCallBacks : INotificationCallbacks
     {

@@ -1,5 +1,5 @@
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Commands;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Commands;
 using NUnit.Framework;
 
 public class PathSelectorTests

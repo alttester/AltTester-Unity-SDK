@@ -1,4 +1,4 @@
-namespace AltTester.AltTesterUnitySdk.Driver
+namespace AltTester.AltTesterUnitySDK.Driver
 {
     public class AltObjectLight
     {

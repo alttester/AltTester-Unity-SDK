@@ -2,14 +2,14 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Altom.AltTester.AltTesterUnitySdk.Commands;
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Driver.Commands;
-using AltTester.AltTesterUnitySdk.Commands;
-using AltTester.AltTesterUnitySdk.Logging;
+using Altom.AltTester.AltTesterUnitySDK.Commands;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Commands;
+using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
 
-namespace AltTester.AltTesterUnitySdk.Communication
+namespace AltTester.AltTesterUnitySDK.Communication
 {
     public class CommandHandler : ICommandHandler
     {

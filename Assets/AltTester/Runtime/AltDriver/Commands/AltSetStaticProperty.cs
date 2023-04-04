@@ -1,4 +1,4 @@
-using AltTester.AltTesterUnitySdk.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace Altom.AltDriver.Commands
 {

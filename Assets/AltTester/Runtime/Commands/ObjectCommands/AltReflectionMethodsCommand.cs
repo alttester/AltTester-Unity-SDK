@@ -5,12 +5,12 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Driver.Commands;
-using AltTester.AltTesterUnitySdk.Logging;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
 
-namespace AltTester.AltTesterUnitySdk.Commands
+namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltReflectionMethodsCommand<TParam, TResult> : AltCommand<TParam, TResult> where TParam : CommandParams
     {
@@ -327,7 +327,7 @@ namespace AltTester.AltTesterUnitySdk.Commands
                 {
                     path += methodPathSplited[i] + ".";
                 }
-                throw new AltTester.AltTesterUnitySdk.Driver.NullReferenceException(path + propertyName + "is not assigned");
+                throw new AltTester.AltTesterUnitySDK.Driver.NullReferenceException(path + propertyName + "is not assigned");
             }
             index++;
             return getInstance(instance, methodPathSplited, index);

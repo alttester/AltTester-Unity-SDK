@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Driver.Tests;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Tests;
 using NUnit.Framework;
 
 public class TestForNIS

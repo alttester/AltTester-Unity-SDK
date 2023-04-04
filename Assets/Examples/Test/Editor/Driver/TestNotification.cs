@@ -1,10 +1,10 @@
 using System;
 using System.Threading;
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Driver.Logging;
-using AltTester.AltTesterUnitySdk.Driver.MockClasses;
-using AltTester.AltTesterUnitySdk.Driver.Notifications;
-using AltTester.AltTesterUnitySdk.Driver.Tests;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.MockClasses;
+using AltTester.AltTesterUnitySDK.Driver.Notifications;
+using AltTester.AltTesterUnitySDK.Driver.Tests;
 using NUnit.Framework;
 
 public class TestNotification

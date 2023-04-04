@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace AltTester.AltTesterUnitySdk
+namespace AltTester.AltTesterUnitySDK
 {
     public class NewInputSystem : MonoBehaviour
     {
@@ -418,7 +418,7 @@ namespace AltTester.AltTesterUnitySdk
 
         }
 
-#region private interface
+        #region private interface
         private static ButtonControl keyCodeToButtonControl(KeyCode keyCode, float power = 1)
         {
             foreach (var e in AltKeyMapping.StringToKeyCode)
@@ -472,7 +472,7 @@ namespace AltTester.AltTesterUnitySdk
             }
             return 0;
         }
-#endregion
+        #endregion
     }
 
 }
@@ -489,7 +489,7 @@ public class TestExample
 #else
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySdk
+namespace AltTester.AltTesterUnitySDK
 {
     public class NewInputSystem : MonoBehaviour
     {

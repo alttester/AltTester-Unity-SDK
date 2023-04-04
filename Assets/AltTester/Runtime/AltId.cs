@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySdk
+namespace AltTester.AltTesterUnitySDK
 {
     [DisallowMultipleComponent]
     public class AltId : MonoBehaviour

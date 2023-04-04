@@ -1,4 +1,4 @@
-namespace AltTester.AltTesterUnitySdk
+namespace AltTester.AltTesterUnitySDK
 {
     public class AltTextureScale
     {

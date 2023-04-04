@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace AltTester.AltTesterUnitySdk.UI
+namespace AltTester.AltTesterUnitySDK.UI
 {
 
     public class AltPrefabDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler

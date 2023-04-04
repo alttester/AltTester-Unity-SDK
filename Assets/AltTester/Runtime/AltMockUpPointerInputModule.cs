@@ -7,7 +7,7 @@ using UnityEngine.InputSystem.UI;
 #endif
 using static UnityEngine.EventSystems.ExecuteEvents;
 
-namespace AltTester.AltTesterUnitySdk
+namespace AltTester.AltTesterUnitySDK
 {
     public class AltMockUpPointerInputModule : StandaloneInputModule
     {
@@ -39,13 +39,13 @@ namespace AltTester.AltTesterUnitySdk
                         if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                         {
 #endif
-                        pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            ExecuteEvents.pointerEnterHandler);
-                        pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            ExecuteEvents.pointerDownHandler);
-                        pointerEventData.selectedObject = pointerEventData.pointerPress;
-                        pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            ExecuteEvents.dragHandler);
+                            pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                                ExecuteEvents.pointerEnterHandler);
+                            pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                                ExecuteEvents.pointerDownHandler);
+                            pointerEventData.selectedObject = pointerEventData.pointerPress;
+                            pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                                ExecuteEvents.dragHandler);
 #if ENABLE_INPUT_SYSTEM
                         }
 #endif
@@ -74,14 +74,14 @@ namespace AltTester.AltTesterUnitySdk
                             if (previousData.pointerEnter != previousData.pointerCurrentRaycast.gameObject)
                             {
 #if ENABLE_INPUT_SYSTEM
-             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                                 {
 #endif
 
-                                ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
-                                        ExecuteEvents.pointerExitHandler);
-                                ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                    ExecuteEvents.pointerEnterHandler);
+                                    ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
+                                            ExecuteEvents.pointerExitHandler);
+                                    ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                        ExecuteEvents.pointerEnterHandler);
 #if ENABLE_INPUT_SYSTEM
                                 }
 #endif
@@ -93,8 +93,8 @@ namespace AltTester.AltTesterUnitySdk
 #if ENABLE_INPUT_SYSTEM
                                 if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-                                ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
-                                    ExecuteEvents.dragHandler);
+                                    ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
+                                        ExecuteEvents.dragHandler);
                             }
 
                             return previousData;
@@ -110,8 +110,8 @@ namespace AltTester.AltTesterUnitySdk
 #if ENABLE_INPUT_SYSTEM
                             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-                            ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
-                                ExecuteEvents.pointerUpHandler);
+                                ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
+                                    ExecuteEvents.pointerUpHandler);
                             var currentOverGo = previousData.pointerCurrentRaycast.gameObject;
                             var pointerUpHandler = ExecuteEvents.GetEventHandler<IPointerClickHandler>(currentOverGo);
 
@@ -121,8 +121,8 @@ namespace AltTester.AltTesterUnitySdk
 #if ENABLE_INPUT_SYSTEM
                                 if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-                                ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
-                                      ExecuteEvents.pointerClickHandler);
+                                    ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
+                                          ExecuteEvents.pointerClickHandler);
                                 previousData.eligibleForClick = false;
                             }
                             if (previousData.pointerPress != null)
@@ -135,8 +135,8 @@ namespace AltTester.AltTesterUnitySdk
 #if ENABLE_INPUT_SYSTEM
                             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-                            ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                ExecuteEvents.pointerExitHandler);
+                                ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                    ExecuteEvents.pointerExitHandler);
                             return previousData;
                         }
                         break;
@@ -156,17 +156,17 @@ namespace AltTester.AltTesterUnitySdk
                 if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 {
 #endif
-                previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                        ExecuteEvents.beginDragHandler);
-                if (previousData.pointerDrag != null)
-                {
-                    ExecuteEvents.Execute(previousData.pointerDrag, previousData,
-                        ExecuteEvents.dragHandler);
-                }
-                else
-
                     previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                        ExecuteEvents.dragHandler);
+                            ExecuteEvents.beginDragHandler);
+                    if (previousData.pointerDrag != null)
+                    {
+                        ExecuteEvents.Execute(previousData.pointerDrag, previousData,
+                            ExecuteEvents.dragHandler);
+                    }
+                    else
+
+                        previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                            ExecuteEvents.dragHandler);
 #if ENABLE_INPUT_SYSTEM
                 }
 #endif
@@ -178,13 +178,13 @@ namespace AltTester.AltTesterUnitySdk
                 {
 #endif
 
-                if (!previousData.dragging)
-                {
-                    ExecuteEvents.Execute(previousData.pointerDrag, previousData,
-                        ExecuteEvents.beginDragHandler);
-                    previousData.dragging = true;
-                }
-                ExecuteEvents.Execute(previousData.pointerDrag, previousData, ExecuteEvents.dragHandler);
+                    if (!previousData.dragging)
+                    {
+                        ExecuteEvents.Execute(previousData.pointerDrag, previousData,
+                            ExecuteEvents.beginDragHandler);
+                        previousData.dragging = true;
+                    }
+                    ExecuteEvents.Execute(previousData.pointerDrag, previousData, ExecuteEvents.dragHandler);
 #if ENABLE_INPUT_SYSTEM
                 }
 #endif
@@ -199,10 +199,10 @@ namespace AltTester.AltTesterUnitySdk
                 if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 {
 #endif
-                ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
-                        ExecuteEvents.endDragHandler);
-                ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                    ExecuteEvents.dropHandler);
+                    ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
+                            ExecuteEvents.endDragHandler);
+                    ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                        ExecuteEvents.dropHandler);
 #if ENABLE_INPUT_SYSTEM
                 }
 #endif

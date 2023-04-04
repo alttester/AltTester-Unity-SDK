@@ -1,8 +1,8 @@
 ﻿
 using System;
-using AltTester.AltTesterUnitySdk.Driver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Logging;
 
-namespace AltTester.AltTesterUnitySdk.Driver
+namespace AltTester.AltTesterUnitySDK.Driver
 {
     public class AltErrors
     {

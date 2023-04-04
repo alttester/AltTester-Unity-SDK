@@ -1,6 +1,6 @@
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Driver.Logging;
-using AltTester.AltTesterUnitySdk.Driver.Tests;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Tests;
 using NUnit.Framework;
 
 public class TestBase

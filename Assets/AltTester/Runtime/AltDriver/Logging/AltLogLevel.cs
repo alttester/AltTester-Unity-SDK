@@ -1,5 +1,5 @@
 
-namespace AltTester.AltTesterUnitySdk.Driver.Logging
+namespace AltTester.AltTesterUnitySDK.Driver.Logging
 {
     public enum AltLogLevel
     {

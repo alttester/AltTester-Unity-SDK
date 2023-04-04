@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
-using AltTester.AltTesterUnitySdk.Driver;
+using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using Newtonsoft.Json;
 using NUnit.Framework.Interfaces;

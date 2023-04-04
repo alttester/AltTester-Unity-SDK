@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
-using AltTester.AltTesterUnitySdk.Driver.Logging;
-using AltTester.AltTesterUnitySdk.Driver.Notifications;
+using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Notifications;
 using Newtonsoft.Json;
 using AltWebSocketSharp;
 
-namespace AltTester.AltTesterUnitySdk.Driver.Commands
+namespace AltTester.AltTesterUnitySDK.Driver.Commands
 {
     public class DriverCommunicationWebSocket : IDriverCommunication
     {
@@ -59,7 +59,8 @@ namespace AltTester.AltTesterUnitySdk.Driver.Commands
             this.wsClient = new WebSocket(_uri);
             this.wsClient.OnError += OnError;
             this.wsClient.OnClose += OnClose;
-            this.wsClient.OnMessage += (sender, e) => {
+            this.wsClient.OnMessage += (sender, e) =>
+            {
                 OnMessage(sender, e.Data);
             };
 
@@ -74,7 +75,8 @@ namespace AltTester.AltTesterUnitySdk.Driver.Commands
                 }
                 wsClient.Connect();
 
-                if (wsClient.IsAlive) {
+                if (wsClient.IsAlive)
+                {
                     break;
                 }
 
@@ -85,7 +87,8 @@ namespace AltTester.AltTesterUnitySdk.Driver.Commands
             this.CheckCloseMessage();
             this.CheckError();
 
-            if (watch.Elapsed.TotalSeconds > _connectTimeout && !wsClient.IsAlive) {
+            if (watch.Elapsed.TotalSeconds > _connectTimeout && !wsClient.IsAlive)
+            {
                 throw new ConnectionTimeoutException(string.Format("Failed to connect to AltTester on host: {0} port: {1}.", _host, _port));
             }
 
@@ -125,7 +128,8 @@ namespace AltTester.AltTesterUnitySdk.Driver.Commands
                 }
 
                 handleErrors(message.error);
-                if (message.data == null) {
+                if (message.data == null)
+                {
                     return default(T);
                 }
 
@@ -205,7 +209,8 @@ namespace AltTester.AltTesterUnitySdk.Driver.Commands
         protected void OnError(object sender, ErrorEventArgs e)
         {
             logger.Error(e.Message);
-            if (e.Exception != null) {
+            if (e.Exception != null)
+            {
                 logger.Error(e.Exception);
             }
 

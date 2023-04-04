@@ -1,4 +1,4 @@
-namespace AltTester.AltTesterUnitySdk.Communication
+namespace AltTester.AltTesterUnitySDK.Communication
 {
     public class BaseWebSocketHandler
     {

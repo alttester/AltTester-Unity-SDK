@@ -2,13 +2,13 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using AltTester.AltTesterUnitySdk.Driver;
-using AltTester.AltTesterUnitySdk.Driver.Commands;
-using AltTester.AltTesterUnitySdk.Communication;
-using AltTester.AltTesterUnitySdk.Logging;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
 
-namespace AltTester.AltTesterUnitySdk.Commands
+namespace AltTester.AltTesterUnitySDK.Commands
 {
     public abstract class AltBaseScreenshotCommand<TParams, TResult> : AltCommand<TParams, TResult> where TParams : CommandParams
     {

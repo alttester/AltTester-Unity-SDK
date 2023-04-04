@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AltTester.AltTesterUnitySdk.Driver.Commands
+namespace AltTester.AltTesterUnitySDK.Driver.Commands
 {
     public class AltGetAllProperties : AltBaseCommand
     {

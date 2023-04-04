@@ -1,10 +1,10 @@
 using System;
-using AltTester.AltTesterUnitySdk.Driver.Commands;
-using AltTester.AltTesterUnitySdk.Driver.Notifications;
-using AltTester.AltTesterUnitySdk.Communication;
-using AltTester.AltTesterUnitySdk.Notification;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Driver.Notifications;
+using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Notification;
 
-namespace AltTester.AltTesterUnitySdk.Commands
+namespace AltTester.AltTesterUnitySDK.Commands
 {
     public class AltDeactivateNotificationCommand : AltCommand<DeactivateNotification, string>
     {
