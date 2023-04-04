@@ -828,10 +828,12 @@ class TestScene01:
     def test_reset_input(self):
         self.altdriver.key_down(AltKeyCode.P, 1)
         assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK") is True
+            "AltTester.AltTesterUnitySDK.NewInputSystem",
+            "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK") is True
         self.altdriver.reset_input()
         assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK") is False
+            "AltTester.AltTesterUnitySDK.NewInputSystem",
+            "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK") is False
 
         countKeyDown = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
             "Input", "_keyCodesPressed.Count", "AltTester.AltTesterUnitySDK")

@@ -343,7 +343,7 @@ public class TestsSampleScene1 extends BaseTest {
 
         @Test
         public void testGetComponentPropertyInvalidDeserialization() {
-                String componentName = "AltTesterUnitySdk.AltRunner";
+                String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
                 String propertyName = "InstrumentationSettings.ShowPopUp";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
@@ -1560,7 +1560,7 @@ public class TestsSampleScene1 extends BaseTest {
                                 AltDriver.By.NAME, "AltTesterPrefab").build();
 
                 AltGetComponentPropertyParams pIsPressed = new AltGetComponentPropertyParams.Builder(
-                                "AltTesterUnitySdk.NewInputSystem",
+                                "AltTester.AltTesterUnitySDK.NewInputSystem",
                                 "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK").build();
                 AltGetComponentPropertyParams count = new AltGetComponentPropertyParams.Builder(
                                 "Input",

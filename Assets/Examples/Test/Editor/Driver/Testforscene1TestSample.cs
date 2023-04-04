@@ -220,11 +220,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "AltTester.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
-            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
+            var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "AltTester.AltTesterUnitySDK");
             string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
             if (string.IsNullOrEmpty(portStr)) portStr = "13010";
             int port = int.Parse(portStr);
@@ -235,7 +235,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestWaitForComponentProperty()
         {
-            const string componentName = "AltTester.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
 
@@ -245,7 +245,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             int port = int.Parse(portStr);
 
 
-            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "Assembly-CSharp");
+            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "AltTester.AltTesterUnitySDK");
 
             Assert.AreEqual(port, propertyValue);
         }
@@ -254,12 +254,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestGetComponentPropertyInvalidDeserialization()
         {
-            const string componentName = "AltTester.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
             const string propertyName = "InstrumentationSettings.ShowPopUp";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             try
             {
-                var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
+                var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "AltTester.AltTesterUnitySDK");
                 Assert.Fail("Expected ResponseFormatException");
             }
             catch (ResponseFormatException ex)
@@ -272,13 +272,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void TestGetComponentPropertyNotFoundWithAssembly()
         {
             Thread.Sleep(1000);
-            const string componentName = "AltTester.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
             const string propertyName = "InvalidProperty";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             try
             {
-                var propertyValue = altElement.GetComponentProperty<bool>(componentName, propertyName, "Assembly-CSharp");
+                var propertyValue = altElement.GetComponentProperty<bool>(componentName, propertyName, "AltTester.AltTesterUnitySDK");
                 Assert.Fail();
             }
             catch (PropertyNotFoundException exception)
@@ -297,13 +297,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void TestGetNonExistingComponentProperty()
         {
             Thread.Sleep(1000);
-            const string componentName = "AltTester.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
             const string propertyName = "socketPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             try
             {
-                altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
+                altElement.GetComponentProperty<int>(componentName, propertyName, "AltTester.AltTesterUnitySDK");
                 Assert.Fail();
             }
             catch (PropertyNotFoundException exception)
@@ -2175,9 +2175,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void TestResetInput()
         {
             altDriver.KeyDown(AltKeyCode.P, 1);
-            Assert.True(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp"));
+            Assert.True(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK"));
             altDriver.ResetInput();
-            Assert.False(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp"));
+            Assert.False(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK"));
 
             int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
             Assert.AreEqual(0, countKeyDown);
