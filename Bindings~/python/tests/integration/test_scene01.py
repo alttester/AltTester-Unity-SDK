@@ -120,7 +120,7 @@ class TestScene01:
 
     def test_get_all_components(self):
         components = self.altdriver.find_object(By.NAME, "Canvas").get_all_components()
-        assert len(components) == 4
+        assert len(components) == 5
         assert components[0]["componentName"] == "UnityEngine.RectTransform"
         assert components[0]["assemblyName"] == "UnityEngine.CoreModule"
 
