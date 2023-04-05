@@ -19,8 +19,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
         public bool InputVisualizer;
         public bool ShowPopUp = true;
         public string BuildLocationPath = "";
-        public string LatestDesktopVersion = "";
-        public bool ShowDesktopPopUpInEditor = false;
         public bool createXMLReport = false;
         public string xMLFilePath = "";
 
