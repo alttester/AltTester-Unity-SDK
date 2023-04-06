@@ -1,5 +1,8 @@
 package com.alttester;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
 import com.alttester.Commands.InputActions.AltMultiPointSwipeParams;
@@ -24,10 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 public class TestsForNIS extends BaseTest {

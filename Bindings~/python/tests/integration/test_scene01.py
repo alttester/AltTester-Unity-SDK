@@ -228,6 +228,14 @@ class TestScene01:
         text = capsule_info.get_text()
         assert text == "UIButton clicked to jump capsule!"
 
+    def test_wait_for_component_property(self):
+        alt_object = self.altdriver.find_object(By.NAME, "Capsule")
+        result = alt_object.wait_for_component_property(
+            "AltExampleScriptCapsule", "TestBool", True,
+            "Assembly-CSharp")
+
+        assert result is True
+
     def test_get_component_property(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         result = alt_object.get_component_property(

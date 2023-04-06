@@ -1,14 +1,14 @@
 package com.alttester;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import java.io.File;
+import java.lang.Void;
 
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.AltCallStaticMethodParams;
 import com.alttester.Commands.FindObject.AltFindObjectAtCoordinatesParams;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
 import com.alttester.Commands.FindObject.AltGetAllElementsParams;
+import com.alttester.Commands.FindObject.AltWaitForComponentPropertyParams;
 import com.alttester.Commands.FindObject.AltWaitForObjectsParams;
 import com.alttester.Commands.InputActions.AltHoldParams;
 import com.alttester.Commands.InputActions.AltKeyDownParams;
@@ -44,10 +44,11 @@ import com.alttester.altTesterExceptions.SceneNotFoundException;
 import com.alttester.altTesterExceptions.WaitTimeOutException;
 import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
+
 import com.google.gson.Gson;
-
-import java.lang.Void;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -57,8 +58,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-
-import java.io.File;
 
 public class TestsSampleScene1 extends BaseTest {
 
@@ -317,6 +316,29 @@ public class TestsSampleScene1 extends BaseTest {
                                                 propertyName, "AltTester").build(),
                                 Boolean.class);
                 assertTrue(propertyValue);
+        }
+
+        @Test
+        public void testWaitForComponentProperty() throws InterruptedException {
+                Thread.sleep(1000);
+                String componentName = "UnityEngine.CapsuleCollider";
+                String propertyName = "isTrigger";
+                AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                                "Capsule").build();
+
+                AltObject altElement = altDriver.findObject(altFindObjectsParams);
+                assertNotNull(altElement);
+
+                AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                                componentName, propertyName, "").build();
+                AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
+                                altGetComponentPropertyParams).build();
+
+                Boolean propertyValue = altElement.WaitForComponentProperty(
+                                altWaitForComponentPropertyParams,
+                                false,
+                                Boolean.class);
+                assertEquals(Boolean.FALSE, propertyValue);
         }
 
         @Test

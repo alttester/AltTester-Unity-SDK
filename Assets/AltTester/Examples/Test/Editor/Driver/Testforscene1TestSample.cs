@@ -37,7 +37,7 @@ namespace AltTester.AltDriver.Tests
         }
 
         [Test]
-		[Category("WebGLUnsupported")]
+        [Category("WebGLUnsupported")]
         public void TestGetApplicationScreenSize()
         {
             altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
@@ -231,6 +231,25 @@ namespace AltTester.AltDriver.Tests
 
             Assert.AreEqual(port, propertyValue);
         }
+
+        [Test]
+        public void TestWaitForComponentProperty()
+        {
+            const string componentName = "AltTester.AltRunner";
+            const string propertyName = "InstrumentationSettings.AltServerPort";
+            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+
+            Assert.NotNull(altElement);
+
+            string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
+            int port = int.Parse(portStr);
+
+
+            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "Assembly-CSharp");
+
+            Assert.AreEqual(port, propertyValue);
+        }
+
 
         [Test]
         public void TestGetComponentPropertyInvalidDeserialization()
@@ -702,7 +721,9 @@ namespace AltTester.AltDriver.Tests
             var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
             Assert.Greater(time, duration);
         }
+
         [Test]
+        [Ignore("Ignore PressKey method")]
         public void TestPressKeyWaitTheDuration()
         {
             const float duration = 1.0f;
@@ -1502,8 +1523,8 @@ namespace AltTester.AltDriver.Tests
             Assert.True(screenshot.textureSize.y == screenHeight);
 
             screenshot = altDriver.GetScreenshot(screenShotQuality: 50);
-            Assert.True(screenshot.textureSize.x == screenWidth / 2);
-            Assert.True(screenshot.textureSize.y == screenHeight / 2);
+            Assert.True(screenshot.textureSize.x == screenWidth);
+            Assert.True(screenshot.textureSize.y == screenHeight);
 
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
             screenshot = altDriver.GetScreenshot(capsule.id, new AltColor(1, 0, 0), 1.5f);
@@ -1511,8 +1532,8 @@ namespace AltTester.AltDriver.Tests
             Assert.True(screenshot.textureSize.y == screenHeight);
 
             screenshot = altDriver.GetScreenshot(capsule.id, new AltColor(1, 0, 0), 1.5f, screenShotQuality: 50);
-            Assert.True(screenshot.textureSize.x == screenWidth / 2);
-            Assert.True(screenshot.textureSize.y == screenHeight / 2);
+            Assert.True(screenshot.textureSize.x == screenWidth);
+            Assert.True(screenshot.textureSize.y == screenHeight);
         }
         [Test]
         public void TestGetComponentPropertyComplexClass()

@@ -235,7 +235,7 @@ namespace AltTester.UI
 #if ALTTESTER
 #if ENABLE_LEGACY_INPUT_MANAGER
             Input.UseCustomInput = value;
-            UnityEngine.Debug.Log("Custom input: " + Input.UseCustomInput);
+            UnityEngine.Debug.Log("AltTester input: " + Input.UseCustomInput);
 #endif
 #if ENABLE_INPUT_SYSTEM
                 if (value)

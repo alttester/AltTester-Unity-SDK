@@ -101,61 +101,19 @@ namespace AltTester.Commands
 
         private AltGetScreenshotResponse getTexturedScreenshot(UnityEngine.Vector2 size, int quality)
         {
-            // return new AltGetScreenshotResponse();
             var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
-
-            // var screenshotSerialized = screenshot.GetRawTextureData();
-            // UnityEngine.Debug.LogWarning("ScreenRaw: " + screenshotSerialized.Length);
-            int width = (int)size.x;
-            int height = (int)size.y;
-
-            // if (width == 0 && height == 0)
-            // {
-            //     width = screenshot.width;
-            //     height = screenshot.height;
-            // }
-            // else
-            // {
-            //     var heightDifference = screenshot.height - height;
-            //     var widthDifference = screenshot.width - width;
-
-            //     if (heightDifference > widthDifference)
-            //     {
-            //         width = height * screenshot.width / screenshot.height;
-            //     }
-            //     else
-            //     {
-            //         height = width * screenshot.height / screenshot.width;
-            //     }
-            // }
-
             AltGetScreenshotResponse response = new AltGetScreenshotResponse();
             response.scaleDifference = new AltVector2(screenshot.width, screenshot.height);
-            quality = UnityEngine.Mathf.Clamp(quality, 1, 100);
-            // if (quality != 100)
-            // {
-            //     width = width * quality / 100;
-            //     height = height * quality / 100;
-            //     AltTextureScale.Bilinear(screenshot, width, height);
-            // }
-            var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality: quality);
-            UnityEngine.Debug.LogWarning("ScreenCompressed: " + screenshotSerialized.Length);
-            logger.Trace("Start Compression");
-            // var screenshotCompressed = AltRunner.CompressScreenshot(screenshotSerialized);
-            // UnityEngine.Debug.LogWarning("ScreenCompressed: " + screenshotCompressed.Length);
-            logger.Trace("Finished Compression");
-
+            var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality);
             response.textureSize = new AltVector3(screenshot.width, screenshot.height);
             response.compressedImage = screenshotSerialized;
 
             UnityEngine.Object.DestroyImmediate(screenshot);
-            // return new AltGetScreenshotResponse();
             return response;
         }
 
         private string getPNGScreenshot()
         {
-
             var screenShot = new UnityEngine.Texture2D(UnityEngine.Screen.width, UnityEngine.Screen.height, UnityEngine.TextureFormat.RGB24, false);
             screenShot.ReadPixels(new UnityEngine.Rect(0, 0, UnityEngine.Screen.width, UnityEngine.Screen.height), 0, 0);
             screenShot.Apply();

@@ -41,12 +41,12 @@ In the following sections you can see a breakdown of all the sections in the GUI
 -   AltServer Host
 
     Refers to the host the AltServer is listening on.
-     You can change this value and make a new game build if you want to use another host.
+     You can change this value and make a new app build if you want to use another host.
 
 -   AltServer Port
 
     Refers to the port the AltServer is listening on.
-     You can change this value and make a new game build if you want to use another port.
+     You can change this value and make a new app build if you want to use another port.
 -->
 
 - *AltTester Port*
@@ -55,7 +55,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 - *Company Name*
 
-    Company name used for the game build (same with Unity's Player Settings).
+    Company name used for the app build (same with Unity's Player Settings).
 
 - *Product Name*
 
@@ -95,7 +95,7 @@ You can also activate this option from within the test using the following code:
 - *Show Popup*
 
     If this option is checked, it will display the *"AltTester"* popup in
-    game containing the text *"Waiting for connection on port 13000"*. That
+    app containing the text *"Waiting for connection on port 13000"*. That
     means the build contains the AltTester Unity SDK. Popup will disappear once the
     tests are started.
 
@@ -158,7 +158,7 @@ _Platform Settings_
 
                 The **Build Location** field: the build path for the instrumented Unity application.
 
-                    - By default, the *Output Path* is a folder with the same name as your game.
+                    - By default, the *Output Path* is a folder with the same name as your app.
 
             .. tab:: iOS
 
@@ -173,7 +173,7 @@ _Platform Settings_
 
                 The **Build Location** field: the build path for the instrumented Unity application.
 
-                    - By default, the *Output Path* is a folder with the same name as your game.
+                    - By default, the *Output Path* is a folder with the same name as your app.
 
             .. tab:: Editor
 
@@ -189,7 +189,7 @@ _Platform Settings_
 
                 The **Build Location** field: the build path for the instrumented Unity application.
 
-                    - By default, the *Output Path* is a folder with the same name as your game.
+                    - By default, the *Output Path* is a folder with the same name as your app.
 
 ```
 

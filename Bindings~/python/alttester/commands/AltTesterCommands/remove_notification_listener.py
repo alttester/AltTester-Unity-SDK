@@ -26,7 +26,7 @@ class RemoveNotificationListener(BaseCommand):
         return parameters
 
     def execute(self):
-        self.connection.remove_notification_listener(self.notification_type)
+        self.connection._notification_handler.remove_notification_listener(self.notification_type)
         data = self.send()
         self.validate_response("Ok", data)
 

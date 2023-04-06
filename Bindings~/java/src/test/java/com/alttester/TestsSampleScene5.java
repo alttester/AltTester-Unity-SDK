@@ -1,5 +1,7 @@
 package com.alttester;
 
+import java.util.ArrayList;
+
 import com.alttester.position.Vector3;
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
@@ -11,11 +13,8 @@ import com.alttester.Commands.InputActions.AltScrollParams;
 import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
 import com.alttester.UnityStruct.AltKeyCode;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
