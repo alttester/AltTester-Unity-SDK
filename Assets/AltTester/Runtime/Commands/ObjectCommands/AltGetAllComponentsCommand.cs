@@ -21,14 +21,14 @@ namespace AltTester.AltTesterUnitySDK.Commands
             {
                 try
                 {
-                    var a = component.GetType();
-                    var componentName = a.FullName;
-                    var assemblyName = a.Assembly.GetName().Name;
+                    var componentType = component.GetType();
+                    var componentName = componentType.FullName;
+                    var assemblyName = componentType.Assembly.GetName().Name;
                     listComponents.Add(new AltComponent(componentName, assemblyName));
                 }
                 catch (System.NullReferenceException e)
                 {
-                    logger.Error(e);
+                    logger.Warn(e);
                 }
             }
 

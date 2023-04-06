@@ -577,7 +577,7 @@ namespace AltTesterTools
             CloseButtonTransform.pivot = new Vector2(1f, 1f);
 
             var CloseButtonImage = CloseButtonGameObject.GetComponent<Image>();
-            CloseButtonImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Editor/XIconWhite.png", typeof(Sprite)) as Sprite;
+            CloseButtonImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Editor/Sprites/XIconWhite.png", typeof(Sprite)) as Sprite;
             CloseButtonImage.SetNativeSize();
 
             return CloseButtonGameObject.GetComponent<Button>();
