@@ -18,15 +18,15 @@ To run the first test for your Unity game you need to:
 
 ## Import AltTester package in Unity Editor
 
-To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity. This can be done either by downloading from the Altom website.
+To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity. This can be done either by downloading from the AltTester website.
 
 ```eval_rst
 
 .. tabs::
 
-    .. tab:: UnityPackage from Altom website
+    .. tab:: UnityPackage from AltTester website
 
-        1. Download from `Altom website - link <https://altom.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
+        1. Download from `AltTester website - link <https://alttester.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
         2. Import it by drag and drop inside your Unity project.
 
 ```
@@ -73,7 +73,7 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
 ```eval_rst
 
-    1. Download `AltTester Unity SDK <https://altom.com/app/uploads/altUnityProAlpha/AltUnityTesterUnityPackage>`_.
+    1. Download `AltTester Unity SDK <https://alttester.com/app/uploads/altUnityProAlpha/AltUnityTesterUnityPackage>`_.
 
     2. Import it by drag and drop inside your Unity project.
 
@@ -108,6 +108,14 @@ Steps:
 
     AltTester Unity SDK is intended to be used only in debug builds, and it will not work in release mode out of the box. You need to make sure you don't release a production build instrumented with AltTester Unity SDK.
 
+.. note::
+
+    If you want to build your intrumented app from outside the AltTester Editor window you will have to make sure to uncheck the `Development Build` setting from the Build Settings menu in Unity (go to File -> Build Settings) after selecting your Scenes, as seen bellow.
+```
+
+![Build Settings menu from Unity](../_static/img/get-started/create-build-outside-alttestereditor.png)
+
+```eval_rst
 .. note::
 
     Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your game.
@@ -195,7 +203,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         .. note::
 
-            Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://altom.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
+            Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
 
 .. note::
 
@@ -327,7 +335,7 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
             **Method 2**: Use the ``.jar`` file from GIT (**without building it from source**)
 
-                * Download `AltTester-Driver for Java <https://altom.com/app/uploads/AltTesterJAR/AltTester-Driver.jar>`__.
+                * Download `AltTester-Driver for Java <https://alttester.com/app/uploads/AltTesterJAR/AltTester-Driver.jar>`__.
 
                 * Install the ``.jar`` file:
 
