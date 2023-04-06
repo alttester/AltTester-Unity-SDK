@@ -19,18 +19,19 @@ class WaitForComponentProperty(Command):
         t = 0
         while (t <= self.timeout):
             try:
+                logger.debug("Waiting for property {}...", self.property_name)
                 property_found = self.altObject.get_component_property(
                     self.component_name, self.property_name, self.assembly)
                 if (property_found == self.property_value):
                     break
-            except NotFoundException:
-                logger.debug("Waiting for property {}...", self.property_name)
-                time.sleep(self.interval)
-                t += self.interval
+            except NotFoundException as ex:
+                logger.debug(ex)
+                break
 
         if t >= self.timeout:
+            logger.debug("WaitTimeOutException")
             raise WaitTimeOutException("Property {} not found after {} seconds"
-                                       .format(
-                                           self.property_name, self.timeout))
+                                       .format(self.property_name,
+                                               self.timeout))
 
         return property_found
