@@ -1,4 +1,3 @@
-import time
 from loguru import logger
 from alttester.commands.base_command import Command
 from alttester.exceptions import NotFoundException, WaitTimeOutException
