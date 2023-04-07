@@ -239,7 +239,7 @@ namespace AltTester.AltDriver.Tests
             var alt_object = altDriver.FindObject(By.NAME, "Capsule");
             alt_object.Tap();
 
-            var propertyValue = capsule_info.WaitForComponentProperty<string>(componentName, propertyName, "Capsule was clicked to jump!", "UnityEngine.UIp");
+            var propertyValue = capsule_info.WaitForComponentProperty<string>(componentName, propertyName, "Capsule was clicked to jump!", "UnityEngine.UI");
 
             Assert.AreEqual("Capsule was clicked to jump!", propertyValue);
         }
@@ -253,7 +253,7 @@ namespace AltTester.AltDriver.Tests
             var alt_object = altDriver.FindObject(By.NAME, "Capsule");
             alt_object.Tap();
 
-            var propertyValue = capsule_info.WaitForComponentProperty<string>(componentName, propertyName, "Capsule was clicked", "UnityEngine.UIp");
+            var propertyValue = capsule_info.WaitForComponentProperty<string>(componentName, propertyName, "Capsule was clicked", "UnityEngine.UI");
 
             Assert.AreEqual("Capsule was clicked", propertyValue);
         }
@@ -267,7 +267,7 @@ namespace AltTester.AltDriver.Tests
             var alt_object = altDriver.FindObject(By.NAME, "Capsule");
             alt_object.Tap();
 
-            var propertyValue = capsule_info.WaitForComponentProperty<string>(componentName, propertyName, "Capsule was clicked", "UnityEngine.UIp", 0.5, 20);
+            var propertyValue = capsule_info.WaitForComponentProperty<string>(componentName, propertyName, "Capsule was clicked", "UnityEngine.UI", 0.5, 20);
 
             Assert.AreEqual("Capsule was clicked", propertyValue);
         }
