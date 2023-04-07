@@ -2807,8 +2807,8 @@ Sets the value of the static field or property.
 
 | Name          | Type   | Required | Description                                                                                             |
 | ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
-| componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
-| propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
+| componentName | string | Yes      | The name of the component which has the static field or property to be seted.                       |
+| propertyName  | string | Yes      | The name of the static field or property to be seted.                                               |
 | assembly      | string | Yes      | The name of the assembly the component belongs to.                                                      |
 | updatedProperty | object | Yes      | The new value of the component which has the static field or property to be seted. 
 
