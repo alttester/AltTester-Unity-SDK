@@ -71,7 +71,7 @@ namespace AltTesterEditor
             }
             if (AltTesterEditorWindow.EditorConfiguration.createXMLReport)
             {
-                if (AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Equals(""))
+                if (AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Equals("") || AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Substring(AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Length - 3, AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Length).Equals(".xml"))
                     AltTesterEditorWindow.EditorConfiguration.xMLFilePath = "test-report.xml";
 
                 createXMLReport(AltTesterEditorWindow.EditorConfiguration.xMLFilePath, xmlContent);
