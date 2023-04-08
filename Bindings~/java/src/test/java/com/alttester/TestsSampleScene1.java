@@ -282,7 +282,7 @@ public class TestsSampleScene1 extends BaseTest {
         @Test
         public void testFindElementByComponent() throws InterruptedException {
                 Thread.sleep(1000);
-                String componentName = "AltRunner";
+                String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                                 AltDriver.By.COMPONENT, componentName).build();
                 AltObject altElement = altDriver.findObject(altFindObjectsParams);
@@ -293,7 +293,7 @@ public class TestsSampleScene1 extends BaseTest {
         @Test
         public void testFindElementByComponentWithNamespace() throws InterruptedException {
                 Thread.sleep(1000);
-                String componentName = "AltTester.AltRunner";
+                String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                                 AltDriver.By.COMPONENT, componentName).build();
                 AltObject altElement = altDriver.findObject(altFindObjectsParams);
@@ -304,7 +304,7 @@ public class TestsSampleScene1 extends BaseTest {
         @Test
         public void testGetComponentProperty() throws InterruptedException {
                 Thread.sleep(1000);
-                String componentName = "AltTester.AltRunner";
+                String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
                 String propertyName = "InstrumentationSettings.ShowPopUp";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
@@ -313,7 +313,7 @@ public class TestsSampleScene1 extends BaseTest {
 
                 Boolean propertyValue = altElement.getComponentProperty(
                                 new AltGetComponentPropertyParams.Builder(componentName,
-                                                propertyName, "AltTester").build(),
+                                                propertyName, "AltTester.AltTesterUnitySDK").build(),
                                 Boolean.class);
                 assertTrue(propertyValue);
         }
@@ -343,7 +343,7 @@ public class TestsSampleScene1 extends BaseTest {
 
         @Test
         public void testGetComponentPropertyInvalidDeserialization() {
-                String componentName = "AltTester.AltRunner";
+                String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
                 String propertyName = "InstrumentationSettings.ShowPopUp";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
@@ -352,7 +352,7 @@ public class TestsSampleScene1 extends BaseTest {
                         altElement.getComponentProperty(
                                         new AltGetComponentPropertyParams.Builder(componentName,
                                                         propertyName,
-                                                        "AltTester").build(),
+                                                        "AltTester.AltTesterUnitySDK").build(),
                                         int.class);
                         fail("Expected ResponseFormatException");
                 } catch (ResponseFormatException ex) {
@@ -366,7 +366,7 @@ public class TestsSampleScene1 extends BaseTest {
 			assertThrows(PropertyNotFoundException.class,
 				()->{
                 Thread.sleep(1000);
-                String componentName = "AltTester.AltRunner";
+                String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
                 String propertyName = "socketPort";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
@@ -375,7 +375,7 @@ public class TestsSampleScene1 extends BaseTest {
                 altElement.getComponentProperty(
                                 new AltGetComponentPropertyParams.Builder(componentName,
                                                 propertyName,
-                                                "AltTester").build(),
+                                                "AltTester.AltTesterUnitySDK").build(),
                                 String.class);
 			});
         }
@@ -446,7 +446,7 @@ public class TestsSampleScene1 extends BaseTest {
                 try {
                         altElement.setComponentProperty(
                                         new AltSetComponentPropertyParams.Builder(componentName, propertyName,
-                                                        "AltTester",
+                                                        "AltTester.AltTesterUnitySDK",
                                                         "2").build());
                         fail();
                 } catch (ComponentNotFoundException e) {
@@ -1560,11 +1560,11 @@ public class TestsSampleScene1 extends BaseTest {
                                 AltDriver.By.NAME, "AltTesterPrefab").build();
 
                 AltGetComponentPropertyParams pIsPressed = new AltGetComponentPropertyParams.Builder(
-                                "AltTester.NewInputSystem",
-                                "Keyboard.pKey.isPressed", "Assembly-CSharp").build();
+                                "AltTester.AltTesterUnitySDK.NewInputSystem",
+                                "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK").build();
                 AltGetComponentPropertyParams count = new AltGetComponentPropertyParams.Builder(
                                 "Input",
-                                "_keyCodesPressed.Count", "Assembly-CSharp").build();
+                                "_keyCodesPressed.Count", "AltTester.AltTesterUnitySDK").build();
                 altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.P).build());
                 assertTrue(altDriver.findObject(prefab).getComponentProperty(pIsPressed, Boolean.class));
                 altDriver.resetInput();

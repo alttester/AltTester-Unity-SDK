@@ -170,7 +170,7 @@ You get this error because you don't have the Input System (New) package. If you
         using System.Linq;
         using Altom.AltDriver;
         using Altom.AltTester;
-        using Altom.AltTester.InputModule;
+        using Altom.AltTester.AltTesterUnitySDK.InputModule;
         using UnityEngine;
         using UnityEngine.EventSystems;
         // using UnityEngine.InputSystem.UI;

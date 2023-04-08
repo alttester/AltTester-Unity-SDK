@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using AltTester;
-using AltTester.UI;
+using AltTester.AltTesterUnitySDK;
+using AltTester.AltTesterUnitySDK.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -256,16 +256,16 @@ namespace AltTesterTools
             InputVisualiserRectTransform.sizeDelta = Vector2.zero;
             InputVisualiserRectTransform.pivot = Vector2.zero;
 
-            var InputsVisualizer = InputVisualiser.GetComponent<AltInputsVisualizer>();
+            var InputsVisualizerComponent = InputVisualiser.GetComponent<AltInputsVisualizer>();
 
-            InputsVisualizer.VisibleTime = 1;
-            InputsVisualizer.approachSpeed = 0.02f;
-            InputsVisualizer.growthBound = 2;
+            InputsVisualizerComponent.VisibleTime = 1;
+            InputsVisualizerComponent.approachSpeed = 0.02f;
+            InputsVisualizerComponent.growthBound = 2;
 
-            var InputMark = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Prefab/InputMark.prefab", typeof(GameObject));
-            InputsVisualizer.Template = ((GameObject)InputMark).GetComponent<AltInputMark>();
+            var InputMark = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Runtime/Prefab/InputMark.prefab", typeof(GameObject));
+            InputsVisualizerComponent.Template = ((GameObject)InputMark).GetComponent<AltInputMark>();
 
-            return InputsVisualizer;
+            return InputsVisualizerComponent;
         }
 
         public static GameObject CreateAltDialog(Transform parent)
@@ -577,7 +577,7 @@ namespace AltTesterTools
             CloseButtonTransform.pivot = new Vector2(1f, 1f);
 
             var CloseButtonImage = CloseButtonGameObject.GetComponent<Image>();
-            CloseButtonImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Editor/XIconWhite.png", typeof(Sprite)) as Sprite;
+            CloseButtonImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Editor/Sprites/XIconWhite.png", typeof(Sprite)) as Sprite;
             CloseButtonImage.SetNativeSize();
 
             return CloseButtonGameObject.GetComponent<Button>();
@@ -666,10 +666,10 @@ namespace AltTesterTools
 
         public static void SetUpAltRunnerVariables(AltRunner altRunnerComponent, AltInputsVisualizer altInputsVisualizer)
         {
-            var outlineShader = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Shader/OutlineShader.shader", typeof(Shader));
+            var outlineShader = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Runtime/Shader/OutlineShader.shader", typeof(Shader));
             altRunnerComponent.outlineShader = outlineShader as Shader;
 
-            var panelHightlightPrefab = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Prefab/Panel.prefab", typeof(GameObject));
+            var panelHightlightPrefab = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Runtime/Prefab/Panel.prefab", typeof(GameObject));
             altRunnerComponent.panelHightlightPrefab = panelHightlightPrefab as GameObject;
 
             altRunnerComponent.RunOnlyInDebugMode = true;
@@ -678,7 +678,7 @@ namespace AltTesterTools
 
         public static void SavePrefab(GameObject prefab)
         {
-            string Path = "Assets/AltTester/Prefab/AltTesterPrefab.prefab";
+            string Path = "Assets/AltTester/Runtime/Prefab/AltTesterPrefab.prefab";
             string TestPath = "Assets/Editor/AltTesterPrefab.prefab";
 
             PrefabUtility.SaveAsPrefabAsset(prefab, TestPath);
