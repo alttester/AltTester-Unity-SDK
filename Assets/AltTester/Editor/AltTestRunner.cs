@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
@@ -71,9 +72,12 @@ namespace AltTesterEditor
             }
             if (AltTesterEditorWindow.EditorConfiguration.createXMLReport)
             {
-                if (AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Equals("") || AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Substring(AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Length - 3, AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Length).Equals(".xml"))
-                    AltTesterEditorWindow.EditorConfiguration.xMLFilePath = "test-report.xml";
+                FileAttributes attr = File.GetAttributes(AltTesterEditorWindow.EditorConfiguration.xMLFilePath);
 
+                if (AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Equals("") || (Path.GetExtension(AltTesterEditorWindow.EditorConfiguration.xMLFilePath) != ".xml" && !attr.HasFlag(FileAttributes.Directory)))
+                    AltTesterEditorWindow.EditorConfiguration.xMLFilePath = "test-report.xml";
+                if (attr.HasFlag(FileAttributes.Directory))
+                    AltTesterEditorWindow.EditorConfiguration.xMLFilePath = attr + "/" + "test-report.xml";
                 createXMLReport(AltTesterEditorWindow.EditorConfiguration.xMLFilePath, xmlContent);
             }
             AltTesterEditorWindow.IsTestRunResultAvailable = true;
