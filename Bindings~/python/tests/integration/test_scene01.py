@@ -248,7 +248,7 @@ class TestScene01:
 
         assert result == "Capsule was clicked"
 
-    def test_failed2_wait_for_component_property(self):
+    def test_failed_wait_for_component_property2(self):
         capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         alt_object.tap()
