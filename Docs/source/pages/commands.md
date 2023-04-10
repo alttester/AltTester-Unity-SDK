@@ -2755,7 +2755,7 @@ Gets the value of the static field or property.
 | ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
 | componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
 | propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
-| assemblyName  | string | Yes      | The name of the assembly the component belongs to.                                                      |
+| assemblyName  | string | Yes      | The name of the assembly containing the component. It is NULL by default.                                                      |
 | maxDepth      | int    | No       | The maximum depth in the hierarchy to look for the static field or property. Its value is 2 by default. |
 
 **_Returns_**
