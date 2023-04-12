@@ -72,11 +72,17 @@ namespace AltTesterEditor
             }
             if (AltTesterEditorWindow.EditorConfiguration.createXMLReport)
             {
-                FileAttributes attr = File.GetAttributes(AltTesterEditorWindow.EditorConfiguration.xMLFilePath);
-                if (AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Equals("") || (Path.GetExtension(AltTesterEditorWindow.EditorConfiguration.xMLFilePath) != ".xml" && !attr.HasFlag(FileAttributes.Directory)))
+                if (File.Exists(AltTesterEditorWindow.EditorConfiguration.xMLFilePath) || Directory.Exists(AltTesterEditorWindow.EditorConfiguration.xMLFilePath))
+                {
+                    FileAttributes attr = File.GetAttributes(AltTesterEditorWindow.EditorConfiguration.xMLFilePath);
+                    if (Path.GetExtension(AltTesterEditorWindow.EditorConfiguration.xMLFilePath) != ".xml" && !attr.HasFlag(FileAttributes.Directory))
+                        AltTesterEditorWindow.EditorConfiguration.xMLFilePath = "test-report.xml";
+                    else if (attr.HasFlag(FileAttributes.Directory))
+                        AltTesterEditorWindow.EditorConfiguration.xMLFilePath = AltTesterEditorWindow.EditorConfiguration.xMLFilePath + "\\" + "test-report.xml";
+
+                }
+                if (AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Equals(""))
                     AltTesterEditorWindow.EditorConfiguration.xMLFilePath = "test-report.xml";
-                else if (attr.HasFlag(FileAttributes.Directory))
-                    AltTesterEditorWindow.EditorConfiguration.xMLFilePath = AltTesterEditorWindow.EditorConfiguration.xMLFilePath + "\\" + "test-report.xml";
                 createXMLReport(AltTesterEditorWindow.EditorConfiguration.xMLFilePath, xmlContent);
             }
 
