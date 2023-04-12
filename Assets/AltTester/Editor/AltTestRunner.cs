@@ -72,11 +72,14 @@ namespace AltTesterEditor
             }
             if (AltTesterEditorWindow.EditorConfiguration.createXMLReport)
             {
-                if (AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Equals("") || Path.GetExtension(AltTesterEditorWindow.EditorConfiguration.xMLFilePath).Contains(".xml"))
+                FileAttributes attr = File.GetAttributes(AltTesterEditorWindow.EditorConfiguration.xMLFilePath);
+                if (AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Equals("") || (Path.GetExtension(AltTesterEditorWindow.EditorConfiguration.xMLFilePath) != ".xml" && !attr.HasFlag(FileAttributes.Directory)))
                     AltTesterEditorWindow.EditorConfiguration.xMLFilePath = "test-report.xml";
-
+                else if (attr.HasFlag(FileAttributes.Directory))
+                    AltTesterEditorWindow.EditorConfiguration.xMLFilePath = AltTesterEditorWindow.EditorConfiguration.xMLFilePath + "\\" + "test-report.xml";
                 createXMLReport(AltTesterEditorWindow.EditorConfiguration.xMLFilePath, xmlContent);
             }
+
             AltTesterEditorWindow.IsTestRunResultAvailable = true;
             AltTesterEditorWindow.SelectedTest = -1;
 
