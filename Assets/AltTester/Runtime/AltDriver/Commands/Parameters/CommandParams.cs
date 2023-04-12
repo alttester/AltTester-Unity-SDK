@@ -2,6 +2,7 @@ using System;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Driver.Notifications;
 using Newtonsoft.Json;
+
 namespace AltTester.AltTesterUnitySDK.Driver.Commands
 {
     public class CommandParams
@@ -31,12 +32,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     public class CommandAttribute : Attribute
     {
         private string name;
+
+        public string Name { get { return name; } }
+
         public CommandAttribute(string name)
         {
             this.name = name;
         }
-
-        public string Name { get { return name; } }
     }
 
     public class CommandError
@@ -77,15 +79,14 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     {
         public AltFindObjectsParams(string path, By cameraBy, string cameraPath, bool enabled) : base(path, cameraBy, cameraPath, enabled)
         {
-
         }
     }
+
     [Command("findObject")]
     public class AltFindObjectParams : BaseFindObjectsParams
     {
         public AltFindObjectParams(string path, By cameraBy, string cameraPath, bool enabled) : base(path, cameraBy, cameraPath, enabled)
         {
-
         }
     }
 
@@ -94,9 +95,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     {
         public AltFindObjectsLightParams(string path, By cameraBy, string cameraPath, bool enabled) : base(path, cameraBy, cameraPath, enabled)
         {
-
         }
     }
+
     [Command("getAllLoadedScenesAndObjects")]
     public class AltGetAllLoadedScenesAndObjectsParams : BaseFindObjectsParams
     {
@@ -167,11 +168,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         }
     }
 
-
     [Command("scroll")]
     public class AltScrollParams : CommandParams
     {
-        public float speed;//TODO change to vector2
+        public float speed; //TODO: Change to AltVector2
         public float speedHorizontal;
         public float duration;
         public bool wait;
@@ -202,7 +202,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         }
     }
 
-
     [Command("tilt")]
     public class AltTiltParams : CommandParams
     {
@@ -217,6 +216,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.wait = wait;
         }
     }
+
     public class BaseAltObjectParams : CommandParams
     {
         public AltObject altObject;
@@ -234,7 +234,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         public string[] parameters;
         public string[] typeOfParameters;
         public string assembly;
-
 
         public AltCallComponentMethodForObjectParams(AltObject altObject, string component, string method, string[] parameters, string[] typeOfParameters, string assembly) : base(altObject)
         {
@@ -262,6 +261,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.maxDepth = maxDepth;
         }
     }
+
     [Command("setObjectComponentProperty")]
     public class AltSetObjectComponentPropertyParams : BaseAltObjectParams
     {
@@ -279,7 +279,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         }
     }
 
-
     [Command("dragObject")]
     public class AltDragObjectParams : BaseAltObjectParams
     {
@@ -290,6 +289,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.position = position;
         }
     }
+
     [Command("getAllComponents")]
     public class AltGetAllComponentsParams : CommandParams
     {
@@ -314,6 +314,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.altFieldsSelections = altFieldsSelections;
         }
     }
+
     [Command("getAllProperties")]
     public class AltGetAllPropertiesParams : CommandParams
     {
@@ -328,6 +329,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.altPropertiesSelections = altPropertiesSelections;
         }
     }
+
     [Command("getAllMethods")]
     public class AltGetAllMethodsParams : CommandParams
     {
@@ -340,6 +342,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.methodSelection = methodSelection;
         }
     }
+
     [Command("getText")]
     public class AltGetTextParams : BaseAltObjectParams
     {
@@ -347,8 +350,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         {
         }
     }
-
-
 
     [Command("setText")]
     public class AltSetTextParams : BaseAltObjectParams
@@ -378,6 +379,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         {
         }
     }
+
     [Command("pointerExitObject")]
     public class AltPointerExitObjectParams : BaseAltObjectParams
     {
@@ -385,6 +387,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         {
         }
     }
+
     [Command("pointerUpFromObject")]
     public class AltPointerUpFromObjectParams : BaseAltObjectParams
     {
@@ -392,7 +395,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         {
         }
     }
-
 
     [Command("getPNGScreenshot")]
     public class AltGetPNGScreenshotParams : CommandParams
@@ -407,6 +409,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     {
         public AltVector2 size;
         public int quality;
+
         public AltGetScreenshotParams(AltVector2 size, int quality) : base()
         {
             this.size = size;
@@ -422,6 +425,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         public float width;
         public AltVector2 size;
         public int quality;
+
         public AltHighlightObjectScreenshotParams(int altObjectId, AltColor color, float width, AltVector2 size, int quality) : base()
         {
             this.altObjectId = altObjectId;
@@ -440,6 +444,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         public float width;
         public AltVector2 size;
         public int quality;
+
         public AltHighlightObjectFromCoordinatesScreenshotParams(AltVector2 coordinates, AltColor color, float width, AltVector2 size, int quality) : base()
         {
             this.coordinates = coordinates;
@@ -459,12 +464,17 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.keyName = keyName;
         }
     }
+
     [Command("getKeyPlayerPref")]
     public class AltGetKeyPlayerPrefParams : CommandParams
     {
         public string keyName;
         public PlayerPrefKeyType keyType;
-        public AltGetKeyPlayerPrefParams() : base() { }
+
+        public AltGetKeyPlayerPrefParams() : base()
+        {
+        }
+
         public AltGetKeyPlayerPrefParams(string keyName, PlayerPrefKeyType keyType) : base()
         {
             this.keyName = keyName;
@@ -489,12 +499,14 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.intValue = value;
             keyType = PlayerPrefKeyType.Int;
         }
+
         public AltSetKeyPlayerPrefParams(string keyName, float value) : base()
         {
             this.keyName = keyName;
             this.floatValue = value;
             keyType = PlayerPrefKeyType.Float;
         }
+
         public AltSetKeyPlayerPrefParams(string keyName, string value) : base()
         {
             this.keyName = keyName;
@@ -518,27 +530,27 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         {
         }
     }
+
     [Command("getAllCameras")]
     public class AltGetAllCamerasParams : CommandParams
     {
-
     }
 
     [Command("getAllLoadedScenes")]
     public class AltGetAllLoadedScenesParams : CommandParams
     {
-
     }
+
     [Command("getAllScenes")]
     public class AltGetAllScenesParams : CommandParams
     {
-
     }
+
     [Command("getCurrentScene")]
     public class AltGetCurrentSceneParams : CommandParams
     {
-
     }
+
     [Command("loadScene")]
     public class AltLoadSceneParams : CommandParams
     {
@@ -550,7 +562,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.sceneName = sceneName;
             this.loadSingle = loadSingle;
         }
-
     }
 
     [Command("unloadScene")]
@@ -562,22 +573,24 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         {
             this.sceneName = sceneName;
         }
-
     }
+
     [Command("getTimeScale")]
     public class AltGetTimeScaleParams : CommandParams
     {
-
     }
+
     [Command("setTimeScale")]
     public class AltSetTimeScaleParams : CommandParams
     {
         public float timeScale;
+
         public AltSetTimeScaleParams(float timeScale) : base()
         {
             this.timeScale = timeScale;
         }
     }
+
     [Command("setServerLogging")]
     public class AltSetServerLoggingParams : CommandParams
     {
@@ -597,6 +610,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         public int count;
         public float interval;
         public bool wait;
+
         public AltTapElementParams(AltObject altObject, int count, float interval, bool wait) : base(altObject)
         {
             this.count = count;
@@ -611,6 +625,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         public int count;
         public float interval;
         public bool wait;
+
         public AltClickElementParams(AltObject altObject, int count, float interval, bool wait) : base(altObject)
         {
             this.count = count;
@@ -626,6 +641,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         public int count;
         public float interval;
         public bool wait;
+
         public AltClickCoordinatesParams(AltVector2 coordinates, int count, float interval, bool wait)
         {
             this.coordinates = coordinates;
@@ -634,6 +650,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.wait = wait;
         }
     }
+
     [Command("tapCoordinates")]
     public class AltTapCoordinatesParams : CommandParams
     {
@@ -641,6 +658,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         public int count;
         public float interval;
         public bool wait;
+
         public AltTapCoordinatesParams(AltVector2 coordinates, int count, float interval, bool wait)
         {
             this.coordinates = coordinates;
@@ -678,6 +696,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     public class AltBeginTouchParams : CommandParams
     {
         public AltVector2 coordinates;
+
         public AltBeginTouchParams(AltVector2 coordinates)
         {
             this.coordinates = coordinates;
@@ -689,6 +708,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     {
         public int fingerId;
         public AltVector2 coordinates;
+
         public AltMoveTouchParams(int fingerId, AltVector2 coordinates)
         {
             this.coordinates = coordinates;
@@ -700,6 +720,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     public class AltEndTouchParams : CommandParams
     {
         public int fingerId;
+
         public AltEndTouchParams(int fingerId)
         {
             this.fingerId = fingerId;
@@ -732,6 +753,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     public class AltFindObjectAtCoordinatesParams : CommandParams
     {
         public AltVector2 coordinates;
+
         public AltFindObjectAtCoordinatesParams(AltVector2 coordinates)
         {
             this.coordinates = coordinates;

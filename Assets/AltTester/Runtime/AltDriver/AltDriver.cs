@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Altom.AltDriver.Commands;
+using AltTester.AltTesterUnitySDK.Driver.Communication;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Driver.Notifications;
@@ -50,7 +51,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
                 port,
                 appName
             );
-            communicationHandler = new DriverCommunicationWebSocket(host, port, connectTimeout, appName);
+            communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName);
             communicationHandler.Connect();
 
             checkServerVersion();

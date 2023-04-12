@@ -1,5 +1,6 @@
 using System;
 using AltTester.AltTesterUnitySDK.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Communication;
 using AltWebSocketSharp;
 
 namespace AltTester.AltTesterUnitySDK.Communication
@@ -11,23 +12,24 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         WebSocket wsClient;
 
-        private readonly int port;
         private readonly string host;
+        private readonly int port;
         private readonly string appName;
+
+        public bool IsConnected { get { return wsClient.IsAlive; } }
+        public bool IsListening { get { return false; } }
+
+        public CommunicationHandler OnConnect { get; set; }
+        public CommunicationHandler OnDisconnect { get; set; }
+        public CommunicationErrorHandler OnError { get; set; }
 
         public WebSocketClientCommunication(ICommandHandler cmdHandler, string host, int port, string appName)
         {
-            this.port = port;
             this.host = host;
+            this.port = port;
             this.appName = appName;
 
-            Uri uri;
-
-            if (!Uri.TryCreate(string.Format("ws://{0}:{1}/altws/app?appName={2}", host, port, Uri.EscapeUriString(appName)), UriKind.Absolute, out uri))
-            {
-                throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
-            }
-
+            Uri uri = Utils.CreateURI(host, port, "/altws/app", appName);
             wsClient = new WebSocket(uri.ToString());
             wsClient.Log.Level = LogLevel.Fatal;
             websocketHandler = new AltClientWebSocketHandler(wsClient, cmdHandler);
@@ -47,13 +49,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 if (this.OnError != null) this.OnError.Invoke(args.Message, args.Exception);
             };
         }
-
-        public bool IsConnected { get { return wsClient.IsAlive; } }
-        public bool IsListening { get { return false; } }
-
-        public CommunicationHandler OnConnect { get; set; }
-        public CommunicationHandler OnDisconnect { get; set; }
-        public CommunicationErrorHandler OnError { get; set; }
 
         public void Start()
         {

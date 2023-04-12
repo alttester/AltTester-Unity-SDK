@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using AltTester;
 using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Communication.New;
 using AltTester.AltTesterUnitySDK.Logging;
-
 using System.Collections;
 using UnityEngine;
 using AltWebSocketSharp;
-
 
 namespace AltTester.AltTesterUnitySDK.UI
 {
@@ -54,7 +53,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
-        private ICommunication _communication;
+        private RuntimeCommunicationHandler _communication;
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
 
         HashSet<string> _connectedDrivers = new HashSet<string>();
@@ -77,8 +76,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             StartClient();
 
-            this.wsClient = new WebSocket($"ws://{InstrumentationSettings.AltServerHost}:{InstrumentationSettings.AltServerPort}/altws/screenshot/app");
-            this.wsClient.Connect();
+            // this.wsClient = new WebSocket($"ws://{InstrumentationSettings.AltServerHost}:{InstrumentationSettings.AltServerPort}/altws/screenshot/app");
+            // this.wsClient.Connect();
         }
 
         protected byte[] getScreenshot() {
@@ -101,7 +100,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (update > 1.0f / frames)
             {
                 update = 0.0f;
-                this.wsClient.Send(getScreenshot());
+                // this.wsClient.Send(getScreenshot());
 
                 // _updateQueue.ScheduleResponse(() =>
                 // {
@@ -252,19 +251,13 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void InitClient()
         {
-            var cmdHandler = new CommandHandler();
-            cmdHandler.OnDriverConnect += OnDriverConnect;
-            cmdHandler.OnDriverDisconnect += OnDriverDisconnect;
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-            _communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort);
-#else
-            _communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
-#endif
-
+            _communication = new RuntimeCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
             _communication.OnConnect += OnConnect;
             _communication.OnDisconnect += OnDisconnect;
             _communication.OnError += OnError;
+
+            _communication.CmdHandler.OnDriverConnect += OnDriverConnect;
+            _communication.CmdHandler.OnDriverDisconnect += OnDriverDisconnect;
         }
 
         private void StartClient()
@@ -272,9 +265,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             InitClient();
             try
             {
-                if (_communication == null || !_communication.IsListening) // Start only if it is not already listening
+                if (_communication == null) // Start only if it is not already listening
                 {
-                    _communication.Start();
+                    _communication.Connect();
                 }
                 if (!_communication.IsConnected) // Display dialog only if not connected
                 {
@@ -304,7 +297,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 _communication.OnDisconnect = null;
                 _communication.OnError = null;
 
-                _communication.Stop();
+                _communication.Close();
                 _communication = null;
             }
         }
