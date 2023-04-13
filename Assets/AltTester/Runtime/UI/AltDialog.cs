@@ -59,7 +59,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         HashSet<string> _connectedDrivers = new HashSet<string>();
 
         private float update;
-        private WebSocket wsClient = null;
 
         protected void Start()
         {
@@ -75,6 +74,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             SetUpCustomInputToggle();
 
             StartClient();
+
 
             // this.wsClient = new WebSocket($"ws://{InstrumentationSettings.AltServerHost}:{InstrumentationSettings.AltServerPort}/altws/screenshot/app");
             // this.wsClient.Connect();
@@ -251,6 +251,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void InitClient()
         {
+            UnityEngine.Debug.Log("1");
+
             _communication = new RuntimeCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
             _communication.OnConnect += OnConnect;
             _communication.OnDisconnect += OnDisconnect;
@@ -263,14 +265,14 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void StartClient()
         {
             InitClient();
+
             try
             {
-                if (_communication == null) // Start only if it is not already listening
-                {
-                    _communication.Connect();
-                }
+                _communication.Connect();
+
                 if (!_communication.IsConnected) // Display dialog only if not connected
                 {
+                    UnityEngine.Debug.Log("2");
                     OnStart();
                 }
             }
