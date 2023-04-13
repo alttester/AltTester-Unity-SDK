@@ -1,10 +1,8 @@
 using System;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 
-namespace AltTester.AltDriver.Commands
+namespace AltTester.AltTesterUnitySDK.Driver.Commands
 {
     public class AltWaitForComponentProperty<T> : AltBaseFindObjects
     {

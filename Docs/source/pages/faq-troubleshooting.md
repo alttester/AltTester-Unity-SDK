@@ -168,9 +168,9 @@ You get this error because you don't have the Input System (New) package. If you
         using System.Collections;
         using System.Collections.Generic;
         using System.Linq;
-        using Altom.AltDriver;
-        using Altom.AltTester;
-        using Altom.AltTester.AltTesterUnitySDK.InputModule;
+        using AltTester.AltTesterUnitySDK.Driver;
+        using AltTester.AltTesterUnitySDK;
+        using AltTester.AltTesterUnitySDK.InputModule;
         using UnityEngine;
         using UnityEngine.EventSystems;
         // using UnityEngine.InputSystem.UI;

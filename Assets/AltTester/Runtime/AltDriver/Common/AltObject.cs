@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-using AltTester.AltDriver.Commands;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Driver
