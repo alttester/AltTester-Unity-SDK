@@ -1300,6 +1300,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
         {
             foldOutScenes = UnityEditor.EditorGUILayout.Foldout(foldOutScenes, "Scene Manager");
             UnityEditor.EditorGUILayout.BeginHorizontal();
+            UnityEditor.EditorGUI.BeginDisabledGroup(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling);
             if (foldOutScenes)
                 UnityEditor.EditorGUILayout.LabelField("", UnityEngine.GUILayout.MaxWidth(30));
             UnityEditor.EditorGUILayout.BeginVertical();
@@ -1479,6 +1480,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
             UnityEditor.EditorGUILayout.EndVertical();
             UnityEditor.EditorGUILayout.EndHorizontal();
+            UnityEditor.EditorGUI.EndDisabledGroup();
+
         }
 
         private static UnityEngine.GUIStyle setTextGuiStyle()
