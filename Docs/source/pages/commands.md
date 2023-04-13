@@ -2755,7 +2755,7 @@ Gets the value of the static field or property.
 | ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
 | componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
 | propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
-| assembly      | string | Yes      | The name of the assembly the component belongs to.                                                      |
+| assemblyName  | string | Yes      | The name of the assembly containing the component. It is NULL by default.                                                      |
 | maxDepth      | int    | No       | The maximum depth in the hierarchy to look for the static field or property. Its value is 2 by default. |
 
 **_Returns_**
@@ -2805,12 +2805,12 @@ Sets the value of the static field or property.
 
 **_Parameters_**
 
-| Name          | Type   | Required | Description                                                                                             |
-| ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
-| componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
-| propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
-| assembly      | string | Yes      | The name of the assembly the component belongs to.                                                      |
-| updatedProperty | object | Yes      | The new value of the component which has the static field or property to be seted. 
+| Name            | Type   | Required | Description                                                                                                              |
+| --------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
+| componentName   | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
+| propertyName    | string | Yes      | The name of the property whose value you want to set                                                                  |
+| assemblyName    | string | Yes      | The name of the assembly containing the component. It is NULL by default.                                                |
+| updatedProperty | object | Yes      | The value to be set for the chosen component's static property                                                           |
 
 **_Returns_**
 
