@@ -8,7 +8,7 @@ using AltWebSocketSharp;
 using Newtonsoft.Json;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Communication {
-    public class ScreenshotCommunicationHandler
+    public class DriverScreenshotCommunicationHandler
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
 
@@ -23,7 +23,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
         private readonly string _uri;
 
-        public ScreenshotCommunicationHandler(string host, int port, int connectTimeout, string appName)
+        public DriverScreenshotCommunicationHandler(string host, int port, string appName, int connectTimeout)
         {
             _host = host;
             _port = port;

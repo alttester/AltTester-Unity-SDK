@@ -1,5 +1,8 @@
+using System;
+
 namespace AltTester.AltTesterUnitySDK.Communication
 {
+    public delegate void SendMessageHandler(string message);
     public delegate void NotificationHandler(string driverId);
 
     public interface ICommandHandler
@@ -11,5 +14,12 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         void Send(string data);
         void OnMessage(string data);
+    }
+
+    public class UnhandledStartCommError : Exception
+    {
+        public UnhandledStartCommError(string message, Exception innerException) : base(message, innerException)
+        {
+        }
     }
 }

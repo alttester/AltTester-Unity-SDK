@@ -1,10 +1,12 @@
 using System;
+using System.Text;
 using System.Threading;
 using System.Diagnostics;
 using AltWebSocketSharp;
 using AltTester.AltTesterUnitySDK.Driver.Communication;
 
-namespace AltTester.AltTesterUnitySDK.Communication.New  {
+namespace AltTester.AltTesterUnitySDK.Communication
+{
     public class RuntimeWebSocketClient : IRuntimeWebSocketClient
     {
         private WebSocket wsClient;
@@ -93,7 +95,7 @@ namespace AltTester.AltTesterUnitySDK.Communication.New  {
         public CommunicationErrorHandler OnError { get; set; }
         public CommunicationMessageHandler OnMessage { get; set; }
 
-        public bool IsConnected { get { return this.wsClient != null && this.wsClient.IsAlive; } }
+        public bool IsConnected { get { return this.wsClient != null && this.wsClient.State == WebSocketState.Open; } }
 
         public WebGLRuntimeWebSocketClient(string host, int port, string path, string appName)
         {
@@ -122,7 +124,7 @@ namespace AltTester.AltTesterUnitySDK.Communication.New  {
             wsClient.OnMessage += (byte[] message) =>
             {
                 if (this.OnMessage != null) this.OnMessage.Invoke(Encoding.UTF8.GetString(message));
-            }
+            };
         }
 
         public void Connect()

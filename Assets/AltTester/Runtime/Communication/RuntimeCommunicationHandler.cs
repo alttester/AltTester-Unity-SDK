@@ -1,6 +1,7 @@
 using System;
 
-namespace AltTester.AltTesterUnitySDK.Communication.New {
+namespace AltTester.AltTesterUnitySDK.Communication
+{
     public class RuntimeCommunicationHandler
     {
         private IRuntimeWebSocketClient wsClient = null;

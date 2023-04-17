@@ -1,7 +1,8 @@
 using AltWebSocketSharp;
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK.Communication.New {
+namespace AltTester.AltTesterUnitySDK.Communication
+{
     public class ScreenshotCommunicationHandler
     {
         private IRuntimeWebSocketClient wsClient = null;
@@ -17,6 +18,8 @@ namespace AltTester.AltTesterUnitySDK.Communication.New {
 
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.IsConnected; } }
         public bool IsRunning { get { return this.isRunning; } }
+        public int Quality { get { return this.quality; } }
+        public int FrameRate { get { return this.frameRate; } }
 
         public ScreenshotCommunicationHandler(string host, int port, string appName)
         {

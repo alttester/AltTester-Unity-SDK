@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using AltTester;
 using AltTester.AltTesterUnitySDK.Communication;
-using AltTester.AltTesterUnitySDK.Communication.New;
+using AltTester.AltTesterUnitySDK.Driver.Communication;
+using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Logging;
 using System.Collections;
 using UnityEngine;
@@ -54,6 +55,10 @@ namespace AltTester.AltTesterUnitySDK.UI
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
         private RuntimeCommunicationHandler _communication;
+        private ScreenshotCommunicationHandler _screenshotCommunication;
+
+        private DriverScreenshotCommunicationHandler _driver;
+
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
 
         HashSet<string> _connectedDrivers = new HashSet<string>();
@@ -74,44 +79,43 @@ namespace AltTester.AltTesterUnitySDK.UI
             SetUpCustomInputToggle();
 
             StartClient();
-
-
-            // this.wsClient = new WebSocket($"ws://{InstrumentationSettings.AltServerHost}:{InstrumentationSettings.AltServerPort}/altws/screenshot/app");
-            // this.wsClient.Connect();
-        }
-
-        protected byte[] getScreenshot() {
-            var quality = 75;
-            var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
-            var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality: quality);
-
-            UnityEngine.Debug.LogWarning("ScreenCompressed: " + screenshotSerialized.Length);
-
-            UnityEngine.Object.Destroy(screenshot);
-            return screenshotSerialized;
         }
 
         protected void Update()
         {
             _updateQueue.Cycle();
-            int frames = 24;
+
+            if (this._screenshotCommunication == null)
+            {
+                return;
+            }
+
+            // if (this._driver == null)
+            // {
+            //     UnityEngine.Debug.Log("HERE");
+
+            //     this._driver = new DriverScreenshotCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName, 30);
+            //     this._driver.Connect();
+            //     this._driver.Start();
+            //     this._driver.UpdateFrameRate(1);
+            //     this._driver.UpdateQuality(100);
+            // }
 
             update += Time.deltaTime;
-            if (update > 1.0f / frames)
+            if (update > 1.0f / this._screenshotCommunication.FrameRate)
             {
                 update = 0.0f;
-                // this.wsClient.Send(getScreenshot());
-
                 // _updateQueue.ScheduleResponse(() =>
                 // {
                 // });
+
+                this._screenshotCommunication.SendScreenshot();
             }
         }
 
         protected void OnApplicationQuit()
         {
             StopClient();
-            this.wsClient.Close();
         }
 
         private void SetMessage(string message, UnityEngine.Color color, bool visible = true)
@@ -251,8 +255,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void InitClient()
         {
-            UnityEngine.Debug.Log("1");
-
             _communication = new RuntimeCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
             _communication.OnConnect += OnConnect;
             _communication.OnDisconnect += OnDisconnect;
@@ -260,6 +262,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             _communication.CmdHandler.OnDriverConnect += OnDriverConnect;
             _communication.CmdHandler.OnDriverDisconnect += OnDriverDisconnect;
+
+            _screenshotCommunication = new ScreenshotCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
         }
 
         private void StartClient()
@@ -269,10 +273,10 @@ namespace AltTester.AltTesterUnitySDK.UI
             try
             {
                 _communication.Connect();
+                _screenshotCommunication.Connect();
 
                 if (!_communication.IsConnected) // Display dialog only if not connected
                 {
-                    UnityEngine.Debug.Log("2");
                     OnStart();
                 }
             }
@@ -301,6 +305,9 @@ namespace AltTester.AltTesterUnitySDK.UI
 
                 _communication.Close();
                 _communication = null;
+
+                _screenshotCommunication.Close();
+                _screenshotCommunication = null;
             }
         }
 
