@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using AltTester;
 using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Driver.Communication;
-using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Logging;
 using System.Collections;
 using UnityEngine;
@@ -85,7 +84,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             _updateQueue.Cycle();
 
-            if (this._screenshotCommunication == null)
+            if (this._screenshotCommunication == null || !this._screenshotCommunication.IsConnected)
             {
                 return;
             }
@@ -95,9 +94,13 @@ namespace AltTester.AltTesterUnitySDK.UI
             //     UnityEngine.Debug.Log("HERE");
 
             //     this._driver = new DriverScreenshotCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName, 30);
+            //     UnityEngine.Debug.Log("1");
             //     this._driver.Connect();
+            //     UnityEngine.Debug.Log("2");
             //     this._driver.Start();
+            //     UnityEngine.Debug.Log("3");
             //     this._driver.UpdateFrameRate(1);
+            //     UnityEngine.Debug.Log("4");
             //     this._driver.UpdateQuality(100);
             // }
 
@@ -268,6 +271,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void StartClient()
         {
+            OnStart();
             InitClient();
 
             try
@@ -275,10 +279,10 @@ namespace AltTester.AltTesterUnitySDK.UI
                 _communication.Connect();
                 _screenshotCommunication.Connect();
 
-                if (!_communication.IsConnected) // Display dialog only if not connected
-                {
-                    OnStart();
-                }
+                // if (!_communication.IsConnected) // Display dialog only if not connected
+                // {
+                //     OnStart();
+                // }
             }
             catch (UnhandledStartCommError ex)
             {
@@ -305,7 +309,10 @@ namespace AltTester.AltTesterUnitySDK.UI
 
                 _communication.Close();
                 _communication = null;
+            }
 
+            if (_screenshotCommunication != null)
+            {
                 _screenshotCommunication.Close();
                 _screenshotCommunication = null;
             }
@@ -329,6 +336,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void OnDisconnect()
         {
+            this.StopClient();
             _connectedDrivers.Clear();
 
             _updateQueue.ScheduleResponse(() =>
