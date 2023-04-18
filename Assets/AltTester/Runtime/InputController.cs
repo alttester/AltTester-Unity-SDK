@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Altom.AltDriver;
 using AltTester.AltTesterUnitySDK.Driver;
 using UnityEngine;
-
 
 namespace AltTester.AltTesterUnitySDK
 {

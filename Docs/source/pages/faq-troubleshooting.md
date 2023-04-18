@@ -147,7 +147,7 @@ After reopening Unity Editor, add again the AltTester package in your project.
 
 You get this error because you don't have the Input System (New) package. If you only want to use the Input Manager (Old) in your project, follow this steps:
 <br>
-- <strong>delete</strong>: 
+- <strong>delete</strong>:
     - `Assets\AltTester\AltServer\NewInputSystem.cs`
     - `Assets\AltTester\AltServer\AltKeyMapping.cs`
 - <strong>comment</strong> in `Assets\AltTester\AltServer\AltPrefabDrag.cs` the entire `#else` statement
@@ -161,21 +161,21 @@ You get this error because you don't have the Input System (New) package. If you
     ```
 - <strong>comment</strong> in `Assets\AltTester\AltServer\Input.cs`:
     - all imports for using `UnityEngine.InputSystem.UI`
-        ```   
+        ```
         #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
 
         using System;
         using System.Collections;
         using System.Collections.Generic;
         using System.Linq;
-        using Altom.AltDriver;
-        using Altom.AltTester;
-        using Altom.AltTester.AltTesterUnitySDK.InputModule;
+        using AltTester.AltTesterUnitySDK.Driver;
+        using AltTester.AltTesterUnitySDK;
+        using AltTester.AltTesterUnitySDK.InputModule;
         using UnityEngine;
         using UnityEngine.EventSystems;
         // using UnityEngine.InputSystem.UI;
         using UnityEngine.Scripting;
-        ```  
+        ```
     - all `if` lines that contain `InputSystemUIInputModule` and the curly brackets inside these `if` statements making sure to leave the code inside the brackets uncommented
         ```
         // if (EventSystem.current.currentInputModule != null && EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
@@ -188,7 +188,7 @@ You get this error because you don't have the Input System (New) package. If you
                     }
                 // }
         ```
-     
+
 - <strong>comment</strong> in `Assets\AltTester\AltServer\AltMockUpPointerInputModule.cs` the same as the above
 
 </details>

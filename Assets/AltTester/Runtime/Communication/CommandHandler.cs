@@ -2,12 +2,12 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Altom.AltTester.AltTesterUnitySDK.Commands;
+using AltTester.AltTesterUnitySDK.Commands;
+using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Logging;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Driver.Communication;
-using AltTester.AltTesterUnitySDK.Commands;
-using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
 
 namespace AltTester.AltTesterUnitySDK.Communication

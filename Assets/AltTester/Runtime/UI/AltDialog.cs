@@ -284,7 +284,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 //     OnStart();
                 // }
             }
-            catch (UnhandledStartCommError ex)
+            catch (RuntimeWebSocketClientException ex)
             {
                 SetMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex.InnerException, "An unexpected error occurred while starting the AltTester client.");

@@ -1,5 +1,3 @@
-using System;
-
 namespace AltTester.AltTesterUnitySDK.Communication
 {
     public delegate void SendMessageHandler(string message);
@@ -14,12 +12,5 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         void Send(string data);
         void OnMessage(string data);
-    }
-
-    public class UnhandledStartCommError : Exception
-    {
-        public UnhandledStartCommError(string message, Exception innerException) : base(message, innerException)
-        {
-        }
     }
 }
