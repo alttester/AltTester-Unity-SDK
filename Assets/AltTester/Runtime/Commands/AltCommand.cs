@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
@@ -151,8 +150,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 }
                 try
                 {
-                    Stopwatch stopWatch = new Stopwatch();
-                    stopWatch.Start();
                     using (var strWriter = new System.IO.StringWriter())
                     {
                         using (var jsonWriter = new CustomJsonTextWriter(strWriter))
@@ -164,11 +161,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
                         }
                         cmdResponse.data = strWriter.ToString();
                     }
-                    stopWatch.Stop();
-                    var ts2 = stopWatch.Elapsed;
-                    string elapsedTime = ts2.Milliseconds.ToString();
-
-                    UnityEngine.Debug.LogWarning("Json2 " + cmdResponse.commandName + ": " + elapsedTime);
                 }
                 catch (Exception e)
                 {

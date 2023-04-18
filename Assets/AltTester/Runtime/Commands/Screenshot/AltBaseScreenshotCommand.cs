@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -22,7 +21,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
 
         public abstract override TResult Execute();
-
 
         protected System.Collections.IEnumerator SendTexturedScreenshotCoroutine(UnityEngine.Vector2 size, int quality)
         {
@@ -81,22 +79,14 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             var result = ExecuteHandleErrors(() => getTexturedScreenshot(size, quality));
 
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-            UnityEngine.Debug.LogWarning(" Length before serialization:  " + result.data.Length);
-
             string data = JsonConvert.SerializeObject(result, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Culture = CultureInfo.InvariantCulture,
                 StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
             });
-            stopWatch.Stop();
-            var ts2 = stopWatch.Elapsed;
-            string elapsedTime = ts2.Milliseconds.ToString();
-            UnityEngine.Debug.LogWarning("Json1: " + elapsedTime + " Length:  " + data.Length);
-            Handler.Send(data);
 
+            Handler.Send(data);
         }
 
         private AltGetScreenshotResponse getTexturedScreenshot(UnityEngine.Vector2 size, int quality)
