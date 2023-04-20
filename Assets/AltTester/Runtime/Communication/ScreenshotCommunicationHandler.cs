@@ -12,6 +12,10 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string appName;
         private readonly string path = "/altws/screenshot/app";
 
+        public CommunicationHandler OnConnect { get; set; }
+        public CommunicationHandler OnDisconnect { get; set; }
+        public CommunicationErrorHandler OnError { get; set; }
+
         private bool isRunning = false;
         private int quality = 75;
         private int frameRate = 10;
@@ -36,10 +40,26 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName);
             #endif
 
+            this.wsClient.OnOpen += (sender, message) =>
+            {
+                if (this.OnConnect != null) this.OnConnect();
+            };
+
+            this.wsClient.OnClose += (sender, args) =>
+            {
+                if (this.OnDisconnect != null) this.OnDisconnect();
+            };
+
+            this.wsClient.OnError += (sender, args) =>
+            {
+                if (this.OnError != null) this.OnError.Invoke(args.Message, args.Exception);
+            };
+
             this.wsClient.OnMessage += (message) =>
             {
                 this.OnMessage(message);
             };
+
             this.wsClient.Connect();
         }
 
@@ -83,8 +103,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private byte[] GetScreenshot() {
             var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
             var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality: this.quality);
-
-            UnityEngine.Debug.LogWarning("ScreenCompressed: " + screenshotSerialized.Length);
 
             UnityEngine.Object.Destroy(screenshot);
             return screenshotSerialized;

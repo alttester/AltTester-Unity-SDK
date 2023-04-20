@@ -267,6 +267,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             _communication.CmdHandler.OnDriverDisconnect += OnDriverDisconnect;
 
             _screenshotCommunication = new ScreenshotCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            // _communication.OnConnect += OnConnect;
+            _communication.OnDisconnect += OnDisconnect;
+            _communication.OnError += OnError;
         }
 
         private void StartClient()
@@ -278,15 +281,10 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 _communication.Connect();
                 _screenshotCommunication.Connect();
-
-                // if (!_communication.IsConnected) // Display dialog only if not connected
-                // {
-                //     OnStart();
-                // }
             }
             catch (RuntimeWebSocketClientException ex)
             {
-                SetMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
+                SetMessage("2 An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex.InnerException, "An unexpected error occurred while starting the AltTester client.");
             }
             catch (Exception ex)

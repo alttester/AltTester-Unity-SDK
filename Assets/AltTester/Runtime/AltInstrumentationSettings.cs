@@ -3,32 +3,34 @@ using System;
 namespace AltTester.AltTesterUnitySDK
 {
     /// <summary>
-    /// Unity App Instrumentation settings for AltTester
+    /// Settings for AltTester Unity App instrumentation.
     /// </summary>
     [Serializable]
     public class AltInstrumentationSettings
     {
         /// <summary>
-        /// The host to which the Instrumented Unity App will connect to.
+        /// Gets or sets the host that the instrumented Unity App will connect to.
         /// </summary>
-        public string AltServerHost = "127.0.0.1";
+        public string AltServerHost { get; set; } = "127.0.0.1";
 
         /// <summary>
-        /// The port to which the Instrumented Unity App will connect to.
+        /// Gets or sets the port that the instrumented Unity App will connect to.
         /// </summary>
-        public int AltServerPort = 13000;
-
-        public string AppName = "__default__";
+        public int AltServerPort { get; set; } = 13000;
 
         /// <summary>
-        /// If true, it will show where an action happens on screen (e.g. swipe or click).
+        /// Gets or sets the name of the app that the instrumented Unity App will use as a unique identifier.
         /// </summary>
-        public bool InputVisualizer = true;
+        public string AppName { get; set; } = "__default__";
 
         /// <summary>
-        /// If true, it will display the `AltTester` popup in Instrumented Unity App.
+        /// Gets or sets a value indicating whether to show where an action happens on the screen (e.g. swipe or click).
         /// </summary>
-        public bool ShowPopUp = true;
+        public bool InputVisualizer { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to display the AltTester popup in the instrumented Unity App.
+        /// </summary>
+        public bool ShowPopUp { get; set; } = true;
     }
 }

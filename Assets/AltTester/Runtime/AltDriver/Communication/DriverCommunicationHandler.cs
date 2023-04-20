@@ -143,6 +143,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private void handleNotification(CommandResponse message)
         {
             handleErrors(message.error);
+
             switch (message.commandName)
             {
                 case "loadSceneNotification":
