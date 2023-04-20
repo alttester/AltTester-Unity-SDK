@@ -14,25 +14,33 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
         private DriverWebSocketClient wsClient = null;
 
-        public event EventHandler<byte[]> OnMessage;
+        private event EventHandler<byte[]> OnMessage;
 
-        private readonly string _host;
-        private readonly int _port;
-        private readonly string _appName;
-        private readonly int _connectTimeout;
+        private string _host;
+        private int _port;
+        private string _appName;
+        private int _connectTimeout;
 
-        private readonly string _uri;
+        private string _uri;
 
-        public DriverScreenshotCommunicationHandler(string host, int port, string appName, int connectTimeout)
+        public string Host { get { return this._host; } }
+        public int Port { get { return this._port; } }
+        public string AppName { get { return this._appName; } }
+        public int ConnectTimeout { get { return this._connectTimeout; } }
+
+        public string URI { get { return this._uri; } }
+
+        public DriverScreenshotCommunicationHandler()
+        {
+        }
+
+        public void Connect(string host, int port, string appName, int connectTimeout)
         {
             _host = host;
             _port = port;
             _appName = appName;
             _connectTimeout = connectTimeout;
-        }
 
-        public void Connect()
-        {
             this.wsClient = new DriverWebSocketClient(_host, _port, "/altws/screenshot", _appName, _connectTimeout);
             this.wsClient.OnMessage += (sender, e) =>
             {
