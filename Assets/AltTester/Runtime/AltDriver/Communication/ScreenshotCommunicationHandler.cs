@@ -14,7 +14,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
         private DriverWebSocketClient wsClient = null;
 
-        private event EventHandler<byte[]> OnMessage;
+        public event EventHandler<byte[]> OnMessage;
 
         private string _host;
         private int _port;
