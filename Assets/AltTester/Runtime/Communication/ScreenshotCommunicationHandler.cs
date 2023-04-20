@@ -40,19 +40,19 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName);
             #endif
 
-            this.wsClient.OnOpen += (sender, message) =>
+            this.wsClient.OnConnect += () =>
             {
                 if (this.OnConnect != null) this.OnConnect();
             };
 
-            this.wsClient.OnClose += (sender, args) =>
+            this.wsClient.OnDisconnect += () =>
             {
                 if (this.OnDisconnect != null) this.OnDisconnect();
             };
 
-            this.wsClient.OnError += (sender, args) =>
+            this.wsClient.OnError += (message, exception) =>
             {
-                if (this.OnError != null) this.OnError.Invoke(args.Message, args.Exception);
+                if (this.OnError != null) this.OnError.Invoke(message, exception);
             };
 
             this.wsClient.OnMessage += (message) =>
