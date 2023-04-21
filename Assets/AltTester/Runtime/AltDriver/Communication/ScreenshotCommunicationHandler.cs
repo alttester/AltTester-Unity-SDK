@@ -21,14 +21,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
         private string _appName;
         private int _connectTimeout;
 
-        private string _uri;
-
         public string Host { get { return this._host; } }
         public int Port { get { return this._port; } }
         public string AppName { get { return this._appName; } }
         public int ConnectTimeout { get { return this._connectTimeout; } }
-
-        public string URI { get { return this._uri; } }
 
         public DriverScreenshotCommunicationHandler()
         {
