@@ -89,31 +89,18 @@ namespace AltTester.AltTesterUnitySDK.UI
                 return;
             }
 
-            // if (this._driver == null)
-            // {
-            //     UnityEngine.Debug.Log("HERE");
-
-            //     this._driver = new DriverScreenshotCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName, 30);
-            //     UnityEngine.Debug.Log("1");
-            //     this._driver.Connect();
-            //     UnityEngine.Debug.Log("2");
-            //     this._driver.Start();
-            //     UnityEngine.Debug.Log("3");
-            //     this._driver.UpdateFrameRate(1);
-            //     UnityEngine.Debug.Log("4");
-            //     this._driver.UpdateQuality(100);
-            // }
-
             update += Time.deltaTime;
             if (update > 1.0f / this._screenshotCommunication.FrameRate)
             {
                 update = 0.0f;
-                // _updateQueue.ScheduleResponse(() =>
-                // {
-                // });
-
-                this._screenshotCommunication.SendScreenshot();
+                StartCoroutine(this.SendScreenshot());
             }
+        }
+
+        protected IEnumerator SendScreenshot()
+        {
+            yield return new UnityEngine.WaitForEndOfFrame();
+            this._screenshotCommunication.SendScreenshot();
         }
 
         protected void OnApplicationQuit()
