@@ -4,11 +4,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
-using AltWebSocketSharp;
 using Newtonsoft.Json;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Communication {
-    public class DriverScreenshotCommunicationHandler
+    public class LiveUpdateDriver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
 
@@ -16,28 +15,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
         public event EventHandler<byte[]> OnMessage;
 
-        private string _host;
-        private int _port;
-        private string _appName;
-        private int _connectTimeout;
+        private bool isRunning = false;
 
-        public string Host { get { return this._host; } }
-        public int Port { get { return this._port; } }
-        public string AppName { get { return this._appName; } }
-        public int ConnectTimeout { get { return this._connectTimeout; } }
-
-        public DriverScreenshotCommunicationHandler()
-        {
-        }
+        public bool IsRunning { get { return this.isRunning; } }
+        public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
 
         public void Connect(string host, int port, string appName, int connectTimeout)
         {
-            _host = host;
-            _port = port;
-            _appName = appName;
-            _connectTimeout = connectTimeout;
-
-            this.wsClient = new DriverWebSocketClient(_host, _port, "/altws/screenshot", _appName, _connectTimeout);
+            this.isRunning = false;
+            this.wsClient = new DriverWebSocketClient(host, port, "/altws/screenshot", appName, connectTimeout);
             this.wsClient.OnMessage += (sender, e) =>
             {
                 this.OnMessage.Invoke(this, e.RawData);
@@ -47,18 +33,22 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
         public void Close()
         {
-            logger.Info(string.Format("Closing connection to AltTester on: {0}", this.wsClient.URI));
+            logger.Info(string.Format("Closing connection to AltTester on: '{0}'.", this.wsClient.URI));
+
+            this.isRunning = false;
             this.wsClient.Close();
         }
 
         public void Start()
         {
             this.wsClient.Send("Start");
+            this.isRunning = true;
         }
 
         public void Stop()
         {
             this.wsClient.Send("Stop");
+            this.isRunning = false;
         }
 
         public void UpdateFrameRate(int frameRate)

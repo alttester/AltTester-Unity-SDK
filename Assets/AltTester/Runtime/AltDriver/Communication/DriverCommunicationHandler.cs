@@ -17,10 +17,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         private DriverWebSocketClient wsClient = null;
 
-        private readonly string _host;
-        private readonly int _port;
-        private readonly string _appName;
-        private readonly int _connectTimeout;
+        private readonly string host;
+        private readonly int port;
+        private readonly string appName;
+        private readonly int connectTimeout;
 
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
@@ -35,17 +35,17 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public DriverCommunicationHandler(string host, int port, int connectTimeout, string appName)
         {
-            _host = host;
-            _port = port;
-            _appName = appName;
-            _connectTimeout = connectTimeout;
+            this.host = host;
+            this.port = port;
+            this.appName = appName;
+            this.connectTimeout = connectTimeout;
 
-            messages = new Queue<CommandResponse>();
+            this.messages = new Queue<CommandResponse>();
         }
 
         public void Connect()
         {
-            this.wsClient = new DriverWebSocketClient(_host, _port, "/altws", _appName, _connectTimeout);
+            this.wsClient = new DriverWebSocketClient(this.host, this.port, "/altws", this.appName, this.connectTimeout);
             this.wsClient.OnMessage += (sender, e) =>
             {
                 OnMessage(sender, e.Data);
@@ -111,7 +111,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 Culture = CultureInfo.InvariantCulture
             });
             this.wsClient.Send(message);
-            logger.Debug("command sent: " + Utils.TrimLog(message));
+            logger.Debug("Command sent: " + Utils.TrimLog(message));
         }
 
         public void Close()
@@ -136,7 +136,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             else
             {
                 messages.Enqueue(message);
-                logger.Debug("response received: " + Utils.TrimLog(data));
+                logger.Debug("Response received: " + Utils.TrimLog(data));
             }
         }
 
@@ -307,7 +307,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public void SleepFor(float time)
         {
-            Thread.Sleep(System.Convert.ToInt32(time * 1000));
+            Utils.SleepFor(time);
         }
     }
 }
