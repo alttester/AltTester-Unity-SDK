@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using AltTester;
 using AltTester.AltTesterUnitySDK.Communication;
-using AltTester.AltTesterUnitySDK.Driver.Communication;
 using AltTester.AltTesterUnitySDK.Logging;
 using System.Collections;
 using UnityEngine;
@@ -55,8 +54,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private RuntimeCommunicationHandler _communication;
         private ScreenshotCommunicationHandler _screenshotCommunication;
-
-        private DriverScreenshotCommunicationHandler _driver;
 
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
 
