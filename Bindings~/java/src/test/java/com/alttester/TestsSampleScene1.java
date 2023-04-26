@@ -371,38 +371,34 @@ public class TestsSampleScene1 extends BaseTest {
                 assertEquals(Boolean.FALSE, propertyValue);
         }
 
-        // @Test
-        // public void testFailWaitForComponentProperty() throws InterruptedException {
-        // Thread.sleep(1000);
-        // String componentName = "UnityEngine.UI.Text";
-        // String propertyName = "text";
-        // AltFindObjectsParams capsuleParams = new
-        // AltFindObjectsParams.Builder(AltDriver.By.NAME,
-        // "Capsule").build();
-        // AltFindObjectsParams capsuleInfoParams = new
-        // AltFindObjectsParams.Builder(AltDriver.By.NAME,
-        // "CapsuleInfo").build();
+        @Test
+        public void testWaitForComponentPropertyWrongAssembly() throws InterruptedException {
+                Thread.sleep(1000);
+                String componentName = "UnityEngine.UI.Text";
+                String propertyName = "text";
+                AltFindObjectsParams capsuleParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                                "Capsule").build();
+                AltFindObjectsParams capsuleInfoParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                                "CapsuleInfo").build();
 
-        // AltObject capsule = altDriver.findObject(capsuleParams);
-        // AltObject capsuleInfo = altDriver.findObject(capsuleInfoParams);
-        // capsule.tap();
+                AltObject capsule = altDriver.findObject(capsuleParams);
+                AltObject capsuleInfo = altDriver.findObject(capsuleInfoParams);
+                capsule.tap();
 
-        // AltGetComponentPropertyParams altGetComponentPropertyParams = new
-        // AltGetComponentPropertyParams.Builder(
-        // componentName, propertyName, "UnityEngine.UI").build();
-        // AltWaitForComponentPropertyParams<String> altWaitForComponentPropertyParams =
-        // new AltWaitForComponentPropertyParams.Builder<String>(
-        // altGetComponentPropertyParams).build();
+                AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                                componentName, propertyName, "UnityEngine.UIAAA").build();
+                AltWaitForComponentPropertyParams<String> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<String>(
+                                altGetComponentPropertyParams).build();
 
-        // String propertyValue = capsuleInfo.WaitForComponentProperty(
-        // altWaitForComponentPropertyParams,
-        // "Capsule was clicked",
-        // String.class);
-        // assertEquals("Capsule was clicked", propertyValue);
-        // }
+                String propertyValue = capsuleInfo.WaitForComponentProperty(
+                                altWaitForComponentPropertyParams,
+                                "Capsule was clicked to jump!",
+                                String.class);
+                assertEquals("Capsule was clicked to jump!", propertyValue);
+        }
 
         @Test
-        public void testFailWaitForComponentProperty() throws InterruptedException {
+        public void testWaitForComponentPropertyWrongValue() throws InterruptedException {
                 Thread.sleep(1000);
                 String componentName = "UnityEngine.UI.Text";
                 String propertyName = "text";
@@ -418,7 +414,33 @@ public class TestsSampleScene1 extends BaseTest {
                 AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                                 componentName, propertyName, "UnityEngine.UI").build();
                 AltWaitForComponentPropertyParams<String> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<String>(
-                                altGetComponentPropertyParams).withTimeout(0.2).withInterval(20).build();
+                                altGetComponentPropertyParams).build();
+
+                String propertyValue = capsuleInfo.WaitForComponentProperty(
+                                altWaitForComponentPropertyParams,
+                                "Capsule was clicked!",
+                                String.class);
+                assertEquals("Capsule was clicked to jump!", propertyValue);
+        }
+
+        @Test
+        public void testWaitForComponentPropertyWrongComponent() throws InterruptedException {
+                Thread.sleep(1000);
+                String componentName = "UnityEngine.UI.TextAAA";
+                String propertyName = "text";
+                AltFindObjectsParams capsuleParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                                "Capsule").build();
+                AltFindObjectsParams capsuleInfoParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                                "CapsuleInfo").build();
+
+                AltObject capsule = altDriver.findObject(capsuleParams);
+                AltObject capsuleInfo = altDriver.findObject(capsuleInfoParams);
+                capsule.tap();
+
+                AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                                componentName, propertyName, "UnityEngine.UI").build();
+                AltWaitForComponentPropertyParams<String> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<String>(
+                                altGetComponentPropertyParams).build();
 
                 String propertyValue = capsuleInfo.WaitForComponentProperty(
                                 altWaitForComponentPropertyParams,

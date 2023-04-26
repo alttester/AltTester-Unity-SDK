@@ -238,7 +238,7 @@ class TestScene01:
 
         assert result == "Capsule was clicked to jump!"
 
-    def test_failed_wait_for_component_property(self):
+    def test__wait_for_component_property_wrong_value(self):
         capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         alt_object.tap()
@@ -248,23 +248,23 @@ class TestScene01:
 
         assert result == "Capsule was clicked"
 
-    def test_failed_wait_for_component_property2(self):
+    def test__wait_for_component_property_wrong_assembly(self):
         capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         alt_object.tap()
         result = capsule_info.wait_for_component_property(
             "UnityEngine.UI.Text", "text", "Capsule was clicked to jump!",
-            "UnityEngine.UI", 0.5, 10)
-
+            "UnityEngine.UIAAAA")
         assert result == "Capsule was clicked to jump!"
 
-    # def test_wait_for_component_property(self):
-    #     alt_object = self.altdriver.find_object(By.NAME, "Capsule")
-    #     result = alt_object.wait_for_component_property(
-    #         "AltExampleScriptCapsule", "TestBool", True,
-    #         "Assembly-CSharp")
-
-    #     assert result is True
+    def test__wait_for_component_property_wrong_component(self):
+        capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
+        alt_object = self.altdriver.find_object(By.NAME, "Capsule")
+        alt_object.tap()
+        result = capsule_info.wait_for_component_property(
+            "UnityEngine.UI.Text", "textaaaaaa", "Capsule was clicked to jump!",
+            "UnityEngine.UI")
+        assert result == "Capsule was clicked to jump!"
 
     def test_get_component_property(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
