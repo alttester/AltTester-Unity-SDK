@@ -53,7 +53,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
         private RuntimeCommunicationHandler _communication;
-        private ScreenshotCommunicationHandler _screenshotCommunication;
+        private LiveUpdateCommunicationHandler _liveUpdateCommunication;
 
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
 
@@ -81,13 +81,13 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             _updateQueue.Cycle();
 
-            if (this._screenshotCommunication == null || !this._screenshotCommunication.IsConnected)
+            if (this._liveUpdateCommunication == null || !this._liveUpdateCommunication.IsConnected)
             {
                 return;
             }
 
             update += Time.deltaTime;
-            if (update > 1.0f / this._screenshotCommunication.FrameRate)
+            if (update > 1.0f / this._liveUpdateCommunication.FrameRate)
             {
                 update = 0.0f;
                 StartCoroutine(this.SendScreenshot());
@@ -97,7 +97,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         protected IEnumerator SendScreenshot()
         {
             yield return new UnityEngine.WaitForEndOfFrame();
-            this._screenshotCommunication.SendScreenshot();
+            this._liveUpdateCommunication.SendScreenshot();
         }
 
         protected void OnApplicationQuit()
@@ -250,10 +250,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             _communication.CmdHandler.OnDriverConnect += OnDriverConnect;
             _communication.CmdHandler.OnDriverDisconnect += OnDriverDisconnect;
 
-            _screenshotCommunication = new ScreenshotCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
-            // _communication.OnConnect += OnConnect;
-            _communication.OnDisconnect += OnDisconnect;
-            _communication.OnError += OnError;
+            _liveUpdateCommunication = new LiveUpdateCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            _liveUpdateCommunication.OnDisconnect += OnDisconnect;
+            _liveUpdateCommunication.OnError += OnError;
         }
 
         private void StartClient()
@@ -264,7 +263,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             try
             {
                 _communication.Connect();
-                _screenshotCommunication.Connect();
+                _liveUpdateCommunication.Connect();
             }
             catch (RuntimeWebSocketClientException ex)
             {
@@ -293,10 +292,10 @@ namespace AltTester.AltTesterUnitySDK.UI
                 _communication = null;
             }
 
-            if (_screenshotCommunication != null)
+            if (_liveUpdateCommunication != null)
             {
-                _screenshotCommunication.Close();
-                _screenshotCommunication = null;
+                _liveUpdateCommunication.Close();
+                _liveUpdateCommunication = null;
             }
         }
 

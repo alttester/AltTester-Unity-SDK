@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
-    public class ScreenshotCommunicationHandler
+    public class LiveUpdateCommunicationHandler
     {
         private IRuntimeWebSocketClient wsClient = null;
 
@@ -25,7 +25,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public int Quality { get { return this.quality; } }
         public int FrameRate { get { return this.frameRate; } }
 
-        public ScreenshotCommunicationHandler(string host, int port, string appName)
+        public LiveUpdateCommunicationHandler(string host, int port, string appName)
         {
             this.host = host;
             this.port = port;
