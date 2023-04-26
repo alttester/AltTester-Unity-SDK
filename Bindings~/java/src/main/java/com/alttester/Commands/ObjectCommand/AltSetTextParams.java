@@ -1,15 +1,15 @@
 package com.alttester.Commands.ObjectCommand;
 
 public class AltSetTextParams extends AltObjectParams {
-    private String newText;
+    private String value;
     private boolean submit = true;
 
     public static class Builder {
-        private String newText;
+        private String value;
         private boolean submit = true;
 
         public Builder(String newText) {
-            this.newText = newText;
+            this.value = newText;
         }
 
         public Builder withSubmit(boolean submit) {
@@ -19,7 +19,7 @@ public class AltSetTextParams extends AltObjectParams {
 
         public AltSetTextParams build() {
             AltSetTextParams altSetTextParams = new AltSetTextParams();
-            altSetTextParams.newText = this.newText;
+            altSetTextParams.value = this.value;
             altSetTextParams.submit = this.submit;
 
             return altSetTextParams;
@@ -30,11 +30,11 @@ public class AltSetTextParams extends AltObjectParams {
     }
 
     public String getNewText() {
-        return newText;
+        return value;
     }
 
     public void setNewText(String newText) {
-        this.newText = newText;
+        this.value = newText;
     }
 
     public boolean getSubmit() {
