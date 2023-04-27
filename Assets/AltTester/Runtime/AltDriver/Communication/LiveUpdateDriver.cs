@@ -23,7 +23,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
         public void Connect(string host, int port, string appName, int connectTimeout)
         {
             this.isRunning = false;
-            this.wsClient = new DriverWebSocketClient(host, port, "/altws/screenshot", appName, connectTimeout);
+            this.wsClient = new DriverWebSocketClient(host, port, "/altws/live-update", appName, connectTimeout);
             this.wsClient.OnMessage += (sender, e) =>
             {
                 this.OnMessage.Invoke(this, e.RawData);

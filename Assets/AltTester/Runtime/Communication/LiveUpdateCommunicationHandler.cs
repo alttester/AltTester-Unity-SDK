@@ -10,7 +10,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string host;
         private readonly int port;
         private readonly string appName;
-        private readonly string path = "/altws/screenshot/app";
+        private readonly string path = "/altws/live-update/app";
 
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationHandler OnDisconnect { get; set; }
