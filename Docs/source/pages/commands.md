@@ -3897,7 +3897,158 @@ None
             self.assertEqual('Canvas', elementParent.name)
 
 ```
+### GetScreenPosition
 
+ Returns the screen position of the AltTester object.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltVector2
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestHoldButton()
+        {
+            const int duration = 1;
+            var button = altDriver.FindObject(By.NAME, "UIButton");
+            altDriver.HoldButton(button.GetScreenPosition(), duration);
+            var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
+            var text = capsuleInfo.GetText();
+            Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+            var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
+            Assert.Greater(time, duration);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testHoldButton() throws Exception {
+            AltObject button = altDriver
+                    .findObject(new AltFindObjectsParams.Builder(AltDriver.By.NAME, "UIButton").build());
+            altDriver.holdButton(new AltHoldParams.Builder(button.getScreenPosition()).withDuration(1).build());
+            AltObject capsuleInfo = altDriver
+                    .findObject(new AltFindObjectsParams.Builder(AltDriver.By.NAME, "CapsuleInfo").build());
+            String text = capsuleInfo.getText();
+            assertEquals(text, "UIButton clicked to jump capsule!");
+        }
+
+    .. code-tab:: py
+
+        def test_hold_button(self):
+            button = self.altdriver.find_object(By.NAME, "UIButton")
+            self.altdriver.hold_button(button.get_screen_position(), duration=1)
+            capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
+            text = capsule_info.get_text()
+            assert text == "UIButton clicked to jump capsule!"
+
+```
+### GetWorldPosition
+
+Returns the world position of the AltTester object.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltVector3
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestAcceleration()
+        {
+            var capsule = altDriver.FindObject(By.NAME, "Capsule");
+            var initialWorldCoordinates = capsule.GetWorldPosition();
+            altDriver.Tilt(new AltVector3(1, 1, 1), 1);
+            Thread.Sleep(100);
+            capsule = altDriver.FindObject(By.NAME, "Capsule");
+            var afterTiltCoordinates = capsule.GetWorldPosition();
+            Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestAcceleration() throws InterruptedException {
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                    AltDriver.By.NAME, "Capsule").build();
+            AltObject capsule = altDriver.findObject(altFindObjectsParameters1);
+            Vector3 initialWorldCoordinates = capsule.getWorldPosition();
+            altDriver.tilt(new AltTiltParams.Builder(new Vector3(1, 1, 1)).withDuration(1).build());
+            capsule = altDriver.findObject(altFindObjectsParameters1);
+            Vector3 afterTiltCoordinates = capsule.getWorldPosition();
+            assertNotEquals(initialWorldCoordinates, afterTiltCoordinates);
+        }
+
+
+    .. code-tab:: py
+
+        def test_acceleration(self):
+            self.altdriver.load_scene("Scene 1 AltDriverTestScene")
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+            self.altdriver.tilt([1, 1, 1], 1)
+
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+            assert initial_position != final_position
+
+```
+
+### GetAllComponents
+
+Returns all components of the AltTester object.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- List of AltComponent
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestGetAllComponents()
+        {
+            List<AltComponent> components = altDriver.FindObject(By.NAME, "Canvas").GetAllComponents();
+            Assert.AreEqual(5, components.Count);
+            Assert.AreEqual("UnityEngine.RectTransform", components[0].componentName);
+            Assert.AreEqual("UnityEngine.CoreModule", components[0].assemblyName);
+        }
+
+    .. code-tab:: py
+
+        def test_get_all_components(self):
+            components = self.altdriver.find_object(By.NAME, "Canvas").get_all_components()
+            assert len(components) == 5
+            assert components[0]["componentName"] == "UnityEngine.RectTransform"
+            assert components[0]["assemblyName"] == "UnityEngine.CoreModule"
+
+```
 ## BY-Selector
 
 It is used in find objects methods to set the criteria of which the objects are searched.
