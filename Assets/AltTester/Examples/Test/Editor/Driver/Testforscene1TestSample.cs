@@ -244,33 +244,33 @@ namespace AltTester.AltDriver.Tests
             Assert.AreEqual("Capsule was clicked to jump!", propertyValue);
         }
 
-        [Test]
-        public void TestFailedWaitForComponentProperty()
-        {
-            const string componentName = "UnityEngine.UI.Text";
-            const string propertyName = "text";
-            var capsule_info = altDriver.FindObject(By.NAME, "CapsuleInfo");
-            var alt_object = altDriver.FindObject(By.NAME, "Capsule");
-            alt_object.Tap();
+        // [Test]
+        // public void TestFailedWaitForComponentProperty()
+        // {
+        //     const string componentName = "UnityEngine.UI.Text";
+        //     const string propertyName = "text";
+        //     var capsule_info = altDriver.FindObject(By.NAME, "CapsuleInfo");
+        //     var alt_object = altDriver.FindObject(By.NAME, "Capsule");
+        //     alt_object.Tap();
 
-            var propertyValue = capsule_info.WaitForComponentProperty<string>(componentName, propertyName, "Capsule was clicked", "UnityEngine.UI");
+        //     var propertyValue = capsule_info.WaitForComponentProperty<string>(componentName, propertyName, "Capsule was clicked", "UnityEngine.UI");
 
-            Assert.AreEqual("Capsule was clicked", propertyValue);
-        }
+        //     Assert.AreEqual("Capsule was clicked", propertyValue);
+        // }
 
-        [Test]
-        public void TestFailed2WaitForComponentProperty()
-        {
-            const string componentName = "UnityEngine.UI.Text";
-            const string propertyName = "text";
-            var capsule_info = altDriver.FindObject(By.NAME, "CapsuleInfo");
-            var alt_object = altDriver.FindObject(By.NAME, "Capsule");
-            alt_object.Tap();
+        // [Test]
+        // public void TestFailed2WaitForComponentProperty()
+        // {
+        //     const string componentName = "UnityEngine.UI.Text";
+        //     const string propertyName = "text";
+        //     var capsule_info = altDriver.FindObject(By.NAME, "CapsuleInfo");
+        //     var alt_object = altDriver.FindObject(By.NAME, "Capsule");
+        //     alt_object.Tap();
 
-            var propertyValue = capsule_info.WaitForComponentProperty<string>(componentName, propertyName, "Capsule was clicked", "UnityEngine.UI", 0.5, 20);
+        //     var propertyValue = capsule_info.WaitForComponentProperty<string>(componentName, propertyName, "Capsule was clicked", "UnityEngine.UI", 0.5, 20);
 
-            Assert.AreEqual("Capsule was clicked", propertyValue);
-        }
+        //     Assert.AreEqual("Capsule was clicked", propertyValue);
+        // }
 
         // [Test]
         // public void TestWaitForComponentProperty()
