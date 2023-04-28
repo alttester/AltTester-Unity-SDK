@@ -309,7 +309,7 @@ public class TestsSampleScene1 extends BaseTest {
         public void testGetComponentProperty() throws InterruptedException {
                 Thread.sleep(1000);
                 String componentName = "AltTester.AltRunner";
-                String propertyName = "InstrumentationSettings.ShowPopUp";
+                String propertyName = "InstrumentationSettings.ShowPopUpaaaaaaa";
                 AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                                 "AltTesterPrefab").build();
                 AltObject altElement = altDriver.findObject(altFindObjectsParams);
