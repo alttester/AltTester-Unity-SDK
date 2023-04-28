@@ -149,30 +149,30 @@ namespace AltTester.AltTesterUnitySDK.Driver
             return altObject;
         }
 
-        public AltObject PointerUpFromObject()
+        public AltObject PointerUp()
         {
-            var altObject = new AltPointerUpFromObject(CommHandler, this).Execute();
+            var altObject = new AltPointerUp(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
 
-        public AltObject PointerDownFromObject()
+        public AltObject PointerDown()
         {
-            var altObject = new AltPointerDownFromObject(CommHandler, this).Execute();
+            var altObject = new AltPointerDown(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
 
-        public AltObject PointerEnterObject()
+        public AltObject PointerEnter()
         {
-            var altObject = new AltPointerEnterObject(CommHandler, this).Execute();
+            var altObject = new AltPointerEnter(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
 
-        public AltObject PointerExitObject()
+        public AltObject PointerExit()
         {
-            var altObject = new AltPointerExitObject(CommHandler, this).Execute();
+            var altObject = new AltPointerExit(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }

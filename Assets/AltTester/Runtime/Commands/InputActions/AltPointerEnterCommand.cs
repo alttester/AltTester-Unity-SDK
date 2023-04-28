@@ -3,10 +3,10 @@ using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltPointerEnterObjectCommand : AltCommand<AltPointerEnterObjectParams, AltObject>
+    class AltPointerEnterCommand : AltCommand<AltPointerEnterParams, AltObject>
     {
 
-        public AltPointerEnterObjectCommand(AltPointerEnterObjectParams cmdParams) : base(cmdParams)
+        public AltPointerEnterCommand(AltPointerEnterParams cmdParams) : base(cmdParams)
         {
         }
 

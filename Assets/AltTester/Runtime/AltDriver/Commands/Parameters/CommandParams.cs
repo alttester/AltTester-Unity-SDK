@@ -363,32 +363,32 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         }
     }
 
-    [Command("pointerDownFromObject")]
-    public class AltPointerDownFromObjectParams : BaseAltObjectParams
+    [Command("pointerDown")]
+    public class AltPointerDownParams : BaseAltObjectParams
     {
-        public AltPointerDownFromObjectParams(AltObject altObject) : base(altObject)
+        public AltPointerDownParams(AltObject altObject) : base(altObject)
         {
         }
     }
 
-    [Command("pointerEnterObject")]
-    public class AltPointerEnterObjectParams : BaseAltObjectParams
+    [Command("pointerEnter")]
+    public class AltPointerEnterParams : BaseAltObjectParams
     {
-        public AltPointerEnterObjectParams(AltObject altObject) : base(altObject)
+        public AltPointerEnterParams(AltObject altObject) : base(altObject)
         {
         }
     }
-    [Command("pointerExitObject")]
-    public class AltPointerExitObjectParams : BaseAltObjectParams
+    [Command("pointerExit")]
+    public class AltPointerExitParams : BaseAltObjectParams
     {
-        public AltPointerExitObjectParams(AltObject altObject) : base(altObject)
+        public AltPointerExitParams(AltObject altObject) : base(altObject)
         {
         }
     }
-    [Command("pointerUpFromObject")]
-    public class AltPointerUpFromObjectParams : BaseAltObjectParams
+    [Command("pointerUp")]
+    public class AltPointerUpParams : BaseAltObjectParams
     {
-        public AltPointerUpFromObjectParams(AltObject altObject) : base(altObject)
+        public AltPointerUpParams(AltObject altObject) : base(altObject)
         {
         }
     }

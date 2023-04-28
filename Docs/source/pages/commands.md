@@ -3561,7 +3561,7 @@ None
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
             var color1 = panel.GetComponentProperty("PanelScript", "normalColor", "Assembly-CSharp");
-            panel.PointerDownFromObject();
+            panel.PointerDown();
             Thread.Sleep(1000);
             var color2 = panel.GetComponentProperty("PanelScript", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1, color2);
@@ -3574,7 +3574,7 @@ None
         {
             AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
             String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "normalColor", "Assembly-CSharp").build(), String.class);
-            panel.pointerDownFromObject();
+            panel.pointerDown();
             Thread.sleep(1000);
             String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "PanelScript", "highlightColor", "Assembly-CSharp").build(), String.class);
             assertTrue(color1 != color2);
@@ -3594,7 +3594,7 @@ None
 
 ```
 
-### PointerUp
+### PointerDown
 
 Simulates pointer up action on the object.
 
@@ -3618,9 +3618,9 @@ None
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
             var color1 = panel.GetComponentProperty("PanelScript", "normalColor", "Assembly-CSharp");
-            panel.PointerDownFromObject();
+            panel.PointerDown();
             Thread.Sleep(1000);
-            panel.PointerUpFromObject();
+            panel.PointerUp();
             var color2 = panel.GetComponentProperty("PanelScript", "highlightColor", "Assembly-CSharp");
             Assert.AreEqual(color1, color2);
         }
@@ -3633,9 +3633,9 @@ None
             AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
             String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "normalColor", "Assembly-CSharp").build(), String.class);
 
-            panel.pointerDownFromObject();
+            panel.pointerDown();
             Thread.sleep(1000);
-            panel.pointerUpFromObject();
+            panel.pointerUp();
             String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "highlightColor", "Assembly-CSharp").build(), String.class);
 
             assertEquals(color1, color2);
@@ -3680,10 +3680,10 @@ None
         {
             var altObject = altDriver.FindObject(By.NAME,"Drop Image");
             var color1 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
-            altDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
+            altDriver.FindObject(By.NAME,"Drop Image").PointerEnter();
             var color2 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1,color2);
-            altDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
+            altDriver.FindObject(By.NAME,"Drop Image").PointerExit();
             var color3 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1,color3);
@@ -3748,10 +3748,10 @@ None
         {
             var altObject = altDriver.FindObject(By.NAME,"Drop Image");
             var color1 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
-            altDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
+            altDriver.FindObject(By.NAME,"Drop Image").PointerEnter();
             var color2 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
             Assert.AreNotEqual(color1,color2);
-            altDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
+            altDriver.FindObject(By.NAME,"Drop Image").PointerExit();
             var color3 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1,color3);

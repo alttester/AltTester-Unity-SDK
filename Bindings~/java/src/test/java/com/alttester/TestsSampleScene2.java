@@ -102,7 +102,7 @@ public class TestsSampleScene2 extends BaseTest {
         }
 
         @Test
-        public void testPointerDownFromObject() throws InterruptedException {
+        public void testPointerDown() throws InterruptedException {
                 AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                                 AltDriver.By.NAME, "Panel").build();
                 AltObject panel = altDriver.findObject(altFindObjectsParameters1);
@@ -124,7 +124,7 @@ public class TestsSampleScene2 extends BaseTest {
         }
 
         @Test
-        public void testPointerUpFromObject() throws InterruptedException {
+        public void testPointerUp() throws InterruptedException {
                 AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
                                 AltDriver.By.NAME, "Panel").build();
                 AltObject panel = altDriver.findObject(altFindObjectsParameters1);

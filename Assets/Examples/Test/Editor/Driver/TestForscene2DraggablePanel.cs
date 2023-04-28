@@ -137,24 +137,24 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
 
         [Test]
-        public void TestPointerDownFromObject()
+        public void TestPointerDown()
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
             var color1 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "normalColor", "Assembly-CSharp");
-            panel.PointerDownFromObject();
+            panel.PointerDown();
             Thread.Sleep(1000);
             var color2 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1, color2);
         }
 
         [Test]
-        public void TestPointerUpFromObject()
+        public void TestPointerUp()
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
             var color1 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "normalColor", "Assembly-CSharp");
-            panel.PointerDownFromObject();
+            panel.PointerDown();
             Thread.Sleep(1000);
-            panel.PointerUpFromObject();
+            panel.PointerUp();
             var color2 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "highlightColor", "Assembly-CSharp");
             Assert.AreEqual(color1, color2);
         }

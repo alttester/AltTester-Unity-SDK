@@ -155,21 +155,21 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 return new AltDragObjectCommand(cmdParams as AltDragObjectParams).ExecuteAndSerialize;
             }
-            if (cmdParams is AltPointerUpFromObjectParams)
+            if (cmdParams is AltPointerUpParams)
             {
-                return new AltPointerUpFromObjectCommand(cmdParams as AltPointerUpFromObjectParams).ExecuteAndSerialize;
+                return new AltPointerUpCommand(cmdParams as AltPointerUpParams).ExecuteAndSerialize;
             }
-            if (cmdParams is AltPointerDownFromObjectParams)
+            if (cmdParams is AltPointerDownParams)
             {
-                return new AltPointerDownFromObjectCommand(cmdParams as AltPointerDownFromObjectParams).ExecuteAndSerialize;
+                return new AltPointerDownCommand(cmdParams as AltPointerDownParams).ExecuteAndSerialize;
             }
-            if (cmdParams is AltPointerEnterObjectParams)
+            if (cmdParams is AltPointerEnterParams)
             {
-                return new AltPointerEnterObjectCommand(cmdParams as AltPointerEnterObjectParams).ExecuteAndSerialize;
+                return new AltPointerEnterCommand(cmdParams as AltPointerEnterParams).ExecuteAndSerialize;
             }
-            if (cmdParams is AltPointerExitObjectParams)
+            if (cmdParams is AltPointerExitParams)
             {
-                return new AltPointerExitObjectCommand(cmdParams as AltPointerExitObjectParams).ExecuteAndSerialize;
+                return new AltPointerExitCommand(cmdParams as AltPointerExitParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltTiltParams)
             {

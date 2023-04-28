@@ -3,10 +3,10 @@ using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltPointerDownFromObjectCommand : AltCommand<AltPointerDownFromObjectParams, AltObject>
+    class AltPointerDownCommand : AltCommand<AltPointerDownParams, AltObject>
     {
 
-        public AltPointerDownFromObjectCommand(AltPointerDownFromObjectParams cmdParams) : base(cmdParams)
+        public AltPointerDownCommand(AltPointerDownParams cmdParams) : base(cmdParams)
         {
         }
 

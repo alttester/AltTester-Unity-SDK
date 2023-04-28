@@ -4,7 +4,7 @@ from alttester.commands.base_command import BaseCommand
 class PointerUp(BaseCommand):
 
     def __init__(self, connection, alt_object):
-        super().__init__(connection, "pointerUpFromObject")
+        super().__init__(connection, "pointerUp")
 
         self.alt_object = alt_object
 
