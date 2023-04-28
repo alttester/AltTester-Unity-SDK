@@ -53,8 +53,11 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
             Utils.sleepFor(altWaitForComponentPropertyParams.getInterval());
             time += altWaitForComponentPropertyParams.getInterval();
         }
-        throw new WaitTimeOutException(
-                "Property " + altWaitForComponentPropertyParams.getAltGetComponentPropertyParams().getPropertyName()
-                        + " still not found after " + altWaitForComponentPropertyParams.getTimeout() + " seconds");
+        // throw new WaitTimeOutException(
+        // "Property " +
+        // altWaitForComponentPropertyParams.getAltGetComponentPropertyParams().getPropertyName()
+        // + " still not found after " + altWaitForComponentPropertyParams.getTimeout()
+        // + " seconds");
+        return recvall(altWaitForComponentPropertyParams, returnType);
     }
 }
