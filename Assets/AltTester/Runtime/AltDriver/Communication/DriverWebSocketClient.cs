@@ -61,7 +61,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             }
         }
 
-        protected void OnError(object sender, ErrorEventArgs e)
+        protected void OnError(object sender, AltWebSocketSharp.ErrorEventArgs e)
         {
             logger.Error(e.Message);
             if (e.Exception != null)

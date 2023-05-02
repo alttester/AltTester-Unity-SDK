@@ -294,6 +294,9 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             if (_liveUpdateCommunication != null)
             {
+                _liveUpdateCommunication.OnDisconnect = null;
+                _liveUpdateCommunication.OnError = null;
+
                 _liveUpdateCommunication.Close();
                 _liveUpdateCommunication = null;
             }
