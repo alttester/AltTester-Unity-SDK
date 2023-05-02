@@ -5,8 +5,8 @@ using System.Globalization;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Driver.Notifications;
-using Newtonsoft.Json;
 using AltWebSocketSharp;
+using Newtonsoft.Json;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Commands
 {
@@ -206,7 +206,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             }
         }
 
-        protected void OnError(object sender, ErrorEventArgs e)
+        protected void OnError(object sender, AltWebSocketSharp.ErrorEventArgs e)
         {
             logger.Error(e.Message);
             if (e.Exception != null)
