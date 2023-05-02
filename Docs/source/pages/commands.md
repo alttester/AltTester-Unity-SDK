@@ -4012,43 +4012,6 @@ None
 
 ```
 
-### GetAllComponents
-
-Returns all components of the AltTester object.
-
-**_Parameters_**
-
-None
-
-**_Returns_**
-
-- List of AltComponent
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [Test]
-        public void TestGetAllComponents()
-        {
-            List<AltComponent> components = altDriver.FindObject(By.NAME, "Canvas").GetAllComponents();
-            Assert.AreEqual(5, components.Count);
-            Assert.AreEqual("UnityEngine.RectTransform", components[0].componentName);
-            Assert.AreEqual("UnityEngine.CoreModule", components[0].assemblyName);
-        }
-
-    .. code-tab:: py
-
-        def test_get_all_components(self):
-            components = self.altdriver.find_object(By.NAME, "Canvas").get_all_components()
-            assert len(components) == 5
-            assert components[0]["componentName"] == "UnityEngine.RectTransform"
-            assert components[0]["assemblyName"] == "UnityEngine.CoreModule"
-
-```
 ## BY-Selector
 
 It is used in find objects methods to set the criteria of which the objects are searched.
