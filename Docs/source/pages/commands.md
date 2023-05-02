@@ -6,7 +6,7 @@ If you are looking for information on a specific function, class or method, this
 
 The **AltDriver** class represents the main app driver component. When you instantiate an AltDriver in your tests, you can use it to "drive" your app like one of your users would, by interacting with all the app objects, their properties and methods.
 
-An AltDriver instance will connect to the running instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the instrumented Unity App with a specific name is running and for how many seconds to let the communication opened. We can also set some more advanced parameters, as shown in the table below:
+An AltDriver instance will connect to the running instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the instrumented Unity App with a specific name is running and for how many seconds to let the communication opened.
 
 **_Parameters_**
 
@@ -15,8 +15,8 @@ An AltDriver instance will connect to the running instrumented Unity application
 | host           | string  | No       | The IP or hostname AltTester Unity SDK is listening on. The default value is "127.0.0.1". |
 | port           | int     | No       | The default value is 13000.                                                           |
 | enableLogging  | boolean | No       | The default value is false.                                                           |
-| connectTimeout | int     | No       | The connect timeout in seconds.The default value is 60                                |
-| appName        | boolean | No       | The name of the Unity application.The default value is `__default__`                  |
+| connectTimeout | int     | No       | The connect timeout in seconds.The default value is 60.                                |
+| appName        | string  | No       | The name of the Unity application.The default value is `__default__`.                  |
 
 Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the app. The available methods are the following:
 
