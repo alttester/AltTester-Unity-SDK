@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using AltTester;
 using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Logging;
+using System.Collections;
+using UnityEngine;
+using AltWebSocketSharp;
 
 namespace AltTester.AltTesterUnitySDK.UI
 {
@@ -49,10 +52,14 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
-        private ICommunication _communication;
+        private RuntimeCommunicationHandler _communication;
+        private LiveUpdateCommunicationHandler _liveUpdateCommunication;
+
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
 
         HashSet<string> _connectedDrivers = new HashSet<string>();
+
+        private float update;
 
         protected void Start()
         {
@@ -73,6 +80,24 @@ namespace AltTester.AltTesterUnitySDK.UI
         protected void Update()
         {
             _updateQueue.Cycle();
+
+            if (this._liveUpdateCommunication == null || !this._liveUpdateCommunication.IsConnected)
+            {
+                return;
+            }
+
+            update += Time.deltaTime;
+            if (update > 1.0f / this._liveUpdateCommunication.FrameRate)
+            {
+                update = 0.0f;
+                StartCoroutine(this.SendScreenshot());
+            }
+        }
+
+        protected IEnumerator SendScreenshot()
+        {
+            yield return new UnityEngine.WaitForEndOfFrame();
+            this._liveUpdateCommunication.SendScreenshot();
         }
 
         protected void OnApplicationQuit()
@@ -217,38 +242,32 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void InitClient()
         {
-            var cmdHandler = new CommandHandler();
-            cmdHandler.OnDriverConnect += OnDriverConnect;
-            cmdHandler.OnDriverDisconnect += OnDriverDisconnect;
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-            _communication = new WebSocketWebGLCommunication(cmdHandler, InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort);
-#else
-            _communication = new WebSocketClientCommunication(cmdHandler, InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
-#endif
-
+            _communication = new RuntimeCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
             _communication.OnConnect += OnConnect;
             _communication.OnDisconnect += OnDisconnect;
             _communication.OnError += OnError;
+
+            _communication.CmdHandler.OnDriverConnect += OnDriverConnect;
+            _communication.CmdHandler.OnDriverDisconnect += OnDriverDisconnect;
+
+            _liveUpdateCommunication = new LiveUpdateCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            _liveUpdateCommunication.OnDisconnect += OnDisconnect;
+            _liveUpdateCommunication.OnError += OnError;
         }
 
         private void StartClient()
         {
+            OnStart();
             InitClient();
+
             try
             {
-                if (_communication == null || !_communication.IsListening) // Start only if it is not already listening
-                {
-                    _communication.Start();
-                }
-                if (!_communication.IsConnected) // Display dialog only if not connected
-                {
-                    OnStart();
-                }
+                _communication.Connect();
+                _liveUpdateCommunication.Connect();
             }
-            catch (UnhandledStartCommError ex)
+            catch (RuntimeWebSocketClientException ex)
             {
-                SetMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
+                SetMessage("2 An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex.InnerException, "An unexpected error occurred while starting the AltTester client.");
             }
             catch (Exception ex)
@@ -269,8 +288,17 @@ namespace AltTester.AltTesterUnitySDK.UI
                 _communication.OnDisconnect = null;
                 _communication.OnError = null;
 
-                _communication.Stop();
+                _communication.Close();
                 _communication = null;
+            }
+
+            if (_liveUpdateCommunication != null)
+            {
+                _liveUpdateCommunication.OnDisconnect = null;
+                _liveUpdateCommunication.OnError = null;
+
+                _liveUpdateCommunication.Close();
+                _liveUpdateCommunication = null;
             }
         }
 
@@ -292,6 +320,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void OnDisconnect()
         {
+            this.StopClient();
             _connectedDrivers.Clear();
 
             _updateQueue.ScheduleResponse(() =>

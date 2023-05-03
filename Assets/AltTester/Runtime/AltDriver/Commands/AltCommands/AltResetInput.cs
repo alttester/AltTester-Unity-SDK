@@ -1,3 +1,5 @@
+using AltTester.AltTesterUnitySDK.Driver.Commands;
+
 namespace AltTester.AltTesterUnitySDK.Driver.Commands
 {
     public class AltResetInput : AltBaseCommand

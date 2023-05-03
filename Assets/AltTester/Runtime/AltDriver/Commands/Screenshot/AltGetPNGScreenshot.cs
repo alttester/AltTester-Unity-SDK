@@ -4,11 +4,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     {
         string path;
         AltGetPNGScreenshotParams cmdParams;
+
         public AltGetPNGScreenshot(IDriverCommunication commHandler, string path) : base(commHandler)
         {
             this.path = path;
             this.cmdParams = new AltGetPNGScreenshotParams();
         }
+
         public void Execute()
         {
             CommHandler.Send(cmdParams);
