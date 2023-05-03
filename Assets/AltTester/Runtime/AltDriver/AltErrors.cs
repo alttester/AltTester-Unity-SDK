@@ -1,6 +1,4 @@
-﻿
-using System;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
+﻿using System;
 
 namespace AltTester.AltTesterUnitySDK.Driver
 {

@@ -1,4 +1,3 @@
-
 using UnityEngine.UI;
 
 public class AltInputMark : UnityEngine.MonoBehaviour

@@ -1,5 +1,6 @@
 namespace AltTester.AltTesterUnitySDK.Communication
 {
+    public delegate void SendMessageHandler(string message);
     public delegate void NotificationHandler(string driverId);
 
     public interface ICommandHandler
