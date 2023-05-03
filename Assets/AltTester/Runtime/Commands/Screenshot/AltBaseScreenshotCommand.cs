@@ -22,7 +22,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public abstract override TResult Execute();
 
-
         protected System.Collections.IEnumerator SendTexturedScreenshotCoroutine(UnityEngine.Vector2 size, int quality)
         {
             yield return new UnityEngine.WaitForEndOfFrame();
@@ -88,14 +87,12 @@ namespace AltTester.AltTesterUnitySDK.Commands
             });
 
             Handler.Send(data);
-
         }
 
         private AltGetScreenshotResponse getTexturedScreenshot(UnityEngine.Vector2 size, int quality)
         {
             var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
             AltGetScreenshotResponse response = new AltGetScreenshotResponse();
-
             response.scaleDifference = new AltVector2(screenshot.width, screenshot.height);
             var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality);
             response.textureSize = new AltVector3(screenshot.width, screenshot.height);
@@ -107,7 +104,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         private string getPNGScreenshot()
         {
-
             var screenShot = new UnityEngine.Texture2D(UnityEngine.Screen.width, UnityEngine.Screen.height, UnityEngine.TextureFormat.RGB24, false);
             screenShot.ReadPixels(new UnityEngine.Rect(0, 0, UnityEngine.Screen.width, UnityEngine.Screen.height), 0, 0);
             screenShot.Apply();

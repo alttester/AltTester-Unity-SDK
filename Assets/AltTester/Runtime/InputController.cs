@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using AltTester.AltTesterUnitySDK.Driver;
 using UnityEngine;
 
-
 namespace AltTester.AltTesterUnitySDK
 {
     public static class InputController
