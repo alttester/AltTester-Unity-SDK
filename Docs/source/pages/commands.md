@@ -2701,7 +2701,7 @@ Invokes static methods from your app.
 | typeName         | string | Yes      | The name of the script. If the script has a namespace the format should look like this: "namespace.typeName".                                                                                             |
 | methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
 | assemblyName     | string | Yes       | The name of the assembly containing the script.                                                                                                                                                          |
-| parameters       | array  | No       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
+| parameters       | array  | Yes       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
 | typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                                 |
 
 **_Returns_**
