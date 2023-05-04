@@ -3,9 +3,11 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using AltTester.AltTesterUnitySDK.Commands;
+using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Logging;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Communication;
 using Newtonsoft.Json;
 
 namespace AltTester.AltTesterUnitySDK.Communication
@@ -15,27 +17,27 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
         private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings { Culture = CultureInfo.InvariantCulture };
 
-        public CommandHandler()
-        {
-        }
-
         public SendMessageHandler OnSendMessage { get; set; }
 
         public NotificationHandler OnDriverConnect { get; set; }
         public NotificationHandler OnDriverDisconnect { get; set; }
+
+        public CommandHandler()
+        {
+        }
 
         public void Send(string data)
         {
             if (this.OnSendMessage != null)
             {
                 this.OnSendMessage.Invoke(data);
-                logger.Debug(string.Format("response sent: {0}", trimLog(data)));
+                logger.Debug(string.Format("response sent: {0}", Utils.TrimLog(data)));
             }
         }
 
         public void OnMessage(string data)
         {
-            logger.Debug(string.Format("command received: {0}", trimLog(data)));
+            logger.Debug(string.Format("command received: {0}", Utils.TrimLog(data)));
 
             Func<string> executeAndSerialize = null;
             CommandParams cmdParams = null;
@@ -354,25 +356,10 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
             if (type == null)
             {
-                throw new CommandNotFoundException(string.Format("Command `{0}` not found", commandName));
+                throw new CommandNotFoundException(string.Format("Command `{0}` not found.", commandName));
             }
 
             return type;
-        }
-
-        private string trimLog(string log, int maxLogLength = 1000)
-        {
-            if (string.IsNullOrEmpty(log))
-            {
-                return log;
-            }
-
-            if (log.Length <= maxLogLength)
-            {
-                return log;
-            }
-
-            return log.Substring(0, maxLogLength) + "[...]";
         }
     }
 }

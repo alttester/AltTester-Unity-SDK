@@ -28,7 +28,6 @@ namespace AltTester.AltTesterUnitySDK.Logging
                 Instance.GetCurrentClassLogger().Info("AltTester logs are saved at: " + logsFilePath);
         }
 
-
         /// <summary>
         /// Reconfigures the NLog logging level.
         /// </summary>

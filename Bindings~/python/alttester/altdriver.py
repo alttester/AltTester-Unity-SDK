@@ -59,6 +59,7 @@ class AltDriver:
             notification_handler=self._notification_handler
         )
         self._connection.connect()
+        self._check_server_version()
 
     def __repr__(self):
         return "{}({!r}, {!r}, {!r}, {!r}, {!r})".format(
