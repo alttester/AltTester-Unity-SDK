@@ -15,15 +15,15 @@ jobs:
 
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
           pip install -r "Docs/requirements.txt"
       - name: Build docs
         run: |
-         cd Docs
-         make html
+          cd Docs
+          make html
       - uses: actions/upload-artifact@v3
         with:
           name: DocumentationHTML
@@ -37,7 +37,7 @@ jobs:
 
       - name: Build SampleGame
         run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13010
           export ALTSERVER_HOST="127.0.0.1"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
@@ -58,20 +58,18 @@ jobs:
 
       - uses: actions/download-artifact@v3
         with:
-          name:
-            BuildMacArtifact
+          name: BuildMacArtifact
 
       - run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13010
           export ALTSERVER_HOST="127.0.0.1"
           chmod -R 755 sampleGame.app
           open sampleGame.app
       - run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13010
           export ALTSERVER_HOST="127.0.0.1"
-          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterEditor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile csharpAndroidTests.log -quit
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile - -quit
       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
-
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
         with:
@@ -89,14 +87,13 @@ jobs:
 
       - uses: actions/download-artifact@v3
         with:
-          name:
-            BuildMacArtifact
+          name: BuildMacArtifact
 
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v2.1.1
 
       - run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13010
           echo $ALTSERVER_PORT
           export ALTSERVER_HOST="127.0.0.1"
           chmod -R 755  sampleGame.app
@@ -118,18 +115,17 @@ jobs:
 
       - uses: actions/download-artifact@v3
         with:
-          name:
-            BuildMacArtifact
+          name: BuildMacArtifact
 
       - name: Open application
         run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13010
           export ALTSERVER_HOST="127.0.0.1"
           chmod -R 755 sampleGame.app
           open sampleGame.app
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
@@ -149,7 +145,7 @@ jobs:
 
       - name: Run integration tests
         run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13010
           export ALTSERVER_HOST="127.0.0.1"
           pytest Bindings~/python/tests/integration
 
@@ -168,20 +164,19 @@ jobs:
 
       - uses: actions/download-artifact@v3
         with:
-          name:
-            BuildMacArtifact
+          name: BuildMacArtifact
 
       - name: Setup Java JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: "temurin"
           java-version: 11
 
       - name: Set up Maven # setup-java does't install maven on self-hosted driver
         uses: stCarolas/setup-maven@v4.5
 
       - run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13010
           echo $ALTSERVER_PORT
           export ALTSERVER_HOST="127.0.0.1"
           chmod -R 755  sampleGame.app

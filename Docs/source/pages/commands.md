@@ -6,15 +6,17 @@ If you are looking for information on a specific function, class or method, this
 
 The **AltDriver** class represents the main app driver component. When you instantiate an AltDriver in your tests, you can use it to "drive" your app like one of your users would, by interacting with all the app objects, their properties and methods.
 
-An AltDriver instance will connect to the running instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the instrumented Unity App is running. We can also set some more advanced parameters, as shown in the table below:
+An AltDriver instance will connect to the running instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the instrumented Unity App with a specific name is running and for how many seconds to let the communication opened.
 
 **_Parameters_**
 
-| Name          | Type    | Required | Description                                                                           |
-| ------------- | ------- | -------- | ------------------------------------------------------------------------------------- |
-| host          | string  | No       | The IP or hostname AltTester Unity SDK is listening on. The default value is "127.0.0.1". |
-| port          | int     | No       | The default value is 13000.                                                           |
-| enableLogging | boolean | No       | The default value is false.                                                           |
+| Name           | Type    | Required | Description                                                                           |
+| -------------- | ------- | -------- | ------------------------------------------------------------------------------------- |
+| host           | string  | No       | The IP or hostname AltTester Unity SDK is listening on. The default value is "127.0.0.1". |
+| port           | int     | No       | The default value is 13000.                                                           |
+| enableLogging  | boolean | No       | The default value is false.                                                           |
+| connectTimeout | int     | No       | The connect timeout in seconds.The default value is 60.                                |
+| appName        | string  | No       | The name of the Unity application.The default value is `__default__`.                  |
 
 Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the app. The available methods are the following:
 
@@ -2755,7 +2757,7 @@ Gets the value of the static field or property.
 | ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
 | componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
 | propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
-| assembly      | string | Yes      | The name of the assembly the component belongs to.                                                      |
+| assemblyName  | string | Yes      | The name of the assembly containing the component. It is NULL by default.                                                      |
 | maxDepth      | int    | No       | The maximum depth in the hierarchy to look for the static field or property. Its value is 2 by default. |
 
 **_Returns_**
@@ -2805,12 +2807,12 @@ Sets the value of the static field or property.
 
 **_Parameters_**
 
-| Name          | Type   | Required | Description                                                                                             |
-| ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
-| componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
-| propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
-| assembly      | string | Yes      | The name of the assembly the component belongs to.                                                      |
-| updatedProperty | object | Yes      | The new value of the component which has the static field or property to be seted. 
+| Name            | Type   | Required | Description                                                                                                              |
+| --------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
+| componentName   | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
+| propertyName    | string | Yes      | The name of the property whose value you want to set                                                                  |
+| assemblyName    | string | Yes      | The name of the assembly containing the component. It is NULL by default.                                                |
+| updatedProperty | object | Yes      | The value to be set for the chosen component's static property                                                           |
 
 **_Returns_**
 
@@ -3106,19 +3108,12 @@ Wait until a property has a specific value and returns the value of the given co
 
 **_Parameters_**
 
-| Name          | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"  
-
-                                      |
-| propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                                                                                                      
-
-| propertyValue  | T | Yes       | The value that property shoud have.                             |
-
-| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                              
-
-| timeout     | double             | No       | The number of seconds that it will wait for property.                                                                                                                                                                                                                                                                                                                                                        |
-| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than timeout.                                                                                                                                                                                                                                                                                       |
+| Name             | Type   | Required | Description                                                                                                                                                                                       |
+| ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |
+| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                    |
+| propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                           |                                                                                                                                   
+| propertyValue  | T | Yes       | The value that property shoud have.                             
+| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                           | timeout     | double             | No       | The number of seconds that it will wait for property.                                                                                                                            | interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than timeout.                                                                                                                                                                                                                                                                                       |
 
 **_Returns_**
 

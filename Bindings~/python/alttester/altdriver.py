@@ -26,11 +26,12 @@ class AltDriver:
         port (:obj:`int`, optional): The port to connect to.
         app_name (:obj:`str`, optional): The application name. Defaults to ``__default__``.
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
-        timeout (:obj:`int`, :obj:`float`, optional): The connect timeout time in seconds.
+        timeout (:obj:`int`, :obj:`float`, optional): The timeout duration for establishing a connection, in seconds.
+            If set to ``None``, the connection attempt will wait indefinitely. The default value is ``60`` seconds.
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, app_name="__default__", enable_logging=False, timeout=None):
+    def __init__(self, host="127.0.0.1", port=13000, app_name="__default__", enable_logging=False, timeout=60):
         self.host = host
         self.port = port
         self.app_name = app_name
@@ -58,6 +59,7 @@ class AltDriver:
             notification_handler=self._notification_handler
         )
         self._connection.connect()
+        self._check_server_version()
 
     def __repr__(self):
         return "{}({!r}, {!r}, {!r}, {!r}, {!r})".format(

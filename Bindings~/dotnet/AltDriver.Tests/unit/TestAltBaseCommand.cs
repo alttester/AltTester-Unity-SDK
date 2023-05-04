@@ -1,9 +1,9 @@
-using AltTester.AltDriver.Commands;
-using AltTester.AltDriver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Driver.Logging;
 using NUnit.Framework;
 
 
-namespace AltTester.AltDriver.Tests
+namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
     public class AltBaseCommandImpl : AltBaseCommand
     {

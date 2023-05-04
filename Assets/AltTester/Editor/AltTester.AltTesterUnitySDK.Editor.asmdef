@@ -1,0 +1,25 @@
+{
+    "name": "AltTester.AltTesterUnitySDK.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0acc523941302664db1f4e527237feb3",
+        "GUID:478b585cfbb242f4c977b9aec772e042",
+        "GUID:478a2357cc57436488a56e564b08d223",
+        "GUID:451516970bc990e418454aa78b72586e"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "NLog.dll",
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
