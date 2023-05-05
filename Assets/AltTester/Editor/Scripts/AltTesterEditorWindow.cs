@@ -1144,14 +1144,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
                             {
                                 if (device.Platform == "Android")
                                 {
-                                    AltPortForwarding.RemoveForwardAndroid(device.LocalPort, device.DeviceId, EditorConfiguration.AdbPath);
+                                    AltReversePortForwarding.RemoveReversePortForwardingAndroid(device.RemotePort, device.DeviceId, EditorConfiguration.AdbPath);
                                 }
-#if UNITY_EDITOR_OSX
-                                else
-                                {
-                                    AltPortForwarding.KillIProxy(device.Pid);
-                                }
-#endif
                                 device.Active = false;
                                 refreshDeviceList();
                             }
@@ -1166,28 +1160,12 @@ namespace AltTester.AltTesterUnitySDK.Editor
                             {
                                 if (device.Platform == "Android")
                                 {
-                                    var response = AltPortForwarding.ForwardAndroid(device.LocalPort, device.RemotePort, device.DeviceId, EditorConfiguration.AdbPath);
+                                    var response = AltReversePortForwarding.ReversePortForwardingAndroid(device.RemotePort, device.LocalPort, device.DeviceId, EditorConfiguration.AdbPath);
                                     if (!response.Equals("Ok"))
                                     {
                                         logger.Error(response);
                                     }
                                 }
-#if UNITY_EDITOR_OSX
-                                else
-                                {
-                                    try
-                                    {
-
-                                        device.Pid = AltPortForwarding.ForwardIos(device.LocalPort, device.RemotePort, device.DeviceId, EditorConfiguration.IProxyPath); ;
-                                        device.Active = true;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        logger.Error(ex);
-                                    }
-
-                                }
-#endif
                                 refreshDeviceList();
                             }
                         }
@@ -1208,8 +1186,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         private void refreshDeviceList()
         {
-            List<AltDevice> adbDevices = AltPortForwarding.GetDevicesAndroid(EditorConfiguration.AdbPath);
-            List<AltDevice> androidForwardedDevices = AltPortForwarding.GetForwardedDevicesAndroid(EditorConfiguration.AdbPath);
+            List<AltDevice> adbDevices = AltReversePortForwarding.GetDevicesAndroid(EditorConfiguration.AdbPath);
+            List<AltDevice> androidForwardedDevices = AltReversePortForwarding.GetReversedDevicesAndroid(EditorConfiguration.AdbPath);
             foreach (var adbDevice in adbDevices)
             {
                 var deviceForwarded = androidForwardedDevices.FirstOrDefault(device => device.DeviceId.Equals(adbDevice.DeviceId));
