@@ -51,7 +51,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
             }
             catch (Exception ex)
             {
-                throw new PortForwardingException("Error while running command: " + adbPath + " " + arguments, ex);
+                throw new ReversePortForwardingException("Error while running command: " + adbPath + " " + arguments, ex);
 
             }
             return "Ok";
@@ -65,7 +65,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
         /// If no adb path is provided, it tries to use adb from  ${ANDROID_SDK_ROOT}/platform-tools/adb
         /// if ANDROID_SDK_ROOT env variable is not set, it tries to execute adb from path.
         /// </param>
-        public static void RemoveAllReversedPortForwardingsAndroid(string adbPath = "")
+        public static void RemoveAllReversePortForwardingsAndroid(string adbPath = "")
         {
             adbPath = GetAdbPath(adbPath);
             string arguments = "reverse --remove-all";
@@ -76,7 +76,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
             }
             catch (Exception ex)
             {
-                throw new PortForwardingException("Error while running command: " + adbPath + " " + arguments, ex);
+                throw new ReversePortForwardingException("Error while running command: " + adbPath + " " + arguments, ex);
             }
         }
 
@@ -106,7 +106,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
             }
             catch (System.ComponentModel.Win32Exception ex)
             {
-                throw new PortForwardingException("Error while running command: " + adbPath + " " + arguments, ex);
+                throw new ReversePortForwardingException("Error while running command: " + adbPath + " " + arguments, ex);
             }
         }
 
@@ -143,7 +143,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
             }
             catch (Exception ex)
             {
-                throw new PortForwardingException("Error while running command: " + adbPath + " " + arguments, ex);
+                throw new ReversePortForwardingException("Error while running command: " + adbPath + " " + arguments, ex);
             }
         }
         public static List<AltDevice> GetReversedDevicesAndroid(string adbPath = "")
@@ -182,7 +182,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
             }
             catch (Exception ex)
             {
-                throw new PortForwardingException("Error while running command: " + adbPath + " " + arguments, ex);
+                throw new ReversePortForwardingException("Error while running command: " + adbPath + " " + arguments, ex);
             }
         }
 
