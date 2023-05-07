@@ -20,6 +20,7 @@ public class TestReversePortForwarding
     }
 
     [Test]
+    [Ignore("No Android pipeline is set up yet")]
     public void TestStartGame()
     {
         altDriver.LoadScene("Scene 2 Draggable Panel");

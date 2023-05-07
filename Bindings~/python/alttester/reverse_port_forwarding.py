@@ -18,11 +18,11 @@ class AltReversePortForwarding:
 
     @staticmethod
     def reverse_port_forwarding_android(device_port=13000, local_port=13000):
-        subprocess.Popen(['adb', 'reverse', 'tcp:'+ str(device_port), 'tcp:'+ str(local_port)]).wait()
+        subprocess.Popen(['adb', 'reverse', 'tcp:' + str(device_port), 'tcp:' + str(local_port)]).wait()
 
     @staticmethod
     def remove_reverse_port_forwarding_android(device_port=13000):
-        subprocess.Popen(['adb', 'reverse', '--remove', 'tcp:'+ str(device_port)]).wait()
+        subprocess.Popen(['adb', 'reverse', '--remove', 'tcp:' + str(device_port)]).wait()
 
     @staticmethod
     def remove_all_reverse_port_forwardings_android():

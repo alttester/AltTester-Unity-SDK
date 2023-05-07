@@ -1,6 +1,6 @@
 import unittest
 
-from alttester import *
+from alttester import By, AltReversePortForwarding, AltDriver
 
 
 class TestReversePortForwarding(unittest.TestCase):
