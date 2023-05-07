@@ -2474,7 +2474,7 @@ None
 
 #### WaitForCurrentSceneToBe
 
-Waits for the scene to be loaded for a specified amount of time. It returns the name of the current scene.
+Waits for the scene to be loaded for a specified amount of time.
 
 **_Parameters_**
 
@@ -2500,40 +2500,39 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
         {
             const string name = "Scene 1 AltDriverTestScene";
             var timeStart = DateTime.Now;
-            var currentScene = altDriver.WaitForCurrentSceneToBe(name);
+            altDriver.WaitForCurrentSceneToBe(name);
             var timeEnd = DateTime.Now;
             var time = timeEnd - timeStart;
             Assert.Less(time.TotalSeconds, 20);
-            Assert.NotNull(currentScene);
+            var currentScene = altDriver.GetCurrentScene();
             Assert.AreEqual("Scene 1 AltDriverTestScene", currentScene);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testWaitForCurrentSceneToBe() throws Exception {
-            String name = "Scene 1 AltDriverTestScene";
-            long timeStart = System.currentTimeMillis();
-            AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
-            String currentScene = altDriver.waitForCurrentSceneToBe(params);
-            long timeEnd = System.currentTimeMillis();
-            long time = timeEnd - timeStart;
-            assertTrue(time / 1000 < 20);
-            assertNotNull(currentScene);
-            assertEquals("Scene 1 AltDriverTestScene", currentScene);
+        public void testWaitForCurrentSceneToBe() {
+        String name = "Scene 1 AltDriverTestScene";
+        long timeStart = System.currentTimeMillis();
+        AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
+        altDriver.waitForCurrentSceneToBe(params);
+        long timeEnd = System.currentTimeMillis();
+        long time = timeEnd - timeStart;
+        assertTrue(time / 1000 < 20);
+
+        String currentScene = altDriver.getCurrentScene();
+        assertEquals(name, currentScene);
         }
 
     .. code-tab:: py
 
-        def test_wait_for_current_scene_to_be(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
-            self.altDriver.wait_for_current_scene_to_be(
-                'Scene 1 AltDriverTestScene', 1)
-            self.altDriver.load_scene('Scene 2 Draggable Panel')
-            self.altDriver.wait_for_current_scene_to_be(
-                'Scene 2 Draggable Panel', 1)
-            self.assertEqual('Scene 2 Draggable Panel',
-                         self.altDriver.get_current_scene())
+        def test_wait_for_current_scene_to_be_with_a_non_existing_scene(self):
+            scene_name = "Scene 0"
+
+            with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
+            self.altdriver.wait_for_current_scene_to_be(scene_name, timeout=1, interval=0.5)
+
+            assert str(execinfo.value) == "Scene {} not loaded after 1 seconds".format(scene_name)
 
 ```
 
@@ -2701,7 +2700,7 @@ Invokes static methods from your app.
 | typeName         | string | Yes      | The name of the script. If the script has a namespace the format should look like this: "namespace.typeName".                                                                                             |
 | methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
 | assemblyName     | string | Yes       | The name of the assembly containing the script.                                                                                                                                                          |
-| parameters       | array  | No       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
+| parameters       | array  | Yes       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
 | typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                                 |
 
 **_Returns_**
