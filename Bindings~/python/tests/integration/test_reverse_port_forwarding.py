@@ -2,7 +2,7 @@ import unittest
 
 from alttester import By, AltReversePortForwarding, AltDriver
 
-
+@unittest.skip
 class TestReversePortForwarding(unittest.TestCase):
 
     altdriver = None

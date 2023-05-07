@@ -1,6 +1,7 @@
 using AltTester.AltTesterUnitySDK.Driver;
 using NUnit.Framework;
 
+[Ignore("No Android pipeline is set up yet")]
 public class TestReversePortForwarding
 {
     private AltDriver altDriver;
