@@ -332,17 +332,17 @@ namespace AltTester.AltTesterUnitySDK.Driver
         }
     }
 
-    public class PortForwardingException : AltException
+    public class ReversePortForwardingException : AltException
     {
-        public PortForwardingException()
+        public ReversePortForwardingException()
         {
         }
 
-        public PortForwardingException(string message) : base(message)
+        public ReversePortForwardingException(string message) : base(message)
         {
         }
 
-        public PortForwardingException(string message, Exception inner) : base(message, inner)
+        public ReversePortForwardingException(string message, Exception inner) : base(message, inner)
         {
         }
     }
