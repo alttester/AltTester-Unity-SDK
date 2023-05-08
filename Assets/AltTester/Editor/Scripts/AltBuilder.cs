@@ -24,12 +24,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
         private const string WEBGLDEFINE = "UNITY_WEBGL";
 
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
-        public enum InputType
-        {
-            KeyOrMouseButton,
-            MouseMovement,
-            JoystickAxis,
-        };
 
         public static bool Built = false;
         public static string PreviousScenePath;
@@ -220,7 +214,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 var positiveButton = axis.FindPropertyRelative("positiveButton").stringValue;
                 var altPositiveButton = axis.FindPropertyRelative("altPositiveButton").stringValue;
                 var altNegativeButton = axis.FindPropertyRelative("altNegativeButton").stringValue;
-                axisList.Add(new AltAxis(name, negativeButton, positiveButton, altPositiveButton, altNegativeButton));
+                var axisDirection = axis.FindPropertyRelative("axis").intValue;
+                axisList.Add(new AltAxis(name, inputType, negativeButton, positiveButton, altPositiveButton, altNegativeButton, axisDirection));
             }
 
             string dataAsJson = Newtonsoft.Json.JsonConvert.SerializeObject(axisList);
