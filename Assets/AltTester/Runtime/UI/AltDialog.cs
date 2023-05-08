@@ -1,11 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using AltTester;
 using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Logging;
-using System.Collections;
-using UnityEngine;
 using AltWebSocketSharp;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.UI
 {
@@ -86,7 +86,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 return;
             }
 
-            update += Time.deltaTime;
+            update += Time.unscaledDeltaTime;
             if (update > 1.0f / this._liveUpdateCommunication.FrameRate)
             {
                 update = 0.0f;

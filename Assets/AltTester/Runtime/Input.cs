@@ -24,6 +24,8 @@ public class Input : MonoBehaviour
     private static UnityEngine.Touch[] _touches = new UnityEngine.Touch[0];
     private static UnityEngine.Vector2 _mouseScrollDelta = new UnityEngine.Vector2();
     private static UnityEngine.Vector3 _mousePosition = new UnityEngine.Vector3();
+    private static UnityEngine.Vector3 _mouseDelta = new Vector3();
+
     private static System.Collections.Generic.List<AltAxis> AxisList;
     private static GameObject eventSystemTargetMouseDown;
     private static GameObject monoBehaviourTargetMouseDown;
@@ -426,6 +428,14 @@ public class Input : MonoBehaviour
             if (axis == null)
             {
                 throw new NotFoundException("No axis with this name was found");
+            }
+            if (axis.type == InputType.MouseMovement)
+            {
+                UnityEngine.Debug.Log(axis.axisDirection);
+                if (axis.axisDirection == 0)
+                    return _mouseDelta.x;
+                if (axis.axisDirection == 1)
+                    return _mouseDelta.y;
             }
 
             foreach (var keyStructure in _keyCodesPressed)
@@ -845,21 +855,21 @@ public class Input : MonoBehaviour
         }
         do
         {
-            Vector3 delta;
             if (time + Time.unscaledDeltaTime < duration)
             {
-                delta = distance * Time.unscaledDeltaTime / duration;
+                _mouseDelta = distance * Time.unscaledDeltaTime / duration;
             }
             else
             {
-                delta = location - new Vector2(mousePosition.x, mousePosition.y);
+                _mouseDelta = location - new Vector2(mousePosition.x, mousePosition.y);
             }
-            mousePosition += delta;
+            mousePosition += _mouseDelta;
             if (mouseDownPointerEventData != null)
             {
                 _mockUpPointerInputModule.ExecuteDragPointerEvents(mouseDownPointerEventData);
                 mouseDownPointerEventData.position = mousePosition;
-                mouseDownPointerEventData.delta = delta;
+                mouseDownPointerEventData.delta = _mouseDelta;
+                ;
                 findEventSystemObject(mouseDownPointerEventData);
             }
             AltRunner._altRunner.ShowInput(mousePosition, inputId);
