@@ -55,6 +55,6 @@ The script will install any requirements that are missing from your machine (exc
    Please observe the following about the setup method in **base_test.py**:
 
    1. A minimum amount of desired capabilities have to be set in order for Appium to work. More details about desired capabilities can be found in the official `Appium documentation <https://appium.io/docs/en/2.0/index.html>`_
-   2. The Appium driver needs to be created before the port forwarding needed by AltTester Unity SDK is done. This is because Appium clears any other port forwarding when it starts.
+   2. The Appium driver needs to be created before the reverse port forwarding needed by AltTester Unity SDK is done. This is because Appium clears any other reverse port forwarding when it starts.
 
 ```

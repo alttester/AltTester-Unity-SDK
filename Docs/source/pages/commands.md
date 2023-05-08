@@ -4101,20 +4101,20 @@ To add AltId to every object simply just click _Add AltId to every object_ from 
 
 ![Add AltId](../_static/img/commands/add-alt-id.png)
 
-## AltPortForwarding
+## AltReversePortForwarding
 
-API to interact with `adb` and `iproxy` programmatically.
+API to interact with `adb` programmatically.
 
-### ForwardAndroid
+### ReversePortForwardingAndroid
 
-This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`.
+This method calls `adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}`.
 
 **_Parameters_**
 
 | Name       | Type   | Required | Description                                                                                                                                                                                      |
 | ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| localPort  | int    | No       | The local port to forward from.                                                                                                                                                                  |
-| remotePort | int    | No       | The device port to forward to.                                                                                                                                                                   |
+| remotePort  | int    | No       | The device port to do reverse port forwarding from.                                                                                                                                                                  |
+| localPort | int    | No       | The local port to do reverse port forwarding to.                                                                                                                                                                   |
 | deviceId   | string | No       | The id of the device.                                                                                                                                                                            |
 | adbPath    | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
 
@@ -4128,15 +4128,15 @@ This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
         [OneTimeSetUp]
         public void SetUp()
         {
-            AltPortForwarding.ForwardAndroid();
-            altDriver = new AltDriver();
+            AltReversePortForwarding.ReversePortForwardingAndroid();
+            altDriver = new AltDriver();;
         }
 
     .. code-tab:: java
 
         @BeforeClass
         public static void setUp() throws IOException {
-            AltPortForwarding.forwardAndroid();
+            AltReversePortForwarding.reversePortForwardingAndroid();
             altDriver = new AltDriver();
         }
 
@@ -4144,20 +4144,20 @@ This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
 
         @classmethod
         def setUpClass(cls):
-            AltPortForwarding.forward_android()
+            AltReversePortForwarding.reverse_port_forwarding_android()
             cls.altDriver = AltDriver()
 
 ```
 
-### RemoveForwardAndroid
+### RemoveReversePortForwardingAndroid
 
-This method calls `adb forward --remove [-s {deviceId}] tcp:{localPort}` or `adb forward --remove-all` if no local port is provided.
+This method calls `adb reverse --remove [-s {deviceId}] tcp:{devicePort}` or `adb reverse --remove-all` if no port is provided.
 
 **_Parameters_**
 
 | Name      | Type   | Required | Description                                                                                                                                                                                      |
 | --------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| localPort | int    | No       | The local port to be removed.                                                                                                                                                                    |
+| devicePort | int    | No       | The device port to be removed.                                                                                                                                                                    |
 | deviceId  | string | No       | The id of the device to be removed.                                                                                                                                                              |
 | adbPath   | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
 
@@ -4176,7 +4176,7 @@ Nothing
         public void TearDown()
         {
             altDriver.Stop();
-            AltPortForwarding.RemoveForwardAndroid();
+            AltReversePortForwarding.RemoveReversePortForwardingAndroid();
         }
 
     .. code-tab:: java
@@ -4184,7 +4184,7 @@ Nothing
         @AfterClass
         public static void tearDown() throws Exception {
             altDriver.stop();
-            AltPortForwarding.removeForwardAndroid();
+            AltReversePortForwarding.removeReversePortForwardingAndroid();
         }
 
     .. code-tab:: py
@@ -4192,13 +4192,13 @@ Nothing
         @classmethod
         def tearDownClass(cls):
             cls.altDriver.stop()
-            AltPortForwarding.remove_forward_android()
+            AltReversePortForwarding.remove_reverse_port_forwarding_android()
 
 ```
 
-### RemoveAllForwardAndroid
+### RemoveAllReversePortForwardingsAndroid
 
-This method calls `adb forward --remove-all`.
+This method calls `adb reverse --remove-all`.
 
 **_Parameters_**
 
@@ -4221,7 +4221,7 @@ Nothing
         public void TearDown()
         {
             altDriver.Stop();
-            AltPortForwarding.RemoveAllForwardAndroid();
+            AltReversePortForwarding.RemoveAllReversePortForwardingsAndroid();
         }
 
     .. code-tab:: java
@@ -4229,7 +4229,7 @@ Nothing
         @AfterClass
         public static void tearDown() throws Exception {
             altDriver.stop();
-            AltPortForwarding.removeAllForwardAndroid();
+            AltReversePortForwarding.removeAllReversePortForwardingsAndroid();
         }
 
     .. code-tab:: py
@@ -4237,100 +4237,6 @@ Nothing
         @classmethod
         def tearDownClass(cls):
             cls.altDriver.stop()
-            AltPortForwarding.remove_all_forward_android()
-
-```
-
-### ForwardIos
-
-This method calls `iproxy {localPort} {remotePort} -u {deviceId}`. **_Requires iproxy 2.0.2_**.
-
-**_Parameters_**
-
-| Name       | Type   | Required | Description                                                                                |
-| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------ |
-| localPort  | int    | No       | The local port to forward from.                                                            |
-| remotePort | int    | No       | The device port to forward to.                                                             |
-| deviceId   | string | No       | The id of the device.                                                                      |
-| iproxyPath | string | No       | The path to iProxy. If `iproxyPath` is not provided, iproxy should be available in `PATH`. |
-
-**_Returns_**
-
-Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-            AltPortForwarding.ForwardIos();
-            altDriver = new AltDriver();
-        }
-
-    .. code-tab:: java
-
-        @BeforeClass
-        public static void setUp() throws IOException {
-            AltPortForwarding.forwardIos();
-            altDriver = new AltDriver();
-        }
-
-
-    .. code-tab:: py
-
-        @classmethod
-        def setUpClass(cls):
-            AltPortForwarding.forward_ios()
-            cls.altDriver = AltDriver()
-
-```
-
-### KillAllIproxyProcess
-
-This method kills all iproxy processes. Calls `killall iproxy`.
-
-**_Parameters_**
-
-None
-
-**_Returns_**
-
-- Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            altDriver.Stop();
-            AltPortForwarding.KillAllIproxyProcess();
-        }
-
-
-    .. code-tab:: java
-
-        @AfterClass
-        public static void tearDown() throws Exception {
-            altDriver.stop();
-            AltPortForwarding.killAllIproxyProcess();
-        }
-
-
-    .. code-tab:: py
-
-        @classmethod
-        def tearDownClass(cls):
-            cls.altDriver.stop()
-            AltPortForwarding.kill_all_iproxy_process()
+            AltReversePortForwarding.remove_all__reverse_port_forwardings_android()
 
 ```

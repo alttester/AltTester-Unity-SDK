@@ -112,23 +112,6 @@ To use the Input from AltTester Unity SDK you have to:
 2. Reference other assemblies in AltServer assembly
 
 3. Reference AltServer assembly in Project-Main-Assembly
- </details>
- <br>
-
-<details>
-<summary>I get the error: <strong>Error while running command: iproxy 13000 13000 </strong></summary>
-<br>
-
-If the inner exception is:
-<br>
-
-<em>System.ComponentModel.Win32Exception : ApplicationName='iproxy', CommandLine='13000 13000', CurrentDirectory='', Native error= Cannot find the specified file</em>
-<br>
-
-Pass the full path of iproxy to <em>AltPortForwarding.ForwardIos</em>
-
-</details>
-<br>
 
 <details>
 <summary> I downloaded the AltTester package v1.7.2 from the documentation on MacOS. I got a warning pop-up about the input system where I chose 'Yes' because I am using the New Input System. After reopening Unity Editor, <strong>AltTester Unity SDK is missing.</strong></summary>

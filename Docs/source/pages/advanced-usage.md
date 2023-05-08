@@ -186,36 +186,46 @@ commands:
 An example CI configuration file can be viewed in the [GitLab repository](https://gitlab.com/altom/altunity/altunitytester/-/blob/master/.gitlab-ci.yml).
 
 
-## What is port forwarding and when to use it
+## What is reverse port forwarding and when to use it
 
-Port forwarding, or tunneling, is the behind-the-scenes process of intercepting
-data traffic headed for a computer’s IP/port combination and redirecting it to
-a different IP and/or port.
+Reverse port forwarding, is the behind-the-scenes process of intercepting
+data traffic and redirecting it from a device's IP and/or port to the computer's IP and/or port.
 
-When you run your app instrumented with AltTester Unity SDK, on a device, you need
-to tell your AltDriver how to connect to it.
+When you run your app instrumented with AltTester Unity SDK on a device, you need
+to tell your build how to connect to the AltServer.
 
-Port forwarding can be set up either through a command line command or in the
-test code by using the methods available in AltTester SDK classes.
+Reverse port forwarding can be set up either through the command line or in the
+test code by using the methods available in the AltTester SDK classes.
 
-The following are some cases when Port Forwarded is needed:
+The following are some cases when reverse port forwarded is needed:
 
 1. [Connect to the app running on a USB connected device](#connect-to-the-app-running-on-a-usb-connected-device)
 2. [Connect to multiple devices running the app](#connect-to-multiple-devices-running-the-app)
 
-### How to setup port forwarding
+### How to setup reverse port forwarding
 
-Port forwarding can be set up in three ways:
+#### In case of Android
 
-- through a command line command (using ADB/IProxy)
-- in the test code by using the methods available in AltTester SDK classes
-- from AltTester Editor - Port Forwarding Section
+Reverse port forwarding can be set up in two ways:
 
-All methods listed above require that you have ADB or IProxy installed.
+- through the command line using ADB
+- in the test code by using the methods available in the AltTester SDK classes
 
-For installing ABD, check [this article](https://developer.android.com/studio/command-line/adb) for more information on ADB.
+All methods listed above require that you have ADB installed.
 
-For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
+For further information including how to install ADB, check [this article](https://developer.android.com/studio/command-line/adb).
+
+#### In case of iOS
+
+Unfortunately, IProxy does not have a way of setting up reverse port forwarding. As a workaround, you should follow the steps below:
+- set the iPhone as a personal hotspot
+- add the IP of the local machine to the first input field in the green popup from the instrumented app
+
+In the routing table, the personal hotspot network would be secondary, therefore the traffic shouldn't be redirected through the hotspot:
+
+```eval_rst
+    .. image:: ../_static/img/advanced-usage/workaround_iOS.png
+```
 
 ```eval_rst
 .. tabs::
@@ -226,19 +236,13 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
             .. tab:: Android
 
-                - Forward the port using the following command::
+                - Reverse port forwarding using the following command::
 
-                    adb [-s UDID] forward tcp:local_port tcp:device_port
-
-                - Forward using AltTester Editor: click on the refresh button in the Port Forwarding section in the Editor to see    connected devices and then select the device to forward.
+                    adb [-s UDID] reverse tcp:device_port tcp:local_port.
 
             .. tab:: iOS
 
-                - Forward the port using the following command::
-
-                    iproxy LOCAL_PORT DEVICE_PORT -u [UDID]
-
-                - Forward using AltTester Editor: click on the refresh button in the Port Forwarding section in the Editor to see connected devices and then select the device to forward.
+                - Not available. A workaround is described above.
 
     .. tab:: C#
 
@@ -246,10 +250,10 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
             .. tab:: Android
 
-                Use the following static methods (from the ``AltPortForwarding`` class) in your test file:
+                Use the following static methods from the **AltReversePortForwarding** class in your test file:
 
-                    - ForwardAndroid (int localPort = 13000, int remotePort = 13000, string deviceId = "", string adbPath = "")
-                    - RemoveForwardAndroid (int localPort = 13000, string deviceId = "", string adbPath = "")
+                    - **ReversePortForwardingAndroid** (int remotePort = 13000, int localPort = 13000, string deviceId = "", string adbPath = "")
+                    - **RemoveReversePortForwardingAndroid** (int remotePort = 13000, string deviceId = "", string adbPath = "")
 
                 Example test file:
 
@@ -258,15 +262,7 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
             .. tab:: iOS
 
-                Use the following static methods (from the AltPortForwarding class) in your test file:
-
-                    - ForwardIos(int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
-                    - KillAllIproxyProcess()
-
-                Example test file:
-
-                    .. include:: ../_static/examples~/common/csharp-ios-test.cs
-                        :code: c#
+                Not available. A workaround is described above.
 
     .. tab:: Java
 
@@ -274,10 +270,10 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
             .. tab:: Android
 
-                Use the following static methods (from the AltPortForwarding class) in your test file:
+                Use the following static methods from the **AltReversePortForwarding** class in your test file:
 
-                    - forwardAndroid (int localPort = 13000, int remotePort = 13000, string deviceId = "", string adbPath = "")
-                    - removeForwardAndroid (int localPort = 13000, string deviceId = "", string adbPath = "")
+                    - **reversePortForwardingAndroid** (int remotePort = 13000, int localPort = 13000, string deviceId = "", string adbPath = "")
+                    - **removeReverseForwardingAndroid** (int remotePort = 13000, string deviceId = "", string adbPath = "")
 
                 Example test file:
 
@@ -286,15 +282,7 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
             .. tab:: iOS
 
-                Use the following static methods (from the AltPortForwarding class) in your test file:
-
-                    - forwardIos (int localPort = 13000, int remotePort = 13000, string deviceId = "", string iproxyPath = "")
-                    - killAllIproxyProcess ()
-
-                Example test file:
-
-                    .. include:: ../_static/examples~/common/java-ios-test.java
-                        :code: java
+                Not available. A workaround is described above.
 
     .. tab:: Python
 
@@ -302,10 +290,10 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
             .. tab:: Android
 
-                Use the following static methods (from the AltPortForwarding class) in your test file:
+                Use the following static methods from the **AltPortForwarding** class in your test file:
 
-                    - forward_android (local_port = 13000, device_port = 13000, device_id = "")
-                    - remove_forward_android (local_port = 13000, device_id = "")
+                    - **reverse_port_forwarding_android** (device_port = 13000, local_port = 13000, device_id = "")
+                    - **remove_reverse_port_forwarding_android** (device_port = 13000, device_id = "")
 
                 Example test file:
 
@@ -314,70 +302,65 @@ For installing IProxy `brew install libimobiledevice`. (_Requires IProxy 2.0.2_)
 
             .. tab:: iOS
 
-                Use the following static methods (from the AltPortForwarding class) in your test file:
-
-                    - forward_ios (local_port = 13000, device_port = 13000, device_id = "")
-                    - kill_all_iproxy_process()
-
-                Example test file:
-
-                    .. include:: ../_static/examples~/common/python-ios-test.py
-                        :code: py
+                Not available. A workaround is described above.
 
 ```
 
 ```eval_rst
 .. note::
     The default port on which the AltTester Unity SDK is running is 13000.
-    Port can be changed when making a new app build or make use of port forwarding if needed.
+    The port can be changed from the green popup. Make sure to press `Restart` after modifying its value.
 ```
 
-## Connect to AltTester Unity SDK running inside the app
+## Connect the AltTester Unity SDK running inside the app to the AltServer
 
 There are multiple scenarios on how to connect to the AltTester Unity SDK running inside a app:
 
 - [Advanced Usage](#advanced-usage)
+  - [AltTester input vs. regular input](#alttester-input-vs-regular-input)
   - [Build apps from the command line](#build-apps-from-the-command-line)
+  - [How to make a production build](#how-to-make-a-production-build)
   - [Run tests from the command line](#run-tests-from-the-command-line)
   - [Run tests on a Continuous Integration Server](#run-tests-on-a-continuous-integration-server)
-  - [What is port forwarding and when to use it](#what-is-port-forwarding-and-when-to-use-it)
-    - [How to setup port forwarding](#how-to-setup-port-forwarding)
-  - [Connect to AltTester Unity SDK running inside the app](#connect-to-alttester-unity-sdk-running-inside-the-app)
-    - [Connect to the app running on the same machine as the test code](#connect-to-the-app-running-on-the-same-machine-as-the-test-code)
-    - [Connect to the app running on a USB connected device](#connect-to-the-app-running-on-a-usb-connected-device)
-    - [Connect to the device running the app by using an IP address](#connect-to-the-device-running-the-app-by-using-an-ip-address)
-    - [Connect to multiple devices running the app](#connect-to-multiple-devices-running-the-app)
-    - [Connect to multiple builds of the application running on the same device](#connect-to-multiple-builds-of-the-application-running-on-the-same-device)
+  - [What is reverse port forwarding and when to use it](#what-is-reverse-port-forwarding-and-when-to-use-it)
+    - [How to setup reverse port forwarding](#how-to-setup-reverse-port-forwarding)
+      - [In case of Android](#in-case-of-android)
+      - [In case of iOS](#in-case-of-ios)
+  - [Connect the AltTester Unity SDK running inside the app to the AltServer](#connect-the-alttester-unity-sdk-running-inside-the-app-to-the-altserver)
+    - [Establish connection when the instrumented app and the test code are running on the same machine](#establish-connection-when-the-instrumented-app-and-the-test-code-are-running-on-the-same-machine)
+    - [Establish connection when the app is running on a device connected via USB](#establish-connection-when-the-app-is-running-on-a-device-connected-via-usb)
+    - [Establish connection via IP when the app is running on a device](#establish-connection-via-ip-when-the-app-is-running-on-a-device)
+    - [Establish connection when different instances of the same app are running on multiple devices](#establish-connection-when-different-instances-of-the-same-app-are-running-on-multiple-devices)
+    - [Establish connect when multiple instances of the same application are running on the same device](#establish-connect-when-multiple-instances-of-the-same-application-are-running-on-the-same-device)
   - [Using AltTester Unity SDK in Release mode](#using-alttester-unity-sdk-in-release-mode)
   - [Logging](#logging)
     - [AltTester Unity SDK logging](#alttester-unity-sdk-logging)
     - [AltDriver logging](#altdriver-logging)
+  - [Logging in WebGL](#logging-in-webgl)
   - [Code Stripping](#code-stripping)
 
-### Connect to the app running on the same machine as the test code
+### Establish connection when the instrumented app and the test code are running on the same machine
 
-![port forwarding case 1](../_static/img/advanced-usage/case1.png)
+![reverse port forwarding case 1](../_static/img/advanced-usage/case1.png)
 
-In this case Port Forwarding is not needed as both the app and tests are using localhost (127.0.0.1) connection and the default 13000 port.
+In this case **reverse port forwarding** is not needed as both the app and tests are using localhost (127.0.0.1) connection and the default 13000 port.
 
-### Connect to the app running on a USB connected device
+### Establish connection when the app is running on a device connected via USB
 
-If the device running the app is connected through a USB connection, commands sent to localhost port 13000 can be automatically forwarded to the device.
+In this case you need to use **reverse port forwarding** to direct the data traffic from the device's port to the computer's port. Data transmission happens via localhost.
 
-![port forwarding case 2](../_static/img/advanced-usage/case2.png)
+![reverse port forwarding case 2](../_static/img/advanced-usage/case2.png)
 
-In this scenario you can use Port Forwarding to enable AltDriver to connect to the device via localhost.
+Check [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) for more details about **reverse port forwarding** and [Setup Reverse Port Forwarding](#how-to-setup-reverse-port-forwarding) section on how to make the setup.
 
-Check [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it) for more details about Port Forwarding and [Setup Port Forwarding](#how-to-setup-port-forwarding) section on how to make the setup.
+### Establish connection via IP when the app is running on a device
 
-### Connect to the device running the app by using an IP address
-
-![port forwarding case 3](../_static/img/advanced-usage/case3.png)
+![reverse port forwarding case 3](../_static/img/advanced-usage/case3.png)
 
 You can connect directly through an IP address if the port the instrumented Unity App is listening on is available and the IP address is reachable.
-It is recommended to use [Port Forwarding](#what-is-port-forwarding-and-when-to-use-it) since IP addresses could change and would need to be updated more frequently.
+It is recommended to use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) since IP addresses could change and would need to be updated more frequently.
 
-The following command can be used to connect to the running instrumented Unity App:
+The following command can be used to connect the running instrumented Unity App to the AltServer:
 
 ```eval_rst
 .. tabs::
@@ -394,11 +377,11 @@ The following command can be used to connect to the running instrumented Unity A
             cls.altDriver = AltDriver(host='deviceIp', port=13000)
 ```
 
-### Connect to multiple devices running the app
+### Establish connection when different instances of the same app are running on multiple devices
 
-![port forwarding case 4](../_static/img/advanced-usage/case4.png)
+![reverse port forwarding case 4](../_static/img/advanced-usage/case4.png)
 
-For two devices you have to do the same steps above, by [connecting through port forwarding](#how-to-setup-port-forwarding) twice.
+For two devices you have to do the same steps above, by [connecting through reverse port forwarding](#how-to-setup-reverse-port-forwarding) twice.
 
 So, in the end, you will have:
 
@@ -409,13 +392,13 @@ Then, in your tests, you will send commands from each of the two AltDrivers.
 
 The same happens with n devices, repeat the steps n times.
 
-### Connect to multiple builds of the application running on the same device
+### Establish connect when multiple instances of the same application are running on the same device
 
-If you want to run two builds on the same device you will need to change the AltTester Unity SDK Port during instrumentation.
+If you want to run two builds on the same device you will need to use a different port for each instance.
 
-For example, you will instrument a app with AltTester Unity SDK to listen on port 13001 and another one to listen on port 13002.
+For example, you will instrument an app with AltTester Unity SDK to listen on port 13001 and another one to listen on port 13002.
 
-![port forwarding case 5](../_static/img/advanced-usage/case5.png)
+![reverse port forwarding case 5](../_static/img/advanced-usage/case5.png)
 
 Then in your tests you will need to create two AltDriver instances, one for each of the configured ports.
 
@@ -429,14 +412,14 @@ Then in your tests you will need to create two AltDriver instances, one for each
 
 ```
 
-You can change the port for your app build from the AltTester Editor window inside your Unity project.
+You can set the port for your app when building from the AltTester Editor window or later from the second input field inside the green popup.
 
 ![Alt Editor Server Settings Screenshot](../_static/img/advanced-usage/server-settings.png)
 
 ```eval_rst
 
 .. note::
-    After you have done the AltTester Unity SDK Port forwarding or connected to the AltDriver directly, you can use it in your tests to send commands to the server and receive information from the app.
+    After you have done the AltTester Unity SDK reverse port forwarding or connected to the AltDriver directly, you can use it in your tests to send commands to the server and receive information from the app.
 
 ```
 
