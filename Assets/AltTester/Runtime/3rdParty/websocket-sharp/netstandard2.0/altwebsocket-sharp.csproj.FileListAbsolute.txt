@@ -1,8 +1,0 @@
-D:\personalGithubProjects\websocket-sharp\websocket-sharp\bin\Release\netstandard2.0\altwebsocket-sharp.deps.json
-D:\personalGithubProjects\websocket-sharp\websocket-sharp\bin\Release\netstandard2.0\altwebsocket-sharp.dll
-D:\personalGithubProjects\websocket-sharp\websocket-sharp\bin\Release\netstandard2.0\altwebsocket-sharp.xml
-D:\personalGithubProjects\websocket-sharp\websocket-sharp\obj\Release\netstandard2.0\altwebsocket-sharp.csproj.AssemblyReference.cache
-D:\personalGithubProjects\websocket-sharp\websocket-sharp\obj\Release\netstandard2.0\altwebsocket-sharp.GeneratedMSBuildEditorConfig.editorconfig
-D:\personalGithubProjects\websocket-sharp\websocket-sharp\obj\Release\netstandard2.0\altwebsocket-sharp.csproj.CoreCompileInputs.cache
-D:\personalGithubProjects\websocket-sharp\websocket-sharp\obj\Release\netstandard2.0\altwebsocket-sharp.dll
-D:\personalGithubProjects\websocket-sharp\websocket-sharp\obj\Release\netstandard2.0\altwebsocket-sharp.xml
