@@ -105,13 +105,9 @@ Add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
 <details>
 <summary>How can I <strong>use the Input from AltTester Unity SDK</strong> if my project is using <strong>Assembly Definitions </strong>?</summary>
 <br>
-To use the Input from AltTester Unity SDK you have to:
-
-1. Create .asmdef files in these directories (3rdParty, AltDriver, AltServer)
-
-2. Reference other assemblies in AltServer assembly
-
-3. Reference AltServer assembly in Project-Main-Assembly
+To use the Input from AltTester Unity SDK you have to reference <strong>AltTesterUnitySDK.asmdef</strong> in your .asmdef. In case you are using multiple assembly definitions you will have to reference our .asmdef in all of your .asmdef files which contain a reference to any kind of input (Unity's input or your custom built input).
+</details>
+<br>
 
 <details>
 <summary> I downloaded the AltTester package v1.7.2 from the documentation on MacOS. I got a warning pop-up about the input system where I chose 'Yes' because I am using the New Input System. After reopening Unity Editor, <strong>AltTester Unity SDK is missing.</strong></summary>
