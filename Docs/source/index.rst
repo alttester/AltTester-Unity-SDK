@@ -30,10 +30,10 @@ Documentation
    *  :doc:`/pages/overview`
    *  :doc:`/pages/get-started`
 
-*  `AltTester Desktop <https://alttester.com/docs/desktop/home.html>`_
+*  `AltTester Desktop <https://alttester.com/docs/pro/desktop/home.html>`_
 
-   *  `Overview <https://alttester.com/docs/desktop/pages/overview.html>`__
-   *  `Get Started <https://alttester.com/docs/desktop/pages/get-started.html>`__
+   *  `Overview <https://alttester.com/docs/pro/desktop/pages/overview.html>`__
+   *  `Get Started <https://alttester.com/docs/pro/desktop/pages/get-started.html>`__
 
 
 .. toctree::
@@ -41,7 +41,7 @@ Documentation
    :hidden:
 
    home
-   AltTester Desktop <https://alttester.com/docs/desktop/home.html>
+   AltTester Desktop <https://alttester.com/docs/pro/desktop/home.html>
 
 
 .. toctree::

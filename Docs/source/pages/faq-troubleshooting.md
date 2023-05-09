@@ -46,7 +46,7 @@ In order to run tests using AltTester Unity SDK you require an <a href="get-star
 <details>
 <summary> I don’t have access to source code, but I do have access to an instrumented build. How can I begin to write tests?</summary>
 <br>
- We’ve published AltTester Desktop, which allows you to inspect the app objects outside the unity editor without access to the source code. More information about AltTester Desktop can be found in this <a href="https://alttester.com/docs/desktop/">documentation</a>.
+ We’ve published AltTester Desktop, which allows you to inspect the app objects outside the unity editor without access to the source code. More information about AltTester Desktop can be found in this <a href="https://alttester.com/docs/pro/desktop/">documentation</a>.
 </details>
 <br>
 
