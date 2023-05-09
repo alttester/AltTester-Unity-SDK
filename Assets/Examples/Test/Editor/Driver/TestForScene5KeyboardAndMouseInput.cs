@@ -114,6 +114,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
             altDriver.KeyUp(kcode);
             var lastKeyUp = altDriver.FindObject(By.NAME, "LastKeyUpValue");
+            Thread.Sleep(200);
 
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltKeyCode), lastKeyUp.GetText(), true));
         }
