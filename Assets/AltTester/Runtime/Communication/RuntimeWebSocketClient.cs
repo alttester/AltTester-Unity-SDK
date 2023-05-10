@@ -4,6 +4,7 @@ using System.Threading;
 using System.Diagnostics;
 using AltWebSocketSharp;
 using AltTester.AltTesterUnitySDK.Driver.Communication;
+using AltTester.AltTesterUnitySDK.Logging;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
@@ -84,6 +85,8 @@ namespace AltTester.AltTesterUnitySDK.Communication
 #if UNITY_WEBGL
     public class WebGLRuntimeWebSocketClient : IRuntimeWebSocketClient
     {
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+
         private WebGLWebSocket wsClient;
 
         private readonly string host;
@@ -141,7 +144,14 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public void Close()
         {
-            this.wsClient.Close().GetAwaiter().GetResult();
+            try
+            {
+                this.wsClient.Close().GetAwaiter().GetResult();
+            }
+            catch (WebSocketInvalidStateException ex)
+            {
+                logger.Debug(ex.Message);
+            }
         }
 
         public void Send(string message)
