@@ -4243,7 +4243,7 @@ This method calls `adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}`
         public void SetUp()
         {
             AltReversePortForwarding.ReversePortForwardingAndroid();
-            altDriver = new AltDriver();;
+            altDriver = new AltDriver();
         }
 
     .. code-tab:: java
