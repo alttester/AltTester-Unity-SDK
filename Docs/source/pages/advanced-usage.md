@@ -321,29 +321,11 @@ In the routing table, the personal hotspot network would be secondary, therefore
 
 There are multiple scenarios on how to connect to the AltTester Unity SDK running inside a app:
 
-- [Advanced Usage](#advanced-usage)
-  - [AltTester input](#alttester-input)
-  - [AltTester input vs. regular input](#alttester-input-vs-regular-input)
-  - [Build apps from the command line](#build-apps-from-the-command-line)
-  - [How to make a production build](#how-to-make-a-production-build)
-  - [Run tests from the command line](#run-tests-from-the-command-line)
-  - [Run tests on a Continuous Integration Server](#run-tests-on-a-continuous-integration-server)
-  - [What is reverse port forwarding and when to use it](#what-is-reverse-port-forwarding-and-when-to-use-it)
-    - [How to setup reverse port forwarding](#how-to-setup-reverse-port-forwarding)
-      - [In case of Android](#in-case-of-android)
-      - [In case of iOS](#in-case-of-ios)
-  - [Connect the AltTester Unity SDK running inside the app to the AltServer](#connect-the-alttester-unity-sdk-running-inside-the-app-to-the-altserver)
-    - [Establish connection when the instrumented app and the test code are running on the same machine](#establish-connection-when-the-instrumented-app-and-the-test-code-are-running-on-the-same-machine)
-    - [Establish connection when the app is running on a device connected via USB](#establish-connection-when-the-app-is-running-on-a-device-connected-via-usb)
-    - [Establish connection via IP when the app is running on a device](#establish-connection-via-ip-when-the-app-is-running-on-a-device)
-    - [Establish connection when different instances of the same app are running on multiple devices](#establish-connection-when-different-instances-of-the-same-app-are-running-on-multiple-devices)
-    - [Establish connect when multiple instances of the same application are running on the same device](#establish-connect-when-multiple-instances-of-the-same-application-are-running-on-the-same-device)
-  - [Using AltTester Unity SDK in Release mode](#using-alttester-unity-sdk-in-release-mode)
-  - [Logging](#logging)
-    - [AltTester Unity SDK logging](#alttester-unity-sdk-logging)
-    - [AltDriver logging](#altdriver-logging)
-  - [Logging in WebGL](#logging-in-webgl)
-  - [Code Stripping](#code-stripping)
+  - [Establish connection when the instrumented app and the test code are running on the same machine](#establish-connection-when-the-instrumented-app-and-the-test-code-are-running-on-the-same-machine)
+  - [Establish connection when the app is running on a device connected via USB](#establish-connection-when-the-app-is-running-on-a-device-connected-via-usb)
+  - [Establish connection via IP when the app is running on a device](#establish-connection-via-ip-when-the-app-is-running-on-a-device)
+  - [Establish connection when different instances of the same app are running on multiple devices](#establish-connection-when-different-instances-of-the-same-app-are-running-on-multiple-devices)
+  - [Establish connection when multiple instances of the same application are running on the same device](#establish-connection-when-multiple-instances-of-the-same-application-are-running-on-the-same-device)
 
 ### Establish connection when the instrumented app and the test code are running on the same machine
 
@@ -387,7 +369,7 @@ The following command can be used to connect the running instrumented Unity App 
 
 ![reverse port forwarding case 4](../_static/img/advanced-usage/case4.png)
 
-For two devices you have to do the same steps above, by [connecting through reverse port forwarding](#how-to-setup-reverse-port-forwarding) twice.
+For two devices you have to do the same steps as above, by [connecting through reverse port forwarding](#how-to-setup-reverse-port-forwarding) twice.
 
 So, in the end, you will have:
 
@@ -398,7 +380,7 @@ Then, in your tests, you will send commands from each of the two AltDrivers.
 
 The same happens with n devices, repeat the steps n times.
 
-### Establish connect when multiple instances of the same application are running on the same device
+### Establish connection when multiple instances of the same application are running on the same device
 
 If you want to run two builds on the same device you will need to use a different port for each instance.
 
