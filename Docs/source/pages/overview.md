@@ -37,5 +37,5 @@ AltTester Package contains the AltTester Editor window which is the GUI used for
 
 The AltServer module is used to create the bridge between the tests and the instrumented Unity App. It acts as a websocket server that facilitates communication between AltDriver (tests) and AltTester Unity SDK (instrumented Unity App).
 
-
-![Architecture](../_static/img/overview/architecture-server.png)
+![Architecture](../_static/img/overview/architecture1.png)
+![Architecture](../_static/img/overview/architecture2.png)
