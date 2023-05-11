@@ -80,6 +80,15 @@ namespace AltTester.AltTesterUnitySDK.UI
         protected void Update()
         {
             _updateQueue.Cycle();
+            if (_liveUpdateCommunication == null && _communication == null)
+            {
+                ToggleCustomInput(false);
+                StartClient();
+            }
+            if (_liveUpdateCommunication == null ^ _communication == null)
+            {
+                StopClient();
+            }
 
             if (this._liveUpdateCommunication == null || !this._liveUpdateCommunication.IsConnected)
             {
@@ -267,19 +276,23 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             catch (RuntimeWebSocketClientException ex)
             {
-                SetMessage("2 An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
+                SetMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex.InnerException, "An unexpected error occurred while starting the AltTester client.");
+                StopClient();
             }
             catch (Exception ex)
             {
                 SetMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex, "An unexpected error occurred while starting the AltTester client.");
+                StopClient();
             }
         }
 
         private void StopClient()
         {
             _updateQueue.Clear();
+            _connectedDrivers.Clear();
+
 
             if (_communication != null)
             {
@@ -301,6 +314,14 @@ namespace AltTester.AltTesterUnitySDK.UI
                 _liveUpdateCommunication = null;
             }
         }
+        private void OnDisconnect()
+        {
+            _updateQueue.ScheduleResponse(() =>
+            {
+                StopClient();
+            });
+
+        }
 
         private void OnStart()
         {
@@ -318,17 +339,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             });
         }
 
-        private void OnDisconnect()
-        {
-            this.StopClient();
-            _connectedDrivers.Clear();
 
-            _updateQueue.ScheduleResponse(() =>
-            {
-                ToggleCustomInput(false);
-                StartClient();
-            });
-        }
 
         private void OnError(string message, Exception ex)
         {
