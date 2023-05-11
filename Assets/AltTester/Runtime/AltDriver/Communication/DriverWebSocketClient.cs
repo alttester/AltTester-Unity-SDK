@@ -50,6 +50,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
                 {
                     throw new AppDisconnectedException(this.closeReason);
                 }
+
+                if (this.closeCode == 4005)
+                {
+                    throw new MultipleDriversException(this.closeReason);
+                }
+
+                throw new ConnectionException(string.Format("Connection closed by AltServer with reason: {}.", this.Reason));
             }
         }
 

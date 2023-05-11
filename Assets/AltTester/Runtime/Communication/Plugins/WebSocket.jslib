@@ -214,12 +214,16 @@ var LibraryWebSocket = {
 		};
 
 		instance.ws.onclose = function (ev) {
+			var reason = ev.reason;
+			var length = lengthBytesUTF8(reason) + 1;
+			var buffer = _malloc(length);
+			stringToUTF8(reason, buffer, length);
 
 			if (webSocketState.debug)
 				console.log("[JSLIB WebSocket] Closed.");
 
 			if (webSocketState.onClose)
-				Module.dynCall_vii(webSocketState.onClose, instanceId, ev.code);
+				Module.dynCall_viii(webSocketState.onClose, instanceId, ev.code, buffer);
 
 			delete instance.ws;
 

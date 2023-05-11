@@ -17,7 +17,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string appName;
 
         public CommunicationHandler OnConnect { get; set; }
-        public CommunicationHandler OnDisconnect { get; set; }
+        public CommunicationDisconnectHandler OnDisconnect { get; set; }
         public CommunicationErrorHandler OnError { get; set; }
         public CommunicationMessageHandler OnMessage { get; set; }
 
@@ -40,7 +40,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
             wsClient.OnClose += (sender, args) =>
             {
-                if (this.OnDisconnect != null) this.OnDisconnect();
+                if (this.OnDisconnect != null) this.OnDisconnect(args.Code, args.Reason);
             };
 
             wsClient.OnError += (sender, args) =>
@@ -94,7 +94,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string appName;
 
         public CommunicationHandler OnConnect { get; set; }
-        public CommunicationHandler OnDisconnect { get; set; }
+        public CommunicationDisconnectHandler OnDisconnect { get; set; }
         public CommunicationErrorHandler OnError { get; set; }
         public CommunicationMessageHandler OnMessage { get; set; }
 
@@ -119,9 +119,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 };
             };
 
-            wsClient.OnClose += (WebSocketCloseCode closeCode) =>
+            wsClient.OnClose += (int closeCode, string reason) =>
             {
-                if (this.OnDisconnect != null) this.OnDisconnect.Invoke();
+                if (this.OnDisconnect != null) this.OnDisconnect.Invoke(closeCode, reason);
             };
 
             wsClient.OnMessage += (byte[] message) =>
