@@ -65,7 +65,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
 
-            SetTitle("AltTester v." + AltRunner.VERSION);
+            SetTitle("AltTester v." + "Connection Issue Problems");
             SetUpCloseButton();
             SetUpIcon();
             SetUpHostInputField();
@@ -84,9 +84,12 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 ToggleCustomInput(false);
                 StartClient();
+                Debug.Log("Started Client");
             }
+            else
             if (_liveUpdateCommunication == null ^ _communication == null)
             {
+                Debug.Log("StopClient from the if");
                 StopClient();
             }
 
