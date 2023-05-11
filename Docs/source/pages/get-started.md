@@ -241,7 +241,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
         2.  Right-click on Editor folder and select `Create -> AltTest`. This will create a template file in which you could start to write your test.
         3.  Name the file MyFirstTest.
         4.  Open AltTester Editor.
-        5.  Make sure that the AltTester Desktop app is running (Starting with version Pro ``1.0``, AltTester Desktop must be running on your PC while the tests are running).
+        5.  Make sure that the AltTester Desktop app is running (Starting with version ``2.0.0``, AltTester Desktop must be running on your PC while the tests are running).
         6.  In the `Run Tests` section press "Run All Tests" button. You should see the output of the tests in Unity Editor Console
 
         Example test file:
@@ -280,7 +280,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
             - The AltTester Desktop installed on your PC.
          
         **Connection:**
-            Starting with version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
+            Starting with version ``2.0.0``, the AltTester Desktop must be running on your PC while the tests are running.
             
             1. The AltTester Desktop app is running.
             2. The instrumented build is running.
@@ -341,7 +341,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
             - The AltTester Desktop installed on your PC.
          
         **Connection:**
-            Starting with version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
+            Starting with version ``2.0.0``, the AltTester Desktop must be running on your PC while the tests are running.
             
             1. The AltTester Desktop app is running.
             2. The instrumented build is running.
@@ -393,7 +393,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
             - The AltTester Desktop installed on your PC.
          
         **Connection:**
-            Starting with version Pro ``1.0``, the AltTester Desktop must be running on your PC while the tests are running.
+            Starting with version ``2.0.0``, the AltTester Desktop must be running on your PC while the tests are running.
             
             1. The AltTester Desktop app is running.
             2. The instrumented build is running.
