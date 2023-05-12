@@ -81,6 +81,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         protected void Update()
         {
             _updateQueue.Cycle();
+
             if (_liveUpdateCommunication == null && _communication == null)
             {
                 ToggleCustomInput(false);
@@ -98,8 +99,8 @@ namespace AltTester.AltTesterUnitySDK.UI
                 }
                 else
                 {
-                    Debug.Log("BIF is _liveUpdateCommunication connected:  " + _liveUpdateCommunication.IsConnected);
-                    Debug.Log("BIF is _communication connected: " + _communication.IsConnected);
+                    // Debug.Log("BIF is _liveUpdateCommunication connected:  " + _liveUpdateCommunication.IsConnected);
+                    // Debug.Log("BIF is _communication connected: " + _communication.IsConnected);
                     if (_liveUpdateCommunication.IsConnected ^ _communication.IsConnected)
                     {
 
@@ -114,6 +115,10 @@ namespace AltTester.AltTesterUnitySDK.UI
                     }
                     else
                     {
+                        // Debug.Log("BIF is _liveUpdateCommunication connected:  " + _liveUpdateCommunication.IsConnected);
+                        // Debug.Log("BIF is _communication connected: " + _communication.IsConnected);
+                        // Debug.Log("BIF DisconnectLiveUpdateFlag: " + DisconnectLiveUpdateFlag);
+                        // Debug.Log("BIF DisconnectCommunicationFlag: " + DisconnectCommunicationFlag);
                         if (!_liveUpdateCommunication.IsConnected && !_communication.IsConnected && DisconnectLiveUpdateFlag && DisconnectCommunicationFlag)
                         {
                             Debug.Log("Start Client");
@@ -299,7 +304,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             _liveUpdateCommunication = new LiveUpdateCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
             _liveUpdateCommunication.OnDisconnect += OnDisconnectLiveUpdate;
             _liveUpdateCommunication.OnError += OnError;
-            _liveUpdateCommunication.OnConnect += OnConnectLU;
+            _liveUpdateCommunication.OnConnect += OnConnectLiveUpdate;
             _liveUpdateCommunication.Init();
             DisconnectLiveUpdateFlag = true;
             DisconnectCommunicationFlag = true;
@@ -339,7 +344,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             _updateQueue.Clear();
             _connectedDrivers.Clear();
 
-
             if (_communication != null)
             {
                 logger.Debug("DeleteCommunication");
@@ -368,16 +372,35 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             OnStart();
         }
-        private void OnDisconnectCommunication()
+        private void OnDisconnectCommunication(int code, string reason)
         {
-            logger.Debug("DisconnectLiveUpdateFlag");
+            // All custom close codes must be between 4000 - 4999.
+            Debug.Log("Com Code: " + code + " reason: " + reason);
+            if (code > 4000)
+            {
+                _updateQueue.ScheduleResponse(() =>
+                {
+                    SetMessage(reason, ERROR_COLOR, true);
+                });
+            }
             DisconnectCommunicationFlag = true;
         }
-        private void OnDisconnectLiveUpdate()
+        private void OnDisconnectLiveUpdate(int code, string reason)
         {
+            Debug.Log("LU Code: " + code + " reason: " + reason);
+            // All custom close codes must be between 4000 - 4999.
+            if (code > 4000)
+            {
+                _updateQueue.ScheduleResponse(() =>
+                {
+
+                    SetMessage(reason, ERROR_COLOR, true);
+                });
+            }
             DisconnectLiveUpdateFlag = true;
-            logger.Debug("DisconnectCommunicationFlag");
         }
+
+
 
         private void OnStart()
         {
@@ -396,7 +419,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 SetMessage(message, color: SUCCESS_COLOR, visible: true);
             });
         }
-        private void OnConnectLU()
+        private void OnConnectLiveUpdate()
         {
             Debug.Log("LU Connected");
             string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
@@ -406,8 +429,6 @@ namespace AltTester.AltTesterUnitySDK.UI
                 SetMessage(message, color: SUCCESS_COLOR, visible: true);
             });
         }
-
-
 
         private void OnError(string message, Exception ex)
         {

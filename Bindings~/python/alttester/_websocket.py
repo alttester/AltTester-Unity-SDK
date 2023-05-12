@@ -185,12 +185,16 @@ class WebsocketConnection:
 
     def _check_close_message(self):
         if self._close_message:
-            if self._close_message[0] == 4001:
-                raise exceptions.NoAppConnected(self._close_message[1])
-            if self._close_message[0] == 4002:
-                raise exceptions.AppDisconnectedError(self._close_message[1])
+            reason = self._close_message[1]
 
-            raise exceptions.ConnectionError("Connection closed by AltServer.")
+            if self._close_message[0] == 4001:
+                raise exceptions.NoAppConnected(reason)
+            if self._close_message[0] == 4002:
+                raise exceptions.AppDisconnectedError(reason)
+            if self._close_message[0] == 4005:
+                raise exceptions.AppDisconnectedError(reason)
+
+            raise exceptions.ConnectionError("Connection closed by AltServer with reason: {}.".format(reason))
 
     def _check_errors(self):
         if self._errors:

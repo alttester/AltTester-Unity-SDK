@@ -6,11 +6,11 @@ AltTester Unity SDK is an open-source UI driven test automation tool that helps 
 
 You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity Editor.
 
-Read the documentation on https://alttester.com/docs/sdk/
+Read the documentation on https://alttester.com/docs/pro/sdk/
 
 ## Get Started
 
-Check out the [Get Started](https://alttester.com/docs/sdk/pages/get-started.html) guide from the documentation.
+Check out the [Get Started](https://alttester.com/docs/pro/sdk/pages/get-started.html) guide from the documentation.
 
 ## Development
 
@@ -39,7 +39,7 @@ $ pytest tests/integration/
 
 ## Contributing
 
-Check out the full contributing guide [contributing](https://alttester.com/docs/sdk/pages/contributing.html).
+Check out the full contributing guide [contributing](https://alttester.com/docs/pro/sdk/pages/contributing.html).
 
 ## Support
 

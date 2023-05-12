@@ -37,7 +37,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
     public delegate void WebSocketOpenEventHandler();
     public delegate void WebSocketMessageEventHandler(byte[] data);
     public delegate void WebSocketErrorEventHandler(string errorMsg);
-    public delegate void WebSocketCloseEventHandler(WebSocketCloseCode closeCode);
+    public delegate void WebSocketCloseEventHandler(int closeCode, string reason);
 
     public class WebGLWebSocket
     {
@@ -177,9 +177,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.OnError?.Invoke(errorMsg);
         }
 
-        public void DelegateOnCloseEvent(int closeCode)
+        public void DelegateOnCloseEvent(int closeCode, string reason)
         {
-            this.OnClose?.Invoke(WebSocketHelpers.ParseCloseCodeEnum(closeCode));
+            this.OnClose?.Invoke(closeCode, reason);
         }
     }
 
@@ -196,7 +196,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public delegate void OnOpenCallback(int instanceId);
         public delegate void OnMessageCallback(int instanceId, System.IntPtr msgPtr, int msgSize);
         public delegate void OnErrorCallback(int instanceId, System.IntPtr errorPtr);
-        public delegate void OnCloseCallback(int instanceId, int closeCode);
+        public delegate void OnCloseCallback(int instanceId, int closeCode, string reason);
 
         /* WebSocket JSLIB callback setters and other functions */
         [DllImport("__Internal")]
@@ -293,14 +293,14 @@ namespace AltTester.AltTesterUnitySDK.Communication
         }
 
         [MonoPInvokeCallback(typeof(OnCloseCallback))]
-        public static void DelegateOnCloseEvent(int instanceId, int closeCode)
+        public static void DelegateOnCloseEvent(int instanceId, int closeCode, string reason)
         {
 
             WebGLWebSocket instanceRef;
 
             if (instances.TryGetValue(instanceId, out instanceRef))
             {
-                instanceRef.DelegateOnCloseEvent(closeCode);
+                instanceRef.DelegateOnCloseEvent(closeCode, reason);
             }
 
         }
