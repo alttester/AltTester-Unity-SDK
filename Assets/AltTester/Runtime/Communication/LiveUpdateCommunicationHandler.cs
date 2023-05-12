@@ -31,14 +31,13 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.port = port;
             this.appName = appName;
         }
-
-        public void Connect()
+        public void Init()
         {
-            #if UNITY_WEBGL
+#if UNITY_WEBGL
                 this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, this.path, this.appName);
-            #else
-                this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName);
-            #endif
+#else
+            this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName);
+#endif
 
             this.wsClient.OnConnect += () =>
             {
@@ -59,7 +58,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 this.OnMessage(message);
             };
-
+        }
+        public void Connect()
+        {
             this.wsClient.Connect();
         }
 
@@ -100,7 +101,8 @@ namespace AltTester.AltTesterUnitySDK.Communication
             }
         }
 
-        private byte[] GetScreenshot() {
+        private byte[] GetScreenshot()
+        {
             var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
             var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality: this.quality);
 
