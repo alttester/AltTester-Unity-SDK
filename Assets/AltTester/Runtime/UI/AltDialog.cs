@@ -84,9 +84,10 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (_liveUpdateCommunication == null && _communication == null)
             {
                 ToggleCustomInput(false);
-                InitClient();
-                StartClient();
                 Debug.Log("Init Client");
+                InitClient();
+                Debug.Log("And Start Client");
+                StartClient();
             }
             else
             {
@@ -97,16 +98,25 @@ namespace AltTester.AltTesterUnitySDK.UI
                 }
                 else
                 {
+                    Debug.Log("BIF is _liveUpdateCommunication connected:  " + _liveUpdateCommunication.IsConnected);
+                    Debug.Log("BIF is _communication connected: " + _communication.IsConnected);
                     if (_liveUpdateCommunication.IsConnected ^ _communication.IsConnected)
                     {
+
                         Debug.Log("NOt Everyone is connected");
-                        StopClient();
+                        Debug.Log("is _liveUpdateCommunication connected:  " + _liveUpdateCommunication.IsConnected);
+                        Debug.Log("is _communication connected: " + _communication.IsConnected);
+                        if ((DisconnectLiveUpdateFlag && _communication.IsConnected) || (_liveUpdateCommunication.IsConnected && DisconnectCommunicationFlag))
+                        {
+                            Debug.Log("Stopping the clients ");
+                            StopClient();
+                        }
                     }
                     else
                     {
                         if (!_liveUpdateCommunication.IsConnected && !_communication.IsConnected && DisconnectLiveUpdateFlag && DisconnectCommunicationFlag)
                         {
-                            Debug.Log("St Client");
+                            Debug.Log("Start Client");
                             StartClient();
                         }
 
@@ -289,6 +299,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             _liveUpdateCommunication = new LiveUpdateCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
             _liveUpdateCommunication.OnDisconnect += OnDisconnectLiveUpdate;
             _liveUpdateCommunication.OnError += OnError;
+            _liveUpdateCommunication.OnConnect += OnConnectLU;
             _liveUpdateCommunication.Init();
             DisconnectLiveUpdateFlag = true;
             DisconnectCommunicationFlag = true;
@@ -298,9 +309,12 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void StartClient()
         {
+            OnStart();
 
             try
             {
+                DisconnectLiveUpdateFlag = false;
+                DisconnectCommunicationFlag = false;
                 _communication.Connect();
                 _liveUpdateCommunication.Connect();
             }
@@ -334,7 +348,8 @@ namespace AltTester.AltTesterUnitySDK.UI
                 _communication.OnDisconnect = null;
                 _communication.OnError = null;
 
-                _communication.Close();
+                if (_communication.IsConnected)
+                    _communication.Close();
                 _communication = null;
                 DisconnectCommunicationFlag = true;
             }
@@ -344,8 +359,10 @@ namespace AltTester.AltTesterUnitySDK.UI
                 logger.Debug("DeleteLiveUpdate");
                 _liveUpdateCommunication.OnDisconnect = null;
                 _liveUpdateCommunication.OnError = null;
+                _liveUpdateCommunication.OnConnect = null;
 
-                _liveUpdateCommunication.Close();
+                if (_liveUpdateCommunication.IsConnected)
+                    _liveUpdateCommunication.Close();
                 _liveUpdateCommunication = null;
                 DisconnectLiveUpdateFlag = true;
             }
@@ -364,12 +381,24 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void OnStart()
         {
+            Debug.Log("What Happens, why this is not called");
             string message = String.Format("Waiting to connect to AltServer on {0}:{1} with app name: '{2}'.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
             SetMessage(message, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
         }
 
         private void OnConnect()
         {
+            Debug.Log("Cmm Connected");
+            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+
+            _updateQueue.ScheduleResponse(() =>
+            {
+                SetMessage(message, color: SUCCESS_COLOR, visible: true);
+            });
+        }
+        private void OnConnectLU()
+        {
+            Debug.Log("LU Connected");
             string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
 
             _updateQueue.ScheduleResponse(() =>
