@@ -101,6 +101,20 @@ namespace AltTester.AltTesterUnitySDK.Driver
         }
     }
 
+    /// <summary>
+    /// Raised when the client tries to connect to a server with a driver already connected. Free accounts are limited to a single driver connection at a time.
+    /// </summary>
+    public class MultipleDriversException : ConnectionException
+    {
+        public MultipleDriversException()
+        {
+        }
+
+        public MultipleDriversException(string message) : base(message)
+        {
+        }
+    }
+
     public class NotFoundException : AltException
     {
         public NotFoundException()

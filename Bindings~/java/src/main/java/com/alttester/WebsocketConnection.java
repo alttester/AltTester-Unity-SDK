@@ -21,6 +21,9 @@ import org.apache.logging.log4j.Logger;
 import com.alttester.altTesterExceptions.ConnectionException;
 import com.alttester.altTesterExceptions.ConnectionTimeoutException;
 import com.alttester.altTesterExceptions.NoAppConnectedException;
+import com.alttester.altTesterExceptions.AppDisconnectedException;
+import com.alttester.altTesterExceptions.MultipleDriversException;
+
 
 @ClientEndpoint
 public class WebsocketConnection {
@@ -73,10 +76,14 @@ public class WebsocketConnection {
             }
 
             if (code == 4002) {
-                throw new ConnectionException(reason);
+                throw new AppDisconnectedException(reason);
             }
 
-            throw new ConnectionException("Connection closed by AltServer.");
+            if (code == 4005) {
+                throw new MultipleDriversException(reason);
+            }
+
+            throw new ConnectionException(String.format("Connection closed by AltServer with reason: %s.", reason));
         }
     }
 

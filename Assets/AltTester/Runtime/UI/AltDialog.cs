@@ -80,11 +80,13 @@ namespace AltTester.AltTesterUnitySDK.UI
         protected void Update()
         {
             _updateQueue.Cycle();
+
             if (_liveUpdateCommunication == null && _communication == null)
             {
                 ToggleCustomInput(false);
                 StartClient();
             }
+
             if (_liveUpdateCommunication == null ^ _communication == null)
             {
                 StopClient();
@@ -293,7 +295,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             _updateQueue.Clear();
             _connectedDrivers.Clear();
 
-
             if (_communication != null)
             {
                 // Remove the callbacks before stopping the client to prevent the OnDisconnect callback to be called when we stop or restart the client.
@@ -314,13 +315,24 @@ namespace AltTester.AltTesterUnitySDK.UI
                 _liveUpdateCommunication = null;
             }
         }
-        private void OnDisconnect()
-        {
-            _updateQueue.ScheduleResponse(() =>
-            {
-                StopClient();
-            });
 
+        private void OnDisconnect(int code, string reason)
+        {
+            // All custom close codes must be between 4000 - 4999.
+            if (code > 4000)
+            {
+                _updateQueue.ScheduleResponse(() =>
+                {
+                    SetMessage(reason, ERROR_COLOR, true);
+                });
+            }
+            else
+            {
+                _updateQueue.ScheduleResponse(() =>
+                {
+                    StopClient();
+                });
+            }
         }
 
         private void OnStart()
@@ -338,8 +350,6 @@ namespace AltTester.AltTesterUnitySDK.UI
                 SetMessage(message, color: SUCCESS_COLOR, visible: true);
             });
         }
-
-
 
         private void OnError(string message, Exception ex)
         {

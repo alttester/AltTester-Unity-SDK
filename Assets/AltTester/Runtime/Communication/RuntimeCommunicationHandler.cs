@@ -13,7 +13,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string path = "/altws/app";
 
         public CommunicationHandler OnConnect { get; set; }
-        public CommunicationHandler OnDisconnect { get; set; }
+        public CommunicationDisconnectHandler OnDisconnect { get; set; }
         public CommunicationErrorHandler OnError { get; set; }
 
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.IsConnected; } }
@@ -46,9 +46,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 if (this.OnConnect != null) this.OnConnect();
             };
 
-            this.wsClient.OnDisconnect += () =>
+            this.wsClient.OnDisconnect += (code, reason) =>
             {
-                if (this.OnDisconnect != null) this.OnDisconnect();
+                if (this.OnDisconnect != null) this.OnDisconnect(code, reason);
             };
 
             this.wsClient.OnError += (message, exception) =>
