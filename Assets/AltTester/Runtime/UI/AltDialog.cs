@@ -60,6 +60,8 @@ namespace AltTester.AltTesterUnitySDK.UI
         HashSet<string> _connectedDrivers = new HashSet<string>();
 
         private float update;
+        private bool DisconnectCommunicationFlag = false;
+        private bool DisconnectLiveUpdateFlag = false;
 
         protected void Start()
         {
@@ -74,7 +76,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             SetUpRestartButton();
             SetUpCustomInputToggle();
 
-            StartClient();
         }
 
         protected void Update()
@@ -84,12 +85,33 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (_liveUpdateCommunication == null && _communication == null)
             {
                 ToggleCustomInput(false);
+                InitClient();
                 StartClient();
             }
-
-            if (_liveUpdateCommunication == null ^ _communication == null)
+            else
             {
-                StopClient();
+                if (_liveUpdateCommunication == null ^ _communication == null)
+                {
+                    StopClient();
+                }
+                else
+                {
+                    if (_liveUpdateCommunication.IsConnected ^ _communication.IsConnected)
+                    {
+                        if ((DisconnectLiveUpdateFlag && _communication.IsConnected) || (_liveUpdateCommunication.IsConnected && DisconnectCommunicationFlag))
+                        {
+                            StopClient();
+                        }
+                    }
+                    else
+                    {
+                        if (!_liveUpdateCommunication.IsConnected && !_communication.IsConnected && DisconnectLiveUpdateFlag && DisconnectCommunicationFlag)
+                        {
+                            StartClient();
+                        }
+
+                    }
+                }
             }
 
             if (this._liveUpdateCommunication == null || !this._liveUpdateCommunication.IsConnected)
@@ -171,8 +193,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void OnRestartButtonPress()
         {
-            logger.Debug("Restart the AltTester client.");
             StopClient();
+
 
             if (Uri.CheckHostName(HostInputField.text) != UriHostNameType.Unknown)
             {
@@ -207,7 +229,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             try
             {
-                StartClient();
+                InitClient();
             }
             catch (Exception ex)
             {
@@ -255,24 +277,32 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             _communication = new RuntimeCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
             _communication.OnConnect += OnConnect;
-            _communication.OnDisconnect += OnDisconnect;
+            _communication.OnDisconnect += OnDisconnectCommunication;
             _communication.OnError += OnError;
 
             _communication.CmdHandler.OnDriverConnect += OnDriverConnect;
             _communication.CmdHandler.OnDriverDisconnect += OnDriverDisconnect;
+            _communication.Init();
 
             _liveUpdateCommunication = new LiveUpdateCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
-            _liveUpdateCommunication.OnDisconnect += OnDisconnect;
+            _liveUpdateCommunication.OnDisconnect += OnDisconnectLiveUpdate;
             _liveUpdateCommunication.OnError += OnError;
+            _liveUpdateCommunication.OnConnect += OnConnect;
+            _liveUpdateCommunication.Init();
+            DisconnectLiveUpdateFlag = true;
+            DisconnectCommunicationFlag = true;
+            OnStart();
+
         }
 
         private void StartClient()
         {
             OnStart();
-            InitClient();
 
             try
             {
+                DisconnectLiveUpdateFlag = false;
+                DisconnectCommunicationFlag = false;
                 _communication.Connect();
                 _liveUpdateCommunication.Connect();
             }
@@ -288,6 +318,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 logger.Error(ex, "An unexpected error occurred while starting the AltTester client.");
                 StopClient();
             }
+            logger.Debug("EndStartClient");
         }
 
         private void StopClient()
@@ -302,21 +333,26 @@ namespace AltTester.AltTesterUnitySDK.UI
                 _communication.OnDisconnect = null;
                 _communication.OnError = null;
 
-                _communication.Close();
+                if (_communication.IsConnected)
+                    _communication.Close();
                 _communication = null;
+                DisconnectCommunicationFlag = true;
             }
 
             if (_liveUpdateCommunication != null)
             {
                 _liveUpdateCommunication.OnDisconnect = null;
                 _liveUpdateCommunication.OnError = null;
+                _liveUpdateCommunication.OnConnect = null;
 
-                _liveUpdateCommunication.Close();
+                if (_liveUpdateCommunication.IsConnected)
+                    _liveUpdateCommunication.Close();
                 _liveUpdateCommunication = null;
+                DisconnectLiveUpdateFlag = true;
             }
+            OnStart();
         }
-
-        private void OnDisconnect(int code, string reason)
+        private void OnDisconnectCommunication(int code, string reason)
         {
             // All custom close codes must be between 4000 - 4999.
             if (code > 4000)
@@ -326,14 +362,23 @@ namespace AltTester.AltTesterUnitySDK.UI
                     SetMessage(reason, ERROR_COLOR, true);
                 });
             }
-            else
+            DisconnectCommunicationFlag = true;
+        }
+        private void OnDisconnectLiveUpdate(int code, string reason)
+        {
+            // All custom close codes must be between 4000 - 4999.
+            if (code > 4000)
             {
                 _updateQueue.ScheduleResponse(() =>
                 {
-                    StopClient();
+
+                    SetMessage(reason, ERROR_COLOR, true);
                 });
             }
+            DisconnectLiveUpdateFlag = true;
         }
+
+
 
         private void OnStart()
         {
@@ -354,7 +399,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void OnError(string message, Exception ex)
         {
             logger.Error(message);
-
             if (ex != null)
             {
                 logger.Error(ex);

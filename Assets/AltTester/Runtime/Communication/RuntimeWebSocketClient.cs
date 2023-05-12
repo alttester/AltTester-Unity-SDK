@@ -1,10 +1,10 @@
 using System;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
-using System.Diagnostics;
-using AltWebSocketSharp;
 using AltTester.AltTesterUnitySDK.Driver.Communication;
 using AltTester.AltTesterUnitySDK.Logging;
+using AltWebSocketSharp;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
@@ -23,6 +23,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.IsAlive; } }
 
+
         public RuntimeWebSocketClient(string host, int port, string path, string appName)
         {
             this.host = host;
@@ -32,7 +33,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
             Uri uri = Utils.CreateURI(host, port, path, appName);
             wsClient = new WebSocket(uri.ToString());
             wsClient.Log.Level = LogLevel.Fatal;
-
             wsClient.OnOpen += (sender, message) =>
             {
                 if (this.OnConnect != null) this.OnConnect();
@@ -68,7 +68,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public void Close()
         {
-            this.wsClient.Close();
+            wsClient.CloseAsync();
         }
 
         public void Send(string message)

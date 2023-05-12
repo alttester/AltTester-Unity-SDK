@@ -1,4 +1,5 @@
 using System;
+using AltWebSocketSharp;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
@@ -28,13 +29,14 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.cmdHandler = new CommandHandler();
         }
 
-        public void Connect()
+
+        public void Init()
         {
-            #if UNITY_WEBGL
+#if UNITY_WEBGL
                 this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, this.path, this.appName);
-            #else
-                this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName);
-            #endif
+#else
+            this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName);
+#endif
 
             this.wsClient.OnMessage += (message) =>
             {
@@ -56,13 +58,18 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 if (this.OnError != null) this.OnError.Invoke(message, exception);
             };
 
-            this.wsClient.Connect();
             this.cmdHandler.OnSendMessage += this.wsClient.Send;
+        }
+        public void Connect()
+        {
+            this.wsClient.Connect();
         }
 
         public void Close()
         {
+            UnityEngine.Debug.Log("Closing Websocket");
             this.wsClient.Close();
+            UnityEngine.Debug.Log("Closed Websocket");
         }
 
         private void OnMessage(string message)
