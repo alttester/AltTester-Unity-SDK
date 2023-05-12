@@ -67,7 +67,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
 
-            SetTitle("AltTester v." + "Connection Issue Problems2");
+            SetTitle("AltTester v." + AltRunner.VERSION);
             SetUpCloseButton();
             SetUpIcon();
             SetUpHostInputField();
