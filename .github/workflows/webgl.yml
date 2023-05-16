@@ -1,10 +1,11 @@
 name: WebGL Tests
 
 on:
-  workflow_dispatch:
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron: '0 4 * * 6' # run on every Saturday
+  push
+  # workflow_dispatch:
+  # schedule:
+  #   # * is a special character in YAML so you have to quote this string
+  #   - cron: '0 4 * * 6' # run on every Saturday
 
 jobs:
   build-WebGL-Unity2021:
