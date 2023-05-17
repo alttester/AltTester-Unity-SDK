@@ -34,6 +34,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             this.appName = appName;
             this.connectTimeout = connectTimeout;
 
+            this.error = null;
+            this.closeCode = 0;
+            this.closeReason = null;
+
             this.uri = Utils.CreateURI(host, port, path, appName).ToString();
         }
 
