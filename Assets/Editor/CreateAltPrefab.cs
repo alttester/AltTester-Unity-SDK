@@ -315,7 +315,7 @@ namespace AltTesterTools
             return DialogGameObject;
         }
 
-        public static Text CreateTitle(RectTransform parent, string version = "1.8.x")
+        public static Text CreateTitle(RectTransform parent, string version = "2.0.x")
         {
             var TitleGameObject = new GameObject("Title", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
 
