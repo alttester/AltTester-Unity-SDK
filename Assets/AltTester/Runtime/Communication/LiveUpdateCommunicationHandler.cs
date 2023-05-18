@@ -46,6 +46,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
             this.wsClient.OnDisconnect += (code, reason) =>
             {
+                this.isRunning = false; 
                 if (this.OnDisconnect != null) this.OnDisconnect(code, reason);
             };
 
@@ -59,13 +60,16 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 this.OnMessage(message);
             };
         }
+        
         public void Connect()
         {
+            this.isRunning = false; 
             this.wsClient.Connect();
         }
 
         public void Close()
         {
+            this.isRunning = false; 
             this.wsClient.Close();
         }
 
