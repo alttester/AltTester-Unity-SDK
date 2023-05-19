@@ -43,6 +43,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
         private void CheckCloseMessage()
         {
+
             if (this.closeCode != 0 && this.closeReason != null)
             {
                 if (this.closeCode == 4001)
@@ -96,6 +97,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             logger.Info("Connecting to: '{0}'.", this.uri);
 
             int delay = 100;
+
+            this.error = null;
+            this.closeCode = 0;
+            this.closeReason = null;
 
             this.wsClient = new WebSocket(this.uri);
             this.wsClient.OnError += OnError;
