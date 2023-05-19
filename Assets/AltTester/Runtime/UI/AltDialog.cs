@@ -75,7 +75,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             SetUpAppNameInputField();
             SetUpRestartButton();
             SetUpCustomInputToggle();
-
         }
 
         protected void Update()
@@ -289,10 +288,11 @@ namespace AltTester.AltTesterUnitySDK.UI
             _liveUpdateCommunication.OnError += OnError;
             _liveUpdateCommunication.OnConnect += OnConnect;
             _liveUpdateCommunication.Init();
+
             DisconnectLiveUpdateFlag = true;
             DisconnectCommunicationFlag = true;
-            OnStart();
 
+            OnStart();
         }
 
         private void StartClient()
@@ -308,7 +308,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             catch (RuntimeWebSocketClientException ex)
             {
-                SetMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
+                SetMessage("An unexpected runtime error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex.InnerException, "An unexpected error occurred while starting the AltTester client.");
                 StopClient();
             }
@@ -352,6 +352,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             OnStart();
         }
+
         private void OnDisconnectCommunication(int code, string reason)
         {
             // All custom close codes must be between 4000 - 4999.
@@ -362,8 +363,12 @@ namespace AltTester.AltTesterUnitySDK.UI
                     SetMessage(reason, ERROR_COLOR, true);
                 });
             }
-            DisconnectCommunicationFlag = true;
+            else
+            {
+                DisconnectCommunicationFlag = true;
+            }
         }
+
         private void OnDisconnectLiveUpdate(int code, string reason)
         {
             // All custom close codes must be between 4000 - 4999.
@@ -371,14 +376,14 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 _updateQueue.ScheduleResponse(() =>
                 {
-
                     SetMessage(reason, ERROR_COLOR, true);
                 });
             }
-            DisconnectLiveUpdateFlag = true;
+            else
+            {
+                DisconnectLiveUpdateFlag = true;
+            }
         }
-
-
 
         private void OnStart()
         {
@@ -428,10 +433,8 @@ namespace AltTester.AltTesterUnitySDK.UI
             string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
 
             _connectedDrivers.Remove(driverId);
-
             if (_connectedDrivers.Count == 0)
             {
-
                 _updateQueue.ScheduleResponse(() =>
                 {
                     ToggleCustomInput(false);
