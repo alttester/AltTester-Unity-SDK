@@ -10,14 +10,14 @@ using NUnit.Framework;
 public class TestNotification
 {
     private AltDriver altDriver;
+
     [OneTimeSetUp]
     public void SetUp()
     {
-        string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
-        int port = 13000;
-        if (!string.IsNullOrEmpty(portStr)) port = int.Parse(portStr);
         altDriver = TestsHelper.GetAltDriver();
+
         INotificationCallbacks notificationCallbacks = new MockNotificationCallBacks();
+
         altDriver.AddNotificationListener<AltLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, notificationCallbacks.SceneLoadedCallback, true);
         altDriver.AddNotificationListener<String>(NotificationType.UNLOADSCENE, notificationCallbacks.SceneUnloadedCallback, true);
         altDriver.AddNotificationListener<AltLogNotificationResultParams>(NotificationType.LOG, notificationCallbacks.LogCallback, true);
@@ -25,6 +25,7 @@ public class TestNotification
         DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
         DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
     }
+
     [OneTimeTearDown]
     public void TearDown()
     {

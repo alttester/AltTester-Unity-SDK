@@ -111,6 +111,8 @@ public class WebsocketConnection {
         Exception connectionError = null;
 
         while (finish - start < timeout) {
+            closeReason = null;
+
             try {
                 if (retries > 0) {
                     logger.debug("Retrying #{} to: '{}'.", retries, uri);

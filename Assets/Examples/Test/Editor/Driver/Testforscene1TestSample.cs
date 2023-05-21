@@ -225,10 +225,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "AltTester.AltTesterUnitySDK");
-            string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
-            if (string.IsNullOrEmpty(portStr)) portStr = "13010";
-            int port = int.Parse(portStr);
 
+            int port = TestsHelper.GetAltDriverPort();
             Assert.AreEqual(port, propertyValue);
         }
 
@@ -241,10 +239,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
             Assert.NotNull(altElement);
 
-            string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
-            int port = int.Parse(portStr);
-
-
+            int port = TestsHelper.GetAltDriverPort();
             var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "AltTester.AltTesterUnitySDK");
 
             Assert.AreEqual(port, propertyValue);
