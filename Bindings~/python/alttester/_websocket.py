@@ -261,6 +261,7 @@ class WebsocketConnection:
 
         while not self._is_open and (self.timeout is None or elapsed_time < self.timeout):
             self._close_message = None
+            self._errors = []
 
             if self._errors or self._close_message:
                 self.close()

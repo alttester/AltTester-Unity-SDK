@@ -111,7 +111,8 @@ public class WebsocketConnection {
         Exception connectionError = null;
 
         while (finish - start < timeout) {
-            closeReason = null;
+            this.error = null;
+            this.closeReason = null;
 
             try {
                 if (retries > 0) {
