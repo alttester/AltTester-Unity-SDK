@@ -34,6 +34,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             this.appName = appName;
             this.connectTimeout = connectTimeout;
 
+            this.error = null;
+            this.closeCode = 0;
+            this.closeReason = null;
+
             this.uri = Utils.CreateURI(host, port, path, appName).ToString();
         }
 
@@ -103,6 +107,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
             while (this.connectTimeout > watch.Elapsed.TotalSeconds)
             {
+                this.error = null;
+                this.closeCode = 0;
+                this.closeReason = null;
+
                 if (retries > 0)
                 {
                     logger.Debug(string.Format("Retrying #{0} to connect to: '{1}'.", retries, this.uri));

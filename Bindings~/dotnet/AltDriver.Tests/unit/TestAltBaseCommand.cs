@@ -9,8 +9,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
     {
         public AltBaseCommandImpl(IDriverCommunication comm) : base(comm)
         {
-
         }
+
         public void Validate(string expected, string received)
         {
             base.ValidateResponse(expected, received);
@@ -18,7 +18,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
     }
 
     [Timeout(1000)]
-
     public class TestAltBaseCommand
     {
         [OneTimeSetUp]
@@ -26,6 +25,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         {
             DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Debug);
         }
+
         [SetUp]
         public void SetUp()
         {
@@ -47,7 +47,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             {
                 Assert.AreEqual(ex.Message, string.Format("Expected to get response '{0}'; Got  '{1}'", "aa", "bb"));
             }
-
         }
     }
 }
