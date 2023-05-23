@@ -12,7 +12,7 @@ namespace AltTester.AltTesterUnitySDK
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "1.8.2";
+        public static readonly string VERSION = "2.0.0";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
         public AltInstrumentationSettings InstrumentationSettings = null;
