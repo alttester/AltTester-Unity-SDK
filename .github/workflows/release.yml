@@ -8,7 +8,7 @@ on:
 
 jobs:
   publish-pip-package:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS]
 
     steps:
       - uses: actions/checkout@v3
@@ -83,6 +83,7 @@ jobs:
       - name: Create jar
         run: |
           mkdir -p public/AltTesterJAR || true
+          ls
           cd "Bindings~/java"
           mvn clean compile assembly:single
           mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
