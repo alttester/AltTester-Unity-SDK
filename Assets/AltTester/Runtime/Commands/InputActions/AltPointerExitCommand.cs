@@ -1,11 +1,12 @@
-﻿using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltPointerUpFromObjectCommand : AltCommand<AltPointerUpFromObjectParams, AltObject>
+    class AltPointerExitCommand : AltCommand<AltPointerExitParams, AltObject>
     {
-        public AltPointerUpFromObjectCommand(AltPointerUpFromObjectParams cmdParams) : base(cmdParams)
+
+        public AltPointerExitCommand(AltPointerExitParams cmdParams) : base(cmdParams)
         {
         }
 
@@ -13,7 +14,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
             UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject.id);
-            UnityEngine.EventSystems.ExecuteEvents.Execute(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
+            UnityEngine.EventSystems.ExecuteEvents.Execute(gameObject, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
             var camera = AltRunner._altRunner.FoundCameraById(CommandParams.altObject.idCamera);
 
             return camera != null ?

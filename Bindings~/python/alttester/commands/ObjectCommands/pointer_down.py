@@ -4,7 +4,7 @@ from alttester.commands.base_command import BaseCommand
 class PointerDown(BaseCommand):
 
     def __init__(self, connection, alt_object):
-        super(PointerDown, self).__init__(connection, "pointerDownFromObject")
+        super(PointerDown, self).__init__(connection, "pointerDown")
         self.alt_object = alt_object
 
     @property

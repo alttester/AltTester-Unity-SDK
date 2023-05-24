@@ -4,7 +4,7 @@ from alttester.commands.base_command import BaseCommand
 class PointerEnter(BaseCommand):
 
     def __init__(self, connection, alt_object):
-        super(PointerEnter, self).__init__(connection, "pointerEnterObject")
+        super(PointerEnter, self).__init__(connection, "pointerEnter")
 
         self.alt_object = alt_object
 

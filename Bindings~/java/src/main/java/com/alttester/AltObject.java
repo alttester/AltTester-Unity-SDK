@@ -237,7 +237,7 @@ public class AltObject {
      * @return Element that simulates pointer up action
      */
     public AltObject pointerUp() {
-        return sendActionAndEvaluateResult("pointerUpFromObject");
+        return sendActionAndEvaluateResult("pointerUp");
     }
 
     /**
@@ -246,7 +246,7 @@ public class AltObject {
      * @return Element that simulates pointer down action
      */
     public AltObject pointerDown() {
-        return sendActionAndEvaluateResult("pointerDownFromObject");
+        return sendActionAndEvaluateResult("pointerDown");
     }
 
     /**
@@ -255,7 +255,7 @@ public class AltObject {
      * @return Element that simulates pointer enter action
      */
     public AltObject pointerEnter() {
-        return sendActionAndEvaluateResult("pointerEnterObject");
+        return sendActionAndEvaluateResult("pointerEnter");
     }
 
     /**
@@ -264,7 +264,7 @@ public class AltObject {
      * @return Element that simulates pointer exit action
      */
     public AltObject pointerExit() {
-        return sendActionAndEvaluateResult("pointerExitObject");
+        return sendActionAndEvaluateResult("pointerExit");
     }
 
     /**

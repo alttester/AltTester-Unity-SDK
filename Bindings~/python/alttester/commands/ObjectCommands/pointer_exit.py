@@ -4,7 +4,7 @@ from alttester.commands.base_command import BaseCommand
 class PointerExit(BaseCommand):
 
     def __init__(self, connection, alt_object):
-        super().__init__(connection, "pointerExitObject")
+        super().__init__(connection, "pointerExit")
 
         self.alt_object = alt_object
 
