@@ -5,7 +5,7 @@ from alttester.by import By
 
 
 class AltObject:
-    """The AltObject class represents an object present in the game and it allows you to interact with it.
+    """The AltObject class represents an object present in the application and it allows you to interact with it.
 
     It is the return type of the methods in the “find_*” category from the AltDriver class.
     """
@@ -144,6 +144,31 @@ class AltObject:
         """Returns all components."""
 
         return commands.GetAllComponents.run(self._connection, self)
+
+    def wait_for_component_property(self, component_name, property_name,
+                                    property_value, assembly,  timeout=20, interval=0.5):
+        """Wait until a property has a specific value and returns the value of the given component property.
+
+        Args:
+            component_name (:obj:`str`): The name of the component. If the component has a namespace the format should
+                look like this: ``"namespace.componentName"``.
+            property_name (:obj:`str`): The name of the property of which value you want. If the property is an array
+                you can specify which element of the array to return by doing ``property[index]``, or if you want a
+                property inside of another property you can get by doing ``property.subProperty``.
+            property_value(:obj:`str`): The value of the component expected
+            assembly (:obj:`str`): The name of the assembly containing the component.
+            timeout (:obj:`int`, optional): The number of seconds that it will wait for property.
+            interval (:obj:`float`, optional): The number of seconds after which it will try to find the object again.
+                The interval should be smaller than timeout.
+
+        Returns:
+            str: The property value is serialized to a JSON string.
+
+        """
+        return commands.WaitForComponentProperty.run(
+            component_name, property_name, property_value,
+            assembly, self, timeout, interval
+        )
 
     def get_component_property(self, component_name, property_name, assembly, max_depth=2):
         """Returns the value of the given component property.

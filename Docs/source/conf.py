@@ -26,8 +26,8 @@ author = 'Altom'
 
 # The full version, including alpha/beta/rc tags
 # displays version under project title
-version = 'AltTester Unity SDK v1.8.2'
-release = 'v1.8.2'
+version = 'AltTester Unity SDK v2.0.0'
+release = 'v2.0.0'
 
 
 # -- General configuration ---------------------------------------------------

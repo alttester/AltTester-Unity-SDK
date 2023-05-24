@@ -1,10 +1,11 @@
 package com.alttester.Commands;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import com.alttester.AltDriver;
 import com.alttester.TestsHelper;
@@ -19,12 +20,13 @@ public class TestsAltCommands {
         }
 
         @Test
+        @Tag("WebGLUnsupported")
         public void testSetServerLogging() {
-                AltDriver altDriver = TestsHelper.GetAltDriver();
+                AltDriver altDriver = TestsHelper.getAltDriver();
                 altDriver.setServerLogging(
                                 new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
                 Rule rule = altDriver.callStaticMethod(
-                                new AltCallStaticMethodParams.Builder("Altom.AltTester.Logging.ServerLogManager",
+                                new AltCallStaticMethodParams.Builder("Altom.AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
                                                 "Instance.Configuration.FindRuleByName", "Assembly-CSharp",
                                                 new Object[] { "AltServerFileRule" })
                                                 .build(),
@@ -35,7 +37,7 @@ public class TestsAltCommands {
                 altDriver.setServerLogging(
                                 new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Off).build());
                 rule = altDriver.callStaticMethod(
-                                new AltCallStaticMethodParams.Builder("Altom.AltTester.Logging.ServerLogManager",
+                                new AltCallStaticMethodParams.Builder("Altom.AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
                                                 "Instance.Configuration.FindRuleByName", "Assembly-CSharp",
                                                 new Object[] { "AltServerFileRule" })
                                                 .build(),

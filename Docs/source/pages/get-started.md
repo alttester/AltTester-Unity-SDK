@@ -1,6 +1,6 @@
 # Get Started
 
-To run the first test for your Unity game you need to:
+To run the first test for your Unity app you need to:
 
 ```eval_rst
 
@@ -12,7 +12,7 @@ To run the first test for your Unity game you need to:
 
 .. note::
 
-    If you don't have access to source code of the game you need to ask a person with access to give you an instrumented version of the game.
+    If you don't have access to source code of the app you need to ask a person with access to give you an instrumented version of the app.
 
 ```
 
@@ -26,14 +26,14 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
     .. tab:: UnityPackage from AltTester website
 
-        1. Download from `AltTester website - link <https://alttester.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
+        1. Download from `AltTester website - link <https://alttester.com/app/uploads/AltTester/sdks/AltTesterPro.unitypackage>`_.
         2. Import it by drag and drop inside your Unity project.
 
 ```
 
 ### Resolve dependencies
 
-- Newtonsoft.Json
+-   Newtonsoft.Json
 
 In order for AltTester Unity SDK to work you need dependency for Newtonsoft.Json. Add `"com.unity.nuget.newtonsoft-json": "3.0.1"` to your project `manifest.json`, inside `dependencies`.
 
@@ -45,19 +45,17 @@ In order for AltTester Unity SDK to work you need dependency for Newtonsoft.Json
 }
 ```
 
-- Input System
+-   Input System
 
 AltTester Unity SDK has support for Input System starting with version 1.7.1. To enable Input System in AltTester Unity SDK you need to add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
 
 ```json
 {
-    "testables": [
-        "com.unity.inputsystem"
-  ]
+    "testables": ["com.unity.inputsystem"]
 }
 ```
 
-- Editor Coroutines
+-   Editor Coroutines
 
 In order for AltTester Unity SDK to work with your project you need the dependency for Editor Coroutines. Add `"com.unity.editorcoroutines": "1.0.0` to your project `manifest.json`, inside `dependencies`.
 
@@ -68,6 +66,7 @@ In order for AltTester Unity SDK to work with your project you need the dependen
     }
 }
 ```
+
 <!--
 To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity.
 
@@ -90,15 +89,15 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
 ![Window menu with AltTester Unity SDK Options](../_static/img/get-started/downloading-importing-alttester-editor.png)
 
-## Instrument your game with AltTester Unity SDK
+## Instrument your app with AltTester Unity SDK
 
 Steps:
 
-1. Open the AltTester Editor window from Unity Editor -> AltTester -> AltTester Editor <!--2. In the Build Settings section set the **Proxy host** to the IP/hostname of the device where the Proxy is running. Set the **Proxy port** to the port configured in the Proxy. -->
+1. Open the AltTester Editor window from Unity Editor -> AltTester -> AltTester Editor <!--2. In the Build Settings section set the **AltServer host** to the IP/hostname of the device where the AltServer is running. Set the **AltServer port** to the port configured in the AltServer. -->
 2. In the Build Settings section set **AltTester Port** to 13000
 3. In the Scene Manager section select the scenes you want to include in your build
 4. In the Platform section select desired platform and set the path to where you want to save the build
-5. Press "Build Only" to instrument the game or "Build & Run" to start your instrumented game
+5. Press "Build Only" to instrument the app or "Build & Run" to start your instrumented app
    after the build succeeded
 6. Check the console to see if the build was successful.
 
@@ -119,10 +118,9 @@ Steps:
 .. note::
 
     Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your game.
-
 .. note::
 
-    If you have a custom build, check how you can build from the command line using the instructions in the :ref:`Advanced Usage<pages/advanced-usage:Build games from the command line>` section.
+    If you have a custom build, check how you can build from the command line using the instructions in the :ref:`Advanced Usage<pages/advanced-usage:Build apps from the command line>` section.
 
 .. note::
 
@@ -131,25 +129,23 @@ Steps:
 
 .. note::
 
-    To be able to run your instrumented game in the background, go to File -> Build Settings -> Player Settings -> Project Settings -> Player -> Resolution and presentation and check the box next to Run in background.
+    To be able to run your instrumented app in the background, go to File -> Build Settings -> Player Settings -> Project Settings -> Player -> Resolution and presentation and check the box next to Run in background.
 
-```
-
-<!--
-
-```eval_rst
 .. note::
 
-    When running the WebGL build of your game in browser, even with the Run in background setting enabled, you still might experience slow performance if the tab with your content is not on focus. Make sure that the tab with your app is visible, otherwise your content will only update once per second in most browsers.
+    To make sure you can catch possible exceptions thrown from your tests, you'll have to go to `Edit -> Project Settings -> Player -> Publishing Settings` and set `Enable Exceptions` to `Full With Stacktrace`.
+
+.. note::
+
+    When running the WebGL build of your app in browser, even with the Run in background setting enabled, you still might experience slow performance if the tab with your content is not on focus. Make sure that the tab with your app is visible, otherwise your content will only update once per second in most browsers.
 
 ```
 
-## Start the Proxy Module
+## Start the AltServer Module
 
-The Proxy Module is incorporated in AltTester Desktop. In order to start it, all you have to do is to start AltTester Desktop.
--->
+The AltServer Module is incorporated in AltTester Desktop. In order to start it, all you have to do is to open AltTester Desktop.
 
-## Run your game in Unity or on desired platform
+## Run your app in Unity or on desired platform
 
 Before running your tests you need to start the instrumented Unity application. Upon startup, your instrumented Unity app should display a popup with the message: "Waiting for connections on port: {Port}". The popup disappears when your app has successfully connected to the tests.
 
@@ -203,11 +199,11 @@ Before running your tests you need to start the instrumented Unity application. 
 
         .. note::
 
-            Check the following link to see how to build and run your game for iOS (.ipa file) -- `link <https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
+            Check the following link to see how to build and run your app for iOS (.ipa file) -- `link <https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
 
 .. note::
 
-    You can switch between regular and custom input by toggling the box with the `Custom Input` label. Take into consideration that if you are using the New Input System, then after activating the custom input, you will only be able to interact with the instrumented build via your automated tests or the AltTester Desktop.         
+    You can switch between the regular and the AltTester input by toggling the box with the `AltTester Input` label. Take into consideration that if you are using the New Input System, then after activating the AltTester input, you will only be able to interact with the instrumented build via your automated tests or the AltTester Desktop.
 
 ```
 
@@ -225,11 +221,11 @@ Before running your tests you need to start the instrumented Unity application. 
         3. Click Build & Run
  -->
 
-## Write and execute first test for your game
+## Write and execute first test for your app
 
 To write tests with AltTester Unity SDK you need to import the AltDriver in your tests project.
 
-AltTester package contains AltDriver class used to connect to the instrumented game. In the setup method create an instance of the driver and in the tear-down method invoke the stop method of the driver. With the instance of the driver you can query the Unity objects and interact with the game.
+AltTester package contains AltDriver class used to connect to the instrumented app. In the setup method create an instance of the driver and in the tear-down method invoke the stop method of the driver. With the instance of the driver you can query the Unity objects and interact with the app.
 
 ```eval_rst
 
@@ -243,7 +239,8 @@ AltTester package contains AltDriver class used to connect to the instrumented g
         2.  Right-click on Editor folder and select `Create -> AltTest`. This will create a template file in which you could start to write your test.
         3.  Name the file MyFirstTest.
         4.  Open AltTester Editor.
-        5.  In the `Run Tests` section press "Run All Tests" button. You should see the output of the tests in Unity Editor Console
+        5.  Make sure that the AltTester Desktop app is running (Starting with version ``2.0.0``, AltTester Desktop must be running on your PC while the tests are running).
+        6.  In the `Run Tests` section press "Run All Tests" button. You should see the output of the tests in Unity Editor Console
 
         Example test file:
 
@@ -275,27 +272,43 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
     .. tab:: C#
 
-        AltTester-Driver for C# is available also as a nuget package. You can use the nuget package to write your tests in a separate tests project, independent of the Unity application.
+        **Prerequisite:**
+            - `.NET <https://dotnet.microsoft.com/en-us/download>`_ installed.
+            - Instrumented build.
+            - The AltTester Desktop installed on your PC.
 
-        Create a new test project
+        **Connection:**
+            Starting with version ``2.0.0``, the AltTester Desktop must be running on your PC while the tests are running.
 
-        .. code-block:: console
+            1. The AltTester Desktop app is running.
+            2. The instrumented build is running.
+            3. Configure the IP of the build in order to match the IP of the machine (PC) the Desktop app is running on.
+            4. Then press the restart button in the AltTester dialog and wait until the `Connected to AltServer…` message is displayed in the dialog.
 
-            mkdir <test-project-name>
-            cd <test-project-name>
-            dotnet new nunit
+        **Test Setup:**
+            - You can use any IDE you want. As a suggestion, we prefer `Visual Studio Code <https://code.visualstudio.com/>`_.
+            - To be able to run our test scripts, we should use a testing framework. For this tutorial, we will use the `NUnit testing framework <https://nunit.org/>`_.
+            - In order to use ``NUnit``, you should start by creating an NUnit project. To do this, you need to create an empty folder (this will be the project folder) and open it in Visual Studio Code. `Open a terminal <https://code.visualstudio.com/docs/terminal/basics>`_ (we preferred git bash) and run the command below. This command will create a basic NUnit project for you:
+            .. code-block:: console
 
-        Install AltTester-Driver nuget package
+                dotnet new nunit
 
-        .. code-block:: console
+            - To be able to interact with the game through your tests, you need AltDriver. To add the AltDriver to your testing project, all you need to do is to use the following command in your terminal:
+            .. code-block:: console
 
-            dotnet add package AltTester-Driver --version 1.8.2
+                dotnet add package AltTester-Driver --version x.y.z
 
-        Run your tests
+            **Note** that the ``x.y.z`` is the version of AltDriver you want to install.
 
-        .. code-block:: console
+        **Writing tests:**
+            - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into `pages` folders and `tests` folders.
+            - To initialize the AltDriver in your project, you should import it. You can do it by using the following syntax: ``using AltTester.AltDriver;``.
+            - After that you can initialize the AltDriver: ``altDriver = new AltDriver();``.
+        **Running the tests:**
+            - To run your test, open a terminal window in the project folder and paste the following command:
+            .. code-block:: console
 
-            dotnet test
+                dotnet test
 
         Example test file:
 
@@ -320,36 +333,33 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
     .. tab:: Java
 
-        AltTester-Driver for Java is available as a maven package or as a standalone jar. Use one of the following methods to import the driver in your tests project.
+        **Prerequisite:**
+            - `Java <https://www.java.com/download/ie_manual.jsp>`_ installed.
+            - Instrumented build.
+            - The AltTester Desktop installed on your PC.
 
-            **Method 1**: Add AltTester-Driver for Java as a dependency in your ``pom.xml`` file:
+        **Connection:**
+            Starting with version ``2.0.0``, the AltTester Desktop must be running on your PC while the tests are running.
 
-            .. code-block:: xml
+            1. The AltTester Desktop app is running.
+            2. The instrumented build is running.
+            3. Configure the IP of the build in order to match the IP of the machine (PC) the Desktop app is running on.
+            4. Then press the restart button in the AltTester dialog and wait until the `Connected to AltServer…` message is displayed in the dialog.
 
-                <dependency>
-                    <groupId>com.alttester</groupId>
-                    <artifactId>alttester</artifactId>
-                    <version>1.8.2</version>
-                </dependency>
+        **Test Setup:**
+            - You can use any IDE that works with Java, but for this setup tutorial, we will use `IntelliJ <https://www.jetbrains.com/idea/download/#section=windows>`_.
+            - In order to have the structure already created for us and the possibility to install/update dependencies in an easy way, we can choose to create a `MAVEN project <https://www.jetbrains.com/idea/guide/tutorials/working-with-maven/creating-a-project/>`_.
+            - In the new ``pom.xml`` generated, you should add the following dependencies by searching these names in the manage dependencies window: ``AltTester-Driver``, ``JUnit`` (if it was not added by default).
+            - When you have these steps completed and you don’t have any errors, you are able to jump into the next section.
 
+        **Writing tests:**
+            - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into `pages` folders and `tests` folders.
+            - To initialize the AltDriver in your project, you should import it. You can do it by using the following syntax: ``import com.alttester.AltDriver;``.
+            - After that you can initialize the AltDriver: ``driver = new AltDriver();``.
+            - Considering that we’re using JUnit as a testing framework, you can find more information about JUnit in its official `documentation <https://junit.org/junit5/docs/current/user-guide/>`_.
 
-            **Method 2**: Use the ``.jar`` file from GIT (**without building it from source**)
-
-                * Download `AltTester-Driver for Java <https://alttester.com/app/uploads/AltTesterJAR/AltTester-Driver.jar>`__.
-
-                * Install the ``.jar`` file:
-
-                .. code-block:: console
-
-                    mvn install:install-file -Dfile=./target/AltTester-Driver.jar -DgroupId=com.alttester -DartifactId=alttester -Dversion=1.8.2 -Dpackaging=jar
-
-
-
-        Run your tests by using the following command (in the test project folder):
-
-        .. code-block:: console
-
-            mvn test
+        **Running the tests:**
+            - Considering that we are using IntelliJ, the tests can be run using the runner that is inside of it. More information about this can be found in the official `documentation <https://www.jetbrains.com/help/idea/performing-tests.html>`_ of IntelliJ.
 
         Example test file:
 
@@ -375,33 +385,64 @@ AltTester package contains AltDriver class used to connect to the instrumented g
 
     .. tab:: Python
 
-        There are two methods of installing the AltTester-Driver for Python package:
+        **Prerequisite:**
+            - `Python <https://www.python.org/downloads/>`_ installed.
+            - Instrumented build.
+            - The AltTester Desktop installed on your PC.
 
-            **Method 1**: Installing using Pip:
+        **Connection:**
+            Starting with version ``2.0.0``, the AltTester Desktop must be running on your PC while the tests are running.
 
+            1. The AltTester Desktop app is running.
+            2. The instrumented build is running.
+            3. Configure the IP of the build in order to match the IP of the machine (PC) the Desktop app is running on.
+            4. Then press the restart button in the AltTester dialog and wait until the `Connected to AltServer…` message is displayed in the dialog.
+
+        **Test Setup:**
+            - We suggest using the ``git bash`` terminal type for all the commands below.
+            - You can use any IDE you want. As a suggestion, we prefer `Visual Studio Code <https://code.visualstudio.com/>`_  and `PyCharm <https://www.jetbrains.com/pycharm/download/>`_.
+            - To actually run the tests we need a test framework. One of the most popular python testing frameworks is `pytest <https://pypi.org/project/pytest/>`_ which is easy to download because you just need to use the following command in your terminal:
+            .. code-block:: console
+
+                pip install pytest
+
+            - To be able to interact with the game through your tests, you need AltDriver. It contains all the methods you need such as ``tap()``, ``wait_for_object()``, ``find_object()`` and so on. To add the `AltDriver <https://pypi.org/project/AltTester-Driver/>`_ to your testing project, all you need to do is to use the following command in your terminal:
             .. code-block:: console
 
                 pip install AltTester-Driver
 
-            **Method 2**: Install from the source code in the repository:
+            The following setup steps are not mandatory, but if you choose to use them, you will act like a pro.
 
+            - Install `assertpy <https://pypi.org/project/assertpy/>`_ - for easy and nice assertions.
+            - Most of the time on a project, you will have to provide some reports with the results of your tests. In order to provide them, you can use ``pytest-html-reporter`` which generates nice and detailed reports with the results of your tests. To install ``pytest-html-reporter`` use the following command:
             .. code-block:: console
 
-                git clone git@github.com:alttester/AltTester-Unity-SDK.git
-                cd alttester/Bindings~/python
-                python setup.py install
+                pip install pytest-html-reporter
 
-        Run your test file using the ``unittest`` module:
+        **Writing tests:**
+            - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into `pages` folders and `tests` folders.
+            - The AltDriver can be used in your code after you import it. Here is the import syntax: ``from alttester import AltDriver``, then you can instantiate an object of AltDriver type: ``altdriver = AltDriver()`` . By doing this, you are able to use all the methods that come from AltDriver().
+            - Considering that we are using ``pytest``, the names of the tests should start with ``test``.
+        **Running the tests:**
+            - Running tests using pytest can be easily done using the commands for cmd.
+            - Run **all the tests**: navigate through the cmd in the folder that contains the tests folder and use the following command:
+            .. code-block:: console
 
-        .. code-block:: bash
+                pytest tests/
+            - Run **a specific test file**: navigate into the tests folder and use the following command:
+            .. code-block:: console
 
-            python -m unittest <name_of_your_test_file.py>
+                pytest test_name.py
 
-        Run your test file using the ``pytest`` package:
+            - Run a **specific test method** from a file: navigate into the tests folder and use the following command:
+            .. code-block:: console
 
-        .. code-block:: bash
+                pytest test_name.py -k name_of_test_you_wanna_run
+            - For running tests with the HTML reporter, all you have to do is to add this extra argument   to your running command:
+            .. code-block:: console
 
-            pytest <name_of_your_test_file.py>
+                --html-report=./report/report.html.
+            This will generate a report under the `report` folder.
 
         Example test file:
 
@@ -432,7 +473,7 @@ Now your project can use all the [AltDriver Commands](./commands.md).
 ```eval_rst
 
 .. note::
-    Before running your tests, start the Proxy and the Instrumented Unity app.
+    Before running your tests, start the AltServer and the Instrumented Unity app.
 
 ```
 -->
@@ -440,6 +481,6 @@ Now your project can use all the [AltDriver Commands](./commands.md).
 ```eval_rst
 
 .. note::
-    Before running your tests, start the instrumented game and wait for popup with the message: *Waiting for connection on port: 13000*.
+    Before the connection step, start the instrumented app and wait for the green popup with the message: `Waiting to connect to AltServer on IP:port with app name: 'your app name'`.
 
 ```

@@ -88,9 +88,10 @@ class TestDriver:
         with pytest.raises(exceptions.CouldNotPerformOperationException):
             self.altdriver.unload_scene(Scenes.Scene01)
 
+    @pytest.mark.WebGLUnsupported
     def test_set_server_logging(self):
         rule = self.altdriver.call_static_method(
-            "Altom.AltTester.Logging.ServerLogManager",
+            "AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
             "Assembly-CSharp",
             parameters=["AltServerFileRule"],
@@ -101,7 +102,7 @@ class TestDriver:
 
         self.altdriver.set_server_logging(AltLogger.File, AltLogLevel.Off)
         rule = self.altdriver.call_static_method(
-            "Altom.AltTester.Logging.ServerLogManager",
+            "AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
             "Assembly-CSharp",
             parameters=["AltServerFileRule"],

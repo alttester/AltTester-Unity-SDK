@@ -39,14 +39,14 @@ These give you access to a virtual machine or a Docker container that has a clou
 <details>
 <summary> Do I need access to the source code of the Unity App to write tests?</summary>
 <br>
-In order to run tests using AltTester Unity SDK you require an <a href="get-started.html#instrument-your-game-with-alttester-unity-sdk">instrumented build</a> of the Unity App. To create an instrumented build of the Unity App you need to <a href="get-started.html#import-alttester-package-in-unity-editor">import</a> the AltTester package in Unity Editor.
+In order to run tests using AltTester Unity SDK you require an <a href="get-started.html#instrument-your-app-with-alttester-unity-sdk">instrumented build</a> of the Unity App. To create an instrumented build of the Unity App you need to <a href="get-started.html#import-alttester-package-in-unity-editor">import</a> the AltTester package in Unity Editor.
 </details>
 <br>
 
 <details>
 <summary> I don’t have access to source code, but I do have access to an instrumented build. How can I begin to write tests?</summary>
 <br>
- We’ve published AltTester Desktop, which allows you to inspect the game objects outside the unity editor without access to the source code. More information about AltTester Desktop can be found in this <a href="https://alttester.com/docs/desktop/">documentation</a>.
+ We’ve published AltTester Desktop, which allows you to inspect the app objects outside the unity editor without access to the source code. More information about AltTester Desktop can be found in this <a href="https://alttester.com/docs/pro/desktop/">documentation</a>.
 </details>
 <br>
 
@@ -56,13 +56,6 @@ In order to run tests using AltTester Unity SDK you require an <a href="get-star
 <summary> I get <strong>`waiting for connection on port 13000`</strong> popup message when i start my Unity App </summary>
 <br>
 The popup message shows up when you start your instrumented Unity App. It tells you that the AltTester Unity SDK is ready and you can start running your tests.
-</details>
-<br>
-
-<details>
-<summary> Why do I get an <strong>error when trying to call the port forwarding </strong>methods? </summary>
-<br>
-You need to make sure the following third party tools are installed: ADB - Android  or iproxy - iOS. For more information you can check our <a href="advanced-usage.html#how-to-setup-port-forwarding">setup port forwarding guide</a>.
 </details>
 <br>
 
@@ -112,35 +105,13 @@ Add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
 <details>
 <summary>How can I <strong>use the Input from AltTester Unity SDK</strong> if my project is using <strong>Assembly Definitions </strong>?</summary>
 <br>
-To use the Input from AltTester Unity SDK you have to:
-
-1. Create .asmdef files in these directories (3rdParty, AltDriver, AltServer)
-
-2. Reference other assemblies in AltServer assembly
-
-3. Reference AltServer assembly in Project-Main-Assembly
- </details>
- <br>
-
-<details>
-<summary>I get the error: <strong>Error while running command: iproxy 13000 13000 </strong></summary>
-<br>
-
-If the inner exception is:
-<br>
-
-<em>System.ComponentModel.Win32Exception : ApplicationName='iproxy', CommandLine='13000 13000', CurrentDirectory='', Native error= Cannot find the specified file</em>
-<br>
-
-Pass the full path of iproxy to <em>AltPortForwarding.ForwardIos</em>
-
+To use the Input from AltTester Unity SDK you have to reference <strong>AltTesterUnitySDK.asmdef</strong> in your .asmdef. In case you are using multiple assembly definitions you will have to reference our .asmdef in all of your .asmdef files which contain a reference to any kind of input (Unity's input or your custom built input).
 </details>
 <br>
 
 <details>
 <summary> I downloaded the AltTester package v1.7.2 from the documentation on MacOS. I got a warning pop-up about the input system where I chose 'Yes' because I am using the New Input System. After reopening Unity Editor, <strong>AltTester Unity SDK is missing.</strong></summary>
 <br>
-
 
 After reopening Unity Editor, add again the AltTester package in your project.
 <br>
@@ -154,10 +125,11 @@ After reopening Unity Editor, add again the AltTester package in your project.
 
 You get this error because you don't have the Input System (New) package. If you only want to use the Input Manager (Old) in your project, follow this steps:
 <br>
-- <strong>delete</strong>: 
-    - `Assets\AltTester\AltServer\NewInputSystem.cs`
-    - `Assets\AltTester\AltServer\AltKeyMapping.cs`
-- <strong>comment</strong> in `Assets\AltTester\AltServer\AltPrefabDrag.cs` the entire `#else` statement
+
+-   <strong>delete</strong>:
+    -   `Assets\AltTester\AltServer\NewInputSystem.cs`
+    -   `Assets\AltTester\AltServer\AltKeyMapping.cs`
+-   <strong>comment</strong> in `Assets\AltTester\AltServer\AltPrefabDrag.cs` the entire `#else` statement
 
     ```
     #if ENABLE_LEGACY_INPUT_MANAGER
@@ -166,24 +138,28 @@ You get this error because you don't have the Input System (New) package. If you
             // eventData.pointerDrag.gameObject.transform.position = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
     #endif
     ```
-- <strong>comment</strong> in `Assets\AltTester\AltServer\Input.cs`:
-    - all imports for using `UnityEngine.InputSystem.UI`
-        ```   
+
+-   <strong>comment</strong> in `Assets\AltTester\AltServer\Input.cs`:
+
+    -   all imports for using `UnityEngine.InputSystem.UI`
+
+        ```
         #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
 
         using System;
         using System.Collections;
         using System.Collections.Generic;
         using System.Linq;
-        using Altom.AltDriver;
-        using Altom.AltTester;
-        using Altom.AltTester.InputModule;
+        using AltTester.AltTesterUnitySDK.Driver;
+        using AltTester.AltTesterUnitySDK;
+        using AltTester.AltTesterUnitySDK.InputModule;
         using UnityEngine;
         using UnityEngine.EventSystems;
         // using UnityEngine.InputSystem.UI;
         using UnityEngine.Scripting;
-        ```  
-    - all `if` lines that contain `InputSystemUIInputModule` and the curly brackets inside these `if` statements making sure to leave the code inside the brackets uncommented
+        ```
+
+    -   all `if` lines that contain `InputSystemUIInputModule` and the curly brackets inside these `if` statements making sure to leave the code inside the brackets uncommented
         ```
         // if (EventSystem.current.currentInputModule != null && EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 // {
@@ -195,8 +171,8 @@ You get this error because you don't have the Input System (New) package. If you
                     }
                 // }
         ```
-     
-- <strong>comment</strong> in `Assets\AltTester\AltServer\AltMockUpPointerInputModule.cs` the same as the above
+
+-   <strong>comment</strong> in `Assets\AltTester\AltServer\AltMockUpPointerInputModule.cs` the same as the above
 
 </details>
 <br>

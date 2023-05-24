@@ -1,16 +1,16 @@
-using Altom.AltDriver.Commands;
-using Altom.AltDriver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Driver.Logging;
 using NUnit.Framework;
 
 
-namespace Altom.AltDriver.Tests
+namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
     public class AltBaseCommandImpl : AltBaseCommand
     {
         public AltBaseCommandImpl(IDriverCommunication comm) : base(comm)
         {
-
         }
+
         public void Validate(string expected, string received)
         {
             base.ValidateResponse(expected, received);
@@ -18,7 +18,6 @@ namespace Altom.AltDriver.Tests
     }
 
     [Timeout(1000)]
-
     public class TestAltBaseCommand
     {
         [OneTimeSetUp]
@@ -26,6 +25,7 @@ namespace Altom.AltDriver.Tests
         {
             DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Debug);
         }
+
         [SetUp]
         public void SetUp()
         {
@@ -47,7 +47,6 @@ namespace Altom.AltDriver.Tests
             {
                 Assert.AreEqual(ex.Message, string.Format("Expected to get response '{0}'; Got  '{1}'", "aa", "bb"));
             }
-
         }
     }
 }

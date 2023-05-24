@@ -2,20 +2,20 @@
 
 This package contains an library for adding Python language binding to the AltTester framework.
 
-AltTester Unity SDK is an open-source UI driven test automation tool that helps you find objects in your game and interacts with them using tests written in C#, Python or Java.
+AltTester Unity SDK is an open-source UI driven test automation tool that helps you find objects in your application and interacts with them using tests written in C#, Python or Java.
 
 You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity Editor.
 
-Read the documentation on https://alttester.com/docs/sdk/
+Read the documentation on https://alttester.com/docs/pro/sdk/
 
 ## Get Started
 
-Check out the [Get Started](https://alttester.com/docs/sdk/pages/get-started.html) guide from the documentation.
+Check out the [Get Started](https://alttester.com/docs/pro/sdk/pages/get-started.html) guide from the documentation.
 
 ## Development
 
-* Code Style: [PEP-0008](https://www.python.org/dev/peps/pep-0008/)
-* Docstring style: [Google Style Docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
+-   Code Style: [PEP-0008](https://www.python.org/dev/peps/pep-0008/)
+-   Docstring style: [Google Style Docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
 
 ### Running Tests
 
@@ -39,7 +39,7 @@ $ pytest tests/integration/
 
 ## Contributing
 
-Check out the full contributing guide [contributing](https://alttester.com/docs/sdk/pages/contributing.html).
+Check out the full contributing guide [contributing](https://alttester.com/docs/pro/sdk/pages/contributing.html).
 
 ## Support
 
