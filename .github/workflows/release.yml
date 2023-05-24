@@ -7,25 +7,25 @@ on:
     types: [published]
 
 jobs:
-  publish-pip-package:
-    runs-on: [self-hosted, macOS]
+  # publish-pip-package:
+  #   runs-on: [self-hosted, macOS]
 
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.10'
 
-      - name: Install dependencies
-        run: |
-          pip install -r "Bindings~/python/requirements.txt"
-          pip install -r "Bindings~/python/requirements-dev.txt"
+  #     - name: Install dependencies
+  #       run: |
+  #         pip install -r "Bindings~/python/requirements.txt"
+  #         pip install -r "Bindings~/python/requirements-dev.txt"
 
-      - name: Upload to PyPi
-        run: |
-          cd "Bindings~/python"
-          python3 setup.py sdist bdist_wheel
-          python3 -m twine upload dist/*
+  #     - name: Upload to PyPi
+  #       run: |
+  #         cd "Bindings~/python"
+  #         python3 setup.py sdist bdist_wheel
+  #         python3 -m twine upload dist/*
 
   publish-nuget-package:
     runs-on:  ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
         run: |
           cd "Bindings~/dotnet"
           dotnet pack AltDriver/AltDriver.csproj -c release
-          dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.0.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+          dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.0.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
 
   create-unity-package:
     runs-on: [self-hosted, macOS]
@@ -50,7 +50,7 @@ jobs:
         run: |
           mkdir -p public/AltTester || true
           mkdir -p public/SampleScenes || true
-          $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+          $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
           cp $AUT public/AltTester/AltTester.unitypackage
@@ -82,6 +82,7 @@ jobs:
 
       - name: Create jar
         run: |
+          ls
           mkdir -p public/AltTesterJAR || true
           ls
           cd "Bindings~/java"
