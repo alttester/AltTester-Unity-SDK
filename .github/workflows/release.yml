@@ -1,12 +1,13 @@
 name: release
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
 
 jobs:
   publish-pip-package:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -26,7 +27,7 @@ jobs:
           python3 -m twine upload dist/*
 
   publish-nuget-package:
-    runs-on:  ubuntu-18.04
+    runs-on:  ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -42,7 +43,7 @@ jobs:
           dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.0.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
   create-unity-package:
-    runs-on: ubuntu-18.04
+    runs-on: [self-hosted, macOS]
     steps:
       - name: Create Unity Package
         run: |
@@ -68,7 +69,7 @@ jobs:
         run: rm -r public
 
   create-jar-archive:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Setup Java JDK
         uses: actions/setup-java@v3.5.1
@@ -99,7 +100,7 @@ jobs:
         run: rm -r public
 
   java-release:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
