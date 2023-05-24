@@ -2,6 +2,7 @@ name: release
 
 on:
   workflow_dispatch:
+  push:
   release:
     types: [published]
 
