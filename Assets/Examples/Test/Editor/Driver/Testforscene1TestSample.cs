@@ -119,7 +119,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.Less(time.TotalSeconds, 20);
             Assert.NotNull(altElement);
             Assert.AreEqual(altElement[0].name, names[0]);
-            Assert.AreEqual(altElement[1].name, names[2]);
+            Assert.AreEqual(altElement[1].name, names[1]);
 
         }
         [Test]
