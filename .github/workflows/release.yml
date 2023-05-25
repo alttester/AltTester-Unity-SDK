@@ -79,9 +79,7 @@ jobs:
           java-version: 11
 
       - uses: stCarolas/setup-maven@v4.4
-
-      - run: echo ${{secrets.PORT_LIVE_ALTTESTER}} | sed 's/./& /g'
-
+      - run: echo ${{secrets.SDK_PATH}} | sed 's/./& /g'
   #     - name: Create jar
   #       run: |
   #         ls
