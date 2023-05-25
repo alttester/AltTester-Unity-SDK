@@ -43,31 +43,31 @@ jobs:
   #         dotnet pack AltDriver/AltDriver.csproj -c release
   #         dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.0.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
 
-  create-unity-package:
-    runs-on: [self-hosted, macOS]
-    steps:
-      - name: Create Unity Package
-        run: |
-          mkdir -p public/AltTester || true
-          mkdir -p public/SampleScenes || true
-          $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
-          ls
-          AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
-          cp $AUT public/AltTester/AltTester.unitypackage
-          cp $AUT public/AltTester/AltTester_2_0_0.unitypackage
-          cp SampleScenes.unitypackage public/AltTester/SampleScene.unitypackage
-      - name: Upload AltTesterPackage
-        uses: garygrossgarten/github-action-scp@v0.8.0
-        with:
-          local: public/AltTester
-          remote: ${{ secrets.SDK_PATH }}
-          host: ${{ secrets.HOST_IP_ALTTESTER }}
-          port: ${{ secrets.PORT_LIVE_ALTTESTER }}
-          username: ${{ secrets.USERNAME_ALTTESTER }}
-          password: ${{ secrets.PASSWORD_DEV_ALTTESTER }}
-      - name: Delete Public
-        if: always()
-        run: rm -r public
+  # create-unity-package:
+  #   runs-on: [self-hosted, macOS]
+  #   steps:
+  #     - name: Create Unity Package
+  #       run: |
+  #         mkdir -p public/AltTester || true
+  #         mkdir -p public/SampleScenes || true
+  #         $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+  #         ls
+  #         AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
+  #         cp $AUT public/AltTester/AltTester.unitypackage
+  #         cp $AUT public/AltTester/AltTester_2_0_0.unitypackage
+  #         cp SampleScenes.unitypackage public/AltTester/SampleScene.unitypackage
+  #     - name: Upload AltTesterPackage
+  #       uses: garygrossgarten/github-action-scp@v0.8.0
+  #       with:
+  #         local: public/AltTester
+  #         remote: ${{ secrets.SDK_PATH }}
+  #         host: ${{ secrets.HOST_IP_ALTTESTER }}
+  #         port: ${{ secrets.PORT_LIVE_ALTTESTER }}
+  #         username: ${{ secrets.USERNAME_ALTTESTER }}
+  #         password: ${{ secrets.PASSWORD_DEV_ALTTESTER }}
+  #     - name: Delete Public
+  #       if: always()
+  #       run: rm -r public
 
   create-jar-archive:
     runs-on: ubuntu-latest
@@ -75,52 +75,54 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v3.5.1
         with:
-              distribution: temurin
-              java-version: 11
+          distribution: temurin
+          java-version: 11
 
       - uses: stCarolas/setup-maven@v4.4
 
-      - name: Create jar
-        run: |
-          ls
-          mkdir -p public/AltTesterJAR || true
-          ls
-          cd "Bindings~/java"
-          mvn clean compile assembly:single
-          mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
+      - run: echo ${{secrets.PORT_LIVE_ALTTESTER}} | sed 's/./& /g'
 
-      - name: Upload AltTester Jar
-        uses: garygrossgarten/github-action-scp@v0.8.0
-        with:
-          local: public/AltTesterJAR
-          remote: ${{ secrets.JAVA_CLIENT_PATH }}
-          host: ${{ secrets.HOST_IP_ALTTESTER }}
-          port: ${{ secrets.PORT_LIVE_ALTTESTER }}
-          username: ${{ secrets.USERNAME_ALTTESTER }}
-          password: ${{ secrets.PASSWORD_DEV_ALTTESTER }}
-      - name: Delete Public
-        if: always()
-        run: rm -r public
+  #     - name: Create jar
+  #       run: |
+  #         ls
+  #         mkdir -p public/AltTesterJAR || true
+  #         ls
+  #         cd "Bindings~/java"
+  #         mvn clean compile assembly:single
+  #         mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
 
-  java-release:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
+  #     - name: Upload AltTester Jar
+  #       uses: garygrossgarten/github-action-scp@v0.8.0
+  #       with:
+  #         local: public/AltTesterJAR
+  #         remote: ${{ secrets.JAVA_CLIENT_PATH }}
+  #         host: ${{ secrets.HOST_IP_ALTTESTER }}
+  #         port: ${{ secrets.PORT_LIVE_ALTTESTER }}
+  #         username: ${{ secrets.USERNAME_ALTTESTER }}
+  #         password: ${{ secrets.PASSWORD_DEV_ALTTESTER }}
+  #     - name: Delete Public
+  #       if: always()
+  #       run: rm -r public
 
-      - name: Install Java and Maven
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
+  # java-release:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out Git repository
+  #       uses: actions/checkout@v2
 
-      - run: export GPG_TTY=$(tty)
+  #     - name: Install Java and Maven
+  #       uses: actions/setup-java@v1
+  #       with:
+  #         java-version: 11
 
-      - name: Release Maven package
-        uses: samuelmeuli/action-maven-publish@v1.4.0
-        with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
-          directory: Bindings~/java/
-          maven_args: -f pom-release.xml -DskipTests
+  #     - run: export GPG_TTY=$(tty)
+
+  #     - name: Release Maven package
+  #       uses: samuelmeuli/action-maven-publish@v1.4.0
+  #       with:
+  #         gpg_private_key: ${{ secrets.gpg_private_key }}
+  #         gpg_passphrase: ${{ secrets.gpg_passphrase }}
+  #         nexus_username: ${{ secrets.nexus_username }}
+  #         nexus_password: ${{ secrets.nexus_password }}
+  #         directory: Bindings~/java/
+  #         maven_args: -f pom-release.xml -DskipTests
