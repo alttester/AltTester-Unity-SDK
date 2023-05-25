@@ -111,7 +111,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestWaitForExistingElements()
         {
-            List<string> names = new List<string> { "Capsule", "Cube" };
+            List<string> names = new List<string> { "Capsule", "CapsuleInfo" };
             var timeStart = DateTime.Now;
             var altElement = altDriver.WaitForObjects(By.NAME, names);
             var timeEnd = DateTime.Now;
