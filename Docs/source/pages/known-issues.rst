@@ -80,7 +80,16 @@ Play in Editor does not start the instrumented app in the Unity Editor
 
 **Workaround**: Check the ``Keep ALTTESTER symbol defined`` box. Note that this problem does not occur when building an instrumented app for different platforms, only in the Editor.
 
-**Affects**: AltUnity Tester v1.8.*, AltTester Unity SDK v2.0.0
+**Affects**: AltTester Unity SDK v1.8.*, AltTester Unity SDK v2.0.0
+
+Opening AltTester Editor throws ``IndexOutOfRangeException: Index was outside the bounds of the array``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Problem**: Sometimes when opening the AltTester Editor window ``IndexOutOfRangeException: Index was outside the bounds of the array`` is thrown.
+
+**Workaround**: Close and reopen the AltTester Editor window.
+
+**Affects**: AltTester Unity SDK v2.0.0
 
 BlueStacks
 ----------
