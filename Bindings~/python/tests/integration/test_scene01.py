@@ -128,6 +128,11 @@ class TestScene01:
         alt_object = self.altdriver.wait_for_object(By.NAME, "Capsule")
         assert alt_object.name == "Capsule"
 
+    def test_wait_for_objects(self):
+        alt_object = self.altdriver.wait_for_objects(By.NAME, ["Capsule", "CapsuleInfo"])
+        assert alt_object[0].name == "Capsule"
+        assert alt_object[1].name == "CapsuleInfo"
+
     def test_wait_for_object_with_non_existing_object(self):
         object_name = "Non Existing Object"
 

@@ -481,6 +481,38 @@ class AltDriver:
 
         return self._get_alt_object(data)
 
+    def wait_for_objects(self, by, values, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5, enabled=True):
+        """Waits until it finds an object that respects the given criteria or until timeout limit is reached.
+
+        Args:
+            by (:obj:`By`): Sets what criteria to use in order to find the object.
+            values (:obj:`str`): The list with values to which an object will be compared to see if they respect the criteria or
+                not.
+            camera_by (:obj:`By`, optional): Set what criteria to use in order to find the camera.
+            camera_value (:obj:`str`, optional): The value to which all the cameras in the scene will be compared to
+                see if they respect the criteria or not. If no camera is given it will search through all camera that
+                are in the scene until some camera sees the object or return the screen coordinate of the object
+                calculated to the last camera in the scene.
+            timeout (:obj:`int`, :obj:`float`, optional): The number of seconds that it will wait for object.
+            interval (:obj:`int`, :obj:`float`, optional): The number of seconds after which it will try to find the
+                object again. The interval should be smaller than the timeout.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
+
+        Returns:
+            AltObject: The object.
+
+        """
+        objectsFound = []
+        for value in values:
+            data = commands.WaitForObject.run(
+                self._connection,
+                by, value, camera_by, camera_value, timeout, interval, enabled
+            )
+            objectsFound.append(self._get_alt_object(data))
+
+        return objectsFound
+
     def wait_for_object_which_contains(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5,
                                        enabled=True):
         """Waits until it finds an object that respects the given criteria or time runs out and will throw an error.
