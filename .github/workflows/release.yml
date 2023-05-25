@@ -69,17 +69,16 @@ jobs:
   #       if: always()
   #       run: rm -r public
 
-  create-jar-archive:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup Java JDK
-        uses: actions/setup-java@v3.5.1
-        with:
-          distribution: temurin
-          java-version: 11
+  # create-jar-archive:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Setup Java JDK
+  #       uses: actions/setup-java@v3.5.1
+  #       with:
+  #         distribution: temurin
+  #         java-version: 11
 
-      - uses: stCarolas/setup-maven@v4.4
-      - run: echo ${{secrets.SDK_PATH}} | sed 's/./& /g'
+  #     - uses: stCarolas/setup-maven@v4.4
   #     - name: Create jar
   #       run: |
   #         ls
@@ -102,25 +101,25 @@ jobs:
   #       if: always()
   #       run: rm -r public
 
-  # java-release:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out Git repository
-  #       uses: actions/checkout@v2
+  java-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
 
-  #     - name: Install Java and Maven
-  #       uses: actions/setup-java@v1
-  #       with:
-  #         java-version: 11
+      - name: Install Java and Maven
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
-  #     - run: export GPG_TTY=$(tty)
+      - run: export GPG_TTY=$(tty)
 
-  #     - name: Release Maven package
-  #       uses: samuelmeuli/action-maven-publish@v1.4.0
-  #       with:
-  #         gpg_private_key: ${{ secrets.gpg_private_key }}
-  #         gpg_passphrase: ${{ secrets.gpg_passphrase }}
-  #         nexus_username: ${{ secrets.nexus_username }}
-  #         nexus_password: ${{ secrets.nexus_password }}
-  #         directory: Bindings~/java/
-  #         maven_args: -f pom-release.xml -DskipTests
+      - name: Release Maven package
+        uses: samuelmeuli/action-maven-publish@v1.4.0
+        with:
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
+          directory: Bindings~/java/
+          maven_args: -f pom-release.xml -Dmaven.test.skip=true
