@@ -73,6 +73,15 @@ Playing in Editor throws ``EntryPointNotFoundException: WebSocketSetOnOpen assem
 
 **Affects**: AltTester Unity SDK v2.0.0
 
+Play in Editor does not start the instrumented app in the Unity Editor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Problem**: If ``Keep ALTTESTER symbol defined`` is not checked, Play in Editor will not start the instrumented app in the Unity Editor.
+
+**Workaround**: Check the ``Keep ALTTESTER symbol defined`` box. Note that this problem does not occur when building an instrumented app for different platforms, only in the Editor.
+
+**Affects**: AltUnity Tester v1.8.*, AltTester Unity SDK v2.0.0
+
 BlueStacks
 ----------
 
