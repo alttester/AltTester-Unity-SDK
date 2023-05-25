@@ -456,6 +456,14 @@ namespace AltTester.AltTesterUnitySDK.Driver
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
             return objectFound;
         }
+        public List<AltObject> WaitForObjects(By by, List<string> values, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
+        {
+            List<AltObject> objectsFound = new List<AltObject> { };
+            foreach (var value in values)
+                objectsFound.Add(new AltWaitForObject(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute());
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+            return objectsFound;
+        }
 
         public void WaitForObjectNotBePresent(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {

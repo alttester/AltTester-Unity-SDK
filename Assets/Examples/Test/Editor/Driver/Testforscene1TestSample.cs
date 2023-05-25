@@ -108,7 +108,20 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.NotNull(altElement);
             Assert.AreEqual(altElement.name, name);
         }
+        [Test]
+        public void TestWaitForExistingElements()
+        {
+            List<string> names = new List<string> { "Capsule", "Cube" };
+            var timeStart = DateTime.Now;
+            var altElement = altDriver.WaitForObjects(By.NAME, names);
+            var timeEnd = DateTime.Now;
+            var time = timeEnd - timeStart;
+            Assert.Less(time.TotalSeconds, 20);
+            Assert.NotNull(altElement);
+            Assert.AreEqual(altElement[0].name, names[0]);
+            Assert.AreEqual(altElement[1].name, names[2]);
 
+        }
         [Test]
         public void TestWaitForExistingDisabledElement()
         {
