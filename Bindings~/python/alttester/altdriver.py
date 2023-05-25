@@ -486,8 +486,8 @@ class AltDriver:
 
         Args:
             by (:obj:`By`): Sets what criteria to use in order to find the object.
-            values (:obj:`str`): The list with values to which an object will be compared to see if they respect the criteria or
-                not.
+            values (:obj:`str`): The list with values to which an object will be compared to see if they respect the 
+            criteria or not.
             camera_by (:obj:`By`, optional): Set what criteria to use in order to find the camera.
             camera_value (:obj:`str`, optional): The value to which all the cameras in the scene will be compared to
                 see if they respect the criteria or not. If no camera is given it will search through all camera that
