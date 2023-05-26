@@ -1,4 +1,4 @@
-﻿/*
+/*
     Copyright(C) 2023  Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,8 @@ public class AltReversePortForwarding {
 
     public static void reversePortForwardingAndroid(int remotePort, int localPort, String deviceId, String adbPath) {
         adbPath = getAdbPath(adbPath);
-        log.debug("Setting up reverse port forward for android remote port " + remotePort + " local port: " + localPort);
+        log.debug(
+                "Setting up reverse port forward for android remote port " + remotePort + " local port: " + localPort);
 
         String command;
         if (deviceId.equals(""))

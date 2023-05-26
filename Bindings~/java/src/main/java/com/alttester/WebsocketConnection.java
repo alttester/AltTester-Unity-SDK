@@ -1,4 +1,4 @@
-﻿/*
+/*
     Copyright(C) 2023  Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,6 @@ import com.alttester.altTesterExceptions.ConnectionTimeoutException;
 import com.alttester.altTesterExceptions.NoAppConnectedException;
 import com.alttester.altTesterExceptions.AppDisconnectedException;
 import com.alttester.altTesterExceptions.MultipleDriversException;
-
 
 @ClientEndpoint
 public class WebsocketConnection {
