@@ -1,6 +1,8 @@
 package com.alttester;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.ConfigurationFactory;
@@ -555,6 +557,26 @@ public class AltDriver {
                 .Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
         return response;
+    }
+
+    /**
+     * Wait until there are no longer objects that respect the given criteria or
+     * times run out and will throw an error.
+     *
+     * @param altWaitForObjectsParams - List of AltFindObjectsParams
+     *                                altFindObjectsParameters* , double timeout ,
+     *                                double interval
+     * @return Error if time runs out
+     */
+    public List<AltObject> waitForObjects(List<AltWaitForObjectsParams> altWaitForObjectsParams) {
+        List<AltObject> objectsFound = new ArrayList<>();
+        for (AltWaitForObjectsParams obj : altWaitForObjectsParams) {
+            AltObject response = new AltWaitForObject(this.connection.messageHandler, obj)
+                    .Execute();
+            objectsFound.add(response);
+        }
+        Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+        return objectsFound;
     }
 
     /**
