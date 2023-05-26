@@ -1,4 +1,4 @@
-﻿/*
+/*
     Copyright(C) 2023  Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,8 @@ import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
 
 /**
- * Simulate mouse movement in your application. This command does not wait for the
+ * Simulate mouse movement in your application. This command does not wait for
+ * the
  * movement to finish.
  */
 public class AltMoveMouse extends AltBaseCommand {
