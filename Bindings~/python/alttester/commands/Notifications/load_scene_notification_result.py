@@ -14,6 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+
+
 class LoadSceneNotificationResult():
     def __init__(self, scene_name, loadSceneMode):
         self.scene_name = scene_name

@@ -1,5 +1,7 @@
-﻿"""
-    Copyright(C) 2023  Altom Consulting
+﻿import os
+import pytest
+from alttester import AltDriver
+""" Copyright(C) 2023  Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,12 +17,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 """Holds test fixtures that need to be shared among all tests."""
-
-import os
-
-import pytest
-
-from alttester import AltDriver
 
 
 def get_port():
