@@ -36,6 +36,16 @@ Documentation
    *  `Get Started <https://alttester.com/docs/desktop/pages/get-started.html>`__
 
 
+Documentation v. 2.0.0 (latest)
+-------------
+
+.. rst-class:: toc
+
+
+*  `AltTester Unity SDK <https://alttester.com/docs/pro/desktop/home.html>`_
+
+*  `AltTester Desktop <https://alttester.com/docs/pro/desktop/home.html>`_
+
 .. toctree::
    :caption: Table of contents:
    :hidden:
@@ -43,6 +53,12 @@ Documentation
    home
    AltTester Desktop <https://alttester.com/docs/desktop/home.html>
 
+.. toctree::
+   :caption: Latest version:
+   :hidden:
+
+   AltTester Unity SDK 2.0.0 <https://alttester.com/docs/pro/sdk/home.html>
+   AltTester Desktop 2.0.0 <https://alttester.com/docs/pro/desktop/home.html>
 
 .. toctree::
    :caption: Community:
