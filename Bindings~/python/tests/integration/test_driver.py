@@ -1,3 +1,19 @@
+﻿"""
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 import os
 
 import pytest
@@ -91,7 +107,7 @@ class TestDriver:
     @pytest.mark.WebGLUnsupported
     def test_set_server_logging(self):
         rule = self.altdriver.call_static_method(
-            "AltTester.Logging.ServerLogManager",
+            "AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
             "Assembly-CSharp",
             parameters=["AltServerFileRule"],
@@ -102,7 +118,7 @@ class TestDriver:
 
         self.altdriver.set_server_logging(AltLogger.File, AltLogLevel.Off)
         rule = self.altdriver.call_static_method(
-            "AltTester.Logging.ServerLogManager",
+            "AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
             "Instance.Configuration.FindRuleByName",
             "Assembly-CSharp",
             parameters=["AltServerFileRule"],

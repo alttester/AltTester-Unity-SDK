@@ -1,3 +1,20 @@
+/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 package com.alttester;
 
 import java.io.IOException;
@@ -21,6 +38,8 @@ import org.apache.logging.log4j.Logger;
 import com.alttester.altTesterExceptions.ConnectionException;
 import com.alttester.altTesterExceptions.ConnectionTimeoutException;
 import com.alttester.altTesterExceptions.NoAppConnectedException;
+import com.alttester.altTesterExceptions.AppDisconnectedException;
+import com.alttester.altTesterExceptions.MultipleDriversException;
 
 @ClientEndpoint
 public class WebsocketConnection {
@@ -73,10 +92,14 @@ public class WebsocketConnection {
             }
 
             if (code == 4002) {
-                throw new ConnectionException(reason);
+                throw new AppDisconnectedException(reason);
             }
 
-            throw new ConnectionException("Connection closed by AltServer.");
+            if (code == 4005) {
+                throw new MultipleDriversException(reason);
+            }
+
+            throw new ConnectionException(String.format("Connection closed by AltServer with reason: %s.", reason));
         }
     }
 
@@ -104,6 +127,9 @@ public class WebsocketConnection {
         Exception connectionError = null;
 
         while (finish - start < timeout) {
+            this.error = null;
+            this.closeReason = null;
+
             try {
                 if (retries > 0) {
                     logger.debug("Retrying #{} to: '{}'.", retries, uri);

@@ -1,7 +1,24 @@
+﻿/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 using System;
-using AltTesterEditor;
-using AltTester;
-using AltTesterEditor.Logging;
+using AltTester.AltTesterUnitySDK.Editor;
+using AltTester.AltTesterUnitySDK;
+using AltTester.AltTesterUnitySDK.Editor.Logging;
 using UnityEditor;
 
 namespace AltTesterTools
@@ -78,7 +95,7 @@ namespace AltTesterTools
             catch (Exception exception)
             {
                 logger.Error(exception);
-                EditorApplication.Exit(1);
+                // EditorApplication.Exit(1);
             }
 
         }
@@ -163,18 +180,18 @@ namespace AltTesterTools
         {
             return new string[]
                     {
-                    "Assets/AltTester/Examples/Scenes/Scene 1 AltDriverTestScene.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 2 Draggable Panel.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 3 Drag And Drop.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 4 No Cameras.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 5 Keyboard Input.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene6.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity",
-                    "Assets/AltTester/Examples/Scenes/scene 9 NIS.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 10 Sample NIS.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 11 ScrollView Scene.unity"
+                    "Assets/Examples/Scenes/Scene 1 AltDriverTestScene.unity",
+                    "Assets/Examples/Scenes/Scene 2 Draggable Panel.unity",
+                    "Assets/Examples/Scenes/Scene 3 Drag And Drop.unity",
+                    "Assets/Examples/Scenes/Scene 4 No Cameras.unity",
+                    "Assets/Examples/Scenes/Scene 5 Keyboard Input.unity",
+                    "Assets/Examples/Scenes/Scene6.unity",
+                    "Assets/Examples/Scenes/Scene 7 Drag And Drop NIS.unity",
+                    "Assets/Examples/Scenes/Scene 8 Draggable Panel NIP.unity",
+                    "Assets/Examples/Scenes/scene 9 NIS.unity",
+                    "Assets/Examples/Scenes/Scene 10 Sample NIS.unity",
+                    "Assets/Examples/Scenes/Scene 7 New Input System Actions.unity",
+                    "Assets/Examples/Scenes/Scene 11 ScrollView Scene.unity"
                     };
         }
 
@@ -216,7 +233,7 @@ namespace AltTesterTools
             }
             else
             logger.Error("Build failed!");
-            EditorApplication.Exit(1);
+            // EditorApplication.Exit(1);
 
 #else
                 if (results.summary.totalErrors == 0)
@@ -227,18 +244,18 @@ namespace AltTesterTools
                 else
                 {
                     logger.Error("Build failed!");
-                    EditorApplication.Exit(1);
+                    // EditorApplication.Exit(1);
                 }
 
 #endif
                 logger.Info("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-                EditorApplication.Exit(0);
+                // EditorApplication.Exit(0);
 
             }
             catch (Exception exception)
             {
                 logger.Error(exception);
-                EditorApplication.Exit(1);
+                // EditorApplication.Exit(1);
             }
         }
 

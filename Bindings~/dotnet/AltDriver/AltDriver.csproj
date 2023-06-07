@@ -4,7 +4,7 @@
         <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
         <RootNamespace>AltTester.AltTester-Driver</RootNamespace>
         <IsPackable>true</IsPackable>
-        <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">1.8.2</PackageVersion>
+        <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">2.0.0</PackageVersion>
         <PackageVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</PackageVersion>
         <Title>AltTester-Driver</Title>
         <Description>
@@ -24,14 +24,12 @@
         <None Include="../../../LICENSE" Pack="true" PackagePath="" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="../../../Assets/AltTester/AltDriver/**/*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+        <Compile Include="../../../Assets/AltTester/Runtime/AltDriver/**/*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
         <PackageReference Include="NLog" Version="4.7.9" />
-        <Reference Include="AltWebSocketSharp">
-            <HintPath>..\..\..\Assets\AltTester\3rdParty\websocket-sharp\netstandard2.0\altwebsocket-sharp.dll</HintPath>
-        </Reference>
+        <PackageReference Include="AltWebSocketSharp" Version="1.0.0" />
     </ItemGroup>
 </Project>

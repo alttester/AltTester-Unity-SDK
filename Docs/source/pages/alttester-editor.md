@@ -37,22 +37,6 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 ![Build Settings Section Screenshot](../_static/img/alttester-editor/build-settings.png)
 
-<!--
--   AltServer Host
-
-    Refers to the host the AltServer is listening on.
-     You can change this value and make a new app build if you want to use another host.
-
--   AltServer Port
-
-    Refers to the port the AltServer is listening on.
-     You can change this value and make a new app build if you want to use another port.
--->
-
-- *AltTester Port*
-
-    The port the AltTester Unity SDK is listening on inside the running instrumented Unity App.
-
 - *Company Name*
 
     Company name used for the app build (same with Unity's Player Settings).
@@ -109,6 +93,16 @@ You can also activate this option from within the test using the following code:
 
     Will add "ALTTESTER" to the scripting define symbols. This is usually done automatically when entering in play mode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
+- *AltServer Host*
+
+    Refers to the host the AltServer is listening on.
+    You can change this value and make a new app build if you want to use another host.
+
+- *AltServer Port*
+
+    Refers to the port the AltServer is listening on.
+    You can change this value and make a new app build if you want to use another port.
+
 ## Test run Settings
 ![Test run Settings Screenshot](../_static/img/alttester-editor/testrun-settings.png)
 
@@ -143,54 +137,58 @@ You can also activate this option from within the test using the following code:
 _Platform Settings_
 
 ```eval_rst
-.. tabs::
+    .. tabs::
 
-    .. tab:: Platform
+        .. tab:: Android
 
-        .. tabs::
+            .. image:: ../_static/img/alttester-editor/settings-android.png
+                :alt: Android Settings Section
 
-            .. tab:: Android
+            The **Android Bundle Identifier** field: fill in a valid bundle ID.
 
-                .. image:: ../_static/img/alttester-editor/settings-android.png
-                    :alt: Android Settings Section
+            The **Build Location** field: the build path for the instrumented Unity application.
 
-                The **Android Bundle Identifier** field: fill in a valid bundle ID.
+                - By default, the *Output Path* is a folder with the same name as your app.
 
-                The **Build Location** field: the build path for the instrumented Unity application.
+        .. tab:: iOS
 
-                    - By default, the *Output Path* is a folder with the same name as your app.
+            .. image:: ../_static/img/alttester-editor/settings-ios.png
+                :alt: iOS Settings Section
 
-            .. tab:: iOS
+            The **iOS Bundle Identifier** field: fill in a valid bundle ID.
 
-                .. image:: ../_static/img/alttester-editor/settings-ios.png
-                    :alt: iOS Settings Section
+            The **Signing Team ID** field: fill in with the team's ID.
 
-                The **iOS Bundle Identifier** field: fill in a valid bundle ID.
+            The **Automatically Signed** field: check this for default signing.
 
-                The **Signing Team ID** field: fill in with the team's ID.
+            The **Build Location** field: the build path for the instrumented Unity application.
 
-                The **Automatically Signed** field: check this for default signing.
+                - By default, the *Output Path* is a folder with the same name as your app.
 
-                The **Build Location** field: the build path for the instrumented Unity application.
+        .. tab:: Editor
 
-                    - By default, the *Output Path* is a folder with the same name as your app.
+            .. image:: ../_static/img/alttester-editor/settings-editor.png
+                :alt: Editor Settings Section
 
-            .. tab:: Editor
+        .. tab:: Standalone
 
-                .. image:: ../_static/img/alttester-editor/settings-editor.png
-                    :alt: Editor Settings Section
+            .. image:: ../_static/img/alttester-editor/settings-standalone.png
+                :alt: Standalone Settings Section
 
-            .. tab:: Standalone
+            The **Build Target** field: choose build mode according to platform.
 
-                .. image:: ../_static/img/alttester-editor/settings-standalone.png
-                    :alt: Standalone Settings Section
+            The **Build Location** field: the build path for the instrumented Unity application.
 
-                The **Build Target** field: choose build mode according to platform.
+                - By default, the *Output Path* is a folder with the same name as your app.
 
-                The **Build Location** field: the build path for the instrumented Unity application.
+        .. tab:: WebGL
 
-                    - By default, the *Output Path* is a folder with the same name as your app.
+            .. image:: ../_static/img/alttester-editor/settings-webgl.png
+                :alt: WebGL Settings Section
 
+            The **Build Location** field: the build path for the instrumented Unity application.
+
+                - By default, the *Output Path* is a folder with the same name as your app.
 ```
 
 _Build Settings_

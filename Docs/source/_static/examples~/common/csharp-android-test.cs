@@ -1,5 +1,5 @@
+using AltTester.AltTesterUnitySDK.Driver;
 using NUnit.Framework;
-using AltTester.AltDriver;
 
 public class MyFirstTest
 {
@@ -8,7 +8,7 @@ public class MyFirstTest
     [OneTimeSetUp]
     public void SetUp()
     {
-        AltPortForwarding.ForwardAndroid();
+        AltReversePortForwarding.ReversePortForwardingAndroid();
         altDriver = new AltDriver();
     }
 
@@ -16,7 +16,7 @@ public class MyFirstTest
     public void TearDown()
     {
         altDriver.Stop();
-        AltPortForwarding.RemoveForwardAndroid();
+        AltReversePortForwarding.RemoveReversePortForwardingAndroid();
     }
 
     [Test]

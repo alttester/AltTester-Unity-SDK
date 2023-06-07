@@ -46,7 +46,7 @@ In order to run tests using AltTester Unity SDK you require an <a href="get-star
 <details>
 <summary> I don’t have access to source code, but I do have access to an instrumented build. How can I begin to write tests?</summary>
 <br>
- We’ve published AltTester Desktop, which allows you to inspect the app objects outside the unity editor without access to the source code. More information about AltTester Desktop can be found in this <a href="https://alttester.com/docs/desktop/">documentation</a>.
+ We’ve published AltTester Desktop, which allows you to inspect the app objects outside the unity editor without access to the source code. More information about AltTester Desktop can be found in this <a href="https://alttester.com/docs/pro/desktop/">documentation</a>.
 </details>
 <br>
 
@@ -105,28 +105,7 @@ Add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
 <details>
 <summary>How can I <strong>use the Input from AltTester Unity SDK</strong> if my project is using <strong>Assembly Definitions </strong>?</summary>
 <br>
-To use the Input from AltTester Unity SDK you have to:
-
-1. Create .asmdef files in these directories (3rdParty, AltDriver, AltServer)
-
-2. Reference other assemblies in AltServer assembly
-
-3. Reference AltServer assembly in Project-Main-Assembly
- </details>
- <br>
-
-<details>
-<summary>I get the error: <strong>Error while running command: iproxy 13000 13000 </strong></summary>
-<br>
-
-If the inner exception is:
-<br>
-
-<em>System.ComponentModel.Win32Exception : ApplicationName='iproxy', CommandLine='13000 13000', CurrentDirectory='', Native error= Cannot find the specified file</em>
-<br>
-
-Pass the full path of iproxy to <em>AltPortForwarding.ForwardIos</em>
-
+To use the Input from AltTester Unity SDK you have to reference <strong>AltTesterUnitySDK.asmdef</strong> in your .asmdef. In case you are using multiple assembly definitions you will have to reference our .asmdef in all of your .asmdef files which contain a reference to any kind of input (Unity's input or your custom built input).
 </details>
 <br>
 
@@ -147,7 +126,7 @@ After reopening Unity Editor, add again the AltTester package in your project.
 
 You get this error because you don't have the Input System (New) package. If you only want to use the Input Manager (Old) in your project, follow this steps:
 <br>
-- <strong>delete</strong>: 
+- <strong>delete</strong>:
     - `Assets\AltTester\AltServer\NewInputSystem.cs`
     - `Assets\AltTester\AltServer\AltKeyMapping.cs`
 - <strong>comment</strong> in `Assets\AltTester\AltServer\AltPrefabDrag.cs` the entire `#else` statement
@@ -161,21 +140,21 @@ You get this error because you don't have the Input System (New) package. If you
     ```
 - <strong>comment</strong> in `Assets\AltTester\AltServer\Input.cs`:
     - all imports for using `UnityEngine.InputSystem.UI`
-        ```   
+        ```
         #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
 
         using System;
         using System.Collections;
         using System.Collections.Generic;
         using System.Linq;
-        using Altom.AltDriver;
-        using Altom.AltTester;
-        using Altom.AltTester.InputModule;
+        using AltTester.AltTesterUnitySDK.Driver;
+        using AltTester.AltTesterUnitySDK;
+        using AltTester.AltTesterUnitySDK.InputModule;
         using UnityEngine;
         using UnityEngine.EventSystems;
         // using UnityEngine.InputSystem.UI;
         using UnityEngine.Scripting;
-        ```  
+        ```
     - all `if` lines that contain `InputSystemUIInputModule` and the curly brackets inside these `if` statements making sure to leave the code inside the brackets uncommented
         ```
         // if (EventSystem.current.currentInputModule != null && EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
@@ -188,7 +167,7 @@ You get this error because you don't have the Input System (New) package. If you
                     }
                 // }
         ```
-     
+
 - <strong>comment</strong> in `Assets\AltTester\AltServer\AltMockUpPointerInputModule.cs` the same as the above
 
 </details>
