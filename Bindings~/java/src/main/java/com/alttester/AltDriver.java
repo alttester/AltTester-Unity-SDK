@@ -1,4 +1,23 @@
+/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 package com.alttester;
+
+import java.io.IOException;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.ConfigurationFactory;
@@ -19,15 +38,15 @@ import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.Commands.ObjectCommand.AltSetComponentPropertyParams;
 import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.altTesterExceptions.*;
-import java.io.IOException;
 
 public class AltDriver {
+    private static final Logger logger = LogManager.getLogger(AltDriver.class);
+    public static final String VERSION = "2.0.0";
+
     static {
         ConfigurationFactory custom = new AltDriverConfigFactory();
         ConfigurationFactory.setConfigurationFactory(custom);
     }
-
-    private static final Logger log = LogManager.getLogger(AltDriver.class);
 
     public static enum PlayerPrefsKeyType {
         Int(1), String(2), Float(3);
@@ -42,9 +61,6 @@ public class AltDriver {
             return val;
         }
     }
-
-    public static final String VERSION = "1.8.1";
-    public static final int READ_TIMEOUT = 5 * 1000;
 
     private WebsocketConnection connection = null;
 
@@ -61,16 +77,22 @@ public class AltDriver {
     }
 
     public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout) {
+        this(host, port, enableLogging, connectTimeout, "__default__");
+    }
+
+    public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String appName) {
         if (!enableLogging) {
             AltDriverConfigFactory.DisableLogging();
         }
 
         if (host == null || host.isEmpty()) {
-            throw new InvalidParameterException("Provided host address is null or empty");
+            throw new InvalidParameterException("Provided host address is null or empty.");
         }
 
-        this.connection = new WebsocketConnection(host, port, connectTimeout);
+        logger.debug("Connecting to AltTester on host: '{}', port: '{}' and appName: '{}'.", host, port, appName);
+        this.connection = new WebsocketConnection(host, port, appName, connectTimeout);
         this.connection.connect();
+
         checkServerVersion();
     }
 
@@ -112,13 +134,13 @@ public class AltDriver {
             String message = String.format(
                     "Version mismatch. AltDriver version is %s. AltTester version is %s.",
                     AltDriver.VERSION, serverVersion);
-            log.warn(message);
+            logger.warn(message);
             System.out.println(message);
         }
     }
 
     /**
-     * Closes the connection to the running instrumented app
+     * Closes the connection to the running instrumented app.
      *
      * @throws IOException
      */
@@ -127,7 +149,7 @@ public class AltDriver {
     }
 
     /**
-     * Gets the AltTester version, used to instrument the app
+     * Gets the AltTester version, used to instrument the app.
      *
      * @return AltTester version
      */
@@ -136,7 +158,7 @@ public class AltDriver {
     }
 
     /**
-     * Gets the delay after a command
+     * Gets the delay after a command.
      *
      * @return The delay after a command
      */
@@ -145,7 +167,7 @@ public class AltDriver {
     }
 
     /**
-     * Sets the delay after a command
+     * Sets the delay after a command.
      *
      * @param delay - Double
      */
@@ -313,13 +335,13 @@ public class AltDriver {
     }
 
     /**
-     * Invokes static methods from your game.
+     * Invokes static methods from your application.
      *
      * @param altCallStaticMethodParams - String component* , String method* ,
      *                                  Object[] parameters* , String[]
      *                                  typeOfParameters , String assembly
      * @param returnType
-     * @return Static methods from your game
+     * @return Static methods from your application
      */
     public <T> T callStaticMethod(AltCallStaticMethodParams altCallStaticMethodParams, Class<T> returnType) {
         T response = new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParams)
@@ -360,7 +382,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulates device rotation action in your game.
+     * Simulates device rotation action in your application.
      *
      * @param altTiltParameter - Vector3 acceleration* , float duration , boolean
      *                         wait
@@ -371,7 +393,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulates key press action in your game.
+     * Simulates key press action in your application.
      *
      * @param altPressKeyParameters - AltKeyCode keyCode* , float power , float
      *                              duration , boolean wait
@@ -384,7 +406,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulates multiple keys pressed action in your game.
+     * Simulates multiple keys pressed action in your application.
      *
      * @param altPressKeysParameters - AltKeyCode[] keyCodes* , float power ,
      *                               float duration , boolean wait
@@ -438,7 +460,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulate mouse movement in your game.
+     * Simulate mouse movement in your application.
      *
      * @param altMoveMouseParams - Vector2 coordinates* , float duration , boolean
      *                           wait
@@ -449,7 +471,7 @@ public class AltDriver {
     }
 
     /**
-     * Simulate scroll action in your game.
+     * Simulate scroll action in your application.
      *
      * @param altScrollParams - float speed , float speedHorizontal , float duration
      *                        , boolean wait
@@ -592,7 +614,7 @@ public class AltDriver {
     }
 
     /**
-     * Sets the level of logging on AltTester
+     * Sets the level of logging on AltTester.
      *
      * @param parameters - AltLogger logger* , AltLogLevel logLevel*
      */
@@ -646,7 +668,7 @@ public class AltDriver {
     }
 
     /**
-     * Click at screen coordinates
+     * Click at screen coordinates.
      *
      * @param parameters - Vector2 coordinates* , int count , float interval ,
      *                   boolean wait
@@ -657,7 +679,7 @@ public class AltDriver {
     }
 
     /**
-     * Gets the value of the static field or property
+     * Gets the value of the static field or property.
      *
      * @param parameters - String componentName* , String propertyName* , String
      *                   assembly , int maxDept
@@ -671,7 +693,7 @@ public class AltDriver {
     }
 
     /**
-     * Sets the value of the static field or property
+     * Sets the value of the static field or property.
      *
      * @param parameters - String componentName* , String propertyName* , String
      *                   assembly
@@ -682,7 +704,7 @@ public class AltDriver {
     }
 
     /**
-     * Retrieves the Unity object at given coordinates
+     * Retrieves the Unity object at given coordinates.
      * Uses EventSystem.RaycastAll to find object. If no object is found then it
      * uses UnityEngine.Physics.Raycast and UnityEngine.Physics2D.Raycast and
      * returns the one closer to the camera.
@@ -690,7 +712,6 @@ public class AltDriver {
      * @param parameters - Vector2 coordinates
      * @return The UI object hit by event system Raycast, null otherwise
      */
-
     public AltObject findObjectAtCoordinates(AltFindObjectAtCoordinatesParams parameters) {
         AltObject response = new AltFindObjectAtCoordinates(this.connection.messageHandler, parameters).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
@@ -706,7 +727,7 @@ public class AltDriver {
     }
 
     /**
-     * Clears all active input simulated by AltTester
+     * Clears all active input simulated by AltTester.
      */
     public void resetInput() {
         new AltResetInput(this.connection.messageHandler).Execute();

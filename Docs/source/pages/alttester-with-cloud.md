@@ -1,16 +1,28 @@
 # Running tests using device cloud services
 
+``` note::
+
+    This section is not yet updated to work with version 2.0.0. We will updated this ASAP. 
+
+```
+
 In some cases you might want to run your tests on dozens or even hundreds of real devices, to test the compatibility of your app on many different device models and OS versions. There are multiple device farms which will enable you to do so, without having to own the devices yourself.
 
 Some of these cloud services allow running Appium automated tests by giving you access to an Appium server running in the cloud that has access to all their mobile devices. These services will not work with AltTester Unity SDK.
 
-If your tests are running locally, on your machine, and the device is running in the cloud, your local tests cannot communicate with the Web Socket that AltTester Unity SDK opens on a specific port inside the device. That's because AltTester Unity SDK requires you to configure your port forwarding from the device to the machine running the tests.
+If your tests are running locally, on your machine, and the device is running in the cloud, your local tests cannot communicate with the Web Socket that AltTester Unity SDK opens on a specific port inside the device. That's because AltTester Unity SDK requires you to configure your reverse port forwarding from the device to the machine running the tests.
 
-However, some of these cloud services give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. This means you can configure your port forwarding so that the tests can connect to the Web Socket opened by AltTester Unity SDK inside the game running on the device.
+However, some of these cloud services give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. This means you can configure your reverse port forwarding so that the tests can connect to the Web Socket opened by AltTester Unity SDK inside the app running on the device.
 
 So far, we know that **AWS Device Farm** and **BitBar Cloud** both offer this type of "server-side" running, so they both support running AltTester tests. If you know of any other device cloud providers that might support this, please let us know and we will try them out.
 
 ## BitBar Cloud
+
+``` note::
+
+    This section is not yet updated to work with version 2.0.0. We will updated this ASAP. 
+
+```
 
 BitBar Cloud is a platform that provides access to hundreds of real iOS and Android devices. It supports client side test execution, but also server-side test execution which we need in order to make AltTester work.
 
@@ -35,6 +47,12 @@ For more details about the content of this file please see the BitBar documentat
 ```
 
 ### BitBar project example
+
+``` note::
+
+    This example is not yet updated to work with version 2.0.0. We will updated this ASAP. 
+
+```
 
 You can download our example BitBar project [here](https://github.com/alttester-test-examples/Python-Bitbar-AltTrashCat).
 It contains a pre-built ***ipa*** and ***apk*** file, so you can try out running tests on both Android and iOS
@@ -62,11 +80,17 @@ Going back to the projects tab will allow you to monitor the progress of your te
 
 ## AWS Device Farm
 
+``` note::
+
+    This section is not yet updated to work with version 2.0.0. We will updated this ASAP. 
+
+```
+
 Amazon offers another great alternative to cloud mobile testing, in the form of [**AWS Device Farm**](https://docs.aws.amazon.com/devicefarm/index.html). You can register for free and get a 1000 device minutes trial period (a credit card will be required for registration).
 
 ``` note::
 
-    We encountered some problems forwarding the port on iOS devices. This why we only talk about running tests on Android devices. We will update this page and the sample project once we have a solution for iOS.
+    We encountered some problems related to reverse port forwarding on iOS devices. This why we only talk about running tests on Android devices. We will update this page and the sample project once we have a solution for iOS.
 
 ```
 
@@ -76,6 +100,12 @@ Just like with BitBar, you will need two files in order to run your tests:
 * A **.zip** file containing your tests.
 
 ### AWS Device Farm project example
+
+``` note::
+
+    This example is not yet updated to work with version 2.0.0. We will updated this ASAP. 
+
+```
 
 You can download our example project [here](https://github.com/alttester-test-examples/Python-AWS-AltTrashCat).
 It contains a pre-built ***apk*** file, so you can try out running tests on Android

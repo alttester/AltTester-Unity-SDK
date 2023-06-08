@@ -1,15 +1,32 @@
+/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 package com.alttester.Commands.ObjectCommand;
 
 public class AltSetTextParams extends AltObjectParams {
-    private String newText;
+    private String value;
     private boolean submit = true;
 
     public static class Builder {
-        private String newText;
+        private String value;
         private boolean submit = true;
 
         public Builder(String newText) {
-            this.newText = newText;
+            this.value = newText;
         }
 
         public Builder withSubmit(boolean submit) {
@@ -19,7 +36,7 @@ public class AltSetTextParams extends AltObjectParams {
 
         public AltSetTextParams build() {
             AltSetTextParams altSetTextParams = new AltSetTextParams();
-            altSetTextParams.newText = this.newText;
+            altSetTextParams.value = this.value;
             altSetTextParams.submit = this.submit;
 
             return altSetTextParams;
@@ -30,11 +47,11 @@ public class AltSetTextParams extends AltObjectParams {
     }
 
     public String getNewText() {
-        return newText;
+        return value;
     }
 
     public void setNewText(String newText) {
-        this.newText = newText;
+        this.value = newText;
     }
 
     public boolean getSubmit() {

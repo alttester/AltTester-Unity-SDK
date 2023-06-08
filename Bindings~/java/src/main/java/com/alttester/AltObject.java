@@ -1,11 +1,31 @@
+/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 package com.alttester;
 
 import lombok.Getter;
+
 import com.alttester.Commands.ObjectCommand.*;
 import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
+import com.alttester.Commands.FindObject.AltWaitForComponentProperty;
+import com.alttester.Commands.FindObject.AltWaitForComponentPropertyParams;
 import com.alttester.Commands.FindObject.AltFindObject;
 
 @Getter
@@ -114,7 +134,7 @@ public class AltObject {
 
     /**
      * Returns the value of the given component property.
-     * 
+     *
      * @param altGetComponentPropertyParameters - String componentName* , String
      *                                          propertyName* , String assembly ,
      *                                          int maxDepth
@@ -129,8 +149,34 @@ public class AltObject {
     }
 
     /**
-     * Sets value of the given component property.
+     * Wait until a property has a specific value and returns the value of the given
+     * component property.
+     *
      * 
+     * @param altWaitForComponentPropertyParams -AltGetComponentPropertyParams
+     *                                          altGetComponentPropertyParams* ,
+     *                                          double timeout , double interval , T
+     *                                          propertyValue* , Altoject obj*.
+     * @param propertyValue                     - The value of the property expected
+     * @param returnType                        - The type of the property
+     * @return - The value of the given component property
+     */
+    public <T> T WaitForComponentProperty(AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams,
+            T propertyValue,
+            Class<T> returnType) {
+
+        altWaitForComponentPropertyParams.setAltObject(this);
+        T response = new AltWaitForComponentProperty<T>(messageHandler,
+                altWaitForComponentPropertyParams,
+                propertyValue, this)
+                .Execute(returnType);
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
+    }
+
+    /**
+     * Sets value of the given component property.
+     *
      * @param altSetComponentPropertyParameters - String componentName* , String
      *                                          propertyName* , String assembly ,
      *                                          String value*
@@ -143,7 +189,7 @@ public class AltObject {
 
     /**
      * Invokes a method from an existing component of the object.
-     * 
+     *
      * @param altCallComponentMethodParameters - String componentName* , String
      *                                         methodName* , Object[] parameters*,
      *                                         String[] typeOfParameters , String
@@ -162,7 +208,7 @@ public class AltObject {
     /**
      * Returns text value from a Button, Text, InputField. This also works with
      * TextMeshPro elements.
-     * 
+     *
      * @return Text value
      */
     public String getText() {
@@ -175,7 +221,7 @@ public class AltObject {
     /**
      * Sets text value for a Button, Text, InputField. This also works with
      * TextMeshPro elements.
-     * 
+     *
      * @param text
      * @return Element that have text value changed
      */
@@ -191,7 +237,7 @@ public class AltObject {
     /**
      * Sets text value for a Button, Text, InputField. This also works with
      * TextMeshPro elements.
-     * 
+     *
      * @param parameters
      * @return Element that have text value changed
      */
@@ -204,7 +250,7 @@ public class AltObject {
 
     /**
      * Simulates pointer up action on the object.
-     * 
+     *
      * @return Element that simulates pointer up action
      */
     public AltObject pointerUp() {
@@ -213,7 +259,7 @@ public class AltObject {
 
     /**
      * Simulates pointer down action on the object.
-     * 
+     *
      * @return Element that simulates pointer down action
      */
     public AltObject pointerDown() {
@@ -222,7 +268,7 @@ public class AltObject {
 
     /**
      * Simulates pointer enter action on the object.
-     * 
+     *
      * @return Element that simulates pointer enter action
      */
     public AltObject pointerEnter() {
@@ -231,7 +277,7 @@ public class AltObject {
 
     /**
      * Simulates pointer exit action on the object.
-     * 
+     *
      * @return Element that simulates pointer exit action
      */
     public AltObject pointerExit() {

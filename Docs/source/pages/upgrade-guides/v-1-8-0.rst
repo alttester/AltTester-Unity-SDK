@@ -17,7 +17,7 @@ Unity
 
 To replace AltUnity Tester with AltTester Unity SDK you will need to do the following steps:
 
-1. Download AltTester Unity SDK from `Altom website <https://altom.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_
+1. Download AltTester Unity SDK from `AltTester website <https://alttester.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_
 2. Delete your AltUnity Tester folder
 3. Drag and drop the unitypackage you downloaded in step 1 to your Unity projects
 
@@ -82,7 +82,7 @@ With:
     <PropertyGroup>
         <PackageId>AltTester-Driver</PackageId>
         <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
-        <RootNamespace>Altom.AltTester-Driver</RootNamespace>
+        <RootNamespace>AltTester.AltTester-Driver</RootNamespace>
     </PropertyGroup>
     
 Java

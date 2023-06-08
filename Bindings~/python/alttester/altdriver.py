@@ -1,3 +1,19 @@
+﻿"""
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 import warnings
 import sys
 
@@ -6,7 +22,7 @@ from loguru import logger
 import alttester.commands as commands
 from alttester.commands.base_command import Command
 from alttester.__version__ import VERSION
-from alttester._websocket import WebsocketConnection
+from alttester._websocket import WebsocketConnection, CommandHandler, NotificationHandler
 from alttester.altobject import AltObject
 from alttester.by import By
 
@@ -15,29 +31,61 @@ warnings.filterwarnings("default", category=DeprecationWarning, module=__name__)
 
 
 class AltDriver:
-    """The driver object will help interacting with all the game objects, their properties and methods.
+    """The driver object will help interacting with all the application objects, their properties and methods.
 
-    When you instantiate an ``AltDriver`` object in your tests, you can use it to “drive” your game like one of
-    your users would, by interacting with all the game objects, their properties and methods.  An ``AltDriver``
-    instance will connect to the AltProxy.
+    When you instantiate an ``AltDriver`` object in your tests, you can use it to “drive” your application like one of
+    your users would, by interacting with all the application objects, their properties and methods.  An ``AltDriver``
+    instance will connect to the AltServer.
 
     Args:
-        host (:obj:`str`): The proxy host to connect to.
-        port (:obj:`int`): The proxy port to connect to.
+        host (:obj:`str`, optional): The host to connect to.
+        port (:obj:`int`, optional): The port to connect to.
+        app_name (:obj:`str`, optional): The application name. Defaults to ``__default__``.
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
-        timeout (:obj:`int`, :obj:`float`, optional): The connect timeout time in seconds.
+        timeout (:obj:`int`, :obj:`float`, optional): The timeout duration for establishing a connection, in seconds.
+            If set to ``None``, the connection attempt will wait indefinitely. The default value is ``60`` seconds.
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, enable_logging=False, timeout=None):
+    def __init__(self, host="127.0.0.1", port=13000, app_name="__default__", enable_logging=False, timeout=60):
         self.host = host
         self.port = port
+        self.app_name = app_name
         self.enable_logging = enable_logging
+        self.timeout = timeout
 
         self._config_logging(self.enable_logging)
 
-        self._connection = WebsocketConnection(host=host, port=port, timeout=timeout)
+        logger.debug(
+            "Connecting to AltTester on host: '{}', port: '{}' and app name: '{}'.",
+            self.host,
+            self.port,
+            self.app_name
+        )
+
+        self._command_handler = CommandHandler()
+        self._notification_handler = NotificationHandler()
+        self._connection = WebsocketConnection(
+            host=self.host,
+            port=self.port,
+            timeout=self.timeout,
+            path="altws",
+            params={"appName": self.app_name},
+            command_handler=self._command_handler,
+            notification_handler=self._notification_handler
+        )
         self._connection.connect()
+        self._check_server_version()
+
+    def __repr__(self):
+        return "{}({!r}, {!r}, {!r}, {!r}, {!r})".format(
+            self.__class__.__name__,
+            self.host,
+            self.port,
+            self.app_name,
+            self.enable_logging,
+            self.timeout
+        )
 
     @staticmethod
     def _config_logging(enable_logging):
@@ -160,7 +208,7 @@ class AltDriver:
         commands.SetServerLogging.run(self._connection, logger, log_level)
 
     def call_static_method(self, type_name, method_name, assembly, parameters=None, type_of_parameters=None):
-        """Invoke a static method from your game.
+        """Invoke a static method from your application.
 
         Args:
             type_name (:obj:`str`): The name of the script. If the script has a namespace the format should look like
@@ -528,7 +576,7 @@ class AltDriver:
         return self.find_objects(By.PATH, "//*", camera_by=camera_by, camera_value=camera_value, enabled=enabled)
 
     def move_mouse(self, coordinates, duration=0.1, wait=True):
-        """Simulates mouse movement in your game.
+        """Simulates mouse movement in your application.
 
         Args:
             coordinates (:obj:`dict`): The screen coordinates
@@ -541,7 +589,7 @@ class AltDriver:
         commands.MoveMouse.run(self._connection, coordinates, duration, wait)
 
     def scroll(self, speed_vertical=1, duration=0.1, wait=True, speed_horizontal=1):
-        """Simulate scroll mouse action in your game.
+        """Simulate scroll mouse action in your application.
 
         Args:
             speed_vertical (:obj:`int`, :obj:`float`): Set how fast to scroll. Positive values will scroll up and
@@ -616,7 +664,7 @@ class AltDriver:
         commands.KeysUp.run(self._connection, key_codes)
 
     def press_key(self, key_code, power=1, duration=0.1, wait=True):
-        """Simulates key press action in your game.
+        """Simulates key press action in your application.
 
         Args:
             key_code (:obj:`AltKeyCode`): The key code of the key simulated to be pressed.
@@ -630,7 +678,7 @@ class AltDriver:
         self.press_keys([key_code], power=power, duration=duration, wait=wait)
 
     def press_keys(self, key_codes, power=1, duration=0.1, wait=True):
-        """Simulates multiple keypress action in your game.
+        """Simulates multiple keypress action in your application.
 
         Args:
             key_codes (:obj:`list` of :obj:`AltKeyCode`): The key codes of the keys simulated to be pressed.
@@ -723,7 +771,7 @@ class AltDriver:
         commands.TapCoordinates.run(self._connection, coordinates, count, interval, wait)
 
     def tilt(self, acceleration, duration=0.1, wait=True):
-        """Simulates device rotation action in your game.
+        """Simulates device rotation action in your application.
 
         Args:
             acceleration (:obj:`dict`): The linear acceleration of a device.
@@ -744,7 +792,7 @@ class AltDriver:
             "UnityEngine.Screen", "get_height",
             "UnityEngine.CoreModule"
         )
-        return [screen_width, screen_height]
+        return (screen_width, screen_height)
 
     def get_png_screenshot(self, path):
         """Creates a screenshot of the current scene in png format at the given path.
@@ -823,18 +871,6 @@ class AltDriver:
         data = commands.FindObjectAtCoordinates.run(self._connection, coordinates)
         return self._get_alt_object(data)
 
-    def set_notification(self, notification_type, notification_callback=None):
-        """Sets what notifications will the tester send and what to do with those notifications.
-
-        Args:
-            notification_type (:obj:`int`): Flag that sets which notification to be turned on.
-            notification_callback (:obj:`class`): Class which contains callbacks used by notifications.
-
-        """
-
-        self._connection.notification_callbacks = notification_callback
-        commands.SetNotification.run(self._connection, notification_type)
-
     def add_notification_listener(self, notification_type, notification_callback, overwrite=True):
         """Activates a notification that the tester will send.
 
@@ -859,6 +895,6 @@ class AltDriver:
         commands.RemoveNotificationListener.run(self._connection, notification_type)
 
     def reset_input(self):
-        """Clear all active input actions simulated by AltTester.
-        """
+        """Clear all active input actions simulated by AltTester."""
+
         commands.ResetInput.run(self._connection)

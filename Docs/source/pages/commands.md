@@ -4,19 +4,21 @@ If you are looking for information on a specific function, class or method, this
 
 ## AltDriver
 
-The **AltDriver** class represents the main game driver component. When you instantiate an AltDriver in your tests, you can use it to "drive" your game like one of your users would, by interacting with all the game objects, their properties and methods.
+The **AltDriver** class represents the main app driver component. When you instantiate an AltDriver in your tests, you can use it to "drive" your app like one of your users would, by interacting with all the app objects, their properties and methods.
 
-An AltDriver instance will connect to the running instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the instrumented Unity App is running. We can also set some more advanced parameters, as shown in the table below:
+An AltDriver instance will connect to the running instrumented Unity application. In the constructor, we need to tell the driver where (on what IP and on what port) the instrumented Unity App with a specific name is running and for how many seconds to let the communication opened.
 
 **_Parameters_**
 
-| Name          | Type    | Required | Description                                                                           |
-| ------------- | ------- | -------- | ------------------------------------------------------------------------------------- |
-| host          | string  | No       | The IP or hostname AltTester Unity SDK is listening on. The default value is "127.0.0.1". |
-| port          | int     | No       | The default value is 13000.                                                           |
-| enableLogging | boolean | No       | The default value is false.                                                           |
+| Name           | Type    | Required | Description                                                                           |
+| -------------- | ------- | -------- | ------------------------------------------------------------------------------------- |
+| host           | string  | No       | The IP or hostname AltTester Unity SDK is listening on. The default value is "127.0.0.1". |
+| port           | int     | No       | The default value is 13000.                                                           |
+| enableLogging  | boolean | No       | The default value is false.                                                           |
+| connectTimeout | int     | No       | The connect timeout in seconds.The default value is 60.                                |
+| appName        | string  | No       | The name of the Unity application.The default value is `__default__`.                  |
 
-Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the game. The available methods are the following:
+Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the app. The available methods are the following:
 
 ### Find Objects
 
@@ -378,48 +380,35 @@ Waits until it finds an object that respects the given criteria or until timeout
 
     .. code-tab:: c#
 
-       [Test]
-        public void TestWaitForObjectToNotExistFail()
+        [Test]
+        public void TestWaitForExistingElement()
         {
-            try
-            {
-                altDriver.WaitForObjectNotBePresent(By.NAME,"Capsule", timeout: 1, interval: 0.5f);
-                Assert.Fail();
-            }
-            catch (WaitTimeOutException exception)
-            {
-                Assert.AreEqual("Element //Capsule still found after 1 seconds", exception.Message);
-            }
+            const string name = "Capsule";
+            var timeStart = DateTime.Now;
+            var altElement = altDriver.WaitForObject(By.NAME, name);
+            var timeEnd = DateTime.Now;
+            var time = timeEnd - timeStart;
+            Assert.Less(time.TotalSeconds, 20);
+            Assert.NotNull(altElement);
+            Assert.AreEqual(altElement.name, name);
         }
 
     .. code-tab:: java
 
         @Test
-        public void TestWaitForObjectWithCameraId() {
-            AltFindObjectsParams altFindObjectsParametersButton = new AltFindObjectsParams.Builder(
-                    AltDriver.By.PATH, "//Button").build();
-            AltObject altButton = altDriver.findObject(altFindObjectsParametersButton);
-            altButton.click();
-            altButton.click();
-            AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH,
-                    "//Camera").build();
-            AltObject camera = altDriver.findObject(altFindObjectsParametersCamera);
-            AltFindObjectsParams altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT,
-                    "CapsuleCollider").withCamera(By.ID, String.valueOf(camera.id)).build();
+        public void testWaitForExistingElement() {
+            String name = "Capsule";
+            long timeStart = System.currentTimeMillis();
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                            name).build();
             AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
-                    altFindObjectsParametersCapsule).build();
-            AltObject altObject = altDriver.waitForObject(altWaitForObjectsParams);
-
-            assertTrue("True", altObject.name.equals("Capsule"));
-
-            altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH, "//Main Camera").build();
-            AltObject camera2 = altDriver.findObject(altFindObjectsParametersCamera);
-            altFindObjectsParametersCapsule = new AltFindObjectsParams.Builder(By.COMPONENT, "CapsuleCollider")
-                    .withCamera(By.ID, String.valueOf(camera2.id)).build();
-            altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(altFindObjectsParametersCapsule).build();
-            AltObject altObject2 = altDriver.waitForObject(altWaitForObjectsParams);
-
-            assertNotEquals(altObject.getScreenPosition(), altObject2.getScreenPosition());
+                            altFindObjectsParams).build();
+            AltObject altElement = altDriver.waitForObject(altWaitForObjectsParams);
+            long timeEnd = System.currentTimeMillis();
+            long time = timeEnd - timeStart;
+            assertTrue(time / 1000 < 20);
+            assertNotNull(altElement);
+            assertEquals(altElement.name, name);
         }
 
     .. code-tab:: py
@@ -872,7 +861,7 @@ Simulates holding left click button down for a specified amount of time at given
 
 #### MoveMouse
 
-Simulate mouse movement in your game.
+Simulate mouse movement in your app.
 
 **_Parameters_**
 
@@ -955,7 +944,7 @@ Simulate mouse movement in your game.
 
 #### PressKey
 
-Simulates key press action in your game.
+Simulates key press action in your app.
 
 **_Parameters_**
 
@@ -1038,7 +1027,7 @@ Simulates key press action in your game.
 
 #### PressKeys
 
-Simulates multiple key press action in your game.
+Simulates multiple key press action in your app.
 
 **_Parameters_**
 
@@ -1108,7 +1097,7 @@ Simulates multiple key press action in your game.
 
 #### Scroll
 
-Simulate scroll action in your game.
+Simulate scroll action in your app.
 
 **_Parameters_**
 
@@ -1720,7 +1709,7 @@ Tap at screen coordinates.
 
 #### Tilt
 
-Simulates device rotation action in your game.
+Simulates device rotation action in your app.
 
 **_Parameters_**
 
@@ -2485,7 +2474,7 @@ None
 
 #### WaitForCurrentSceneToBe
 
-Waits for the scene to be loaded for a specified amount of time. It returns the name of the current scene.
+Waits for the scene to be loaded for a specified amount of time.
 
 **_Parameters_**
 
@@ -2511,40 +2500,39 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
         {
             const string name = "Scene 1 AltDriverTestScene";
             var timeStart = DateTime.Now;
-            var currentScene = altDriver.WaitForCurrentSceneToBe(name);
+            altDriver.WaitForCurrentSceneToBe(name);
             var timeEnd = DateTime.Now;
             var time = timeEnd - timeStart;
             Assert.Less(time.TotalSeconds, 20);
-            Assert.NotNull(currentScene);
+            var currentScene = altDriver.GetCurrentScene();
             Assert.AreEqual("Scene 1 AltDriverTestScene", currentScene);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testWaitForCurrentSceneToBe() throws Exception {
-            String name = "Scene 1 AltDriverTestScene";
-            long timeStart = System.currentTimeMillis();
-            AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
-            String currentScene = altDriver.waitForCurrentSceneToBe(params);
-            long timeEnd = System.currentTimeMillis();
-            long time = timeEnd - timeStart;
-            assertTrue(time / 1000 < 20);
-            assertNotNull(currentScene);
-            assertEquals("Scene 1 AltDriverTestScene", currentScene);
+        public void testWaitForCurrentSceneToBe() {
+        String name = "Scene 1 AltDriverTestScene";
+        long timeStart = System.currentTimeMillis();
+        AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
+        altDriver.waitForCurrentSceneToBe(params);
+        long timeEnd = System.currentTimeMillis();
+        long time = timeEnd - timeStart;
+        assertTrue(time / 1000 < 20);
+
+        String currentScene = altDriver.getCurrentScene();
+        assertEquals(name, currentScene);
         }
 
     .. code-tab:: py
 
-        def test_wait_for_current_scene_to_be(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
-            self.altDriver.wait_for_current_scene_to_be(
-                'Scene 1 AltDriverTestScene', 1)
-            self.altDriver.load_scene('Scene 2 Draggable Panel')
-            self.altDriver.wait_for_current_scene_to_be(
-                'Scene 2 Draggable Panel', 1)
-            self.assertEqual('Scene 2 Draggable Panel',
-                         self.altDriver.get_current_scene())
+        def test_wait_for_current_scene_to_be_with_a_non_existing_scene(self):
+            scene_name = "Scene 0"
+
+            with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
+            self.altdriver.wait_for_current_scene_to_be(scene_name, timeout=1, interval=0.5)
+
+            assert str(execinfo.value) == "Scene {} not loaded after 1 seconds".format(scene_name)
 
 ```
 
@@ -2629,8 +2617,8 @@ None
         {
             altDriver.SetTimeScale(0.1f);
             Thread.Sleep(1000);
-            var timeScaleFromGame = altDriver.GetTimeScale();
-            Assert.AreEqual(0.1f, timeScaleFromGame);
+            var timeScaleFromApp = altDriver.GetTimeScale();
+            Assert.AreEqual(0.1f, timeScaleFromApp);
         }
 
     .. code-tab:: java
@@ -2678,8 +2666,8 @@ Sets the value of the time scale.
         {
             altDriver.SetTimeScale(0.1f);
             Thread.Sleep(1000);
-            var timeScaleFromGame = altDriver.GetTimeScale();
-            Assert.AreEqual(0.1f, timeScaleFromGame);
+            var timeScaleFromApp = altDriver.GetTimeScale();
+            Assert.AreEqual(0.1f, timeScaleFromApp);
         }
 
     .. code-tab:: java
@@ -2703,7 +2691,7 @@ Sets the value of the time scale.
 
 #### CallStaticMethod
 
-Invokes static methods from your game.
+Invokes static methods from your app.
 
 **_Parameters_**
 
@@ -2712,7 +2700,7 @@ Invokes static methods from your game.
 | typeName         | string | Yes      | The name of the script. If the script has a namespace the format should look like this: "namespace.typeName".                                                                                             |
 | methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
 | assemblyName     | string | Yes       | The name of the assembly containing the script.                                                                                                                                                          |
-| parameters       | array  | No       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
+| parameters       | array  | Yes       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
 | typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                                 |
 
 **_Returns_**
@@ -2768,7 +2756,7 @@ Gets the value of the static field or property.
 | ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
 | componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
 | propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
-| assembly      | string | Yes      | The name of the assembly the component belongs to.                                                      |
+| assemblyName  | string | Yes      | The name of the assembly containing the component. It is NULL by default.                                                      |
 | maxDepth      | int    | No       | The maximum depth in the hierarchy to look for the static field or property. Its value is 2 by default. |
 
 **_Returns_**
@@ -2818,12 +2806,12 @@ Sets the value of the static field or property.
 
 **_Parameters_**
 
-| Name          | Type   | Required | Description                                                                                             |
-| ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
-| componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
-| propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
-| assembly      | string | Yes      | The name of the assembly the component belongs to.                                                      |
-| updatedProperty | object | Yes      | The new value of the component which has the static field or property to be seted. 
+| Name            | Type   | Required | Description                                                                                                              |
+| --------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
+| componentName   | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
+| propertyName    | string | Yes      | The name of the property whose value you want to set                                                                  |
+| assemblyName    | string | Yes      | The name of the assembly containing the component. It is NULL by default.                                                |
+| updatedProperty | object | Yes      | The value to be set for the chosen component's static property                                                           |
 
 **_Returns_**
 
@@ -2947,7 +2935,7 @@ If activated this notification will be called every time the application has pau
 
 ## AltObject
 
-The **AltObject** class represents the objects present in the game and it allows you through the methods listed below to interact with them. It is the return type of the methods in the [FindObjects](#findobjects) category.
+The **AltObject** class represents the objects present in the app and it allows you through the methods listed below to interact with them. It is the return type of the methods in the [FindObjects](#findobjects) category.
 
 **_Fields_**
 
@@ -2958,11 +2946,11 @@ The **AltObject** class represents the objects present in the game and it allows
 | x                 | int    | The value for x axis coordinate on screen.                                                                                           |
 | y                 | int    | The value for y axis coordinate on screen.                                                                                           |
 | mobileY           | int    | The value for y axis for appium.                                                                                                     |
-| type              | string | Object's type, for objects from the game is gameObject.                                                                              |
+| type              | string | Object's type, for objects from the app is gameObject.                                                                              |
 | enabled           | bool   | The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true. |
-| worldX            | float  | The value for x axis coordinate in the game's world.                                                                                 |
-| worldY            | float  | The value for y axis coordinate in the game's world.                                                                                 |
-| worldZ            | float  | The value for z axis coordinate in the game's world.                                                                                 |
+| worldX            | float  | The value for x axis coordinate in the app's world.                                                                                 |
+| worldY            | float  | The value for y axis coordinate in the app's world.                                                                                 |
+| worldZ            | float  | The value for z axis coordinate in the app's world.                                                                                 |
 | idCamera          | int    | The camera's id.                                                                                                                     |
 | transformId       | int    | The transform's component id.                                                                                                        |
 | parentId          | int    | The transform parent's id. It's obsolete. Use transformParentId instead.                                                             |
@@ -2981,7 +2969,7 @@ Invokes a method from an existing component of the object.
 | componentName    | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName".                                                                          |
 | methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
 | assemblyName     | string | Yes      | The name of the assembly containing the component.                                                                                                                                                |
-| parameters       | array  | No       | An array containing the serialized parameters to be sent to the component method.                                                                                                                 |
+| parameters       | array  | Yes       | An array containing the serialized parameters to be sent to the component method.                                                                                                                 |
 | typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                         |
 
 **_Returns_**
@@ -3013,7 +3001,7 @@ Invokes a method from an existing component of the object.
             const string methodName = "get_text";
             const string assemblyName = "UnityEngine.UI";
             const string elementText = "Change Camera Mode";
-            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/Button/Text");
+            var altElement = altDriver.FindObject(By.PATH, "/Canvas/Button/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, new object[] { });
             Assert.AreEqual(elementText, data);
         }
@@ -3027,7 +3015,7 @@ Invokes a method from an existing component of the object.
             const string assemblyName = "UnityEngine.UI";
             Int32 fontSizeExpected = 16;
             string[] parameters = new[] {"16"};
-            var altElement = altUnityDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
+            var altElement = altDriver.FindObject(By.PATH, "/Canvas/UnityUIInputField/Text");
             var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, parameters);
             var fontSize =  altElement.CallComponentMethod<Int32>(componentName, methodToVerifyName, assemblyName, new object[] { });
             Assert.AreEqual(fontSizeExpected, fontSize);
@@ -3060,9 +3048,9 @@ Invokes a method from an existing component of the object.
             String methodName = "get_text";
             String assembly = "UnityEngine.UI";
             String expected_text = "Change Camera Mode";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.PATH,
                 "/Canvas/Button/Text").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
             assertEquals(expected_text, altElement.callComponentMethod(
                 new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, new Object[] {}).build(),
                 String.class));
@@ -3076,9 +3064,9 @@ Invokes a method from an existing component of the object.
             String methodExpectedName = "get_fontSize";
             String assembly = "UnityEngine.UI";
             String[] parameters = new String[] { "16"};
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltUnityDriver.By.PATH,
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.PATH,
             "/Canvas/UnityUIInputField/Text").build();
-            AltUnityObject altElement = altUnityDriver.findObject(altFindObjectsParams);
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
             altElement.callComponentMethod(
                 new AltCallComponentMethodParams.Builder(componentName, methodName, assembly, parameters)
                     .build(),
@@ -3113,6 +3101,77 @@ Invokes a method from an existing component of the object.
             assert fontSizeExpected == fontSize
 
 ```
+### WaitForComponentProperty
+
+Wait until a property has a specific value and returns the value of the given component property.
+
+**_Parameters_**
+
+| Name             | Type   | Required | Description                                                                                                                                                                                       |
+| ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |
+| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                    |
+| propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                           |                                                                                                                                   
+| propertyValue  | T | Yes       | The value that property shoud have.                             
+| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                           | timeout     | double             | No       | The number of seconds that it will wait for property.                                                                                                                            | interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than timeout.                                                                                                                                                                                                                                                                                       |
+
+**_Returns_**
+
+- Object
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestWaitForComponentProperty()
+        {
+            const string componentName = "AltTester.AltRunner";
+            const string propertyName = "InstrumentationSettings.AltServerPort";
+            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+            Assert.NotNull(altElement);
+
+            string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
+            int port = int.Parse(portStr);
+            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "Assembly-CSharp");
+            Assert.AreEqual(port, propertyValue);
+        }
+
+
+    .. code-tab:: java
+
+        @Test
+        public void testWaitForComponentProperty() throws InterruptedException {
+            Thread.sleep(1000);
+            String componentName = "UnityEngine.CapsuleCollider";
+            String propertyName = "isTrigger";
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                "Capsule").build();
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
+                assertNotNull(altElement);
+            AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                componentName, propertyName, "").build();
+            AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.       Builder<Boolean>(altGetComponentPropertyParams).build();
+
+            Boolean propertyValue = altElement.WaitForComponentProperty(
+                altWaitForComponentPropertyParams,
+                false,
+                Boolean.class);
+            assertEquals(Boolean.FALSE, propertyValue);
+        }
+
+    .. code-tab:: py
+
+        def test_wait_for_component_property(self):
+            alt_object = self.altdriver.find_object(By.NAME, "Capsule")
+            result = alt_object.wait_for_component_property(
+                "AltExampleScriptCapsule", "TestBool", True,
+                "Assembly-CSharp")
+            assert result is True
+
+```
 
 ### GetComponentProperty
 
@@ -3141,7 +3200,7 @@ Returns the value of the given component property.
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "Altom.AltTester.AltRunner";
+            const string componentName = "AltTester.AltRunner";
             const string propertyName = "InstrumentationSettings.AltTesterPort";
             var altObject = altDriver.FindObject(By.NAME,"AltRunnerPrefab");
             Assert.NotNull(altObject);
@@ -3154,7 +3213,7 @@ Returns the value of the given component property.
         @Test
         public void testGetComponentProperty() throws Exception
         {
-            String componentName = "Altom.AltTester.AltRunner";
+            String componentName = "AltTester.AltRunner";
             String propertyName = "InstrumentationSettings.AltTesterPort";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "AltRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);
@@ -3183,9 +3242,9 @@ Sets value of the given component property.
 | ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
 | componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
 | propertyName  | string | Yes      | The name of the property of which value you want to set                                                                  |
+| value         | object | Yes      | The value to be set for the chosen component's property                                               |
 | assemblyName  | string | Yes       | The name of the assembly containing the component. It is NULL by default.                                               |
-| value         | object | Yes      | The value to be set for the chosen component's property                                                                  |
-
+                                                              
 **_Returns_**
 
 - Nothing
@@ -3204,7 +3263,7 @@ Sets value of the given component property.
             const string propertyName = "stringToSetFromTests";
             var altObject = altDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altObject);
-            altObject.SetComponentProperty(componentName, propertyName, "Assembly-CSharp", "2");
+            altObject.SetComponentProperty(componentName, propertyName, "2", "Assembly-CSharp");
 
             var propertyValue = altObject.GetComponentProperty<string>(componentName, propertyName);
             Assert.AreEqual("2", propertyValue);
@@ -3220,7 +3279,7 @@ Sets value of the given component property.
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
             AltObject altObject = altDriver.findObject(altFindObjectsParams);
             assertNotNull(altObject);
-            altElement.setComponentProperty(new AltSetComponentPropertyParams.Builder(componentName, propertyName, "Assembly-CSharp", "2").build());
+            altElement.setComponentProperty(new AltSetComponentPropertyParams.Builder(componentName, propertyName, "2", "Assembly-CSharp").build());
             String propertyValue = altElement.getComponentProperty(new AltGetComponentPropertyParams.Builder(componentName,propertyName).build(), String.class);
             assertEquals("2", propertyValue);
         }
@@ -3233,7 +3292,7 @@ Sets value of the given component property.
             propertyName = "stringToSetFromTests"
             altObject = self.altDriver.find_object(By.NAME, componentName)
             self.assertNotEqual(altObject, None)
-            altObject.set_component_property(componentName, propertyName, "Assembly-CSharp", "2")
+            altObject.set_component_property(componentName, propertyName, "2", "Assembly-CSharp")
             propertyValue = altObject.get_component_property(componentName, propertyName)
             self.assertEqual("2", propertyValue)
 
@@ -3839,6 +3898,120 @@ None
             self.assertEqual('Canvas', elementParent.name)
 
 ```
+### GetScreenPosition
+
+ Returns the screen position of the AltTester object.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltVector2
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestHoldButton()
+        {
+            const int duration = 1;
+            var button = altDriver.FindObject(By.NAME, "UIButton");
+            altDriver.HoldButton(button.GetScreenPosition(), duration);
+            var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
+            var text = capsuleInfo.GetText();
+            Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+            var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
+            Assert.Greater(time, duration);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testHoldButton() throws Exception {
+            AltObject button = altDriver
+                    .findObject(new AltFindObjectsParams.Builder(AltDriver.By.NAME, "UIButton").build());
+            altDriver.holdButton(new AltHoldParams.Builder(button.getScreenPosition()).withDuration(1).build());
+            AltObject capsuleInfo = altDriver
+                    .findObject(new AltFindObjectsParams.Builder(AltDriver.By.NAME, "CapsuleInfo").build());
+            String text = capsuleInfo.getText();
+            assertEquals(text, "UIButton clicked to jump capsule!");
+        }
+
+    .. code-tab:: py
+
+        def test_hold_button(self):
+            button = self.altdriver.find_object(By.NAME, "UIButton")
+            self.altdriver.hold_button(button.get_screen_position(), duration=1)
+            capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
+            text = capsule_info.get_text()
+            assert text == "UIButton clicked to jump capsule!"
+
+```
+### GetWorldPosition
+
+Returns the world position of the AltTester object.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltVector3
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestAcceleration()
+        {
+            var capsule = altDriver.FindObject(By.NAME, "Capsule");
+            var initialWorldCoordinates = capsule.GetWorldPosition();
+            altDriver.Tilt(new AltVector3(1, 1, 1), 1);
+            Thread.Sleep(100);
+            capsule = altDriver.FindObject(By.NAME, "Capsule");
+            var afterTiltCoordinates = capsule.GetWorldPosition();
+            Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestAcceleration() throws InterruptedException {
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                    AltDriver.By.NAME, "Capsule").build();
+            AltObject capsule = altDriver.findObject(altFindObjectsParameters1);
+            Vector3 initialWorldCoordinates = capsule.getWorldPosition();
+            altDriver.tilt(new AltTiltParams.Builder(new Vector3(1, 1, 1)).withDuration(1).build());
+            capsule = altDriver.findObject(altFindObjectsParameters1);
+            Vector3 afterTiltCoordinates = capsule.getWorldPosition();
+            assertNotEquals(initialWorldCoordinates, afterTiltCoordinates);
+        }
+
+
+    .. code-tab:: py
+
+        def test_acceleration(self):
+            self.altdriver.load_scene("Scene 1 AltDriverTestScene")
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+            self.altdriver.tilt([1, 1, 1], 1)
+
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+            assert initial_position != final_position
+
+```
 
 ## BY-Selector
 
@@ -4036,26 +4209,26 @@ There are several characters that you need to escape when you try to find an obj
 ### AltId
 
 Is a solution offered by AltTester Unity SDK in order to find object easier. This is an unique identifier stored in an component and added to every object.
-**A limitation of this is that only the object already in the scene before building the game will have an AltId. Object instantiated during run time will not have an AltId**
+**A limitation of this is that only the object already in the scene before building the app will have an AltId. Object instantiated during run time will not have an AltId**
 
 To add AltId to every object simply just click _Add AltId to every object_ from AltTester menu.
 
 ![Add AltId](../_static/img/commands/add-alt-id.png)
 
-## AltPortForwarding
+## AltReversePortForwarding
 
-API to interact with `adb` and `iproxy` programmatically.
+API to interact with `adb` programmatically.
 
-### ForwardAndroid
+### ReversePortForwardingAndroid
 
-This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`.
+This method calls `adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}`.
 
 **_Parameters_**
 
 | Name       | Type   | Required | Description                                                                                                                                                                                      |
 | ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| localPort  | int    | No       | The local port to forward from.                                                                                                                                                                  |
-| remotePort | int    | No       | The device port to forward to.                                                                                                                                                                   |
+| remotePort  | int    | No       | The device port to do reverse port forwarding from.                                                                                                                                                                  |
+| localPort | int    | No       | The local port to do reverse port forwarding to.                                                                                                                                                                   |
 | deviceId   | string | No       | The id of the device.                                                                                                                                                                            |
 | adbPath    | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
 
@@ -4069,7 +4242,7 @@ This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
         [OneTimeSetUp]
         public void SetUp()
         {
-            AltPortForwarding.ForwardAndroid();
+            AltReversePortForwarding.ReversePortForwardingAndroid();
             altDriver = new AltDriver();
         }
 
@@ -4077,7 +4250,7 @@ This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
 
         @BeforeClass
         public static void setUp() throws IOException {
-            AltPortForwarding.forwardAndroid();
+            AltReversePortForwarding.reversePortForwardingAndroid();
             altDriver = new AltDriver();
         }
 
@@ -4085,20 +4258,20 @@ This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
 
         @classmethod
         def setUpClass(cls):
-            AltPortForwarding.forward_android()
+            AltReversePortForwarding.reverse_port_forwarding_android()
             cls.altDriver = AltDriver()
 
 ```
+**Note:** Sometimes, the execution of reverse port forwarding method is too slow so the tests fail because the port is not actually forwarded when trying to establish the connection. In order to fix this problem, a `sleep()` method should be called after calling the ReversePortForwardingAndroid() method.
+### RemoveReversePortForwardingAndroid
 
-### RemoveForwardAndroid
-
-This method calls `adb forward --remove [-s {deviceId}] tcp:{localPort}` or `adb forward --remove-all` if no local port is provided.
+This method calls `adb reverse --remove [-s {deviceId}] tcp:{devicePort}` or `adb reverse --remove-all` if no port is provided.
 
 **_Parameters_**
 
 | Name      | Type   | Required | Description                                                                                                                                                                                      |
 | --------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| localPort | int    | No       | The local port to be removed.                                                                                                                                                                    |
+| devicePort | int    | No       | The device port to be removed.                                                                                                                                                                    |
 | deviceId  | string | No       | The id of the device to be removed.                                                                                                                                                              |
 | adbPath   | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
 
@@ -4117,7 +4290,7 @@ Nothing
         public void TearDown()
         {
             altDriver.Stop();
-            AltPortForwarding.RemoveForwardAndroid();
+            AltReversePortForwarding.RemoveReversePortForwardingAndroid();
         }
 
     .. code-tab:: java
@@ -4125,7 +4298,7 @@ Nothing
         @AfterClass
         public static void tearDown() throws Exception {
             altDriver.stop();
-            AltPortForwarding.removeForwardAndroid();
+            AltReversePortForwarding.removeReversePortForwardingAndroid();
         }
 
     .. code-tab:: py
@@ -4133,13 +4306,13 @@ Nothing
         @classmethod
         def tearDownClass(cls):
             cls.altDriver.stop()
-            AltPortForwarding.remove_forward_android()
+            AltReversePortForwarding.remove_reverse_port_forwarding_android()
 
 ```
 
-### RemoveAllForwardAndroid
+### RemoveAllReversePortForwardingsAndroid
 
-This method calls `adb forward --remove-all`.
+This method calls `adb reverse --remove-all`.
 
 **_Parameters_**
 
@@ -4162,7 +4335,7 @@ Nothing
         public void TearDown()
         {
             altDriver.Stop();
-            AltPortForwarding.RemoveAllForwardAndroid();
+            AltReversePortForwarding.RemoveAllReversePortForwardingsAndroid();
         }
 
     .. code-tab:: java
@@ -4170,7 +4343,7 @@ Nothing
         @AfterClass
         public static void tearDown() throws Exception {
             altDriver.stop();
-            AltPortForwarding.removeAllForwardAndroid();
+            AltReversePortForwarding.removeAllReversePortForwardingsAndroid();
         }
 
     .. code-tab:: py
@@ -4178,100 +4351,6 @@ Nothing
         @classmethod
         def tearDownClass(cls):
             cls.altDriver.stop()
-            AltPortForwarding.remove_all_forward_android()
-
-```
-
-### ForwardIos
-
-This method calls `iproxy {localPort} {remotePort} -u {deviceId}`. **_Requires iproxy 2.0.2_**.
-
-**_Parameters_**
-
-| Name       | Type   | Required | Description                                                                                |
-| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------ |
-| localPort  | int    | No       | The local port to forward from.                                                            |
-| remotePort | int    | No       | The device port to forward to.                                                             |
-| deviceId   | string | No       | The id of the device.                                                                      |
-| iproxyPath | string | No       | The path to iProxy. If `iproxyPath` is not provided, iproxy should be available in `PATH`. |
-
-**_Returns_**
-
-Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-            AltPortForwarding.ForwardIos();
-            altDriver = new AltDriver();
-        }
-
-    .. code-tab:: java
-
-        @BeforeClass
-        public static void setUp() throws IOException {
-            AltPortForwarding.forwardIos();
-            altDriver = new AltDriver();
-        }
-
-
-    .. code-tab:: py
-
-        @classmethod
-        def setUpClass(cls):
-            AltPortForwarding.forward_ios()
-            cls.altDriver = AltDriver()
-
-```
-
-### KillAllIproxyProcess
-
-This method kills all iproxy processes. Calls `killall iproxy`.
-
-**_Parameters_**
-
-None
-
-**_Returns_**
-
-- Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            altDriver.Stop();
-            AltPortForwarding.KillAllIproxyProcess();
-        }
-
-
-    .. code-tab:: java
-
-        @AfterClass
-        public static void tearDown() throws Exception {
-            altDriver.stop();
-            AltPortForwarding.killAllIproxyProcess();
-        }
-
-
-    .. code-tab:: py
-
-        @classmethod
-        def tearDownClass(cls):
-            cls.altDriver.stop()
-            AltPortForwarding.kill_all_iproxy_process()
+            AltReversePortForwarding.remove_all__reverse_port_forwardings_android()
 
 ```

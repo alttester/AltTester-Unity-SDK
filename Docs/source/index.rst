@@ -4,19 +4,19 @@
    contain the root `toctree` directive.
 
 AltTester
-==============
+=========
 
 Through AltTester, we provide a UI Test Automation solution for Unity
-games.
+applications.
 
 - AltTester Unity SDK is a free, open source asset. Its main goal is to enable UI
-  test automation, by instrumenting games to get access and programmatically
+  test automation, by instrumenting applications to get access and programmatically
   control the Unity objects. Get AltTester Unity SDK from
-  `our website <https://altom.com/app/uploads/AltTester/sdks/AltTester.unitypackage>`_.
+  `our website <https://alttester.com/app/uploads/AltTester/sdks/AltTesterPro.unitypackage>`_.
 
 - AltTester Desktop is an application allowing users to inspect the
   object hierarchy and interact with their app outside the Unity Editor. Get
-  AltTester Desktop from `our website <https://altom.com/testing-tools/alttester/>`_.
+  AltTester Desktop from `our website <https://alttester.com/alttester/>`_.
 
 
 Documentation
@@ -30,10 +30,10 @@ Documentation
    *  :doc:`/pages/overview`
    *  :doc:`/pages/get-started`
 
-*  `AltTester Desktop <https://altom.com/alttester/docs/desktop/home.html>`_
+*  `AltTester Desktop <https://alttester.com/docs/pro/desktop/home.html>`_
 
-   *  `Overview <https://altom.com/alttester/docs/desktop/pages/overview.html>`__
-   *  `Get Started <https://altom.com/alttester/docs/desktop/pages/get-started.html>`__
+   *  `Overview <https://alttester.com/docs/pro/desktop/pages/overview.html>`__
+   *  `Get Started <https://alttester.com/docs/pro/desktop/pages/get-started.html>`__
 
 
 .. toctree::
@@ -41,7 +41,7 @@ Documentation
    :hidden:
 
    home
-   AltTester Desktop <https://altom.com/alttester/docs/desktop/home.html>
+   AltTester Desktop <https://alttester.com/docs/pro/desktop/home.html>
 
 
 .. toctree::
@@ -59,4 +59,4 @@ Documentation
    Source Code <https://github.com/alttester/AltTester-Unity-SDK>
    PyPi <https://pypi.org/project/AltTester-Driver/>
    NuGet <https://www.nuget.org/packages/AltTester-Driver/>
-   Maven Repository <https://mvnrepository.com/artifact/com.alttester/AltTester-Driver>
+   Maven Repository <https://mvnrepository.com/artifact/com.alttester/alttester>

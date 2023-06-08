@@ -1,3 +1,19 @@
+﻿"""
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 """This module contains the set of AltTester's exceptions."""
 
 
@@ -6,15 +22,23 @@ class AltException(Exception):
 
 
 class ConnectionError(AltException):
-    """Raised when the client can not connect to the server."""
+    """Raised when the client can not connect to the server. Used as base class for all connection exceptions."""
 
 
 class ConnectionTimeoutError(ConnectionError):
-    """Raised when the client connection timesout."""
+    """Raised when the client connection timeouts."""
+
+
+class NoAppConnected(ConnectionError):
+    """Raised when the client tries to connect to a server without an app."""
+
+
+class AppDisconnectedError(ConnectionError):
+    """Raised when the app closed the connection or unexpectedly disconnected."""
 
 
 class AltTesterInvalidServerResponse(AltException):
-    """Raised when the server responds with an invalid respose."""
+    """Raised when the server responds with an invalid response."""
 
     def __init__(self, expected, received):
         super().__init__("Expected to get response {}; got {}".format(expected, received))
@@ -73,7 +97,7 @@ class AssemblyNotFoundException(NotFoundException):
 
 
 class CouldNotPerformOperationException(AltException):
-    """Raised when an opperation could not be performed."""
+    """Raised when an operation could not be performed."""
 
 
 class CouldNotParseJsonStringException(AltException):
@@ -105,7 +129,7 @@ class FormatException(AltException):
 
 
 class InvalidPathException(AltException):
-    """Raised when a command recives an invalid path."""
+    """Raised when a command receives an invalid path."""
 
 
 class AltTesterInputModuleException(AltException):

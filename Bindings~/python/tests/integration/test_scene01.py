@@ -1,3 +1,19 @@
+﻿"""
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 import time
 
 import pytest
@@ -143,6 +159,7 @@ class TestScene01:
         assert plane.name == "Plane"
         assert capsule.name == "Capsule"
 
+    @pytest.mark.WebGLUnsupported
     def test_get_application_screen_size(self):
         self.altdriver.call_static_method(
             "UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
@@ -226,6 +243,14 @@ class TestScene01:
         capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
         text = capsule_info.get_text()
         assert text == "UIButton clicked to jump capsule!"
+
+    def test_wait_for_component_property(self):
+        alt_object = self.altdriver.find_object(By.NAME, "Capsule")
+        result = alt_object.wait_for_component_property(
+            "AltExampleScriptCapsule", "TestBool", True,
+            "Assembly-CSharp")
+
+        assert result is True
 
     def test_get_component_property(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
@@ -694,12 +719,13 @@ class TestScene01:
         self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]", timeout=1)
 
     def test_key_down_and_key_up_mouse0(self):
-        capsule_element = self.altdriver.find_object(By.NAME, "Capsule")
-        self.altdriver.move_mouse(capsule_element.get_screen_position(), duration=0.1, wait=True)
+        button = self.altdriver.find_object(By.NAME, "UIButton")
+        self.altdriver.move_mouse(button.get_screen_position(), duration=0.1, wait=True)
 
         self.altdriver.key_down(AltKeyCode.Mouse0)
         self.altdriver.key_up(AltKeyCode.Mouse0)
-        self.altdriver.wait_for_object(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]", timeout=1)
+        text = self.altdriver.find_object(By.NAME, "ChineseLetters").get_text()
+        assert text != "哦伊娜哦"
 
     def test_camera_not_found_exception(self):
         with pytest.raises(exceptions.CameraNotFoundException):
@@ -714,6 +740,7 @@ class TestScene01:
         assert input_field.get_component_property(
             "AltInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp")
 
+    @pytest.mark.WebGLUnsupported
     def test_get_static_property(self):
 
         self.altdriver.call_static_method(
@@ -766,16 +793,9 @@ class TestScene01:
         assert type(plane.worldZ) == float
 
     def test_set_command_response_timeout(self):
-        alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         self.altdriver.set_command_response_timeout(1)
-
         with pytest.raises(exceptions.CommandResponseTimeoutException) as execinfo:
-
-            alt_object.call_component_method(
-                "AltExampleScriptCapsule", "JumpWithDelay", "Assembly-CSharp",
-                parameters=[], type_of_parameters=[],
-            )
-
+            self.altdriver.tilt([1, 1, 1], duration=2, wait=True)
         self.altdriver.set_command_response_timeout(60)
         assert str(execinfo.value) == ""
 
@@ -824,11 +844,13 @@ class TestScene01:
     def test_reset_input(self):
         self.altdriver.key_down(AltKeyCode.P, 1)
         assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is True
+            "AltTester.AltTesterUnitySDK.NewInputSystem",
+            "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK") is True
         self.altdriver.reset_input()
         assert self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp") is False
+            "AltTester.AltTesterUnitySDK.NewInputSystem",
+            "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK") is False
 
         countKeyDown = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "Input", "_keyCodesPressed.Count", "Assembly-CSharp")
+            "Input", "_keyCodesPressed.Count", "AltTester.AltTesterUnitySDK")
         assert 0 == countKeyDown

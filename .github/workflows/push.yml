@@ -41,8 +41,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+
       - uses: actions/setup-python@v4
         with:
+          python-version: "3.10"
           python-version: "3.10"
 
       - name: Install dependencies
@@ -63,6 +65,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Build SampleGame
+        run: |
+          export ALTSERVER_PORT=13020
+          export ALTSERVER_HOST="127.0.0.1"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
       - name: Build SampleGame
         run: |
           export ALTSERVER_PORT=13020
@@ -104,7 +111,9 @@ jobs:
           name: TestCSharpArtifact
           path: |
             **/*.log
+            **/*.log
             reportTest.xml
+
 
   test-DotNet:
     runs-on: [self-hosted, macOS]
@@ -141,6 +150,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: actions/download-artifact@v3
+        with:
+          name: BuildMacArtifact
       - uses: actions/download-artifact@v3
         with:
           name: BuildMacArtifact

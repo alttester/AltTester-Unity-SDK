@@ -1,10 +1,27 @@
+﻿/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 using System;
-using Altom.AltTester;
-using Altom.AltTesterEditor;
-using Altom.AltTesterEditor.Logging;
+using AltTester.AltTesterUnitySDK.Editor;
+using AltTester.AltTesterUnitySDK;
+using AltTester.AltTesterUnitySDK.Editor.Logging;
 using UnityEditor;
 
-namespace Altom.AltTesterTools
+namespace AltTesterTools
 {
     public class BuildAltTester
     {
@@ -78,7 +95,7 @@ namespace Altom.AltTesterTools
             catch (Exception exception)
             {
                 logger.Error(exception);
-                EditorApplication.Exit(1);
+                // EditorApplication.Exit(1);
             }
 
         }
@@ -163,18 +180,18 @@ namespace Altom.AltTesterTools
         {
             return new string[]
                     {
-                    "Assets/AltTester/Examples/Scenes/Scene 1 AltDriverTestScene.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 2 Draggable Panel.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 3 Drag And Drop.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 4 No Cameras.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 5 Keyboard Input.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene6.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 7 Drag And Drop NIS.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity",
-                    "Assets/AltTester/Examples/Scenes/scene 9 NIS.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 10 Sample NIS.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity",
-                    "Assets/AltTester/Examples/Scenes/Scene 11 ScrollView Scene.unity"
+                    "Assets/Examples/Scenes/Scene 1 AltDriverTestScene.unity",
+                    "Assets/Examples/Scenes/Scene 2 Draggable Panel.unity",
+                    "Assets/Examples/Scenes/Scene 3 Drag And Drop.unity",
+                    "Assets/Examples/Scenes/Scene 4 No Cameras.unity",
+                    "Assets/Examples/Scenes/Scene 5 Keyboard Input.unity",
+                    "Assets/Examples/Scenes/Scene6.unity",
+                    "Assets/Examples/Scenes/Scene 7 Drag And Drop NIS.unity",
+                    "Assets/Examples/Scenes/Scene 8 Draggable Panel NIP.unity",
+                    "Assets/Examples/Scenes/scene 9 NIS.unity",
+                    "Assets/Examples/Scenes/Scene 10 Sample NIS.unity",
+                    "Assets/Examples/Scenes/Scene 7 New Input System Actions.unity",
+                    "Assets/Examples/Scenes/Scene 11 ScrollView Scene.unity"
                     };
         }
 
@@ -216,7 +233,7 @@ namespace Altom.AltTesterTools
             }
             else
             logger.Error("Build failed!");
-            EditorApplication.Exit(1);
+            // EditorApplication.Exit(1);
 
 #else
                 if (results.summary.totalErrors == 0)
@@ -227,18 +244,18 @@ namespace Altom.AltTesterTools
                 else
                 {
                     logger.Error("Build failed!");
-                    EditorApplication.Exit(1);
+                    // EditorApplication.Exit(1);
                 }
 
 #endif
                 logger.Info("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-                EditorApplication.Exit(0);
+                // EditorApplication.Exit(0);
 
             }
             catch (Exception exception)
             {
                 logger.Error(exception);
-                EditorApplication.Exit(1);
+                // EditorApplication.Exit(1);
             }
         }
 
@@ -257,7 +274,7 @@ namespace Altom.AltTesterTools
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
                 PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.WebGL, ApiCompatibilityLevel.NET_4_6);
                 PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
-                PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.FullWithoutStacktrace;
+                PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.FullWithStacktrace;
 
                 logger.Debug("Starting WebGL build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
                 var buildPlayerOptions = new BuildPlayerOptions
@@ -270,13 +287,14 @@ namespace Altom.AltTesterTools
                 };
 
                 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(BuildTargetGroup.WebGL);
-
+                AltBuilder.AddScriptingDefineSymbol("UNITY_WEBGL", BuildTargetGroup.WebGL);
 
                 var instrumentationSettings = getInstrumentationSettings();
                 AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
                 var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(BuildTargetGroup.WebGL);
+                AltBuilder.RemoveScriptingDefineSymbol("UNITY_WEBGL", BuildTargetGroup.WebGL);
 
 
 #if UNITY_2017
@@ -318,35 +336,27 @@ namespace Altom.AltTesterTools
 
         private static AltInstrumentationSettings getInstrumentationSettings()
         {
-            if (AltTesterEditorWindow.EditorConfiguration == null)
+            var instrumentationSettings = new AltInstrumentationSettings();
+
+            var host = System.Environment.GetEnvironmentVariable("ALTSERVER_HOST");
+            if (!string.IsNullOrEmpty(host))
             {
-                var instrumentationSettings = new AltInstrumentationSettings();
-                var altTesterPort = System.Environment.GetEnvironmentVariable("ALTTESTER_PORT");
-
-                if (!string.IsNullOrEmpty(altTesterPort)) //server mode
-                {
-                    instrumentationSettings.AltTesterPort = int.Parse(altTesterPort);
-                    return instrumentationSettings;
-                }
-
-                var proxyHost = System.Environment.GetEnvironmentVariable("PROXY_HOST");
-
-                if (!string.IsNullOrEmpty(proxyHost)) //proxy mode
-                {
-                    instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-                    instrumentationSettings.ProxyHost = proxyHost;
-                }
-                var proxyPort = System.Environment.GetEnvironmentVariable("PROXY_PORT");
-                if (!string.IsNullOrEmpty(proxyPort))//proxy mode
-                {
-                    instrumentationSettings.InstrumentationMode = AltInstrumentationMode.Proxy;
-                    instrumentationSettings.ProxyPort = int.Parse(proxyPort);
-                }
-
-                return instrumentationSettings;
+                instrumentationSettings.AltServerHost = host;
             }
 
-            return AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings();
+            var port = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
+            if (!string.IsNullOrEmpty(port))
+            {
+                instrumentationSettings.AltServerPort = int.Parse(port);
+            }
+            else
+            {
+                instrumentationSettings.AltServerPort = 13010;
+            }
+
+            return instrumentationSettings;
+
+
         }
     }
 }
