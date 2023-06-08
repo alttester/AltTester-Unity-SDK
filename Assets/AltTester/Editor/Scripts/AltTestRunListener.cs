@@ -15,7 +15,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-﻿using AltTester.AltTesterUnitySDK.Editor.Logging;
+using AltTester.AltTesterUnitySDK.Editor.Logging;
 
 namespace AltTester.AltTesterUnitySDK.Editor
 {
@@ -38,7 +38,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     callRunDelegate(test.Name);
             }
         }
-
         public void TestFinished(NUnit.Framework.Interfaces.ITestResult result)
         {
             if (!result.Test.IsSuite)
