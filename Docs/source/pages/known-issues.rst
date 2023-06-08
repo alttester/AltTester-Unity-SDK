@@ -30,7 +30,6 @@ resolution until this issue is fixed.
 
 **Affects**: AltUnity Tester v1.7.* and AltTester Unity SDK v1.8.* with .NET 6
 
-
 New Input System
 ----------------
 
@@ -41,7 +40,7 @@ Touch or Mouse actions do not work in tests
 Simulate Touch Input From Mouse or Pen is not checked and Lock Input to
 Game View is checked.
 
-**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.* and Input System with a version below 1.3.0
+**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.0 and Input System with a version below 1.3.0
 
 The PressKey command does not work
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,7 +49,7 @@ The PressKey command does not work
 ``wasPressedThisFrame`` and ``wasReleasedThisFrame*``. Use ``isPressed``
 instead.
 
-**Affects**: AltUnity Tester v1.7.1, v1.7.2 and AltTester Unity SDK v1.8.*
+**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.0
 
 Player Input is not working when connected to AltTester Unity SDK/Desktop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,6 +61,35 @@ connected to the tests or to AltTester Desktop.
 objects. The New Input System actions for UI objects are not affected, as well
 as the Old Input System actions.
 
+AltTester Editor
+----------------
+
+Playing in Editor throws ``EntryPointNotFoundException: WebSocketSetOnOpen assembly:<unknown assembly> type:<unknown type> member:(null)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Problem**: The WebGL platform was previously selected (check Project Settings) and when playing in Editor the WebSocket is trying to compile the WebGL script
+
+**Workaround**: Select a platform other than WebGL before Editor and if the error is still thrown while playing in Editor re-start de Unity project
+
+**Affects**: AltTester Unity SDK v2.0.0
+
+Play in Editor does not start the instrumented app in the Unity Editor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Problem**: If ``Keep ALTTESTER symbol defined`` is not checked, Play in Editor will not start the instrumented app in the Unity Editor.
+
+**Workaround**: Check the ``Keep ALTTESTER symbol defined`` box. Note that this problem does not occur when building an instrumented app for different platforms, only in the Editor.
+
+**Affects**: AltTester Unity SDK v1.8.*, AltTester Unity SDK v2.0.0
+
+Opening AltTester Editor throws ``IndexOutOfRangeException: Index was outside the bounds of the array``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Problem**: Sometimes when opening the AltTester Editor window ``IndexOutOfRangeException: Index was outside the bounds of the array`` is thrown.
+
+**Workaround**: Close and reopen the AltTester Editor window.
+
+**Affects**: AltTester Unity SDK v2.0.0
 
 BlueStacks
 ----------
@@ -74,4 +102,14 @@ used inside the AltTester Unity SDK. There are other alternatives that work with
 instrumented builds. For Android you can use the Android Emulator inside the
 Android Studio. For iOS you can use a simulator inside Xcode.
 
-**Affects**: AltUnity Tester v1.7.* and AltTester Unity SDK v1.8.*
+**Affects**: AltUnity Tester v1.7.*. Note: For the new architecture, starting with v2.0.0 we still need to run tests too check if it works with the new communication protocol
+
+Networking
+----------
+
+AltTester does not support proxy configurations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Problem**: At the moment, AltTester does not have built-in support for proxy configurations. When using AltTester, the tool does not handle proxy settings, which can cause connectivity issues
+
+**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.0

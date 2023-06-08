@@ -26,9 +26,8 @@ AltTester Unity SDK framework contains the following modules:
 
 * AltDriver
 * AltTester Package (Unity)
-<!--
 * AltServer
--->
+
 
 AltTester Unity SDK is used to instrument your Unity App to expose access to all the objects in the Unity hierarchy. The instrumented Unity App opens up a Web socket connection on the device running the Unity application and waits for an AltDriver to connect after starting the application.
 
@@ -36,8 +35,7 @@ AltDriver module is used to connect to the instrumented Unity App, access all th
 
 AltTester Package contains the AltTester Editor window which is the GUI used for instrumenting a Unity app and running C# tests directly from Unity Editor.
 
-<!--
-The AltServer module is used to create the bridge between the tests and the instrumented Unity App. It acts as a websocket server that facilitates communication between AltDriver (tests) and AltTester Unity SDK (instrumented Unity app).
--->
+The AltServer module is used to create the bridge between the tests and the instrumented Unity App. It acts as a websocket server that facilitates communication between AltDriver (tests) and AltTester Unity SDK (instrumented Unity App).
 
-![Architecture](../_static/img/overview/architecture.png)
+![Architecture](../_static/img/overview/architecture1.png)
+![Architecture](../_static/img/overview/architecture2.png)

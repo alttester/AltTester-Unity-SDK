@@ -1,3 +1,20 @@
+﻿/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -225,10 +242,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "AltTester.AltTesterUnitySDK");
-            string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
-            if (string.IsNullOrEmpty(portStr)) portStr = "13010";
-            int port = int.Parse(portStr);
 
+            int port = TestsHelper.GetAltDriverPort();
             Assert.AreEqual(port, propertyValue);
         }
 
@@ -241,10 +256,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
             Assert.NotNull(altElement);
 
-            string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
-            int port = int.Parse(portStr);
-
-
+            int port = TestsHelper.GetAltDriverPort();
             var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "AltTester.AltTesterUnitySDK");
 
             Assert.AreEqual(port, propertyValue);

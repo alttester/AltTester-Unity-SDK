@@ -1,3 +1,20 @@
+﻿/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 using System.Collections.Generic;
 using System.IO;
 using AltTester.AltTesterUnitySDK;
@@ -24,12 +41,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
         private const string WEBGLDEFINE = "UNITY_WEBGL";
 
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
-        public enum InputType
-        {
-            KeyOrMouseButton,
-            MouseMovement,
-            JoystickAxis,
-        };
 
         public static bool Built = false;
         public static string PreviousScenePath;
@@ -220,7 +231,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 var positiveButton = axis.FindPropertyRelative("positiveButton").stringValue;
                 var altPositiveButton = axis.FindPropertyRelative("altPositiveButton").stringValue;
                 var altNegativeButton = axis.FindPropertyRelative("altNegativeButton").stringValue;
-                axisList.Add(new AltAxis(name, negativeButton, positiveButton, altPositiveButton, altNegativeButton));
+                var axisDirection = axis.FindPropertyRelative("axis").intValue;
+                axisList.Add(new AltAxis(name, inputType, negativeButton, positiveButton, altPositiveButton, altNegativeButton, axisDirection));
             }
 
             string dataAsJson = Newtonsoft.Json.JsonConvert.SerializeObject(axisList);

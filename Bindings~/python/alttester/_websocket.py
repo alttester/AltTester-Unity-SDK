@@ -1,3 +1,19 @@
+﻿"""
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 import time
 import json
 from collections import defaultdict, deque
@@ -185,12 +201,16 @@ class WebsocketConnection:
 
     def _check_close_message(self):
         if self._close_message:
-            if self._close_message[0] == 4001:
-                raise exceptions.NoAppConnected(self._close_message[1])
-            if self._close_message[0] == 4002:
-                raise exceptions.AppDisconnectedError(self._close_message[1])
+            reason = self._close_message[1]
 
-            raise exceptions.ConnectionError("Connection closed by AltServer.")
+            if self._close_message[0] == 4001:
+                raise exceptions.NoAppConnected(reason)
+            if self._close_message[0] == 4002:
+                raise exceptions.AppDisconnectedError(reason)
+            if self._close_message[0] == 4005:
+                raise exceptions.AppDisconnectedError(reason)
+
+            raise exceptions.ConnectionError("Connection closed by AltServer with reason: {}.".format(reason))
 
     def _check_errors(self):
         if self._errors:
@@ -256,6 +276,9 @@ class WebsocketConnection:
         self._create_connection()
 
         while not self._is_open and (self.timeout is None or elapsed_time < self.timeout):
+            self._close_message = None
+            self._errors = []
+
             if self._errors or self._close_message:
                 self.close()
                 self._create_connection()

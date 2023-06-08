@@ -1,11 +1,28 @@
+﻿/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using AltTester;
 using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Logging;
-using System.Collections;
-using UnityEngine;
 using AltWebSocketSharp;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.UI
 {
@@ -60,6 +77,8 @@ namespace AltTester.AltTesterUnitySDK.UI
         HashSet<string> _connectedDrivers = new HashSet<string>();
 
         private float update;
+        private bool DisconnectCommunicationFlag = false;
+        private bool DisconnectLiveUpdateFlag = false;
 
         protected void Start()
         {
@@ -73,20 +92,50 @@ namespace AltTester.AltTesterUnitySDK.UI
             SetUpAppNameInputField();
             SetUpRestartButton();
             SetUpCustomInputToggle();
-
-            StartClient();
         }
 
         protected void Update()
         {
             _updateQueue.Cycle();
 
+            if (_liveUpdateCommunication == null && _communication == null)
+            {
+                ToggleCustomInput(false);
+                InitClient();
+                StartClient();
+            }
+            else
+            {
+                if (_liveUpdateCommunication == null ^ _communication == null)
+                {
+                    StopClient();
+                }
+                else
+                {
+                    if (_liveUpdateCommunication.IsConnected ^ _communication.IsConnected)
+                    {
+                        if ((DisconnectLiveUpdateFlag && _communication.IsConnected) || (_liveUpdateCommunication.IsConnected && DisconnectCommunicationFlag))
+                        {
+                            StopClient();
+                        }
+                    }
+                    else
+                    {
+                        if (!_liveUpdateCommunication.IsConnected && !_communication.IsConnected && DisconnectLiveUpdateFlag && DisconnectCommunicationFlag)
+                        {
+                            StartClient();
+                        }
+
+                    }
+                }
+            }
+
             if (this._liveUpdateCommunication == null || !this._liveUpdateCommunication.IsConnected)
             {
                 return;
             }
 
-            update += Time.deltaTime;
+            update += Time.unscaledDeltaTime;
             if (update > 1.0f / this._liveUpdateCommunication.FrameRate)
             {
                 update = 0.0f;
@@ -160,8 +209,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void OnRestartButtonPress()
         {
-            logger.Debug("Restart the AltTester client.");
             StopClient();
+
 
             if (Uri.CheckHostName(HostInputField.text) != UriHostNameType.Unknown)
             {
@@ -196,7 +245,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             try
             {
-                StartClient();
+                InitClient();
             }
             catch (Exception ex)
             {
@@ -244,42 +293,55 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             _communication = new RuntimeCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
             _communication.OnConnect += OnConnect;
-            _communication.OnDisconnect += OnDisconnect;
+            _communication.OnDisconnect += OnDisconnectCommunication;
             _communication.OnError += OnError;
 
             _communication.CmdHandler.OnDriverConnect += OnDriverConnect;
             _communication.CmdHandler.OnDriverDisconnect += OnDriverDisconnect;
+            _communication.Init();
 
             _liveUpdateCommunication = new LiveUpdateCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
-            _liveUpdateCommunication.OnDisconnect += OnDisconnect;
+            _liveUpdateCommunication.OnDisconnect += OnDisconnectLiveUpdate;
             _liveUpdateCommunication.OnError += OnError;
+            _liveUpdateCommunication.OnConnect += OnConnect;
+            _liveUpdateCommunication.Init();
+
+            DisconnectLiveUpdateFlag = true;
+            DisconnectCommunicationFlag = true;
+
+            OnStart();
         }
 
         private void StartClient()
         {
             OnStart();
-            InitClient();
 
             try
             {
+                DisconnectLiveUpdateFlag = false;
+                DisconnectCommunicationFlag = false;
                 _communication.Connect();
                 _liveUpdateCommunication.Connect();
             }
             catch (RuntimeWebSocketClientException ex)
             {
-                SetMessage("2 An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
+                SetMessage("An unexpected runtime error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex.InnerException, "An unexpected error occurred while starting the AltTester client.");
+                StopClient();
             }
             catch (Exception ex)
             {
                 SetMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex, "An unexpected error occurred while starting the AltTester client.");
+                StopClient();
             }
+            logger.Debug("EndStartClient");
         }
 
         private void StopClient()
         {
             _updateQueue.Clear();
+            _connectedDrivers.Clear();
 
             if (_communication != null)
             {
@@ -288,17 +350,55 @@ namespace AltTester.AltTesterUnitySDK.UI
                 _communication.OnDisconnect = null;
                 _communication.OnError = null;
 
-                _communication.Close();
+                if (_communication.IsConnected)
+                    _communication.Close();
                 _communication = null;
+                DisconnectCommunicationFlag = true;
             }
 
             if (_liveUpdateCommunication != null)
             {
                 _liveUpdateCommunication.OnDisconnect = null;
                 _liveUpdateCommunication.OnError = null;
+                _liveUpdateCommunication.OnConnect = null;
 
-                _liveUpdateCommunication.Close();
+                if (_liveUpdateCommunication.IsConnected)
+                    _liveUpdateCommunication.Close();
                 _liveUpdateCommunication = null;
+                DisconnectLiveUpdateFlag = true;
+            }
+            OnStart();
+        }
+
+        private void OnDisconnectCommunication(int code, string reason)
+        {
+            // All custom close codes must be between 4000 - 4999.
+            if (code > 4000)
+            {
+                _updateQueue.ScheduleResponse(() =>
+                {
+                    SetMessage(reason, ERROR_COLOR, true);
+                });
+            }
+            else
+            {
+                DisconnectCommunicationFlag = true;
+            }
+        }
+
+        private void OnDisconnectLiveUpdate(int code, string reason)
+        {
+            // All custom close codes must be between 4000 - 4999.
+            if (code > 4000)
+            {
+                _updateQueue.ScheduleResponse(() =>
+                {
+                    SetMessage(reason, ERROR_COLOR, true);
+                });
+            }
+            else
+            {
+                DisconnectLiveUpdateFlag = true;
             }
         }
 
@@ -318,22 +418,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             });
         }
 
-        private void OnDisconnect()
-        {
-            this.StopClient();
-            _connectedDrivers.Clear();
-
-            _updateQueue.ScheduleResponse(() =>
-            {
-                ToggleCustomInput(false);
-                StartClient();
-            });
-        }
-
         private void OnError(string message, Exception ex)
         {
             logger.Error(message);
-
             if (ex != null)
             {
                 logger.Error(ex);
@@ -363,10 +450,8 @@ namespace AltTester.AltTesterUnitySDK.UI
             string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
 
             _connectedDrivers.Remove(driverId);
-
             if (_connectedDrivers.Count == 0)
             {
-
                 _updateQueue.ScheduleResponse(() =>
                 {
                     ToggleCustomInput(false);

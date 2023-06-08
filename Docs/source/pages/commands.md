@@ -2474,7 +2474,7 @@ None
 
 #### WaitForCurrentSceneToBe
 
-Waits for the scene to be loaded for a specified amount of time. It returns the name of the current scene.
+Waits for the scene to be loaded for a specified amount of time.
 
 **_Parameters_**
 
@@ -2500,40 +2500,39 @@ Waits for the scene to be loaded for a specified amount of time. It returns the 
         {
             const string name = "Scene 1 AltDriverTestScene";
             var timeStart = DateTime.Now;
-            var currentScene = altDriver.WaitForCurrentSceneToBe(name);
+            altDriver.WaitForCurrentSceneToBe(name);
             var timeEnd = DateTime.Now;
             var time = timeEnd - timeStart;
             Assert.Less(time.TotalSeconds, 20);
-            Assert.NotNull(currentScene);
+            var currentScene = altDriver.GetCurrentScene();
             Assert.AreEqual("Scene 1 AltDriverTestScene", currentScene);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testWaitForCurrentSceneToBe() throws Exception {
-            String name = "Scene 1 AltDriverTestScene";
-            long timeStart = System.currentTimeMillis();
-            AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
-            String currentScene = altDriver.waitForCurrentSceneToBe(params);
-            long timeEnd = System.currentTimeMillis();
-            long time = timeEnd - timeStart;
-            assertTrue(time / 1000 < 20);
-            assertNotNull(currentScene);
-            assertEquals("Scene 1 AltDriverTestScene", currentScene);
+        public void testWaitForCurrentSceneToBe() {
+        String name = "Scene 1 AltDriverTestScene";
+        long timeStart = System.currentTimeMillis();
+        AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
+        altDriver.waitForCurrentSceneToBe(params);
+        long timeEnd = System.currentTimeMillis();
+        long time = timeEnd - timeStart;
+        assertTrue(time / 1000 < 20);
+
+        String currentScene = altDriver.getCurrentScene();
+        assertEquals(name, currentScene);
         }
 
     .. code-tab:: py
 
-        def test_wait_for_current_scene_to_be(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
-            self.altDriver.wait_for_current_scene_to_be(
-                'Scene 1 AltDriverTestScene', 1)
-            self.altDriver.load_scene('Scene 2 Draggable Panel')
-            self.altDriver.wait_for_current_scene_to_be(
-                'Scene 2 Draggable Panel', 1)
-            self.assertEqual('Scene 2 Draggable Panel',
-                         self.altDriver.get_current_scene())
+        def test_wait_for_current_scene_to_be_with_a_non_existing_scene(self):
+            scene_name = "Scene 0"
+
+            with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
+            self.altdriver.wait_for_current_scene_to_be(scene_name, timeout=1, interval=0.5)
+
+            assert str(execinfo.value) == "Scene {} not loaded after 1 seconds".format(scene_name)
 
 ```
 
@@ -2701,7 +2700,7 @@ Invokes static methods from your app.
 | typeName         | string | Yes      | The name of the script. If the script has a namespace the format should look like this: "namespace.typeName".                                                                                             |
 | methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
 | assemblyName     | string | Yes       | The name of the assembly containing the script.                                                                                                                                                          |
-| parameters       | array  | No       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
+| parameters       | array  | Yes       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
 | typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                                 |
 
 **_Returns_**
@@ -3899,6 +3898,120 @@ None
             self.assertEqual('Canvas', elementParent.name)
 
 ```
+### GetScreenPosition
+
+ Returns the screen position of the AltTester object.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltVector2
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestHoldButton()
+        {
+            const int duration = 1;
+            var button = altDriver.FindObject(By.NAME, "UIButton");
+            altDriver.HoldButton(button.GetScreenPosition(), duration);
+            var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
+            var text = capsuleInfo.GetText();
+            Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+            var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
+            Assert.Greater(time, duration);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testHoldButton() throws Exception {
+            AltObject button = altDriver
+                    .findObject(new AltFindObjectsParams.Builder(AltDriver.By.NAME, "UIButton").build());
+            altDriver.holdButton(new AltHoldParams.Builder(button.getScreenPosition()).withDuration(1).build());
+            AltObject capsuleInfo = altDriver
+                    .findObject(new AltFindObjectsParams.Builder(AltDriver.By.NAME, "CapsuleInfo").build());
+            String text = capsuleInfo.getText();
+            assertEquals(text, "UIButton clicked to jump capsule!");
+        }
+
+    .. code-tab:: py
+
+        def test_hold_button(self):
+            button = self.altdriver.find_object(By.NAME, "UIButton")
+            self.altdriver.hold_button(button.get_screen_position(), duration=1)
+            capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
+            text = capsule_info.get_text()
+            assert text == "UIButton clicked to jump capsule!"
+
+```
+### GetWorldPosition
+
+Returns the world position of the AltTester object.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- AltVector3
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestAcceleration()
+        {
+            var capsule = altDriver.FindObject(By.NAME, "Capsule");
+            var initialWorldCoordinates = capsule.GetWorldPosition();
+            altDriver.Tilt(new AltVector3(1, 1, 1), 1);
+            Thread.Sleep(100);
+            capsule = altDriver.FindObject(By.NAME, "Capsule");
+            var afterTiltCoordinates = capsule.GetWorldPosition();
+            Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void TestAcceleration() throws InterruptedException {
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                    AltDriver.By.NAME, "Capsule").build();
+            AltObject capsule = altDriver.findObject(altFindObjectsParameters1);
+            Vector3 initialWorldCoordinates = capsule.getWorldPosition();
+            altDriver.tilt(new AltTiltParams.Builder(new Vector3(1, 1, 1)).withDuration(1).build());
+            capsule = altDriver.findObject(altFindObjectsParameters1);
+            Vector3 afterTiltCoordinates = capsule.getWorldPosition();
+            assertNotEquals(initialWorldCoordinates, afterTiltCoordinates);
+        }
+
+
+    .. code-tab:: py
+
+        def test_acceleration(self):
+            self.altdriver.load_scene("Scene 1 AltDriverTestScene")
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+            self.altdriver.tilt([1, 1, 1], 1)
+
+            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
+            assert initial_position != final_position
+
+```
 
 ## BY-Selector
 
@@ -4102,20 +4215,20 @@ To add AltId to every object simply just click _Add AltId to every object_ from 
 
 ![Add AltId](../_static/img/commands/add-alt-id.png)
 
-## AltPortForwarding
+## AltReversePortForwarding
 
-API to interact with `adb` and `iproxy` programmatically.
+API to interact with `adb` programmatically.
 
-### ForwardAndroid
+### ReversePortForwardingAndroid
 
-This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`.
+This method calls `adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}`.
 
 **_Parameters_**
 
 | Name       | Type   | Required | Description                                                                                                                                                                                      |
 | ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| localPort  | int    | No       | The local port to forward from.                                                                                                                                                                  |
-| remotePort | int    | No       | The device port to forward to.                                                                                                                                                                   |
+| remotePort  | int    | No       | The device port to do reverse port forwarding from.                                                                                                                                                                  |
+| localPort | int    | No       | The local port to do reverse port forwarding to.                                                                                                                                                                   |
 | deviceId   | string | No       | The id of the device.                                                                                                                                                                            |
 | adbPath    | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
 
@@ -4129,7 +4242,7 @@ This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
         [OneTimeSetUp]
         public void SetUp()
         {
-            AltPortForwarding.ForwardAndroid();
+            AltReversePortForwarding.ReversePortForwardingAndroid();
             altDriver = new AltDriver();
         }
 
@@ -4137,7 +4250,7 @@ This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
 
         @BeforeClass
         public static void setUp() throws IOException {
-            AltPortForwarding.forwardAndroid();
+            AltReversePortForwarding.reversePortForwardingAndroid();
             altDriver = new AltDriver();
         }
 
@@ -4145,20 +4258,20 @@ This method calls `adb forward [-s {deviceId}] tcp:{localPort} tcp:{remotePort}`
 
         @classmethod
         def setUpClass(cls):
-            AltPortForwarding.forward_android()
+            AltReversePortForwarding.reverse_port_forwarding_android()
             cls.altDriver = AltDriver()
 
 ```
+**Note:** Sometimes, the execution of reverse port forwarding method is too slow so the tests fail because the port is not actually forwarded when trying to establish the connection. In order to fix this problem, a `sleep()` method should be called after calling the ReversePortForwardingAndroid() method.
+### RemoveReversePortForwardingAndroid
 
-### RemoveForwardAndroid
-
-This method calls `adb forward --remove [-s {deviceId}] tcp:{localPort}` or `adb forward --remove-all` if no local port is provided.
+This method calls `adb reverse --remove [-s {deviceId}] tcp:{devicePort}` or `adb reverse --remove-all` if no port is provided.
 
 **_Parameters_**
 
 | Name      | Type   | Required | Description                                                                                                                                                                                      |
 | --------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| localPort | int    | No       | The local port to be removed.                                                                                                                                                                    |
+| devicePort | int    | No       | The device port to be removed.                                                                                                                                                                    |
 | deviceId  | string | No       | The id of the device to be removed.                                                                                                                                                              |
 | adbPath   | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
 
@@ -4177,7 +4290,7 @@ Nothing
         public void TearDown()
         {
             altDriver.Stop();
-            AltPortForwarding.RemoveForwardAndroid();
+            AltReversePortForwarding.RemoveReversePortForwardingAndroid();
         }
 
     .. code-tab:: java
@@ -4185,7 +4298,7 @@ Nothing
         @AfterClass
         public static void tearDown() throws Exception {
             altDriver.stop();
-            AltPortForwarding.removeForwardAndroid();
+            AltReversePortForwarding.removeReversePortForwardingAndroid();
         }
 
     .. code-tab:: py
@@ -4193,13 +4306,13 @@ Nothing
         @classmethod
         def tearDownClass(cls):
             cls.altDriver.stop()
-            AltPortForwarding.remove_forward_android()
+            AltReversePortForwarding.remove_reverse_port_forwarding_android()
 
 ```
 
-### RemoveAllForwardAndroid
+### RemoveAllReversePortForwardingsAndroid
 
-This method calls `adb forward --remove-all`.
+This method calls `adb reverse --remove-all`.
 
 **_Parameters_**
 
@@ -4222,7 +4335,7 @@ Nothing
         public void TearDown()
         {
             altDriver.Stop();
-            AltPortForwarding.RemoveAllForwardAndroid();
+            AltReversePortForwarding.RemoveAllReversePortForwardingsAndroid();
         }
 
     .. code-tab:: java
@@ -4230,7 +4343,7 @@ Nothing
         @AfterClass
         public static void tearDown() throws Exception {
             altDriver.stop();
-            AltPortForwarding.removeAllForwardAndroid();
+            AltReversePortForwarding.removeAllReversePortForwardingsAndroid();
         }
 
     .. code-tab:: py
@@ -4238,100 +4351,6 @@ Nothing
         @classmethod
         def tearDownClass(cls):
             cls.altDriver.stop()
-            AltPortForwarding.remove_all_forward_android()
-
-```
-
-### ForwardIos
-
-This method calls `iproxy {localPort} {remotePort} -u {deviceId}`. **_Requires iproxy 2.0.2_**.
-
-**_Parameters_**
-
-| Name       | Type   | Required | Description                                                                                |
-| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------ |
-| localPort  | int    | No       | The local port to forward from.                                                            |
-| remotePort | int    | No       | The device port to forward to.                                                             |
-| deviceId   | string | No       | The id of the device.                                                                      |
-| iproxyPath | string | No       | The path to iProxy. If `iproxyPath` is not provided, iproxy should be available in `PATH`. |
-
-**_Returns_**
-
-Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-            AltPortForwarding.ForwardIos();
-            altDriver = new AltDriver();
-        }
-
-    .. code-tab:: java
-
-        @BeforeClass
-        public static void setUp() throws IOException {
-            AltPortForwarding.forwardIos();
-            altDriver = new AltDriver();
-        }
-
-
-    .. code-tab:: py
-
-        @classmethod
-        def setUpClass(cls):
-            AltPortForwarding.forward_ios()
-            cls.altDriver = AltDriver()
-
-```
-
-### KillAllIproxyProcess
-
-This method kills all iproxy processes. Calls `killall iproxy`.
-
-**_Parameters_**
-
-None
-
-**_Returns_**
-
-- Nothing
-
-**_Examples_**
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            altDriver.Stop();
-            AltPortForwarding.KillAllIproxyProcess();
-        }
-
-
-    .. code-tab:: java
-
-        @AfterClass
-        public static void tearDown() throws Exception {
-            altDriver.stop();
-            AltPortForwarding.killAllIproxyProcess();
-        }
-
-
-    .. code-tab:: py
-
-        @classmethod
-        def tearDownClass(cls):
-            cls.altDriver.stop()
-            AltPortForwarding.kill_all_iproxy_process()
+            AltReversePortForwarding.remove_all__reverse_port_forwardings_android()
 
 ```

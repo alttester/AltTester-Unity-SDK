@@ -1,3 +1,20 @@
+﻿/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 ﻿using System;
 
 namespace AltTester.AltTesterUnitySDK.Driver
@@ -97,6 +114,20 @@ namespace AltTester.AltTesterUnitySDK.Driver
         }
 
         public AppDisconnectedException(string message) : base(message)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Raised when the client tries to connect to a server with a driver already connected. Free accounts are limited to a single driver connection at a time.
+    /// </summary>
+    public class MultipleDriversException : ConnectionException
+    {
+        public MultipleDriversException()
+        {
+        }
+
+        public MultipleDriversException(string message) : base(message)
         {
         }
     }
@@ -332,17 +363,17 @@ namespace AltTester.AltTesterUnitySDK.Driver
         }
     }
 
-    public class PortForwardingException : AltException
+    public class ReversePortForwardingException : AltException
     {
-        public PortForwardingException()
+        public ReversePortForwardingException()
         {
         }
 
-        public PortForwardingException(string message) : base(message)
+        public ReversePortForwardingException(string message) : base(message)
         {
         }
 
-        public PortForwardingException(string message, Exception inner) : base(message, inner)
+        public ReversePortForwardingException(string message, Exception inner) : base(message, inner)
         {
         }
     }

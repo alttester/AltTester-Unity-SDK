@@ -46,7 +46,7 @@ In order to run tests using AltTester Unity SDK you require an <a href="get-star
 <details>
 <summary> I don’t have access to source code, but I do have access to an instrumented build. How can I begin to write tests?</summary>
 <br>
- We’ve published AltTester Desktop, which allows you to inspect the app objects outside the unity editor without access to the source code. More information about AltTester Desktop can be found in this <a href="https://alttester.com/docs/desktop/">documentation</a>.
+ We’ve published AltTester Desktop, which allows you to inspect the app objects outside the unity editor without access to the source code. More information about AltTester Desktop can be found in this <a href="https://alttester.com/docs/pro/desktop/">documentation</a>.
 </details>
 <br>
 
@@ -105,28 +105,7 @@ Add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
 <details>
 <summary>How can I <strong>use the Input from AltTester Unity SDK</strong> if my project is using <strong>Assembly Definitions </strong>?</summary>
 <br>
-To use the Input from AltTester Unity SDK you have to:
-
-1. Create .asmdef files in these directories (3rdParty, AltDriver, AltServer)
-
-2. Reference other assemblies in AltServer assembly
-
-3. Reference AltServer assembly in Project-Main-Assembly
- </details>
- <br>
-
-<details>
-<summary>I get the error: <strong>Error while running command: iproxy 13000 13000 </strong></summary>
-<br>
-
-If the inner exception is:
-<br>
-
-<em>System.ComponentModel.Win32Exception : ApplicationName='iproxy', CommandLine='13000 13000', CurrentDirectory='', Native error= Cannot find the specified file</em>
-<br>
-
-Pass the full path of iproxy to <em>AltPortForwarding.ForwardIos</em>
-
+To use the Input from AltTester Unity SDK you have to reference <strong>AltTesterUnitySDK.asmdef</strong> in your .asmdef. In case you are using multiple assembly definitions you will have to reference our .asmdef in all of your .asmdef files which contain a reference to any kind of input (Unity's input or your custom built input).
 </details>
 <br>
 

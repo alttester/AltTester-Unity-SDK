@@ -1,10 +1,26 @@
+﻿"""
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 from setuptools import setup, find_packages
 
 
 NAME = 'AltTester-Driver'
 DESCRIPTION = "Python bindings for the AltTester framework. AltTester is an open-source UI driven test " \
     "automation tool that helps you find objects in your game and interacts with them."
-URL = 'https://alttester.com/docs/sdk'
+URL = 'https://alttester.com/docs/pro/sdk'
 EMAIL = 'contact@alttester.com'
 AUTHOR = 'Altom Consulting'
 REQUIRES_PYTHON = '>=3.4.0'
@@ -33,7 +49,7 @@ setup(
     url=URL,
     project_urls={
         "Bug Tracker": "https://github.com/alttester/AltTester-Unity-SDK/issues",
-        "Documentation": "https://alttester.com/docs/sdk",
+        "Documentation": "https://alttester.com/docs/pro/sdk",
         "Source": "https://github.com/alttester/AltTester-Unity-SDK",
     },
 

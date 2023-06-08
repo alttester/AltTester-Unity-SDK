@@ -1,3 +1,20 @@
+﻿/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 using System;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver;
@@ -10,14 +27,14 @@ using NUnit.Framework;
 public class TestNotification
 {
     private AltDriver altDriver;
+
     [OneTimeSetUp]
     public void SetUp()
     {
-        string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
-        int port = 13000;
-        if (!string.IsNullOrEmpty(portStr)) port = int.Parse(portStr);
         altDriver = TestsHelper.GetAltDriver();
+
         INotificationCallbacks notificationCallbacks = new MockNotificationCallBacks();
+
         altDriver.AddNotificationListener<AltLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, notificationCallbacks.SceneLoadedCallback, true);
         altDriver.AddNotificationListener<String>(NotificationType.UNLOADSCENE, notificationCallbacks.SceneUnloadedCallback, true);
         altDriver.AddNotificationListener<AltLogNotificationResultParams>(NotificationType.LOG, notificationCallbacks.LogCallback, true);
@@ -25,6 +42,7 @@ public class TestNotification
         DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
         DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
     }
+
     [OneTimeTearDown]
     public void TearDown()
     {

@@ -1,3 +1,20 @@
+﻿/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -37,7 +54,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
     public delegate void WebSocketOpenEventHandler();
     public delegate void WebSocketMessageEventHandler(byte[] data);
     public delegate void WebSocketErrorEventHandler(string errorMsg);
-    public delegate void WebSocketCloseEventHandler(WebSocketCloseCode closeCode);
+    public delegate void WebSocketCloseEventHandler(int closeCode, string reason);
 
     public class WebGLWebSocket
     {
@@ -177,9 +194,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.OnError?.Invoke(errorMsg);
         }
 
-        public void DelegateOnCloseEvent(int closeCode)
+        public void DelegateOnCloseEvent(int closeCode, string reason)
         {
-            this.OnClose?.Invoke(WebSocketHelpers.ParseCloseCodeEnum(closeCode));
+            this.OnClose?.Invoke(closeCode, reason);
         }
     }
 
@@ -196,7 +213,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public delegate void OnOpenCallback(int instanceId);
         public delegate void OnMessageCallback(int instanceId, System.IntPtr msgPtr, int msgSize);
         public delegate void OnErrorCallback(int instanceId, System.IntPtr errorPtr);
-        public delegate void OnCloseCallback(int instanceId, int closeCode);
+        public delegate void OnCloseCallback(int instanceId, int closeCode, string reason);
 
         /* WebSocket JSLIB callback setters and other functions */
         [DllImport("__Internal")]
@@ -293,14 +310,14 @@ namespace AltTester.AltTesterUnitySDK.Communication
         }
 
         [MonoPInvokeCallback(typeof(OnCloseCallback))]
-        public static void DelegateOnCloseEvent(int instanceId, int closeCode)
+        public static void DelegateOnCloseEvent(int instanceId, int closeCode, string reason)
         {
 
             WebGLWebSocket instanceRef;
 
             if (instances.TryGetValue(instanceId, out instanceRef))
             {
-                instanceRef.DelegateOnCloseEvent(closeCode);
+                instanceRef.DelegateOnCloseEvent(closeCode, reason);
             }
 
         }
