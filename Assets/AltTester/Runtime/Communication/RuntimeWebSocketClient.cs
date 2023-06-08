@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver.Communication;
+using AltTester.AltTesterUnitySDK.Driver.Proxy;
 using AltTester.AltTesterUnitySDK.Logging;
 using AltWebSocketSharp;
 
@@ -50,6 +51,13 @@ namespace AltTester.AltTesterUnitySDK.Communication
             Uri uri = Utils.CreateURI(host, port, path, appName);
             wsClient = new WebSocket(uri.ToString());
             wsClient.Log.Level = LogLevel.Fatal;
+
+            string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port));
+            if (proxyUri != null)
+            {
+                wsClient.SetProxy(proxyUri, null, null);
+            }
+
             wsClient.OnOpen += (sender, message) =>
             {
                 if (this.OnConnect != null) this.OnConnect();

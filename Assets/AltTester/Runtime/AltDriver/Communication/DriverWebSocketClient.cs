@@ -57,12 +57,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             this.closeReason = null;
 
             this.uri = Utils.CreateURI(host, port, path, appName).ToString();
-            string proxyUri = new ProxyFinder().GetProxy(uri.ToString());
-            if (proxyUri != null)
-            {
-                logger.Debug("USING PROXY URI: " + proxyUri);
-                wsClient.SetProxy(proxyUri, null, null);
-            }
         }
 
         private void CheckCloseMessage()
@@ -122,6 +116,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             int delay = 100;
 
             this.wsClient = new WebSocket(this.uri);
+
+            string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port));
+            if (proxyUri != null)
+            {
+                wsClient.SetProxy(proxyUri, null, null);
+            }
+
             this.wsClient.OnError += OnError;
             this.wsClient.OnClose += OnClose;
             this.wsClient.OnMessage += (sender, message) => this.OnMessage.Invoke(this, message);

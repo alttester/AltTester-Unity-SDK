@@ -9,7 +9,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
             var Proxy = System.Net.WebRequest.GetSystemWebProxy() as System.Net.WebProxy;
             if (Proxy != null && Proxy.Address != null)
             {
-                return Proxy.GetProxy(new Uri(uri)).ToString();
+                string proxyUri = Proxy.GetProxy(new Uri(uri)).ToString();
+
+                if (proxyUri != uri)
+                {
+                    return proxyUri;
+                }
             }
 
             return null;
