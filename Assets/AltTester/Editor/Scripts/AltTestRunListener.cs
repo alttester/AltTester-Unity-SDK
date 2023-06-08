@@ -38,6 +38,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     callRunDelegate(test.Name);
             }
         }
+
         public void TestFinished(NUnit.Framework.Interfaces.ITestResult result)
         {
             if (!result.Test.IsSuite)
