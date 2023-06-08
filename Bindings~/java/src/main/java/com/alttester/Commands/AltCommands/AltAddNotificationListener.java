@@ -36,5 +36,6 @@ public class AltAddNotificationListener extends AltBaseCommand {
         cmdParams.setCommandName("activateNotification");
         SendCommand(cmdParams);
         recvall(cmdParams, String.class);
+
     }
 }
