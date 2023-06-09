@@ -21,6 +21,7 @@ using System.Diagnostics;
 using AltWebSocketSharp;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.Proxy;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Communication {
     public class DriverWebSocketClient
@@ -115,6 +116,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             int delay = 100;
 
             this.wsClient = new WebSocket(this.uri);
+
+            string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port));
+            if (proxyUri != null)
+            {
+                wsClient.SetProxy(proxyUri, null, null);
+            }
+
             this.wsClient.OnError += OnError;
             this.wsClient.OnClose += OnClose;
             this.wsClient.OnMessage += (sender, message) => this.OnMessage.Invoke(this, message);

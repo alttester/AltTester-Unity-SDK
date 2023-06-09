@@ -355,8 +355,6 @@ namespace AltTesterTools
             }
 
             return instrumentationSettings;
-
-
         }
     }
 }
