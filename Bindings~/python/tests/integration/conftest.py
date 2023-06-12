@@ -27,6 +27,7 @@ from appium import webdriver
 
 appium_driver = None
 
+
 def get_port():
     return int(os.environ.get("ALTSERVER_PORT", 13000))
 
@@ -38,11 +39,14 @@ def get_host():
 def get_app_name():
     return os.environ.get("ALTSERVER_APP_NAME", "__default__")
 
+
 def get_browserstack_username():
     return os.environ.get("BROWSERSTACK_USERNAME", "")
 
+
 def get_browserstack_key():
     return os.environ.get("BROWSERSTACK_KEY", "")
+
 
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
@@ -59,6 +63,7 @@ def altdriver(appium_driver):
 
     altdriver.stop()
 
+
 @pytest.fixture(scope="session")
 def appium_driver(request):
     if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") != "true":
@@ -68,38 +73,44 @@ def appium_driver(request):
         'file': ('sampleGame.apk', open('sampleGame.apk', 'rb')),
     }
 
-    response = requests.post('https://api-cloud.browserstack.com/app-automate/upload',
-            files=files,
-            auth=(get_browserstack_username(), get_browserstack_key()))
+    response = requests.post(
+        'https://api-cloud.browserstack.com/app-automate/upload',
+        files=files,
+        auth=(get_browserstack_username(), get_browserstack_key()))
     try:
         app_url = response.json()['app_url']
-    except:
-        pytest.fail("Error uploading app to BrowserStack, response: " + str(response.text))
+    except Exception():
+        pytest.fail("Error uploading app to BrowserStack, response: "
+                    + str(response.text))
 
     options = UiAutomator2Options().load_capabilities({
-        "platformName" : "android",
-        "platformVersion" : "12.0",
-        "deviceName" : "Google Pixel 6",
-        "app":app_url,
+        "platformName": "android",
+        "platformVersion": "12.0",
+        "deviceName": "Google Pixel 6",
+        "app": app_url,
 
         # Set other BrowserStack capabilities
-        'bstack:options' : {
-            "projectName" : "AltTester",
-            "buildName" : "alttester-pipeline-python-android",
-            "sessionName" : 'tests-{date:%Y-%m-%d_%H:%M:%S}'.format(date=datetime.datetime.now()),
-            "local" : "true",
+        'bstack:options': {
+            "projectName": "AltTester",
+            "buildName": "alttester-pipeline-python-android",
+            "sessionName": 'tests-{date:%Y-%m-%d_%H:%M:%S}'
+            .format(date=datetime.datetime.now()),
+            "local": "true",
             "wsLocalSupport": "true",
-            "deviceOrientation" : "landscape",
+            "deviceOrientation": "landscape",
             "networkLogs": "true",
-            "userName" : get_browserstack_username(),
-            "accessKey" : get_browserstack_key()
+            "userName": get_browserstack_username(),
+            "accessKey": get_browserstack_key()
         }
     })
 
     bs_local = Local()
-    bs_local_args = {"key": get_browserstack_key(), "forcelocal": "true", "force": "true"}
+    bs_local_args = {"key": get_browserstack_key(),
+                     "forcelocal": "true",
+                     "force": "true"}
     bs_local.start(**bs_local_args)
-    appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub", options=options)
+    appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
+                                     options=options)
     time.sleep(10)
     yield appium_driver
 
@@ -107,6 +118,7 @@ def appium_driver(request):
         return
     appium_driver.quit()
     bs_local.stop()
+
 
 @pytest.fixture(autouse=True)
 def do_something_with_appium(appium_driver):
