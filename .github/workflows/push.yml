@@ -169,6 +169,7 @@ jobs:
 
       - name: Open application
         run: |
+          export RUN_ANDROID_IN_BROWSERSTACK="false"
           export ALTSERVER_PORT=13020
           export ALTSERVER_HOST="127.0.0.1"
           chmod -R 755 sampleGame.app
