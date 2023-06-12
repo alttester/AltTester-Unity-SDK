@@ -2,6 +2,7 @@
 import pytest
 import requests
 import time
+import datetime
 from alttester import AltDriver
 from appium.options.android import UiAutomator2Options
 from browserstack.local import Local
@@ -64,19 +65,17 @@ def appium_driver(request):
         yield
 
     files = {
-    'file': ('sampleGame.apk', open('sampleGame.apk', 'rb')),
-    
+        'file': ('sampleGame.apk', open('sampleGame.apk', 'rb')),
     }
-    response = requests.post('https://api-cloud.browserstack.com/app-automate/upload', 
-			files=files, 
-			auth=(get_browserstack_username(), get_browserstack_key()))
-    print(response.text)
-    print(get_browserstack_username())
+
+    response = requests.post('https://api-cloud.browserstack.com/app-automate/upload',
+            files=files,
+            auth=(get_browserstack_username(), get_browserstack_key()))
     try:
         app_url = response.json()['app_url']
     except:
-        pytest.fail("Error uploading app to BrowserStack")
-    
+        pytest.fail("Error uploading app to BrowserStack, response: " + str(response.text))
+
     options = UiAutomator2Options().load_capabilities({
         "platformName" : "android",
         "platformVersion" : "12.0",
@@ -85,30 +84,30 @@ def appium_driver(request):
 
         # Set other BrowserStack capabilities
         'bstack:options' : {
-            "projectName" : "Python project",
-            "buildName" : "browserstack-build-1",
-            "sessionName" : "Session",
+            "projectName" : "AltTester",
+            "buildName" : "alttester-pipeline-python-android",
+            "sessionName" : 'tests-{date:%Y-%m-%d_%H:%M:%S}'.format(date=datetime.datetime.now()),
             "local" : "true",
-            "wsLocalSupport": "true", 
+            "wsLocalSupport": "true",
             "deviceOrientation" : "landscape",
             "networkLogs": "true",
             "userName" : get_browserstack_username(),
             "accessKey" : get_browserstack_key()
         }
     })
-    
+
     bs_local = Local()
-    bs_local_args = { "key": get_browserstack_key(), "forcelocal": "true", "force": "true" }
+    bs_local_args = {"key": get_browserstack_key(), "forcelocal": "true", "force": "true"}
     bs_local.start(**bs_local_args)
     appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub", options=options)
     time.sleep(10)
     yield appium_driver
-    
+
     if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") != "true":
         return
-    appium_driver.quit()    
+    appium_driver.quit()
     bs_local.stop()
-    
+
 @pytest.fixture(autouse=True)
 def do_something_with_appium(appium_driver):
     if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") != "true":
