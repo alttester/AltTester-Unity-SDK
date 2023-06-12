@@ -70,7 +70,13 @@ def appium_driver(request):
     response = requests.post('https://api-cloud.browserstack.com/app-automate/upload', 
 			files=files, 
 			auth=(get_browserstack_username(), get_browserstack_key()))
-    app_url = response.json()['app_url']
+    print(response.text)
+    print(get_browserstack_username())
+    print(get_browserstack_key())
+    try:
+        app_url = response.json()['app_url']
+    except:
+        print("Error uploading app to BrowserStack")
     
     options = UiAutomator2Options().load_capabilities({
         "platformName" : "android",
