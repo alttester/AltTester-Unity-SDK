@@ -72,11 +72,10 @@ def appium_driver(request):
 			auth=(get_browserstack_username(), get_browserstack_key()))
     print(response.text)
     print(get_browserstack_username())
-    print(get_browserstack_key())
     try:
         app_url = response.json()['app_url']
     except:
-        print("Error uploading app to BrowserStack")
+        pytest.fail("Error uploading app to BrowserStack")
     
     options = UiAutomator2Options().load_capabilities({
         "platformName" : "android",
