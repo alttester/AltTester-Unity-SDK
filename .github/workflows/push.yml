@@ -279,6 +279,11 @@ jobs:
         with:
           name: TestPythonAndroidInBrowserstackArtifact
           path: "**/*.log"
+      
+      - name: Unset Browserstack Flag
+        if: always()
+        run: |
+          export RUN_ANDROID_IN_BROWSERSTACK="false"
         
   deploy-dev-docs:
     runs-on: ubuntu-latest
