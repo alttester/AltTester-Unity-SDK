@@ -274,7 +274,7 @@ jobs:
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
           export ALTSERVER_PORT=13020
           export ALTSERVER_HOST="127.0.0.1"
-          pytest -s Bindings~/python/tests/integration/test_scene02.py
+          pytest -s Bindings~/python/tests/integration
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
