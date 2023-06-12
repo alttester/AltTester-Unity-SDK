@@ -128,7 +128,6 @@ jobs:
             **/*.log
             reportTest.xml
 
-
   test-DotNet:
     runs-on: [self-hosted, macOS]
     needs: build-macOS
@@ -174,7 +173,7 @@ jobs:
           export ALTSERVER_HOST="127.0.0.1"
           chmod -R 755 sampleGame.app
           open sampleGame.app
-          
+
       - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
@@ -244,7 +243,7 @@ jobs:
   test-Python-Android-Browserstack:
     runs-on: [self-hosted, macOS]
     needs: build-android
-    # if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -255,6 +254,7 @@ jobs:
       - name: Copy application to Python test folder
         run: |
           cp sampleGame.apk  Bindings~/python
+
       - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
