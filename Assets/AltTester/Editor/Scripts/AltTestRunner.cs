@@ -95,8 +95,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     if (Path.GetExtension(AltTesterEditorWindow.EditorConfiguration.xMLFilePath) != ".xml" && !attr.HasFlag(FileAttributes.Directory))
                         AltTesterEditorWindow.EditorConfiguration.xMLFilePath = "test-report.xml";
                     else if (attr.HasFlag(FileAttributes.Directory))
-                        AltTesterEditorWindow.EditorConfiguration.xMLFilePath = AltTesterEditorWindow.EditorConfiguration.xMLFilePath + "\\" + "test-report.xml";
-
+                        AltTesterEditorWindow.EditorConfiguration.xMLFilePath = Path.Combine(AltTesterEditorWindow.EditorConfiguration.xMLFilePath, "test-report.xml");
                 }
                 if (AltTesterEditorWindow.EditorConfiguration.xMLFilePath.Equals(""))
                     AltTesterEditorWindow.EditorConfiguration.xMLFilePath = "test-report.xml";
