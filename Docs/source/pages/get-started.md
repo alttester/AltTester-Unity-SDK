@@ -32,7 +32,7 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
     .. tab:: UnityPackage from OpenUPM website
 
         1. Go to `OpenUPM website - link <https://openupm.com/packages/com.alttester.sdk/>`_.
-        2. Follow the instructions from the `Install via Package Manager` section on the right to install via Unity's Package Manager od via Command-Line Interface.
+        2. Follow the instructions from the `Install via Package Manager` section on the right to install via Unity's Package Manager or via Command-Line Interface.
 
 ```
 
