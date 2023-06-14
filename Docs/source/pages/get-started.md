@@ -18,7 +18,7 @@ To run the first test for your Unity app you need to:
 
 ## Import AltTester package in Unity Editor
 
-To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity. This can be done either by downloading from the AltTester website.
+To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity. This can be done either by downloading from the AltTester website, or by following the steps from the OpenUPM website.
 
 ```eval_rst
 
@@ -28,6 +28,11 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
         1. Download from `AltTester website - link <https://alttester.com/app/uploads/AltTester/sdks/AltTesterPro.unitypackage>`_.
         2. Import it by drag and drop inside your Unity project.
+
+    .. tab:: UnityPackage from OpenUPM website
+
+        1. Go to `OpenUPM website - link <https://openupm.com/packages/com.alttester.sdk/>`_.
+        2. Follow the instructions from the `Install via Package Manager` section on the right to install via Unity's Package Manager od via Command-Line Interface.
 
 ```
 
