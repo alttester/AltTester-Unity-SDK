@@ -17,9 +17,7 @@
 
 using System.Collections.Generic;
 using System.IO;
-using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.Driver;
-using AltTester.AltTesterUnitySDK.Editor;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using UnityEditor.SceneManagement;
 using UnityEngine;
