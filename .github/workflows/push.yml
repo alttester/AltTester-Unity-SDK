@@ -41,8 +41,6 @@ jobs:
     if: needs.paths-filter.outputs.docs == 'true'
     steps:
       - uses: actions/checkout@v3
-
-
       - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
@@ -71,7 +69,7 @@ jobs:
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
       - uses: actions/upload-artifact@v3
-        if: always() # run this step even if one of the previous step failed
+        if: needs.paths-filter.outputs.docs != 'true'
         with:
           name: BuildMacArtifact
           path: |
@@ -91,7 +89,7 @@ jobs:
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
 
       - uses: actions/upload-artifact@v3
-        if: always() # run this step even if one of the previous step failed
+        if: needs.paths-filter.outputs.docs != 'true'
         with:
           name: BuildAndroidArtifact
           path: |
@@ -292,7 +290,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-docs
 
-    if: github.ref == 'refs/heads/development'
+    if: github.ref == 'refs/heads/development' && needs.paths-filter.outputs.docs == 'true'
 
     steps:
       - uses: actions/checkout@v3
@@ -324,7 +322,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-docs
 
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' && needs.paths-filter.outputs.docs == 'true'
 
     steps:
       - uses: actions/checkout@v3
