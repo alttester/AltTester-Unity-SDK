@@ -1,7 +1,7 @@
 <!-- # Examples
 
 We used AltTester Unity SDK to test some sample apps to help you understand better how to use it.
-We plan to add more examples in the near future.
+We plan to add more examples in the near future. 
 
 ```eval_rst
 .. note::
