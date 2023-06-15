@@ -33,7 +33,7 @@ jobs:
           docs:
             - 'Docs/**'
           scenes:
-            -'Assets/AltTester/Examples/Scenes/**'
+            - 'Assets/AltTester/Examples/Scenes/**'
 
   build-docs:
     runs-on: ubuntu-latest
