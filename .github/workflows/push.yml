@@ -59,6 +59,7 @@ jobs:
   build-macOS:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
+    if: needs.paths-filter.outputs.docs != 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -69,7 +70,7 @@ jobs:
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
       - uses: actions/upload-artifact@v3
-        if: needs.paths-filter.outputs.docs != 'true'
+        if: always() # run this step even if one of the previous step failed
         with:
           name: BuildMacArtifact
           path: |
@@ -79,6 +80,7 @@ jobs:
   build-android:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
+    if: needs.paths-filter.outputs.docs != 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -89,7 +91,7 @@ jobs:
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
 
       - uses: actions/upload-artifact@v3
-        if: needs.paths-filter.outputs.docs != 'true'
+        if: always() # run this step even if one of the previous step failed
         with:
           name: BuildAndroidArtifact
           path: |
