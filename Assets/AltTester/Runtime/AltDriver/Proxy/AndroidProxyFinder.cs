@@ -6,7 +6,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
 {
     public class AndroidProxyFinder : IProxyFinder
     {
-        public string GetProxy(string uri)
+        public string GetProxy(string uri, string host)
         {
             return CallJavaGetProxy(uri);
         }

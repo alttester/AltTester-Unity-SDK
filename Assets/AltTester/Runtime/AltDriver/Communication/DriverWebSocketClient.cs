@@ -117,7 +117,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
             this.wsClient = new WebSocket(this.uri);
 
-            string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port));
+            string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
             if (proxyUri != null)
             {
                 wsClient.SetProxy(proxyUri, null, null);
