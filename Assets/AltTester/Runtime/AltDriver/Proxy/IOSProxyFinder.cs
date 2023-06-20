@@ -1,6 +1,7 @@
 #if !UNITY_EDITOR && UNITY_IOS
 using System;
 using System.Runtime.InteropServices;
+using System.Globalization;
 using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Proxy
@@ -12,15 +13,30 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
 
         public string GetProxy(string uri, string host)
         {
-            var proxyUrl = _getProxy(uri, host);
-            UnityEngine.Debug.Log(">>> " + proxyUrl);
+            var result = _getProxy(uri, host);
 
-            if (proxyUrl == "")
+            if (result == "")
             {
                 return null;
             }
 
-            return proxyUrl;
+            CultureInfo ci = new CultureInfo("en-US");
+            string[] subs = result.Split(';');
+            foreach (var sub in subs)
+            {
+                var rule = sub.Trim();
+                if (rule.StartsWith("PROXY", false, ci) || rule.StartsWith("SOCKS", false, ci) || rule.StartsWith("HTTPS", false, ci))
+                {
+                    return rule.Substring(5).Trim();
+                }
+
+                if (sub.StartsWith("HTTP", false, ci))
+                {
+                    return rule.Substring(4).Trim();
+                }
+            }
+
+            return null;
         }
     }
 }

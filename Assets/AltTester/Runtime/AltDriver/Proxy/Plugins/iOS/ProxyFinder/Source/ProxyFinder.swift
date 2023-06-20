@@ -31,6 +31,11 @@ import JavaScriptCore
           // Handle Error
         }
       }
+      task.resume();
+
+      while (task.state != URLSessionTask.State.completed) {
+        sleep(1);
+      }
 
       return proxyUrl
     }
