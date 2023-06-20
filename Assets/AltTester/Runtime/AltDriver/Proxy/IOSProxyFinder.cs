@@ -10,16 +10,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
         [DllImport("__Internal")]
         private static extern string _getProxy(string uri, string host);
 
-        [DllImport("__Internal")]
-        private static extern void _test();
-
         public string GetProxy(string uri, string host)
         {
-            // _test();
-            // return "";
-
             var proxyUrl = _getProxy(uri, host);
             UnityEngine.Debug.Log(">>> " + proxyUrl);
+
+            if (proxyUrl == "")
+            {
+                return null;
+            }
+
             return proxyUrl;
         }
     }
