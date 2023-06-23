@@ -1,18 +1,19 @@
 name: release
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
 
 jobs:
   publish-pip-package:
-    runs-on: ubuntu-18.04
+    runs-on: [self-hosted, macOS]
 
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
@@ -26,7 +27,7 @@ jobs:
           python3 -m twine upload dist/*
 
   publish-nuget-package:
-    runs-on:  ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -42,7 +43,7 @@ jobs:
           dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.0.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
   create-unity-package:
-    runs-on: ubuntu-18.04
+    runs-on: [self-hosted, macOS]
     steps:
       - name: Create Unity Package
         run: |
@@ -54,6 +55,23 @@ jobs:
           cp $AUT public/AltTester/AltTester.unitypackage
           cp $AUT public/AltTester/AltTester_2_0_0.unitypackage
           cp SampleScenes.unitypackage public/AltTester/SampleScene.unitypackage
+      - uses: actions/upload-artifact@v3
+        with:
+          name: AltTester
+          path: public/AltTester
+
+  upload-unity-package:
+    runs-on: ubuntu-latest
+    needs: create-unity-package
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: AltTester
+          path: public/AltTester
+
       - name: Upload AltTesterPackage
         uses: garygrossgarten/github-action-scp@release
         with:
@@ -63,20 +81,25 @@ jobs:
           port: ${{ secrets.PORT_LIVE_ALTTESTER }}
           username: ${{ secrets.USERNAME_ALTTESTER }}
           password: ${{ secrets.PASSWORD_DEV_ALTTESTER }}
-      - name: Delete Public
-        if: always()
-        run: rm -r public
 
   create-jar-archive:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Setup Java JDK
         uses: actions/setup-java@v3.5.1
         with:
-              distribution: temurin
-              java-version: 11
+          distribution: temurin
+          java-version: 11
 
       - uses: stCarolas/setup-maven@v4.4
+      - name: Create jar
+        run: |
+          ls
+          mkdir -p public/AltTesterJAR || true
+          ls
+          cd "Bindings~/java"
+          mvn clean compile assembly:single
+          mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
 
       - name: Create jar
         run: |
@@ -84,6 +107,23 @@ jobs:
           cd "Bindings~/java"
           mvn clean compile assembly:single
           mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: AltTesterJAR
+          path: public/AltTesterJAR
+
+  upload-java-jar:
+    runs-on: ubuntu-latest
+    needs: create-jar-archive
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: AltTesterJAR
+          path: public/AltTesterJAR
 
       - name: Upload AltTester Jar
         uses: garygrossgarten/github-action-scp@release
@@ -94,12 +134,9 @@ jobs:
           port: ${{ secrets.PORT_LIVE_ALTTESTER }}
           username: ${{ secrets.USERNAME_ALTTESTER }}
           password: ${{ secrets.PASSWORD_DEV_ALTTESTER }}
-      - name: Delete Public
-        if: always()
-        run: rm -r public
 
   java-release:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
@@ -119,4 +156,4 @@ jobs:
           nexus_username: ${{ secrets.nexus_username }}
           nexus_password: ${{ secrets.nexus_password }}
           directory: Bindings~/java/
-          maven_args: -f pom-release.xml -DskipTests
+          maven_args: -f pom-release.xml -Dmaven.test.skip=true
