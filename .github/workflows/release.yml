@@ -2,7 +2,6 @@ name: release
 
 on:
   workflow_dispatch:
-  push:
   release:
     types: [published]
 
@@ -44,7 +43,7 @@ jobs:
           dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.0.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
   create-unity-package:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS]
     steps:
       - name: Create Unity Package
         run: |
