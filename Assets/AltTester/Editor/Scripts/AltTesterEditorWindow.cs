@@ -1,10 +1,26 @@
+﻿/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using Unity.EditorCoroutines.Editor;
@@ -310,6 +326,11 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         protected void OnGUI()
         {
+            if (EditorConfiguration == null)
+            {
+                InitEditorConfiguration();
+                return;
+            }
 
             if (NeedsRepainting)
             {
@@ -855,12 +876,18 @@ namespace AltTester.AltTesterUnitySDK.Editor
         {
             if (UnityEditor.AssetDatabase.FindAssets("AltTesterEditorSettings").Length == 0)
             {
-                var altTesterEditorFolderPath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltTesterEditorWindow")[0]);
-                altTesterEditorFolderPath = Path.GetDirectoryName(altTesterEditorFolderPath);
+                if (!AssetDatabase.IsValidFolder("Assets/Plugins/AltTester"))
+                {
+                    if (!AssetDatabase.IsValidFolder("Assets/Plugins"))
+                    {
+                        AssetDatabase.CreateFolder("Assets", "Plugins");
+                    }
+                    AssetDatabase.CreateFolder("Assets/Plugins", "AltTester");
+                }
                 EditorConfiguration = CreateInstance<AltEditorConfiguration>();
                 EditorConfiguration.MyTests = null;
                 EditorConfiguration.platform = getAltPlatformFromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
-                UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, altTesterEditorFolderPath + "/AltTesterEditorSettings.asset");
+                UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, "Assets/Plugins/AltTester/AltTesterEditorSettings.asset");
                 UnityEditor.AssetDatabase.SaveAssets();
             }
             else
@@ -1085,13 +1112,17 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         private static void checkAltTesterSymbol()
         {
+            if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling || Window.playInEditorPressed)
+                return;
             if (EditorConfiguration.KeepAUTSymbolDefined && !AltBuilder.CheckAltTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
             {
                 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                return;
             }
             if (!EditorConfiguration.KeepAUTSymbolDefined && AltBuilder.CheckAltTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
             {
                 AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                return;
             }
         }
 

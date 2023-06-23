@@ -1,8 +1,26 @@
+﻿/*
+    Copyright(C) 2023  Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 using System;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver.Communication;
+using AltTester.AltTesterUnitySDK.Driver.Proxy;
 using AltTester.AltTesterUnitySDK.Logging;
 using AltWebSocketSharp;
 
@@ -33,6 +51,13 @@ namespace AltTester.AltTesterUnitySDK.Communication
             Uri uri = Utils.CreateURI(host, port, path, appName);
             wsClient = new WebSocket(uri.ToString());
             wsClient.Log.Level = LogLevel.Fatal;
+
+            string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port));
+            if (proxyUri != null)
+            {
+                wsClient.SetProxy(proxyUri, null, null);
+            }
+
             wsClient.OnOpen += (sender, message) =>
             {
                 if (this.OnConnect != null) this.OnConnect();
