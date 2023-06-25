@@ -264,21 +264,12 @@ public class TestsSampleScene1 extends BaseTest {
     }
 
     @Test
-    @Tag("WebGLUnsupported")
     public void TestGetApplicationScreenSize() {
-        AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
-                "UnityEngine.Screen", "SetResolution",
-                "UnityEngine.CoreModule", new Object[] { "1920", "1080", "True"
-                })
-                .withTypeOfParameters(new String[] { "System.Int32", "System.Int32",
-                        "System.Boolean" })
-                .build();
-        altDriver.callStaticMethod(altCallStaticMethodParams,
-                Void.class);
-
         int[] screensize = altDriver.getApplicationScreenSize();
-        assertEquals(1920, screensize[0]);
-        assertEquals(1080, screensize[1]);
+        // We cannot set resolution on iOS so we don't know the exact resolution, we
+        // just want to see that it returns a value and is different than 0
+        assertNotEquals(0, screensize[0]);
+        assertNotEquals(0, screensize[1]);
     }
 
     @Test
