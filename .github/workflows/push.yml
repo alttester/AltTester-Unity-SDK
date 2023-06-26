@@ -27,7 +27,7 @@ jobs:
           python:
             - 'Bindings~/python/**'
           csharp:
-            - '**.cs' 
+            - '**.cs'
           editor:
             - '**.cs'
           docs:
@@ -244,7 +244,7 @@ jobs:
   test-Python-Android-Browserstack:
     runs-on: [self-hosted, macOS]
     needs: build-android
-    if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    # if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -282,12 +282,12 @@ jobs:
         with:
           name: TestPythonAndroidInBrowserstackArtifact
           path: "**/*.log"
-      
+
       - name: Unset Browserstack Flag
         if: always()
         run: |
           export RUN_ANDROID_IN_BROWSERSTACK="false"
-        
+
   deploy-dev-docs:
     runs-on: ubuntu-latest
     needs: build-docs
