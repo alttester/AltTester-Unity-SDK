@@ -15,7 +15,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
         {
             var result = _getProxy(uri, host);
 
-            if (result == "")
+            if (string.IsNullOrEmpty(result))
             {
                 return null;
             }
@@ -25,14 +25,29 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
             foreach (var sub in subs)
             {
                 var rule = sub.Trim();
-                if (rule.StartsWith("PROXY", false, ci) || rule.StartsWith("SOCKS", false, ci) || rule.StartsWith("HTTPS", false, ci))
-                {
-                    return rule.Substring(5).Trim();
+
+                if (rule.ToUpper() == "DIRECT") {
+                    return null;
                 }
 
-                if (sub.StartsWith("HTTP", false, ci))
+                if (rule.StartsWith("PROXY ", false, ci) || rule.StartsWith("SOCKS ", false, ci))
                 {
-                    return rule.Substring(4).Trim();
+                    return "http://" + rule.Substring(5).Trim();
+                }
+
+                if (rule.StartsWith("SOCKS4 ", false, ci) || rule.StartsWith("SOCKS5 ", false, ci))
+                {
+                    return "http://" + rule.Substring(6).Trim();
+                }
+
+                if (sub.StartsWith("HTTP ", false, ci))
+                {
+                    return "http://" + rule.Substring(4).Trim();
+                }
+
+                if (rule.StartsWith("HTTPS ", false, ci))
+                {
+                    return "https://" + rule.Substring(5).Trim();
                 }
             }
 
