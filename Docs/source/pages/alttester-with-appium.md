@@ -13,27 +13,25 @@ No registration is needed and you can either download the latest version of the 
 
 We've created an example python project which can be found [here](https://github.com/alttester-test-examples/Python-Android-with-Appium-AltTrashCat-) which hopefully can get you started on your own projects. Using it will also automatically install the requirements needed for running the tests. More details about it [below](#alttester-unity-sdk-with-appium-example).
 
-
 ## Why use Appium together with AltTester Unity SDK
 
 There's a couple of reasons/scenarios for which you would want to use both of these frameworks:
 
-* By itself, AltTester Unity SDK cannot launch an app on a device. If you want to run tests in a pipeline, or by using [cloud services](./alttester-with-cloud), you can either create a script which will start your app, or you can use Appium before the tests execution;
-* AltTester Unity SDK cannot perform some types of actions, such as interacting with any native popups your app might have, or putting the app in the background and resuming it. In any of these cases you can use Appium to do the things that AltTester Unity SDK can't.
-
+-   By itself, AltTester Unity SDK cannot launch an app on a device. If you want to run tests in a pipeline, or by using [cloud services](./alttester-with-cloud), you can either create a script which will start your app, or you can use Appium before the tests execution;
+-   AltTester Unity SDK cannot perform some types of actions, such as interacting with any native popups your app might have, or putting the app in the background and resuming it. In any of these cases you can use Appium to do the things that AltTester Unity SDK can't.
 
 ## AltTester Unity SDK with Appium example
 
 After you cloned our example project, there are a couple of things you need to check before running the tests:
 
-* For **Android** you need to have Android SDK version 16 or higher installed on your machine;
-* For **iOS** you need XCode with Command Line Tools installed (will only work on Mac OSX);
-* Your mobile device needs to have developer mode enabled and be connected via USB to the machine running the tests.
+-   For **Android** you need to have Android SDK version 16 or higher installed on your machine;
+-   For **iOS** you need XCode with Command Line Tools installed (will only work on Mac OSX);
+-   Your mobile device needs to have developer mode enabled and be connected via USB to the machine running the tests.
 
 **Running the tests**
 
-* For **Android** you can just run the script `run-tests_android.sh`
-* For **iOS**, you first need to `export IOS_UDID=<your-device-udid>` then run the script `run-tests_ios.sh`
+-   For **Android** you can just run the script `run-tests_android.sh`
+-   For **iOS**, you first need to `export IOS_UDID=<your-device-udid>` then run the script `run-tests_ios.sh`
 
 ```eval_rst
 .. note::

@@ -6,7 +6,7 @@
     <groupId>com.alttester</groupId>
     <artifactId>alttester</artifactId>
     <packaging>jar</packaging>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 
     <name>AltTester-Driver</name>
     <description>An automated tool for testing Unity Games</description>
@@ -23,8 +23,8 @@
         <developer>
             <name>Robert Poienar</name>
             <email>robert.poienar@altom.com</email>
-            <organization>Altom</organization>
-            <organizationUrl>http://altom.com/</organizationUrl>
+            <organization>AltTester</organization>
+            <organizationUrl>https://alttester.com/</organizationUrl>
         </developer>
     </developers>
 
@@ -167,7 +167,7 @@
     </profiles>
 
     <build>
-        <finalName>${artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

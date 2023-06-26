@@ -14,8 +14,8 @@ Check out the [Get Started](https://alttester.com/docs/sdk/latest/pages/get-star
 
 ## Development
 
-* Code Style: [PEP-0008](https://www.python.org/dev/peps/pep-0008/)
-* Docstring style: [Google Style Docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
+-   Code Style: [PEP-0008](https://www.python.org/dev/peps/pep-0008/)
+-   Docstring style: [Google Style Docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
 
 ### Running Tests
 
