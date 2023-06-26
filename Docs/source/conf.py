@@ -10,44 +10,66 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-from recommonmark.transform import AutoStructify
+import os
 from recommonmark.parser import CommonMarkParser
-
+from recommonmark.transform import AutoStructify
 
 # -- Project information -----------------------------------------------------
 
-project = 'AltTester'
-copyright = '2022, Altom Consulting'
+copyright = '2023, Altom Consulting'
 author = 'Altom'
 
-# The full version, including alpha/beta/rc tags
-# displays version under project title
-version = 'AltTester Unity SDK v2.0.0'
-release = 'v2.0.0'
+TAGS = ['1.8.1', '2.0.0']
+LATEST_VERSION = 'master'
+BRANCHES = ['master']
 
+smv_branch_whitelist = r'^master$'
+smv_tag_whitelist = r'^(?!v.*).*$'
+smv_remote_whitelist = r'^.*$'
+
+github_ref = os.getenv('GITHUB_REF_NAME')
+
+if github_ref == 'development':
+    smv_branch_whitelist = r'^development$'
+    BRANCHES = ['development']
+    LATEST_VERSION = 'development'
+
+smv_latest_version = LATEST_VERSION
+smv_rename_latest_version = 'latest'
+
+version = TAGS[len(TAGS) - 1]
+release = version
+
+desktop_release_version = 'v.' + release
+sdk_release_version = version.replace('.', '_')
+
+alttester_sdk_docs_link         = 'https://alttester.com/docs/desktop/' + desktop_release_version + '/%s'
+alttester_sdk_download_link     = 'https://alttester.com/app/uploads/AltTester/sdks/AltTester_' + sdk_release_version + '.unitypackage%s'
+
+extlinks = {
+    'altTesterPage'                     : ('https://alttester.com/alttester/%s', None),
+    'altTesterDesktopdocumentation'     : (alttester_sdk_docs_link, None),
+    'altTesterSDKdownload'              : (alttester_sdk_download_link, None),
+    'altTesterIphoneBlog'               : ('https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s', None)
+}
 
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
-    'sphinx.ext.autosectionlabel',
-    'sphinx_markdown_tables',
-    'sphinx_tabs.tabs',
-    'sphinx_rtd_theme',
-    'recommonmark'
-]
+extensions = ['sphinx.ext.autosectionlabel',
+              'sphinx_markdown_tables',
+              'sphinx_tabs.tabs',
+              'sphinx_rtd_theme',
+              'recommonmark',
+              'sphinx_multiversion',
+              'sphinx.ext.extlinks']
 
-source_suffix = ['.rst', '.md']
-source_parsers = {
-    '.md': CommonMarkParser,
-}
-
+source_suffix = {'.rst': 'restructuredtext', '.md': 'markdown'}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -55,7 +77,7 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # If true, Sphinx will warn about all references where the target cannot
 # be found.
@@ -83,23 +105,16 @@ html_static_path = ['_static']
 
 html_logo = '_static/logo/AltTester-512x512.png'
 html_favicon = '_static/logo/AltTester-512x512.png'
-html_title = 'AltTester Unity SDK Documentation'
-
 html_css_files = [
     'css/custom.css',
 ]
-
 html_js_files = [
     'js/custom.js'
 ]
-
 html_theme_options = {
     'collapse_navigation': False,
     'navigation_depth': 5
 }
-
-
-# -- AutoStructify options ---------------------------------------------------
 
 def setup(app):
     app.add_transform(AutoStructify)

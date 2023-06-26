@@ -26,7 +26,7 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
     .. tab:: UnityPackage from AltTester website
 
-        1. Download from `AltTester <https://alttester.com/app/uploads/AltTester/sdks/AltTesterPro.unitypackage>`_.
+        1. Download from :altTesterSDKdownload:`AltTester <>`.
         2. Import it by drag and drop inside your Unity project.
 
     .. tab:: UnityPackage from OpenUPM website
@@ -206,7 +206,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         .. note::
 
-            Check the following link to see how to build and run your app for iOS (.ipa file) -- `link <https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
+            Check the following link to see how to build and run your app for iOS (.ipa file) -- :altTesterIphoneBlog:`link <>`
 
 .. note::
 
