@@ -14,7 +14,7 @@ dotnet test AltDriver.Tests/AltDriver.Tests.csproj
 
 ## Contributing
 
-Check out the full contributing guide [here](https://alttester.com/docs/pro/sdk/pages/contributing.html).
+Check out the full contributing guide [here](https://alttester.com/docs/sdk/latest/pages/contributing.html).
 
 ## Support
 

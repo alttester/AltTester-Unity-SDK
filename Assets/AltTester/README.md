@@ -6,7 +6,7 @@ AltTester Unity SDK is an open-source UI driven test automation tool that helps 
 
 Our documentation is available here:
 
-* https://alttester.com/docs/pro/sdk/
+* https://alttester.com/docs/sdk/latest/
 
 ## Support
 
@@ -23,7 +23,7 @@ Our documentation is available here:
 
 ## Contributing
 
-Check out the full contributing guide [here](https://alttester.com/docs/pro/sdk/pages/contributing.html).
+Check out the full contributing guide [here](https://alttester.com/docs/sdk/latest/pages/contributing.html).
 
 ## License
 

@@ -12,11 +12,11 @@ applications.
 - AltTester Unity SDK is a free, open source asset. Its main goal is to enable UI
   test automation, by instrumenting applications to get access and programmatically
   control the Unity objects. Get AltTester Unity SDK from
-  `our website <https://alttester.com/app/uploads/AltTester/sdks/AltTesterPro.unitypackage>`_.
+  :altTesterSDKdownload:`our website <>`.
 
 - AltTester Desktop is an application allowing users to inspect the
   object hierarchy and interact with their app outside the Unity Editor. Get
-  AltTester Desktop from `our website <https://alttester.com/alttester/>`_.
+  AltTester Desktop from :altTesterPage:`our website <>`.
 
 
 Documentation
@@ -30,10 +30,10 @@ Documentation
    *  :doc:`/pages/overview`
    *  :doc:`/pages/get-started`
 
-*  `AltTester Desktop <https://alttester.com/docs/pro/desktop/home.html>`_
+*  :altTesterDesktopdocumentation:`AltTester Desktop <home.html>`
 
-   *  `Overview <https://alttester.com/docs/pro/desktop/pages/overview.html>`__
-   *  `Get Started <https://alttester.com/docs/pro/desktop/pages/get-started.html>`__
+   *  :altTesterDesktopdocumentation:`Overview <pages/overview.html>`
+   *  :altTesterDesktopdocumentation:`Get Started <pages/get-started.html>`
 
 
 .. toctree::
@@ -41,7 +41,7 @@ Documentation
    :hidden:
 
    home
-   AltTester Desktop <https://alttester.com/docs/pro/desktop/home.html>
+   :altTesterDesktopdocumentation:`AltTester Desktop <home.html>`
 
 
 .. toctree::

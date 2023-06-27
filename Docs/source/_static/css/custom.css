@@ -47,3 +47,11 @@
 .wy-nav-content {
   min-height: 100vh !important;
 }
+
+nav.wy-nav-side {
+  padding-bottom: 3.5rem;
+}
+
+.rst-versions.shift-up {
+  overflow-y: auto;
+}

@@ -41,6 +41,8 @@ jobs:
     if: needs.paths-filter.outputs.docs == 'true'
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
@@ -50,11 +52,11 @@ jobs:
       - name: Build docs
         run: |
           cd Docs
-          make html
+          make versionedhtml
       - uses: actions/upload-artifact@v3
         with:
           name: DocumentationHTML
-          path: Docs/build/html/
+          path: Docs/build/
 
   build-macOS:
     runs-on: [self-hosted, macOS]
@@ -312,7 +314,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: DocumentationHTML
-          remote: ${{ secrets.DOCUMENTATION_PATH_PRO }}
+          remote: ${{ secrets.DOCUMENTATION_PATH }}
           host: ${{ secrets.HOST_IP_ALTTESTER }}
           port: ${{ secrets.PORT_DEV_ALTTESTER }}
           username: ${{ secrets.USERNAME_ALTTESTER }}
@@ -337,7 +339,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: DocumentationHTML
-          remote: ${{ secrets.DOCUMENTATION_PATH_PRO }}
+          remote: ${{ secrets.DOCUMENTATION_PATH }}
           host: ${{ secrets.HOST_IP_ALTTESTER }}
           port: ${{ secrets.PORT_LIVE_ALTTESTER }}
           username: ${{ secrets.USERNAME_ALTTESTER }}
