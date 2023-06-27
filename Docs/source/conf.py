@@ -21,6 +21,7 @@ from recommonmark.transform import AutoStructify
 
 copyright = '2023, Altom Consulting'
 author = 'Altom'
+project = 'AltTester'
 
 TAGS = ['1.8.1', '2.0.0', '2.0.1']
 LATEST_VERSION = 'master'
