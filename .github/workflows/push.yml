@@ -27,7 +27,7 @@ jobs:
             python:
               - 'Bindings~/python/**'
             csharp:
-              - '**.cs' 
+              - '**.cs'
             editor:
               - '**.cs'
             docs:
