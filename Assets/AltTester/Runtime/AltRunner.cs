@@ -29,7 +29,7 @@ namespace AltTester.AltTesterUnitySDK
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "2.0.0";
+        public static readonly string VERSION = "2.0.1";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
         public AltInstrumentationSettings InstrumentationSettings = null;
@@ -52,9 +52,9 @@ namespace AltTester.AltTesterUnitySDK
         protected void Awake()
         {
 #if !ALTTESTER
-                        logger.Error("ALTTESTER needs to be added to 'Scripting Define Symbols'");
-                        Destroy(this.gameObject);
-                        return;
+            logger.Error("ALTTESTER needs to be added to 'Scripting Define Symbols'");
+            Destroy(this.gameObject);
+            return;
 
 #else
             if (_altRunner != null)

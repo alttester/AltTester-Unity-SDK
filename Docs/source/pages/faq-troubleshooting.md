@@ -113,7 +113,6 @@ To use the Input from AltTester Unity SDK you have to reference <strong>AltTeste
 <summary> I downloaded the AltTester package v1.7.2 from the documentation on MacOS. I got a warning pop-up about the input system where I chose 'Yes' because I am using the New Input System. After reopening Unity Editor, <strong>AltTester Unity SDK is missing.</strong></summary>
 <br>
 
-
 After reopening Unity Editor, add again the AltTester package in your project.
 <br>
 
@@ -126,10 +125,11 @@ After reopening Unity Editor, add again the AltTester package in your project.
 
 You get this error because you don't have the Input System (New) package. If you only want to use the Input Manager (Old) in your project, follow this steps:
 <br>
-- <strong>delete</strong>:
-    - `Assets\AltTester\AltServer\NewInputSystem.cs`
-    - `Assets\AltTester\AltServer\AltKeyMapping.cs`
-- <strong>comment</strong> in `Assets\AltTester\AltServer\AltPrefabDrag.cs` the entire `#else` statement
+
+-   <strong>delete</strong>:
+    -   `Assets\AltTester\AltServer\NewInputSystem.cs`
+    -   `Assets\AltTester\AltServer\AltKeyMapping.cs`
+-   <strong>comment</strong> in `Assets\AltTester\AltServer\AltPrefabDrag.cs` the entire `#else` statement
 
     ```
     #if ENABLE_LEGACY_INPUT_MANAGER
@@ -138,8 +138,11 @@ You get this error because you don't have the Input System (New) package. If you
             // eventData.pointerDrag.gameObject.transform.position = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
     #endif
     ```
-- <strong>comment</strong> in `Assets\AltTester\AltServer\Input.cs`:
-    - all imports for using `UnityEngine.InputSystem.UI`
+
+-   <strong>comment</strong> in `Assets\AltTester\AltServer\Input.cs`:
+
+    -   all imports for using `UnityEngine.InputSystem.UI`
+
         ```
         #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
 
@@ -155,7 +158,8 @@ You get this error because you don't have the Input System (New) package. If you
         // using UnityEngine.InputSystem.UI;
         using UnityEngine.Scripting;
         ```
-    - all `if` lines that contain `InputSystemUIInputModule` and the curly brackets inside these `if` statements making sure to leave the code inside the brackets uncommented
+
+    -   all `if` lines that contain `InputSystemUIInputModule` and the curly brackets inside these `if` statements making sure to leave the code inside the brackets uncommented
         ```
         // if (EventSystem.current.currentInputModule != null && EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 // {
@@ -168,7 +172,7 @@ You get this error because you don't have the Input System (New) package. If you
                 // }
         ```
 
-- <strong>comment</strong> in `Assets\AltTester\AltServer\AltMockUpPointerInputModule.cs` the same as the above
+-   <strong>comment</strong> in `Assets\AltTester\AltServer\AltMockUpPointerInputModule.cs` the same as the above
 
 </details>
 <br>
