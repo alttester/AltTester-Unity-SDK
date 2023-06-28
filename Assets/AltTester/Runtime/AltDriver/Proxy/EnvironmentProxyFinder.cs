@@ -5,7 +5,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
 {
     public class EnvironmentProxyFinder : IProxyFinder
     {
-        public string GetProxy(string uri)
+        public string GetProxy(string uri, string host)
         {
             // TODO: Check HTTPS_PROXY if we use wss
             string proxyUrl = GetEnv("HTTP_PROXY");

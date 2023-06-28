@@ -52,7 +52,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             wsClient = new WebSocket(uri.ToString());
             wsClient.Log.Level = LogLevel.Fatal;
 
-            string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port));
+            string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);
             if (proxyUri != null)
             {
                 wsClient.SetProxy(proxyUri, null, null);
