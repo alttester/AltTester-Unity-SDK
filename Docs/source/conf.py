@@ -21,7 +21,12 @@ from recommonmark.transform import AutoStructify
 
 copyright = '2023, Altom Consulting'
 author = 'Altom'
-project = 'AltTester'
+project = 'AltTester Unity SDK'
+
+# Before creating a new tag, add the new one here and update 'latest' with the new SDK tag in index.rst line 44
+# Currently there is no way to add in toctree a dynamic link based on the version.
+# https://github.com/sphinx-doc/sphinx/issues/1836
+# https://github.com/sphinx-doc/sphinx/issues/500
 
 TAGS = ['1.8.1', '2.0.0', '2.0.1']
 LATEST_VERSION = 'master'
