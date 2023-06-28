@@ -15,6 +15,7 @@ You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity E
 - instrument your app and run C# tests from within the Unity Editor using the AltTester Editor window
 - run C#, Python or Java tests using your favorite IDE and against the app running on a device or inside the Unity Editor
 - integrate with Appium tests for the ability to interact with native elements
+- support for Browserstack on Android and iOS
 - visualize input actions during test execution
 - see test results and reports inside the Unity Editor
 - generate XML test report from the Editor Window
