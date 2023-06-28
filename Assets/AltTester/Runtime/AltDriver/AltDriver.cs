@@ -34,7 +34,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
-        public static readonly string VERSION = "2.0.0";
+        public static readonly string VERSION = "2.0.1";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 

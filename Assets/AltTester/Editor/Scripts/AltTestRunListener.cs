@@ -15,7 +15,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-﻿using AltTester.AltTesterUnitySDK.Editor.Logging;
+using AltTester.AltTesterUnitySDK.Editor.Logging;
 
 namespace AltTester.AltTesterUnitySDK.Editor
 {

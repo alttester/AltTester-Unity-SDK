@@ -127,7 +127,7 @@ namespace AltTesterTools
 
                     locationPathName = "sampleGame.apk",
                     target = BuildTarget.Android,
-                    options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer
+                    options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies
                 };
 
 
@@ -355,8 +355,6 @@ namespace AltTesterTools
             }
 
             return instrumentationSettings;
-
-
         }
     }
 }

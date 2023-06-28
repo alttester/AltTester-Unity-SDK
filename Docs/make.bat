@@ -7,6 +7,11 @@ REM Command file for Sphinx documentation
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )
+
+if "%SPHINXMULTIVERSION%" == "" (
+	set SPHINXMULTIVERSION=sphinx-multiversion
+)
+
 set SOURCEDIR=source
 set BUILDDIR=build
 
@@ -25,11 +30,17 @@ if errorlevel 9009 (
 
 if "%1" == "" goto help
 
+if "%1" == "versionedhtml" goto versionedhtml
+
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
 goto end
 
 :help
 %SPHINXBUILD% -M help %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+goto end
+
+:versionedhtml
+%SPHINXMULTIVERSION% %SOURCEDIR% %BUILDDIR%
 
 :end
 popd

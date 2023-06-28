@@ -209,7 +209,13 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 case PropertyType.name:
                     return gameObjectToCheck.name.Equals(PropertyValue) ? gameObjectToCheck : null;
                 case PropertyType.tag:
-                    return gameObjectToCheck.CompareTag(PropertyValue) ? gameObjectToCheck : null;
+                    try
+                    {
+                        return gameObjectToCheck.tag.Equals(PropertyValue) ? gameObjectToCheck : null;
+                    }catch(Exception)
+                    {
+                        return null;
+                    }
                 case PropertyType.layer:
                     int layerId = LayerMask.NameToLayer(PropertyValue);
                     return gameObjectToCheck.layer.Equals(layerId) ? gameObjectToCheck : null;

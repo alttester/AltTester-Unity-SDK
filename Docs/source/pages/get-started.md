@@ -18,7 +18,7 @@ To run the first test for your Unity app you need to:
 
 ## Import AltTester package in Unity Editor
 
-To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity. This can be done either by downloading from the AltTester website.
+To instrument your Unity application with AltTester Unity SDK you first need to import the AltTester package into Unity. This can be done either by downloading from the AltTester website, or by following the steps from the OpenUPM website.
 
 ```eval_rst
 
@@ -26,8 +26,13 @@ To instrument your Unity application with AltTester Unity SDK you first need to 
 
     .. tab:: UnityPackage from AltTester website
 
-        1. Download from `AltTester website - link <https://alttester.com/app/uploads/AltTester/sdks/AltTesterPro.unitypackage>`_.
+        1. Download from :altTesterSDKdownload:`AltTester <>`.
         2. Import it by drag and drop inside your Unity project.
+
+    .. tab:: UnityPackage from OpenUPM website
+
+        1. Go to `OpenUPM <https://openupm.com/packages/com.alttester.sdk/>`_.
+        2. Follow the instructions from the `Install via Package Manager` section on the right to install via Unity's Package Manager or via Command-Line Interface.
 
 ```
 
@@ -199,7 +204,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         .. note::
 
-            Check the following link to see how to build and run your app for iOS (.ipa file) -- `link <https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/>`_.
+            Check the following link to see how to build and run your app for iOS (.ipa file) -- :altTesterIphoneBlog:`link <>`
 
 .. note::
 
@@ -302,7 +307,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
 
         **Writing tests:**
             - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into `pages` folders and `tests` folders.
-            - To initialize the AltDriver in your project, you should import it. You can do it by using the following syntax: ``using AltTester.AltDriver;``.
+            - To initialize the AltDriver in your project, you should import it. You can do it by using the following syntax: ``using AltTester.AltTesterUnitySDK.Driver;``.
             - After that you can initialize the AltDriver: ``altDriver = new AltDriver();``.
         **Running the tests:**
             - To run your test, open a terminal window in the project folder and paste the following command:

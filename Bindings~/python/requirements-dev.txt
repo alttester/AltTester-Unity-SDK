@@ -10,3 +10,7 @@ flake8
 pytest
 pytest-cov
 pytest-repeat
+
+#browserstack
+browserstack-local
+Appium-Python-Client

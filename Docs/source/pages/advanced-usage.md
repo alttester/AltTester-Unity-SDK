@@ -61,7 +61,6 @@ AltBuilder.InsertAltInScene(FirstSceneOfTheApp, instrumentationSettings);
 
 ```
 
-
 **2. If you create a new custom build method for your app**
 
 The following example script can be used. It sets all the project settings
@@ -71,8 +70,8 @@ This example method is configured for the Android platform, so make sure to
 update it based on your target platform.
 
 ```eval_rst
-.. include:: ../_static/examples~/advanced-usage/build-from-command-line.txt
-    :code: c#
+.. literalinclude:: ../_static/examples~/advanced-usage/build-from-command-line.txt
+    :language: c#
 
 ```
 
@@ -155,7 +154,7 @@ commands:
             <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTestRunner.RunTestFromCommandLine -testsAssembly MyAssembly1 MyAssembly2 -logFile logFile.log -batchmode -quit
 
         ``-reportPath`` - the xml test report will be generated here
-        
+
         .. code-block:: bash
 
             <UnityPath>/Unity -projectPath $PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTestRunner.RunTestFromCommandLine -tests MyFirstTest.TestStartGame -reportPath $PROJECT_DIR/testReport.xml -logFile logFile.log -batchmode -quit
@@ -262,8 +261,8 @@ In the routing table, the personal hotspot network would be secondary, therefore
 
                 Example test file:
 
-                    .. include:: ../_static/examples~/common/csharp-android-test.cs
-                        :code: c#
+                    .. literalinclude:: ../_static/examples~/common/csharp-android-test.cs
+                        :language: c#
 
             .. tab:: iOS
 
@@ -282,8 +281,8 @@ In the routing table, the personal hotspot network would be secondary, therefore
 
                 Example test file:
 
-                    .. include:: ../_static/examples~/common/java-android-test.java
-                        :code: java
+                    .. literalinclude:: ../_static/examples~/common/java-android-test.java
+                        :language: java
 
             .. tab:: iOS
 
@@ -302,8 +301,8 @@ In the routing table, the personal hotspot network would be secondary, therefore
 
                 Example test file:
 
-                    .. include:: ../_static/examples~/common/python-android-test.py
-                        :code: py
+                    .. literalinclude:: ../_static/examples~/common/python-android-test.py
+                        :language: py
 
             .. tab:: iOS
 
