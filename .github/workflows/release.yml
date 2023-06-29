@@ -49,9 +49,7 @@ jobs:
           $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls public/AltTester
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
-          cp $AUT public/AltTester/AltTester.unitypackage
           cp $AUT public/AltTester/AltTester_2_0_1.unitypackage
-          cp SampleScenes.unitypackage public/AltTester/SampleScene.unitypackage
       - uses: actions/upload-artifact@v3
         with:
           name: AltTester
