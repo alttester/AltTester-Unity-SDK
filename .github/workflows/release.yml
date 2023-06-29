@@ -77,11 +77,13 @@ jobs:
           host: ${{ secrets.HOST_IP_ALTTESTER }}
           port: ${{ secrets.PORT_LIVE_ALTTESTER }}
           username: ${{ secrets.USERNAME_ALTTESTER }}
-          password: ${{ secrets.PASSWORD_DEV_ALTTESTER }}
+          password: ${{ secrets.PASSWORD_ALTTESTER }}
 
   create-jar-archive:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+
       - name: Setup Java JDK
         uses: actions/setup-java@v3.5.1
         with:
@@ -94,21 +96,21 @@ jobs:
           ls
           mkdir -p public/AltTesterJAR || true
           ls
-#           cd "Bindings~/java"
-#           mvn clean compile assembly:single
-#           mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
+          cd "Bindings~/java"
+          mvn clean compile assembly:single
+          mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
 
-#       - name: Create jar
-#         run: |
-#           mkdir -p public/AltTesterJAR || true
-#           cd "Bindings~/java"
-#           mvn clean compile assembly:single
-#           mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
+      - name: Create jar
+        run: |
+          mkdir -p public/AltTesterJAR || true
+          cd "Bindings~/java"
+          mvn clean compile assembly:single
+          mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
 
-#       - uses: actions/upload-artifact@v3
-#         with:
-#           name: AltTesterJAR
-#           path: public/AltTesterJAR
+      - uses: actions/upload-artifact@v3
+        with:
+          name: AltTesterJAR
+          path: public/AltTesterJAR
 
 #   upload-java-jar:
 #     runs-on: ubuntu-latest
@@ -130,7 +132,7 @@ jobs:
 #           host: ${{ secrets.HOST_IP_ALTTESTER }}
 #           port: ${{ secrets.PORT_LIVE_ALTTESTER }}
 #           username: ${{ secrets.USERNAME_ALTTESTER }}
-#           password: ${{ secrets.PASSWORD_DEV_ALTTESTER }}
+#           password: ${{ secrets.PASSWORD_ALTTESTER }}
 
 #   java-release:
 #     runs-on: ubuntu-latest
