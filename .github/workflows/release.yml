@@ -1,46 +1,43 @@
 name: release
 
-on:
-  workflow_dispatch:
-  release:
-    types: [published]
+on: [push, workflow_dispatch]
 
 jobs:
-  publish-pip-package:
-    runs-on: [self-hosted, macOS]
+#   publish-pip-package:
+#     runs-on: [self-hosted, macOS]
 
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/setup-python@v4
+#         with:
+#           python-version: "3.10"
 
-      - name: Install dependencies
-        run: |
-          pip install -r "Bindings~/python/requirements.txt"
-          pip install -r "Bindings~/python/requirements-dev.txt"
+#       - name: Install dependencies
+#         run: |
+#           pip install -r "Bindings~/python/requirements.txt"
+#           pip install -r "Bindings~/python/requirements-dev.txt"
 
-      - name: Upload to PyPi
-        run: |
-          cd "Bindings~/python"
-          python3 setup.py sdist bdist_wheel
-          python3 -m twine upload dist/*
+#       - name: Upload to PyPi
+#         run: |
+#           cd "Bindings~/python"
+#           python3 setup.py sdist bdist_wheel
+#           python3 -m twine upload dist/*
 
-  publish-nuget-package:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+#   publish-nuget-package:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v2.1.1
+#       - name: Setup .NET Core SDK
+#         uses: actions/setup-dotnet@v2.1.1
 
-      - name: Upload to Nuget
-        env:
-          NUGET_DEPLOY_KEY: ${{ secrets.NUGET_DEPLOY_KEY }}
-        run: |
-          cd "Bindings~/dotnet"
-          dotnet pack AltDriver/AltDriver.csproj -c release
-          dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.0.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+#       - name: Upload to Nuget
+#         env:
+#           NUGET_DEPLOY_KEY: ${{ secrets.NUGET_DEPLOY_KEY }}
+#         run: |
+#           cd "Bindings~/dotnet"
+#           dotnet pack AltDriver/AltDriver.csproj -c release
+#           dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.0.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
   create-unity-package:
     runs-on: [self-hosted, macOS]
@@ -49,11 +46,11 @@ jobs:
         run: |
           mkdir -p public/AltTester || true
           mkdir -p public/SampleScenes || true
-          $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod Altom.AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+          $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
           cp $AUT public/AltTester/AltTester.unitypackage
-          cp $AUT public/AltTester/AltTester_2_0_0.unitypackage
+          cp $AUT public/AltTester/AltTester_2_0_1.unitypackage
           cp SampleScenes.unitypackage public/AltTester/SampleScene.unitypackage
       - uses: actions/upload-artifact@v3
         with:
@@ -97,63 +94,63 @@ jobs:
           ls
           mkdir -p public/AltTesterJAR || true
           ls
-          cd "Bindings~/java"
-          mvn clean compile assembly:single
-          mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
+#           cd "Bindings~/java"
+#           mvn clean compile assembly:single
+#           mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
 
-      - name: Create jar
-        run: |
-          mkdir -p public/AltTesterJAR || true
-          cd "Bindings~/java"
-          mvn clean compile assembly:single
-          mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
+#       - name: Create jar
+#         run: |
+#           mkdir -p public/AltTesterJAR || true
+#           cd "Bindings~/java"
+#           mvn clean compile assembly:single
+#           mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: AltTesterJAR
-          path: public/AltTesterJAR
+#       - uses: actions/upload-artifact@v3
+#         with:
+#           name: AltTesterJAR
+#           path: public/AltTesterJAR
 
-  upload-java-jar:
-    runs-on: ubuntu-latest
-    needs: create-jar-archive
+#   upload-java-jar:
+#     runs-on: ubuntu-latest
+#     needs: create-jar-archive
 
-    steps:
-      - uses: actions/checkout@v3
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
-        with:
-          name: AltTesterJAR
-          path: public/AltTesterJAR
+#       - uses: actions/download-artifact@v3
+#         with:
+#           name: AltTesterJAR
+#           path: public/AltTesterJAR
 
-      - name: Upload AltTester Jar
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: public/AltTesterJAR
-          remote: ${{ secrets.JAVA_CLIENT_PATH }}
-          host: ${{ secrets.HOST_IP_ALTTESTER }}
-          port: ${{ secrets.PORT_LIVE_ALTTESTER }}
-          username: ${{ secrets.USERNAME_ALTTESTER }}
-          password: ${{ secrets.PASSWORD_DEV_ALTTESTER }}
+#       - name: Upload AltTester Jar
+#         uses: garygrossgarten/github-action-scp@release
+#         with:
+#           local: public/AltTesterJAR
+#           remote: ${{ secrets.JAVA_CLIENT_PATH }}
+#           host: ${{ secrets.HOST_IP_ALTTESTER }}
+#           port: ${{ secrets.PORT_LIVE_ALTTESTER }}
+#           username: ${{ secrets.USERNAME_ALTTESTER }}
+#           password: ${{ secrets.PASSWORD_DEV_ALTTESTER }}
 
-  java-release:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
+#   java-release:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check out Git repository
+#         uses: actions/checkout@v2
 
-      - name: Install Java and Maven
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
+#       - name: Install Java and Maven
+#         uses: actions/setup-java@v1
+#         with:
+#           java-version: 11
 
-      - run: export GPG_TTY=$(tty)
+#       - run: export GPG_TTY=$(tty)
 
-      - name: Release Maven package
-        uses: samuelmeuli/action-maven-publish@v1.4.0
-        with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
-          directory: Bindings~/java/
-          maven_args: -f pom-release.xml -Dmaven.test.skip=true
+#       - name: Release Maven package
+#         uses: samuelmeuli/action-maven-publish@v1.4.0
+#         with:
+#           gpg_private_key: ${{ secrets.gpg_private_key }}
+#           gpg_passphrase: ${{ secrets.gpg_passphrase }}
+#           nexus_username: ${{ secrets.nexus_username }}
+#           nexus_password: ${{ secrets.nexus_password }}
+#           directory: Bindings~/java/
+#           maven_args: -f pom-release.xml -Dmaven.test.skip=true
