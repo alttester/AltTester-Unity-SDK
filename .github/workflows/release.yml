@@ -44,18 +44,19 @@ jobs:
     steps:
       - name: Create Unity Package
         run: |
-          mkdir -p publicTest/AltTester || true
-          mkdir -p publicTest/SampleScenes || true
+          mkdir -p public/AltTester || true
+          mkdir -p public/SampleScenes || true
           $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
-          ls publicTest/AltTester
+          ls public/AltTester
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
-          cp $AUT publicTest/AltTester/AltTester.unitypackage
-          cp $AUT publicTest/AltTester/AltTester_2_0_1.unitypackage
-          cp SampleScenes.unitypackage publicTest/AltTester/SampleScene.unitypackage
+          echo $AUT
+          cp $AUT public/AltTester/AltTester.unitypackage
+          cp $AUT public/AltTester/AltTester_2_0_1.unitypackage
+          cp SampleScenes.unitypackage public/AltTester/SampleScene.unitypackage
       - uses: actions/upload-artifact@v3
         with:
           name: AltTester
-          path: publicTest/AltTester
+          path: public/AltTester
 
   upload-unity-package:
     runs-on: ubuntu-latest
