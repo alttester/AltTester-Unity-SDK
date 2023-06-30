@@ -42,15 +42,14 @@ jobs:
   create-unity-package:
     runs-on: [self-hosted, macOS]
     steps:
+      - uses: actions/checkout@v3
       - name: Create Unity Package
         run: |
           mkdir -p public/AltTester || true
           mkdir -p public/SampleScenes || true
           $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls public/AltTester
-          echo "After"
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
-          echo $AUT
           cp $AUT public/AltTester/AltTester.unitypackage
           cp $AUT public/AltTester/AltTester_2_0_1.unitypackage
           cp SampleScenes.unitypackage public/AltTester/SampleScenes.unitypackage
