@@ -51,7 +51,7 @@ jobs:
           mkdir -p public/AltTester || true
           mkdir -p public/SampleScenes || true
           $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
-          ls public/AltTester
+          ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
           cp $AUT public/AltTester/AltTester.unitypackage
           cp $AUT public/AltTester/AltTester_2_0_1.unitypackage
