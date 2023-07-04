@@ -1,43 +1,46 @@
 name: release
 
-on: [push, workflow_dispatch]
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
-#   publish-pip-package:
-#     runs-on: [self-hosted, macOS]
+  publish-pip-package:
+    runs-on: [self-hosted, macOS]
 
-#     steps:
-#       - uses: actions/checkout@v3
-#       - uses: actions/setup-python@v4
-#         with:
-#           python-version: "3.10"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
 
-#       - name: Install dependencies
-#         run: |
-#           pip install -r "Bindings~/python/requirements.txt"
-#           pip install -r "Bindings~/python/requirements-dev.txt"
+      - name: Install dependencies
+        run: |
+          pip install -r "Bindings~/python/requirements.txt"
+          pip install -r "Bindings~/python/requirements-dev.txt"
 
-#       - name: Upload to PyPi
-#         run: |
-#           cd "Bindings~/python"
-#           python3 setup.py sdist bdist_wheel
-#           python3 -m twine upload dist/*
+      - name: Upload to PyPi
+        run: |
+          cd "Bindings~/python"
+          python3 setup.py sdist bdist_wheel
+          python3 -m twine upload dist/*
 
-#   publish-nuget-package:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v3
+  publish-nuget-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-#       - name: Setup .NET Core SDK
-#         uses: actions/setup-dotnet@v2.1.1
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v2.1.1
 
-#       - name: Upload to Nuget
-#         env:
-#           NUGET_DEPLOY_KEY: ${{ secrets.NUGET_DEPLOY_KEY }}
-#         run: |
-#           cd "Bindings~/dotnet"
-#           dotnet pack AltDriver/AltDriver.csproj -c release
-#           dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.0.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+      - name: Upload to Nuget
+        env:
+          NUGET_DEPLOY_KEY: ${{ secrets.NUGET_DEPLOY_KEY }}
+        run: |
+          cd "Bindings~/dotnet"
+          dotnet pack AltDriver/AltDriver.csproj -c release
+          dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.0.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
   create-unity-package:
     runs-on: [self-hosted, macOS]
@@ -135,25 +138,25 @@ jobs:
           username: ${{ secrets.USERNAME_ALTTESTER }}
           password: ${{ secrets.PASSWORD_ALTTESTER }}
 
-#   java-release:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Check out Git repository
-#         uses: actions/checkout@v2
+  java-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
 
-#       - name: Install Java and Maven
-#         uses: actions/setup-java@v1
-#         with:
-#           java-version: 11
+      - name: Install Java and Maven
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
-#       - run: export GPG_TTY=$(tty)
+      - run: export GPG_TTY=$(tty)
 
-#       - name: Release Maven package
-#         uses: samuelmeuli/action-maven-publish@v1.4.0
-#         with:
-#           gpg_private_key: ${{ secrets.gpg_private_key }}
-#           gpg_passphrase: ${{ secrets.gpg_passphrase }}
-#           nexus_username: ${{ secrets.nexus_username }}
-#           nexus_password: ${{ secrets.nexus_password }}
-#           directory: Bindings~/java/
-#           maven_args: -f pom-release.xml -Dmaven.test.skip=true
+      - name: Release Maven package
+        uses: samuelmeuli/action-maven-publish@v1.4.0
+        with:
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
+          directory: Bindings~/java/
+          maven_args: -f pom-release.xml -Dmaven.test.skip=true
