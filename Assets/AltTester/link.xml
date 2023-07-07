@@ -7,11 +7,11 @@
         <type fullname="NLog.*" preserve="all" />
     </assembly>
 
-    <assembly fullname="AltTester">
-        <type fullname="Altom.*" preserve="all" />
+    <assembly fullname="AltTester.AltTesterUnitySDK">
+        <type fullname="AltTester.*" preserve="all" />
     </assembly>
 
-    <assembly fullname="AltDriver">
-        <type fullname="Altom.*" preserve="all" />
+    <assembly fullname="AltTester.AltTesterUnitySDK.Driver">
+        <type fullname="AltTester.*" preserve="all" />
     </assembly>
 </linker>
