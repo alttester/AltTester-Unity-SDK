@@ -20,9 +20,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
                 Finder = new AndroidProxyFinder();
                 ProxyUri = Finder.GetProxy(uri, host);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                UnityEngine.Debug.LogError(e.Message);
                 return null;
             }
 #endif
@@ -33,9 +32,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
                 Finder = new IOSProxyFinder();
                 ProxyUri = Finder.GetProxy(uri, host);
                  }
-            catch (Exception e)
+            catch (Exception)
             {
-                UnityEngine.Debug.LogError(e.Message);
                 return null;
             }
 #endif
@@ -47,9 +45,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
                     Finder = new EnvironmentProxyFinder();
                     ProxyUri = Finder.GetProxy(uri, host);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    UnityEngine.Debug.LogError(e.Message);
                     return null;
                 }
             }
@@ -61,9 +58,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
                     Finder = new DotnetProxyFinder();
                     ProxyUri = Finder.GetProxy(uri, host);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    UnityEngine.Debug.LogError(e.Message);
                     return null;
                 }
             }
