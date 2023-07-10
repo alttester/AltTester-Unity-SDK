@@ -169,7 +169,8 @@ class TestScene01:
 
     def test_get_application_screen_size(self):
         screensize = self.altdriver.get_application_screensize()
-        # We cannot set resolution on iOS so we don't know the exact resolution, we just want to see that it returns a value and is different than 0
+        # We cannot set resolution on iOS so we don't know the exact resolution
+        # we just want to see that it returns a value and is different than 0
         assert screensize[0] != 0
         assert screensize[1] != 0
 
