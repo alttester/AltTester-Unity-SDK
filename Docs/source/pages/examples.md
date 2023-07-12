@@ -31,14 +31,14 @@ We plan to add more examples in the near future.
     You can get the sample app from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-tutorial-46209).
  -->
 
-<!-- **2.** Example test project for AltTester Unity SDK:
+**2.** Example test project for AltTester Unity SDK:
 
-* C# tests [SampleScenes](https://alttester.com/app/uploads/AltTester/sdks/SampleScene.unitypackage)
+* C# tests [SampleScenes](https://alttester.com/app/uploads/AltTester/sdks/SampleScenes.unitypackage)
 
-    Import this package under your AltTester package in Unity, to have access to the SampleScenes and C# tests.-->
+    Import this package under your AltTester package in Unity, to have access to the SampleScenes and C# tests.
 
 
-**2.** Example test projects for AltTester Unity SDK v.2.0.1 and the New Input System:
+**3.** Example test projects for AltTester Unity SDK v.2.0.1 and the New Input System:
 
 * C# tests [CoinCollector](https://github.com/alttester/EXAMPLES-NewInputSystem--CoinCollector-CSharp)
 * C# tests [LeanTouch](https://github.com/alttester/EXAMPLES-NewInputSystem--LeanTouch-CSharp)
