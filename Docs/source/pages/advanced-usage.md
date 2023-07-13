@@ -221,9 +221,15 @@ For further information including how to install ADB, check [this article](https
 
 #### In case of iOS
 
-Unfortunately, IProxy does not have a way of setting up reverse port forwarding. As a workaround, you should follow the steps below:
-- set the iPhone as a personal hotspot
-- add the IP of the local machine to the first input field in the green popup from the instrumented app
+Unfortunately, IProxy does not have a way of setting up reverse port forwarding. As a workaround, to connect the device via USB you should follow the steps below:
+- set the iOS device as a Personal Hotspot 
+- enable Hotspot via USB on the machine running the AltServer 
+  - for this to work, you need to make sure that you have the `Disable unless needed` toggle disabled in the Network settings for the USB connection
+  ```eval_rst
+    .. image:: ../_static/img/advanced-usage/connect-via-hotspot-USB_iOS.png
+  ```
+  - the hotspot network and the first device to connect to it are most of the time on `172.20.10.2` so you could set this IP for builds for iOS
+- add the IP of the machine running the AltServer to the first input field in the green popup from the instrumented app/game
 
 In the routing table, the personal hotspot network would be secondary, therefore the traffic shouldn't be redirected through the hotspot:
 
