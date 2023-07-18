@@ -27,11 +27,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
 #endif
 
 #if !UNITY_EDITOR && UNITY_IOS
- try
+            try
             {
                 Finder = new IOSProxyFinder();
                 ProxyUri = Finder.GetProxy(uri, host);
-                 }
+            }
             catch (Exception)
             {
                 return null;
