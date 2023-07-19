@@ -1412,6 +1412,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.AreEqual("Canvas", altElement.name);
 
         }
+        [Test]
+        public void TestClickOnTextAndTheParentIsClicked()
+        {
+            var UiButton = altDriver.FindObject(By.NAME, "UIButton/Text");
+            UiButton.Click();
+            var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
+            var text = capsuleInfo.GetText();
+            Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+        }
 
         [Test]
         public void TestAcceleration()
