@@ -608,8 +608,8 @@ class TestScene01:
             By.COMPONENT, "CapsuleCollider",
             camera_value="Camera"
         )
-        assert alt_object.name == "Capsule"
 
+        assert alt_object.name == "Capsule"
         alt_object2 = self.altdriver.find_object(
             By.COMPONENT, "CapsuleCollider",
             camera_by=By.NAME,

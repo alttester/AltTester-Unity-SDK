@@ -61,7 +61,7 @@ jobs:
   build-macOS:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
-    if: needs.paths-filter.outputs.docs != 'true'
+    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -82,7 +82,7 @@ jobs:
   build-android:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
-    if: needs.paths-filter.outputs.docs != 'true'
+    if: needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' 
     steps:
       - uses: actions/checkout@v3
 
@@ -103,7 +103,7 @@ jobs:
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
     needs: build-macOS
-    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
     steps:
       - uses: actions/checkout@v3
 

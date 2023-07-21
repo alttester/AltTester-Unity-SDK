@@ -1755,7 +1755,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
         [TestCase("//Text[5]", "Text", true)]
         [TestCase("//Text[-1]", "Text", true)]
-
         [TestCase("//Dialog[0]", "Dialog", false)]
         public void TestFindIndexer(string path, string expectedResult, bool enabled)
         {
