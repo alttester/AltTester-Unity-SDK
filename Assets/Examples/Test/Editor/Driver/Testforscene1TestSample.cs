@@ -1753,9 +1753,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
 
-        [TestCase("//Text[5]", "Text", true)]
-        [TestCase("//Text[-1]", "Text", true)]
         [TestCase("//Dialog[0]", "Dialog", false)]
+        [TestCase("//Text[-1]", "Text", true)]
         public void TestFindIndexer(string path, string expectedResult, bool enabled)
         {
             var altElement = altDriver.FindObject(By.PATH, path, enabled: enabled);

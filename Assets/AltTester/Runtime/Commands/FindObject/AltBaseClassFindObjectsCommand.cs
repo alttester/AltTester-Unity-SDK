@@ -76,7 +76,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             {
                 try
                 {
-                    objectsFound.AddRange(FindObjects(objectsMatched[boundCondition.Indexer.Index < 0 ? objectsMatched.Count : 0 + boundCondition.Indexer.Index], boundCondition.NextBound, singleObject, enabled));
+                    objectsFound.AddRange(FindObjects(objectsMatched[(boundCondition.Indexer.Index < 0 ? objectsMatched.Count : 0) + boundCondition.Indexer.Index], boundCondition.NextBound, singleObject, enabled));
                 }
                 catch (System.Exception)
                 {
