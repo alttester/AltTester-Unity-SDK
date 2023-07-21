@@ -26,6 +26,9 @@ Once you have an instance of the _AltDriver_, you can use all the available comm
 
 Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
+.. important::
+     Indexer functionality was changed in 2.0.2 to no longer return the n-th child of the object. Now it returns a n-th object that respects the selectors among the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+
 **_Parameters_**
 
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -79,6 +82,9 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 #### FindObjects
 
 Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+
+.. important::
+     Indexer functionality was changed in 2.0.2 to no longer return the n-th child of the object. Now it returns a n-th object that respects the selectors among the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
 **_Parameters_**
 
@@ -138,6 +144,9 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
+.. important::
+     Indexer functionality was changed in 2.0.2 to no longer return the n-th child of the object. Now it returns a n-th object that respects the selectors among the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+
 **_Parameters_**
 
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -189,6 +198,9 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 #### FindObjectsWhichContain
 
 Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+
+.. important::
+     Indexer functionality was changed in 2.0.2 to no longer return the n-th child of the object. Now it returns a n-th object that respects the selectors among the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
 **_Parameters_**
 
@@ -357,6 +369,9 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 Waits until it finds an object that respects the given criteria or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
+.. important::
+     Indexer functionality was changed in 2.0.2 to no longer return the n-th child of the object. Now it returns a n-th object that respects the selectors among the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+
 **_Parameters_**
 
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -423,6 +438,9 @@ Waits until it finds an object that respects the given criteria or until timeout
 
 Waits until it finds an object that respects the given criteria or time runs out and will throw an error. Check [By](#by-selector) for more information about criteria.
 
+.. important::
+     Indexer functionality was changed in 2.0.2 to no longer return the n-th child of the object. Now it returns a n-th object that respects the selectors among the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+
 **_Parameters_**
 
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
@@ -481,6 +499,9 @@ Waits until it finds an object that respects the given criteria or time runs out
 #### WaitForObjectNotBePresent
 
 Waits until the object in the scene that respects the given criteria is no longer in the scene or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
+
+.. important::
+     Indexer functionality was changed in 2.0.2 to no longer return the n-th child of the object. Now it returns a n-th object that respects the selectors among the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
 **_Parameters_**
 
@@ -4036,7 +4057,7 @@ The following selecting nodes and attributes are implemented:
 -   _.._ - Selects the parent of the current node
 -   \* - Matches any element node
 -   _contains_ - Selects objects that contain a certain string in the name
--   _[n-th]_ - Selects n-th child of the current node. 0 - represents the first child, 1 - is the second child and so on. -1 -represents the last child
+-   _[n-th]_ - Selects n-th object that respects the selectors. 0 - represents the first object, 1 - is the second object and so on. -1 -represents the last object
 -   _@tag_
 -   _@layer_
 -   _@name_
@@ -4107,7 +4128,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altDriver.FindObject(By.PATH, "//*[@id=8756]")
+                    altDriver.FindObject(By.PATH, "//*[@id=8756]");
 
                 - Returns the object which has the id equal to 8756
 
@@ -4117,7 +4138,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altDriver.FindObject(By.PATH, "//Canvas/Panel//*[@text=Start]")
+                    altDriver.FindObject(By.PATH, "//Canvas/Panel//*[@text=Start]");
 
                 - Returns the first object that has the text "Start" and is a child of Panel
 
@@ -4129,7 +4150,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altDriver.FindObjects(By.PATH, "//*[contains(@name,Cub)]")
+                    altDriver.FindObjects(By.PATH, "//*[contains(@name,Cub)]");
 
                 - Returns every object that contains the string "Cub" in the name
 
@@ -4139,7 +4160,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altDriver.FindObject(By.PATH, "//Canvas/Panel/*[@component=Button][@tag=Untagged][@layer=UI]"
+                    altDriver.FindObject(By.PATH, "//Canvas/Panel/*[@component=Button][@tag=Untagged][@layer=UI]");
 
                 - Returns the first direct child of the Panel that is untagged, is in the UI layer and has a component named Button
 
@@ -4149,7 +4170,7 @@ The following selecting nodes and attributes are implemented:
 
         .. code-block:: c#
 
-            altDriver.FindObjects(By.PATH, "/Canvas//Button[@component=ButtonLogic]"
+            altDriver.FindObjects(By.PATH, "/Canvas//Button[@component=ButtonLogic]");
 
         - Returns every button which is in Canvas that is a root object and has a component named ButtonLogic
 
@@ -4178,6 +4199,9 @@ The following selecting nodes and attributes are implemented:
         - Returns the second child of the first object that has the name "StartButton" and is a direct child of Panel
 
     .. tab:: indexer
+        
+        .. important::
+            Indexer functionality was changed in 2.0.2 to no longer return the n-th child of the object. Now it returns a n-th object that respects the selectors among the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
         ``//NameOfParent[n]``
 
@@ -4185,13 +4209,13 @@ The following selecting nodes and attributes are implemented:
 
         .. code-block:: c#
 
-            altDriver.FindObject(By.PATH, "//Canvas[5]")
+            altDriver.FindObject(By.PATH, "//Canvas[2]");
 
-        - Returns the 6th direct child of the root Canvas
+        - Returns the 3th `Canvas` object only if there are at least 3 Canvas object somewhere in the hierarchy with the same parent
 
         .. code-block:: c#
 
-            altDriver.FindObject(By.PATH, "//Canvas/Panel/*[@tag=Player][-1]")
+            altDriver.FindObject(By.PATH, "//Canvas/Panel/*[@tag=Player][-1]");
 
         - Returns the last direct child of Panel that is tagged as Player
 

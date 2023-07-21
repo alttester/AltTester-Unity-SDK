@@ -58,7 +58,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
             List<UnityEngine.GameObject> objectsToCheck = getGameObjectsToCheck(gameObject);
             List<UnityEngine.GameObject> objectsFound = new List<UnityEngine.GameObject>();
-
+            List<UnityEngine.GameObject> objectsMatched = new List<UnityEngine.GameObject>();
             foreach (var objectToCheck in objectsToCheck)
             {
                 GameObject nextObjectToCheck;
@@ -67,21 +67,44 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     nextObjectToCheck = objectMatchesConditions(objectToCheck, boundCondition, enabled);
                     if (nextObjectToCheck != null)
                     {
-                        objectsFound.AddRange(FindObjects(nextObjectToCheck, boundCondition.NextBound, singleObject, enabled));
-                        if (singleObject && objectsFound.Count > 0)
-                        {
-                            return objectsFound;
-                        }
+                        objectsMatched.Add(objectToCheck);
                     }
                 }
-                if (boundCondition.Type == BoundType.DirectChildren)
-                    continue;
-                objectsFound.AddRange(FindObjects(objectToCheck, boundCondition, singleObject, enabled));
-                if (singleObject && objectsFound.Count != 0)//Don't search further if you already found an object
+
+            }
+            if (boundCondition.Indexer != null)
+            {
+                try
                 {
-                    return objectsFound;
+                    objectsFound.AddRange(FindObjects(objectsMatched[boundCondition.Indexer.Index < 0 ? objectsMatched.Count : 0 + boundCondition.Indexer.Index], boundCondition.NextBound, singleObject, enabled));
+                }
+                catch (System.Exception)
+                {
+
                 }
             }
+            else
+            {
+                foreach (var matched in objectsMatched)
+                {
+                    objectsFound.AddRange(FindObjects(matched, boundCondition.NextBound, singleObject, enabled));
+                }
+            }
+            if (singleObject && objectsFound.Count > 0)
+            {
+                return objectsFound;
+            }
+            if (boundCondition.Type != BoundType.DirectChildren)
+                foreach (var objectToCheck in objectsToCheck)
+                {
+
+                    objectsFound.AddRange(FindObjects(objectToCheck, boundCondition, singleObject, enabled));
+                    if (singleObject && objectsFound.Count > 0)
+                    {
+                        return objectsFound;
+                    }
+                }
+
             return objectsFound;
         }
         protected UnityEngine.Camera GetCamera(By cameraBy, string cameraValue)
@@ -89,8 +112,8 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
             if (cameraBy == By.NAME)
             {
-                var cameraValueSplited = cameraValue.Split('/');
-                var cameraName = cameraValueSplited[cameraValueSplited.Length - 1];
+                var cameraValueSplit = cameraValue.Split('/');
+                var cameraName = cameraValueSplit[cameraValueSplit.Length - 1];
                 return UnityEngine.Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
 
             }
@@ -109,7 +132,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
         private GameObject objectMatchesConditions(GameObject objectToCheck, BoundCondition boundCondition, bool enabled)
         {
             var currentCondition = boundCondition.FirstSelector;
-            GameObject objectChild = null;
             GameObject objectMatched = null;
             while (currentCondition != null)
             {
@@ -119,28 +141,15 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 {
                     return null;
                 }
-                if (objectMatched != objectToCheck)
-                {
-                    objectChild = objectMatched;
-                }
                 currentCondition = currentCondition.NextSelector;
             }
-            return objectChild != null ? objectChild : objectMatched;
+            return objectMatched;
         }
 
 
         private List<UnityEngine.GameObject> getGameObjectsToCheck(UnityEngine.GameObject gameObject)
         {
-            List<UnityEngine.GameObject> objectsToCheck;
-            if (gameObject == null)
-            {
-                objectsToCheck = getAllRootObjects();
-            }
-            else
-            {
-                objectsToCheck = getAllChildren(gameObject);
-            }
-            return objectsToCheck;
+            return gameObject == null ? getAllRootObjects() : getAllChildren(gameObject);
         }
 
         private List<UnityEngine.GameObject> getAllChildren(UnityEngine.GameObject gameObject)

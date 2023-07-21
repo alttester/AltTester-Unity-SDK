@@ -1753,16 +1753,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
 
-        [TestCase("/Canvas[0]", "CapsuleInfo", true)]
-        [TestCase("/Canvas[1]", "UIButton", true)]
-        [TestCase("/Canvas[-1]", "TapClickEventsButtonCollider", true)]
-        [TestCase("/Canvas[-2]", "NextScene", true)]
-        [TestCase("/Canvas[@layer=UI][5]", "UnityUIInputField", true)]
-        [TestCase("/Canvas[1]/Text", "Text", true)]
-        [TestCase("//Dialog[0]", "Title", false)]
-        [TestCase("//Dialog[1]", "Message", false)]
-        [TestCase("//Dialog[-1]", "Toggle", false)]
-        public void TestFindNthChild(string path, string expectedResult, bool enabled)
+        [TestCase("//Text[5]", "Text", true)]
+        [TestCase("//Text[-1]", "Text", true)]
+
+        [TestCase("//Dialog[0]", "Dialog", false)]
+        public void TestFindIndexer(string path, string expectedResult, bool enabled)
         {
             var altElement = altDriver.FindObject(By.PATH, path, enabled: enabled);
             Assert.AreEqual(expectedResult, altElement.name);

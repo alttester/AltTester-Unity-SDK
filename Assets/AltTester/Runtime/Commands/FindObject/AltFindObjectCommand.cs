@@ -35,7 +35,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 camera = GetCamera(CommandParams.cameraBy, CommandParams.cameraPath);
                 if (camera == null) throw new CameraNotFoundException();
             }
-            if (foundGameObject.Count() == 1)
+            if (foundGameObject.Count() >= 1)
             {
                 return
                     AltRunner._altRunner.GameObjectToAltObject(foundGameObject[0], camera);
