@@ -27,7 +27,7 @@ Once you have an instance of the _AltDriver_, you can use all the available comm
 Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer return the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
 **_Parameters_**
 
@@ -84,7 +84,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer return the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
 **_Parameters_**
 
@@ -145,7 +145,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer return the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
 **_Parameters_**
 
@@ -200,7 +200,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer return the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
 **_Parameters_**
 
@@ -370,7 +370,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
 Waits until it finds an object that respects the given criteria or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer return the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
 **_Parameters_**
 
@@ -439,7 +439,7 @@ Waits until it finds an object that respects the given criteria or until timeout
 Waits until it finds an object that respects the given criteria or time runs out and will throw an error. Check [By](#by-selector) for more information about criteria.
 
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer return the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
 **_Parameters_**
 
@@ -501,7 +501,7 @@ Waits until it finds an object that respects the given criteria or time runs out
 Waits until the object in the scene that respects the given criteria is no longer in the scene or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer return the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
 **_Parameters_**
 
@@ -4201,7 +4201,7 @@ The following selecting nodes and attributes are implemented:
     .. tab:: indexer
         
         .. important::
-            Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer return the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+            Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
 
         ``//NameOfParent[n]``
 
