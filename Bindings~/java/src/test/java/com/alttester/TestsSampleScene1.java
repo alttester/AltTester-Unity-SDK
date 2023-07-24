@@ -1510,7 +1510,6 @@ public class TestsSampleScene1 extends BaseTest {
                 "stringToSetFromTests", "Assembly-CSharp").build();
         String finalPropertyValue = altObject.getComponentProperty(altGetComponentPropertyParams,
                 String.class);
-
         assertEquals(finalPropertyValue, "multiple keys pressed");
     }
 
