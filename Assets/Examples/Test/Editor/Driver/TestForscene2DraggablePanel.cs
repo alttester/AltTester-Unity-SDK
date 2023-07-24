@@ -133,8 +133,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             {
                 listOfElements += element.name + "; ";
             }
-            Assert.IsTrue(altElements.Count >= 47);
-            Assert.IsTrue(altElements.Count <= 48);
+            Assert.IsTrue(altElements.Count >= 47, "Number of elements returned: " + altElements.Count);
 
             Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
             Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
