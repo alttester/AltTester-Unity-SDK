@@ -27,12 +27,16 @@ import JavaScriptCore
                 }
 
                 if let data = data {
-                    if let jsContent = String(data: data, encoding: .utf8) {
-                        let jsEngine = JSContext()
-                        jsEngine?.evaluateScript(jsContent)
+                    if let jsCode = String(data: data, encoding: .utf8) {
+                        let context:JSContext = JSContext()
+                        context.exceptionHandler = { context, value in
+                            // Handle JS Errors
+                        }
 
-                        let fn = "FindProxyForURL(\"\(destinationUrl)\", \"\(destinationHost)\")"
-                        proxyUrl = jsEngine?.evaluateScript(fn)?.toString() ?? ""
+                        context.evaluateScript(jsCode)
+
+                        let fn = "FindProxyForURL('\(destinationUrl)', '\(destinationHost)')"
+                        proxyUrl = context.evaluateScript(fn).toString() ?? ""
                     }
                 } else if let error = error {
                     // Handle Error

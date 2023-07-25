@@ -6,9 +6,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
     {
         public string GetProxy(string uri, string host)
         {
-            // On WebGL proxies are detected and managed by the browser.
 #if !UNITY_EDITOR && UNITY_WEBGL
-                return null;
+            // On WebGL Proxies are detected and managed by the browser.
+            return null;
 #endif
 
             IProxyFinder Finder = null;
@@ -22,7 +22,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
             }
             catch (Exception)
             {
-                return null;
             }
 #endif
 
@@ -34,7 +33,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
             }
             catch (Exception)
             {
-                return null;
             }
 #endif
 
@@ -47,7 +45,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
                 }
                 catch (Exception)
                 {
-                    return null;
                 }
             }
 
@@ -60,7 +57,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
                 }
                 catch (Exception)
                 {
-                    return null;
                 }
             }
 
