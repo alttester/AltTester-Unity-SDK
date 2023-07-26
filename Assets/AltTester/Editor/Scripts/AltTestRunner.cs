@@ -357,17 +357,12 @@ namespace AltTester.AltTesterUnitySDK.Editor
         public static IEnumerator SetUpListTestCoroutine()
         {
             var myTests = new List<AltMyTest>();
-            System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
-
+            System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies().Where(a => a.GetReferencedAssemblies().FirstOrDefault(
+                        reference => reference.Name.Contains(NUNIT_ASSEMBLY_NAME)) != null).ToArray();
             foreach (var assembly in assemblies)
             {
-                /*
-                 * Skips test runner assemblies and assemblies that do not contain references to test assemblies
-                 */
 
-                bool isNunitTestAssembly = assembly.GetReferencedAssemblies().FirstOrDefault(
-                            reference => reference.Name.Contains(NUNIT_ASSEMBLY_NAME)) != null;
-                if (!isNunitTestAssembly)
+                if (AltTesterEditorWindow.EditorConfiguration.assemblyTestDisplayedIndex != 0 && System.Array.IndexOf(assemblies, assembly) != AltTesterEditorWindow.EditorConfiguration.assemblyTestDisplayedIndex - 1)
                     continue;
 
                 var testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());

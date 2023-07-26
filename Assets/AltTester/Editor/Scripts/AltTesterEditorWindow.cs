@@ -426,10 +426,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
             if (IsTestRunResultAvailable)
             {
                 Repaint();
-                IsTestRunResultAvailable = UnityEditor.EditorUtility.DisplayDialog("Test Report",
-                      " Total tests:" + (ReportTestFailed + ReportTestPassed) + System.Environment.NewLine + " Tests passed:" +
-                      ReportTestPassed + System.Environment.NewLine + " Tests failed:" + ReportTestFailed + System.Environment.NewLine +
-                      " Duration:" + TimeTestRan + " seconds", "Ok");
+                IsTestRunResultAvailable = EditorUtility.DisplayDialog("Test Report",
+                      $" Total tests:{ReportTestFailed + ReportTestPassed}{Environment.NewLine} Tests passed:{ReportTestPassed}{System.Environment.NewLine} Tests failed:{ReportTestFailed}{System.Environment.NewLine} Duration:{TimeTestRan} seconds", "Ok");
                 if (IsTestRunResultAvailable)
                 {
                     IsTestRunResultAvailable = !IsTestRunResultAvailable;
@@ -1406,6 +1404,23 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         private void displayTestGui(System.Collections.Generic.List<AltMyTest> tests)
         {
+            System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies().Where(a => a.GetReferencedAssemblies().FirstOrDefault(
+                        reference => reference.Name.Contains("nunit.framework")) != null).ToArray();
+
+            int selected = Mathf.Clamp(EditorConfiguration.assemblyTestDisplayedIndex, 0, assemblies.Length);
+            string[] assemblyNames = new string[assemblies.Length + 1];
+            assemblyNames[0] = "All";
+            for (int i = 0; i < assemblies.Length; i++)
+            {
+                assemblyNames[i + 1] = assemblies[i].GetName().Name;
+            }
+            selected = EditorGUILayout.Popup("Assembly", selected, assemblyNames);
+            if (EditorConfiguration.assemblyTestDisplayedIndex != selected)
+            {
+                this.StartCoroutine(AltTestRunner.SetUpListTestCoroutine());
+                LoadTestCompleted = false;
+            }
+            EditorConfiguration.assemblyTestDisplayedIndex = selected;
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("Tests list", UnityEditor.EditorStyles.boldLabel);
             if (UnityEngine.GUILayout.Button("Refresh"))
