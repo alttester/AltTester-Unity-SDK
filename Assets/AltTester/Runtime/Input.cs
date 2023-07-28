@@ -1331,7 +1331,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
         public override bool Equals(object obj)
         {
-            if (obj is not KeyStructure)
+            if (!(obj is KeyStructure))
                 return false;
             var other = (KeyStructure)obj;
             return other.KeyCode == this.KeyCode;
