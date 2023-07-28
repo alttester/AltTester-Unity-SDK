@@ -144,13 +144,6 @@ namespace AltTester.AltTesterUnitySDK.UI
                 update = 0.0f;
                 StartCoroutine(this.SendScreenshot());
             }
-
-            if (_communication.IsConnected)
-            {
-                PlayerPrefs.SetString(HOST, HostInputField.text);
-                PlayerPrefs.SetString(PORT, PortInputField.text);
-                PlayerPrefs.SetString(APP_NAME, AppNameInputField.text);
-            }
         }
 
         protected IEnumerator SendScreenshot()
@@ -424,6 +417,9 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             _updateQueue.ScheduleResponse(() =>
             {
+                PlayerPrefs.SetString(HOST, HostInputField.text);
+                PlayerPrefs.SetString(PORT, PortInputField.text);
+                PlayerPrefs.SetString(APP_NAME, AppNameInputField.text);
                 SetMessage(message, color: SUCCESS_COLOR, visible: true);
             });
         }
