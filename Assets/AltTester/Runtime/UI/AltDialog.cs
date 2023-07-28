@@ -33,6 +33,9 @@ namespace AltTester.AltTesterUnitySDK.UI
         private readonly UnityEngine.Color SUCCESS_COLOR = new UnityEngine.Color32(0, 165, 36, 255);
         private readonly UnityEngine.Color WARNING_COLOR = new UnityEngine.Color32(255, 255, 95, 255);
         private readonly UnityEngine.Color ERROR_COLOR = new UnityEngine.Color32(191, 71, 85, 255);
+        private readonly string HOST = "host";
+        private readonly string PORT = "port";
+        private readonly string APP_NAME = "appName";
 
         [UnityEngine.SerializeField]
         public UnityEngine.GameObject Dialog = null;
@@ -141,6 +144,13 @@ namespace AltTester.AltTesterUnitySDK.UI
                 update = 0.0f;
                 StartCoroutine(this.SendScreenshot());
             }
+
+            if (_communication.IsConnected)
+            {
+                PlayerPrefs.SetString(HOST, HostInputField.text);
+                PlayerPrefs.SetString(PORT, PortInputField.text);
+                PlayerPrefs.SetString(APP_NAME, AppNameInputField.text);
+            }
         }
 
         protected IEnumerator SendScreenshot()
@@ -192,19 +202,19 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void SetUpHostInputField()
         {
-            HostInputField.text = InstrumentationSettings.AltServerHost;
+            HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
         }
 
         private void SetUpPortInputField()
         {
-            PortInputField.text = InstrumentationSettings.AltServerPort.ToString();
+            PortInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
             PortInputField.onValueChanged.AddListener(OnPortInputFieldValueChange);
             PortInputField.characterValidation = UnityEngine.UI.InputField.CharacterValidation.Integer;
         }
 
         private void SetUpAppNameInputField()
         {
-            AppNameInputField.text = InstrumentationSettings.AppName;
+            AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
         }
 
         private void OnRestartButtonPress()
