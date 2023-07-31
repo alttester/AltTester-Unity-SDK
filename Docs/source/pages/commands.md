@@ -3356,30 +3356,23 @@ None
     .. code-tab:: java
 
         @Test
-        public void testWaitForObjectWithText() throws Exception
+        public void testFindElementWithText()
         {
             String name = "CapsuleInfo";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, name).build();
             String text = altDriver.findObject(altFindObjectsParams).getText();
-            long timeStart = System.currentTimeMillis();
-            AltWaitForObjectWithTextParams altWaitForElementWithTextParams = new AltWaitForObjectWithTextParams.Builder(altFindObjectsParams,text).withInterval(0).withTimeout(0).build();
-            AltObject altObject = altDriver.waitForObjectWithText(altWaitForElementWithTextParams);
-            long timeEnd = System.currentTimeMillis();
-            long time = timeEnd - timeStart;
-            assertTrue(time / 1000 < 20);
-            assertNotNull(altObject);
-            assertEquals(altObject.getText(), text);
-        }
+            altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.TEXT, text).build();
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
+            assertNotNull(altElement);
+            assertEquals(altElement.getText(), text);
+          }
 
     .. code-tab:: py
 
-        def test_call_component_method(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
-            result = self.altDriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
-            self.assertEqual(result,"null")
-            self.altDriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-            self.assertEqual('setFromMethod', self.altDriver.find_element('CapsuleInfo').get_text())
-
+        def test_find_object_by_text(self):
+            text = self.altdriver.find_object(By.NAME, "CapsuleInfo").get_text()
+            element = self.altdriver.find_object(By.TEXT, text)
+            assert element.get_text() == text
 ```
 
 ### SetText
