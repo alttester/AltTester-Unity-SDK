@@ -33,9 +33,9 @@ namespace AltTester.AltTesterUnitySDK.UI
         private readonly UnityEngine.Color SUCCESS_COLOR = new UnityEngine.Color32(0, 165, 36, 255);
         private readonly UnityEngine.Color WARNING_COLOR = new UnityEngine.Color32(255, 255, 95, 255);
         private readonly UnityEngine.Color ERROR_COLOR = new UnityEngine.Color32(191, 71, 85, 255);
-        private readonly string HOST = "host";
-        private readonly string PORT = "port";
-        private readonly string APP_NAME = "appName";
+        private readonly string HOST = "AltTesterHost";
+        private readonly string PORT = "AltTesterPort";
+        private readonly string APP_NAME = "AltTesterAppName";
 
         [UnityEngine.SerializeField]
         public UnityEngine.GameObject Dialog = null;
