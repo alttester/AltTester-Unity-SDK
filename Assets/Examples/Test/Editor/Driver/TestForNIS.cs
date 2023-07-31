@@ -228,6 +228,7 @@ public class TestForNIS
             joystickKeyPress(player, altKeyCode, -1);
     }
 
+
     private void keyboardKeyPress(AltObject player, AltKeyCode altKeyCode)
     {
         if (Enum.IsDefined(typeof(AltKeyCode), altKeyCode))
@@ -353,6 +354,20 @@ public class TestForNIS
         }
         Assert.AreEqual(6 * numberOfClicks, int.Parse(text.GetText()));
         altDriver.SetDelayAfterCommand(0);
+    }
+
+    [Test]
+    public void TestOnScreenInput()
+    {
+        altDriver.LoadScene(scene10);
+        var initialPlayerPos = altDriver.FindObject(By.NAME, "Player").GetWorldPosition();
+        altDriver.FindObject(By.NAME, "Button").Tap();
+        var playerPos = altDriver.FindObject(By.NAME, "Player").GetWorldPosition();
+        Assert.AreNotEqual(initialPlayerPos, playerPos);
+        var stick = altDriver.FindObject(By.NAME, "Button");
+        altDriver.Swipe(stick.GetScreenPosition(), stick.GetScreenPosition() * 2, 1);
+        var finalPlayerPos = altDriver.FindObject(By.NAME, "Player").GetWorldPosition();
+        Assert.AreNotEqual(playerPos, finalPlayerPos);
     }
 
 }

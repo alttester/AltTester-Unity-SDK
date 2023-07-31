@@ -64,7 +64,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
         public override string ToString()
         {
-            return base.ToString();
+            return $"AltVector2{{ x : {x}, y : {y} }}";
         }
     }
     public struct AltVector3
@@ -123,7 +123,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
         public override string ToString()
         {
-            return base.ToString();
+            return $"AltVector3{{ x : {x}, y : {y}, z : {z} }}";
         }
     }
 }
