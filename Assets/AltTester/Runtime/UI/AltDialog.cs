@@ -294,7 +294,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void InitClient()
         {
-            _communication = new RuntimeCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            _communication = new RuntimeCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text);
             _communication.OnConnect += OnConnect;
             _communication.OnDisconnect += OnDisconnectCommunication;
             _communication.OnError += OnError;
@@ -303,7 +303,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             _communication.CmdHandler.OnDriverDisconnect += OnDriverDisconnect;
             _communication.Init();
 
-            _liveUpdateCommunication = new LiveUpdateCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            _liveUpdateCommunication = new LiveUpdateCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text);
             _liveUpdateCommunication.OnDisconnect += OnDisconnectLiveUpdate;
             _liveUpdateCommunication.OnError += OnError;
             _liveUpdateCommunication.OnConnect += OnConnect;
@@ -407,13 +407,13 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void OnStart()
         {
-            string message = String.Format("Waiting to connect to AltServer on {0}:{1} with app name: '{2}'.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            string message = String.Format("Waiting to connect to AltServer on {0}:{1} with app name: '{2}'.", HostInputField.text, PortInputField.text, AppNameInputField.text);
             SetMessage(message, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
         }
 
         private void OnConnect()
         {
-            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", HostInputField.text, PortInputField.text, AppNameInputField.text);
 
             _updateQueue.ScheduleResponse(() =>
             {
@@ -436,7 +436,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void OnDriverConnect(string driverId)
         {
             logger.Debug("Driver Connected: " + driverId);
-            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Driver connected.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Driver connected.", HostInputField.text, PortInputField.text, AppNameInputField.text);
 
             _connectedDrivers.Add(driverId);
 
@@ -453,7 +453,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void OnDriverDisconnect(string driverId)
         {
             logger.Debug("Driver Disconnect: " + driverId);
-            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", HostInputField.text, PortInputField.text, AppNameInputField.text);
 
             _connectedDrivers.Remove(driverId);
             if (_connectedDrivers.Count == 0)
