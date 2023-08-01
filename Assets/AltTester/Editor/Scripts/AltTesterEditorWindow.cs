@@ -1417,6 +1417,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             selected = EditorGUILayout.Popup("Assembly", selected, assemblyNames);
             if (EditorConfiguration.assemblyTestDisplayedIndex != selected)
             {
+                SelectedTest = -1;
                 this.StartCoroutine(AltTestRunner.SetUpListTestCoroutine());
                 LoadTestCompleted = false;
             }
@@ -1425,6 +1426,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             UnityEditor.EditorGUILayout.LabelField("Tests list", UnityEditor.EditorStyles.boldLabel);
             if (UnityEngine.GUILayout.Button("Refresh"))
             {
+                SelectedTest = -1;
                 this.StartCoroutine(AltTestRunner.SetUpListTestCoroutine());
                 LoadTestCompleted = false;
             }
