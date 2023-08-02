@@ -17,13 +17,20 @@
 
 using System;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Commands
 {
     public class AltBaseCommand
     {
         readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
-
+        protected readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver(),
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Culture = System.Globalization.CultureInfo.InvariantCulture
+        };
         protected IDriverCommunication CommHandler;
 
         public AltBaseCommand(IDriverCommunication commHandler)

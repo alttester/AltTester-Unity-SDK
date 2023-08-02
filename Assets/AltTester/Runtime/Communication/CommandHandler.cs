@@ -21,18 +21,24 @@ using System.Linq;
 using System.Reflection;
 using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.Communication;
-using AltTester.AltTesterUnitySDK.Logging;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Driver.Communication;
+using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
     public class CommandHandler : ICommandHandler
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
-        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings { Culture = CultureInfo.InvariantCulture };
+        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver(),
+            Culture = CultureInfo.InvariantCulture,
+            Formatting = Formatting.Indented
+        };
 
         public SendMessageHandler OnSendMessage { get; set; }
 
@@ -58,7 +64,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
             Func<string> executeAndSerialize = null;
             CommandParams cmdParams = null;
-
             try
             {
                 cmdParams = JsonConvert.DeserializeObject<CommandParams>(data, jsonSerializerSettings);
