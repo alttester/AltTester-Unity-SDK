@@ -20,10 +20,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.InputModule;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM
@@ -110,7 +113,12 @@ public class Input : MonoBehaviour
 
         UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
         string dataAsJson = targetFile.text;
-        AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltAxis>>(dataAsJson);
+        AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltAxis>>(dataAsJson, new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver(),
+            Culture = CultureInfo.InvariantCulture,
+            Formatting = Formatting.Indented
+        });
     }
 
     private void FixedUpdate()
