@@ -242,6 +242,12 @@ jobs:
         with:
           name: TestJavaArtifact
           path: "**/*.log"
+  
+  copyright:
+    runs-on: [self-hosted, macOS]
+    steps:
+      - run: |
+          .\Copyright.ps1
 
   test-Python-Android-Browserstack:
     runs-on: [self-hosted, macOS]
