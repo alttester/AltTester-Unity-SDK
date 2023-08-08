@@ -364,7 +364,7 @@ public class TestForNIS
         altDriver.FindObject(By.NAME, "Button").Tap();
         var playerPos = altDriver.FindObject(By.NAME, "Player").GetWorldPosition();
         Assert.AreNotEqual(initialPlayerPos, playerPos);
-        var stick = altDriver.FindObject(By.NAME, "Button");
+        var stick = altDriver.FindObject(By.NAME, "Stick");
         altDriver.Swipe(stick.GetScreenPosition(), stick.GetScreenPosition() * 2, 1);
         var finalPlayerPos = altDriver.FindObject(By.NAME, "Player").GetWorldPosition();
         Assert.AreNotEqual(playerPos, finalPlayerPos);

@@ -24,6 +24,7 @@ using System.Xml;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal.Filters;
 using Unity.EditorCoroutines.Editor;
@@ -237,7 +238,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
             var listOfTests = AltTesterEditorWindow.EditorConfiguration.MyTests;
             var serializeTests = JsonConvert.SerializeObject(listOfTests, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ContractResolver = new DefaultContractResolver()
             });
             UnityEditor.EditorPrefs.SetString("tests", serializeTests);
 

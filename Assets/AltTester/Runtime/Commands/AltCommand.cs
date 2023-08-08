@@ -20,6 +20,7 @@ using System.Globalization;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -27,7 +28,12 @@ namespace AltTester.AltTesterUnitySDK.Commands
     {
         private const int MAX_DEPTH_REPONSE_DATA_SERIALIZATION = 2;
         public TParam CommandParams { get; private set; }
-
+        protected JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver(),
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Culture = CultureInfo.InvariantCulture
+        };
         protected AltCommand(TParam commandParams)
         {
             CommandParams = commandParams;
@@ -36,10 +42,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         public string ExecuteAndSerialize<T>(Func<T> action)
         {
             var result = ExecuteHandleErrors(action);
-            return JsonConvert.SerializeObject(result, new JsonSerializerSettings
-            {
-                Culture = CultureInfo.InvariantCulture
-            });
+            return JsonConvert.SerializeObject(result, JsonSerializerSettings);
         }
 
         public string ExecuteAndSerialize()
