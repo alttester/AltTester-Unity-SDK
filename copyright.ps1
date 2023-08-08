@@ -1,4 +1,6 @@
-param($target = "./")
+$targetCSharp = "./Assets"
+$targetJava = "./Bindings~/java"
+$targetPyhon = "./Bindings~/python"
 
 $copyrightCSharpAndJava = "/*
     Copyright(C) 2023  Altom Consulting
@@ -55,10 +57,14 @@ function Write-Header ($file, $header) {
     }
 }
 
-Get-ChildItem $target -Recurse | ? { ($_.Extension -like ".cs") -or ($_.Extension -like ".java") } | % {
+Get-ChildItem $targetCSharp -Recurse | ? { $_.Extension -like ".cs" } | % {
     Write-Header $_.PSPath.Split(":",3)[2] $copyrightCSharpAndJava
 }
 
-Get-ChildItem $target -Recurse | ? { $_.Extension -like ".py" } | % {
+Get-ChildItem $targetJava -Recurse | ? { $_.Extension -like ".java" } | % {
+    Write-Header $_.PSPath.Split(":",3)[2] $copyrightCSharpAndJava
+}
+
+Get-ChildItem $targetPyhon -Recurse | ? { $_.Extension -like ".py" } | % {
     Write-Header $_.PSPath.Split(":",3)[2] $copyrightPython
 }
