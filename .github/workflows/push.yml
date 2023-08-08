@@ -247,7 +247,7 @@ jobs:
     runs-on: [self-hosted, macOS]
     steps:
       - run: |
-          .\Copyright.ps1
+          pwsh copyright.ps1
 
   test-Python-Android-Browserstack:
     runs-on: [self-hosted, macOS]
