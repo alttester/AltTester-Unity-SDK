@@ -417,9 +417,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             _updateQueue.ScheduleResponse(() =>
             {
-                PlayerPrefs.SetString(HOST, HostInputField.text);
-                PlayerPrefs.SetString(PORT, PortInputField.text);
-                PlayerPrefs.SetString(APP_NAME, AppNameInputField.text);
                 SetMessage(message, color: SUCCESS_COLOR, visible: true);
             });
         }
@@ -444,6 +441,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 _updateQueue.ScheduleResponse(() =>
                 {
+                    PlayerPrefs.SetString(HOST, HostInputField.text);
+                    PlayerPrefs.SetString(PORT, PortInputField.text);
+                    PlayerPrefs.SetString(APP_NAME, AppNameInputField.text);
                     ToggleCustomInput(true);
                     SetMessage(message, color: SUCCESS_COLOR, visible: false);
                 });

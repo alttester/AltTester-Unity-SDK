@@ -25,6 +25,7 @@ using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -115,11 +116,8 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 try
                 {
 
-                    parameterValues[i] = JsonConvert.DeserializeObject(parameters[i], parameterInfos[i].ParameterType,
-                       new JsonSerializerSettings
-                       {
-                           Culture = CultureInfo.InvariantCulture
-                       });
+                    parameterValues[i] = JsonConvert.DeserializeObject(parameters[i], parameterInfos[i].ParameterType
+                      , JsonSerializerSettings);
                 }
 
                 catch (Newtonsoft.Json.JsonException)
@@ -315,7 +313,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             object value;
             try
             {
-                value = Newtonsoft.Json.JsonConvert.DeserializeObject(valueString, type);
+                value = Newtonsoft.Json.JsonConvert.DeserializeObject(valueString, type, JsonSerializerSettings);
             }
             catch (Newtonsoft.Json.JsonException e)
             {

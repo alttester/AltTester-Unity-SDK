@@ -19,9 +19,9 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
 
@@ -96,12 +96,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             var result = ExecuteHandleErrors(() => getTexturedScreenshot(size, quality));
 
-            string data = JsonConvert.SerializeObject(result, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                Culture = CultureInfo.InvariantCulture,
-                StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
-            });
+            string data = JsonConvert.SerializeObject(result, JsonSerializerSettings);
 
             Handler.Send(data);
         }

@@ -26,11 +26,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
 
         public AltCallStaticMethod(IDriverCommunication commHandler, string typeName, string methodName, object[] parameters, string[] typeOfParameters, string assemblyName) : base(commHandler)
         {
-            cmdParams = new AltCallComponentMethodForObjectParams(null, typeName, methodName, parameters.Select(p => JsonConvert.SerializeObject(p, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                Culture = System.Globalization.CultureInfo.InvariantCulture
-            })).ToArray(), typeOfParameters, assemblyName);
+            cmdParams = new AltCallComponentMethodForObjectParams(null, typeName, methodName, parameters.Select(p => JsonConvert.SerializeObject(p, JsonSerializerSettings)).ToArray(), typeOfParameters, assemblyName);
         }
         public T Execute()
         {

@@ -17,6 +17,8 @@
 
 using System.Collections.Generic;
 using System.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,6 +52,13 @@ public class AltExampleScriptCapsule : AltInheritedFields
         _ = this.GetComponent<CapsuleCollider>().isTrigger;
         _ = this.gameObject.tag;
         _ = this.gameObject.hideFlags;
+        JsonSerializerSettings badSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() },
+            Formatting = Formatting.None
+        };
+
+        JsonConvert.DefaultSettings = () => badSettings;
     }
 
     public bool TestProperty

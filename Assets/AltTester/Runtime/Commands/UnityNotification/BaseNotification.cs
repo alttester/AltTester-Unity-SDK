@@ -16,15 +16,22 @@
 */
 
 using System.Globalization;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AltTester.AltTesterUnitySDK.Notification
 {
     public class BaseNotification
     {
         private static ICommandHandler commandHandler;
+        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver(),
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Culture = CultureInfo.InvariantCulture
+        };
 
         public BaseNotification(ICommandHandler commandHandlerParam)
         {
@@ -37,19 +44,12 @@ namespace AltTester.AltTesterUnitySDK.Notification
             {
                 commandName = commandName,
                 messageId = null,
-                data = JsonConvert.SerializeObject(data, new JsonSerializerSettings
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    Culture = CultureInfo.InvariantCulture
-                }),
+                data = JsonConvert.SerializeObject(data, jsonSerializerSettings),
                 error = null,
                 isNotification = true
             };
 
-            var notification = JsonConvert.SerializeObject(cmdResponse, new JsonSerializerSettings
-            {
-                Culture = CultureInfo.InvariantCulture
-            });
+            var notification = JsonConvert.SerializeObject(cmdResponse, jsonSerializerSettings);
             commandHandler.Send(notification);
 
         }
