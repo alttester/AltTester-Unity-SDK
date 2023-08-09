@@ -15,6 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
+
 class LogNotificationResult:
 
     def __init__(self, message, stack_trace, type):
