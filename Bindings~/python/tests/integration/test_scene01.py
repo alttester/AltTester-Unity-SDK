@@ -1,5 +1,5 @@
-﻿"""
-    Copyright(C) 2023  Altom Consulting
+"""
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,12 +8,13 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
+
 import time
 
 import pytest
@@ -764,7 +765,7 @@ class TestScene01:
         self.altdriver.key_down(AltKeyCode.Mouse0)
         self.altdriver.key_up(AltKeyCode.Mouse0)
         text = self.altdriver.find_object(By.NAME, "ChineseLetters").get_text()
-        assert text != "哦伊娜哦"
+        assert text != "????"
 
     def test_camera_not_found_exception(self):
         with pytest.raises(exceptions.CameraNotFoundException):
