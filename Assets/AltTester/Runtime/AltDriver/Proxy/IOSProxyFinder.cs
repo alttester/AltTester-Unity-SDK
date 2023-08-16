@@ -31,7 +31,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
         public string GetProxy(string uri, string host)
         {
             var result = _getProxy(uri, host);
-            return result;
 
             if (string.IsNullOrEmpty(result))
             {
