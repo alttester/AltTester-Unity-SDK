@@ -27,16 +27,23 @@ import JavaScriptCore
                 }
 
                 if let data = data {
-                    if let jsCode = String(data: data, encoding: .utf8) {
-                        let context:JSContext = JSContext()
-                        context.exceptionHandler = { context, value in
-                            // Handle JS Errors
+                    if let pacContent = String(data: data, encoding: .utf8) {
+                        let proxies = CFNetworkCopyProxiesForAutoConfigurationScript(pacContent as CFString, CFURLCreateWithString(kCFAllocatorDefault, destinationUrl as CFString, nil), nil)!.takeUnretainedValue() as? [[AnyHashable: Any]] ?? [];
+
+                        if (proxies.count > 0) {
+                            let proxy = proxies[0]
+
+                            if(proxy[kCFProxyTypeKey] as! CFString == kCFProxyTypeHTTP || proxy[kCFProxyTypeKey] as! CFString == kCFProxyTypeHTTPS) {
+                                let host = proxy[kCFProxyHostNameKey] as? String ?? "null"
+                                let port = proxy[kCFProxyPortNumberKey] as? Int ?? 0
+
+                                if (host == "null" || port == 0) {
+                                    return
+                                }
+
+                                proxyUrl = "http://" + host + ":" + String(port)
+                            }
                         }
-
-                        context.evaluateScript(jsCode)
-
-                        let fn = "FindProxyForURL('\(destinationUrl)', '\(destinationHost)')"
-                        proxyUrl = context.evaluateScript(fn).toString() ?? ""
                     }
                 } else if let error = error {
                     // Handle Error
