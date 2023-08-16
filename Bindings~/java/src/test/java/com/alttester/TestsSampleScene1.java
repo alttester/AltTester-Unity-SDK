@@ -1518,7 +1518,6 @@ public class TestsSampleScene1 extends BaseTest {
         AltKeyCode[] keys = { AltKeyCode.K, AltKeyCode.L };
 
         altDriver.pressKeys(new AltPressKeysParams.Builder(keys).build());
-
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "Capsule").build();
         AltObject altObject = altDriver.findObject(altFindObjectsParams);

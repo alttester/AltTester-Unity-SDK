@@ -604,6 +604,7 @@ class TestScene01:
         button = self.altdriver.find_object(By.PATH, "//Button")
         button.tap()
         button.tap()
+
         alt_object = self.altdriver.find_object(
             By.COMPONENT, "CapsuleCollider",
             camera_value="Camera"
