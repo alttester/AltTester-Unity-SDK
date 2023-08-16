@@ -1,4 +1,4 @@
-"""
+﻿"""
     Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
@@ -604,7 +604,6 @@ class TestScene01:
         button = self.altdriver.find_object(By.PATH, "//Button")
         button.tap()
         button.tap()
-
         alt_object = self.altdriver.find_object(
             By.COMPONENT, "CapsuleCollider",
             camera_value="Camera"

@@ -43,7 +43,6 @@ public class TestBase
     protected void LoadLevel()
     {
         altDriver.ResetInput();
-
         altDriver.SetCommandResponseTimeout(60);
         altDriver.LoadScene(this.sceneName, true);
     }
