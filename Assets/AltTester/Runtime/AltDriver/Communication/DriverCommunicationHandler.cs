@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
@@ -25,6 +25,7 @@ using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Driver.Notifications;
 using AltWebSocketSharp;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Communication
 {
@@ -38,6 +39,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private readonly int port;
         private readonly string appName;
         private readonly int connectTimeout;
+        private readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver(),
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Culture = CultureInfo.InvariantCulture
+        };
 
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
@@ -110,7 +117,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
                 try
                 {
-                    return JsonConvert.DeserializeObject<T>(message.data);
+                    return JsonConvert.DeserializeObject<T>(message.data, jsonSerializerSettings);
                 }
                 catch (JsonReaderException)
                 {
@@ -122,11 +129,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         public void Send(CommandParams param)
         {
             param.messageId = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
-            string message = JsonConvert.SerializeObject(param, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                Culture = CultureInfo.InvariantCulture
-            });
+            string message = JsonConvert.SerializeObject(param, jsonSerializerSettings);
             this.wsClient.Send(message);
             logger.Debug("Command sent: " + Utils.TrimLog(message));
         }
@@ -144,7 +147,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         protected void OnMessage(object sender, string data)
         {
-            var message = JsonConvert.DeserializeObject<CommandResponse>(data);
+            var message = JsonConvert.DeserializeObject<CommandResponse>(data, jsonSerializerSettings);
 
             if (message.isNotification)
             {
@@ -164,28 +167,28 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             switch (message.commandName)
             {
                 case "loadSceneNotification":
-                    AltLoadSceneNotificationResultParams data = JsonConvert.DeserializeObject<AltLoadSceneNotificationResultParams>(message.data);
+                    AltLoadSceneNotificationResultParams data = JsonConvert.DeserializeObject<AltLoadSceneNotificationResultParams>(message.data, jsonSerializerSettings);
                     foreach (var callback in loadSceneCallbacks)
                     {
                         callback(data);
                     }
                     break;
                 case "unloadSceneNotification":
-                    string sceneName = JsonConvert.DeserializeObject<string>(message.data);
+                    string sceneName = JsonConvert.DeserializeObject<string>(message.data, jsonSerializerSettings);
                     foreach (var callback in unloadSceneCallbacks)
                     {
                         callback(sceneName);
                     }
                     break;
                 case "logNotification":
-                    AltLogNotificationResultParams data1 = JsonConvert.DeserializeObject<AltLogNotificationResultParams>(message.data);
+                    AltLogNotificationResultParams data1 = JsonConvert.DeserializeObject<AltLogNotificationResultParams>(message.data, jsonSerializerSettings);
                     foreach (var callback in logCallbacks)
                     {
                         callback(data1);
                     }
                     break;
                 case "applicationPausedNotification":
-                    bool data2 = JsonConvert.DeserializeObject<bool>(message.data);
+                    bool data2 = JsonConvert.DeserializeObject<bool>(message.data, jsonSerializerSettings);
                     foreach (var callback in applicationPausedCallbacks)
                     {
                         callback(data2);

@@ -26,8 +26,12 @@ Once you have an instance of the _AltDriver_, you can use all the available comm
 
 Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
+```eval_rst
+
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
 
 **_Parameters_**
 
@@ -82,9 +86,12 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 #### FindObjects
 
 Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+```eval_rst
 
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
 
 **_Parameters_**
 
@@ -144,8 +151,12 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
+```eval_rst
+
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
 
 **_Parameters_**
 
@@ -199,8 +210,12 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
+```eval_rst
+
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
 
 **_Parameters_**
 
@@ -369,8 +384,12 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 Waits until it finds an object that respects the given criteria or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
+```eval_rst
+
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
 
 **_Parameters_**
 
@@ -438,8 +457,12 @@ Waits until it finds an object that respects the given criteria or until timeout
 
 Waits until it finds an object that respects the given criteria or time runs out and will throw an error. Check [By](#by-selector) for more information about criteria.
 
+```eval_rst
+
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
 
 **_Parameters_**
 
@@ -500,8 +523,12 @@ Waits until it finds an object that respects the given criteria or time runs out
 
 Waits until the object in the scene that respects the given criteria is no longer in the scene or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
+```eval_rst
+
 .. important::
-     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
 
 **_Parameters_**
 
@@ -3133,7 +3160,9 @@ Wait until a property has a specific value and returns the value of the given co
 | componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                    |
 | propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                           |                                                                                                                                   
 | propertyValue  | T | Yes       | The value that property shoud have.                             
-| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                           | timeout     | double             | No       | The number of seconds that it will wait for property.                                                                                                                            | interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than timeout.                                                                                                                                                                                                                                                                                       |
+| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                           
+| timeout     | double             | No       | The number of seconds that it will wait for the property. The default value is 20 seconds.                                                                                                                            
+| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.                                                                                                                                                                                                                                                                                       |
 
 **_Returns_**
 
@@ -3356,30 +3385,23 @@ None
     .. code-tab:: java
 
         @Test
-        public void testWaitForObjectWithText() throws Exception
+        public void testFindElementWithText()
         {
             String name = "CapsuleInfo";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, name).build();
             String text = altDriver.findObject(altFindObjectsParams).getText();
-            long timeStart = System.currentTimeMillis();
-            AltWaitForObjectWithTextParams altWaitForElementWithTextParams = new AltWaitForObjectWithTextParams.Builder(altFindObjectsParams,text).withInterval(0).withTimeout(0).build();
-            AltObject altObject = altDriver.waitForObjectWithText(altWaitForElementWithTextParams);
-            long timeEnd = System.currentTimeMillis();
-            long time = timeEnd - timeStart;
-            assertTrue(time / 1000 < 20);
-            assertNotNull(altObject);
-            assertEquals(altObject.getText(), text);
-        }
+            altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.TEXT, text).build();
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
+            assertNotNull(altElement);
+            assertEquals(altElement.getText(), text);
+          }
 
     .. code-tab:: py
 
-        def test_call_component_method(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
-            result = self.altDriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
-            self.assertEqual(result,"null")
-            self.altDriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-            self.assertEqual('setFromMethod', self.altDriver.find_element('CapsuleInfo').get_text())
-
+        def test_find_object_by_text(self):
+            text = self.altdriver.find_object(By.NAME, "CapsuleInfo").get_text()
+            element = self.altdriver.find_object(By.TEXT, text)
+            assert element.get_text() == text
 ```
 
 ### SetText
@@ -4200,8 +4222,10 @@ The following selecting nodes and attributes are implemented:
 
     .. tab:: indexer
         
+
         .. important::
-            Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+            Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
 
         ``//NameOfParent[n]``
 

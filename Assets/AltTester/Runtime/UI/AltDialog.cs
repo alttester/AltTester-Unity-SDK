@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
@@ -33,6 +33,9 @@ namespace AltTester.AltTesterUnitySDK.UI
         private readonly UnityEngine.Color SUCCESS_COLOR = new UnityEngine.Color32(0, 165, 36, 255);
         private readonly UnityEngine.Color WARNING_COLOR = new UnityEngine.Color32(255, 255, 95, 255);
         private readonly UnityEngine.Color ERROR_COLOR = new UnityEngine.Color32(191, 71, 85, 255);
+        private readonly string HOST = "AltTesterHost";
+        private readonly string PORT = "AltTesterPort";
+        private readonly string APP_NAME = "AltTesterAppName";
 
         [UnityEngine.SerializeField]
         public UnityEngine.GameObject Dialog = null;
@@ -192,19 +195,19 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void SetUpHostInputField()
         {
-            HostInputField.text = InstrumentationSettings.AltServerHost;
+            HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
         }
 
         private void SetUpPortInputField()
         {
-            PortInputField.text = InstrumentationSettings.AltServerPort.ToString();
+            PortInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
             PortInputField.onValueChanged.AddListener(OnPortInputFieldValueChange);
             PortInputField.characterValidation = UnityEngine.UI.InputField.CharacterValidation.Integer;
         }
 
         private void SetUpAppNameInputField()
         {
-            AppNameInputField.text = InstrumentationSettings.AppName;
+            AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
         }
 
         private void OnRestartButtonPress()
@@ -291,7 +294,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void InitClient()
         {
-            _communication = new RuntimeCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            _communication = new RuntimeCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text);
             _communication.OnConnect += OnConnect;
             _communication.OnDisconnect += OnDisconnectCommunication;
             _communication.OnError += OnError;
@@ -300,7 +303,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             _communication.CmdHandler.OnDriverDisconnect += OnDriverDisconnect;
             _communication.Init();
 
-            _liveUpdateCommunication = new LiveUpdateCommunicationHandler(InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            _liveUpdateCommunication = new LiveUpdateCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text);
             _liveUpdateCommunication.OnDisconnect += OnDisconnectLiveUpdate;
             _liveUpdateCommunication.OnError += OnError;
             _liveUpdateCommunication.OnConnect += OnConnect;
@@ -404,13 +407,13 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void OnStart()
         {
-            string message = String.Format("Waiting to connect to AltServer on {0}:{1} with app name: '{2}'.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            string message = String.Format("Waiting to connect to AltServer on {0}:{1} with app name: '{2}'.", HostInputField.text, PortInputField.text, AppNameInputField.text);
             SetMessage(message, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
         }
 
         private void OnConnect()
         {
-            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", HostInputField.text, PortInputField.text, AppNameInputField.text);
 
             _updateQueue.ScheduleResponse(() =>
             {
@@ -430,7 +433,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void OnDriverConnect(string driverId)
         {
             logger.Debug("Driver Connected: " + driverId);
-            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Driver connected.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Driver connected.", HostInputField.text, PortInputField.text, AppNameInputField.text);
 
             _connectedDrivers.Add(driverId);
 
@@ -438,6 +441,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 _updateQueue.ScheduleResponse(() =>
                 {
+                    PlayerPrefs.SetString(HOST, HostInputField.text);
+                    PlayerPrefs.SetString(PORT, PortInputField.text);
+                    PlayerPrefs.SetString(APP_NAME, AppNameInputField.text);
                     ToggleCustomInput(true);
                     SetMessage(message, color: SUCCESS_COLOR, visible: false);
                 });
@@ -447,7 +453,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void OnDriverDisconnect(string driverId)
         {
             logger.Debug("Driver Disconnect: " + driverId);
-            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", InstrumentationSettings.AltServerHost, InstrumentationSettings.AltServerPort, InstrumentationSettings.AppName);
+            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", HostInputField.text, PortInputField.text, AppNameInputField.text);
 
             _connectedDrivers.Remove(driverId);
             if (_connectedDrivers.Count == 0)

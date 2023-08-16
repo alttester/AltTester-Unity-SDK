@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,13 +8,12 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
-
 
 using System;
 using System.Collections;
@@ -26,6 +25,7 @@ using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -116,11 +116,8 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 try
                 {
 
-                    parameterValues[i] = JsonConvert.DeserializeObject(parameters[i], parameterInfos[i].ParameterType,
-                       new JsonSerializerSettings
-                       {
-                           Culture = CultureInfo.InvariantCulture
-                       });
+                    parameterValues[i] = JsonConvert.DeserializeObject(parameters[i], parameterInfos[i].ParameterType
+                      , JsonSerializerSettings);
                 }
 
                 catch (Newtonsoft.Json.JsonException)
@@ -316,7 +313,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             object value;
             try
             {
-                value = Newtonsoft.Json.JsonConvert.DeserializeObject(valueString, type);
+                value = Newtonsoft.Json.JsonConvert.DeserializeObject(valueString, type, JsonSerializerSettings);
             }
             catch (Newtonsoft.Json.JsonException e)
             {

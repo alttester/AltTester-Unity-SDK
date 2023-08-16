@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
@@ -21,18 +21,24 @@ using System.Linq;
 using System.Reflection;
 using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.Communication;
-using AltTester.AltTesterUnitySDK.Logging;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Driver.Communication;
+using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
     public class CommandHandler : ICommandHandler
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
-        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings { Culture = CultureInfo.InvariantCulture };
+        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver(),
+            Culture = CultureInfo.InvariantCulture,
+            Formatting = Formatting.Indented
+        };
 
         public SendMessageHandler OnSendMessage { get; set; }
 
@@ -58,7 +64,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
             Func<string> executeAndSerialize = null;
             CommandParams cmdParams = null;
-
             try
             {
                 cmdParams = JsonConvert.DeserializeObject<CommandParams>(data, jsonSerializerSettings);
