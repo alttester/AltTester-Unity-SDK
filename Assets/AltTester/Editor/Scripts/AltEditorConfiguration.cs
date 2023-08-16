@@ -43,6 +43,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
         public string AltServerHost = "127.0.0.1";
 
         public string AppName = "__default__";
+        public int assemblyTestDisplayedIndex;
 
         public AltInstrumentationSettings GetInstrumentationSettings()
         {

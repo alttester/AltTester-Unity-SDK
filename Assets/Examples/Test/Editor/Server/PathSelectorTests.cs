@@ -103,12 +103,11 @@ public class PathSelectorTests
         Assert.True(firstCondition is SelectorCondition);
         Assert.AreEqual("name", firstCondition.Selector);
         Assert.AreEqual(SelectorType.Name, firstCondition.Type);
+        Assert.IsNull(firstCondition.NextSelector);
 
-        var secondCondition = firstCondition.NextSelector;
-        Assert.True(secondCondition is SelectorCondition);
-        Assert.AreEqual(SelectorType.Indexer, (secondCondition as SelectorCondition).Type);
-        Assert.AreEqual("1", secondCondition.Selector);
-        Assert.AreEqual(1, (secondCondition as IndexerCondition).Index);
+
+        Assert.AreEqual("1", selector.FirstBound.Indexer.Selector);
+        Assert.AreEqual(1, selector.FirstBound.Indexer.Index);
     }
 
     [TestCase("", "Path must start with delimiter / or //")]

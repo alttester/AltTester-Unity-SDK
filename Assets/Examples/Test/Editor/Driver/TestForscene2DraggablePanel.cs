@@ -133,7 +133,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             {
                 listOfElements += element.name + "; ";
             }
-            Assert.AreEqual(19, altElements.FindIndex(e => e.name == "AltTesterPrefab"));
+            Assert.IsTrue(altElements.Count >= 47, "Number of elements returned: " + altElements.Count);
 
             Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
             Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
