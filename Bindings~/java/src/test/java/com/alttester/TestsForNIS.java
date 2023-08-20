@@ -175,6 +175,7 @@ public class TestsForNIS extends BaseTest {
         AltFindObjectsParams altFindObjectsParamsScrollView = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME,
                 "Scroll View").build();
+                
         AltObject scrollView = altDriver.findObject(altFindObjectsParamsScrollView);
         AltMoveMouseParams altMoveMouseParams = new AltMoveMouseParams.Builder(
                 scrollView.getScreenPosition())
