@@ -58,7 +58,6 @@ public static class ProxyFinderPostProcess
                 writer.Write(modulemapContent);
                 writer.Close();
 
-                // FileUtil.CopyFileOrDirectory("Assets/AltTester/Runtime/AltDriver/Proxy/Plugins/iOS/ProxyFinder/Source/UnityFramework.modulemap", moduleFile);
                 project.AddFile(moduleFile, "UnityFramework/UnityFramework.modulemap");
                 project.AddBuildProperty(unityFrameworkGuid, "MODULEMAP_FILE", "$(SRCROOT)/UnityFramework/UnityFramework.modulemap");
             }
