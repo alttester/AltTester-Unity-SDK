@@ -2,10 +2,10 @@
 Sphinx
 
 recommonmark
-
+docutils==0.16
 sphinx-markdown-tables
 sphinx-tabs
 sphinx-rtd-theme
 sphinx-multiversion-scylla
-
+myst-parser
 pygit2

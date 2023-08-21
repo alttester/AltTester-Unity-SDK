@@ -22,6 +22,8 @@ applications.
 Documentation
 -------------
 
+|test1|
+|test2|
 .. rst-class:: toc
 
 

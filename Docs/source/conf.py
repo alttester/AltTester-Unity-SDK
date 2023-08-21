@@ -62,18 +62,28 @@ extlinks = {
     'altTesterIphoneBlog'               : ('https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s', None)
 }
 
+myst_substitutions = {
+    'test': 'test'
+}
+
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autosectionlabel',
+extensions = ['sphinx.ext.extlinks',
+              'sphinx.ext.autosectionlabel',
               'sphinx_markdown_tables',
               'sphinx_tabs.tabs',
               'sphinx_rtd_theme',
               'recommonmark',
-              'sphinx_multiversion',
-              'sphinx.ext.extlinks']
+              'sphinx_multiversion']
+
+
+rst_prolog = """
+.. |test1| replace:: merge
+.. |test2| replace:: goo
+"""
 
 source_suffix = {'.rst': 'restructuredtext', '.md': 'markdown'}
 
