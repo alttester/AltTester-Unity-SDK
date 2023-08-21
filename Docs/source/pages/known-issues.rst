@@ -102,7 +102,8 @@ used inside the AltTester Unity SDK. There are other alternatives that work with
 instrumented builds. For Android you can use the Android Emulator inside the
 Android Studio. For iOS you can use a simulator inside Xcode.
 
-**Affects**: AltUnity Tester v1.7.*. Note: For the new architecture, starting with v2.0.0 we still need to run tests too check if it works with the new communication protocol
+**Affects**: AltUnity Tester v1.7.*. 
+Note: In version 2.0.2 this issue has been fixed.
 
 Networking
 ----------
