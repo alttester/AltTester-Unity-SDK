@@ -299,7 +299,7 @@ jobs:
   deploy-dev-docs:
     runs-on: ubuntu-latest
     needs: build-docs
-    if: github.ref == 'refs/heads/1365-latest-docs-the-users-are-redirected-to-the-201-docs-when-they-are-on-the-desktopsdk-docs-and-then-they-open-the-sdkdesktop-docs'
+    if: github.ref == 'refs/heads/development'
 
     steps:
       - uses: actions/checkout@v3
