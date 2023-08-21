@@ -71,7 +71,7 @@ extensions = ['sphinx.ext.extlinks',
 
 extlinks = {
     "test": ("https://www.google.com/%s", None),
-    "altTesterPage": ("https://alttester.com/alttester/%s", None),
+    "alttesterpage": ("https://alttester.com/alttester/%s", None),
     "altTesterDesktopdocumentation": (alttester_sdk_docs_link, None),
     "altTesterSDKdownload": (alttester_sdk_download_link, None),
     "altTesterIphoneBlog": ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
