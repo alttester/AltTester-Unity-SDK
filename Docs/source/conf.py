@@ -55,14 +55,6 @@ sdk_release_version = version.replace('.', '_')
 alttester_sdk_docs_link         = "https://alttester.com/docs/desktop/" + desktop_release_version + "/%s"
 alttester_sdk_download_link     = "https://alttester.com/app/uploads/AltTester/sdks/AltTester_" + sdk_release_version + ".unitypackage%s"
 
-extlinks = {
-    "test": ("https://alttester.com/alttester", None),
-    "altTesterPage": ("https://alttester.com/alttester/%s", None),
-    "altTesterDesktopdocumentation": (alttester_sdk_docs_link, None),
-    "altTesterSDKdownload": (alttester_sdk_download_link, None),
-    "altTesterIphoneBlog": ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
-}
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -76,6 +68,14 @@ extensions = ['sphinx.ext.extlinks',
               'recommonmark',
               'sphinx_multiversion']
 
+
+extlinks = {
+    "test": ("https://www.google.com/%s", None),
+    "altTesterPage": ("https://alttester.com/alttester/%s", None),
+    "altTesterDesktopdocumentation": (alttester_sdk_docs_link, None),
+    "altTesterSDKdownload": (alttester_sdk_download_link, None),
+    "altTesterIphoneBlog": ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
+}
 
 source_suffix = {'.rst': 'restructuredtext', '.md': 'markdown'}
 
