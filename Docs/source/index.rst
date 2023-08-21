@@ -22,8 +22,6 @@ applications.
 Documentation
 -------------
 
-|test1|
-|test2|
 .. rst-class:: toc
 
 
@@ -32,10 +30,10 @@ Documentation
    *  :doc:`/pages/overview`
    *  :doc:`/pages/get-started`
 
-*  :altTesterDesktopdocumentation:`AltTester Desktop <home.html>`
+*  :any::altTesterDesktopdocumentation:`AltTester Desktop <home.html>`
 
-   *  :altTesterDesktopdocumentation:`Overview <pages/overview.html>`
-   *  :altTesterDesktopdocumentation:`Get Started <pages/get-started.html>`
+   *  :any::altTesterDesktopdocumentation:`Overview <pages/overview.html>`
+   *  :any::altTesterDesktopdocumentation:`Get Started <pages/get-started.html>`
 
 
 .. toctree::
