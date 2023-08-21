@@ -29,6 +29,16 @@ public static class ProxyFinderPostProcess
     {
         Debug.Log("OnPostProcessBuild: " + buildTarget);
 
+        string modulemapContent = "framework module UnityFramework {\n"
+            + "    umbrella header \"UnityFramework.h\"\n"
+            + "    export *\n"
+            + "    module * { export * }\n"
+            + "    module UnityInterface {\n"
+            + "        header \"UnityInterface.h\"\n"
+            + "        export *\n"
+            + "    }\n"
+            + "}\n";
+
         if (buildTarget == BuildTarget.iOS)
         {
             var projectPath = buildPath + "/Unity-iPhone.xcodeproj/project.pbxproj";
@@ -44,7 +54,10 @@ public static class ProxyFinderPostProcess
             var moduleFile = buildPath + "/UnityFramework/UnityFramework.modulemap";
             if (!File.Exists(moduleFile))
             {
-                FileUtil.CopyFileOrDirectory("Assets/AltTester/Runtime/AltDriver/Proxy/Plugins/iOS/ProxyFinder/Source/UnityFramework.modulemap", moduleFile);
+                StreamWriter writer = new StreamWriter(moduleFile, false);
+                writer.Write(modulemapContent);
+                writer.Close();
+
                 project.AddFile(moduleFile, "UnityFramework/UnityFramework.modulemap");
                 project.AddBuildProperty(unityFrameworkGuid, "MODULEMAP_FILE", "$(SRCROOT)/UnityFramework/UnityFramework.modulemap");
             }
