@@ -18,8 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver.Communication;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.Driver.Communication;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Driver.Notifications;
 
@@ -34,7 +34,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
-        public static readonly string VERSION = "2.0.1";
+        public static readonly string VERSION = "2.0.2";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
