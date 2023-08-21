@@ -56,8 +56,9 @@ alttester_sdk_docs_link         = 'https://alttester.com/docs/desktop/' + deskto
 alttester_sdk_download_link     = 'https://alttester.com/app/uploads/AltTester/sdks/AltTester_' + sdk_release_version + '.unitypackage%s'
 
 extlinks = {
-    'altTesterPage'                     : ('https://alttester.com/alttester/%s', None),
-    'altTesterDesktopdocumentation'     : (alttester_sdk_docs_link, None),
+    "test": ("https://alttester.com/", None),
+    "altTesterPage": ("https://alttester.com/alttester/%s", None),
+    "altTesterDesktopdocumentation": (alttester_sdk_docs_link, None),
     'altTesterSDKdownload'              : (alttester_sdk_download_link, None),
     'altTesterIphoneBlog'               : ('https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s', None)
 }

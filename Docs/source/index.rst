@@ -5,7 +5,7 @@
 
 AltTester
 =========
-
+:test:`test`
 Through AltTester, we provide a UI Test Automation solution for Unity
 applications.
 
