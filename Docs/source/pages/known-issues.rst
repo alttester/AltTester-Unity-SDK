@@ -112,4 +112,4 @@ AltTester does not support proxy configurations
 
 **Problem**: At the moment, AltTester does not have built-in support for proxy configurations. When using AltTester, the tool does not handle proxy settings, which can cause connectivity issues
 
-**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.0, v2.0.1
+**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.x
