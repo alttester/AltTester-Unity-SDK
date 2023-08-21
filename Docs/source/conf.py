@@ -28,20 +28,20 @@ project = 'AltTester Unity SDK'
 # https://github.com/sphinx-doc/sphinx/issues/1836
 # https://github.com/sphinx-doc/sphinx/issues/500
 
-TAGS = ['1.8.1', '2.0.0', '2.0.1']
-LATEST_VERSION = 'master'
-BRANCHES = ['master']
+TAGS = ['1.8.1', '2.0.0', '2.0.1', '2.0.2']
+LATEST_VERSION = '1365-latest-docs-the-users-are-redirected-to-the-201-docs-when-they-are-on-the-desktopsdk-docs-and-then-they-open-the-sdkdesktop-docs'
+BRANCHES = ['1365-latest-docs-the-users-are-redirected-to-the-201-docs-when-they-are-on-the-desktopsdk-docs-and-then-they-open-the-sdkdesktop-docs']
 
-smv_branch_whitelist = r'^master$'
+smv_branch_whitelist = r'^1365-latest-docs-the-users-are-redirected-to-the-201-docs-when-they-are-on-the-desktopsdk-docs-and-then-they-open-the-sdkdesktop-docs$'
 smv_tag_whitelist = r'^(?!v.*).*$'
 smv_remote_whitelist = r'^.*$'
 
 github_ref = os.getenv('GITHUB_REF_NAME')
 
-if github_ref == 'development':
-    smv_branch_whitelist = r'^development$'
-    BRANCHES = ['development']
-    LATEST_VERSION = 'development'
+if github_ref == '1365-latest-docs-the-users-are-redirected-to-the-201-docs-when-they-are-on-the-desktopsdk-docs-and-then-they-open-the-sdkdesktop-docs':
+    smv_branch_whitelist = r'^1365-latest-docs-the-users-are-redirected-to-the-201-docs-when-they-are-on-the-desktopsdk-docs-and-then-they-open-the-sdkdesktop-docs$'
+    BRANCHES = ['1365-latest-docs-the-users-are-redirected-to-the-201-docs-when-they-are-on-the-desktopsdk-docs-and-then-they-open-the-sdkdesktop-docs']
+    LATEST_VERSION = '1365-latest-docs-the-users-are-redirected-to-the-201-docs-when-they-are-on-the-desktopsdk-docs-and-then-they-open-the-sdkdesktop-docs'
 
 smv_latest_version = LATEST_VERSION
 smv_rename_latest_version = 'latest'

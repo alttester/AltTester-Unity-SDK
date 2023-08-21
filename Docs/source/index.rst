@@ -41,7 +41,7 @@ Documentation
    :hidden:
 
    home
-   AltTester Desktop <https://alttester.com/docs/desktop/v.2.0.1/home.html>
+   AltTester Desktop <https://alttester.com/docs/desktop/v.2.0.2/home.html>
 
 
 .. toctree::

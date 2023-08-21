@@ -82,7 +82,7 @@ jobs:
   build-android:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
-    if: needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' 
+    if: needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -242,7 +242,7 @@ jobs:
         with:
           name: TestJavaArtifact
           path: "**/*.log"
-  
+
   copyright:
     runs-on: [self-hosted, macOS]
     steps:
@@ -316,6 +316,13 @@ jobs:
           replace: ${{ secrets.DEV_URL_ALTTESTER }}
           regex: true
 
+      - name: Update AltTester Desktop link for latest version
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: ${{ secrets.DEV_URL_ALTTESTER }}/docs/desktop/.*?/
+          replace: ${{ secrets.DEV_URL_ALTTESTER }}/docs/desktop/latest/
+          include: "DocumentationHTML/latest/**"
+
       - name: Upload documentation
         uses: garygrossgarten/github-action-scp@release
         with:
@@ -340,6 +347,13 @@ jobs:
         with:
           name: DocumentationHTML
           path: DocumentationHTML/
+
+      - name: Update AltTester Desktop link for latest version
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: ${{ secrets.LIVE_URL_ALTTESTER }}/docs/desktop/.*?/
+          replace: ${{ secrets.LIVE_URL_ALTTESTER }}/docs/desktop/latest/
+          include: "DocumentationHTML/latest/**"
 
       - name: Upload documentation
         uses: garygrossgarten/github-action-scp@release
