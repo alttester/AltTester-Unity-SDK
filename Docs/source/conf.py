@@ -56,10 +56,10 @@ alttester_sdk_docs_link         = "https://alttester.com/docs/desktop/" + deskto
 alttester_sdk_download_link     = "https://alttester.com/app/uploads/AltTester/sdks/AltTester_" + sdk_release_version + ".unitypackage%s"
 
 extlinks = {
-    "alttesterpage": ("https://alttester.com/alttester/%s", None),
-    "alttesterdesktopdocumentation": (alttester_sdk_docs_link, None),
-    "alttestersdkdownload": (alttester_sdk_download_link, None),
-    "alttesteriphoneblog": ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
+    "alttesterpage":                    ("https://alttester.com/alttester/%s", None),
+    "alttesterdesktopdocumentation":    (alttester_sdk_docs_link, None),
+    "alttestersdkdownload":             (alttester_sdk_download_link, None),
+    "alttesteriphoneblog":              ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
 }
 
 # -- General configuration ---------------------------------------------------
@@ -67,13 +67,13 @@ extlinks = {
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.extlinks',
-              'sphinx.ext.autosectionlabel',
+extensions = ['sphinx.ext.autosectionlabel',
               'sphinx_markdown_tables',
               'sphinx_tabs.tabs',
               'sphinx_rtd_theme',
               'recommonmark',
-              'sphinx_multiversion']
+              'sphinx_multiversion',
+              'sphinx.ext.extlinks']
 
 
 source_suffix = {'.rst': 'restructuredtext', '.md': 'markdown'}
