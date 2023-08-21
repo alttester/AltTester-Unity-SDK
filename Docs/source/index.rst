@@ -5,7 +5,7 @@
 
 AltTester
 =========
-:test:`test`
+
 Through AltTester, we provide a UI Test Automation solution for Unity
 applications.
 
@@ -30,10 +30,10 @@ Documentation
    *  :doc:`/pages/overview`
    *  :doc:`/pages/get-started`
 
-*  :any::altTesterDesktopdocumentation:`AltTester Desktop <home.html>`
+*  :altTesterDesktopdocumentation:`AltTester Desktop <home.html>`
 
-   *  :any::altTesterDesktopdocumentation:`Overview <pages/overview.html>`
-   *  :any::altTesterDesktopdocumentation:`Get Started <pages/get-started.html>`
+   *  :altTesterDesktopdocumentation:`Overview <pages/overview.html>`
+   *  :altTesterDesktopdocumentation:`Get Started <pages/get-started.html>`
 
 
 .. toctree::
