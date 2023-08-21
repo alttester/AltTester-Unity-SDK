@@ -57,7 +57,7 @@ alttester_sdk_download_link     = "https://alttester.com/app/uploads/AltTester/s
 
 extlinks = {
     "test": ("https://alttester.com/alttester", None),
-    "altTesterPage": ("https://alttester.com/alttester/%s", None),
+    "sitePage": ("https://alttester.com/alttester/%s", None),
     "altTesterDesktopdocumentation": (alttester_sdk_docs_link, None),
     "altTesterSDKdownload": (alttester_sdk_download_link, None),
     "altTesterIphoneBlog": ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
