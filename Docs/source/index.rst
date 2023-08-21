@@ -30,7 +30,7 @@ Documentation
    *  :doc:`/pages/overview`
    *  :doc:`/pages/get-started`
 
-*  :altTesterdesktopdocumentation:`<AltTester Desktop <home.html>>`
+*  :altTesterdesktopdocumentation:`AltTester Desktop <home.html>`
 
    *  :altTesterdesktopdocumentation:`Overview <pages/overview.html>`
    *  :altTesterdesktopdocumentation:`Get Started <pages/get-started.html>`
