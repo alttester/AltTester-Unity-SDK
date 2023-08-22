@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023  Altom Consulting
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 package com.alttester;
@@ -264,21 +264,12 @@ public class TestsSampleScene1 extends BaseTest {
     }
 
     @Test
-    @Tag("WebGLUnsupported")
     public void TestGetApplicationScreenSize() {
-        AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder(
-                "UnityEngine.Screen", "SetResolution",
-                "UnityEngine.CoreModule", new Object[] { "1920", "1080", "True"
-                })
-                .withTypeOfParameters(new String[] { "System.Int32", "System.Int32",
-                        "System.Boolean" })
-                .build();
-        altDriver.callStaticMethod(altCallStaticMethodParams,
-                Void.class);
-
         int[] screensize = altDriver.getApplicationScreenSize();
-        assertEquals(1920, screensize[0]);
-        assertEquals(1080, screensize[1]);
+        // We cannot set resolution on iOS so we don't know the exact resolution, we
+        // just want to see that it returns a value and is different than 0
+        assertNotEquals(0, screensize[0]);
+        assertNotEquals(0, screensize[1]);
     }
 
     @Test
@@ -1519,7 +1510,6 @@ public class TestsSampleScene1 extends BaseTest {
                 "stringToSetFromTests", "Assembly-CSharp").build();
         String finalPropertyValue = altObject.getComponentProperty(altGetComponentPropertyParams,
                 String.class);
-
         assertEquals(finalPropertyValue, "multiple keys pressed");
     }
 
@@ -1528,7 +1518,6 @@ public class TestsSampleScene1 extends BaseTest {
         AltKeyCode[] keys = { AltKeyCode.K, AltKeyCode.L };
 
         altDriver.pressKeys(new AltPressKeysParams.Builder(keys).build());
-
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME, "Capsule").build();
         AltObject altObject = altDriver.findObject(altFindObjectsParams);

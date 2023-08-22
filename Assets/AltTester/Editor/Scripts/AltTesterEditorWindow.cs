@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 
@@ -426,10 +426,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
             if (IsTestRunResultAvailable)
             {
                 Repaint();
-                IsTestRunResultAvailable = UnityEditor.EditorUtility.DisplayDialog("Test Report",
-                      " Total tests:" + (ReportTestFailed + ReportTestPassed) + System.Environment.NewLine + " Tests passed:" +
-                      ReportTestPassed + System.Environment.NewLine + " Tests failed:" + ReportTestFailed + System.Environment.NewLine +
-                      " Duration:" + TimeTestRan + " seconds", "Ok");
+                IsTestRunResultAvailable = EditorUtility.DisplayDialog("Test Report",
+                      $" Total tests:{ReportTestFailed + ReportTestPassed}{Environment.NewLine} Tests passed:{ReportTestPassed}{System.Environment.NewLine} Tests failed:{ReportTestFailed}{System.Environment.NewLine} Duration:{TimeTestRan} seconds", "Ok");
                 if (IsTestRunResultAvailable)
                 {
                     IsTestRunResultAvailable = !IsTestRunResultAvailable;
@@ -1406,10 +1404,29 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         private void displayTestGui(System.Collections.Generic.List<AltMyTest> tests)
         {
+            System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies().Where(a => a.GetReferencedAssemblies().FirstOrDefault(
+                        reference => reference.Name.Contains("nunit.framework")) != null).ToArray();
+
+            int selected = Mathf.Clamp(EditorConfiguration.assemblyTestDisplayedIndex, 0, assemblies.Length);
+            string[] assemblyNames = new string[assemblies.Length + 1];
+            assemblyNames[0] = "All";
+            for (int i = 0; i < assemblies.Length; i++)
+            {
+                assemblyNames[i + 1] = assemblies[i].GetName().Name;
+            }
+            selected = EditorGUILayout.Popup("Assembly", selected, assemblyNames);
+            if (EditorConfiguration.assemblyTestDisplayedIndex != selected)
+            {
+                SelectedTest = -1;
+                this.StartCoroutine(AltTestRunner.SetUpListTestCoroutine());
+                LoadTestCompleted = false;
+            }
+            EditorConfiguration.assemblyTestDisplayedIndex = selected;
             UnityEditor.EditorGUILayout.BeginHorizontal();
             UnityEditor.EditorGUILayout.LabelField("Tests list", UnityEditor.EditorStyles.boldLabel);
             if (UnityEngine.GUILayout.Button("Refresh"))
             {
+                SelectedTest = -1;
                 this.StartCoroutine(AltTestRunner.SetUpListTestCoroutine());
                 LoadTestCompleted = false;
             }

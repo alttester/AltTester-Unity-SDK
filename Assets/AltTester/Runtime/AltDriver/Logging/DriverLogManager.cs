@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,15 +8,16 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using NLog;
 using NLog.Config;
 using NLog.Layouts;
@@ -26,7 +27,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Logging
 {
     public class DriverLogManager
     {
-        const string LOGSFILEPATH = "./AltTester.log";
+        const string LOGSFILEPATH = "AltTester.log";
 
         public static LogFactory Instance { get { return instance.Value; } }
 
@@ -42,7 +43,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Logging
             Instance.GetCurrentClassLogger().Info(AltLogLevel.Info.ToNLogLevel());
             AltLogLevel level;
             if (minLogLevels.TryGetValue(AltLogger.File, out level) && level != AltLogLevel.Off)
-                Instance.GetCurrentClassLogger().Info("AltTester logs are saved at: " + LOGSFILEPATH);
+                Instance.GetCurrentClassLogger().Info("AltTester logs are saved at: " + Path.Combine(System.Environment.CurrentDirectory, LOGSFILEPATH));
         }
 
         /// <summary>
@@ -110,10 +111,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Logging
             config.AddRuleForOneLevel(LogLevel.Off, consoleTarget);
             config.LoggingRules[config.LoggingRules.Count - 1].RuleName = "AltServerConsoleRule";
 #endif
-
+            var path = Path.Combine(System.Environment.CurrentDirectory, LOGSFILEPATH);
             var logfile = new FileTarget("AltDriverFileTarget")
             {
-                FileName = LOGSFILEPATH,
+                FileName = path,
                 Layout = Layout.FromString("${longdate}|${level:uppercase=true}|${message}"),
                 DeleteOldFileOnStartup = true, //overwrite existing log file.
                 KeepFileOpen = true,

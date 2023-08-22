@@ -1,4 +1,21 @@
-#if !UNITY_EDITOR && UNITY_IOS
+/*
+    Copyright(C) 2023 Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+#if UNITY_IOS
 using System.IO;
 using UnityEngine;
 using UnityEditor;
@@ -11,6 +28,16 @@ public static class ProxyFinderPostProcess
     public static void OnPostProcessBuild(BuildTarget buildTarget, string buildPath)
     {
         Debug.Log("OnPostProcessBuild: " + buildTarget);
+
+        string modulemapContent = "framework module UnityFramework {\n"
+            + "    umbrella header \"UnityFramework.h\"\n"
+            + "    export *\n"
+            + "    module * { export * }\n"
+            + "    module UnityInterface {\n"
+            + "        header \"UnityInterface.h\"\n"
+            + "        export *\n"
+            + "    }\n"
+            + "}\n";
 
         if (buildTarget == BuildTarget.iOS)
         {
@@ -27,7 +54,10 @@ public static class ProxyFinderPostProcess
             var moduleFile = buildPath + "/UnityFramework/UnityFramework.modulemap";
             if (!File.Exists(moduleFile))
             {
-                FileUtil.CopyFileOrDirectory("Assets/AltTester/Runtime/AltDriver/Proxy/Plugins/iOS/ProxyFinder/Source/UnityFramework.modulemap", moduleFile);
+                StreamWriter writer = new StreamWriter(moduleFile, false);
+                writer.Write(modulemapContent);
+                writer.Close();
+
                 project.AddFile(moduleFile, "UnityFramework/UnityFramework.modulemap");
                 project.AddBuildProperty(unityFrameworkGuid, "MODULEMAP_FILE", "$(SRCROOT)/UnityFramework/UnityFramework.modulemap");
             }

@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
@@ -29,7 +29,7 @@ namespace AltTester.AltTesterUnitySDK
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "2.0.1";
+        public static readonly string VERSION = "2.0.2";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
         public AltInstrumentationSettings InstrumentationSettings = null;
@@ -227,26 +227,23 @@ namespace AltTester.AltTesterUnitySDK
             UnityEngine.Canvas canvas = gameObject.GetComponentInParent<UnityEngine.Canvas>();
             if (canvas != null)
             {
-                if (canvas.renderMode != UnityEngine.RenderMode.ScreenSpaceOverlay)
-                {
-                    if (gameObject.GetComponent<UnityEngine.RectTransform>() != null)
-                    {
-                        UnityEngine.Vector3[] vector3S = new UnityEngine.Vector3[4];
-                        gameObject.GetComponent<UnityEngine.RectTransform>().GetWorldCorners(vector3S);
-                        position = new UnityEngine.Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
-                    }
-                    if (canvas.worldCamera != null)
-                    {
-                        selectedCamera = canvas.worldCamera;
-                    }
-                    return selectedCamera.WorldToScreenPoint(position);
-                }
+                if (gameObject.GetComponent<UnityEngine.RectTransform>() == null)
+                    return camera.WorldToScreenPoint(gameObject.transform.position);
 
-                if (gameObject.GetComponent<UnityEngine.RectTransform>() != null)
+                UnityEngine.Vector3[] vector3S = new UnityEngine.Vector3[4];
+                gameObject.GetComponent<UnityEngine.RectTransform>().GetWorldCorners(vector3S);
+                position = new UnityEngine.Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
+
+                if (canvas.renderMode == UnityEngine.RenderMode.ScreenSpaceOverlay)
                 {
-                    return gameObject.GetComponent<UnityEngine.RectTransform>().position;
+                    return position;
                 }
-                return camera.WorldToScreenPoint(gameObject.transform.position);
+                if (canvas.worldCamera != null)
+                {
+                    selectedCamera = canvas.worldCamera;
+                }
+                return selectedCamera.WorldToScreenPoint(position);
+
             }
 
             var collider = gameObject.GetComponent<UnityEngine.Collider>();

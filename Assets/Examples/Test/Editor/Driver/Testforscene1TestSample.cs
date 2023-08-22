@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
@@ -54,13 +54,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
         [Test]
-        [Category("WebGLUnsupported")]
         public void TestGetApplicationScreenSize()
         {
-            altDriver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", new string[] { "1920", "1080", "true" }, new string[] { "System.Int32", "System.Int32", "System.Boolean" });
             var screensize = altDriver.GetApplicationScreenSize();
-            Assert.AreEqual(1920, screensize.x);
-            Assert.AreEqual(1080, screensize.y);
+            Assert.That(screensize.x != 0);//We cannot set resolution on iOS so we don't know the exact resolution, we just want to see that it returns a value and is different than 0
+            Assert.That(screensize.y != 0);
         }
 
         [Test]
@@ -1414,6 +1412,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.AreEqual("Canvas", altElement.name);
 
         }
+        [Test]
+        public void TestClickOnTextAndTheParentIsClicked()
+        {
+            var UiButton = altDriver.FindObject(By.NAME, "UIButton/Text");
+            UiButton.Click();
+            var capsuleInfo = altDriver.FindObject(By.NAME, "CapsuleInfo");
+            var text = capsuleInfo.GetText();
+            Assert.AreEqual(text, "UIButton clicked to jump capsule!");
+        }
 
         [Test]
         public void TestAcceleration()
@@ -1746,16 +1753,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
 
-        [TestCase("/Canvas[0]", "CapsuleInfo", true)]
-        [TestCase("/Canvas[1]", "UIButton", true)]
-        [TestCase("/Canvas[-1]", "TapClickEventsButtonCollider", true)]
-        [TestCase("/Canvas[-2]", "NextScene", true)]
-        [TestCase("/Canvas[@layer=UI][5]", "UnityUIInputField", true)]
-        [TestCase("/Canvas[1]/Text", "Text", true)]
-        [TestCase("//Dialog[0]", "Title", false)]
-        [TestCase("//Dialog[1]", "Message", false)]
-        [TestCase("//Dialog[-1]", "Toggle", false)]
-        public void TestFindNthChild(string path, string expectedResult, bool enabled)
+        [TestCase("//Dialog[0]", "Dialog", false)]
+        [TestCase("//Text[-1]", "Text", true)]
+        public void TestFindIndexer(string path, string expectedResult, bool enabled)
         {
             var altElement = altDriver.FindObject(By.PATH, path, enabled: enabled);
             Assert.AreEqual(expectedResult, altElement.name);

@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,23 +8,30 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System.Globalization;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AltTester.AltTesterUnitySDK.Notification
 {
     public class BaseNotification
     {
         private static ICommandHandler commandHandler;
+        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver(),
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Culture = CultureInfo.InvariantCulture
+        };
 
         public BaseNotification(ICommandHandler commandHandlerParam)
         {
@@ -37,19 +44,12 @@ namespace AltTester.AltTesterUnitySDK.Notification
             {
                 commandName = commandName,
                 messageId = null,
-                data = JsonConvert.SerializeObject(data, new JsonSerializerSettings
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    Culture = CultureInfo.InvariantCulture
-                }),
+                data = JsonConvert.SerializeObject(data, jsonSerializerSettings),
                 error = null,
                 isNotification = true
             };
 
-            var notification = JsonConvert.SerializeObject(cmdResponse, new JsonSerializerSettings
-            {
-                Culture = CultureInfo.InvariantCulture
-            });
+            var notification = JsonConvert.SerializeObject(cmdResponse, jsonSerializerSettings);
             commandHandler.Send(notification);
 
         }

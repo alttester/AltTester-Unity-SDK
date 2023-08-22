@@ -28,12 +28,12 @@ project = 'AltTester Unity SDK'
 # https://github.com/sphinx-doc/sphinx/issues/1836
 # https://github.com/sphinx-doc/sphinx/issues/500
 
-TAGS = ['1.8.1', '2.0.0', '2.0.1']
+TAGS = ['1.8.1', '2.0.0', '2.0.1', '2.0.2']
 LATEST_VERSION = 'master'
 BRANCHES = ['master']
 
 smv_branch_whitelist = r'^master$'
-smv_tag_whitelist = r'^(?!v.*).*$'
+smv_tag_whitelist = r'^\d+\.\d+\.\d+$'
 smv_remote_whitelist = r'^.*$'
 
 github_ref = os.getenv('GITHUB_REF_NAME')
@@ -52,14 +52,14 @@ release = version
 desktop_release_version = 'v.' + release
 sdk_release_version = version.replace('.', '_')
 
-alttester_sdk_docs_link         = 'https://alttester.com/docs/desktop/' + desktop_release_version + '/%s'
-alttester_sdk_download_link     = 'https://alttester.com/app/uploads/AltTester/sdks/AltTester_' + sdk_release_version + '.unitypackage%s'
+alttester_sdk_docs_link         = "https://alttester.com/docs/desktop/" + desktop_release_version + "/%s"
+alttester_sdk_download_link     = "https://alttester.com/app/uploads/AltTester/sdks/AltTester_" + sdk_release_version + ".unitypackage%s"
 
 extlinks = {
-    'altTesterPage'                     : ('https://alttester.com/alttester/%s', None),
-    'altTesterDesktopdocumentation'     : (alttester_sdk_docs_link, None),
-    'altTesterSDKdownload'              : (alttester_sdk_download_link, None),
-    'altTesterIphoneBlog'               : ('https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s', None)
+    "alttesterpage":                    ("https://alttester.com/alttester/%s", None),
+    "alttesterdesktopdocumentation":    (alttester_sdk_docs_link, None),
+    "alttestersdkdownload":             (alttester_sdk_download_link, None),
+    "alttesteriphoneblog":              ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
 }
 
 # -- General configuration ---------------------------------------------------
@@ -74,6 +74,7 @@ extensions = ['sphinx.ext.autosectionlabel',
               'recommonmark',
               'sphinx_multiversion',
               'sphinx.ext.extlinks']
+
 
 source_suffix = {'.rst': 'restructuredtext', '.md': 'markdown'}
 

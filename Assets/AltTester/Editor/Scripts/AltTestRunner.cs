@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System.Collections;
@@ -24,6 +24,7 @@ using System.Xml;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal.Filters;
 using Unity.EditorCoroutines.Editor;
@@ -237,7 +238,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
             var listOfTests = AltTesterEditorWindow.EditorConfiguration.MyTests;
             var serializeTests = JsonConvert.SerializeObject(listOfTests, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ContractResolver = new DefaultContractResolver()
             });
             UnityEditor.EditorPrefs.SetString("tests", serializeTests);
 
@@ -357,17 +359,12 @@ namespace AltTester.AltTesterUnitySDK.Editor
         public static IEnumerator SetUpListTestCoroutine()
         {
             var myTests = new List<AltMyTest>();
-            System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
-
+            System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies().Where(a => a.GetReferencedAssemblies().FirstOrDefault(
+                        reference => reference.Name.Contains(NUNIT_ASSEMBLY_NAME)) != null).ToArray();
             foreach (var assembly in assemblies)
             {
-                /*
-                 * Skips test runner assemblies and assemblies that do not contain references to test assemblies
-                 */
 
-                bool isNunitTestAssembly = assembly.GetReferencedAssemblies().FirstOrDefault(
-                            reference => reference.Name.Contains(NUNIT_ASSEMBLY_NAME)) != null;
-                if (!isNunitTestAssembly)
+                if (AltTesterEditorWindow.EditorConfiguration.assemblyTestDisplayedIndex != 0 && System.Array.IndexOf(assemblies, assembly) != AltTesterEditorWindow.EditorConfiguration.assemblyTestDisplayedIndex - 1)
                     continue;
 
                 var testSuite = (NUnit.Framework.Internal.TestSuite)new NUnit.Framework.Api.DefaultTestAssemblyBuilder().Build(assembly, new Dictionary<string, object>());

@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
@@ -70,6 +70,8 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
         public string Selector { get; set; }
         public BoundType Type { get; protected set; }
+        public IndexerCondition Indexer { get; set; }
+
 
         public BoundCondition NextBound { get; private set; }
         public BoundCondition PrevBound { get; private set; }
@@ -91,8 +93,8 @@ namespace AltTester.AltTesterUnitySDK.Commands
         public string Selector { get; set; }
         public SelectorType Type { get; protected set; }
 
-        public SelectorCondition NextSelector { get; private set; }
-        public SelectorCondition PrevSelector { get; private set; }
+        public SelectorCondition NextSelector { get; set; }
+        public SelectorCondition PrevSelector { get; set; }
 
         public abstract GameObject MatchCondition(GameObject gameObjectToCheck, bool enabled);
 
@@ -143,7 +145,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
             return "";
         }
-
     }
 
     public class AnyCondition : SelectorCondition
@@ -212,7 +213,8 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     try
                     {
                         return gameObjectToCheck.tag.Equals(PropertyValue) ? gameObjectToCheck : null;
-                    }catch(Exception)
+                    }
+                    catch (Exception)
                     {
                         return null;
                     }
@@ -331,23 +333,12 @@ namespace AltTester.AltTesterUnitySDK.Commands
             this.Index = index;
         }
         public int Index { get; private set; }
+        public int CurrentIndexCountDown { get; set; }
 
         public override GameObject MatchCondition(GameObject gameObjectToCheck, bool enabled)
         {
-            List<GameObject> children = new List<GameObject>();
-            for (int i = 0; i < gameObjectToCheck.transform.childCount; i++)
-            {
-                GameObject child = gameObjectToCheck.transform.GetChild(i).gameObject;
-                if (!enabled || (enabled && child.activeInHierarchy))
-                {
-                    children.Add(child);
-                }
-            }
-            if (Index < 0)
-            {
-                Index = children.Count + Index;
-            }
-            return Index >= 0 && Index < children.Count ? children[Index] : null;
+            CurrentIndexCountDown--;
+            return CurrentIndexCountDown >= 0 ? null : gameObjectToCheck;
         }
     }
     public class PathSelector
@@ -375,9 +366,19 @@ namespace AltTester.AltTesterUnitySDK.Commands
                  if (boundCondition == null)
                  {
                      var selector = processSelectorCondition(rawCondition, prevSelectorCondition);
-                     if (selector.PrevSelector == null) // is first selector
+                     if (selector is IndexerCondition)
                      {
-                         prevBoundCondition.FirstSelector = selector;
+                         selector.PrevSelector.NextSelector = null;
+                         prevBoundCondition.Indexer = (IndexerCondition)selector;
+
+                     }
+                     else
+                     {
+                         if (selector.PrevSelector == null) // is first selector
+                         {
+                             prevBoundCondition.FirstSelector = selector;
+                         }
+
                      }
 
                      prevSelectorCondition = selector;

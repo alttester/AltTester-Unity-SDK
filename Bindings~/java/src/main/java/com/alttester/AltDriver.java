@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023  Altom Consulting
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 package com.alttester;
@@ -41,7 +41,7 @@ import com.alttester.altTesterExceptions.*;
 
 public class AltDriver {
     private static final Logger logger = LogManager.getLogger(AltDriver.class);
-    public static final String VERSION = "2.0.1";
+    public static final String VERSION = "2.0.2";
 
     static {
         ConfigurationFactory custom = new AltDriverConfigFactory();

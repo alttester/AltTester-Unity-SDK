@@ -26,6 +26,13 @@ Once you have an instance of the _AltDriver_, you can use all the available comm
 
 Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
+```eval_rst
+
+.. important::
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
+
 **_Parameters_**
 
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -79,6 +86,12 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 #### FindObjects
 
 Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+```eval_rst
+
+.. important::
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
 
 **_Parameters_**
 
@@ -138,6 +151,13 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
 
+```eval_rst
+
+.. important::
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
+
 **_Parameters_**
 
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -189,6 +209,13 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 #### FindObjectsWhichContain
 
 Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+
+```eval_rst
+
+.. important::
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
 
 **_Parameters_**
 
@@ -357,6 +384,13 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 Waits until it finds an object that respects the given criteria or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
+```eval_rst
+
+.. important::
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
+
 **_Parameters_**
 
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -423,6 +457,13 @@ Waits until it finds an object that respects the given criteria or until timeout
 
 Waits until it finds an object that respects the given criteria or time runs out and will throw an error. Check [By](#by-selector) for more information about criteria.
 
+```eval_rst
+
+.. important::
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
+
 **_Parameters_**
 
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
@@ -481,6 +522,13 @@ Waits until it finds an object that respects the given criteria or time runs out
 #### WaitForObjectNotBePresent
 
 Waits until the object in the scene that respects the given criteria is no longer in the scene or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
+
+```eval_rst
+
+.. important::
+     Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
+``````
 
 **_Parameters_**
 
@@ -3112,7 +3160,9 @@ Wait until a property has a specific value and returns the value of the given co
 | componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                    |
 | propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                           |                                                                                                                                   
 | propertyValue  | T | Yes       | The value that property shoud have.                             
-| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                           | timeout     | double             | No       | The number of seconds that it will wait for property.                                                                                                                            | interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than timeout.                                                                                                                                                                                                                                                                                       |
+| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                           
+| timeout     | double             | No       | The number of seconds that it will wait for the property. The default value is 20 seconds.                                                                                                                            
+| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.                                                                                                                                                                                                                                                                                       |
 
 **_Returns_**
 
@@ -3335,30 +3385,23 @@ None
     .. code-tab:: java
 
         @Test
-        public void testWaitForObjectWithText() throws Exception
+        public void testFindElementWithText()
         {
             String name = "CapsuleInfo";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, name).build();
             String text = altDriver.findObject(altFindObjectsParams).getText();
-            long timeStart = System.currentTimeMillis();
-            AltWaitForObjectWithTextParams altWaitForElementWithTextParams = new AltWaitForObjectWithTextParams.Builder(altFindObjectsParams,text).withInterval(0).withTimeout(0).build();
-            AltObject altObject = altDriver.waitForObjectWithText(altWaitForElementWithTextParams);
-            long timeEnd = System.currentTimeMillis();
-            long time = timeEnd - timeStart;
-            assertTrue(time / 1000 < 20);
-            assertNotNull(altObject);
-            assertEquals(altObject.getText(), text);
-        }
+            altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.TEXT, text).build();
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
+            assertNotNull(altElement);
+            assertEquals(altElement.getText(), text);
+          }
 
     .. code-tab:: py
 
-        def test_call_component_method(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
-            result = self.altDriver.find_element("Capsule").call_component_method("Capsule", "Jump", "setFromMethod")
-            self.assertEqual(result,"null")
-            self.altDriver.wait_for_element_with_text('CapsuleInfo', 'setFromMethod')
-            self.assertEqual('setFromMethod', self.altDriver.find_element('CapsuleInfo').get_text())
-
+        def test_find_object_by_text(self):
+            text = self.altdriver.find_object(By.NAME, "CapsuleInfo").get_text()
+            element = self.altdriver.find_object(By.TEXT, text)
+            assert element.get_text() == text
 ```
 
 ### SetText
@@ -4036,7 +4079,7 @@ The following selecting nodes and attributes are implemented:
 -   _.._ - Selects the parent of the current node
 -   \* - Matches any element node
 -   _contains_ - Selects objects that contain a certain string in the name
--   _[n-th]_ - Selects n-th child of the current node. 0 - represents the first child, 1 - is the second child and so on. -1 -represents the last child
+-   _[n-th]_ - Selects n-th object that respects the selectors. 0 - represents the first object, 1 - is the second object and so on. -1 -represents the last object
 -   _@tag_
 -   _@layer_
 -   _@name_
@@ -4107,7 +4150,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altDriver.FindObject(By.PATH, "//*[@id=8756]")
+                    altDriver.FindObject(By.PATH, "//*[@id=8756]");
 
                 - Returns the object which has the id equal to 8756
 
@@ -4117,7 +4160,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altDriver.FindObject(By.PATH, "//Canvas/Panel//*[@text=Start]")
+                    altDriver.FindObject(By.PATH, "//Canvas/Panel//*[@text=Start]");
 
                 - Returns the first object that has the text "Start" and is a child of Panel
 
@@ -4129,7 +4172,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altDriver.FindObjects(By.PATH, "//*[contains(@name,Cub)]")
+                    altDriver.FindObjects(By.PATH, "//*[contains(@name,Cub)]");
 
                 - Returns every object that contains the string "Cub" in the name
 
@@ -4139,7 +4182,7 @@ The following selecting nodes and attributes are implemented:
 
                 .. code-block:: c#
 
-                    altDriver.FindObject(By.PATH, "//Canvas/Panel/*[@component=Button][@tag=Untagged][@layer=UI]"
+                    altDriver.FindObject(By.PATH, "//Canvas/Panel/*[@component=Button][@tag=Untagged][@layer=UI]");
 
                 - Returns the first direct child of the Panel that is untagged, is in the UI layer and has a component named Button
 
@@ -4149,7 +4192,7 @@ The following selecting nodes and attributes are implemented:
 
         .. code-block:: c#
 
-            altDriver.FindObjects(By.PATH, "/Canvas//Button[@component=ButtonLogic]"
+            altDriver.FindObjects(By.PATH, "/Canvas//Button[@component=ButtonLogic]");
 
         - Returns every button which is in Canvas that is a root object and has a component named ButtonLogic
 
@@ -4178,6 +4221,11 @@ The following selecting nodes and attributes are implemented:
         - Returns the second child of the first object that has the name "StartButton" and is a direct child of Panel
 
     .. tab:: indexer
+        
+
+        .. important::
+            Indexer functionality was changed in 2.0.2 to match that of XPath and it no longer returns the n-th child of the object. Now it returns the n-th object that respects the selectors (Name, Component, Tag, etc.) from the objects with the same parent. The numbering starts from 0 so the first object has the index 0 then the second object has the index 1 and so on. For example //Button/Text[1] will return the second object named `Text` that is the child of the `Button`
+    
 
         ``//NameOfParent[n]``
 
@@ -4185,13 +4233,13 @@ The following selecting nodes and attributes are implemented:
 
         .. code-block:: c#
 
-            altDriver.FindObject(By.PATH, "//Canvas[5]")
+            altDriver.FindObject(By.PATH, "//Canvas[2]");
 
-        - Returns the 6th direct child of the root Canvas
+        - Returns the 3th `Canvas` object only if there are at least 3 Canvas object somewhere in the hierarchy with the same parent
 
         .. code-block:: c#
 
-            altDriver.FindObject(By.PATH, "//Canvas/Panel/*[@tag=Player][-1]")
+            altDriver.FindObject(By.PATH, "//Canvas/Panel/*[@tag=Player][-1]");
 
         - Returns the last direct child of Panel that is tagged as Player
 

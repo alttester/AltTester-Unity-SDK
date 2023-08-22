@@ -221,9 +221,15 @@ For further information including how to install ADB, check [this article](https
 
 #### In case of iOS
 
-Unfortunately, IProxy does not have a way of setting up reverse port forwarding. As a workaround, you should follow the steps below:
-- set the iPhone as a personal hotspot
-- add the IP of the local machine to the first input field in the green popup from the instrumented app
+Unfortunately, IProxy does not have a way of setting up reverse port forwarding. As a workaround, to connect the device via USB you should follow the steps below:
+- set the iOS device as a Personal Hotspot 
+- enable Hotspot via USB on the machine running the AltServer 
+  - for this to work, you need to make sure that you have the `Disable unless needed` toggle disabled in the Network settings for the USB connection
+  ```eval_rst
+    .. image:: ../_static/img/advanced-usage/connect-via-hotspot-USB_iOS.png
+  ```
+  - the hotspot network and the first device to connect to it are most of the time on `172.20.10.2` so you could set this IP for builds for iOS
+- add the IP of the machine running the AltServer to the first input field in the green popup from the instrumented app/game
 
 In the routing table, the personal hotspot network would be secondary, therefore the traffic shouldn't be redirected through the hotspot:
 
@@ -316,9 +322,9 @@ In the routing table, the personal hotspot network would be secondary, therefore
     The port can be changed from the green popup. Make sure to press `Restart` after modifying its value.
 ```
 
-## Connect the AltTester Unity SDK running inside the app to the AltServer
+## Connect AltTester Unity SDK running inside the app to AltServer
 
-There are multiple scenarios on how to connect to the AltTester Unity SDK running inside a app:
+There are multiple scenarios:
 
   - [Establish connection when the instrumented app and the test code are running on the same machine](#establish-connection-when-the-instrumented-app-and-the-test-code-are-running-on-the-same-machine)
   - [Establish connection when the app is running on a device connected via USB](#establish-connection-when-the-app-is-running-on-a-device-connected-via-usb)
@@ -330,84 +336,152 @@ There are multiple scenarios on how to connect to the AltTester Unity SDK runnin
 
 ![reverse port forwarding case 1](../_static/img/advanced-usage/case1.png)
 
-In this case **reverse port forwarding** is not needed as both the app and tests are using localhost (127.0.0.1) connection and the default 13000 port.
-
-### Establish connection when the app is running on a device connected via USB
-
-In this case you need to use **reverse port forwarding** to direct the data traffic from the device's port to the computer's port. Data transmission happens via localhost.
-
-![reverse port forwarding case 2](../_static/img/advanced-usage/case2.png)
-
-Check [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) for more details about **reverse port forwarding** and [Setup Reverse Port Forwarding](#how-to-setup-reverse-port-forwarding) section on how to make the setup.
-
-### Establish connection via IP when the app is running on a device
-
-![reverse port forwarding case 3](../_static/img/advanced-usage/case3.png)
-
-You can connect directly through an IP address if the port the instrumented Unity App is listening on is available and the IP address is reachable.
-It is recommended to use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) since IP addresses could change and would need to be updated more frequently.
-
-The following command can be used to connect the running instrumented Unity App to the AltServer:
+1. Start AltServer on your machine by opening AltTester Desktop. The server will be listening on port 13000 by default.
+2. Open your instrumented app on the same machine. It will automatically connect to AltServer. The server identifies the app using the **appName**.
+3. Connect your tests to the server using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission happens on localhost.
 
 ```eval_rst
 .. tabs::
     .. code-tab:: c#
 
-            altDriver = new AltDriver ("deviceIp", 13000);
+            altDriver = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp");
 
     .. code-tab:: java
 
-            altDriver = new AltDriver ("deviceIp", 13000, true);
+            altDriver = new AltDriver ("127.0.0.1", 13000, "MyApp");
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host='deviceIp', port=13000)
+            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp")
 ```
+
+In this case **reverse port forwarding** is not needed as both the app and tests are using localhost:13000.
+
+### Establish connection when the app is running on a device connected via USB
+
+![reverse port forwarding case 2](../_static/img/advanced-usage/case2.png)
+
+1. Start AltServer on your machine by opening AltTester Desktop. The server will be listening on port 13000 by default.
+2. Open your instrumented app on your device.
+3. Use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) to direct the data traffic from the device's port to the computer's port. After this, your app will be connected to AltServer. The server identifies the app using the **appName**.
+4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission happens on localhost.
+
+```eval_rst
+.. tabs::
+    .. code-tab:: c#
+
+            altDriver = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp");
+
+    .. code-tab:: java
+
+            altDriver = new AltDriver ("127.0.0.1", 13000, "MyApp");
+
+    .. code-tab:: py
+
+            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp")
+```
+
+### Establish connection via IP when the app is running on a device
+
+![reverse port forwarding case 3](../_static/img/advanced-usage/case3.png)
+
+1. Start AltServer on your machine by opening AltTester Desktop. The server will be listening on port 13000 by default.
+2. Open your instrumented app on your device. 
+3. Change the host from the green popup in your instrumented build to the machine's IP AltServer is running on. The server identifies the app using the **appName**.
+4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between device and server happens on the host's IP.
+
+```eval_rst
+.. tabs::
+    .. code-tab:: c#
+
+            altDriver = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp");
+
+    .. code-tab:: java
+
+            altDriver = new AltDriver ("127.0.0.1", 13000, "MyApp");
+
+    .. code-tab:: py
+
+            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp")
+```
+
+In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) is not needed. **Despite that**, it is recommended to use reverse port forwarding since IP addresses could change and would need to be updated more frequently.
 
 ### Establish connection when different instances of the same app are running on multiple devices
 
+#### Connection through IP
 ![reverse port forwarding case 4](../_static/img/advanced-usage/case4.png)
 
-For two devices you have to do the same steps as above, by [connecting through reverse port forwarding](#how-to-setup-reverse-port-forwarding) twice.
+1. Start AltServer on your machine by opening AltTester Desktop. The server will be listening on port 13000 by default.
+2. Open your instrumented app on your devices. Make sure they have different names. In case you want to change the name, you can do that in the green popup. There is no need to make another instrumented build.
+3. Change the hosts from the green popups in your instrumented builds to the machine's IP AltServer is running on. The server identifies the apps using the **appName**.
+4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. You will need to create **2 AltDrivers** as you have 2 devices. AltDriver1 will communicate with device1 and AltDriver2 with device2. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between devices and server happens on the host's IP.
 
-So, in the end, you will have:
+```eval_rst
+.. tabs::
+    .. code-tab:: c#
 
--   2 devices, each with one instrumented Unity App
--   1 computer with two AltDrivers
+            altDriver1 = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp1");
+            altDriver2 = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp2");
 
-Then, in your tests, you will send commands from each of the two AltDrivers.
+    .. code-tab:: java
 
-The same happens with n devices, repeat the steps n times.
+            altDriver1 = new AltDriver ("127.0.0.1", 13000, "MyApp1");
+            altDriver2 = new AltDriver ("127.0.0.1", 13000, "MyApp2");
+
+    .. code-tab:: py
+
+            cls.altDriver1 = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp1")
+            cls.altDriver2 = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp2")
+```
+
+The same happens with n devices. Repeat the steps n times.
+
+#### Connection through USB
+
+Use **reverse port forwarding** for both devices. Data transmission happens exclusively on localhost.
+Ex. with 2 Android devices:
+
+    adb -s deviceId1 reverse tcp:13000 tcp:1300
+    adb -s deviceId2 reverse tcp:13000 tcp:1300
+
 
 ### Establish connection when multiple instances of the same application are running on the same device
 
-If you want to run two builds on the same device you will need to use a different port for each instance.
-
-For example, you will instrument an app with AltTester Unity SDK to listen on port 13001 and another one to listen on port 13002.
-
+#### Connection through IP
 ![reverse port forwarding case 5](../_static/img/advanced-usage/case5.png)
 
-Then in your tests you will need to create two AltDriver instances, one for each of the configured ports.
+1. Start AltServer on your machine by opening AltTester Desktop. The server will be listening on port 13000 by default.
+2. Open your instrumented apps on your device. Make sure they have different names. In case you want to change the name, you can do that in the green popup. There is no need to make another instrumented build.
+3. Change the hosts from the green popups in your instrumented builds to the machine's IP AltServer is running on. The server identifies the apps using the **appName**.
+4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. You will need to create **2 AltDrivers** as you have 2 apps. AltDriver1 will communicate with app1 and AltDriver2 with app2. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between device and server happens on the host's IP.
+
+```eval_rst
+.. tabs::
+    .. code-tab:: c#
+
+            altDriver1 = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp1");
+            altDriver2 = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp2");
+
+    .. code-tab:: java
+
+            altDriver1 = new AltDriver ("127.0.0.1", 13000, "MyApp1");
+            altDriver2 = new AltDriver ("127.0.0.1", 13000, "MyApp2");
+
+    .. code-tab:: py
+
+            cls.altDriver1 = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp1")
+            cls.altDriver2 = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp2")
+```
+
+#### Connection through USB
+
+Use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it). Data transmission happens exclusively on localhost.
 
 ```eval_rst
 .. important::
 
-    On mobile devices, AltDriver can only interact with a single app at a time and the app needs to be in focus.
-
-    On Android/iOS only one application is in focus at a time so you need to switch (in code) between the applications if using two drivers at the same time.
-    This applies even when using split screen mode.
-
-```
-
-You can set the port for your app when building from the AltTester Editor window or later from the second input field inside the green popup.
-
-![Alt Editor Server Settings Screenshot](../_static/img/advanced-usage/server-settings.png)
-
-```eval_rst
-
-.. note::
-    After you have done the AltTester Unity SDK reverse port forwarding or connected to the AltDriver directly, you can use it in your tests to send commands to the server and receive information from the app.
-
+    On mobile devices, AltDriver can interact only with a single app at a time and the app needs to be in focus. In case of 2 drivers and 2 apps, you need to switch (in your test scripts) between the applications. This is due to the fact that on Android/iOS only one application is in focus at a time, even when using split screen mode.
 ```
 
 ## Using AltTester Unity SDK in Release mode

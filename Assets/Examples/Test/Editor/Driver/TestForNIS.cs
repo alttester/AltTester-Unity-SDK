@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
@@ -228,6 +228,7 @@ public class TestForNIS
             joystickKeyPress(player, altKeyCode, -1);
     }
 
+
     private void keyboardKeyPress(AltObject player, AltKeyCode altKeyCode)
     {
         if (Enum.IsDefined(typeof(AltKeyCode), altKeyCode))
@@ -355,4 +356,17 @@ public class TestForNIS
         altDriver.SetDelayAfterCommand(0);
     }
 
+    [Test]
+    public void TestOnScreenInput()
+    {
+        altDriver.LoadScene(scene10);
+        var initialPlayerPos = altDriver.FindObject(By.NAME, "Player").GetWorldPosition();
+        altDriver.FindObject(By.NAME, "Button").Tap();
+        var playerPos = altDriver.FindObject(By.NAME, "Player").GetWorldPosition();
+        Assert.AreNotEqual(initialPlayerPos, playerPos);
+        var stick = altDriver.FindObject(By.NAME, "Stick");
+        altDriver.Swipe(stick.GetScreenPosition(), stick.GetScreenPosition() * 2, 1);
+        var finalPlayerPos = altDriver.FindObject(By.NAME, "Player").GetWorldPosition();
+        Assert.AreNotEqual(playerPos, finalPlayerPos);
+    }
 }

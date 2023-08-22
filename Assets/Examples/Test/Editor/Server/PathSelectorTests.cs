@@ -1,5 +1,5 @@
-﻿/*
-    Copyright(C) 2023  Altom Consulting
+/*
+    Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -8,11 +8,11 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using AltTester.AltTesterUnitySDK.Driver;
@@ -103,12 +103,11 @@ public class PathSelectorTests
         Assert.True(firstCondition is SelectorCondition);
         Assert.AreEqual("name", firstCondition.Selector);
         Assert.AreEqual(SelectorType.Name, firstCondition.Type);
+        Assert.IsNull(firstCondition.NextSelector);
 
-        var secondCondition = firstCondition.NextSelector;
-        Assert.True(secondCondition is SelectorCondition);
-        Assert.AreEqual(SelectorType.Indexer, (secondCondition as SelectorCondition).Type);
-        Assert.AreEqual("1", secondCondition.Selector);
-        Assert.AreEqual(1, (secondCondition as IndexerCondition).Index);
+
+        Assert.AreEqual("1", selector.FirstBound.Indexer.Selector);
+        Assert.AreEqual(1, selector.FirstBound.Indexer.Index);
     }
 
     [TestCase("", "Path must start with delimiter / or //")]

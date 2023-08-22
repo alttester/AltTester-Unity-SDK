@@ -49,7 +49,7 @@ The PressKey command does not work
 ``wasPressedThisFrame`` and ``wasReleasedThisFrame*``. Use ``isPressed``
 instead.
 
-**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.0, v2.0.1
+**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.x
 
 Player Input is not working when connected to AltTester Unity SDK/Desktop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,7 +71,7 @@ Playing in Editor throws ``EntryPointNotFoundException: WebSocketSetOnOpen assem
 
 **Workaround**: Select a platform other than WebGL before Editor and if the error is still thrown while playing in Editor re-start de Unity project
 
-**Affects**: AltTester Unity SDK v2.0.0, v2.0.1
+**Affects**: AltTester Unity SDK v2.0.x
 
 Play in Editor does not start the instrumented app in the Unity Editor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,7 +102,8 @@ used inside the AltTester Unity SDK. There are other alternatives that work with
 instrumented builds. For Android you can use the Android Emulator inside the
 Android Studio. For iOS you can use a simulator inside Xcode.
 
-**Affects**: AltUnity Tester v1.7.*. Note: For the new architecture, starting with v2.0.0 we still need to run tests too check if it works with the new communication protocol
+**Affects**: AltUnity Tester v1.7.*. 
+Note: In version 2.0.2 this issue has been fixed.
 
 Networking
 ----------
@@ -112,4 +113,4 @@ AltTester does not support proxy configurations
 
 **Problem**: At the moment, AltTester does not have built-in support for proxy configurations. When using AltTester, the tool does not handle proxy settings, which can cause connectivity issues
 
-**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.0, v2.0.1
+**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.x
