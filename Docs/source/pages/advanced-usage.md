@@ -352,7 +352,7 @@ There are multiple scenarios:
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp")
+            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp")
 ```
 
 In this case **reverse port forwarding** is not needed as both the app and tests are using localhost:13000.
@@ -378,7 +378,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp")
+            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp")
 ```
 
 ### Establish connection via IP when the app is running on a device
@@ -402,7 +402,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp")
+            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp")
 ```
 
 In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) is not needed. **Despite that**, it is recommended to use reverse port forwarding since IP addresses could change and would need to be updated more frequently.
@@ -431,8 +431,8 @@ In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when
 
     .. code-tab:: py
 
-            cls.altDriver1 = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp1")
-            cls.altDriver2 = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp2")
+            cls.altDriver1 = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp1")
+            cls.altDriver2 = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp2")
 ```
 
 The same happens with n devices. Repeat the steps n times.
@@ -470,8 +470,8 @@ Ex. with 2 Android devices:
 
     .. code-tab:: py
 
-            cls.altDriver1 = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp1")
-            cls.altDriver2 = AltDriver(host:"127.0.0.1", port:13000, appName:"MyApp2")
+            cls.altDriver1 = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp1")
+            cls.altDriver2 = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp2")
 ```
 
 #### Connection through USB
