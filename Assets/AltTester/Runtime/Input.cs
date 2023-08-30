@@ -1,4 +1,4 @@
-/*
+﻿/*
     Copyright(C) 2023 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
@@ -924,7 +924,6 @@ public class Input : MonoBehaviour
             {
 #endif
                 UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
-
                 UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
 #if ENABLE_INPUT_SYSTEM
             }
