@@ -41,11 +41,6 @@ namespace AltTester.AltTesterUnitySDK
         public string AppName = "__default__";
 
         /// <summary>
-        /// Gets or sets a value indicating whether to show where an action happens on the screen (e.g. swipe or click).
-        /// </summary>
-        public bool InputVisualizer = true;
-
-        /// <summary>
         /// Gets or sets a value indicating whether to display the AltTester popup in the instrumented Unity App.
         /// </summary>
         public bool ShowPopUp = true;
