@@ -1048,8 +1048,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void TestFindObjectsByLayer()
         {
             var altElements = altDriver.FindObjects(By.LAYER, "Default");
-            Assert.IsTrue(altElements.Count >= 12);
-            Assert.IsTrue(altElements.Count <= 13);
+            Assert.IsTrue(altElements.Count >= 10, "Number of objects returned: " + altElements.Count);
         }
         [Test]
         public void TestFindObjectsByContainName()

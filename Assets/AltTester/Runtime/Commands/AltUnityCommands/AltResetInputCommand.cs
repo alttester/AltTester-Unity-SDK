@@ -27,7 +27,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override string Execute()
         {
-            // InputController.ResetInput();
+            InputController.ResetInput();
             return "Ok";
         }
     }
