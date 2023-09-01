@@ -35,6 +35,7 @@ When you create a pull request take in consideration the following:
 -   Respect the project structure
 -   If it is a new feature like a new command try to make it for all three languages (Java, C# and Python) and also add tests
 -   If it is a bugfix then write a test to show that the bug is no longer reproducible
+-   Please make sure all the files that you add will have the copyright info added like in the following [example file](https://github.com/alttester/AltTester-Unity-SDK/blob/development/Assets/AltTester/Runtime/AltId.cs)
 
 ### Preparing your Fork
 

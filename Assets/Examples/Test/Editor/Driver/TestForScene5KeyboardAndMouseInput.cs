@@ -103,7 +103,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var lastKeyDown = altDriver.FindObject(By.NAME, "LastKeyDownValue");
             var lastKeyUp = altDriver.FindObject(By.NAME, "LastKeyUpValue");
             var lastKeyPress = altDriver.FindObject(By.NAME, "LastKeyPressedValue");
-            var runner = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             foreach (AltKeyCode kcode in Enum.GetValues(typeof(AltKeyCode)))
             {
                 if (kcode != AltKeyCode.NoKey && kcode < AltKeyCode.Joystick1Button0)

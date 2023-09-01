@@ -1045,7 +1045,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 labelAndInputFieldHorizontalLayout("Product Name*", ref productName);
                 UnityEditor.PlayerSettings.productName = productName;
 
-                labelAndCheckboxHorizontalLayout("Input visualizer*", ref EditorConfiguration.InputVisualizer);
                 labelAndCheckboxHorizontalLayout("Show popup*", ref EditorConfiguration.ShowPopUp);
                 labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltTester builds*", ref EditorConfiguration.appendToName);
                 var keepATSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTTESTER symbol defined", ref EditorConfiguration.KeepAUTSymbolDefined);
