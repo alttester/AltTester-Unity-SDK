@@ -45,36 +45,6 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     The product name (same with Unity's Player Settings).
 
-- *Input Visualizer*
-
-    Lets you see where on screen an action (e.g. swipe or click) happens.
-    The action position is marked on the screen with a red circle.
-
-
-To activate this option before build check the "Input visualizer" checkbox.
-
-| Input Visualizer Disabled                          | Input Visualizer Enabled                       |
-| -------------------------------------------------- | ---------------------------------------------- |
-| ![No Input Visualizer Demo](../_static/img/alttester-editor/no-input-visualizer.gif) | ![Input Visualizer Demo](../_static/img/alttester-editor/input-visualizer.gif) |
-
-You can also activate this option from within the test using the following code:
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        altDriver.FindObject(By.NAME, "AltTesterPrefab").SetComponentProperty("AltRunner", "ShowInputs", "Assembly-CSharp", "true");
-
-    .. code-tab:: java
-
-        altDriver.findObject(AltDriver.By.NAME,"AltTesterPrefab").setComponentProperty("AltRunner", "ShowInputs", "Assembly-CSharp", "true");
-
-    .. code-tab:: py
-
-        altdriver.find_object(By.NAME,"AltTesterPrefab").set_component_property("AltRunner", "ShowInputs", "Assembly-CSharp", "true")
-
-```
 
 - *Show Popup*
 

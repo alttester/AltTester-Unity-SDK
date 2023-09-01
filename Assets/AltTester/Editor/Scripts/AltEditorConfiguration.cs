@@ -33,7 +33,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
         public UnityEditor.BuildTarget StandaloneTarget = UnityEditor.BuildTarget.NoTarget;
         public bool RanInEditor = false;
         public bool ScenePathDisplayed;
-        public bool InputVisualizer;
         public bool ShowPopUp = true;
         public string BuildLocationPath = "";
         public bool createXMLReport = false;
@@ -50,7 +49,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
             return new AltInstrumentationSettings()
             {
                 ShowPopUp = ShowPopUp,
-                InputVisualizer = InputVisualizer,
                 AltServerPort = AltServerPort,
                 AltServerHost = AltServerHost,
                 AppName = AppName

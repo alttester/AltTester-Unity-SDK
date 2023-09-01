@@ -41,12 +41,6 @@ namespace AltTester.AltTesterUnitySDK
         public UnityEngine.GameObject panelHightlightPrefab;
 
 
-        [UnityEngine.Space]
-        [UnityEngine.SerializeField]
-        public AltInputsVisualizer InputsVisualizer = null;
-
-
-
         #region MonoBehaviour
 
         protected void Awake()
@@ -201,22 +195,6 @@ namespace AltTester.AltTesterUnitySDK
             action();
         }
 
-
-        public void ShowClick(UnityEngine.Vector2 position, UnityEngine.Color color = default)
-        {
-            if (!InstrumentationSettings.InputVisualizer || InputsVisualizer == null)
-                return;
-
-            InputsVisualizer.ShowClick(position, color);
-        }
-
-        public int ShowInput(UnityEngine.Vector2 position, int markId = -1, UnityEngine.Color color = default)
-        {
-            if (!InstrumentationSettings.InputVisualizer || InputsVisualizer == null)
-                return -1;
-
-            return InputsVisualizer.ShowContinuousInput(position, markId, color);
-        }
 
         #endregion
         #region private methods

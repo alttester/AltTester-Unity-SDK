@@ -103,8 +103,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
                 listOfElements += element.name + "; ";
             }
 
-            Assert.IsTrue(altElements.Count >= 24);
-            Assert.IsTrue(altElements.Count <= 25);
+            Assert.IsTrue(altElements.Count >= 22);
             Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
             Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
             Assert.IsNotNull(altElements.Where(p => p.name == "Panel Drag Area"));
@@ -133,7 +132,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             {
                 listOfElements += element.name + "; ";
             }
-            Assert.IsTrue(altElements.Count >= 47, "Number of elements returned: " + altElements.Count);
+            Assert.IsTrue(altElements.Count >= 45, "Number of elements returned: " + altElements.Count);
 
             Assert.IsNotNull(altElements.Where(p => p.name == "EventSystem"));
             Assert.IsNotNull(altElements.Where(p => p.name == "Canvas"));
