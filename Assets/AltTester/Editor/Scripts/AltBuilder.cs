@@ -17,8 +17,10 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
+using UnityEditor.Compilation;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -51,9 +53,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
             if (AltTesterEditorWindow.EditorConfiguration.appendToName)
             {
-                UnityEditor.PlayerSettings.productName = UnityEditor.PlayerSettings.productName + "Test";
-                string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup) + "Test";
-                UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, bundleIdentifier);
+                UnityEditor.PlayerSettings.productName += "Test";
+                UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, $"{UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup)}Test");
             }
             AddAltTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
             if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
@@ -279,7 +280,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             SceneWithAltRunner = EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
 
             AltRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altRunner);
-            AltRunner altRunnerComponent = ((UnityEngine.GameObject)AltRunner).GetComponent<AltRunner>();
+            AltRunner altRunnerComponent = ((GameObject)AltRunner).GetComponent<AltRunner>();
             altRunnerComponent.InstrumentationSettings = instrumentationSettings;
 
 
@@ -351,27 +352,27 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 case UnityEditor.BuildTarget.Android:
                     if (!outputPath.EndsWith(".apk"))
                     {
-                        outputPath = outputPath + ".apk";
+                        outputPath += ".apk";
                     }
 
                     break;
                 case UnityEditor.BuildTarget.StandaloneOSX:
                     if (!outputPath.EndsWith(".app"))
                     {
-                        outputPath = outputPath + ".app";
+                        outputPath += ".app";
                     }
                     break;
                 case UnityEditor.BuildTarget.StandaloneWindows:
                 case UnityEditor.BuildTarget.StandaloneWindows64:
                     if (!outputPath.EndsWith(".exe"))
                     {
-                        outputPath = outputPath + ".exe";
+                        outputPath += ".exe";
                     }
                     break;
                 case UnityEditor.BuildTarget.StandaloneLinux64:
                     if (!outputPath.EndsWith(".x86_64"))
                     {
-                        outputPath = outputPath + ".x86_64";
+                        outputPath += ".x86_64";
                     }
                     break;
 
@@ -402,14 +403,14 @@ namespace AltTester.AltTesterUnitySDK.Editor
             UnityEditor.PlayerSettings.SetStackTraceLogType(LogType.Warning, StackTraceLogType.None);
             UnityEditor.PlayerSettings.SetStackTraceLogType(LogType.Assert, StackTraceLogType.None);
 
-            if (autoRun)
-            {
-                buildPlayerOptions.options = UnityEditor.BuildOptions.Development | UnityEditor.BuildOptions.AutoRunPlayer | UnityEditor.BuildOptions.IncludeTestAssemblies;
-            }
-            else
-            {
-                buildPlayerOptions.options = UnityEditor.BuildOptions.Development | UnityEditor.BuildOptions.ShowBuiltPlayer | UnityEditor.BuildOptions.IncludeTestAssemblies;
-            }
+#if ENABLE_INPUT_SYSTEM
+            modifyTestAssembliesToOnlyWorkInEditor();
+            buildPlayerOptions.options = UnityEditor.BuildOptions.Development | (autoRun ? UnityEditor.BuildOptions.AutoRunPlayer : UnityEditor.BuildOptions.ShowBuiltPlayer) | UnityEditor.BuildOptions.IncludeTestAssemblies;
+#else
+            buildPlayerOptions.options = UnityEditor.BuildOptions.Development | (autoRun ? UnityEditor.BuildOptions.AutoRunPlayer : UnityEditor.BuildOptions.ShowBuiltPlayer) 
+#endif
+
+
             var results = UnityEditor.BuildPipeline.BuildPlayer(buildPlayerOptions);
 
 
@@ -427,16 +428,46 @@ namespace AltTester.AltTesterUnitySDK.Editor
 #else
             if (results.summary.totalErrors == 0 || results.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
             {
-                logger.Info("Build path: " + buildPlayerOptions.locationPathName);
-                logger.Info("Build " + UnityEditor.PlayerSettings.productName + ":" + UnityEditor.PlayerSettings.bundleVersion + " Succeeded");
+                logger.Info($"Build path: {buildPlayerOptions.locationPathName}");
+                logger.Info($"Build {UnityEditor.PlayerSettings.productName}:{UnityEditor.PlayerSettings.bundleVersion} Succeeded");
             }
             else
             {
-                logger.Error("Build Error! " + results.steps + "\n Result: " + results.summary.result +
-                           "\n Stripping info: " + results.strippingInfo);
+                logger.Error($"Build Error! {results.steps}\n Result: {results.summary.result}\n Stripping info: {results.strippingInfo}");
             }
 #endif
 
+        }
+
+        private static void modifyTestAssembliesToOnlyWorkInEditor()
+        {
+            var assemblies = CompilationPipeline.GetAssemblies();
+            foreach (var assembly in assemblies)
+            {
+                if (assembly.flags == AssemblyFlags.None)
+                {
+
+                    var path = CompilationPipeline.GetAssemblyDefinitionFilePathFromAssemblyName(assembly.name);
+                    if (path == null)
+                        continue;
+                    StreamReader reader = new StreamReader(path);
+                    string input = reader.ReadToEnd();
+                    reader.Close();
+                    if (input.Contains("UNITY_INCLUDE_TESTS"))
+                    {
+                        using StreamWriter writer = new StreamWriter(path, false);
+                        {
+                            string output = input.Replace("\"includePlatforms\": [],",
+                            "\"includePlatforms\": [\"Editor\"],");
+                            writer.Write(output);
+                        }
+                        writer.Close();
+                    }
+
+
+
+                }
+            }
         }
 
         private static string[] getScenesForBuild()
