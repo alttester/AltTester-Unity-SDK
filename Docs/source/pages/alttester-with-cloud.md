@@ -126,7 +126,7 @@ Again, the project screen will show an overall status of the tests execution pro
 
 ## GitHub
 
-Github Actions is a very powerful tool to create a great process CI/CD. You can use public machines offered by GitHub or self-hosted runners in order to run test automatically. We are using Github Actions to build and test our applications. You can see our workflows for AltTester Unity SDK [here](https://github.com/alttester/AltTester-Unity-SDK/tree/development/.github/workflows).
+Github Actions is a very powerful tool for creating a great process CI/CD. You can use public machines offered by GitHub or self-hosted runners in order to run tests automatically. We are using Github Actions to build and test our applications. You can see our workflows for AltTester Unity SDK [here](https://github.com/alttester/AltTester-Unity-SDK/tree/development/.github/workflows).
 
 **Some useful links to create your workflows:**
   - [GitHub Action documentation](https://docs.github.com/en/actions)
