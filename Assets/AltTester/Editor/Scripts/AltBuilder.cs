@@ -407,7 +407,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             modifyTestAssembliesToOnlyWorkInEditor();
             buildPlayerOptions.options = UnityEditor.BuildOptions.Development | (autoRun ? UnityEditor.BuildOptions.AutoRunPlayer : UnityEditor.BuildOptions.ShowBuiltPlayer) | UnityEditor.BuildOptions.IncludeTestAssemblies;
 #else
-            buildPlayerOptions.options = UnityEditor.BuildOptions.Development | (autoRun ? UnityEditor.BuildOptions.AutoRunPlayer : UnityEditor.BuildOptions.ShowBuiltPlayer) 
+            buildPlayerOptions.options = UnityEditor.BuildOptions.Development | (autoRun ? UnityEditor.BuildOptions.AutoRunPlayer : UnityEditor.BuildOptions.ShowBuiltPlayer); 
 #endif
 
 
