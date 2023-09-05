@@ -60,3 +60,5 @@ Documentation
    PyPi <https://pypi.org/project/AltTester-Driver/>
    NuGet <https://www.nuget.org/packages/AltTester-Driver/>
    Maven Repository <https://mvnrepository.com/artifact/com.alttester/alttester>
+   OpenUPM <https://openupm.com/packages/com.alttester.sdk/>
+   Docker Hub <https://hub.docker.com/r/alttestertools/alttester>
