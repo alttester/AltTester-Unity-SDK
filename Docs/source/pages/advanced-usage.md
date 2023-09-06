@@ -637,7 +637,7 @@ dotnet add package Allure.NUnit --version 2.9.5-preview.1
     - the value of the `directory` property should be the full path to the `allure-results` previously created folder.
 4. In the tests files, import the AllureNUnit adapter `using NUnit.Allure.Core`.
 5. Use the attribute `[TestFixture]` and the `[AllureNUnit]` under it. 
-    - Additionally, you can add more attributes that increases the diversity of your reprot. See more examples [here](https://github.com/allure-framework/allure-csharp/tree/main/Allure.NUnit.Examples).
+    - Additionally, you can add more attributes that increase the diversity of your report. See more examples [here](https://github.com/allure-framework/allure-csharp/tree/main/Allure.NUnit.Examples).
 
 ### How to run the tests to obtain an allure report
 
