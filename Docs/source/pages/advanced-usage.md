@@ -613,9 +613,10 @@ The logs for a WebGL instrumented build are displaied in the browser's console. 
 
 AltTester Unity SDK is using reflection in some of the commands to get information from the instrumented application. If you application is using IL2CPP scripting backend then it might strip code that you would use in your tests. If this is the case we recommend creating an `link.xml` file. More information on how to manage code stripping and create an `link.xml` file is found in [Unity documentation](https://docs.unity3d.com/Manual/ManagedCodeStripping.html)
 
-## Generate testing reports in NUnit projects
+## Generate testing reports using Allure
 
-### Prerequisite
+### NUnit
+#### Prerequisites
 
 1. Allure installed on your system:
     - **Windows**: [Scoop installation](https://docs.qameta.io/allure/#_windows) or [Manual installation](https://docs.qameta.io/allure/#_manual_installation).
@@ -624,12 +625,12 @@ AltTester Unity SDK is using reflection in some of the commands to get informati
 3. (Not a must) VS Code installed with the [Live Server extention](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer).
 
 `*` surely you can use any other IDE if it has these features.
-### Setup
+#### Setup
 
 1. Add the Allure Nunit package to your project:
-```
-dotnet add package Allure.NUnit --version 2.9.5-preview.1
-```
+    ```
+    dotnet add package Allure.NUnit --version 2.9.5-preview.1
+    ```
 * Other versions: https://www.nuget.org/packages/Allure.NUnit/
 2. Create two folders called `allure-report` and `allure-results` under your project.
 3. Add an `allureConfig.json` file at the following path `/bin/Debug/netcoreappX` (where X is the version of your dotnet)
@@ -639,27 +640,79 @@ dotnet add package Allure.NUnit --version 2.9.5-preview.1
 5. Use the attribute `[TestFixture]` and the `[AllureNUnit]` under it. 
     - Additionally, you can add more attributes that increases the diversity of your reprot. See more examples [here](https://github.com/allure-framework/allure-csharp/tree/main/Allure.NUnit.Examples).
 
-### How to run the tests to obtain an allure report
+#### How to run the tests to obtain an allure report
 
 1. Execute tests to generate the output in the `allure-results` folder by using the command:
-```
-dotnet test --results-directory allure-results
-```
+    ```
+    dotnet test --results-directory allure-results
+    ```
 2. Generate a report in the `allure-report` folder:
-```
-allure generate allure-results -o allure-report
-```
-### How to check the results
+    ```
+    allure generate allure-results -o allure-report
+    ```
+#### How to check the results
 
 - Using VS Code and Live Server:
     - Navigate to the allure-report folder and open the index.html file with [Live server](https://www.alphr.com/vs-code-open-with-live-server/).
 - Using an allure command:
-```
-allure serve allure-results
-```
+    ```
+    allure serve allure-results
+    ```
 This command will generate a new report but not in a specific output. To find the report's location, check the terminal output and there will be a message like `Report successfully generated to PATH` where the path is the report's location.
 
-### Examples
+#### Examples
 - [EXAMPLES-CSharp-AllureNUnit-AltTrashCat](https://github.com/alttester/EXAMPLES-CSharp-AllureNUnit-AltTrashCat).
+
+More details related to Allure can be found at the official [Allure documentation](https://docs.qameta.io/allure/).
+
+### Pytest
+#### Prerequisites
+
+1. Allure installed on your system:
+    - **Windows**: [Scoop installation](https://docs.qameta.io/allure/#_windows) or [Manual installation](https://docs.qameta.io/allure/#_manual_installation).
+    - **MacOS**: use the following command in your terminal `brew install allure`.
+2. Pytest installed (`pip install pytest`)
+
+#### Setup
+
+1. Add the allure-pytest dependency to your project:
+    ```
+    pip install allure-pytest
+    ```
+2. Create a folder called `allure-report` by using the following command in your terminal:
+    ```
+    allure generate
+    ```
+
+#### How to run the tests to obtain an allure report
+
+1. Execute tests to generate the output in the `allure-report` folder by using the command:
+    ```
+    pytest -v --alluredir=allure-report/ test_suite.py
+    ```
+2. For viewing the allure report use the following command after the previous:
+    ```
+    allure serve allure-report/
+    ```
+#### How to check the results
+
+In order to obtain a single html file with the whole report, you should use `allure-combine`. Please follow the steps:
+1. Install allure-combine using the following commandin your terminal:
+    ```
+    pip install allure-combine
+    ```
+
+2. Generate a non-combined report by using the follosing command:
+    ```
+    allure generate -c allure-report -o allure-results-html
+    ```
+3. Generate a single html file with the whole report:
+    ```
+    allure generate -c allure-report -o allure-results-html
+    ```
+The name of the combined report is `combined.html` and it is under `allure-results-html`folder.
+
+#### Examples
+- [EXAMPLES-Python-Standalone-AltTrashCat](https://github.com/alttester/EXAMPLES-Python-Standalone-AltTrashCat).
 
 More details related to Allure can be found at the official [Allure documentation](https://docs.qameta.io/allure/).
