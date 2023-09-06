@@ -652,7 +652,7 @@ allure generate allure-results -o allure-report
 ### How to check the results
 
 - Using VS Code and Live Server:
-    - Navigate to the allure-report folder and open the index.html file with [Live server](https://www.alphr.com/vs-code-open-with-live-server/).
+    - Navigate to the `allure-report` folder and open the `index.html` file with [Live server](https://www.alphr.com/vs-code-open-with-live-server/).
 - Using an allure command:
 ```
 allure serve allure-results
