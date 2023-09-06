@@ -638,7 +638,7 @@ AltTester Unity SDK is using reflection in some of the commands to get informati
     - the value of the `directory` property should be the full path to the `allure-results` previously created folder.
 4. In the tests files, import the AllureNUnit adapter `using NUnit.Allure.Core`.
 5. Use the attribute `[TestFixture]` and the `[AllureNUnit]` under it. 
-    - Additionally, you can add more attributes that increases the diversity of your reprot. See more examples [here](https://github.com/allure-framework/allure-csharp/tree/main/Allure.NUnit.Examples).
+    - Additionally, you can add more attributes that increase the diversity of your report. See more examples [here](https://github.com/allure-framework/allure-csharp/tree/main/Allure.NUnit.Examples).
 
 #### How to run the tests to obtain an allure report
 
@@ -653,7 +653,7 @@ AltTester Unity SDK is using reflection in some of the commands to get informati
 #### How to check the results
 
 - Using VS Code and Live Server:
-    - Navigate to the allure-report folder and open the index.html file with [Live server](https://www.alphr.com/vs-code-open-with-live-server/).
+    - Navigate to the `allure-report` folder and open the `index.html` file with [Live server](https://www.alphr.com/vs-code-open-with-live-server/).
 - Using an allure command:
     ```
     allure serve allure-results
