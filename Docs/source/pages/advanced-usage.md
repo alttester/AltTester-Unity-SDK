@@ -626,7 +626,7 @@ AltTester Unity SDK is using reflection in some of the commands to get informati
 `*` surely you can use any other IDE if it has these features.
 ### Setup
 
-1. Add the Allure Nunit package to your project:
+1. Add the Allure NUnit package to your project:
 ```
 dotnet add package Allure.NUnit --version 2.9.5-preview.1
 ```
