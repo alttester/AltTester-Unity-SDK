@@ -710,7 +710,7 @@ In order to obtain a single html file with the whole report, you should use `all
     ```
     allure generate -c allure-report -o allure-results-html
     ```
-The name of the combined report is `combined.html` and it is under `allure-results-html`folder.
+The name of the combined report is `combined.html` and it is under `allure-results-html` folder.
 
 #### Examples
 - [EXAMPLES-Python-Standalone-AltTrashCat](https://github.com/alttester/EXAMPLES-Python-Standalone-AltTrashCat).
