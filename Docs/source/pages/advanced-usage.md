@@ -697,7 +697,7 @@ More details related to Allure can be found at the official [Allure documentatio
 #### How to check the results
 
 In order to obtain a single html file with the whole report, you should use `allure-combine`. Please follow the steps:
-1. Install allure-combine using the following commandin your terminal:
+1. Install allure-combine using the following command in your terminal:
     ```
     pip install allure-combine
     ```
