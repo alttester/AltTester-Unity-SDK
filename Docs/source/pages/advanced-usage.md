@@ -640,7 +640,7 @@ AltTester Unity SDK is using reflection in some of the commands to get informati
 5. Use the attribute `[TestFixture]` and the `[AllureNUnit]` under it. 
     - Additionally, you can add more attributes that increase the diversity of your report. See more examples [here](https://github.com/allure-framework/allure-csharp/tree/main/Allure.NUnit.Examples).
 
-#### How to run the tests to obtain an allure report
+#### How to run the tests to obtain an Allure report
 
 1. Execute tests to generate the output in the `allure-results` folder by using the command:
     ```
@@ -684,7 +684,7 @@ More details related to Allure can be found at the official [Allure documentatio
     allure generate
     ```
 
-#### How to run the tests to obtain an allure report
+#### How to run the tests to obtain an Allure report
 
 1. Execute tests to generate the output in the `allure-report` folder by using the command:
     ```
@@ -710,6 +710,8 @@ In order to obtain a single html file with the whole report, you should use `all
     ```
     allure-combine ./allure-results-html
     ```
+
+`!` For MacOS, you should replace `pip` with `pip3`.
 The name of the combined report is `combined.html` and it is under `allure-results-html` folder.
 
 #### Examples
@@ -810,7 +812,7 @@ More details related to Allure can be found at the official [Allure documentatio
         </dependencies>
     ```
 For more information, check [QA Automation expert tutorial](https://qaautomation.expert/2021/08/06/integration-of-allure-report-with-selenium-and-junit4/).
-#### How to run the tests to obtain an allure report
+#### How to run the tests to obtain an Allure report
 
 1. Execute tests to generate the output in the `allure-results` folder by using the command:
     ```
@@ -836,7 +838,7 @@ In order to obtain a single html file with the whole report, you should use `all
     ```
     allure-combine ./allure-results-html
     ```
-
+`!` For MacOS, you should replace `pip` with `pip3`.
 The name of the combined report is `combined.html` and it is under `allure-results-html` folder.
 #### Examples
 - [EXAMPLES-Java-Standalone-and-Android-AltTrashCat](https://github.com/alttester/EXAMPLES-Java-Standalone-and-Android-AltTrashCat).
