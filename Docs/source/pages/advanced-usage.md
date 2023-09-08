@@ -809,7 +809,7 @@ More details related to Allure can be found at the official [Allure documentatio
         </dependency> 
         </dependencies>
     ```
-For more information, check [QA Automation expert tutorial](https://qaautomation.expert/2021/08/06/integration-of-allure-report-with-selenium-and-junit4/)
+For more information, check [QA Automation expert tutorial](https://qaautomation.expert/2021/08/06/integration-of-allure-report-with-selenium-and-junit4/).
 #### How to run the tests to obtain an allure report
 
 1. Execute tests to generate the output in the `allure-results` folder by using the command:
@@ -820,7 +820,7 @@ For more information, check [QA Automation expert tutorial](https://qaautomation
     ```
     allure serve allure-results
     ```
-#### How to obrain a single html report
+#### How to obtain a single html report
 
 In order to obtain a single html file with the whole report, you should use `allure-combine` which is a **python** package. Please follow the steps:
 1. Install allure-combine using the following command in your terminal:
