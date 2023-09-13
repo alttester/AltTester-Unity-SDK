@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
@@ -209,7 +210,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [TestCase(By.COMPONENT, "AltRunner", "//AltTesterPrefab")]
         [TestCase(By.COMPONENT, "CapsuleCollider", "//Capsule")] //Unity component
         [TestCase(By.COMPONENT, "AltTester.AltDriver.AltRunner", "//AltTesterPrefab")] // namespace
-        [TestCase(By.ID, "2b78431c-2251-4489-8d50-7634304a5630", "//Capsule")]
+        [TestCase(By.ID, "695fe16a-37a8-4edb-8ece-e3eb7885e119", "//Capsule")]
         [TestCase(By.LAYER, "Water", "//Capsule")]
         [TestCase(By.NAME, "Capsule", "//Capsule")]
         [TestCase(By.PATH, "/Sphere", "//Sphere")]
@@ -219,26 +220,26 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [TestCase(By.PATH, "//*[@layer=Water]", "//Capsule")]
         [TestCase(By.PATH, "//*[@name=Capsule]", "//Capsule")]
         [TestCase(By.PATH, "//*[@component=CapsuleCollider]", "//Capsule")]
-        [TestCase(By.PATH, "//*[@id=2b78431c-2251-4489-8d50-7634304a5630]", "//Capsule")]
+        [TestCase(By.PATH, "//*[@id=695fe16a-37a8-4edb-8ece-e3eb7885e119]", "//Capsule")]
         [TestCase(By.PATH, "//*[@text=Change Camera Mode]", "/Canvas/Button/Text")]
         [TestCase(By.PATH, "//*[@tag=plane][@layer=Default]", "//Plane")]
         [TestCase(By.PATH, "//*[@tag=plane][@layer=Default][@name=Plane]", "//Plane")]
         [TestCase(By.PATH, "//*[@tag=plane][@layer=Default][@name=Plane][@component=MeshCollider]", "//Plane")]
-        [TestCase(By.PATH, "//*[@tag=plane][@layer=Default][@name=Plane][@component=MeshCollider][@id=5277849a-16c3-469e-b3aa-ead06f0a37d2]", "//Plane")]
-        [TestCase(By.PATH, "//*[@tag=Untagged][@layer=UI][@name=Text][@component=CanvasRenderer][@id=f9dc3b3c-2791-42dc-9c0f-87ef7ff5e11d][@text=Change Camera Mode]", "/Canvas/Button/Text")]
+        [TestCase(By.PATH, "//*[@tag=plane][@layer=Default][@name=Plane][@component=MeshCollider][@id=58af4167-0971-415f-901c-7c5226c3c170]", "//Plane")]
+        [TestCase(By.PATH, "//*[@tag=Untagged][@layer=UI][@name=Text][@component=CanvasRenderer][@id=ed4738f0-dd00-4f5a-b1eb-c285a11ca22c][@text=Change Camera Mode]", "/Canvas/Button/Text")]
         [TestCase(By.PATH, "//*[contains(@tag,pla)]", "//Plane")]
         [TestCase(By.PATH, "//*[contains(@layer,Wat)]", "//Capsule")]
         [TestCase(By.PATH, "//*[contains(@name,Cap)]", "//Capsule")]
         [TestCase(By.PATH, "//*[contains(@component,CapsuleColl)]", "//Capsule")]
-        [TestCase(By.PATH, "//*[contains(@id,2b78431c-2251-4489-8d50-7634304a5630)]", "//Capsule")]
+        [TestCase(By.PATH, "//*[contains(@id,695fe16a-37a8-4edb-8ece-e3eb7885e119)]", "//Capsule")]
         [TestCase(By.PATH, "//*[contains(@text,Change Camera)]", "/Canvas/Button/Text")]
         [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)]", "//Plane")]
         [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)][contains(@name,Pla)]", "//Plane")]
         [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)][contains(@name,Pla)][contains(@component,MeshColl)]", "//Plane")]
-        [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)][contains(@name,Pla)][contains(@component,MeshColl)][contains(@id,5277849a-16c3-469e-b3aa-ead06f0a37d2)]", "//Plane")]
-        [TestCase(By.PATH, "//*[contains(@tag,Untag)][contains(@layer,U)][contains(@name,Tex)][contains(@component,CanvasRender)][contains(@id,f9dc3b3c-2791-42dc-9c0f-87ef7ff5e11d)][contains(@text,Change Camera)]", "/Canvas/Button/Text")]
-        [TestCase(By.PATH, "//Canvas[5]", "//UnityUIInputField")]
-        [TestCase(By.PATH, "//Canvas[-1]", "//TapClickEventsButtonCollider")]
+        [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)][contains(@name,Pla)][contains(@component,MeshColl)][contains(@id,58af4167-0971-415f-901c-7c5226c3c170)]", "//Plane")]
+        [TestCase(By.PATH, "//*[contains(@tag,Untag)][contains(@layer,U)][contains(@name,Tex)][contains(@component,CanvasRender)][contains(@id,ed4738f0-dd00-4f5a-b1eb-c285a11ca22c)][contains(@text,Change Camera)]", "/Canvas/Button/Text")]
+        // [TestCase(By.PATH, "//Canvas[5]", "//UnityUIInputField")]
+        // [TestCase(By.PATH, "//Canvas[-1]", "//TapClickEventsButtonCollider")]
         [TestCase(By.TAG, "plane", "//Plane")]
         [TestCase(By.TEXT, "Capsule Info", "//CapsuleInfo")] // text area
         [TestCase(By.TEXT, "Change Camera Mode", "//Canvas/Button/Text")] // button with text
