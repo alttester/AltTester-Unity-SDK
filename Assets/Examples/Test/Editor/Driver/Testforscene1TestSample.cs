@@ -63,14 +63,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
         [Test]
-        public void TestFindElementWithText()
-        {
-            const string text = "Change Camera Mode";
-            var altElement = altDriver.FindObject(By.TEXT, text);
-            Assert.NotNull(altElement);
-        }
-
-        [Test]
         public void TestFindElementWithTextByPath()
         {
             const string text = "Change Camera Mode";
@@ -732,19 +724,45 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
         }
 
-        [Test]
-        public void TestFindNonExistentObject()
-        {
-            try
-            {
-                altDriver.FindObject(By.NAME, "NonExistent");
-                Assert.Fail();
-            }
-            catch (NotFoundException exception)
-            {
-                Assert.IsTrue(exception.Message.StartsWith("Object //NonExistent not found"), exception.Message);
-            }
 
+        [TestCase(By.COMPONENT, "NonExistent")]
+        [TestCase(By.ID, "NonExistent")]
+        [TestCase(By.LAYER, "NonExistent")]
+        [TestCase(By.NAME, "NonExistent")]
+        [TestCase(By.PATH, "/NonExistent")]
+        [TestCase(By.PATH, "//NonExistent/..")]
+        [TestCase(By.PATH, "//NonExistent/*")]
+        [TestCase(By.PATH, "//*[@tag=NonExistent]")]
+        [TestCase(By.PATH, "//*[@layer=NonExistent]")]
+        [TestCase(By.PATH, "//*[@name=NonExistent]")]
+        [TestCase(By.PATH, "//*[@component=NonExistent]")]
+        [TestCase(By.PATH, "//*[@id=NonExistent]")]
+        [TestCase(By.PATH, "//*[@text=NonExistent]")]
+        [TestCase(By.PATH, "//*[@tag=plane][@layer=NonExistent]")]
+        [TestCase(By.PATH, "//*[@tag=plane][@layer=Default][@name=NonExistent]")]
+        [TestCase(By.PATH, "//*[@tag=plane][@layer=Default][@name=Plane][@component=NonExistent]")]
+        [TestCase(By.PATH, "//*[@tag=plane][@layer=Default][@name=Plane][@component=MeshCollider][@id=NonExistent]")]
+        [TestCase(By.PATH, "//*[@tag=Untagged][@layer=UI][@name=Text][@component=CanvasRenderer][@id=f9dc3b3c-2791-42dc-9c0f-87ef7ff5e11d][@text=NonExistent]")]
+        [TestCase(By.PATH, "//*[contains(@tag,NonExistent)]")]
+        [TestCase(By.PATH, "//*[contains(@layer,NonExistent)]")]
+        [TestCase(By.PATH, "//*[contains(@name,NonExistent)]")]
+        [TestCase(By.PATH, "//*[contains(@component,NonExistent)]")]
+        [TestCase(By.PATH, "//*[contains(@id,NonExistent)]")]
+        [TestCase(By.PATH, "//*[contains(@text,NonExistent)]")]
+        [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,NonExistent)]")]
+        [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)][contains(@name,NonExistent)]")]
+        [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)][contains(@name,Pla)][contains(@component,NonExistent)]")]
+        [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)][contains(@name,Pla)][contains(@component,MeshColl)][contains(@id,NonExistent)]")]
+        [TestCase(By.PATH, "//*[contains(@tag,Untag)][contains(@layer,U)][contains(@name,Tex)][contains(@component,CanvasRender)][contains(@id,f9dc3b3c-2791-42dc-9c0f-87ef7ff5e11d)][contains(@text,NonExistent)]")]
+        [TestCase(By.PATH, "//Canvas[100]")]
+        [TestCase(By.PATH, "//Canvas[-100]")]
+        [TestCase(By.TAG, "NonExistent")]
+        [TestCase(By.TEXT, "NonExistent")]
+        [TestCase(By.PATH, "//DisabledObject")]
+        [TestCase(By.PATH, "//DisabledObject/DisabledChild")]
+        public void TestFindNonExistentObject(By by, string value)
+        {
+            Assert.Throws<NotFoundException>(() => altDriver.FindObject(by, value));
         }
 
         [Test]
