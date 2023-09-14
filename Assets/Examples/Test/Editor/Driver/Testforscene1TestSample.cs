@@ -1505,16 +1505,18 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.AreNotEqual(initialWorldCoordinates, afterTiltCoordinates);
         }
 
-        [Test]
-        public void TestFindObjectByCamera()
+        [TestCase(By.NAME, "Main Camera")]
+        [TestCase(By.COMPONENT, "Camera")]
+        [TestCase(By.TAG, "MainCamera")]
+        [TestCase(By.PATH, "/Main Camera")]
+        [TestCase(By.LAYER, "Default")]
+        [TestCase(By.ID, "4eb39f50-3403-473c-b684-915f7a40c393")]
+        public void TestFindObjectByCamera(By cameraBy, string cameraValue)
         {
-            var altButton = altDriver.FindObject(By.PATH, "//Button");
-            altButton.Click();
-            altButton.Click();
-            var altElement = altDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.NAME, "Camera");
-            Assert.True(altElement.name.Equals("Capsule"));
-            var altElement2 = altDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.NAME, "Main Camera");
-            Assert.AreNotEqual(altElement.GetScreenPosition(), altElement2.GetScreenPosition());
+            int referenceId = altDriver.FindObject(By.PATH, "//Capsule").id;
+            var altObject = altDriver.FindObject(By.PATH, "//Capsule", cameraBy, cameraValue);
+            Assert.NotNull(altObject);
+            Assert.AreEqual(referenceId, altObject.id);
         }
 
         [Test]
