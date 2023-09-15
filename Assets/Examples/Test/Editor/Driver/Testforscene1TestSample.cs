@@ -84,13 +84,14 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.NotNull(altElement);
         }
 
-        [Test]
-        public void TestFindElements()
-        {
-            const string name = "Plane";
-            var altElements = altDriver.FindObjects(By.NAME, name);
-            Assert.IsNotEmpty(altElements);
-            Assert.AreEqual(altElements[0].name, name);
+        [TestCase(By.COMPONENT, "NonExistent")]
+        [TestCase(By.ID, "NonExistent")]
+        [TestCase(By.LAYER, "NonExistent")]
+        [TestCase(By.NAME, "NonExistent")]
+        [TestCase(By.TAG, "NonExistent")]
+        [TestCase(By.TEXT, "NonExistent")]
+        public void TestFindNonExistentObjectWhichContains(By by, string value){
+            Assert.Throws<NotFoundException>(() => altDriver.FindObjectWhichContains(by, value));
         }
 
         [Test]
