@@ -62,6 +62,20 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.AreEqual(name, altObject.name);
         }
 
+        [TestCase(By.COMPONENT, "CapsuleColl", "//Capsule")]
+        [TestCase(By.ID, "13b211d0-eafa-452d-8708-cc70f5075e93", "//Capsule")]
+        [TestCase(By.LAYER, "Wat", "//Capsule")]
+        [TestCase(By.NAME, "Cap", "//Capsule")]
+        [TestCase(By.TAG, "pla", "//Plane")]
+        [TestCase(By.TEXT, "Change Camera", "/Canvas/Button/Text")]
+        public void TestFindObjectWhichContains(By by, string value, string path)
+        {
+            var expectedObject = altDriver.FindObject(By.PATH, path);
+            var altObject = altDriver.FindObjectWhichContains(by, value);
+            Assert.NotNull(altObject);
+            Assert.AreEqual(expectedObject.id, altObject.id);
+        }
+
         [Test]
         public void TestFindElementThatContainsText()
         {
@@ -1146,12 +1160,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.AreEqual("Canvas", altElement.name);
 
         }
-        [Test]
-        public void TestFindObjectWhichContains()
-        {
-            var altElement = altDriver.FindObjectWhichContains(By.NAME, "EventSys");
-            Assert.AreEqual("EventSystem", altElement.name);
-        }
+
         [Test]
         public void TestFindWithFindObjectWhichContainsNotExistingObject()
         {
