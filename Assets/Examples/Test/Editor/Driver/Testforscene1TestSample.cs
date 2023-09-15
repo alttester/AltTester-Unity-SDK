@@ -94,21 +94,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.Throws<NotFoundException>(() => altDriver.FindObjectWhichContains(by, value));
         }
 
-        [Test]
-        public void TestFindElementWhereNameContains()
+        [TestCase(By.COMPONENT, "CapsuleColl", "//Capsule")]
+        [TestCase(By.ID, "13b211d0-eafa-452d-8708-cc70f5075e93", "//Capsule")]
+        [TestCase(By.LAYER, "Wat", "//Capsule")]
+        [TestCase(By.TEXT, "Change Camera", "/Canvas/Button/Text")]
+        public void TestFindObjectsWhichContain(By by, string value, string path)
         {
-            const string name = "Cap";
-            var altElement = altDriver.FindObject(By.PATH, "//*[contains(@name," + name + ")]");
-            Assert.NotNull(altElement);
-            Assert.True(altElement.name.Contains(name));
-        }
-        [Test]
-        public void TestFindElementsWhereNameContains()
-        {
-            const string name = "Pla";
-            var altElements = altDriver.FindObjects(By.PATH, "//*[contains(@name," + name + ")]");
-            Assert.IsNotEmpty(altElements);
-            Assert.True(altElements[0].name.Contains(name));
+            var expectedObject = altDriver.FindObject(By.PATH, path);
+            var altObjects = altDriver.FindObjectsWhichContain(by, value);
+            Assert.AreEqual(1, altObjects.Count());
+            Assert.AreEqual(expectedObject.id, altObjects[0].id);
         }
 
         [Test]
