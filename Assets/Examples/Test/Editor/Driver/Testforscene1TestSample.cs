@@ -43,16 +43,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void TestGetCurrentScene()
         {
             Assert.AreEqual("Scene 1 AltDriverTestScene", altDriver.GetCurrentScene());
-        }
-
-        [Test]
-        public void TestFindElement()
-        {
-            const string name = "Capsule";
-            var altElement = altDriver.FindObject(By.NAME, name);
-            Assert.NotNull(altElement);
-            Assert.AreEqual(name, altElement.name);
-        }
+        } 
 
         [Test]
         public void TestGetApplicationScreenSize()
@@ -62,12 +53,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.That(screensize.y != 0);
         }
 
-        [Test]
-        public void TestFindElementWithTextByPath()
-        {
-            const string text = "Change Camera Mode";
-            var altElement = altDriver.FindObject(By.PATH, "//*[@text=" + text + "]");
-            Assert.NotNull(altElement);
+        // UI disable elements are neede for this because at the moment, the test uses the AltDialog objects
+        [TestCase("/AltTesterPrefab/AltDialog/Dialog", "Dialog")]
+        [TestCase("/AltTesterPrefab/AltDialog/Dialog/Title", "Title")]
+        public void TestFindDisabledObject(string path, string name){
+            var altObject = altDriver.FindObject(By.PATH, path, enabled: false);
+            Assert.NotNull(altObject);
+            Assert.AreEqual(name, altObject.name);
         }
 
         [Test]
