@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
 using NUnit.Framework;
 using UnityEngine;
@@ -698,7 +699,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
             Assert.Greater(time, duration);
         }
-
+        
         [Test]
         [Ignore("Ignore PressKey method")]
         public void TestPressKeyWaitTheDuration()
@@ -718,9 +719,22 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         {
             const string name = "Capsule";
             var altElement = altDriver.FindObject(By.NAME, name).Tap();
-            Assert.AreEqual(name, altElement.name);
-            // altDriver.WaitForObjectWithText(By.NAME, "CapsuleInfo", "Capsule was clicked to jump!");
             altDriver.WaitForObject(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]");
+            var CapsuleInfo = altDriver.WaitForObject(By.PATH,"/Canvas/CapsuleInfo");
+            var m_Text=CapsuleInfo.GetComponentProperty<String>("UnityEngine.UI.Text", "m_Text","UnityEngine.UI").ToString();
+            Assert.That(m_Text, Is.EqualTo("Capsule was clicked to jump!"));
+        }
+
+        [Test]
+        public void CapsuleJumpWhenHold()
+        {
+            const string name = "Capsule";
+            var altElement = altDriver.FindObject(By.NAME, name);
+            altDriver.HoldButton(altElement.GetScreenPosition(),1.5f);
+            altDriver.WaitForObject(By.PATH, "//CapsuleInfo[@text=Capsule was clicked to jump!]");
+            var CapsuleInfo = altDriver.WaitForObject(By.PATH,"/Canvas/CapsuleInfo");
+            var m_Text=CapsuleInfo.GetComponentProperty<String>("UnityEngine.UI.Text", "m_Text","UnityEngine.UI").ToString();
+            Assert.That(m_Text, Is.EqualTo("Capsule was clicked to jump!"));
         }
 
         [Test]
@@ -1133,6 +1147,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.AreEqual("Canvas", altElement.name);
 
         }
+
+        [Test]
+        public void TestWaitForObjectWhichContainsNonExistingCriteria()
+        {
+            Assert.Throws<AltCameraNotFoundException>(() => altDriver.WaitForObjectWhichContains(By.NAME, "Unexisting", By.TAG, "Unexisting"));
+        }
+
         [Test]
         public void TestClickOnTextAndTheParentIsClicked()
         {
@@ -1255,6 +1276,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.True(screenshot.textureSize.x == screenWidth);
             Assert.True(screenshot.textureSize.y == screenHeight);
         }
+
         [Test]
         public void TestGetComponentPropertyComplexClass()
         {
@@ -1265,6 +1287,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual(1, propertyValue);
         }
+
         [Test]
         public void TestGetComponentPropertyComplexClass2()
         {
