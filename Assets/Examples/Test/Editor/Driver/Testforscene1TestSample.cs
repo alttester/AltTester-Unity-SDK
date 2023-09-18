@@ -583,16 +583,32 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             }
         }
 
-        // [TestCase("test", 1, System.Int32)]
-        // [TestCase("test", 1f, typeof(float))]
-        // [TestCase("test", "test", typeof(string))]
-        // public void BBBTestSetKeyInt(string key, dynamic value, Type type)
-        // {
-        //     altDriver.DeletePlayerPref();
-        //     altDriver.SetKeyPlayerPref(key, (value.GetType()) value);
-        //     var actualValue = altDriver.GetIntKeyPlayerPref("test");
-        //     Assert.AreEqual(value, actualValue);
-        // }
+        [Test]
+        public void TestSetKeyInt()
+        {
+            altDriver.DeletePlayerPref();
+            altDriver.SetKeyPlayerPref("test", 1);
+            var val = altDriver.GetIntKeyPlayerPref("test");
+            Assert.AreEqual(1, val);
+        }
+
+        [Test]
+        public void TestSetKeyFloat()
+        {
+            altDriver.DeletePlayerPref();
+            altDriver.SetKeyPlayerPref("test", 1f);
+            var val = altDriver.GetFloatKeyPlayerPref("test");
+            Assert.AreEqual(1f, val);
+        }
+
+        [Test]
+        public void TestSetKeyString()
+        {
+            altDriver.DeletePlayerPref();
+            altDriver.SetKeyPlayerPref("test", "test");
+            var val = altDriver.GetStringKeyPlayerPref("test");
+            Assert.AreEqual("test", val);
+        }
 
         [Test]
         public void TestDeleteKey()
