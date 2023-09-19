@@ -13,9 +13,8 @@ We plan to add more examples in the near future.
 **1.** Example test projects created for different languages and platforms:
 * C# tests [Standalone (NuGetPackage)](https://github.com/alttester/EXAMPLES-CSharp-Standalone-AltTrashCat)  | [Android](https://github.com/alttester/EXAMPLES-CSharp-Android-AltTrahCat) | [iOS](https://github.com/alttester/EXAMPLES-CSharp-iOS-AltTrahCat)
 * Python tests [Standalone](https://github.com/alttester-test-examples/Python-Standalone-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Python-Android-AltTrashCat) | [iOS](https://github.com/alttester-test-examples/Python-iOS-AltTrashCat)
-* Python tests [Android with Appium](https://github.com/alttester/EXAMPLES-Python-Android-with-Appium-AltTrashCat) | [Standalone](https://github.com/alttester/EXAMPLES-Python-Standalone-AltTrashCat) | [Android](https://github.com/alttester/EXAMPLES-Python-Android-AltTrashCat) | [iOS](https://github.com/alttester/EXAMPLES-Python-iOS-AltTrashCat)
- * Java tests [Standalone](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester-test-examples/Java-Standalone-and-Android-AltTrashCat) | [iOS](https://github.com/alttester-test-examples/Java-iOS-AltTrashCat)
-* Java tests [Standalone](https://github.com/alttester/EXAMPLES-Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester/EXAMPLES-Java-Standalone-and-Android-AltTrashCat)| [iOS](https://github.com/alttester/EXAMPLES-Java-iOS-AltTrashCat)
+* Python tests [Android with Appium](https://github.com/alttester/EXAMPLES-Python-Android-with-Appium-AltTrashCat)
+* Java tests [Standalone](https://github.com/alttester/EXAMPLES-Java-Standalone-and-Android-AltTrashCat) | [Android](https://github.com/alttester/EXAMPLES-Java-Standalone-and-Android-AltTrashCat) | [iOS](https://github.com/alttester/EXAMPLES-Java-iOS-AltTrashCat)
 
     You can get the sample app from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/endless-runner-sample-game-87901).
 
