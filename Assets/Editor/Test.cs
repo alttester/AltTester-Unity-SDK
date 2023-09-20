@@ -36,14 +36,15 @@ public class Test
                     "ENABLE_INPUT_SYSTEM",
                     "ENABLE_LEGACY_INPUT_MANAGER"
                 };
-                    if (p.assetPath.Contains("Unity2021OldInput"))
-                    {
-                        p.DefineConstraints = new string[]{
+
+                }
+                if (p.assetPath.Contains("Unity2021OldInput"))
+                {
+                    p.DefineConstraints = new string[]{
                     "UNITY_2021_2_OR_NEWER",
                     "!ENABLE_INPUT_SYSTEM",
                     "ENABLE_LEGACY_INPUT_MANAGER"
                 };
-                    }
                 }
                 if (p.assetPath.Contains("Unity2021NewInput"))
                 {
