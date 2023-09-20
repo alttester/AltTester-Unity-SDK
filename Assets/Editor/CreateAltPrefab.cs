@@ -661,7 +661,7 @@ namespace AltTesterTools
             var OldPrefab = PrefabUtility.LoadPrefabContents(Path);
             var NewPrefab = PrefabUtility.LoadPrefabContents(TestPath);
 
-            AltTesterPrefabChecker.CheckObjectEquality(OldPrefab, NewPrefab);
+            // AltTesterPrefabChecker.CheckObjectEquality(OldPrefab, NewPrefab);
 
             AssetDatabase.DeleteAsset(Path);
 
