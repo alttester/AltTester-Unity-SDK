@@ -2,12 +2,12 @@
 
 In some cases you might want to run your tests on dozens or even hundreds of real devices, to test the compatibility of your app on many different device models and OS versions. There are multiple device farms that will enable you to do so, without having to own the devices yourself.
 
-Some of these cloud services allow running Appium automated tests by giving you access to an Appium server running in the cloud that has access to all their mobile devices. These services will work with AltTester Unity SDK only if they also offer some solution for local testing / tunneling that supports web sockets, so that the device in the cloud can access the AltTester Desktop app running locally on your machine. So far, we know that **BrowserStack** (with BrowerStack Local) and **Sauce Labs** work with AltTester.
+Some of these cloud services allow running Appium automated tests by giving you access to an Appium server running in the cloud that has access to all their mobile devices. These services will work with AltTester Unity SDK only if they also offer some solution for local testing / tunneling that supports web sockets, so that the device in the cloud can access the AltTester Desktop app running locally on your machine. So far, we know that **BrowserStack** (with BrowerStack Local) and **SauceLabs** work with AltTester.
 
 ```eval_rst
 
 .. note::
-    BrowserStack and Sauce Labs don’t support server side testing, meaning that the test folder can’t be uploaded onto the platform in order to run the tests. Client side testing generally focuses on testing the application or website directly on the user’s end. For testing carried out on cloud services, this means that the test suite is stored locally, on a computer and connected to a device in the cloud.
+    BrowserStack and SauceLabs don’t support server side testing, meaning that the test folder can’t be uploaded onto the platform in order to run the tests. Client side testing generally focuses on testing the application or website directly on the user’s end. For testing carried out on cloud services, this means that the test suite is stored locally, on a computer and connected to a device in the cloud.
 
 ```
 
@@ -498,6 +498,231 @@ After the job is picked up by the runner (depending on its availability), and th
 .. image:: ../_static/img/alttester-with-cloud/browserstack-github-actions-workflow.png
 ```
 
+## SauceLabs
+
+This is another cloud-based platform you may want to use if you want to run AltTester Unity SDK tests client side. 
+
+SauceLabs provides **automated testing solutions** for web and mobile applications. It allows developers and testing teams to perform testing across a wide range of **browsers, operating systems and devices** without the need for setting up and maintaining physical hardware or virtual machines.
+
+You can create a free trial SauceLabs account where you get 2000 credits per week (which is enough to run some test suites multiple times on their free devices and emulators).
+
+One of the [architectural changes from v2.0.0](https://alttester.com/alttester-desktop-2-0-0-alttester-unity-sdk-2-0-0-recorder-support-for-webgl-and-architectural-changes/) is that the AltServer module is incorporated in AltTester Desktop. In order to be able to execute tests, we need to have an **AltTester Desktop app running and publicly reachable**/accessible so that the AltDriver that is instantiated in the tests and **the instrumented app can connect to the AltServer**.
+
+### SauceLabs C# project example
+
+<!-- to update here the article link-->
+You can download our example project from [here](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/tree/saucelabs_example). Also, for more details check [this article](https://insert-article-link-here/) from our Blog.
+
+Unfortunately for the case of having the AltTester Desktop app running on the same machine where the tests are running the instrumented app is not able to connect to localhost successfully, due to the fact that the 
+[Sauce Connect Tunnel proxy](https://docs.saucelabs.com/secure-connections/sauce-connect/setup-configuration/basic-setup/) implementation is not yet compatible with the WebSocket used in AltServer. 
+
+In this example, the AltTester Desktop app is running on a **public virtual machine**, which **can be accessed by the instrumented app** installed on a device in the cloud.
+
+#### **Prerequisites**
+
+**1. Create a virtual machine and install AltTester Desktop** 
+
+It can either be a ***Windows** virtual machine running AltTester Desktop in **GUI mode** or a **Linux** machine running in **batchmode** (note that the batchmode requires an [AltTester license](https://alttester.com/alttester/#pricing) key)
+
+For this purpose, an [Azure virtual machine](https://azure.microsoft.com/en-us/pricing/free-services/) was used, configured with specific inbound and outbound rules to facilitate the build's connection. See the documentation for more detailed instructions on [how to create a Windows VM in the Azure portal](https://learn.microsoft.com/en-us/azure/virtual-machines/windows/quick-create-portal#create-virtual-machine).
+
+- virtual machine network settings
+    - the virtual machine used for this example is running on **Windows Server 2019 Datacenter, x64 architecture**, Gen2 - it is configured with inbound and outbound rules
+    - besides the default port rules created, in order to make AltServer visible by external devices, it was needed to create an Inbound port rule for *Protocol*: **TCP**, *Port*: **13000** and *Source*: **Any** (destination)
+
+    ```eval_rst
+    .. image:: ../_static/img/alttester-with-cloud/sauce-labs-virtual-machine-settings1.png
+    ```
+    <br>
+
+    ```eval_rst
+    .. image:: ../_static/img/alttester-with-cloud/sauce-labs-virtual-machine-settings2.png
+    ```
+    - another necessary setting: [turn Microsoft Defender Firewall off](https://support.microsoft.com/en-us/windows/turn-microsoft-defender-firewall-on-or-off-ec0844f7-aebd-0583-67fe-601ecf5d774f) on the virtual machine
+- [download AltTester Desktop](https://alttester.com/alttester/#pricing) on your virtual machine, launch it and leave it running and listening on port `13000`
+    ```eval_rst
+    .. image:: ../_static/img/alttester-with-cloud/sauce-labs-alttester-desktop.png
+    ```
+
+**2. Have a set of C# tests that use AltTester Unity SDK v2.0.\***
+
+- check the example repository
+
+**3. Prepare the build instrumented with AltTester Unity SDK v2.0.\***
+
+Our example is based on [TrashCat endless runner game](https://assetstore.unity.com/packages/templates/tutorials/endless-runner-sample-game-87901) that we have instrumented in Unity. 
+- instrument the TrashCat application using AltTester Unity SDK `v2.0.*`- for additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x)
+- it should be created with the host IP of the VM in which AltDesktop app is running
+
+```eval_rst
+
+.. note::
+In order to enable automatic connection between the build and the virtual machine, it's essential for the build to have the predefined IP address of the previous virtual machine. This implies that the build will need to be re-instrumented in Unity, with its IP address set to that of the machine.
+```
+#### **Steps for running tests on Android and iOS**
+
+**1. Upload the instrumented build on SauceLabs**
+
+Before running any tests, you are required to [upload the build to the designated page on the SauceLabs platform](https://app.eu-central-1.saucelabs.com/app-management)
+- in **App Management** choose the file you want to upload
+- once uploaded, SauceLabs automatically handles the installation and uninstallation of the application, based on the specifications in the code, thereby eliminating the need for manual intervention or writing additional code for installation (just the application name needs to be specified)
+
+**2. Install dependencies**
+
+- install Appium WebDriver
+    ```
+    dotnet add package Appium.WebDriver --version 4.4.0
+    ```
+
+**3. Set your SauceLabs credentials as environment variables**
+
+- once you are logged into your SauceLabs account, you can find the credentials by pressing the key from the main menu
+- to set these values as environment variables on Windows you can create a **batch file** on your local machine and run it every time you load your IDE - this will keep the sensitive information out of the repository
+    
+    Example:
+    ```
+    set SAUCE_USERNAME "yourUsername"
+    set SAUCE_ACCESS_KEY "yourAccessKey"
+    set HOST_ALT_SERVER "your VM's IP"
+    ```
+**4. Create and configure new file**
+    
+SauceLabs offers a convenient configuration system that allows capabilities to be written and seamlessly integrated into the code- this can be achieved, for instance, by utilizing a base class (in this case, it was used [BaseTest](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/blob/saucelabs_example/tests/BaseTest.cs)) which all test classes inherit
+
+In this file add code that will:
+- access the environment variables set in the previous steps using the GetEnvironmentVariable method like so:
+    ```
+    String SAUCE_USERNAME = Environment.GetEnvironmentVariable("SAUCE_USERNAME");
+    String SAUCE_ACCESS_KEY = Environment.GetEnvironmentVariable("SAUCE_ACCESS_KEY");
+    ```
+- configure Appium capabilities and Sauce Labs options
+    ```eval_rst
+    .. tabs::
+
+        .. tab:: Android
+
+            .. code-block:: console
+
+                AppiumOptions options = new AppiumOptions();
+                options.AddAdditionalCapability("platformName", "Android");
+                options.AddAdditionalCapability("appium:app","storage:filename=<buildName.apk>");
+
+                options.AddAdditionalCapability("appium:deviceName", "Samsung Galaxy S10 WQHD GoogleAPI Emulator");
+
+                options.AddAdditionalCapability("appium:platformVersion", "11.0");
+                options.AddAdditionalCapability("appium:deviceOrientation", "portrait");
+                options.AddAdditionalCapability("appium:automationName", "UiAutomator2");
+
+                var sauceOptions = new Dictionary<string, object>();
+                sauceOptions.Add("appiumVersion", "2.0.0");
+                sauceOptions.Add("username", SAUCE_USERNAME);
+                sauceOptions.Add("accessKey", SAUCE_ACCESS_KEY); 
+                sauceOptions.Add("build", "<name of the build / any name you want for your test>");
+                sauceOptions.Add("name", "Test " + DateTime.Now.ToString("dd.MM - HH:mm"));
+                options.AddAdditionalCapability("sauce:options", sauceOptions);
+
+
+        .. tab:: iOS
+
+            .. code-block:: console
+
+                AppiumOptions options = new AppiumOptions();
+                
+                options.AddAdditionalCapability("platformName", "iOS");
+                options.AddAdditionalCapability("appium:app", "storage:filename=<builName.ipa>");
+                        
+                options.AddAdditionalCapability("appium:deviceName", "iPhone XR");
+                    
+
+                options.AddAdditionalCapability("appium:platformVersion", "16");
+                    
+                options.AddAdditionalCapability("appium:deviceOrientation", "portrait");
+
+                options.AddAdditionalCapability("appium:automationName", "XCUITest");
+
+                var sauceOptions = new 
+                Dictionary<string, object>();
+                sauceOptions.Add("appiumVersion", "2.0.0");
+                sauceOptions.Add("username", SAUCE_USERNAME);
+                sauceOptions.Add("accessKey", SAUCE_ACCESS_KEY); 
+                sauceOptions.Add("build", "<name of the build / any name you want for your test>");
+                sauceOptions.Add("name", "Test " + DateTime.Now.ToString("dd.MM - HH:mm"));
+                options.AddAdditionalCapability("sauce:options", sauceOptions);
+
+    ```
+
+- start Appium Driver
+
+    - in order to test remotely on SauceLabs, it is necessary to employ an instance of the **Appium Driver**. To do so, use the remote **SauceLabs URL** along with your access credentials, which can be found within the *AppiumOptions* variable named `options`:
+
+    ```eval_rst
+    .. tabs::
+
+        .. tab:: Android
+
+            .. code-block:: console
+
+                appiumDriver = new AndroidDriver<AndroidElement>(new Uri("https://ondemand.eu-central-1.saucelabs.com:443/wd/hub"), options);
+
+        .. tab:: iOS
+
+            .. code-block:: console
+
+                appiumDriver = new IOSDriver<IOSElement>(new Uri("https://ondemand.eu-central-1.saucelabs.com:443/wd/hub"), options);
+
+    ```
+
+- initialize AltDriver with custom IP for the Host parameter
+
+    - Since the AltServer is running and listening on the Windows VM previously created, the test classes need to know how to connect to it. In order to enable this connection, the Host parameter can be used when AltDriver is instantiated in the `BaseTest.cs` file.
+
+    - To overcome slow build launches causing test failures due to insufficient waiting, instantiate the `altDriver` with a `connectTimeout` of `3000`.
+    ```
+    String HOST_ALT_SERVER = Environment.GetEnvironmentVariable("HOST_ALT_SERVER");
+    altDriver = new AltDriver(HOST_ALT_SERVER, connectTimeout: 3000);
+    ```
+
+- [iOS] Handle permission pop-up
+    - while running your tests on iOS you might get a pop-up that asks for permission to connect to devices on the local network
+    - to accept this notification and give permission, use the following lines:
+    ```
+    IWebElement ll = appiumDriver.FindElement(OpenQA.Selenium.By.Id("Allow"));
+    ll.Click();
+    ```
+
+- add method to keep Appium alive
+    - in this context, Appium is only used to install the application and access it on the BrowserStack test device - after that, AltTester SDK picks up the connection and carries out the tests
+    - you should add an action that keeps Appium alive in the `TearDown` method of the framework to ensure that Appium is used after every test. Here is an example:
+
+    ```eval_rst
+    .. tabs::
+
+        .. tab:: Android
+
+            .. code-block:: console
+
+                appiumDriver.GetDisplayDensity();
+
+        .. tab:: iOS
+
+            .. code-block:: console
+
+                appiumDriver.GetClipboardText();
+    ```
+
+**5. Run the tests**
+
+Before running the tests, make sure that:
+- AltTester Desktop **is running** on the virtual machine
+- SauceLabs credentials and VM's IP are **set as environment variables**
+
+Now trigger the test execution from the terminal with `dotnet test`.
+
+You can find your tests results in the designated section **Tests Results**
+```eval_rst
+.. image:: ../_static/img/alttester-with-cloud/sauce-labs-tests-results.png
+```
+
 ## AWS Device Farm
 
 Amazon offers another great alternative to cloud mobile testing, in the form of [**AWS Device Farm**](https://docs.aws.amazon.com/devicefarm/index.html). You can register for free and get a 1000 device minutes trial period (a credit card will be required for registration).
@@ -528,7 +753,7 @@ You can download our example project from [here](https://github.com/alttester-te
 #### **Preparation steps**
 
 **1. Prepare the application**
-- Instrument the TrashCat application using AltTester Unity SDK `v2.0.2`. For additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x).
+- instrument the TrashCat application using AltTester Unity SDK `v2.0.2`- For additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x).
 - Based on your option to connect to AltTester Desktop you need to set AltServer Host of the instrumented app to:
     - localhost (`127.0.0.1`) - for local connection 
     - IP/URL provided by the AWS Instance where AltTester Desktop is running - for remote connection
@@ -561,8 +786,8 @@ You can download our example project from [here](https://github.com/alttester-te
     Make sure to place all the files in the root directory.
 
 **3. Prepare the configuration file**
-- For a custom [test environment](https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html) you can edit the default configuration file by adding the needed commands. The commands are written as YAML so there are some validations for them
-- Using the commands from the configuration file you can access the contents of the uploaded **.zip** folder, install applications, and ultimately run your tests
+- for a custom [test environment](https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html) you can edit the default configuration file by adding the needed commands. The commands are written as YAML so there are some validations for them
+- using the commands from the configuration file you can access the contents of the uploaded **.zip** folder, install applications, and ultimately run your tests
 
 Keep in mind that the setup is different for Android and iOS. 
 
