@@ -294,7 +294,12 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void InitClient()
         {
-            _communication = new RuntimeCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text);
+            // TODO Read tags from platform
+            string platform = "Test";
+            string platformVersion = "Test";
+            string deviceInstanceId = "Test";
+
+            _communication = new RuntimeCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId);
             _communication.OnConnect += OnConnect;
             _communication.OnDisconnect += OnDisconnectCommunication;
             _communication.OnError += OnError;
@@ -303,7 +308,8 @@ namespace AltTester.AltTesterUnitySDK.UI
             _communication.CmdHandler.OnDriverDisconnect += OnDriverDisconnect;
             _communication.Init();
 
-            _liveUpdateCommunication = new LiveUpdateCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text);
+
+            _liveUpdateCommunication = new LiveUpdateCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId);
             _liveUpdateCommunication.OnDisconnect += OnDisconnectLiveUpdate;
             _liveUpdateCommunication.OnError += OnError;
             _liveUpdateCommunication.OnConnect += OnConnect;

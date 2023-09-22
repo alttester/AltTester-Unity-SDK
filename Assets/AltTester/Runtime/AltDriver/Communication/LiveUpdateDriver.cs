@@ -37,10 +37,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
         public bool IsRunning { get { return this.isRunning; } }
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
 
-        public void Connect(string host, int port, string appName, int connectTimeout)
+        public void Connect(string host, int port, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId)
         {
             this.isRunning = false;
-            this.wsClient = new DriverWebSocketClient(host, port, "/altws/live-update", appName, connectTimeout);
+            this.wsClient = new DriverWebSocketClient(host, port, "/altws/live-update", appName, connectTimeout, platform, platformVersion, deviceInstanceId);
             this.wsClient.OnMessage += (sender, e) =>
             {
                 this.OnMessage.Invoke(this, e.RawData);

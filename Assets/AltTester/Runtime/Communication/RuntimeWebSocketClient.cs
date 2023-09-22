@@ -24,6 +24,8 @@ using AltTester.AltTesterUnitySDK.Driver.Proxy;
 using AltTester.AltTesterUnitySDK.Logging;
 using AltWebSocketSharp;
 
+using UnityEngine;
+
 namespace AltTester.AltTesterUnitySDK.Communication
 {
     public class RuntimeWebSocketClient : IRuntimeWebSocketClient
@@ -33,6 +35,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string host;
         private readonly int port;
         private readonly string appName;
+        private readonly string platform;
+        private readonly string platformVersion;
+        private readonly string deviceInstanceId;
 
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationDisconnectHandler OnDisconnect { get; set; }
@@ -42,14 +47,19 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.IsAlive; } }
 
 
-        public RuntimeWebSocketClient(string host, int port, string path, string appName)
+        public RuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId)
         {
             this.host = host;
             this.port = port;
             this.appName = appName;
+            this.platform = platform;
+            this.platformVersion = platformVersion;
+            this.deviceInstanceId = deviceInstanceId;
 
-            Uri uri = Utils.CreateURI(host, port, path, appName);
+            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId);
             wsClient = new WebSocket(uri.ToString());
+            UnityEngine.Debug.Log("JERER");
+            UnityEngine.Debug.Log(uri.ToString());
             wsClient.Log.Level = LogLevel.Fatal;
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);
@@ -117,6 +127,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string host;
         private readonly int port;
         private readonly string appName;
+        private readonly string appId;
+        private readonly string platformVersion;
+        private readonly string deviceInstanceId;
 
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationDisconnectHandler OnDisconnect { get; set; }
@@ -125,13 +138,16 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.State == WebSocketState.Open; } }
 
-        public WebGLRuntimeWebSocketClient(string host, int port, string path, string appName)
+        public WebGLRuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId)
         {
             this.host = host;
             this.port = port;
             this.appName = appName;
+            this.platform = platform;
+            this.platformVersion = platformVersion;
+            this.deviceInstanceId = deviceInstanceId;
 
-            Uri uri = Utils.CreateURI(host, port, path, appName);
+            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId);
             wsClient = new WebGLWebSocket(uri.ToString());
 
             wsClient.OnOpen += () =>

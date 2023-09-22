@@ -39,6 +39,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private readonly int port;
         private readonly string appName;
         private readonly int connectTimeout;
+        private readonly string platform;
+        private readonly string platformVersion;
+        private readonly string deviceInstanceId;
         private readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
         {
             ContractResolver = new DefaultContractResolver(),
@@ -57,19 +60,22 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private List<Action<AltLogNotificationResultParams>> logCallbacks = new List<Action<AltLogNotificationResultParams>>();
         private List<Action<bool>> applicationPausedCallbacks = new List<Action<bool>>();
 
-        public DriverCommunicationHandler(string host, int port, int connectTimeout, string appName)
+        public DriverCommunicationHandler(string host, int port, int connectTimeout, string appName, string platform, string platformVersion, string deviceInstanceId)
         {
             this.host = host;
             this.port = port;
             this.appName = appName;
             this.connectTimeout = connectTimeout;
+            this.platform = platform;
+            this.platformVersion = platformVersion;
+            this.deviceInstanceId = deviceInstanceId;
 
             this.messages = new Queue<CommandResponse>();
         }
 
         public void Connect()
         {
-            this.wsClient = new DriverWebSocketClient(this.host, this.port, "/altws", this.appName, this.connectTimeout);
+            this.wsClient = new DriverWebSocketClient(this.host, this.port, "/altws", this.appName, this.connectTimeout, this.platform, this.platformVersion, this.deviceInstanceId);
             this.wsClient.OnMessage += (sender, e) =>
             {
                 OnMessage(sender, e.Data);

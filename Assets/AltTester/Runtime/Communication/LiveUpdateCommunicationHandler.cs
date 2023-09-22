@@ -28,6 +28,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly int port;
         private readonly string appName;
         private readonly string path = "/altws/live-update/app";
+        private readonly string platform;
+        private readonly string platformVersion;
+        private readonly string deviceInstanceId;
 
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationDisconnectHandler OnDisconnect { get; set; }
@@ -42,18 +45,21 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public int Quality { get { return this.quality; } }
         public int FrameRate { get { return this.frameRate; } }
 
-        public LiveUpdateCommunicationHandler(string host, int port, string appName)
+        public LiveUpdateCommunicationHandler(string host, int port, string appName, string platform, string platformVersion, string deviceInstanceId)
         {
             this.host = host;
             this.port = port;
             this.appName = appName;
+            this.platform = platform;
+            this.platformVersion = platformVersion;
+            this.deviceInstanceId = deviceInstanceId;
         }
         public void Init()
         {
 #if UNITY_WEBGL
-                this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, this.path, this.appName);
+            this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId);
 #else
-            this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName);
+            this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId);
 #endif
 
             this.wsClient.OnConnect += () =>
