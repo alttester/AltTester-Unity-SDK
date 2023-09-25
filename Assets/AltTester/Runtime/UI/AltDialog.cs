@@ -36,6 +36,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private readonly string HOST = "AltTesterHost";
         private readonly string PORT = "AltTesterPort";
         private readonly string APP_NAME = "AltTesterAppName";
+        private readonly string UID = "AltTesterAppName";
 
         [UnityEngine.SerializeField]
         public UnityEngine.GameObject Dialog = null;
@@ -93,6 +94,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             SetUpHostInputField();
             SetUpPortInputField();
             SetUpAppNameInputField();
+            resetConnectionDataBasedOnUID();
             SetUpRestartButton();
             SetUpCustomInputToggle();
         }
@@ -193,6 +195,19 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
         }
 
+        private void resetConnectionDataBasedOnUID()
+        {
+            if (InstrumentationSettings.ResetConnectionData && (InstrumentationSettings.UID != PlayerPrefs.GetString(UID, "")))
+            {
+                PlayerPrefs.SetString(HOST, InstrumentationSettings.AltServerHost);
+                PlayerPrefs.SetInt(PORT, InstrumentationSettings.AltServerPort);
+                PlayerPrefs.SetString(APP_NAME, InstrumentationSettings.AppName);
+            }
+            PlayerPrefs.SetString(UID, InstrumentationSettings.UID);
+            HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
+            HostInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
+            HostInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+        }
         private void SetUpHostInputField()
         {
             HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);

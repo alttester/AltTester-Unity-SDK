@@ -43,6 +43,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         public string AppName = "__default__";
         public int assemblyTestDisplayedIndex;
+        public bool ResetConnectionData = false;
+        public string UID = "";
 
         public AltInstrumentationSettings GetInstrumentationSettings()
         {
@@ -51,7 +53,9 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 ShowPopUp = ShowPopUp,
                 AltServerPort = AltServerPort,
                 AltServerHost = AltServerHost,
-                AppName = AppName
+                AppName = AppName,
+                ResetConnectionData = ResetConnectionData,
+                UID = UID
             };
         }
         public bool KeepAUTSymbolDefined = false;
