@@ -23,7 +23,8 @@ using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Driver.Proxy;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Communication {
+namespace AltTester.AltTesterUnitySDK.Driver.Communication
+{
     public class DriverWebSocketClient
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
@@ -49,7 +50,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
         public string URI { get { return this.uri; } }
 
-        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId)
+        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId)
         {
             this.host = host;
             this.port = port;
@@ -58,12 +59,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             this.platform = platform;
             this.platformVersion = platformVersion;
             this.deviceInstanceId = deviceInstanceId;
+            this.appId = appId;
 
             this.error = null;
             this.closeCode = 0;
             this.closeReason = null;
 
-            this.uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId).ToString();
+            this.uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId).ToString();
             Debug.WriteLine(this.uri);
         }
 
@@ -176,8 +178,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             this.wsClient.Close();
         }
 
-        public void Send(string message) {
-            if (!this.IsAlive) {
+        public void Send(string message)
+        {
+            if (!this.IsAlive)
+            {
                 logger.Warn("The connection is already closed.");
                 return;
             }

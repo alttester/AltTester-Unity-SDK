@@ -28,6 +28,8 @@ using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
+using UnityEngine;
+
 namespace AltTester.AltTesterUnitySDK.Communication
 {
     public class CommandHandler : ICommandHandler
@@ -44,6 +46,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public NotificationHandler OnDriverConnect { get; set; }
         public NotificationHandler OnDriverDisconnect { get; set; }
+        public NotificationHandler OnAppConnect { get; set; }
 
         public CommandHandler()
         {
@@ -70,6 +73,11 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 if (cmdParams.isNotification)
                 {
                     handleNotifications(cmdParams);
+                    return;
+                }
+                if (cmdParams.commandName == "AppId") // TODO Create new CommandParams or make it notification and handle there
+                {
+                    handleAppId(cmdParams);
                     return;
                 }
 
@@ -114,6 +122,19 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 {
                     this.OnDriverDisconnect.Invoke(cmdParams.driverId);
                 }
+            }
+        }
+
+        public void handleAppId(CommandParams cmdParams)
+        {
+            if (cmdParams.commandName == "AppId")
+            {
+                Debug.Log(cmdParams.driverId);
+                if (this.OnAppConnect != null)
+                {
+                    this.OnAppConnect.Invoke(cmdParams.driverId);
+                }
+                // TODO Set this to a variable.
             }
         }
 

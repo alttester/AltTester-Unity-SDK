@@ -18,6 +18,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using AltTester;
 using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Logging;
@@ -82,6 +83,10 @@ namespace AltTester.AltTesterUnitySDK.UI
         private float update;
         private bool DisconnectCommunicationFlag = false;
         private bool DisconnectLiveUpdateFlag = false;
+        private string AppId;
+        private string platform;
+        private string platformVersion;
+        private string deviceInstanceId;
 
         protected void Start()
         {
@@ -294,22 +299,22 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void InitClient()
         {
-            // TODO Read tags from platform
-            string platform = "Test";
-            string platformVersion = "Test";
-            string deviceInstanceId = "Test";
+            this.platform = Application.platform.ToString();
+            this.platformVersion = SystemInfo.operatingSystem;
+            this.deviceInstanceId = SystemInfo.deviceUniqueIdentifier;
 
-            _communication = new RuntimeCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId);
+            _communication = new RuntimeCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId, "unknown");
             _communication.OnConnect += OnConnect;
             _communication.OnDisconnect += OnDisconnectCommunication;
             _communication.OnError += OnError;
 
             _communication.CmdHandler.OnDriverConnect += OnDriverConnect;
             _communication.CmdHandler.OnDriverDisconnect += OnDriverDisconnect;
+            _communication.CmdHandler.OnAppConnect += OnAppConnect;
             _communication.Init();
 
-
-            _liveUpdateCommunication = new LiveUpdateCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId);
+            UnityEngine.Debug.Log("APPID IN INIT CLIENT" + this.AppId);
+            _liveUpdateCommunication = new LiveUpdateCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId, "unknown");
             _liveUpdateCommunication.OnDisconnect += OnDisconnectLiveUpdate;
             _liveUpdateCommunication.OnError += OnError;
             _liveUpdateCommunication.OnConnect += OnConnect;
@@ -454,6 +459,12 @@ namespace AltTester.AltTesterUnitySDK.UI
                     SetMessage(message, color: SUCCESS_COLOR, visible: false);
                 });
             }
+        }
+
+        private void OnAppConnect(string appId)
+        {
+            logger.Debug("AppId Given by server: " + appId);
+            this.AppId = appId;
         }
 
         private void OnDriverDisconnect(string driverId)

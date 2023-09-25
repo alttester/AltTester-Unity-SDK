@@ -38,6 +38,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string platform;
         private readonly string platformVersion;
         private readonly string deviceInstanceId;
+        private readonly string appId;
 
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationDisconnectHandler OnDisconnect { get; set; }
@@ -47,7 +48,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.IsAlive; } }
 
 
-        public RuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId)
+        public RuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId)
         {
             this.host = host;
             this.port = port;
@@ -55,8 +56,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.platform = platform;
             this.platformVersion = platformVersion;
             this.deviceInstanceId = deviceInstanceId;
+            this.appId = appId;
 
-            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId);
+            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId);
             wsClient = new WebSocket(uri.ToString());
             UnityEngine.Debug.Log("JERER");
             UnityEngine.Debug.Log(uri.ToString());
@@ -138,7 +140,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.State == WebSocketState.Open; } }
 
-        public WebGLRuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId)
+        public WebGLRuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId)
         {
             this.host = host;
             this.port = port;
@@ -146,8 +148,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.platform = platform;
             this.platformVersion = platformVersion;
             this.deviceInstanceId = deviceInstanceId;
+            this.appId = appId;
 
-            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId);
+            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId);
             wsClient = new WebGLWebSocket(uri.ToString());
 
             wsClient.OnOpen += () =>

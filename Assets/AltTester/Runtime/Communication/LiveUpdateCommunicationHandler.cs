@@ -31,6 +31,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string platform;
         private readonly string platformVersion;
         private readonly string deviceInstanceId;
+        private readonly string appId;
 
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationDisconnectHandler OnDisconnect { get; set; }
@@ -45,7 +46,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public int Quality { get { return this.quality; } }
         public int FrameRate { get { return this.frameRate; } }
 
-        public LiveUpdateCommunicationHandler(string host, int port, string appName, string platform, string platformVersion, string deviceInstanceId)
+        public LiveUpdateCommunicationHandler(string host, int port, string appName, string platform, string platformVersion, string deviceInstanceId, string appId)
         {
             this.host = host;
             this.port = port;
@@ -53,13 +54,14 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.platform = platform;
             this.platformVersion = platformVersion;
             this.deviceInstanceId = deviceInstanceId;
+            this.appId = appId;
         }
         public void Init()
         {
 #if UNITY_WEBGL
-            this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId);
+            this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId, this.appId);
 #else
-            this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId);
+            this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId, this.appId);
 #endif
 
             this.wsClient.OnConnect += () =>
@@ -69,7 +71,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
             this.wsClient.OnDisconnect += (code, reason) =>
             {
-                this.isRunning = false; 
+                this.isRunning = false;
                 if (this.OnDisconnect != null) this.OnDisconnect(code, reason);
             };
 
@@ -83,16 +85,16 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 this.OnMessage(message);
             };
         }
-        
+
         public void Connect()
         {
-            this.isRunning = false; 
+            this.isRunning = false;
             this.wsClient.Connect();
         }
 
         public void Close()
         {
-            this.isRunning = false; 
+            this.isRunning = false;
             this.wsClient.Close();
         }
 

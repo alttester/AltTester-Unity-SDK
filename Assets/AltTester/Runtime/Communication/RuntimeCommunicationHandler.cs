@@ -32,6 +32,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string platform;
         private readonly string platformVersion;
         private readonly string deviceInstanceId;
+        private readonly string appId;
 
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationDisconnectHandler OnDisconnect { get; set; }
@@ -40,7 +41,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.IsConnected; } }
         public ICommandHandler CmdHandler { get { return this.cmdHandler; } }
 
-        public RuntimeCommunicationHandler(string host, int port, string appName, string platform, string platformVersion, string deviceInstanceId)
+        public RuntimeCommunicationHandler(string host, int port, string appName, string platform, string platformVersion, string deviceInstanceId, string appId)
         {
             this.host = host;
             this.port = port;
@@ -48,17 +49,19 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.platform = platform;
             this.platformVersion = platformVersion;
             this.deviceInstanceId = deviceInstanceId;
+            this.appId = appId;
 
             this.cmdHandler = new CommandHandler();
+
         }
 
 
         public void Init()
         {
 #if UNITY_WEBGL
-            this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId);
+            this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId, this.appId);
 #else
-            this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId);
+            this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId, this.appId);
 #endif
 
             this.wsClient.OnMessage += (message) =>

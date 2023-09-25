@@ -70,7 +70,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
                 platformVersion,
                 deviceInstanceId
             );
-            communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId);
+            communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, "appId");
             communicationHandler.Connect();
 
             checkServerVersion();
