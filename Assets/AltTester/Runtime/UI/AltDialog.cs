@@ -36,7 +36,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private readonly string HOST = "AltTesterHost";
         private readonly string PORT = "AltTesterPort";
         private readonly string APP_NAME = "AltTesterAppName";
-        private readonly string UID = "AltTesterAppName";
+        private readonly string UID = "UID";
 
         [UnityEngine.SerializeField]
         public UnityEngine.GameObject Dialog = null;
