@@ -525,8 +525,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
             UnityEditor.EditorGUILayout.LabelField("Run", UnityEditor.EditorStyles.boldLabel);
             if (EditorConfiguration.platform == AltPlatform.Editor && !UnityEditor.EditorApplication.isCompiling && !UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
             {
-                // if (UnityEngine.GUILayout.Button("Play in Editor"))
-                //     runInEditor();
+                if (UnityEngine.GUILayout.Button("Play in Editor"))
+                    runInEditor();
             }
             else
             {

@@ -107,7 +107,7 @@ Add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
 <details>
 <summary>Building the instrumented app, I get the error: <strong>The type or namespace name 'InputTestFixture' could not be found (are you missing a using directive or an assembly reference?)</strong>, </summary>
 <br>
-If you have Addressables package included in project you, set the Addressables settings to not build addressable when building the instrumented app. This can be done in <strong>Windows->Asset Management->Addressables->Settings</strong> and you will have an option <strong>Build Addressables on Player Build</strong>. Select <strong>Do not build Addressables content on Player build</strong>
+If you have Addressables package included in your project, set the Addressables settings to not build addressable when building the instrumented app. This can be done in <strong>Windows->Asset Management->Addressables->Settings</strong> and you will have an option <strong>Build Addressables on Player Build</strong>. Select <strong>Do not build Addressables content on Player build</strong>
 
 </details>
 <br>
