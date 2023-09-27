@@ -807,6 +807,8 @@ Keep in mind that the setup is different for Android and iOS.
         ```
     - Don`t forget to remove the license activation after each run! 
         ```
+        cd AltTesterDesktopLinuxBatchmode
+        pkill AltTesterDesktop.x86_64
         ./AltTesterDesktop.x86_64 -batchmode -removeActivation
         ```
 - **for remote connection** - a way to connect to AltServer, within the AltTester Desktop application is by installing AltTester Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
