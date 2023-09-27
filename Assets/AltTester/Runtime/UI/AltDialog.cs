@@ -146,6 +146,12 @@ namespace AltTester.AltTesterUnitySDK.UI
                 update = 0.0f;
                 StartCoroutine(this.SendScreenshot());
             }
+
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.L))
+            {
+                PlayerPrefs.DeleteKey(UID);
+                resetConnectionDataBasedOnUID();
+            }
         }
 
         protected IEnumerator SendScreenshot()
@@ -205,8 +211,8 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             PlayerPrefs.SetString(UID, InstrumentationSettings.UID);
             HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
-            HostInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
-            HostInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+            PortInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
+            AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
         }
         private void SetUpHostInputField()
         {
