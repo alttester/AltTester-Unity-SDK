@@ -4,34 +4,33 @@ namespace AltTesterTools
     public class PluginController
     {
 
-        [MenuItem("Build/test")]
-        public static void test()
+        public static void SetDLLSettings()
         {
-            foreach (var p in PluginImporter.GetAllImporters())
+            foreach (var plugin in PluginImporter.GetAllImporters())
             {
-                if (p.assetPath.Contains("SDKLibrary.dll"))
+                if (plugin.assetPath.Contains("SDKLibrary.dll"))
                 {
-                    if (p.assetPath.Contains("Unity2019OldInput"))
+                    if (plugin.assetPath.Contains("Unity2019OldInput"))
                     {
-                        p.DefineConstraints = new string[]{
+                        plugin.DefineConstraints = new string[]{
                     "UNITY_2019_1_OR_NEWER",
                     "!UNITY_2021_2_OR_NEWER",
                     "!ENABLE_INPUT_SYSTEM",
                     "ENABLE_LEGACY_INPUT_MANAGER"
                 };
                     }
-                    if (p.assetPath.Contains("Unity2019NewInput"))
+                    if (plugin.assetPath.Contains("Unity2019NewInput"))
                     {
-                        p.DefineConstraints = new string[]{
+                        plugin.DefineConstraints = new string[]{
                     "UNITY_2019_1_OR_NEWER",
                     "!UNITY_2021_2_OR_NEWER",
                     "ENABLE_INPUT_SYSTEM",
                     "!ENABLE_LEGACY_INPUT_MANAGER"
                 };
                     }
-                    if (p.assetPath.Contains("Unity2019Both"))
+                    if (plugin.assetPath.Contains("Unity2019Both"))
                     {
-                        p.DefineConstraints = new string[]{
+                        plugin.DefineConstraints = new string[]{
                     "UNITY_2019_1_OR_NEWER",
                     "!UNITY_2021_2_OR_NEWER",
                     "ENABLE_INPUT_SYSTEM",
@@ -39,38 +38,38 @@ namespace AltTesterTools
                 };
 
                     }
-                    if (p.assetPath.Contains("Unity2021OldInput"))
+                    if (plugin.assetPath.Contains("Unity2021OldInput"))
                     {
-                        p.DefineConstraints = new string[]{
+                        plugin.DefineConstraints = new string[]{
                     "UNITY_2021_2_OR_NEWER",
                     "!ENABLE_INPUT_SYSTEM",
                     "ENABLE_LEGACY_INPUT_MANAGER"
                 };
                     }
-                    if (p.assetPath.Contains("Unity2021NewInput"))
+                    if (plugin.assetPath.Contains("Unity2021NewInput"))
                     {
-                        p.DefineConstraints = new string[]{
+                        plugin.DefineConstraints = new string[]{
                     "UNITY_2021_2_OR_NEWER",
                     "ENABLE_INPUT_SYSTEM",
                     "!ENABLE_LEGACY_INPUT_MANAGER"
                 };
                     }
-                    if (p.assetPath.Contains("Unity2021Both"))
+                    if (plugin.assetPath.Contains("Unity2021Both"))
                     {
-                        p.DefineConstraints = new string[]{
+                        plugin.DefineConstraints = new string[]{
                     "UNITY_2021_2_OR_NEWER",
                     "ENABLE_INPUT_SYSTEM",
                     "ENABLE_LEGACY_INPUT_MANAGER"
                 };
                     }
-                    p.SaveAndReimport();
+                    plugin.SaveAndReimport();
                     UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget), "ALTTESTER");
 
                 }
-                if (p.assetPath.Contains("SDKLibrary.dll"))
+                if (plugin.assetPath.Contains("SDKLibrary.dll"))
                 {
-                    p.SetCompatibleWithAnyPlatform(false);
-                    p.SetCompatibleWithEditor(true);
+                    plugin.SetCompatibleWithAnyPlatform(false);
+                    plugin.SetCompatibleWithEditor(true);
                 }
 
 
