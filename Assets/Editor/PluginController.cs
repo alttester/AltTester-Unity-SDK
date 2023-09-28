@@ -67,6 +67,13 @@ namespace AltTesterTools
                     UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget), "ALTTESTER");
 
                 }
+                if (p.assetPath.Contains("SDKLibrary.dll"))
+                {
+                    p.SetCompatibleWithAnyPlatform(false);
+                    p.SetCompatibleWithEditor(true);
+                }
+
+
             }
         }
     }
