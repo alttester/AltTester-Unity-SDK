@@ -100,6 +100,10 @@ namespace AltTester.AltTesterUnitySDK.UI
             SetUpAppNameInputField();
             SetUpRestartButton();
             SetUpCustomInputToggle();
+
+            this.platform = Application.platform.ToString();
+            this.platformVersion = SystemInfo.operatingSystem;
+            this.deviceInstanceId = SystemInfo.deviceUniqueIdentifier;
         }
 
         protected void Update()
@@ -299,11 +303,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void InitClient()
         {
-            this.platform = Application.platform.ToString();
-            this.platformVersion = SystemInfo.operatingSystem;
-            this.deviceInstanceId = SystemInfo.deviceUniqueIdentifier;
-
-            _communication = new RuntimeCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId, "unknown");
+            _communication = new RuntimeCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId);
             _communication.OnConnect += OnConnect;
             _communication.OnDisconnect += OnDisconnectCommunication;
             _communication.OnError += OnError;
@@ -313,6 +313,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             _communication.CmdHandler.OnAppConnect += OnAppConnect;
             _communication.Init();
 
+            // HOW TO START LIVE UPDATE PROTOCOL AFTER I READ THE APP ID FROM THE RESPONSE AFTER CONNECT
             UnityEngine.Debug.Log("APPID IN INIT CLIENT" + this.AppId);
             _liveUpdateCommunication = new LiveUpdateCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId, "unknown");
             _liveUpdateCommunication.OnDisconnect += OnDisconnectLiveUpdate;
@@ -418,13 +419,13 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void OnStart()
         {
-            string message = String.Format("Waiting to connect to AltServer on {0}:{1} with app name: '{2}'.", HostInputField.text, PortInputField.text, AppNameInputField.text);
+            string message = String.Format("Waiting to connect to AltServer on {0}:{1} with app name: '{2}', '{3}', '{4}' and '{5}'.", HostInputField.text, PortInputField.text, AppNameInputField.text, this.platform, this.platformVersion, this.deviceInstanceId);
             SetMessage(message, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
         }
 
         private void OnConnect()
         {
-            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", HostInputField.text, PortInputField.text, AppNameInputField.text);
+            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}', '{3}', '{4}' and '{5}'.. Waiting for Driver to connect.", HostInputField.text, PortInputField.text, AppNameInputField.text, this.platform, this.platformVersion, this.deviceInstanceId);
 
             _updateQueue.ScheduleResponse(() =>
             {
@@ -444,7 +445,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void OnDriverConnect(string driverId)
         {
             logger.Debug("Driver Connected: " + driverId);
-            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Driver connected.", HostInputField.text, PortInputField.text, AppNameInputField.text);
+            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}', '{3}', '{4}' and '{5}'.. Driver connected.", HostInputField.text, PortInputField.text, AppNameInputField.text, this.platform, this.platformVersion, this.deviceInstanceId);
 
             _connectedDrivers.Add(driverId);
 
@@ -470,7 +471,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void OnDriverDisconnect(string driverId)
         {
             logger.Debug("Driver Disconnect: " + driverId);
-            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}'. Waiting for Driver to connect.", HostInputField.text, PortInputField.text, AppNameInputField.text);
+            string message = String.Format("Connected to AltServer on {0}:{1} with app name: '{2}', '{3}', '{4}' and '{5}'.. Waiting for Driver to connect.", HostInputField.text, PortInputField.text, AppNameInputField.text, this.platform, this.platformVersion, this.deviceInstanceId);
 
             _connectedDrivers.Remove(driverId);
             if (_connectedDrivers.Count == 0)

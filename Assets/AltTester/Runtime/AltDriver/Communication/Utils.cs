@@ -22,13 +22,24 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 {
     public class Utils
     {
-        public static Uri CreateURI(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId)
+        public static Uri CreateURI(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId = null)
         {
             Uri uri;
-            if (!Uri.TryCreate(string.Format("ws://{0}:{1}{2}?appName={3}&platform={4}&platformVersion={5}&deviceInstanceId={6}&appId={7}", host, port, path, Uri.EscapeDataString(appName), Uri.EscapeDataString(platform), Uri.EscapeDataString(platformVersion), Uri.EscapeDataString(deviceInstanceId), Uri.EscapeDataString(appId)), UriKind.Absolute, out uri))
+            if (string.IsNullOrEmpty(appId))
             {
-                throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
+                if (!Uri.TryCreate(string.Format("ws://{0}:{1}{2}?appName={3}&platform={4}&platformVersion={5}&deviceInstanceId={6}", host, port, path, Uri.EscapeDataString(appName), Uri.EscapeDataString(platform), Uri.EscapeDataString(platformVersion), Uri.EscapeDataString(deviceInstanceId)), UriKind.Absolute, out uri))
+                {
+                    throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
+                }
             }
+            else
+            {
+                if (!Uri.TryCreate(string.Format("ws://{0}:{1}{2}?appName={3}&platform={4}&platformVersion={5}&deviceInstanceId={6}&appId={7}", host, port, path, Uri.EscapeDataString(appName), Uri.EscapeDataString(platform), Uri.EscapeDataString(platformVersion), Uri.EscapeDataString(deviceInstanceId), Uri.EscapeDataString(appId)), UriKind.Absolute, out uri))
+                {
+                    throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
+                }
+            }
+
 
             return uri;
         }
