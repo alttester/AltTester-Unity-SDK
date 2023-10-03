@@ -191,6 +191,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.AreEqual(ParentValue, altElementParent.name);
         }
         
+        [TestCase("EventSystem")]
+        [TestCase("Canvas")]
+        [TestCase("SF Scene Elements")]
+        public void TestGetNonExistingParent(string NameValue)
+        {
+            var altElement = altDriver.FindObject(By.NAME, NameValue);
+            Assert.Throws<NotFoundException>(() => altElement.GetParent());
+        }
+
         [Test]
         public void TestGetAllScenesAndElements()
         {
