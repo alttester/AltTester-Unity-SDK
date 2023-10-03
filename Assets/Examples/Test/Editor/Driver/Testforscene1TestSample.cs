@@ -426,6 +426,25 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
         [Test]
+        public void TestSetComponentPropertyNonExistingAssembly()
+        {
+            const string componentName = "AltExampleScriptCapsule";
+            const string propertyName = "stringToSetFromTests";
+            const string nonExistingAssembly = "unexisting";
+            var altElement = altDriver.FindObject(By.NAME, "Capsule");
+            Assert.NotNull(altElement);
+            try
+            {
+                altElement.SetComponentProperty(componentName, propertyName, "2",nonExistingAssembly );
+                Assert.Fail();
+            }
+            catch (AssemblyNotFoundException exception)
+            {
+                Assert.IsTrue(exception.Message.StartsWith("Assembly not found"), exception.Message);
+            }
+        }
+
+        [Test]
         public void TestCallMethodWithNoParameters()
         {
             const string componentName = "AltExampleScriptCapsule";
