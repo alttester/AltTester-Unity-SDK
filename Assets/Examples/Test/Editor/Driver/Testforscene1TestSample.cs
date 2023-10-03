@@ -236,7 +236,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [TestCase( "UNEXISTING","InstrumentationSettings.AltServerPort", "AltTester.AltTesterUnitySDK", "Component not found")]
         [TestCase( "AltTester.AltTesterUnitySDK.AltRunner","UNEXISTING", "AltTester.AltTesterUnitySDK", "Property UNEXISTING not found")]
         // [TestCase( "AltTester.AltTesterUnitySDK.AltRunner","InstrumentationSettings.AltServerPort", "UNEXISTING", "Assembly UNEXISTING not found")] -> This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185. This test can be uncomment when the issue is fixed
-        public void BBBTestWaitForComponentPropertyNonExistingComponent(string componentName, string propertyName, string assemblyName, string message){
+        public void TestWaitForComponentPropertyNonExistingComponent(string componentName, string propertyName, string assemblyName, string message){
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             int port = TestsHelper.GetAltDriverPort();
             try {
@@ -392,13 +392,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestSetNonExistingComponentProperty()
         {
-            const string componentName = "Capsulee";
+            const string unexistingComponent = "Capsulee";
             const string propertyName = "stringToSetFromTests";
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
             Assert.NotNull(altElement);
             try
             {
-                altElement.SetComponentProperty(componentName, propertyName, "2", "Assembly-CSharp");
+                altElement.SetComponentProperty(unexistingComponent, propertyName, "2", "Assembly-CSharp");
                 Assert.Fail();
             }
             catch (ComponentNotFoundException exception)
@@ -407,6 +407,23 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             }
         }
 
+        [Test]
+        public void TestSetNonExistingProperty()
+        {
+            const string componentName = "AltExampleScriptCapsule";
+            const string unexistingPropertyName = "unexisting";
+            var altElement = altDriver.FindObject(By.NAME, "Capsule");
+            Assert.NotNull(altElement);
+            try
+            {
+                altElement.SetComponentProperty(componentName, unexistingPropertyName, "2", "Assembly-CSharp");
+                Assert.Fail();
+            }
+            catch (PropertyNotFoundException exception)
+            {
+                Assert.IsTrue(exception.Message.StartsWith($"Property {unexistingPropertyName} not found"), exception.Message);
+            }
+        }
 
         [Test]
         public void TestCallMethodWithNoParameters()
