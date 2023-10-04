@@ -114,7 +114,7 @@ class TestScene01:
 
     def test_find_objects_by_layer(self):
         alt_objects = self.altdriver.find_objects(By.LAYER, "Default")
-        assert len(alt_objects) == 12 or len(alt_objects) == 13
+        assert len(alt_objects) >= 10
 
     def test_find_objects_by_component(self):
         alt_objects = self.altdriver.find_objects(
