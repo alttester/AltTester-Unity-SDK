@@ -1235,6 +1235,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
         [Test]
+        public void TestWaitForObjectWhichContainsExistingCriteriaButNonExistingCamera()
+        {
+            Assert.Throws<AltCameraNotFoundException>(() => altDriver.WaitForObjectWhichContains(By.NAME,"Canva", By.TAG, "Unexisting", timeout:2));
+        }
+
+        [Test]
         public void TestClickOnTextAndTheParentIsClicked()
         {
             var UiButton = altDriver.FindObject(By.NAME, "UIButton/Text");
@@ -1938,6 +1944,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var element = altDriver.FindObjectAtCoordinates(counterButton.GetScreenPosition());
             Assert.AreEqual("Capsule", element.name);
         }
+
+        // just an idea
+        // [Test]
+        // public void BBBTestFindElementAtNonExistingCoordinates()
+        // {
+        //     var counterButton = altDriver.FindObject(By.NAME, "Capsule");
+        //     var element = altDriver.FindObjectAtCoordinates(new AltVector2(10000,10000));
+        //     // Assert.AreEqual("Capsule", element.name);
+        // }
+
         [Test]
         public void TestScrollViewSwipe()
         {
