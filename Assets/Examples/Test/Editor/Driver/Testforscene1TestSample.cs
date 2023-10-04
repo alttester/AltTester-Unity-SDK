@@ -1236,7 +1236,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestWaitForObjectWhichContainsNonExistingCriteria()
         {
-            Assert.Throws<AltCameraNotFoundException>(() => altDriver.WaitForObjectWhichContains(By.NAME, "Unexisting", By.TAG, "Unexisting"));
+            Assert.Throws<WaitTimeOutException>(() => altDriver.WaitForObjectWhichContains(By.NAME, "Unexisting", By.TAG, "MainCamera", timeout:2));
         }
 
         [Test]
