@@ -445,24 +445,19 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
         // Ask if there should be a specific error for this case
-        // [Test]
-        // public void TestSetComponentPropertyBadValue()
-        // {
-        //     const string componentName = "AltExampleScriptCapsule";
-        //     const string propertyName = "stringToSetFromTests";
-        //     const string assembly = "Assembly-CSharp";
-        //     var altElement = altDriver.FindObject(By.NAME, "Capsule");
-        //     Assert.NotNull(altElement);
-        //     try
-        //     {
-        //         altElement.SetComponentProperty(componentName, propertyName, 12, assembly );
-        //         Assert.Fail();
-        //     }
-        //     catch (AssemblyNotFoundException exception)
-        //     {
-        //         Assert.IsTrue(exception.Message.StartsWith(""), exception.Message);
-        //     }
-        // }
+        [Test]
+        public void TestSetComponentPropertyBadValue()
+        {
+            const string componentName = "AltExampleScriptCapsule";
+            const string propertyName = "stringToSetFromTests";
+            const string assembly = "Assembly-CSharp";
+            var altElement = altDriver.FindObject(By.NAME, "Capsule");
+            Assert.NotNull(altElement);
+            altElement.SetComponentProperty(componentName, propertyName, null, assembly );
+            var property_value = altElement.GetComponentProperty<String>(componentName,propertyName, assembly);
+            Assert.AreEqual(property_value, null);
+                
+        }
 
         [Test]
         public void TestCallMethodWithNoParameters()
