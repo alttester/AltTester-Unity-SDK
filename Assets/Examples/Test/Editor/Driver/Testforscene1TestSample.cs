@@ -236,7 +236,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [TestCase( "UNEXISTING","InstrumentationSettings.AltServerPort", "AltTester.AltTesterUnitySDK", "Component not found")]
         [TestCase( "AltTester.AltTesterUnitySDK.AltRunner","UNEXISTING", "AltTester.AltTesterUnitySDK", "Property UNEXISTING not found")]
         // [TestCase( "AltTester.AltTesterUnitySDK.AltRunner","InstrumentationSettings.AltServerPort", "UNEXISTING", "Assembly UNEXISTING not found")] -> This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185. This test can be uncomment when the issue is fixed
-        public void TestWaitForComponentPropertyNonExistingComponent(string componentName, string propertyName, string assemblyName, string message){
+        public void TestWaitForComponentPropertyNonExistingParameters(string componentName, string propertyName, string assemblyName, string message){
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             int port = TestsHelper.GetAltDriverPort();
             try {
@@ -265,44 +265,25 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             }
         }
 
-        [Test]
-        public void TestGetComponentPropertyNotFoundWithAssembly()
+        [TestCase("AltTester.AltTesterUnitySDK.AltRunner", "InvalidProperty", "AltTester.AltTesterUnitySDK", "Property InvalidProperty not found")]
+        [TestCase("UNEXISTING", "InstrumentationSettings.ShowPopUp", "AltTester.AltTesterUnitySDK", "Component not found")]
+        // [TestCase("AltTester.AltTesterUnitySDK.AltRunner", "InstrumentationSettings.ShowPopUp", "UNEXISTING", "Assembly not found")]  -> this is commented because tere is not Assembly no found exception
+        public void TestGetComponentPropertyNonExistingParams(string component, string property, string assembly, string message)
         {
             Thread.Sleep(1000);
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
-            const string propertyName = "InvalidProperty";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             try
             {
-                var propertyValue = altElement.GetComponentProperty<bool>(componentName, propertyName, "AltTester.AltTesterUnitySDK");
+                var propertyValue = altElement.GetComponentProperty<bool>(component, property, assembly);
                 Assert.Fail();
             }
-            catch (PropertyNotFoundException exception)
+            catch (Exception exception)
             {
-                Assert.IsTrue(exception.Message.StartsWith("Property InvalidProperty not found"), exception.Message);
+                Assert.IsTrue(exception.Message.StartsWith(message), exception.Message);
             }
         }
 
-        [Test]
-        public void TestGetNonExistingComponentProperty()
-        {
-            Thread.Sleep(1000);
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
-            const string propertyName = "socketPort";
-            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
-            Assert.NotNull(altElement);
-            try
-            {
-                altElement.GetComponentProperty<int>(componentName, propertyName, "AltTester.AltTesterUnitySDK");
-                Assert.Fail();
-            }
-            catch (PropertyNotFoundException exception)
-            {
-                Assert.IsTrue(exception.Message.StartsWith("Property socketPort not found"), exception.Message);
-            }
-
-        }
         [Test]
         public void TestGetComponentPropertyArray()
         {
@@ -857,8 +838,18 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
         [Test]
-        public void TestCallStaticNonExistent(){
+        public void TestCallStaticNonExistentMethod(){
             Assert.Throws<MethodNotFoundException>(() => altDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "UNEXISTING", "UnityEngine.CoreModule", new[] { "Test", "2" }));
+        }
+
+        [Test]
+        public void TestCallStaticMethodNonExistingAssembly(){
+            Assert.Throws<AssemblyNotFoundException>(() => altDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "GetInt", "UNEXISTING", new[] { "Test", "2" }));
+        }
+
+        [Test] // to check what error should be triggered
+        public void TestCallStaticMethodNonExistingTypeName(){
+            Assert.Throws<ComponentNotFoundException>(() => altDriver.CallStaticMethod<int>("UNEXISTING", "GetInt", "UnityEngine.CoreModule", new[] { "Test", "2" }));
         }
 
         [Test]
@@ -1886,6 +1877,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
         [Test]
+        public void TestGetStaticpropertyNonExistingComponent(){
+            Assert.Throws<ComponentNotFoundException>(() => altDriver.GetStaticProperty<int>("UNEXISTING", "orientation", "UnityEngine.CoreModule"));
+        }
+
+        [Test]
+        public void TestGetStaticpropertyNonExistingAssembly(){
+            Assert.Throws<AssemblyNotFoundException>(() => altDriver.GetStaticProperty<int>("UnityEngine.Screen", "orientation", "UNEXISTING"));
+        }
+
+        [Test]
         public void TestGetStaticPropertyInstanceNull()
         {
             var screenWidth = altDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new string[] { }, null);
@@ -2013,7 +2014,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void TestSetStaticNonExistingProperty(){
             Assert.Throws<PropertyNotFoundException>(() => altDriver.SetStaticProperty("AltExampleScriptCapsule", "UNEXISTING", "Assembly-CSharp", 5));
         }
-        
+        [Test]
+        public void TestSetStaticPropertyNonExistingComponent(){
+            Assert.Throws<ComponentNotFoundException>(() => altDriver.SetStaticProperty("UNEXISTING", "privateStaticVariable", "Assembly-CSharp", 5));
+        }
+        [Test]
+        public void TestSetStaticPropertyNonExistingAssembly(){
+            Assert.Throws<AssemblyNotFoundException>(() => altDriver.SetStaticProperty("AltExampleScriptCapsule", "privateStaticVariable", "UNEXISTING", 5));
+        }
+
         [Test]
         public void TestSetStaticProperty2()
         {
