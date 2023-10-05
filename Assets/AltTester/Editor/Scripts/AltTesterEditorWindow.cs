@@ -602,6 +602,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 wordWrap = true
             };
             UnityEditor.EditorGUILayout.LabelField("Building or Playing in editor will add ALTTESTER as a define", style);
+            UnityEditor.EditorGUILayout.LabelField("If New Input System is active when you build your app, AltTester will modify your existing test assembly to be run only in editor to prevent errors", style);
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();

@@ -386,12 +386,13 @@ namespace AltTester.AltTesterUnitySDK
         {
             InputTestFixture.MoveTouch(fingerId, screenPosition, screen: Touchscreen);
             endTouchScreenPos = screenPosition;
-
         }
 
         internal static IEnumerator EndTouch(int fingerId)
         {
             yield return new WaitForEndOfFrame();
+
+
             InputTestFixture.EndTouch(fingerId, endTouchScreenPos, screen: Touchscreen);
             touches[fingerId] = true;
 
