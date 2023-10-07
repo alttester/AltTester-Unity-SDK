@@ -105,6 +105,14 @@ Add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
 <br>
 
 <details>
+<summary>Building the instrumented app, I get the error: <strong>The type or namespace name 'InputTestFixture' could not be found (are you missing a using directive or an assembly reference?)</strong>, </summary>
+<br>
+If you have Addressables package included in your project, set the Addressables settings to not build addressable when building the instrumented app. This can be done in <strong>Windows->Asset Management->Addressables->Settings</strong> and you will have an option <strong>Build Addressables on Player Build</strong>. Select <strong>Do not build Addressables content on Player build</strong>
+
+</details>
+<br>
+
+<details>
 <summary>How can I <strong>use the Input from AltTester Unity SDK</strong> if my project is using <strong>Assembly Definitions </strong>?</summary>
 <br>
 To use the Input from AltTester Unity SDK you have to reference <strong>AltTesterUnitySDK.asmdef</strong> in your .asmdef. In case you are using multiple assembly definitions you will have to reference our .asmdef in all of your .asmdef files which contain a reference to any kind of input (Unity's input or your custom built input).
