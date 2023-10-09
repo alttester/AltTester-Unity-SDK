@@ -681,16 +681,16 @@ namespace AltTesterTools
         [UnityEditor.MenuItem("AltTester/Create AltTester Prefab", false, 80)]
         public static void CreateAltTesterPrefab()
         {
-            CreatePrefab();
-            SavePrefab(Prefab);
+            var prefab = CreatePrefab();
+            SavePrefab(prefab);
         }
         [UnityEditor.MenuItem("AltTester/Create AltTester Prefab Without Checking Equality", false, 90)]
         public static void CreateAltTesterPrefabWithoutCheck()
         {
-            CreatePrefab();
-            SavePrefab(Prefab, false);
+            var prefab = CreatePrefab();
+            SavePrefab(prefab, false);
         }
-        public static CreatePrefab()
+        public static GameObject CreatePrefab()
         {
             ///
             /// IMPORTANT! ALTTESTER MUST BE DEFINE TO CREATE CORRECTLY THE PREFAB
@@ -725,6 +725,7 @@ namespace AltTesterTools
             AltDialog.AppNameInputField = CreateAppNameInputField(DialogTransform);
             AltDialog.RestartButton = CreateRestartButton(DialogTransform);
             AltDialog.CustomInputToggle = CreateCustomInputToggle(DialogTransform);
+            return Prefab;
         }
     }
 }
