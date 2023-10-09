@@ -1,23 +1,23 @@
 Upgrade from v1.7.2 to v1.8.0
 =============================
 
-This guide will assist in upgrading your AltUnity projects from **v1.7.2** to AltTester Unity SDK **v1.8.0**.
+This guide will assist in upgrading your AltUnity projects from **v1.7.2** to AltTester® Unity SDK **v1.8.0**.
 
-AltUnity Tester becomes AltTester Unity SDK. The new one fits our mission to extend our test automation solution in the following directions:
+AltUnity Tester becomes AltTester® Unity SDK. The new one fits our mission to extend our test automation solution in the following directions:
 support new platforms, help game testers to start automation easier and start exploring how we could support Unreal and other engines.
 All changes are listed below, organized by drivers along with how to upgrade
-your code to work with AltTester Unity SDK v1.8.0.
+your code to work with AltTester® Unity SDK v1.8.0.
 
-To learn more about what's new in AltTester Unity SDK v1.8.0, read the
+To learn more about what's new in AltTester® Unity SDK v1.8.0, read the
 `v1.8.0 section from our changelog <https://github.com/alttester/AltTester-Unity-SDK/blob/development/CHANGELOG.md>`_.
 
 
 Unity
 -----
 
-To replace AltUnity Tester with AltTester Unity SDK you will need to do the following steps:
+To replace AltUnity Tester with AltTester® Unity SDK you will need to do the following steps:
 
-1. Download AltTester Unity SDK from :alttestersdkdownload:`our website <>`.
+1. Download AltTester® Unity SDK from :alttestersdkdownload:`our website <>`.
 2. Delete your AltUnity Tester folder
 3. Drag and drop the unitypackage you downloaded in step 1 to your Unity projects
 

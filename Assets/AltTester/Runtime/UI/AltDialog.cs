@@ -87,7 +87,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
 
-            SetTitle("AltTester v." + AltRunner.VERSION);
+            SetTitle("AltTester® v." + AltRunner.VERSION);
             SetUpCloseButton();
             SetUpIcon();
             SetUpHostInputField();
