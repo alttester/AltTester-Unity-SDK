@@ -57,6 +57,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         // UI disable elements are neede for this because at the moment, the test uses the AltDialog objects
         [TestCase("/AltTesterPrefab/AltDialog/Dialog", "Dialog")]
         [TestCase("/AltTesterPrefab/AltDialog/Dialog/Title", "Title")]
+        [TestCase("/Cube", "Cube")]
         public void TestFindDisabledObject(string path, string name){
             var altObject = altDriver.FindObject(By.PATH, path, enabled: false);
             Assert.NotNull(altObject);

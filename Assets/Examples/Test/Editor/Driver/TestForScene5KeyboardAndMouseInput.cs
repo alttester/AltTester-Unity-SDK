@@ -97,6 +97,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             stars = altDriver.FindObjectsWhichContain(By.NAME, "Star");
             Assert.AreEqual(3, stars.Count);
         }
+
         [Test]
         public void TestKeyboardPress()
         {
@@ -181,19 +182,26 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
                 i++;
             }
         }
-        [Test]
-        public void TestScroll()
+
+        [TestCase("Player2")]
+        // [TestCase("Star")]
+        // [TestCase("WallLeft")]
+        // [TestCase("Wallright")]
+        // [TestCase("WallBottom")]
+        // [TestCase("WallTop")]
+        public void TestScroll(string name)
         {
-            var player2 = altDriver.FindObject(By.NAME, "Player2");
+            var player2 = altDriver.FindObject(By.NAME, name);
 
             AltVector3 cubeInitialPostion = new AltVector3(player2.worldX, player2.worldY, player2.worldY);
             altDriver.Scroll(4, 2, false);
             Thread.Sleep(4000);
-            player2 = altDriver.FindObject(By.NAME, "Player2");
+            player2 = altDriver.FindObject(By.NAME, name);
             AltVector3 cubeFinalPosition = new AltVector3(player2.worldX, player2.worldY, player2.worldY);
 
             Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
         }
+        
         [Test]
         public void TestScrollAndWait()
         {
