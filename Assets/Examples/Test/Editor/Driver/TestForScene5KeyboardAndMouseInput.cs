@@ -227,6 +227,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.AreEqual(newShadersName, shadersName);
 
         }
+        [Test]
+        public void TestClickDestroyButton()
+        {
+            altDriver.FindObject(By.NAME, "Destroy").Click();
+            altDriver.WaitForObjectNotBePresent(By.NAME, "Destroy");
+        }
 
 #pragma warning restore CS0618
     }
