@@ -1,12 +1,19 @@
 # Examples
 
-We used AltTester Unity SDK to test some sample apps to help you understand better how to use it.
+We used AltTester® Unity SDK to test some sample apps to help you understand better how to use it.
 We plan to add more examples in the near future. 
 
 ```eval_rst
 .. note::
 
     Example test projects below can be run on any platform.
+
+```
+
+```eval_rst
+.. note::
+
+   Starting with **Selenium 4** the *DesiredCapabilities* are deprecated and the Webdriver now uses *Options* to pass capabilities, so if you're using Selenium 4, in order for the example projects that use Appium to work, you may have to update the code with the new setup - see the `Selenium documentation <https://www.selenium.dev/documentation/webdriver/getting_started/upgrade_to_selenium_4/>`_
 
 ```
 
@@ -22,28 +29,20 @@ We plan to add more examples in the near future.
 
 * Python tests [Multiplayer iOS / Android](https://github.com/alttester-test-examples/Python-Android-iOS-Multiplayer--AltTanks) -->
 
-<!--
-**3.** Example test project for AltUnity Pro Alpha:
-
-* C# tests [WebGL](https://gitlab.com/altom/altunity/examples/altunity-pro-alpha-example)
-
-    You can get the sample app from the [Unity Asset Store](https://assetstore.unity.com/packages/essentials/tutorial-projects/tanks-tutorial-46209).
- -->
-
-**2.** Example test project for AltTester Unity SDK:
+**2.** Example test project for AltTester® Unity SDK:
 
 * C# tests [SampleScenes](https://alttester.com/app/uploads/AltTester/sdks/SampleScenes.unitypackage)
 
     Import this package under your AltTester package in Unity, to have access to the SampleScenes and C# tests.
 
 
-**3.** Example test projects for AltTester Unity SDK v.2.0.1 and the New Input System:
+**3.** Example test projects for AltTester® Unity SDK v.2.0.1 and the New Input System:
 
 * C# tests [CoinCollector](https://github.com/alttester/EXAMPLES-NewInputSystem--CoinCollector-CSharp)
 * C# tests [LeanTouch](https://github.com/alttester/EXAMPLES-NewInputSystem--LeanTouch-CSharp)
 * C# tests [RollABall](https://github.com/alttester/EXAMPLES-NewInputSystem--RollABall-CSharp)  
 
-<!-- **4.** Example test project for AltTester Unity SDK and Unity Test Framework:
+<!-- **4.** Example test project for AltTester® Unity SDK and Unity Test Framework:
 
 * C# tests [Endless Runner](https://github.com/alttester-test-examples/Unity-Test-Runner-AltTester)
 

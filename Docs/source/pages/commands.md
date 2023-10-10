@@ -12,7 +12,7 @@ An AltDriver instance will connect to the running instrumented Unity application
 
 | Name           | Type    | Required | Description                                                                           |
 | -------------- | ------- | -------- | ------------------------------------------------------------------------------------- |
-| host           | string  | No       | The IP or hostname AltTester Unity SDK is listening on. The default value is "127.0.0.1". |
+| host           | string  | No       | The IP or hostname AltTester® Unity SDK is listening on. The default value is "127.0.0.1". |
 | port           | int     | No       | The default value is 13000.                                                           |
 | enableLogging  | boolean | No       | The default value is false.                                                           |
 | connectTimeout | int     | No       | The connect timeout in seconds.The default value is 60.                                |
@@ -1821,7 +1821,7 @@ Simulates device rotation action in your app.
 
 #### ResetInput
 
-Clears all active input actions simulated by AltTester.
+Clears all active input actions simulated by AltTester®.
 
 **_Parameters_**
 
@@ -2840,11 +2840,19 @@ Gets the value of the static field or property.
     .. code-tab:: py
 
         def test_get_static_property(self):
-            self.altdriver.load_scene('Scene 1 AltDriverTestScene')
-            self.altdriver.call_static_method("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", ["1920", "1080", "True"], ["System.Int32", "System.Int32", "System.Boolean"])
+
+            self.altdriver.call_static_method(
+                "UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
+                parameters=["1920", "1080", "True"],
+                type_of_parameters=["System.Int32",
+                                    "System.Int32", "System.Boolean"]
+            )
             width = self.altdriver.get_static_property(
-                "UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule")
-            self.assertEqual(int(width), 1920)
+                "UnityEngine.Screen", "currentResolution.width",
+                "UnityEngine.CoreModule"
+            )
+
+            assert int(width) == 1920
 
 ```
 
@@ -2908,7 +2916,7 @@ Sets the value of the static field or property.
 
 #### SetServerLogging
 
-Sets the level of logging on AltTester Unity SDK.
+Sets the level of logging on AltTester® Unity SDK.
 
 **_Parameters_**
 
@@ -3943,7 +3951,7 @@ None
 ```
 ### GetScreenPosition
 
- Returns the screen position of the AltTester object.
+ Returns the screen position of the AltTester® object.
 
 **_Parameters_**
 
@@ -3998,7 +4006,7 @@ None
 ```
 ### GetWorldPosition
 
-Returns the world position of the AltTester object.
+Returns the world position of the AltTester® object.
 
 **_Parameters_**
 
@@ -4256,7 +4264,7 @@ There are several characters that you need to escape when you try to find an obj
 
 ### AltId
 
-Is a solution offered by AltTester Unity SDK in order to find object easier. This is an unique identifier stored in an component and added to every object.
+Is a solution offered by AltTester® Unity SDK in order to find object easier. This is an unique identifier stored in an component and added to every object.
 **A limitation of this is that only the object already in the scene before building the app will have an AltId. Object instantiated during run time will not have an AltId**
 
 To add AltId to every object simply just click _Add AltId to every object_ from AltTester menu.

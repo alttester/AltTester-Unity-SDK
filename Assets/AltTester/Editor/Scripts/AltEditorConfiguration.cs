@@ -18,6 +18,7 @@
 using System.Collections.Generic;
 using AltTester.AltTesterUnitySDK;
 using UnityEngine;
+using System;
 
 namespace AltTester.AltTesterUnitySDK.Editor
 {
@@ -43,6 +44,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         public string AppName = "__default__";
         public int assemblyTestDisplayedIndex;
+        public bool ResetConnectionData = false;
+        public string UID = "";
 
         public AltInstrumentationSettings GetInstrumentationSettings()
         {
@@ -51,7 +54,9 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 ShowPopUp = ShowPopUp,
                 AltServerPort = AltServerPort,
                 AltServerHost = AltServerHost,
-                AppName = AppName
+                AppName = AppName,
+                ResetConnectionData = ResetConnectionData,
+                UID = SystemInfo.deviceUniqueIdentifier.ToString() + DateTimeOffset.Now.ToUnixTimeSeconds().ToString()
             };
         }
         public bool KeepAUTSymbolDefined = false;
