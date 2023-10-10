@@ -15,90 +15,63 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
 using AltWebSocketSharp;
 using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
-    public class LiveUpdateCommunicationHandler
+
+    public class LiveUpdateCommunicationHandler : BaseCommunicationHandler
     {
-        private IRuntimeWebSocketClient wsClient = null;
+        private string path = "/altws/live-update/app";
 
-        private readonly string host;
-        private readonly int port;
-        private readonly string appName;
-        private readonly string path = "/altws/live-update/app";
-        private readonly string platform;
-        private readonly string platformVersion;
-        private readonly string deviceInstanceId;
-        private readonly string appId;
-
-        public CommunicationHandler OnConnect { get; set; }
-        public CommunicationDisconnectHandler OnDisconnect { get; set; }
-        public CommunicationErrorHandler OnError { get; set; }
-
-        private bool isRunning = false;
         private int quality = 75;
         private int frameRate = 10;
-
-        public bool IsConnected { get { return this.wsClient != null && this.wsClient.IsConnected; } }
-        public bool IsRunning { get { return this.isRunning; } }
-        public int Quality { get { return this.quality; } }
-        public int FrameRate { get { return this.frameRate; } }
+        private bool isRunning = false;
 
         public LiveUpdateCommunicationHandler(string host, int port, string appName, string platform, string platformVersion, string deviceInstanceId, string appId)
         {
-            this.host = host;
-            this.port = port;
-            this.appName = appName;
-            this.platform = platform;
-            this.platformVersion = platformVersion;
-            this.deviceInstanceId = deviceInstanceId;
-            this.appId = appId;
+            this.Host = host;
+            this.Port = port;
+            this.AppName = appName;
+            this.Platform = platform;
+            this.PlatformVersion = platformVersion;
+            this.DeviceInstanceId = deviceInstanceId;
+            this.AppId = appId;
+        }
+
+        public bool IsRunning { get { return this.isRunning; } }
+
+
+        public int Quality { get { return this.quality; } }
+        public int FrameRate { get { return this.frameRate; } }
+
+        public void SendScreenshot()
+        {
+            if (this.IsRunning)
+            {
+                this.WsClient.Send(GetScreenshot());
+            }
+        }
+
+        private byte[] GetScreenshot()
+        {
+            var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
+            var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality: this.quality);
+
+            UnityEngine.Object.Destroy(screenshot);
+            return screenshotSerialized;
         }
         public void Init()
         {
-#if UNITY_WEBGL
-            this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId, this.appId);
-#else
-            this.wsClient = new RuntimeWebSocketClient(this.host, this.port, this.path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId, this.appId);
-#endif
-
-            this.wsClient.OnConnect += () =>
-            {
-                if (this.OnConnect != null) this.OnConnect();
-            };
-
-            this.wsClient.OnDisconnect += (code, reason) =>
+            base.Init(path, (code, reason) =>
             {
                 this.isRunning = false;
                 if (this.OnDisconnect != null) this.OnDisconnect(code, reason);
-            };
-
-            this.wsClient.OnError += (message, exception) =>
-            {
-                if (this.OnError != null) this.OnError.Invoke(message, exception);
-            };
-
-            this.wsClient.OnMessage += (message) =>
-            {
-                this.OnMessage(message);
-            };
+            });
         }
-
-        public void Connect()
-        {
-            this.isRunning = false;
-            this.wsClient.Connect();
-        }
-
-        public void Close()
-        {
-            this.isRunning = false;
-            this.wsClient.Close();
-        }
-
-        private void OnMessage(string message)
+        protected override void OnMessage(string message)
         {
             if (message == "Start")
             {
@@ -121,22 +94,18 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 return;
             }
         }
-
-        public void SendScreenshot()
+        public new void Close()
         {
-            if (this.isRunning)
-            {
-                this.wsClient.Send(GetScreenshot());
-            }
+            this.isRunning = false;
+            this.WsClient.Close();
         }
 
-        private byte[] GetScreenshot()
+        public new void Connect()
         {
-            var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
-            var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality: this.quality);
-
-            UnityEngine.Object.Destroy(screenshot);
-            return screenshotSerialized;
+            this.isRunning = false;
+            this.WsClient.Connect();
         }
+
+
     }
 }
