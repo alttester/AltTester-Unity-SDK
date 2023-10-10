@@ -76,7 +76,8 @@ namespace AltTester.AltTesterUnitySDK.UI
         private LiveUpdateCommunicationHandler _liveUpdateCommunication;
         private readonly AltResponseQueue _updateQueue = new AltResponseQueue();
         HashSet<string> _connectedDrivers = new HashSet<string>();
-        private bool isValidData = false;
+        private bool isDataValid = false;
+        private bool wasConnected = false;
         private float update;
         public static string AppId;
         private string platform;
@@ -124,13 +125,13 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (_liveUpdateCommunication == null && _communication == null)
             {
                 //This is the initial state where no connection is established
-                if (isValidData)
+                if (isDataValid)
                     beginCommunication();
                 return;
             }
             if (_liveUpdateCommunication != null && _communication == null)
             {
-                //Communication somehow stopped so we stop also liveUpdate 
+                //Communication somehow stopped so we stop liveUpdate as well
                 stopClient(_liveUpdateCommunication);
                 _liveUpdateCommunication = null;
                 beginCommunication();
@@ -143,16 +144,17 @@ namespace AltTester.AltTesterUnitySDK.UI
                 startClient(_liveUpdateCommunication);
                 return;
             }
-            if (_communication != null && !_communication.IsConnected)
+            if (_communication != null && !_communication.IsConnected && !wasConnected)
             {
+                //Communication is initialized but there is no server to connect to yet
+                startClient(_communication);
                 return;
             }
             if (_communication.IsConnected == false || _liveUpdateCommunication.IsConnected == false)
             {
-                //One of the connection or both are disconnected
+                //One of the connections or both are disconnected
                 stopClients();
                 beginCommunication();
-                return;
             }
         }
 
@@ -211,10 +213,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             PortInputField.characterValidation = UnityEngine.UI.InputField.CharacterValidation.Integer;
         }
 
-        private void setUpAppNameInputField()
-        {
-            AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
-        }
+        private void setUpAppNameInputField() => AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
 
         private void onRestartButtonPress()
         {
@@ -224,7 +223,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void validateFields()
         {
-            isValidData = false;
+            isDataValid = false;
 
             if (Uri.CheckHostName(HostInputField.text) != UriHostNameType.Unknown)
             {
@@ -256,13 +255,10 @@ namespace AltTester.AltTesterUnitySDK.UI
                 setMessage("App name should not be empty.", color: ERROR_COLOR, visible: true);
                 return;
             }
-            isValidData = true;
+            isDataValid = true;
         }
 
-        private void setUpRestartButton()
-        {
-            RestartButton.onClick.AddListener(onRestartButtonPress);
-        }
+        private void setUpRestartButton() => RestartButton.onClick.AddListener(onRestartButtonPress);
 
         private void setUpCustomInputToggle()
         {
@@ -304,9 +300,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             _communication.CmdHandler.OnDriverDisconnect += onDriverDisconnect;
             _communication.CmdHandler.OnAppConnect += onAppConnect;
             _communication.Init();
-
-
-            onStart();
         }
 
         private void startClient(BaseCommunicationHandler communicationHandler)
@@ -338,6 +331,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             stopClient(_liveUpdateCommunication);
             _liveUpdateCommunication = null;
             onStart();
+            wasConnected = false;
         }
 
         private static void stopClient(BaseCommunicationHandler communicationHandler)
@@ -373,6 +367,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onConnect()
         {
+            wasConnected = true;
             string message = String.Format("Connected to AltServer on \n host:port {0}:{1} \n with app name: '{2}', \n '{3}', '{4}', '{5}'and app id '{6}'.. Waiting for Driver to connect.", HostInputField.text, PortInputField.text, AppNameInputField.text, this.platform, this.platformVersion, this.deviceInstanceId, AppId);
 
             _updateQueue.ScheduleResponse(() =>
@@ -409,11 +404,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 });
             }
         }
-
-        private void onAppConnect(string appId)
-        {
-            AppId = appId;
-        }
+        private void onAppConnect(string appId) => AppId = appId;
 
         private void onDriverDisconnect(string driverId)
         {
