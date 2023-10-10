@@ -111,7 +111,7 @@ If you have Addressables package included in your project, set the Addressables 
 <br><br>
 When building Addressable from Asset Management make sure that the option for <strong>Keep ALTTESTER symbol defined</strong> is not checked.
 <br><br>
-Make sure you have the latest addressable built before building an instrumented app with AltTester
+Make sure you built your latest addressable before instrumenting your app with AltTester
 </details>
 <br>
 
