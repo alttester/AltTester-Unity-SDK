@@ -788,7 +788,7 @@ class TestScene01:
             "UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
             parameters=["1920", "1080", "True"],
             type_of_parameters=["System.Int32",
-                                "System.Int32", "System.Boolean"],
+                                "System.Int32", "System.Boolean"]
         )
         width = self.altdriver.get_static_property(
             "UnityEngine.Screen", "currentResolution.width",

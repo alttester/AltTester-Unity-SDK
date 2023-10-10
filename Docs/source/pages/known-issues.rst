@@ -2,7 +2,7 @@
 Known Issues
 ============
 
-This section lists the known bugs and issues with the AltTester Unity SDK. If
+This section lists the known bugs and issues with the AltTester® Unity SDK. If
 available, we list a workaround to help troubleshoot the issue.
 
 To report a bug that isn't listed here, see our :doc:`contributing` section
@@ -28,7 +28,7 @@ Calling ``GetPNGScreenshot`` throws ``StackOverflow`` error (.NET Driver)
 .NET 5, or if you can't downgrade to .NET 5, try to run your tests with a lower
 resolution until this issue is fixed.
 
-**Affects**: AltUnity Tester v1.7.* and AltTester Unity SDK v1.8.* with .NET 6
+**Affects**: AltUnity Tester v1.7.* and AltTester® Unity SDK v1.8.* with .NET 6
 
 New Input System
 ----------------
@@ -40,7 +40,7 @@ Touch or Mouse actions do not work in tests
 Simulate Touch Input From Mouse or Pen is not checked and Lock Input to
 Game View is checked.
 
-**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.0 and Input System with a version below 1.3.0
+**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester® Unity SDK v1.8.*, v2.0.0 and Input System with a version below 1.3.0
 
 The PressKey command does not work
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,13 +49,13 @@ The PressKey command does not work
 ``wasPressedThisFrame`` and ``wasReleasedThisFrame*``. Use ``isPressed``
 instead.
 
-**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.x
+**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester® Unity SDK v1.8.*, v2.0.x
 
-Player Input is not working when connected to AltTester Unity SDK/Desktop
+Player Input is not working when connected to AltTester® Unity SDK/Desktop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Problem**: Player Input is not working in the instrumented build when
-connected to the tests or to AltTester Desktop.
+connected to the tests or to AltTester® Desktop.
 
 **Affects**: All input actions created with the New Input System for app
 objects. The New Input System actions for UI objects are not affected, as well
@@ -71,7 +71,7 @@ Playing in Editor throws ``EntryPointNotFoundException: WebSocketSetOnOpen assem
 
 **Workaround**: Select a platform other than WebGL before Editor and if the error is still thrown while playing in Editor re-start de Unity project
 
-**Affects**: AltTester Unity SDK v2.0.x
+**Affects**: AltTester® Unity SDK v2.0.x
 
 Play in Editor does not start the instrumented app in the Unity Editor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,7 +80,7 @@ Play in Editor does not start the instrumented app in the Unity Editor
 
 **Workaround**: Check the ``Keep ALTTESTER symbol defined`` box. Note that this problem does not occur when building an instrumented app for different platforms, only in the Editor.
 
-**Affects**: AltTester Unity SDK v1.8.*, AltTester Unity SDK v2.0.0
+**Affects**: AltTester® Unity SDK v1.8.*, AltTester® Unity SDK v2.0.0
 
 Opening AltTester Editor throws ``IndexOutOfRangeException: Index was outside the bounds of the array``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -89,16 +89,16 @@ Opening AltTester Editor throws ``IndexOutOfRangeException: Index was outside th
 
 **Workaround**: Close and reopen the AltTester Editor window.
 
-**Affects**: AltTester Unity SDK v2.0.0, v2.0.1
+**Affects**: AltTester® Unity SDK v2.0.0, v2.0.1
 
 BlueStacks
 ----------
 
-Instrumented app with AltTester Unity SDK stops working in BlueStacks
+Instrumented app with AltTester® Unity SDK stops working in BlueStacks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Workaround**: The issue seems to happen because of the communication protocol
-used inside the AltTester Unity SDK. There are other alternatives that work with
+used inside the AltTester® Unity SDK. There are other alternatives that work with
 instrumented builds. For Android you can use the Android Emulator inside the
 Android Studio. For iOS you can use a simulator inside Xcode.
 
@@ -108,9 +108,9 @@ Note: In version 2.0.2 this issue has been fixed.
 Networking
 ----------
 
-AltTester does not support proxy configurations
+AltTester® does not support proxy configurations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Problem**: At the moment, AltTester does not have built-in support for proxy configurations. When using AltTester, the tool does not handle proxy settings, which can cause connectivity issues
+**Problem**: At the moment, AltTester® does not have built-in support for proxy configurations. When using AltTester®, the tool does not handle proxy settings, which can cause connectivity issues
 
-**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester Unity SDK v1.8.*, v2.0.x
+**Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester® Unity SDK v1.8.*, v2.0.x

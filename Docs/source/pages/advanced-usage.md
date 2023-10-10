@@ -1,22 +1,22 @@
 # Advanced Usage
 
 This guide covers some of the more advanced features, patterns and
-configuration options of AltTester Unity SDK.
+configuration options of AltTester® Unity SDK.
 
 ## AltTester input
 
-AtTester Unity SDK has an `Input` class which overrides the Input class implemented by Unity. This way AltTester intercepts the input actions to be performed in the instrumented app and simulates them through this class.
+AtTester Unity SDK has an `Input` class which overrides the Input class implemented by Unity. This way AltTester® intercepts the input actions to be performed in the instrumented app and simulates them through this class.
 In case you are using assembly definitions inside your project, you will have to reference the `AltTesterUnitySDK.asmdef` in all your .asmdef files which use input actions.
 
 ## AltTester input vs. regular input
 
-AltTester's custom input is active, by default, in any instrumented build. This means that certain input related actions (the ones that are part of Unity's `Input` class) will be inactive for regular input (the device's input). Because of this, pressing a key from the keyboard for example will not have any effect on the app. However, the simulated input from the tests, like the `PressKey` command, will be able to manipulate the object within the scene. While the AltTester input is active, the icon from the right bottom corner is green. You can change this behaviour by clicking on the AltTester's icon and unchecking the box with the `AltTester Input` message. Now the icon will turn darker, signaling that the regular input is active. In this state, you can interfere with the object from the app using the keyboard or other input. Keep in mind that, input actions from the AltTester Desktop won't have any effect while regular input is active. At the same time, if you want to run some automated tests, the AltTester input will be activated automatically for you.
+AltTester®'s custom input is active, by default, in any instrumented build. This means that certain input related actions (the ones that are part of Unity's `Input` class) will be inactive for regular input (the device's input). Because of this, pressing a key from the keyboard for example will not have any effect on the app. However, the simulated input from the tests, like the `PressKey` command, will be able to manipulate the object within the scene. While the AltTester input is active, the icon from the right bottom corner is green. You can change this behaviour by clicking on the AltTester®'s icon and unchecking the box with the `AltTester Input` message. Now the icon will turn darker, signaling that the regular input is active. In this state, you can interfere with the object from the app using the keyboard or other input. Keep in mind that, input actions from the AltTester® Desktop won't have any effect while regular input is active. At the same time, if you want to run some automated tests, the AltTester input will be activated automatically for you.
 
 ## Build apps from the command line
 
 To build your Unity application from command line you need a static method in
 your project that handles the build logic. To instrument your Unity application
-with AltTester Unity SDK, your build method must define `ALTTESTER` scripting
+with AltTester® Unity SDK, your build method must define `ALTTESTER` scripting
 symbol and must insert AltTester Prefab in the first scene of the app.
 
 Depending on your project's setup, there are two ways in which apps can be
@@ -26,13 +26,13 @@ built from the command line:
 ```eval_rst
 .. note::
 
-    AltTester Unity SDK does not work by default in release mode. If you instrument
+    AltTester® Unity SDK does not work by default in release mode. If you instrument
     your app in release mode, AltTester Prefab self removes from the scenes and
     the socket server does not start. Best case practice is to customize your
     build script to insert AltTester Prefab only in Debug mode.
 
-    If you do want to use AltTester Unity SDK in release mode see
-    `Using AltTester Unity SDK in Release mode section <#using-alttester-unity-sdk-in-release-mode>`_.
+    If you do want to use AltTester® Unity SDK in release mode see
+    `Using AltTester® Unity SDK in Release mode section <#using-alttester-unity-sdk-in-release-mode>`_.
 
 ```
 
@@ -109,7 +109,7 @@ commands:
 
     .. tab:: C#
 
-        Available AltTester SDK command line arguments:
+        Available AltTester® SDK command line arguments:
 
         ``-testsClass`` - runs tests from given class/classes
 
@@ -183,7 +183,7 @@ commands:
 
 ## Run tests on a Continuous Integration Server
 
-1. Instrument your app build with AltTester Unity SDK from Unity or by [building from the command line](#build-apps-from-the-command-line).
+1. Instrument your app build with AltTester® Unity SDK from Unity or by [building from the command line](#build-apps-from-the-command-line).
 2. Start the app build on a device.
 3. Run your tests - see commands in the ["Run tests from the command line" section](#run-tests-from-the-command-line).
 
@@ -195,11 +195,11 @@ An example CI configuration file can be viewed in the [GitLab repository](https:
 Reverse port forwarding, is the behind-the-scenes process of intercepting
 data traffic and redirecting it from a device's IP and/or port to the computer's IP and/or port.
 
-When you run your app instrumented with AltTester Unity SDK on a device, you need
+When you run your app instrumented with AltTester® Unity SDK on a device, you need
 to tell your build how to connect to the AltServer.
 
 Reverse port forwarding can be set up either through the command line or in the
-test code by using the methods available in the AltTester SDK classes.
+test code by using the methods available in the AltTester® SDK classes.
 
 The following are some cases when reverse port forwarded is needed:
 
@@ -213,7 +213,7 @@ The following are some cases when reverse port forwarded is needed:
 Reverse port forwarding can be set up in two ways:
 
 - through the command line using ADB
-- in the test code by using the methods available in the AltTester SDK classes
+- in the test code by using the methods available in the AltTester® SDK classes
 
 All methods listed above require that you have ADB installed.
 
@@ -318,11 +318,11 @@ In the routing table, the personal hotspot network would be secondary, therefore
 
 ```eval_rst
 .. note::
-    The default port on which the AltTester Unity SDK is running is 13000.
+    The default port on which the AltTester® Unity SDK is running is 13000.
     The port can be changed from the green popup. Make sure to press `Restart` after modifying its value.
 ```
 
-## Connect AltTester Unity SDK running inside the app to AltServer
+## Connect AltTester® Unity SDK running inside the app to AltServer
 
 There are multiple scenarios:
 
@@ -336,7 +336,7 @@ There are multiple scenarios:
 
 ![reverse port forwarding case 1](../_static/img/advanced-usage/case1.png)
 
-1. Start AltServer on your machine by opening AltTester Desktop. The server will be listening on port 13000 by default.
+1. Start AltServer on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
 2. Open your instrumented app on the same machine. It will automatically connect to AltServer. The server identifies the app using the **appName**.
 3. Connect your tests to the server using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission happens on localhost.
 
@@ -361,7 +361,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
 ![reverse port forwarding case 2](../_static/img/advanced-usage/case2.png)
 
-1. Start AltServer on your machine by opening AltTester Desktop. The server will be listening on port 13000 by default.
+1. Start AltServer on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
 2. Open your instrumented app on your device.
 3. Use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) to direct the data traffic from the device's port to the computer's port. After this, your app will be connected to AltServer. The server identifies the app using the **appName**.
 4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission happens on localhost.
@@ -385,7 +385,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
 ![reverse port forwarding case 3](../_static/img/advanced-usage/case3.png)
 
-1. Start AltServer on your machine by opening AltTester Desktop. The server will be listening on port 13000 by default.
+1. Start AltServer on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
 2. Open your instrumented app on your device. 
 3. Change the host from the green popup in your instrumented build to the machine's IP AltServer is running on. The server identifies the app using the **appName**.
 4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between device and server happens on the host's IP.
@@ -412,7 +412,7 @@ In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when
 #### Connection through IP
 ![reverse port forwarding case 4](../_static/img/advanced-usage/case4.png)
 
-1. Start AltServer on your machine by opening AltTester Desktop. The server will be listening on port 13000 by default.
+1. Start AltServer on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
 2. Open your instrumented app on your devices. Make sure they have different names. In case you want to change the name, you can do that in the green popup. There is no need to make another instrumented build.
 3. Change the hosts from the green popups in your instrumented builds to the machine's IP AltServer is running on. The server identifies the apps using the **appName**.
 4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. You will need to create **2 AltDrivers** as you have 2 devices. AltDriver1 will communicate with device1 and AltDriver2 with device2. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between devices and server happens on the host's IP.
@@ -451,7 +451,7 @@ Ex. with 2 Android devices:
 #### Connection through IP
 ![reverse port forwarding case 5](../_static/img/advanced-usage/case5.png)
 
-1. Start AltServer on your machine by opening AltTester Desktop. The server will be listening on port 13000 by default.
+1. Start AltServer on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
 2. Open your instrumented apps on your device. Make sure they have different names. In case you want to change the name, you can do that in the green popup. There is no need to make another instrumented build.
 3. Change the hosts from the green popups in your instrumented builds to the machine's IP AltServer is running on. The server identifies the apps using the **appName**.
 4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. You will need to create **2 AltDrivers** as you have 2 apps. AltDriver1 will communicate with app1 and AltDriver2 with app2. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between device and server happens on the host's IP.
@@ -484,13 +484,13 @@ Use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-i
     On mobile devices, AltDriver can interact only with a single app at a time and the app needs to be in focus. In case of 2 drivers and 2 apps, you need to switch (in your test scripts) between the applications. This is due to the fact that on Android/iOS only one application is in focus at a time, even when using split screen mode.
 ```
 
-## Using AltTester Unity SDK in Release mode
+## Using AltTester® Unity SDK in Release mode
 
-By default AltTester Unity SDK does not run in release mode. We recommended that you do not instrument your Unity application in release mode with AltTester Unity SDK. That being said, if you do want to instrument your application in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltRunnerPrefab inside AltTester Unity SDK asset folder `AltTester/Prefab/AltRunnerPrefab.prefab`
+By default AltTester® Unity SDK does not run in release mode. We recommended that you do not instrument your Unity application in release mode with AltTester® Unity SDK. That being said, if you do want to instrument your application in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltRunnerPrefab inside AltTester® Unity SDK asset folder `AltTester/Prefab/AltRunnerPrefab.prefab`
 
 ## Logging
 
-There are two types of logging that can be configured in AltTester Unity SDK. The logs from AltDriver (from the tests) and the logs from the AltTester Unity SDK (from the instrumented Unity application)
+There are two types of logging that can be configured in AltTester® Unity SDK. The logs from AltDriver (from the tests) and the logs from the AltTester® Unity SDK (from the instrumented Unity application)
 
 ```eval_rst
 .. note::
@@ -499,7 +499,7 @@ There are two types of logging that can be configured in AltTester Unity SDK. Th
 
 ```
 
-### AltTester Unity SDK logging
+### AltTester® Unity SDK logging
 
 Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `AltTester.AltTesterUnitySDK.Logging.ServerLogManager.Instance`
 
@@ -572,17 +572,17 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         Logging is handled via log4j. You can use log4j configuration files to customize your logging.
 
-        Setting the `enableLogging` in `AltDriver` initializes logger named `ro.AltTester` configured with two appenders, a file appender `AltFileAppender` and a console appender `AltConsoleAppender`
+        Setting the `enableLogging` in `AltDriver` initializes logger named `com.AltTester` configured with two appenders, a file appender `AltFileAppender` and a console appender `AltConsoleAppender`
 
         .. code-block:: java
 
             /* start AltDriver with logging enabled */
             altDriver = new AltDriver("127.0.0.1", 13000, true);
 
-            /* disable logging for ro.AltTester logger */
+            /* disable logging for com.AltTester logger */
             final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
             final Configuration config = ctx.getConfiguration();
-            config.getLoggerConfig("ro.AltTester").setLevel(Level.OFF);
+            config.getLoggerConfig("com.AltTester").setLevel(Level.OFF);
 
             ctx.updateLoggers();
 
@@ -611,7 +611,7 @@ The logs for a WebGL instrumented build are displaied in the browser's console. 
 
 ## Code Stripping
 
-AltTester Unity SDK is using reflection in some of the commands to get information from the instrumented application. If you application is using IL2CPP scripting backend then it might strip code that you would use in your tests. If this is the case we recommend creating an `link.xml` file. More information on how to manage code stripping and create an `link.xml` file is found in [Unity documentation](https://docs.unity3d.com/Manual/ManagedCodeStripping.html)
+AltTester® Unity SDK is using reflection in some of the commands to get information from the instrumented application. If you application is using IL2CPP scripting backend then it might strip code that you would use in your tests. If this is the case we recommend creating an `link.xml` file. More information on how to manage code stripping and create an `link.xml` file is found in [Unity documentation](https://docs.unity3d.com/Manual/ManagedCodeStripping.html)
 
 ## Generate testing reports using Allure
 
