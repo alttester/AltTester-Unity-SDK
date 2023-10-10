@@ -48,7 +48,7 @@ In order to run tests using AltTester Unity SDK you require an <a href="get-star
 <br>
 
 ```eval_rst
-We’ve published AltTester® Desktop, which allows you to inspect the app objects outside the unity editor without access to the source code. More information about AltTester Desktop can be found in :altTesterdesktopdocumentation:`this documentation <home.html>`.
+We’ve published AltTester® Desktop, which allows you to inspect the app objects outside the unity editor without access to the source code. More information about AltTester® Desktop can be found in :altTesterdesktopdocumentation:`this documentation <home.html>`.
 ```
 </details>
 <br>
