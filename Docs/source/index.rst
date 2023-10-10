@@ -1,22 +1,22 @@
-.. AltTester Unity SDK documentation master file, created by
+.. AltTester® Unity SDK documentation master file, created by
    sphinx-quickstart on Thu Oct 17 09:19:29 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-AltTester
+AltTester®
 =========
 
-Through AltTester, we provide a UI Test Automation solution for Unity
+Through AltTester®, we provide a UI Test Automation solution for Unity
 applications.
 
-- AltTester Unity SDK is a free, open source asset. Its main goal is to enable UI
+- AltTester® Unity SDK is a free, open source asset. Its main goal is to enable UI
   test automation, by instrumenting applications to get access and programmatically
-  control the Unity objects. Get AltTester Unity SDK from
+  control the Unity objects. Get AltTester® Unity SDK from
   :alttestersdkdownload:`our website <>`.
 
-- AltTester Desktop is an application allowing users to inspect the
+- AltTester® Desktop is an application allowing users to inspect the
   object hierarchy and interact with their app outside the Unity Editor. Get
-  AltTester Desktop from :alttesterpage:`our website <>`.
+  AltTester® Desktop from :alttesterpage:`our website <>`.
 
 
 Documentation
@@ -30,7 +30,7 @@ Documentation
    *  :doc:`/pages/overview`
    *  :doc:`/pages/get-started`
 
-*  :altTesterdesktopdocumentation:`AltTester Desktop <home.html>`
+*  :altTesterdesktopdocumentation:`AltTester® Desktop <home.html>`
 
    *  :altTesterdesktopdocumentation:`Overview <pages/overview.html>`
    *  :altTesterdesktopdocumentation:`Get Started <pages/get-started.html>`
@@ -41,7 +41,7 @@ Documentation
    :hidden:
 
    home
-   AltTester Desktop <https://alttester.com/docs/desktop/v.2.0.2/home.html>
+   AltTester® Desktop <https://alttester.com/docs/desktop/v.2.0.2/home.html>
 
 
 .. toctree::
