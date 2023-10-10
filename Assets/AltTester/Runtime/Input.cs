@@ -124,11 +124,11 @@ public class Input : MonoBehaviour
         var monoBehaviourTarget = FindObjectViaRayCast.GetGameObjectHitMonoBehaviour(mousePosition);
         if (monoBehaviourPreviousTarget != monoBehaviourTarget)
         {
-            if (monoBehaviourPreviousTarget != null) monoBehaviourPreviousTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            if (monoBehaviourTarget != null && previousMousePosition != mousePosition) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (monoBehaviourPreviousTarget ?? false) monoBehaviourPreviousTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (monoBehaviourTarget ?? false && previousMousePosition != mousePosition) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
             monoBehaviourPreviousTarget = monoBehaviourTarget;
         }
-        if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        if (monoBehaviourTarget ?? false) monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
         {
@@ -145,8 +145,8 @@ public class Input : MonoBehaviour
             {
                 if (eventSystemTarget != previousEventSystemTarget)
                 {
-                    if (previousEventSystemTarget != null) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-                    if (eventSystemTarget != null && previousMousePosition != mousePosition) ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
+                    if (previousEventSystemTarget ?? false) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+                    if (eventSystemTarget ?? false && previousMousePosition != mousePosition) ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
                     previousEventSystemTarget = eventSystemTarget;
                 }
             }
@@ -673,7 +673,7 @@ public class Input : MonoBehaviour
 #if ENABLE_INPUT_SYSTEM
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-                ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.scrollHandler);
+                if (eventSystemTarget ?? false) ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.scrollHandler);
         }
         _mouseScrollDelta = UnityEngine.Vector2.zero;//reset the value after scroll ended
     }
@@ -844,9 +844,9 @@ public class Input : MonoBehaviour
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
             {
 #endif
-                if (monoBehaviourTarget ?? false)
+                if (eventSystemTarget ?? false)
                     ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
-                if (monoBehaviourTarget ?? false)
+                if (eventSystemTarget ?? false)
                     pointerEventData.pointerPress = ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
 #if ENABLE_INPUT_SYSTEM
             }
@@ -865,9 +865,9 @@ public class Input : MonoBehaviour
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
             {
 #endif
-                if (monoBehaviourTarget ?? false)
+                if (eventSystemTarget ?? false)
                     ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
-                if (monoBehaviourTarget ?? false)
+                if (eventSystemTarget ?? false)
                     ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
 #if ENABLE_INPUT_SYSTEM
             }
@@ -897,7 +897,7 @@ public class Input : MonoBehaviour
 #if ENABLE_INPUT_SYSTEM
         if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-            if (monoBehaviourTarget ?? false) ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+            if (eventSystemTarget ?? false) ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
         if (monoBehaviourTarget ?? false) monoBehaviourTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
     }
 
@@ -985,7 +985,7 @@ public class Input : MonoBehaviour
 #if ENABLE_INPUT_SYSTEM
         if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-            ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+            if (target ?? false) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
         if (target ?? false) target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
     }
 

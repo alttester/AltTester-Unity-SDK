@@ -56,12 +56,12 @@ namespace AltTester.AltTesterUnitySDK
                         if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                         {
 #endif
-                            if (raycastResult.gameObject) pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                            if (raycastResult.gameObject ?? false) pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                                 ExecuteEvents.pointerEnterHandler);
-                            if (raycastResult.gameObject) pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                            if (raycastResult.gameObject ?? false) pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                                 ExecuteEvents.pointerDownHandler);
                             pointerEventData.selectedObject = pointerEventData.pointerPress;
-                            if (raycastResult.gameObject) pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                            if (raycastResult.gameObject ?? false) pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                                 ExecuteEvents.dragHandler);
 #if ENABLE_INPUT_SYSTEM
                         }
