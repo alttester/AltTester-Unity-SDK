@@ -75,7 +75,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
                     handleNotifications(cmdParams);
                     return;
                 }
-                if (cmdParams.commandName == "AppId") // TODO Create new CommandParams or make it notification and handle there
+                if (cmdParams.commandName == "AppId")
                 {
                     handleAppId(cmdParams);
                     return;
@@ -129,12 +129,10 @@ namespace AltTester.AltTesterUnitySDK.Communication
         {
             if (cmdParams.commandName == "AppId")
             {
-                Debug.Log(cmdParams.driverId);
                 if (this.OnAppConnect != null)
                 {
                     this.OnAppConnect.Invoke(cmdParams.driverId);
                 }
-                // TODO Set this to a variable.
             }
         }
 
