@@ -16,12 +16,12 @@
 */
 
 using System;
-using System.Threading;
 using System.Diagnostics;
-using AltWebSocketSharp;
+using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Driver.Proxy;
+using AltWebSocketSharp;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Communication
 {
@@ -66,7 +66,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             this.closeReason = null;
 
             this.uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId).ToString();
-            Debug.WriteLine(this.uri);
         }
 
         private void CheckCloseMessage()
