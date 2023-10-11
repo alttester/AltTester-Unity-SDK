@@ -44,5 +44,7 @@ namespace AltTester.AltTesterUnitySDK
         /// Gets or sets a value indicating whether to display the AltTester popup in the instrumented Unity App.
         /// </summary>
         public bool ShowPopUp = true;
+        public bool ResetConnectionData = false;
+        public string UID = "";
     }
 }

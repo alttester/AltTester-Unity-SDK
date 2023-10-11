@@ -510,39 +510,12 @@ namespace AltTester.AltTesterUnitySDK.Editor
             UnityEditor.EditorGUILayout.LabelField("Build", UnityEditor.EditorStyles.boldLabel);
             if (EditorConfiguration.platform != AltPlatform.Editor)
             {
-                if (UnityEngine.GUILayout.Button("Build Only"))
-                {
-                    if (EditorConfiguration.platform == AltPlatform.Android)
-                    {
-                        AltBuilder.BuildAndroidFromUI(autoRun: false);
-                    }
-#if UNITY_EDITOR_OSX
-                    else if (EditorConfiguration.platform == AltPlatform.iOS)
-                    {
-                        AltBuilder.BuildiOSFromUI(autoRun: false);
-                    }
-#endif
-                    else if (EditorConfiguration.platform == AltPlatform.Standalone)
-                    {
-                        AltBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: false);
-                    }
-                    else if (EditorConfiguration.platform == AltPlatform.WebGL)
-                    {
-                        AltBuilder.BuildWebGLFromUI(autoRun: false);
-                    }
-                    else
-                    {
-                        runInEditor();
-                    }
-                    UnityEngine.GUIUtility.ExitGUI();
-
-                }
+                if (GUILayout.Button("Build Only"))
+                    BuildGameFromUI(false);
             }
             else
             {
-                UnityEditor.EditorGUI.BeginDisabledGroup(true);
-                UnityEngine.GUILayout.Button("Build Only");
-                UnityEditor.EditorGUI.EndDisabledGroup();
+                CreateDisabledButton("Build Only");
             }
 
             UnityEditor.EditorGUILayout.Separator();
@@ -553,48 +526,21 @@ namespace AltTester.AltTesterUnitySDK.Editor
             if (EditorConfiguration.platform == AltPlatform.Editor && !UnityEditor.EditorApplication.isCompiling && !UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
             {
                 if (UnityEngine.GUILayout.Button("Play in Editor"))
-                {
                     runInEditor();
-                }
             }
             else
             {
-                UnityEditor.EditorGUI.BeginDisabledGroup(true);
-                UnityEngine.GUILayout.Button("Play in Editor");
-                UnityEditor.EditorGUI.EndDisabledGroup();
+                CreateDisabledButton("Play in Editor");
             }
 
             if (EditorConfiguration.platform != AltPlatform.Editor)
             {
-                if (UnityEngine.GUILayout.Button("Build & Run"))
-                {
-                    if (EditorConfiguration.platform == AltPlatform.Android)
-                    {
-                        AltBuilder.BuildAndroidFromUI(autoRun: true);
-                    }
-#if UNITY_EDITOR_OSX
-                    else if (EditorConfiguration.platform == AltPlatform.iOS)
-                    {
-                        AltBuilder.BuildiOSFromUI(autoRun: true);
-                    }
-#endif
-                    else if (EditorConfiguration.platform == AltPlatform.Standalone)
-                    {
-                        AltBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: true);
-                    }
-                    else if (EditorConfiguration.platform == AltPlatform.WebGL)
-                    {
-                        AltBuilder.BuildWebGLFromUI(autoRun: true);
-                    }
-                    UnityEngine.GUIUtility.ExitGUI();
-                }
-
+                if (GUILayout.Button("Build & Run"))
+                    BuildGameFromUI(true);
             }
             else
             {
-                UnityEditor.EditorGUI.BeginDisabledGroup(true);
-                UnityEngine.GUILayout.Button("Build & Run", UnityEngine.GUILayout.MinWidth(50));
-                UnityEditor.EditorGUI.EndDisabledGroup();
+                CreateDisabledButton("Build & Run");
             }
             GUIStyle style = new GUIStyle(GUI.skin.label)
             {
@@ -736,6 +682,37 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
             UnityEditor.EditorGUILayout.EndScrollView();
 
+            void BuildGameFromUI(bool autoRun)
+            {
+                if (EditorConfiguration.platform == AltPlatform.Android)
+                {
+                    AltBuilder.BuildGameFromUI(BuildTarget.Android, BuildTargetGroup.Android, autoRun);
+                }
+                else if (EditorConfiguration.platform == AltPlatform.iOS)
+                {
+                    AltBuilder.BuildGameFromUI(BuildTarget.iOS, BuildTargetGroup.iOS, autoRun);
+                }
+                else if (EditorConfiguration.platform == AltPlatform.Standalone)
+                {
+                    AltBuilder.BuildGameFromUI(EditorConfiguration.StandaloneTarget, BuildTargetGroup.Standalone, autoRun);
+                }
+                else if (EditorConfiguration.platform == AltPlatform.WebGL)
+                {
+                    AltBuilder.BuildGameFromUI(BuildTarget.WebGL, BuildTargetGroup.WebGL, autoRun);
+                }
+                else
+                {
+                    runInEditor();
+                }
+                UnityEngine.GUIUtility.ExitGUI();
+            }
+        }
+
+        private static void CreateDisabledButton(string buttonText)
+        {
+            UnityEditor.EditorGUI.BeginDisabledGroup(true);
+            UnityEngine.GUILayout.Button(buttonText, UnityEngine.GUILayout.MinWidth(50));
+            UnityEditor.EditorGUI.EndDisabledGroup();
         }
 
         private BuildTargetGroup getBuildTargetGroupFromAltPlatform(AltPlatform altPlatform)
@@ -744,9 +721,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             {
                 AltPlatform.Android => BuildTargetGroup.Android,
                 AltPlatform.Standalone => BuildTargetGroup.Standalone,
-#if UNITY_EDITOR_OSX
                 AltPlatform.iOS => BuildTargetGroup.iOS,
-#endif
                 AltPlatform.WebGL => BuildTargetGroup.WebGL,
                 _ => throw new NotImplementedException(),
             };
@@ -758,9 +733,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 BuildTargetGroup.Standalone => AltPlatform.Standalone,
                 BuildTargetGroup.Android => AltPlatform.Android,
                 BuildTargetGroup.WebGL => AltPlatform.WebGL,
-#if UNITY_EDITOR_OSX
                 BuildTargetGroup.iOS => AltPlatform.Standalone,
-#endif
                 _ => AltPlatform.Editor
             };
 
@@ -772,9 +745,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             {
                 AltPlatform.Android => new BuildTarget[] { BuildTarget.Android },
                 AltPlatform.Standalone => new BuildTarget[] { BuildTarget.StandaloneWindows, BuildTarget.StandaloneWindows64, BuildTarget.StandaloneOSX, BuildTarget.StandaloneLinux64 },
-#if UNITY_EDITOR_OSX
                 AltPlatform.iOS => new BuildTarget[] { BuildTarget.iOS },
-#endif
                 AltPlatform.WebGL => new BuildTarget[] { BuildTarget.WebGL },
                 _ => throw new NotImplementedException(),
             };
@@ -1046,7 +1017,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 labelAndInputFieldHorizontalLayout("Product Name*", ref productName);
                 UnityEditor.PlayerSettings.productName = productName;
 
-                labelAndCheckboxHorizontalLayout("Show popup*", ref EditorConfiguration.ShowPopUp);
+                labelAndCheckboxHorizontalLayout("Show Popup*", ref EditorConfiguration.ShowPopUp);
                 labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltTester builds*", ref EditorConfiguration.appendToName);
                 var keepATSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTTESTER symbol defined", ref EditorConfiguration.KeepAUTSymbolDefined);
                 if (keepATSymbolChanged)
@@ -1056,6 +1027,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
 
                 labelAndInputFieldHorizontalLayout("App Name", ref EditorConfiguration.AppName);
+                labelAndCheckboxHorizontalLayout("Reset Connection Data", ref EditorConfiguration.ResetConnectionData);
             }
             GUIStyle style = new GUIStyle(GUI.skin.label)
             {

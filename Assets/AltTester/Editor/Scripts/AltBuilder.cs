@@ -20,6 +20,11 @@ using System.IO;
 using System.Linq;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
+#if UNITY_2021_3_OR_NEWER && ADDRESSABLES
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
+#endif
+
 using UnityEditor.Compilation;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -61,78 +66,35 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 CreateJsonFileForInputMappingOfAxis();
 
         }
-
-        public static void BuildAndroidFromUI(bool autoRun = false)
+        public static void BuildGameFromUI(UnityEditor.BuildTarget buildTarget, UnityEditor.BuildTargetGroup buildTargetGroup, bool autoRun = false)
         {
             try
             {
-                InitBuildSetup(UnityEditor.BuildTargetGroup.Android);
-                logger.Debug("Starting Android build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
+#if UNITY_2021_3_OR_NEWER && ADDRESSABLES
+                AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+                var currentValue = settings.BuildAddressablesWithPlayerBuild;
+                if (!(settings.BuildAddressablesWithPlayerBuild == AddressableAssetSettings.PlayerBuildOption.DoNotBuildWithPlayer))
+                {
+                    AddressableAssetSettings.CleanPlayerContent();
+                    AddressableAssetSettings.BuildPlayerContent(out _);
+                }
+                settings.BuildAddressablesWithPlayerBuild = AddressableAssetSettings.PlayerBuildOption.DoNotBuildWithPlayer;
+#endif
+                InitBuildSetup(buildTargetGroup);
+                logger.Debug($"Starting {buildTarget} build...{UnityEditor.PlayerSettings.productName}:{UnityEditor.PlayerSettings.bundleVersion}");
 
                 var buildPlayerOptions = new UnityEditor.BuildPlayerOptions
-                {
-                    locationPathName = getOutputPath(UnityEditor.BuildTarget.Android),
-                    scenes = getScenesForBuild(),
-                    target = UnityEditor.BuildTarget.Android
-                };
-
-                buildGame(autoRun, buildPlayerOptions);
-            }
-            catch (System.Exception e)
-            {
-                logger.Error(e);
-            }
-            finally
-            {
-                Built = true;
-                resetBuildSetup(UnityEditor.BuildTargetGroup.Android);
-            }
-        }
-
-        public static void BuildWebGLFromUI(bool autoRun = false)
-        {
-            try
-            {
-                InitBuildSetup(UnityEditor.BuildTargetGroup.WebGL);
-                logger.Debug("Starting WebGL build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
-
-                var buildPlayerOptions = new UnityEditor.BuildPlayerOptions
-                {
-                    locationPathName = getOutputPath(UnityEditor.BuildTarget.WebGL),
-                    scenes = getScenesForBuild(),
-                    target = UnityEditor.BuildTarget.WebGL,
-                    targetGroup = UnityEditor.BuildTargetGroup.WebGL
-                };
-
-                buildGame(autoRun, buildPlayerOptions);
-            }
-            catch (System.Exception e)
-            {
-                logger.Error(e);
-            }
-            finally
-            {
-                Built = true;
-                resetBuildSetup(UnityEditor.BuildTargetGroup.Android);
-            }
-
-        }
-
-        public static void BuildStandaloneFromUI(UnityEditor.BuildTarget buildTarget, bool autoRun = false)
-        {
-            try
-            {
-                InitBuildSetup(UnityEditor.BuildTargetGroup.Standalone);
-                logger.Debug("Starting Standalone build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
-
-                UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions
                 {
                     locationPathName = getOutputPath(buildTarget),
                     scenes = getScenesForBuild(),
-                    target = buildTarget
+                    target = buildTarget,
+                    targetGroup = buildTargetGroup
                 };
 
                 buildGame(autoRun, buildPlayerOptions);
+#if UNITY_2021_3_OR_NEWER && ADDRESSABLES
+                settings.BuildAddressablesWithPlayerBuild = currentValue;
+#endif
             }
             catch (System.Exception e)
             {
@@ -141,11 +103,10 @@ namespace AltTester.AltTesterUnitySDK.Editor
             finally
             {
                 Built = true;
-                resetBuildSetup(UnityEditor.BuildTargetGroup.Standalone);
+                resetBuildSetup(buildTargetGroup);
             }
 
         }
-
         public static void RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup)
         {
             RemoveScriptingDefineSymbol(ALTTESTERDEFINE, targetGroup);
@@ -309,36 +270,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
             return "";
         }
-
-#if UNITY_EDITOR_OSX
-
-
-        public static void BuildiOSFromUI(bool autoRun)
-        {
-            try
-            {
-                InitBuildSetup(UnityEditor.BuildTargetGroup.iOS);
-                logger.Debug("Starting IOS build..." + UnityEditor.PlayerSettings.productName + " : " + UnityEditor.PlayerSettings.bundleVersion);
-                UnityEditor.BuildPlayerOptions buildPlayerOptions = new UnityEditor.BuildPlayerOptions();
-                buildPlayerOptions.locationPathName = getOutputPath(UnityEditor.BuildTarget.iOS);
-                buildPlayerOptions.scenes = getScenesForBuild();
-
-                buildPlayerOptions.target = UnityEditor.BuildTarget.iOS;
-                buildGame(autoRun, buildPlayerOptions);
-
-            }
-            catch (System.Exception e)
-            {
-                logger.Error(e);
-            }
-            finally
-            {
-                Built = true;
-                resetBuildSetup(UnityEditor.BuildTargetGroup.iOS);
-            }
-
-        }
-#endif
 
         private static string getOutputPath(UnityEditor.BuildTarget target)
         {

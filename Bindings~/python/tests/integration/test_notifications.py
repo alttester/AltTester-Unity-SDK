@@ -70,14 +70,15 @@ class TestNotifications:
         self.altdriver.load_scene(Scenes.Scene02, load_single=False)
         self.altdriver.unload_scene(Scenes.Scene02)
         assert test_notification_callbacks.last_scene_unloaded == Scenes.Scene02
-        self.altdriver.remove_notification_listener(NotificationType.UNLOADSCENE)
+        self.altdriver.remove_notification_listener(
+            NotificationType.UNLOADSCENE)
 
     def test_log_notification(self):
         test_notification_callbacks = MockNotificationCallbacks()
         self.altdriver.add_notification_listener(
             NotificationType.LOG, test_notification_callbacks.log_callback)
         self.altdriver.load_scene(Scenes.Scene01)
-        assert "Scene Loaded" in test_notification_callbacks.log_message
+        assert "\"commandName\":\"loadScene" in test_notification_callbacks.log_message
         assert test_notification_callbacks.log_type == AltLogLevel.Debug.value
         self.altdriver.remove_notification_listener(NotificationType.LOG)
 
@@ -94,4 +95,5 @@ class TestNotifications:
         )
 
         assert test_notification_callbacks.application_paused
-        self.altdriver.remove_notification_listener(NotificationType.APPLICATION_PAUSED)
+        self.altdriver.remove_notification_listener(
+            NotificationType.APPLICATION_PAUSED)
