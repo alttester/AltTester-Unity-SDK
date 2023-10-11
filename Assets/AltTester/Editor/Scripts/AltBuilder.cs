@@ -72,13 +72,17 @@ namespace AltTester.AltTesterUnitySDK.Editor
             {
 #if UNITY_2021_3_OR_NEWER && ADDRESSABLES
                 AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
-                var currentValue = settings.BuildAddressablesWithPlayerBuild;
-                if (!(settings.BuildAddressablesWithPlayerBuild == AddressableAssetSettings.PlayerBuildOption.DoNotBuildWithPlayer))
+                AddressableAssetSettings.PlayerBuildOption currentValue = AddressableAssetSettings.PlayerBuildOption.PreferencesValue;
+                if (settings != null)
                 {
-                    AddressableAssetSettings.CleanPlayerContent();
-                    AddressableAssetSettings.BuildPlayerContent(out _);
+                    currentValue = settings.BuildAddressablesWithPlayerBuild;
+                    if (!(settings.BuildAddressablesWithPlayerBuild == AddressableAssetSettings.PlayerBuildOption.DoNotBuildWithPlayer))
+                    {
+                        AddressableAssetSettings.CleanPlayerContent();
+                        AddressableAssetSettings.BuildPlayerContent(out _);
+                    }
+                    settings.BuildAddressablesWithPlayerBuild = AddressableAssetSettings.PlayerBuildOption.DoNotBuildWithPlayer;
                 }
-                settings.BuildAddressablesWithPlayerBuild = AddressableAssetSettings.PlayerBuildOption.DoNotBuildWithPlayer;
 #endif
                 InitBuildSetup(buildTargetGroup);
                 logger.Debug($"Starting {buildTarget} build...{UnityEditor.PlayerSettings.productName}:{UnityEditor.PlayerSettings.bundleVersion}");
@@ -93,7 +97,10 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
                 buildGame(autoRun, buildPlayerOptions);
 #if UNITY_2021_3_OR_NEWER && ADDRESSABLES
-                settings.BuildAddressablesWithPlayerBuild = currentValue;
+                if (settings != null)
+                {
+                    settings.BuildAddressablesWithPlayerBuild = currentValue;
+                }
 #endif
             }
             catch (System.Exception e)
