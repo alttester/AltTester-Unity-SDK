@@ -268,19 +268,21 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
         [TestCase("AltTester.AltTesterUnitySDK.AltRunner", "InvalidProperty", "AltTester.AltTesterUnitySDK", "Property InvalidProperty not found")]
         [TestCase("UNEXISTING", "InstrumentationSettings.ShowPopUp", "AltTester.AltTesterUnitySDK", "Component not found")]
-        // [TestCase("AltTester.AltTesterUnitySDK.AltRunner", "InstrumentationSettings.ShowPopUp", "UNEXISTING", "Assembly not found")]  -> this is commented because tere is not Assembly no found exception
-        public void TestGetComponentPropertyNonExistingParams(string component, string property, string assembly, string message)
+        // [TestCase("AltTester.AltTesterUnitySDK.AltRunner", "InstrumentationSettings.ShowPopUp", "UNEXISTING", "Assembly not found")] // -> this is commented because tere is not Assembly no found exception
+        public void BBBTestGetComponentPropertyNonExistingParams(string component, string property, string assembly, string message)
         {
             Thread.Sleep(1000);
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             try
             {
-                var propertyValue = altElement.GetComponentProperty<bool>(component, property, assembly);
+                var propertyValue = altElement.GetComponentProperty<bool>(componentName:component, propertyName: property, assemblyName: "capra cu trei iezi");
+                Debug.Log("WANTED VALUE ->>>>>> "+ propertyValue.ToString());
                 Assert.Fail();
             }
             catch (Exception exception)
             {
+                Debug.Log("----->>>>>>>>"+ exception.Message);
                 Assert.IsTrue(exception.Message.StartsWith(message), exception.Message);
             }
         }
