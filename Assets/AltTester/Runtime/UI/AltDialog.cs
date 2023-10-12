@@ -36,6 +36,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private readonly string HOST = "AltTesterHost";
         private readonly string PORT = "AltTesterPort";
         private readonly string APP_NAME = "AltTesterAppName";
+        private readonly string UID = "UID";
 
         [UnityEngine.SerializeField]
         public UnityEngine.GameObject Dialog = null;
@@ -87,12 +88,13 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
 
-            SetTitle("AltTester v." + AltRunner.VERSION);
+            SetTitle("AltTester® v." + AltRunner.VERSION);
             SetUpCloseButton();
             SetUpIcon();
             SetUpHostInputField();
             SetUpPortInputField();
             SetUpAppNameInputField();
+            resetConnectionDataBasedOnUID();
             SetUpRestartButton();
             SetUpCustomInputToggle();
         }
@@ -144,6 +146,12 @@ namespace AltTester.AltTesterUnitySDK.UI
                 update = 0.0f;
                 StartCoroutine(this.SendScreenshot());
             }
+
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.L))
+            {
+                PlayerPrefs.DeleteKey(UID);
+                resetConnectionDataBasedOnUID();
+            }
         }
 
         protected IEnumerator SendScreenshot()
@@ -193,6 +201,19 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
         }
 
+        private void resetConnectionDataBasedOnUID()
+        {
+            if (InstrumentationSettings.ResetConnectionData && (InstrumentationSettings.UID != PlayerPrefs.GetString(UID, "")))
+            {
+                PlayerPrefs.SetString(HOST, InstrumentationSettings.AltServerHost);
+                PlayerPrefs.SetInt(PORT, InstrumentationSettings.AltServerPort);
+                PlayerPrefs.SetString(APP_NAME, InstrumentationSettings.AppName);
+            }
+            PlayerPrefs.SetString(UID, InstrumentationSettings.UID);
+            HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
+            PortInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
+            AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+        }
         private void SetUpHostInputField()
         {
             HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
