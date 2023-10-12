@@ -967,7 +967,6 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
 
 #### **Preparation steps**
 
-<!-- To recheck this area -->
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
@@ -1008,6 +1007,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
         ``DesiredCapabilities()`` is a deprecated class, so please see our version using ``AppiumOptions()``   
     ```
 
+<!-- !!!!!!! To update here with iOS capabilities -->
     ```eval_rst
     .. tabs::
 
@@ -1045,7 +1045,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
 
             .. code-block:: C#
 
-                <!-- To update here with iOS capabilities -->
+                
 
             .. code-block:: C#
 
