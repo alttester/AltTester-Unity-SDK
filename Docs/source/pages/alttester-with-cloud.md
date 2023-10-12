@@ -1424,7 +1424,6 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
 
 #### **Preparation steps**
 
-<!-- To recheck this area -->
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
@@ -1488,11 +1487,14 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
             .. code-block:: python
 
                 <!-- To recheck here OS capabilities -->
-                options = AppiumOptions()
+                options = XCUITestOptions()
                 options.set_capability("platformName", "iOS")
-                options.set_capability("appium:deviceName", "Apple iPhone SE 2020 A2296 13.4.1")
                 options.set_capability("appium:automationName", "XCUITest")
+                options.set_capability("appium:deviceName", "Apple iPhone SE 2020 A2296 13.4.1")                
                 options.set_capability("appium:bundleId", "fi.altom.trashcat")
+                options.set_capability("platformVersion", "13.4")
+                options.set_capability("autoAcceptAlerts", "true")
+                options.set_capability("newCommandTimeout", 2000)
 
             .. code-block:: python
 
@@ -1513,14 +1515,12 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
     - initialize AltDriver:
         - **for remote connection**: AltDriver needs to connect to another VM where is AltServer
         ```python
-        cls.altdriver = AltDriver(host= "insert_ip_here", port=13000)
+        cls.altdriver = AltDriver(host="INSERT_VM_IP")
         ```    
         - **for local connection**: AltDriver and AltServer are on same BitBar machine
         ```python
         cls.altdriver = AltDriver()
         ```  
-
-<!-- To recheck here the setup when all clarifications are brought-->
 
 **3. Prepare the `.zip` archive with tests and `run-tests.sh`**
 
@@ -1533,15 +1533,16 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
     - here is what the archived package contains to be able to execute tests server-side when AltServer is running on the machine offered by BitBar:
         - the `requirements.txt` file
         - the `tests` folder (which contains also the `pages` folder) - don`t forget to add the IP/URL of the remote VM when defining AltDriver in ``base_test.py``
-    <!-- To check if there will be a repo branch for the remote connection setup and the script for creating the .zip package-->
+
+        Our example repository already contains a [script](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/blob/server-side-ios-VM-IP/create-bitbar-package.sh) to create the required package for iOS. Just run the `create-bitbar-package.sh` script and it will create a ``.zip`` file, containing all the files required to execute the tests.
 
 - **for local connection**
     - here is what the archived package contains to be able to execute tests server-side when AltServer is running on a separate machine, not on the one offered by BitBar:
         - a `license.txt` file which will store your AltTester® Desktop PRO license, needed to run batch mode commands - if you only have 1 seat per license please remove the activation in other places before using it here
         - the `requirements.txt` file
         - the `tests` folder (which contains also the `pages` folder)
-    <!-- To insert here the link to the repo -->
-    Our [example repository](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/...) already contains a script to create the required package. Just run the `create-bitbar-package.sh <ios|android>` script, choosing your desired os as a parameter. This will create a .zip file, containing all the files required to execute the tests.
+    
+        Our example repository already contains a [script](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/blob/server-side-android-localhost/create-bitbar-package.sh) to create the required package for Android. Just run the `create-bitbar-package.sh` script and it will create a ``.zip`` file, containing all the files required to execute the tests.
 
     ```eval_rst
     .. note::
@@ -1551,9 +1552,8 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
     ```
 
 Please see our shell script examples from the repository:
-<!-- insert links here from the repo when it is finalized -->
-- for [**remote connection**](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/...)
-- for [**local connection**](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/...)
+- for [**remote connection**](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/blob/server-side-ios-VM-IP/tests/base_test.py)
+- for [**local connection**](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/blob/server-side-android-localhost/run-tests.sh)
 
 ```eval_rst
 
@@ -1706,9 +1706,10 @@ After you finish setting up the build, you need to use the **Archive** option to
             .. code-block:: python
 
                 options.set_capability("bitbar_apikey", BITBAR_APIKEY)
-                options.set_capability("bitbar_project", "client-side: AltServer on custom host: Android")
-                options.set_capability("bitbar_testrun", "Start Page Tests on Samsung")
                 options.set_capability("bitbar_app", BITBAR_APP_ID_SDK_202)
+                options.set_capability("bitbar_project", "client-side: AltServer on custom host; Android")
+                options.set_capability("bitbar_testrun", "Start Page Tests on Samsung")
+                options.set_capability("bitbar_device", "Samsung Galaxy A52 -US")                
 
             .. code-block:: python
 
@@ -1723,18 +1724,19 @@ After you finish setting up the build, you need to use the **Archive** option to
                 
             .. code-block:: python
 
-                options = AppiumOptions()
-                options.set_capability("platformName", "iOS")
-                options.set_capability("appium:deviceName", "Apple iPhone SE 2020 A2296 13.4.1")
-                options.set_capability("appium:automationName", "XCUITest")
+                options = XCUITestOptions()
+                options.platform_name = 'iOS'
+                options.automation_name = "XCUITest"
+                options.set_capability("deviceName", "Apple iPhone SE 2020 A2296 13.4.1")
                 options.set_capability("appium:bundleId", "fi.altom.trashcat")
 
             .. code-block:: python
 
                 options.set_capability("bitbar_apiKey", BITBAR_APIKEY);
+                options.set_capability("bitbar_app", BITBAR_APP_ID_SDK_202_IPA);
                 options.set_capability("bitbar_project", "client-side: AltServer on custom host; iOS");
                 options.set_capability("bitbar_testrun", "Start Page Tests on Apple iPhone SE 2020 A2296 13.4.1");
-                options.set_capability("bitbar_app", BITBAR_APP_ID_SDK_202_IPA);
+                
 
             .. code-block:: python
 
@@ -1753,13 +1755,12 @@ After you finish setting up the build, you need to use the **Archive** option to
     ```
     - initialize AltDriver:
         ```python
-        cls.altdriver = AltDriver(host= "insert_ip_here", port=13000)
+        cls.altdriver = AltDriver(host=HOST_ALT_SERVER)
         ```
 
 Please see our `base_test.py` examples from the repository:
-<!-- insert links here from the repo when it is finalized -->
-- for triggering [running tests on an Android device](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/...)
-- for triggering [running tests on an iOS devics](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/...)
+- for triggering [running tests on an Android device](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/blob/client-side-android/tests/base_test.py)
+- for triggering [running tests on an iOS devics](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/blob/client-side-ios/tests/base_test.py)
 
 #### **Steps for running the tests**
 
@@ -1787,30 +1788,6 @@ From your machine trigger execution for tests. We prefer using the cmd terminal 
 ```eval_rst
 .. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-test-run.png
 ```
-
-
-<!--
-
-**Steps to run the tests on BitBar:**
-1. From the cloned repository, run the *`create-bitbar-package.sh <ios|android>`* script, choosing your desired os as a parameter. This will create a **.zip** file, containing all the files required to execute the tests;
-
-2. On BitBar, create a new project, and Select a target OS type (Android in our example) and a framework (Appium Server Side);
-![Step1](../_static/img/alttester-with-cloud/bitbar-step-1.png)
-
-3. Upload the application file (**.apk** or **.ipa**) and the **.zip** file. Please make sure to highlight both before clicking on *"Use selected"*.
-![Step2.1](../_static/img/alttester-with-cloud/bitbar-step-2-1.png)
-
-
-    By default, the selected action for the zip file should be *“Use to run the test”* and for the app file *“Install on the device”*. If not, use the dropdown lists to select them.
-    ![Step2.2](../_static/img/alttester-with-cloud/bitbar-step-2-2.png)
-
-4. If you are using a free account, leave the *“Use existing device group”* option checked, together with *“Trial Android devices”* selected. If you have a subscription, please see the BitBar Cloud documentation [here](https://docs.bitbar.com/testing/user-manuals/device-groups) for more info about creating your own device groups;
-
-5. You can now create and run your automated tests.
-
-
-Going back to the projects tab will allow you to monitor the progress of your tests and also show an overall status once the tests are done. Selecting an individual device will show you specific results for that device, as well as providing video recording of your test run. -->
-
 
 ## GitHub
 
