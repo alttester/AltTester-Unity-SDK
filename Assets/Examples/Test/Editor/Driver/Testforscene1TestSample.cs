@@ -266,26 +266,28 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             }
         }
 
-        [TestCase("AltTester.AltTesterUnitySDK.AltRunner", "InvalidProperty", "AltTester.AltTesterUnitySDK", "Property InvalidProperty not found")]
-        [TestCase("UNEXISTING", "InstrumentationSettings.ShowPopUp", "AltTester.AltTesterUnitySDK", "Component not found")]
-        // [TestCase("AltTester.AltTesterUnitySDK.AltRunner", "InstrumentationSettings.ShowPopUp", "UNEXISTING", "Assembly not found")] // -> this is commented because tere is not Assembly no found exception
+        [TestCase("UnityEngine.UI.Text", "InvalidProperty", "UnityEngine.UI", "Property InvalidProperty not found")]
+        [TestCase("UNEXISTING", "m_Text", "UnityEngine.UI", "Component not found")]
+        [TestCase("UnityEngine.UI.Text", "m_Text", "UNEXISTING", "Assembly not found")] // -> this is commented because tere is not Assembly no found exception
         public void BBBTestGetComponentPropertyNonExistingParams(string component, string property, string assembly, string message)
         {
             Thread.Sleep(1000);
-            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+            var altElement = altDriver.FindObject(By.PATH, "/Canvas/UIButton/Text");
             Assert.NotNull(altElement);
             try
             {
-                var propertyValue = altElement.GetComponentProperty<bool>(componentName:component, propertyName: property, assemblyName: "capra cu trei iezi");
-                Debug.Log("WANTED VALUE ->>>>>> "+ propertyValue.ToString());
+                var propertyValue = altElement.GetComponentProperty<String>(component, property,assembly);
                 Assert.Fail();
             }
             catch (Exception exception)
             {
-                Debug.Log("----->>>>>>>>"+ exception.Message);
                 Assert.IsTrue(exception.Message.StartsWith(message), exception.Message);
             }
         }
+ 
+
+
+
 
         [Test]
         public void TestGetComponentPropertyArray()
