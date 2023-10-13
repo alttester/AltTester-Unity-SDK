@@ -231,20 +231,12 @@ namespace AltTester.AltTesterUnitySDK.UI
         }
         private void SetUpHostInputField()
         {
-            var a = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
-
-            UnityEngine.Debug.Log("=!= Host from InstrumentationSettings: " + InstrumentationSettings.AltServerHost);
-            UnityEngine.Debug.Log("=!= Host from playerPref: " + a);
-            HostInputField.text = a;
+            HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
         }
 
         private void SetUpPortInputField()
         {
-            var a = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
-
-            UnityEngine.Debug.Log("=!= Port from InstrumentationSettings: " + InstrumentationSettings.AltServerPort.ToString());
-            UnityEngine.Debug.Log("=!= Port from playerPref: " + a);
-            PortInputField.text = a;
+            PortInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
             PortInputField.onValueChanged.AddListener(OnPortInputFieldValueChange);
             PortInputField.characterValidation = UnityEngine.UI.InputField.CharacterValidation.Integer;
         }
@@ -485,9 +477,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 _updateQueue.ScheduleResponse(() =>
                 {
-                    UnityEngine.Debug.Log("=!= Set Host: " + HostInputField.text);
-                    UnityEngine.Debug.Log("=!= Set PORT: " + PortInputField.text);
-                    UnityEngine.Debug.Log("=!= Set APP_NAME: " + AppNameInputField.text);
                     PlayerPrefs.SetString(HOST, HostInputField.text);
                     PlayerPrefs.SetString(PORT, PortInputField.text);
                     PlayerPrefs.SetString(APP_NAME, AppNameInputField.text);
