@@ -23,6 +23,9 @@ using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Logging;
 using AltWebSocketSharp;
 using UnityEngine;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 namespace AltTester.AltTesterUnitySDK.UI
 {
@@ -102,6 +105,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         protected void Update()
         {
             _updateQueue.Cycle();
+            checkIfPlayerPrefNeedsToBeDeleted();
 
             if (_liveUpdateCommunication == null && _communication == null)
             {
@@ -147,7 +151,17 @@ namespace AltTester.AltTesterUnitySDK.UI
                 StartCoroutine(this.SendScreenshot());
             }
 
+        }
+
+        private void checkIfPlayerPrefNeedsToBeDeleted()
+        {
+#if ENABLE_LEGACY_INPUT_MANAGER
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.L))
+#else
+#if ENABLE_INPUT_SYSTEM
+            if (Keyboard.current.leftCtrlKey.isPressed && Keyboard.current.leftShiftKey.isPressed && Keyboard.current.dKey.isPressed && Keyboard.current.lKey.isPressed)
+#endif
+#endif
             {
                 PlayerPrefs.DeleteKey(UID);
                 resetConnectionDataBasedOnUID();
