@@ -1552,7 +1552,7 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
     ```
 
 Please see our shell script examples from the repository:
-- for [**remote connection**](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/blob/server-side-ios-VM-IP/tests/base_test.py)
+- for [**remote connection**](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/blob/server-side-ios-VM-IP/run-tests.sh)
 - for [**local connection**](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/blob/server-side-android-localhost/run-tests.sh)
 
 ```eval_rst
