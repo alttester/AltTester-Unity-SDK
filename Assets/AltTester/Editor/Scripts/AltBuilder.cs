@@ -455,13 +455,13 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     reader.Close();
                     if (input.Contains("UNITY_INCLUDE_TESTS"))
                     {
-                        using StreamWriter writer = new StreamWriter(path, false);
+                        using (StreamWriter writer = new StreamWriter(path, false))
                         {
                             string output = input.Replace("\"includePlatforms\": [],",
                             "\"includePlatforms\": [\"Editor\"],");
                             writer.Write(output);
+                            writer.Close();
                         }
-                        writer.Close();
                     }
 
 
