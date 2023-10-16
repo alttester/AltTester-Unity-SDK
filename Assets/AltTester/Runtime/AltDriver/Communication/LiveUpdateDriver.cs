@@ -23,8 +23,7 @@ using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using Newtonsoft.Json;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Communication
-{
+namespace AltTester.AltTesterUnitySDK.Driver.Communication {
     public class LiveUpdateDriver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
@@ -38,10 +37,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         public bool IsRunning { get { return this.isRunning; } }
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
 
-        public void Connect(string host, int port, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId)
+        public void Connect(string host, int port, string appName, int connectTimeout)
         {
             this.isRunning = false;
-            this.wsClient = new DriverWebSocketClient(host, port, "/altws/live-update", appName, connectTimeout, platform, platformVersion, deviceInstanceId, appId);
+            this.wsClient = new DriverWebSocketClient(host, port, "/altws/live-update", appName, connectTimeout);
             this.wsClient.OnMessage += (sender, e) =>
             {
                 this.OnMessage.Invoke(this, e.RawData);

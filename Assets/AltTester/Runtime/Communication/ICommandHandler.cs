@@ -27,8 +27,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
         NotificationHandler OnDriverConnect { get; set; }
         NotificationHandler OnDriverDisconnect { get; set; }
 
-        NotificationHandler OnAppConnect { get; set; }
-
         void Send(string data);
         void OnMessage(string data);
     }
