@@ -7,33 +7,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  paths-filter:
-    runs-on: ubuntu-latest
-    outputs:
-      java: ${{ steps.filter.outputs.java }}
-      python: ${{ steps.filter.outputs.python }}
-      csharp: ${{ steps.filter.outputs.csharp }}
-      editor: ${{ steps.filter.outputs.editor }}
-      docs: ${{ steps.filter.outputs.docs }}
-      scenes: ${{steps.filter.outputs.scenes}}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: |
-            java:
-              - 'Bindings~/java/**'
-            python:
-              - 'Bindings~/python/**'
-            csharp:
-              - '**.cs'
-            editor:
-              - '**.cs'
-            docs:
-              - 'Docs/**'
-            scenes:
-              - 'Assets/AltTester/Examples/Scenes/**'
+  # paths-filter:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     java: ${{ steps.filter.outputs.java }}
+  #     python: ${{ steps.filter.outputs.python }}
+  #     csharp: ${{ steps.filter.outputs.csharp }}
+  #     editor: ${{ steps.filter.outputs.editor }}
+  #     docs: ${{ steps.filter.outputs.docs }}
+  #     scenes: ${{steps.filter.outputs.scenes}}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: dorny/paths-filter@v2
+  #       id: filter
+  #       with:
+  #         filters: |
+  #           java:
+  #             - 'Bindings~/java/**'
+  #           python:
+  #             - 'Bindings~/python/**'
+  #           csharp:
+  #             - '**.cs'
+  #           editor:
+  #             - '**.cs'
+  #           docs:
+  #             - 'Docs/**'
+  #           scenes:
+  #             - 'Assets/AltTester/Examples/Scenes/**'
 
   # build-docs:
   #   runs-on: ubuntu-latest
@@ -60,7 +60,7 @@ jobs:
 
   build-macOS:
     runs-on: [self-hosted, macOS]
-    needs: paths-filter
+    # needs: paths-filter
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
     steps:
       - uses: actions/checkout@v3
