@@ -736,7 +736,7 @@ You can connect to AltTester® Desktop in two ways:
 
 **B. A local connection**
 
-- AltTester® Desktop is installed on the AWS Device Farm VM. Therefore a localhost connection is established, so there is no need for setting the host during instrumentation. A license for running the application in batch mode is needed as well, which is stored separately in license.txt (Be aware to not make this file public).
+- AltTester® Desktop is installed on the AWS Device Farm VM. Therefore a localhost connection is established, so there is no need for setting the host during instrumentation. A license for running the application in batch mode is needed as well, which is stored separately in `license.txt` (Be aware to not make this file public).
 - The local connection works only for Android. Unfortunately, [IProxy does not have a way of setting up reverse port forwarding](https://alttester.com/docs/sdk/latest/pages/advanced-usage.html#in-case-of-ios).
 
 You will need two files in order to run your tests:
@@ -755,6 +755,7 @@ You can download our example project from [here](https://github.com/alttester-te
     - localhost (`127.0.0.1`) - for local connection 
     - IP/URL provided by the AWS Instance where AltTester® Desktop is running - for remote connection
 
+<!-- To update here about the multiple devices concurency after the feature is done and tested -->
 ```eval_rst
 
 .. note::
@@ -780,7 +781,7 @@ You can download our example project from [here](https://github.com/alttester-te
     - the `requirements.txt` file
     - the `tests` folder (which contains also the `pages` folder) - don`t forget to add the IP/URL of the remote VM when defining AltDriver in ``base_test.py``
  
-    Make sure to place all the files in the root directory.
+Make sure to place all the files in the root directory.
 
 **3. Prepare the configuration file**
 - for a custom [test environment](https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html) you can edit the default configuration file by adding the needed commands. The commands are written as YAML so there are some validations for them
@@ -792,12 +793,12 @@ Keep in mind that the setup is different for Android and iOS.
     - here are the commands needed in the Configuration file to run [AltServer in batchmode](https://alttester.com/docs/desktop/latest/pages/advanced-usage.html#running-altserver-in-terminal). You can choose to include these commands in your test code or add it in the Test Configuration file like in our example.
 
         ```
-        export LICENSE_KEY=$(cat license.txt)
-        wget https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip
-        unzip AltTesterDesktopLinuxBatchmode.zip
-        cd AltTesterDesktopLinux
-        chmod +x AltTesterDesktop.x86_64
-        ./AltTesterDesktop.x86_64 -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
+        - export LICENSE_KEY=$(cat license.txt)
+        - wget https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip
+        - unzip AltTesterDesktopLinuxBatchmode.zip
+        - cd AltTesterDesktopLinux
+        - chmod +x AltTesterDesktop.x86_64
+        - ./AltTesterDesktop.x86_64 -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
         ```
         The `&` symbol is used to make the application run in the background. Failure to add the symbol will cause the commands following it to not be triggered. 
     
@@ -809,8 +810,8 @@ Keep in mind that the setup is different for Android and iOS.
 
     - You also need to add port reverse forwarding when running on Android after Appium is started: 
         ```
-        adb reverse -- remove-all
-        adb reverse tcp:13000 tcp:13000
+        - adb reverse -- remove-all
+        - adb reverse tcp:13000 tcp:13000
         ```
     - Don`t forget to remove the license activation after each run! 
         ```
@@ -836,15 +837,15 @@ Keep in mind that the setup is different for Android and iOS.
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
     ```
-```eval_rst
+    ```eval_rst
 
-.. note::
-    Please make sure to deactivate any Firewalls on the Windows VM, as it might block the connection.
-```
+    .. note::
+        Please make sure to deactivate any Firewalls on the Windows VM, as it might block the connection.
+    ```
 
 #### **Steps for running tests on Android using the remote connection**
 
-The instructions and resources will be for running tests on Android, for an application instrumented with AltUnityTester SDK v2.0.2 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection).
+The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.0.2 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection).
 
 ```eval_rst
 
@@ -859,9 +860,9 @@ The instructions and resources will be for running tests on Android, for an appl
 - add the instrumented application build making sure you are on the `Mobile App` tab
 - at the configuration step, choose *"Appium Python"* for the purpose of this example, then upload the **.zip** file
 - the example project contains a **.yml** configuration file. Use it at the next step, by selecting *"Run your test in a custom environment"*. This will define how your test environment is set up and how the tests run
-- the next step will allow you to select on which devices the tests will be executed. You can create your own device pool, or use the recommended top devices;
-- for this example, no changes need to be done to the Device state configuration;
-- at the last step, you can set the execution timeout for your devices, then start the tests.
+- the next step will allow you to select on which devices the tests will be executedb - You can create your own device pool, or use the recommended top devices
+- for this example, no changes need to be done to the Device state configuration
+- at the last step, you can set the execution timeout for your devices, then start the tests
 
 Once the status is available the project screen will show the overall status of the tests execution progress and results. Selecting individual runs and devices will give detailed logs about the tests, together with a video recording of the run itself.
 
@@ -875,7 +876,232 @@ Once the status is available the project screen will show the overall status of 
 
 AWS Device Farm does not offer an out-of-the-box solution for running tests written in C#, since it doesn't have an option for it, like in the case of Java or Python, for which there are Test Framework options available. However, using the Appium-ruby configuration from the test-type selection allows the upload of the tests written in C# as a zipped folder. 
 
-Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws-device-farm/) from our Blog for details on how to create the setup for running C# tests on the AWS Device Farm. The example project can be found [here](https://github.com/alttester/EXAMPLES-CSharp-AWS-AltTrashCat)
+Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws-device-farm/) from our Blog for more details on how to create the setup for running C# tests on the AWS Device Farm. The example project can be found [here](https://github.com/alttester/EXAMPLES-CSharp-AWS-AltTrashCat)
+
+#### **Preparation steps**
+
+**1. Prepare the application**
+- get info in the same section from [the python project example](#aws-device-farm-python-project-example)
+
+**2. Prepare test code and dependencies**
+- use the accepted .NET version (currently the .NET `6.0` version is required on the AWS Virtual Machine)
+    ```
+    <TargetFramework>net6.0</TargetFramework>
+    ```
+- install necessary packages - run the following commands in your project`s terminal:
+    ```c#
+    dotnet add package Appium.WebDriver --version 4.4.0 
+    dotnet add package Selenium.WebDriver --version 3.141.0
+    ```
+- add Namespaces specific to Appium
+    ```c#
+    using OpenQA.Selenium.Appium;
+    using OpenQA.Selenium.Appium.Android;
+    using OpenQA.Selenium.Appium.iOS;
+    using System.Net;
+    ```
+- create BaseTest Class
+    - Appium driver declaration
+        ```eval_rst
+            .. tabs::
+
+                .. tab:: Android
+
+                    .. code-block:: C#
+
+                        AndroidDriver<AndroidElement> appiumDriver;
+                    
+                .. tab:: iOS
+
+                    .. code-block:: C#
+
+                        IOSDriver<IOSElement> appiumDriver;
+        ```
+    - define Appium Capabilities
+        ```eval_rst
+            .. tabs::
+
+                .. tab:: Android
+
+                    .. code-block:: C#
+
+                        capabilities.AddAdditionalCapability("device", "Android");
+                        capabilities.AddAdditionalCapability("platformName", "Android");
+                        capabilities.AddAdditionalCapability("appActivity", "com.unity3d.player.UnityPlayerActivity");
+                    
+                .. tab:: iOS
+
+                    .. code-block:: C#
+
+                        capabilities.AddAdditionalCapability("device", "iOS");
+                        capabilities.AddAdditionalCapability("platformName", "iOS");
+                        capabilities.AddAdditionalCapability("appPackage", "fi.altom.trashcat");
+                        capabilities.AddAdditionalCapability("autoAcceptAlerts" ,true);
+        ```
+    - driver initialization and wait
+        ```eval_rst
+            .. tabs::
+
+                .. tab:: Android
+
+                    .. code-block:: C#
+
+                        var appiumUri = new Uri("http://localhost:4723/wd/hub");
+
+                    .. code-block:: C#
+
+                        appiumDriver = new AndroidDriver<AndroidElement>(appiumUri, capabilities, TimeSpan.FromSeconds(300));
+                    
+                .. tab:: iOS
+
+                    .. code-block:: C#
+                      
+                        var appiumUri = new Uri("http://localhost:4723/wd/hub");
+
+                    .. code-block:: C#
+
+                        appiumDriver = new IOSDriver<IOSElement>(appiumUri, capabilities, TimeSpan.FromSeconds(300));
+        ```
+    - cleanup - the `DisposeAppium()` teardown method is called after the tests are complete. It quits the Appium driver
+- if using the **remote connection** in order to connect to AltTester® Desktop, don`t forget to add the IP/URL of the remote VM when defining AltDriver: 
+    ```
+    altDriver = new AltDriver(port:13000, host: "insert_ip_here");
+    ```
+- prepare the `.zip` folder containing tests and necessities
+    - **for local connection** - from the cloned repository, create a **.zip** file containing:
+        - a `license.txt` file which will store your AltTester® Desktop PRO license, needed to run batch mode commands - if you only have 1 seat per license please remove the activation in other places before using it here
+        - the `tests` and `pages` folders
+        - other dependencies (`.csproj`, etc.)
+
+    - **for remote connection** - from the cloned repository, create a **.zip** file containing:
+        - the `tests` and `pages` folders - don`t forget to add the IP/URL of the remote VM when defining AltDriver in ``base_test.py``
+        - other dependencies (`.csproj`, etc.)
+    
+    - make sure to place all the files in the root directory
+
+**3. Prepare the configuration file**
+- for a custom [test environment](https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html) you can edit the default configuration file by adding the needed commands. The commands are written as YAML so there are some validations for them
+- using the commands from the configuration file you can access the contents of the uploaded **.zip** folder, install applications, and ultimately run your tests
+
+Keep in mind that the setup is different for Android and iOS.
+
+- **regardless of the connection type (local or remote)**
+    - .NET 6.0 installation
+        ```
+        - curl -O -L https://dot.net/v1/dotnet-install.sh
+        - chmod +x ./dotnet-install.sh
+        - bash ./dotnet-install.sh --channel 6.0
+        - export PATH=$PATH:$HOME/.dotnet
+        - dotnet -- version
+        ```
+    - install necessary packages for running the C# tests
+        ```
+        - dotnet add package NUnit --version 3.13.3
+        - dotnet add package AltTester-Driver -- version 2.0.1 
+        - dotnet add package Selenium.WebDriver -- version 3.141.0
+        - dotnet add package NUnit3TestAdapter --version 4.4.2
+        ```
+    - for running tests, just add the `dotnet` command
+        ```
+        dotnet test
+        ```
+- **for local connection**
+    - here are the commands needed in the Configuration file to run [AltServer in batchmode](https://alttester.com/docs/desktop/latest/pages/advanced-usage.html#running-altserver-in-terminal). You can choose to include these commands in your test code or add it in the Test Configuration file like in our example.
+
+        ```
+        - export LICENSE_KEY=$(cat license.txt)
+        - wget https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip
+        - unzip AltTesterDesktopLinuxBatchmode.zip
+        - cd AltTesterDesktopLinux
+        - chmod +x AltTesterDesktop.x86_64
+        - ./AltTesterDesktop.x86_64 -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
+        ```
+        The `&` symbol is used to make the application run in the background. Failure to add the symbol will cause the commands following it to not be triggered. 
+    
+        ```eval_rst
+
+        .. note::
+            We recommend using ``wget`` in order to install the `batchmode Linux build for AltTester® Desktop <https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and not put it in the archive because that increases the running time for the entire flow.
+        ```
+
+    - You also need to add port reverse forwarding when running on Android after Appium is started: 
+        ```
+        - adb reverse -- remove-all
+        - adb reverse tcp:13000 tcp:13000
+        ```
+    - Don`t forget to remove the license activation after each run! 
+        ```
+        - cd AltTesterDesktopLinux
+        - kill -2 `ps -ef | awk '/AltTesterDesktop.x86_64/{print $2}'`
+        - ./AltTesterDesktop.x86_64 -batchmode -nographics -removeActivation
+        ```
+
+- **for remote connection** - a way to connect to AltServer, within the AltTester® Desktop application is by installing AltTester® Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
+    - create a [Windows instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2Win_Infrastructure.html) 
+    ```eval_rst
+        .. image:: ../_static/img/alttester-with-cloud/aws-windows-instance.png
+    ```
+    - add [Inbound rule to Security Group](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/working-with-security-groups.html#changing-security-group) to make port `13000` accessible - the custom TCP on port `13000` is needed to have the connection to AltTester® Desktop default `13000` port  
+    ```eval_rst
+        .. image:: ../_static/img/alttester-with-cloud/aws-inbound-rule-to-security-group.png
+    ``` 
+    - [Connect to the Instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html) through Remote Access Connection  
+    ```eval_rst
+        .. image:: ../_static/img/alttester-with-cloud/aws-connect-to-instance.png
+    ```  
+    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop__v2.0.2.exe) and install it on the Instance  
+    - [Associate an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating), so that the IP remains constant after each opening of the instance
+    ```eval_rst
+        .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
+    ```
+    ```eval_rst
+
+    .. note::
+        Please make sure to deactivate any Firewalls on the Windows VM, as it might block the connection.
+    ```
+
+#### **Steps for running tests on Android using the remote connection**
+
+Please note that the process of running the tests is similar for iOS or Android. The differences are described above. 
+
+The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.0.1 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection)
+
+```eval_rst
+
+.. important::
+    The remote connection needs to be opened and AltTester® Desktop has to be running when starting a new automated run.
+```
+
+**1. Create a new project on AWS Device Farm**
+- Access [AWS Device Farm](https://us-west-2.console.aws.amazon.com/devicefarm/home?region=us-east-1#/mobile/projects) of your account and create a new project like instructed [here](https://docs.aws.amazon.com/devicefarm/latest/developerguide/getting-started.html), making sure you are in `Mobile Device Testing` > `Projects`
+
+**2. Create a new run**
+- on the created project select `Create a new run`
+- add the instrumented application build making sure you are on the `Mobile App` tab
+- at the Test Framework configuration step, choose *"Appium Ruby"* for the purpose of this example, then upload the **.zip** file
+
+```eval_rst
+
+.. note::
+    Because C# is not a supported framework, there is no option for that. The reason why Appium Ruby is the selected Test Framework is that other setups have stronger validation for the contents of the .zip folder and would mark the uploaded folder as invalid, making it impossible to move forward in the process.
+```
+- at the next step, select *"Run your test in a custom environment"* and edit the default YAML in order to add the necessary commands, described in the preparation step and then save the file - this will define how your test environment is set up and how the tests run
+- the next step will allow you to select on which devices the tests will be executed - You can create your own device pool, or use the recommended top devices (Device Farm offers the option to run tests concurrently on a pool of devices of your choice)
+<!-- To update here if running concurrently on multiple devices is possible or not -->
+<!-- ```eval_rst
+
+.. note::
+At the moment AltServer is unable to differentiate between applications with the same AppName. Therefore, we recommend running the tests on one device only.
+``` -->
+- for this example, no changes need to be done to the Device state configuration
+- at the last step, you can set the execution timeout for your devices, then start the tests
+    - once the status is available the project screen will show the overall status of the tests execution progress and results - selecting individual runs and devices will give detailed logs about the tests, together with a video recording of the run itself
+
+```eval_rst
+
+.. note::
+    The purpose of the example project is to offer a guide on how to run tests on AWS Device Farm, tests that are not adapted to pass on any type of Android device. In order for them to pass feel free to adjustments based on your needs.
+```
 
 ## BitBar
 
