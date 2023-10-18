@@ -133,7 +133,7 @@ jobs:
   test-DotNet:
     runs-on: [self-hosted, macOS]
     needs: build-macOS
-    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    # if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
       - uses: actions/checkout@v3
 
