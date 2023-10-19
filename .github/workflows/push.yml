@@ -20,26 +20,27 @@ jobs:
     
           - name: Run dotnet format
             id: format
-            uses: jfversluis/dotnet-format@v1.0.5
-            with:
-              workspace: AltTester-Unity-SDK.sln
-              repo-token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
-              action: "fix"
-              only-changed-files: true
+            run: ls
+        #     uses: jfversluis/dotnet-format@v1.0.5
+        #     with:
+        #       workspace: AltTester-Unity-SDK.sln
+        #       repo-token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
+        #       action: "fix"
+        #       only-changed-files: true
     
-          - name: Commit files
-            if: steps.format.outputs.has-changes == 'true'
-            run: |
-              git config --local user.name ${{ secrets.USERNAME_ALTTESTER }}
-              git config --local user.email "alttester@gmail.com"
-              git commit -a -m 'Automated dotnet-format update'
+        #   - name: Commit files
+        #     if: steps.format.outputs.has-changes == 'true'
+        #     run: |
+        #       git config --local user.name ${{ secrets.USERNAME_ALTTESTER }}
+        #       git config --local user.email "alttester@gmail.com"
+        #       git commit -a -m 'Automated dotnet-format update'
 
-          - name: Push changes
-            if: steps.format.outputs.has-changes == 'true'
-            uses: ad-m/github-push-action@v0.5.0
-            with:
-              github_token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
-              branch: ${{ github.head_ref }}
+        #   - name: Push changes
+        #     if: steps.format.outputs.has-changes == 'true'
+        #     uses: ad-m/github-push-action@v0.5.0
+        #     with:
+        #       github_token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
+        #       branch: ${{ github.head_ref }}
 
   # paths-filter:
   #   runs-on: ubuntu-latest
