@@ -22,6 +22,7 @@ jobs:
             id: format
             uses: jfversluis/dotnet-format@v1.0.5
             with:
+              workspace: AltTester-Unity-SDK.sln
               repo-token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
               action: "fix"
               only-changed-files: true
