@@ -8,19 +8,37 @@ concurrency:
 
 jobs:
     dotnet-format:
-        runs-on: ubuntu-latest
+        runs-on: windows-latest
         steps:
+          - name: Install dotnet-format
+            run: dotnet tool install -g dotnet-format
+    
           - name: Checkout repo
             uses: actions/checkout@v2
-    
-          - name: Add dotnet-format problem matcher
-            uses: xt0rted/dotnet-format-problem-matcher@v1
-    
-          - name: Restore dotnet tools
-            uses: xt0rted/dotnet-tool-restore@v1
+            with:
+                ref: ${{ github.head_ref }}
     
           - name: Run dotnet format
-            uses: xt0rted/dotnet-format@v1
+            id: format
+            uses: jfversluis/dotnet-format@v1.0.5
+            with:
+              repo-token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
+              action: "fix"
+              only-changed-files: true
+    
+          - name: Commit files
+            if: steps.format.outputs.has-changes == 'true'
+            run: |
+              git config --local user.name ${{ secrets.USERNAME_ALTTESTER }}
+              git config --local user.email "alttester@gmail.com"
+              git commit -a -m 'Automated dotnet-format update'
+
+          - name: Push changes
+            if: steps.format.outputs.has-changes == 'true'
+            uses: ad-m/github-push-action@v0.5.0
+            with:
+              github_token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
+              branch: ${{ github.head_ref }}
 
   # paths-filter:
   #   runs-on: ubuntu-latest
