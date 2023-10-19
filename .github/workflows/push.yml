@@ -154,7 +154,7 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v2.1.1
         with:
-            dotnet-version: '5.0.0'
+            dotnet-version: '5.0.17'
 
       - run: |
           export ALTSERVER_PORT=13005
