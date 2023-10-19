@@ -702,7 +702,7 @@ namespace AltTesterTools
                 Debug.LogError("ALTTESTER must be added as define before updating the prefab.");
             }
 
-            var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(Input), typeof(NewInputSystem) });
+            var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(Input), typeof(NewInputSystem), typeof(AltTestContext) });
             var RectTransform = Prefab.GetComponent<Transform>();
             var AltRunnerComponent = Prefab.GetComponent<AltRunner>();
             SetUpAltRunnerVariables(AltRunnerComponent);

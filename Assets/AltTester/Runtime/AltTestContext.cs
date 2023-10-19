@@ -4,32 +4,34 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using UnityEngine;
-
-public class AltTestContext : MonoBehaviour
+namespace AltTester.AltTesterUnitySDK
 {
-    // Start is called before the first frame update
-    void Awake()
+    public class AltTestContext : MonoBehaviour
     {
-        TestExecutionContext testExecutionContext = new TestExecutionContext();
-        IMethodInfo methodInfo = new MethodWrapper(typeof(TestExample), typeof(TestExample).GetMethod("Test"));
-        testExecutionContext.CurrentTest = new TestMethod(methodInfo);
-        TestContext testContext = new TestContext(testExecutionContext);
-        TestContext.CurrentTestExecutionContext = testExecutionContext;
-        Application.runInBackground = true;
-        
+        // Start is called before the first frame update
+        void Awake()
+        {
+            TestExecutionContext testExecutionContext = new TestExecutionContext();
+            IMethodInfo methodInfo = new MethodWrapper(typeof(TestExample), typeof(TestExample).GetMethod("Test"));
+            testExecutionContext.CurrentTest = new TestMethod(methodInfo);
+            TestContext testContext = new TestContext(testExecutionContext);
+            TestContext.CurrentTestExecutionContext = testExecutionContext;
+            Application.runInBackground = true;
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    public class TestExample
     {
+        [Test]
+        public void Test()
+        {
 
-    }
-}
-public class TestExample
-{
-    [Test]
-    public void Test()
-    {
-
+        }
     }
 }
