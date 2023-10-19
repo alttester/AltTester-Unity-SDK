@@ -8,7 +8,7 @@ concurrency:
 
 jobs:
     dotnet-format:
-        runs-on: windows-latest
+        runs-on: [self-hosted, Windows]
         steps:
           - name: Install dotnet-format
             run: dotnet tool install -g dotnet-format
