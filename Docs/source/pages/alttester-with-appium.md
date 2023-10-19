@@ -52,7 +52,10 @@ The script will install any requirements that are missing from your machine (exc
 
    Please observe the following about the setup method in **base_test.py**:
 
-   1. A minimum amount of desired capabilities have to be set in order for Appium to work. More details about desired capabilities can be found in the official `Appium documentation <https://appium.io/docs/en/2.0/index.html>`_
-   2. The Appium driver needs to be created before the reverse port forwarding needed by AltTester Unity SDK is done. This is because Appium clears any other reverse port forwarding when it starts.
+   1. A minimum amount of capabilities have to be set in order for Appium to work. More details about capabilities can be found in the official `Appium documentation <https://appium.io/docs/en/2.0/guides/caps/>`_
+   
+   2. Starting with **Selenium 4** the *DesiredCapabilities* are deprecated and the Webdriver now uses *Options* to pass capabilities, so if you're using Selenium 4, in order for the example project to work, you may have to update the code with the new setup - see the `Selenium documentation <https://www.selenium.dev/documentation/webdriver/getting_started/upgrade_to_selenium_4/>`_
+   
+   3. The Appium driver needs to be created before the reverse port forwarding needed by AltTester Unity SDK is done. This is because Appium clears any other reverse port forwarding when it starts.
 
 ```

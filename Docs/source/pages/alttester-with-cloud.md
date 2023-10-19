@@ -122,3 +122,16 @@ It contains a pre-built ***apk*** file, so you can try out running tests on Andr
 8. At the last step, you can set the execution timeout for your devices, then start the tests.
 
 Again, the project screen will show an overall status of the tests execution progress and results. Selecting individual runs and devices will give detailed logs about the tests, together with a video recording of the run itself.
+
+
+## GitHub
+
+GitHub Actions is a very powerful tool for creating a great process CI/CD. You can use public machines offered by GitHub or self-hosted runners in order to run tests automatically. We are using GitHub Actions to build and test our applications. You can see our workflows for AltTester Unity SDK [here](https://github.com/alttester/AltTester-Unity-SDK/tree/development/.github/workflows).
+
+**Some useful links to create your workflows:**
+  - [GitHub Action documentation](https://docs.github.com/en/actions)
+  - [Unity Builder](https://github.com/marketplace/actions/unity-builder)
+  - [Example project for running tests on a public machine](https://github.com/alttester/Example-Running-Tests-On-Github-Public-Runner)
+  
+
+
