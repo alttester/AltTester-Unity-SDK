@@ -53,11 +53,6 @@ namespace AltTester.AltTesterUnitySDK
             }
             InputTestFixture = new InputTestFixture();
 #if USE_INPUT_SYSTEM_1_3
-            TestExecutionContext testExecutionContext = new TestExecutionContext();
-            IMethodInfo methodInfo = new MethodWrapper(typeof(TestExample), typeof(TestExample).GetMethod("Test"));
-            testExecutionContext.CurrentTest = new TestMethod(methodInfo);
-            TestContext testContext = new TestContext(testExecutionContext);
-            TestContext.CurrentTestExecutionContext = testExecutionContext;
             Application.runInBackground = true;
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
@@ -100,11 +95,6 @@ namespace AltTester.AltTesterUnitySDK
         {
             InputTestFixture = new InputTestFixture();
 #if USE_INPUT_SYSTEM_1_3
-            TestExecutionContext testExecutionContext = new TestExecutionContext();
-            IMethodInfo methodInfo = new MethodWrapper(typeof(TestExample), typeof(TestExample).GetMethod("Test"));
-            testExecutionContext.CurrentTest = new TestMethod(methodInfo);
-            TestContext testContext = new TestContext(testExecutionContext);
-            TestContext.CurrentTestExecutionContext = testExecutionContext;
             Application.runInBackground = true;
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
@@ -455,16 +445,6 @@ namespace AltTester.AltTesterUnitySDK
     }
 
 }
-#if USE_INPUT_SYSTEM_1_3
-public class TestExample
-{
-    [Test]
-    public void Test()
-    {
-
-    }
-}
-#endif
 #else
 using UnityEngine;
 
