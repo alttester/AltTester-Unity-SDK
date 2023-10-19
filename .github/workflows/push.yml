@@ -19,7 +19,9 @@ jobs:
                 ref: ${{ github.head_ref }}
     
           - name: Open project to generate .sln
-            run: $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -logFile buildMac.log -quit
+            shell: bash
+            run: |
+              "$UNITY_2021_3_HOME" -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -logFile buildMac.log -quit
           
           - uses: jfversluis/dotnet-format@v1.0.5
             with:
