@@ -1233,7 +1233,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
         ``DesiredCapabilities()`` is a deprecated class, so please see our version using ``AppiumOptions()``   
     ```
 
-<!-- !!!!!!! To update here with iOS capabilities -->
+<!-- !!!!!!! To recheck here the iOS capabilities from article draft (what was put here is from the repo) -->
     ```eval_rst
     .. tabs::
 
@@ -1271,11 +1271,18 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
 
             .. code-block:: C#
 
-                
+                capabilities.AddAdditionalCapability("appium:deviceName", "Apple iPhone SE 2020 A2296 13.4.1");
+                capabilities.AddAdditionalCapability("platformName", "iOS");
+                capabilities.AddAdditionalCapability("appium:automationName", "XCUITest");
+                capabilities.AddAdditionalCapability("appium:bundleId", "fi.altom.trashcat");
+                capabilities.AddAdditionalCapability("platformVersion", "13.4");
+                capabilities.AddAdditionalCapability("autoAcceptAlerts","true");
+                capabilities.AddAdditionalCapability("newCommandTimeout", 2000);                
 
             .. code-block:: C#
 
-                appiumDriver = new IOSDriver<IOSElement>(new Uri(""http://localhost:4723/wd/hub""), capabilities);
+                appiumDriver = new IOSDriver<IOSElement>(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(36000));
+                appiumDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
     ```
 
     <!-- ```eval_rst
@@ -1297,7 +1304,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
         altDriver = new AltDriver();
         ```  
 
-<!-- To update here when the article is more advanced with the rest of the setup -->
+<!-- To update here when the article is more advanced if there are other details on the setup -->
 
 **3. Prepare the `.zip` archive with tests and `run-tests.sh`**
 
