@@ -10,39 +10,20 @@ jobs:
     dotnet-format:
         runs-on: [self-hosted, macOS]
         steps:
-          - name: Install dotnet-format
-            run: dotnet tool install -g dotnet-format
-    
-          - name: Checkout repo
-            uses: actions/checkout@v2
-            with:
-                ref: ${{ github.head_ref }}
-    
-          - name: Open project to generate .sln
-            shell: bash
-            run: |
-              "$UNITY_2021_3_HOME" -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -logFile buildMac.log -quit
-          
-          - uses: jfversluis/dotnet-format@v1.0.5
-            with:
-              workspace: AltTester-Unity-SDK.sln
-              repo-token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
-              action: "fix"
-              only-changed-files: true
-    
-          - name: Commit files
-            if: steps.format.outputs.has-changes == 'true'
-            run: |
-              git config --local user.name ${{ secrets.USERNAME_ALTTESTER }}
-              git config --local user.email "alttester@gmail.com"
-              git commit -a -m 'Automated dotnet-format update'
-
-          - name: Push changes
-            if: steps.format.outputs.has-changes == 'true'
-            uses: ad-m/github-push-action@v0.5.0
-            with:
-              github_token: ${{ secrets.ADD_TO_PROJECT_TOKEN }}
-              branch: ${{ github.head_ref }}
+            - name: Checkout code
+              uses: actions/checkout@v2
+              
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v1
+              with:
+                dotnet-version: 6.0
+              
+            - name: Install dotnet-format
+              run: dotnet tool install -g dotnet-format
+              continue-on-error: true
+        
+            - name: Check C# files to format
+              run: dotnet-format --check AltTester-Unity-SDK.sln
 
   # paths-filter:
   #   runs-on: ubuntu-latest
