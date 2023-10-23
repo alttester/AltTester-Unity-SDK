@@ -19,11 +19,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using AltTester;
-#if USE_INPUT_SYSTEM_1_3
-using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-using NUnit.Framework.Internal;
-#endif
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
