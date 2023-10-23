@@ -21,6 +21,11 @@ jobs:
             - name: Install dotnet-format
               run: dotnet tool install -g dotnet-format
               continue-on-error: true
+
+            - name: Open project to generate .sln
+              shell: bash
+              run: |
+                "$UNITY_2021_3_HOME" -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -logFile buildMac.log -quit
         
             - name: Check C# files to format
               run: dotnet-format --check AltTester-Unity-SDK.sln
