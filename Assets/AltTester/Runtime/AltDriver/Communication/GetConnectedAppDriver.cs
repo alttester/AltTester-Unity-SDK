@@ -15,40 +15,18 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Threading;
-using Newtonsoft.Json;
-
 namespace AltTester.AltTesterUnitySDK.Driver.Communication
 {
-
-    public class LiveUpdateDriver : BaseDriver
+    public class GetConnectedAppDriver : BaseDriver
     {
-        public LiveUpdateDriver(string path) : base(path)
-        {
-        }
-        public void Start()
-        {
-            this.WsClient.Send("Start");
-            this.isRunning = true;
-        }
+        private new string path = "/altws/connected-app";
 
-        public void Stop()
+        public GetConnectedAppDriver(string path) : base(path)
         {
-            this.WsClient.Send("Stop");
-            this.isRunning = false;
         }
-
-        public void UpdateFrameRate(int frameRate)
+        public void Send()
         {
-            this.WsClient.Send(string.Format("FrameRate:{0}", frameRate));
-        }
-
-        public void UpdateQuality(int quality)
-        {
-            this.WsClient.Send(string.Format("Quality:{0}", quality));
+            WsClient.Send("GetApps");
         }
     }
 }
