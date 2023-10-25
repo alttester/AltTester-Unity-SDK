@@ -18,6 +18,7 @@
 package com.alttester.Commands.FindObject;
 
 import com.alttester.Utils;
+import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.IMessageHandler;
 import com.alttester.AltObject;
 import com.alttester.altTesterExceptions.WaitTimeOutException;
@@ -28,14 +29,14 @@ import com.alttester.altTesterExceptions.WaitTimeOutException;
  */
 public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
     /**
-     * @param altWaitForComponentPropertyParams the properties parameter for waiting
-     *                                          the
-     *                                          object
-     * @param altObject                         the AltObject element
-     * @param property                          the wanted value of the property
+     * @param waitParams the properties parameter for waiting
+     *                   the
+     *                   object
+     * @param altObject  the AltObject element
+     * @param property   the wanted value of the property
      */
     private AltObject altObject;
-    private AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams;
+    private AltWaitForComponentPropertyParams<T> waitParams;
     private T property;
 
     /**
@@ -45,7 +46,7 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
     public AltWaitForComponentProperty(IMessageHandler messageHandler,
             AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams, T property, AltObject altObject) {
         super(messageHandler);
-        this.altWaitForComponentPropertyParams = altWaitForComponentPropertyParams;
+        this.waitParams = altWaitForComponentPropertyParams;
         this.property = property;
         this.altObject = altObject;
     }
@@ -53,12 +54,13 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
     public T Execute(Class<T> returnType) {
         T propertyFound;
         double time = 0;
-        while (time < altWaitForComponentPropertyParams.getTimeout()) {
+        AltGetComponentPropertyParams getComponentPropertyParams = waitParams.getAltGetComponentPropertyParams();
+        while (time < waitParams.getTimeout()) {
             logger.debug("Waiting for element where name contains "
-                    + altWaitForComponentPropertyParams.getAltGetComponentPropertyParams().getPropertyName() + "....");
+                    + getComponentPropertyParams.getPropertyName() + "....");
             try {
                 propertyFound = altObject.getComponentProperty(
-                        altWaitForComponentPropertyParams.getAltGetComponentPropertyParams(),
+                        getComponentPropertyParams,
                         returnType);
 
                 if (propertyFound.equals(property))
@@ -67,11 +69,11 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
             } catch (Exception e) {
                 logger.warn("Exception thrown: " + e.getLocalizedMessage());
             }
-            Utils.sleepFor(altWaitForComponentPropertyParams.getInterval());
-            time += altWaitForComponentPropertyParams.getInterval();
+            Utils.sleepFor(waitParams.getInterval());
+            time += waitParams.getInterval();
         }
         throw new WaitTimeOutException(
-                "Property " + altWaitForComponentPropertyParams.getAltGetComponentPropertyParams().getPropertyName()
-                        + " still not found after " + altWaitForComponentPropertyParams.getTimeout() + " seconds");
+                "Property " + getComponentPropertyParams.getPropertyName()
+                        + " still not found after " + waitParams.getTimeout() + " seconds");
     }
 }

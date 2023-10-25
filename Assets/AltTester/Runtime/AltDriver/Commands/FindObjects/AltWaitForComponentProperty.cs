@@ -28,7 +28,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         string componentName;
         string propertyName;
         T propertyValue;
-        string assambly;
+        string assembly;
         double timeout;
         double interval;
 
@@ -38,7 +38,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.componentName = componentName;
             this.propertyName = propertyName;
             this.propertyValue = propertyValue;
-            this.assambly = assemblyName;
+            this.assembly = assemblyName;
             this.timeout = timeout;
             this.interval = interval;
             if (timeout <= 0) throw new ArgumentOutOfRangeException("timeout");
@@ -47,26 +47,23 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         public T Execute()
         {
             double time = 0;
-            T propertyFound = default(T);
-
-            logger.Debug("Waiting for property " + propertyName + " to be present.");
             while (time < timeout)
             {
                 try
                 {
-                    propertyFound = altObject.GetComponentProperty<T>(componentName, propertyName, assambly);
+                    logger.Debug($"Waiting for property {propertyName} to be {propertyValue}.");
+                    T propertyFound = altObject.GetComponentProperty<T>(componentName, propertyName, assembly);
                     if (propertyFound.Equals(propertyValue))
-                        break;
+                        return propertyFound;
                 }
-                catch (NotFoundException)
+                catch (Exception)
                 {
-                    Thread.Sleep(System.Convert.ToInt32(interval * 1000));
-                    time += interval;
+
                 }
+                Thread.Sleep(System.Convert.ToInt32(interval * 1000));
+                time += interval;
             }
-            if (propertyFound != null)
-                return propertyFound;
-            throw new WaitTimeOutException("Property " + propertyName + " not loaded after " + timeout + " seconds");
+            throw new WaitTimeOutException($"Property {propertyName} was not {propertyValue} after {timeout} seconds");
         }
     }
 }

@@ -235,11 +235,24 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestGetComponentProperty()
         {
+            altDriver.FindObject(By.NAME, "Icon").CallComponentMethod<string>("UnityEngine.RectTransform", "gameObject.SetActive", "UnityEngine.CoreModule", new object[] { false });
             const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             var propertyValue = altElement.GetComponentProperty<int>(componentName, propertyName, "AltTester.AltTesterUnitySDK");
+
+            int port = TestsHelper.GetAltDriverPort();
+            Assert.AreEqual(port, propertyValue);
+        }
+        [Test]
+        public void TestWaitForComponentProperty2()
+        {
+            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string propertyName = "InstrumentationSettings.AltServerPort";
+            var altElement = altDriver.FindObject(By.NAME, "CapsuleInfo");
+            Assert.NotNull(altElement);
+            var propertyValue = altElement.WaitForComponentProperty(componentName, propertyName, "", "AltTester.AltTesterUnitySDK");
 
             int port = TestsHelper.GetAltDriverPort();
             Assert.AreEqual(port, propertyValue);
@@ -255,7 +268,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.NotNull(altElement);
 
             int port = TestsHelper.GetAltDriverPort();
-            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "AltTester.AltTesterUnitySDK");
+            var propertyValue = altElement.WaitForComponentProperty(componentName, propertyName, port, "AltTester.AltTesterUnitySDK");
 
             Assert.AreEqual(port, propertyValue);
         }
