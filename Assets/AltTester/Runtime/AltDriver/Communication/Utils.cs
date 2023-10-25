@@ -29,14 +29,14 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             {
                 if (!Uri.TryCreate(string.Format("ws://{0}:{1}{2}?appName={3}&platform={4}&platformVersion={5}&deviceInstanceId={6}", host, port, path, Uri.EscapeDataString(appName), Uri.EscapeDataString(platform), Uri.EscapeDataString(platformVersion), Uri.EscapeDataString(deviceInstanceId)), UriKind.Absolute, out uri))
                 {
-                    throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
+                    throw new Exception(String.Format("Invalid host or port {0}:{1}{2}", host, port, path));
                 }
             }
             else
             {
                 if (!Uri.TryCreate(string.Format("ws://{0}:{1}{2}?appName={3}&platform={4}&platformVersion={5}&deviceInstanceId={6}&appId={7}", host, port, path, Uri.EscapeDataString(appName), Uri.EscapeDataString(platform), Uri.EscapeDataString(platformVersion), Uri.EscapeDataString(deviceInstanceId), Uri.EscapeDataString(appId)), UriKind.Absolute, out uri))
                 {
-                    throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
+                    throw new Exception(String.Format("Invalid host or port {0}:{1}{2}", host, port, path));
                 }
             }
 
