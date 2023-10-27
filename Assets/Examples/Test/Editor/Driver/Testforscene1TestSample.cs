@@ -235,7 +235,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestGetComponentProperty()
         {
-            altDriver.FindObject(By.NAME, "Icon").CallComponentMethod<string>("UnityEngine.RectTransform", "gameObject.SetActive", "UnityEngine.CoreModule", new object[] { false });
             const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
@@ -246,16 +245,40 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.AreEqual(port, propertyValue);
         }
         [Test]
-        public void TestWaitForComponentProperty2()
+        public void TestWaitForComponentPropertyComponentNotFound()
+        {
+            const string componentName = "AltTester.AltTesterUnitySDK.AltRunnerTest";
+            const string propertyName = "InstrumentationSettings.AltServerPort";
+            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+            Assert.NotNull(altElement);
+            Assert.Throws<ComponentNotFoundException>(() => altElement.WaitForComponentProperty(componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK"));
+        }
+        [Test]
+        public void TestWaitForComponentPropertyNotFound()
+        {
+            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string propertyName = "InstrumentationSettings.AltServerPortTest";
+            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+            Assert.NotNull(altElement);
+            Assert.Throws<PropertyNotFoundException>(() => altElement.WaitForComponentProperty(componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK"));
+        }
+        [Test]
+        public void TestWaitForComponentPropertyTimeOut()
         {
             const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
-            var altElement = altDriver.FindObject(By.NAME, "CapsuleInfo");
+            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
-            var propertyValue = altElement.WaitForComponentProperty(componentName, propertyName, "", "AltTester.AltTesterUnitySDK");
-
-            int port = TestsHelper.GetAltDriverPort();
-            Assert.AreEqual(port, propertyValue);
+            Assert.Throws<WaitTimeOutException>(() => altElement.WaitForComponentProperty(componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK", 2));
+        }
+        [Test]
+        public void TestWaitForComponentPropertyAssemblyNotFound()
+        {
+            const string componentName = "AltExampleScriptCapsule";
+            const string propertyName = "InstrumentationSettings.AltServerPort";
+            var altElement = altDriver.FindObject(By.NAME, "Capsule");
+            Assert.NotNull(altElement);
+            Assert.Throws<AssemblyNotFoundException>(() => altElement.WaitForComponentProperty(componentName, propertyName, "13000", "Assembly-CSharpTest"));
         }
 
         [Test]

@@ -49,17 +49,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             double time = 0;
             while (time < timeout)
             {
-                try
-                {
-                    logger.Debug($"Waiting for property {propertyName} to be {propertyValue}.");
-                    T propertyFound = altObject.GetComponentProperty<T>(componentName, propertyName, assembly);
-                    if (propertyFound.Equals(propertyValue))
-                        return propertyFound;
-                }
-                catch (Exception)
-                {
+                logger.Debug($"Waiting for property {propertyName} to be {propertyValue}.");
+                T propertyFound = altObject.GetComponentProperty<T>(componentName, propertyName, assembly);
+                if (propertyFound.Equals(propertyValue))
+                    return propertyFound;
 
-                }
                 Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
             }

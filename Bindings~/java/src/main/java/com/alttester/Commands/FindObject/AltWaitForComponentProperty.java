@@ -58,7 +58,6 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
         while (time < waitParams.getTimeout()) {
             logger.debug("Waiting for element where name contains "
                     + getComponentPropertyParams.getPropertyName() + "....");
-            try {
                 propertyFound = altObject.getComponentProperty(
                         getComponentPropertyParams,
                         returnType);
@@ -66,9 +65,6 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
                 if (propertyFound.equals(property))
                     return propertyFound;
 
-            } catch (Exception e) {
-                logger.warn("Exception thrown: " + e.getLocalizedMessage());
-            }
             Utils.sleepFor(waitParams.getInterval());
             time += waitParams.getInterval();
         }

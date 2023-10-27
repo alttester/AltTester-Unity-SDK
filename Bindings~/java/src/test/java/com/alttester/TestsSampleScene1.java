@@ -330,10 +330,10 @@ public class TestsSampleScene1 extends BaseTest {
     @Test
     public void testWaitForComponentProperty() throws InterruptedException {
         Thread.sleep(1000);
-        String componentName = "UnityEngine.CapsuleCollider";
-        String propertyName = "isTrigger";
+        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String propertyName = "InstrumentationSettings.AltServerPort";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "Capsule").build();
+                "AltTesterPrefab").build();
 
         AltObject altElement = altDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
@@ -342,13 +342,107 @@ public class TestsSampleScene1 extends BaseTest {
                 componentName, propertyName, "").build();
         AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
                 altGetComponentPropertyParams).build();
-
+        int port = TestsHelper.GetAltDriverPort();    
         Boolean propertyValue = altElement.WaitForComponentProperty(
                 altWaitForComponentPropertyParams,
                 false,
                 Boolean.class);
-        assertEquals(Boolean.FALSE, propertyValue);
+        assertEquals(port, propertyValue);
     }
+    @Test
+        public void testWaitForComponentPropertyComponentNotFound()
+        {
+        Thread.sleep(1000);
+        String componentName = "AltTester.AltTesterUnitySDK.AltRunnerTest";
+        String propertyName = "InstrumentationSettings.AltServerPort";
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                "AltTesterPrefab").build();
+
+        AltObject altElement = altDriver.findObject(altFindObjectsParams);
+        assertNotNull(altElement);
+
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                componentName, propertyName, "").build();
+        AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
+                altGetComponentPropertyParams).build();
+        assertThrows(ComponentNotFoundException.class,
+                () -> {   
+        Boolean propertyValue = altElement.WaitForComponentProperty(
+                altWaitForComponentPropertyParams,
+                false,
+                Boolean.class);})
+        
+        }
+        [Test]
+        public void TestWaitForComponentPropertyNotFound()
+        {
+            Thread.sleep(1000);
+        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String propertyName = "InstrumentationSettings.AltServerPortTest";
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                "AltTesterPrefab").build();
+
+        AltObject altElement = altDriver.findObject(altFindObjectsParams);
+        assertNotNull(altElement);
+
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                componentName, propertyName, "").build();
+        AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
+                altGetComponentPropertyParams).build();
+        assertThrows(PropertyNotFoundException.class,
+                () -> {   
+        Boolean propertyValue = altElement.WaitForComponentProperty(
+                altWaitForComponentPropertyParams,
+                false,
+                Boolean.class);})
+        }
+        [Test]
+        public void TestWaitForComponentPropertyTimeOut()
+        {
+            Thread.sleep(1000);
+        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String propertyName = "InstrumentationSettings.AltServerPort";
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                "AltTesterPrefab").build();
+
+        AltObject altElement = altDriver.findObject(altFindObjectsParams);
+        assertNotNull(altElement);
+
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                componentName, propertyName, "").build();
+        AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
+                altGetComponentPropertyParams).build();
+        assertThrows(WaitTimeOutException.class,
+                () -> {   
+        altElement.WaitForComponentProperty(
+                altWaitForComponentPropertyParams,
+                "Test",
+                String.class);})
+        }
+        [Test]
+        public void TestWaitForComponentPropertyAssemblyNotFound()
+        {
+            Thread.sleep(1000);
+        String componentName = "AltExampleScriptCapsule";
+        String propertyName = "InstrumentationSettings.AltServerPort";
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                "Capsule").build();
+
+        AltObject altElement = altDriver.findObject(altFindObjectsParams);
+        assertNotNull(altElement);
+
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                componentName, propertyName, "Assembly-CSharpTest").build();
+        AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
+                altGetComponentPropertyParams).build();
+        assertThrows(AssemblyNotFoundException.class,
+                () -> {   
+         altElement.WaitForComponentProperty(
+                altWaitForComponentPropertyParams,
+                false,
+                Boolean.class);})
+        }
+
 
     @Test
     public void testGetComponentPropertyInvalidDeserialization() {
