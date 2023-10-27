@@ -226,7 +226,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
         
         // [Test] This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185. This test can be uncomment when the issue is fixed
-        // public void BBBTestWaitForNonExistingComponentProperty(){
+        // public void TestWaitForNonExistingComponentProperty(){
         //     const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
         //     const string propertyName = "InstrumentationSettings.AltServerPort";
         //     var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
@@ -269,7 +269,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [TestCase("UnityEngine.UI.Text", "InvalidProperty", "UnityEngine.UI", "Property InvalidProperty not found")]
         [TestCase("UNEXISTING", "m_Text", "UnityEngine.UI", "Component not found")]
         [TestCase("UnityEngine.UI.Text", "m_Text", "UNEXISTING", "Assembly not found")] // -> this is commented because tere is not Assembly no found exception
-        public void BBBTestGetComponentPropertyNonExistingParams(string component, string property, string assembly, string message)
+        public void TestGetComponentPropertyNonExistingParams(string component, string property, string assembly, string message)
         {
             Thread.Sleep(1000);
             var altElement = altDriver.FindObject(By.PATH, "/Canvas/UIButton/Text");
@@ -1950,15 +1950,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var element = altDriver.FindObjectAtCoordinates(counterButton.GetScreenPosition());
             Assert.AreEqual("Capsule", element.name);
         }
-
-        // just an idea
-        // [Test]
-        // public void BBBTestFindElementAtNonExistingCoordinates()
-        // {
-        //     var counterButton = altDriver.FindObject(By.NAME, "Capsule");
-        //     var element = altDriver.FindObjectAtCoordinates(new AltVector2(10000,10000));
-        //     // Assert.AreEqual("Capsule", element.name);
-        // }
 
         [Test]
         public void TestScrollViewSwipe()
