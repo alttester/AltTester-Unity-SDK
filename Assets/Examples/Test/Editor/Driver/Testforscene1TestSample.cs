@@ -21,7 +21,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 using NUnit.Framework;
-using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
