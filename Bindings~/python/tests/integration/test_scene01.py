@@ -281,7 +281,7 @@ class TestScene01:
         with pytest.raises(exceptions.PropertyNotFoundException) as execinfo:
             alt_object.wait_for_component_property(
                 componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK")
-        assert str(execinfo.value) == "Property not found"
+        assert str(execinfo.value) == "Property AltServerPortTest not found"
 
     def test_wait_for_component_property_timeout(self):
         componentName = "AltTester.AltTesterUnitySDK.AltRunner"
@@ -290,7 +290,8 @@ class TestScene01:
         with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
             alt_object.wait_for_component_property(
                 componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK", 2)
-        assert str(execinfo.value) == "Property not found"
+        assert str(
+            execinfo.value) == "Property InstrumentationSettings.AltServerPort not found after 2 seconds"
 
     def test_wait_for_component_property_assembly_not_found(self):
         componentName = "AltExampleScriptCapsule"
@@ -299,7 +300,7 @@ class TestScene01:
         with pytest.raises(exceptions.AssemblyNotFoundException) as execinfo:
             alt_object.wait_for_component_property(
                 componentName, propertyName, "13000", "Assembly-CSharpTest")
-        assert str(execinfo.value) == "Property not found"
+        assert str(execinfo.value) == "Assembly not found"
 
     def test_get_component_property(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")

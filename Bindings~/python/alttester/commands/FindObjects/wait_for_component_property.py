@@ -18,7 +18,7 @@
 import time
 from loguru import logger
 from alttester.commands.base_command import Command
-from alttester.exceptions import NotFoundException, WaitTimeOutException
+from alttester.exceptions import WaitTimeOutException
 
 
 class WaitForComponentProperty(Command):
@@ -35,16 +35,14 @@ class WaitForComponentProperty(Command):
     def execute(self):
         t = 0
         while (t <= self.timeout):
-            try:
-                property_found = self.altObject.get_component_property(
-                    self.component_name, self.property_name, self.assembly)
-                if (property_found == self.property_value):
-                    return property_found
+            property_found = self.altObject.get_component_property(
+                self.component_name, self.property_name, self.assembly)
+            if (property_found == self.property_value):
+                return property_found
 
-            except Exception:
-                logger.debug("Waiting for property {}...", self.property_name)
-                time.sleep(self.interval)
-                t += self.interval
-            raise WaitTimeOutException("Property {} not found after {} seconds"
-                                       .format(
-                                           self.property_name, self.timeout))
+            logger.debug("Waiting for property {}...", self.property_name)
+            time.sleep(self.interval)
+            t += self.interval
+        raise WaitTimeOutException("Property {} not found after {} seconds"
+                                   .format(
+                                       self.property_name, self.timeout))

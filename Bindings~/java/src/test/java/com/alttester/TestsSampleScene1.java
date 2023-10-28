@@ -340,18 +340,18 @@ public class TestsSampleScene1 extends BaseTest {
 
         AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 componentName, propertyName, "").build();
-        AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
+        AltWaitForComponentPropertyParams<Integer> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Integer>(
                 altGetComponentPropertyParams).build();
-        int port = TestsHelper.GetAltDriverPort();    
-        Boolean propertyValue = altElement.WaitForComponentProperty(
+        int port = TestsHelper.getAltDriverPort();
+        Integer propertyValue = altElement.WaitForComponentProperty(
                 altWaitForComponentPropertyParams,
-                false,
-                Boolean.class);
+                port,
+                Integer.class);
         assertEquals(port, propertyValue);
     }
+
     @Test
-        public void testWaitForComponentPropertyComponentNotFound()
-        {
+    public void testWaitForComponentPropertyComponentNotFound() throws InterruptedException {
         Thread.sleep(1000);
         String componentName = "AltTester.AltTesterUnitySDK.AltRunnerTest";
         String propertyName = "InstrumentationSettings.AltServerPort";
@@ -366,17 +366,18 @@ public class TestsSampleScene1 extends BaseTest {
         AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
                 altGetComponentPropertyParams).build();
         assertThrows(ComponentNotFoundException.class,
-                () -> {   
-        Boolean propertyValue = altElement.WaitForComponentProperty(
-                altWaitForComponentPropertyParams,
-                false,
-                Boolean.class);})
-        
-        }
-        [Test]
-        public void TestWaitForComponentPropertyNotFound()
-        {
-            Thread.sleep(1000);
+                () -> {
+                    Boolean propertyValue = altElement.WaitForComponentProperty(
+                            altWaitForComponentPropertyParams,
+                            false,
+                            Boolean.class);
+                });
+
+    }
+
+    @Test
+    public void TestWaitForComponentPropertyNotFound() throws InterruptedException {
+        Thread.sleep(1000);
         String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
         String propertyName = "InstrumentationSettings.AltServerPortTest";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
@@ -390,16 +391,17 @@ public class TestsSampleScene1 extends BaseTest {
         AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
                 altGetComponentPropertyParams).build();
         assertThrows(PropertyNotFoundException.class,
-                () -> {   
-        Boolean propertyValue = altElement.WaitForComponentProperty(
-                altWaitForComponentPropertyParams,
-                false,
-                Boolean.class);})
-        }
-        [Test]
-        public void TestWaitForComponentPropertyTimeOut()
-        {
-            Thread.sleep(1000);
+                () -> {
+                    Boolean propertyValue = altElement.WaitForComponentProperty(
+                            altWaitForComponentPropertyParams,
+                            false,
+                            Boolean.class);
+                });
+    }
+
+    @Test
+    public void TestWaitForComponentPropertyTimeOut() throws InterruptedException {
+        Thread.sleep(1000);
         String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
         String propertyName = "InstrumentationSettings.AltServerPort";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
@@ -410,19 +412,20 @@ public class TestsSampleScene1 extends BaseTest {
 
         AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 componentName, propertyName, "").build();
-        AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
-                altGetComponentPropertyParams).build();
+        AltWaitForComponentPropertyParams<String> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<String>(
+                altGetComponentPropertyParams).withTimeout(2).build();
         assertThrows(WaitTimeOutException.class,
-                () -> {   
-        altElement.WaitForComponentProperty(
-                altWaitForComponentPropertyParams,
-                "Test",
-                String.class);})
-        }
-        [Test]
-        public void TestWaitForComponentPropertyAssemblyNotFound()
-        {
-            Thread.sleep(1000);
+                () -> {
+                    altElement.WaitForComponentProperty(
+                            altWaitForComponentPropertyParams,
+                            "Test",
+                            String.class);
+                });
+    }
+
+    @Test
+    public void TestWaitForComponentPropertyAssemblyNotFound() throws InterruptedException {
+        Thread.sleep(1000);
         String componentName = "AltExampleScriptCapsule";
         String propertyName = "InstrumentationSettings.AltServerPort";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
@@ -436,13 +439,13 @@ public class TestsSampleScene1 extends BaseTest {
         AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
                 altGetComponentPropertyParams).build();
         assertThrows(AssemblyNotFoundException.class,
-                () -> {   
-         altElement.WaitForComponentProperty(
-                altWaitForComponentPropertyParams,
-                false,
-                Boolean.class);})
-        }
-
+                () -> {
+                    altElement.WaitForComponentProperty(
+                            altWaitForComponentPropertyParams,
+                            false,
+                            Boolean.class);
+                });
+    }
 
     @Test
     public void testGetComponentPropertyInvalidDeserialization() {
