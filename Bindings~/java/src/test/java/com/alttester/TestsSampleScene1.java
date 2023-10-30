@@ -331,7 +331,7 @@ public class TestsSampleScene1 extends BaseTest {
     public void testWaitForComponentProperty() throws InterruptedException {
         Thread.sleep(1000);
         String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
-        String propertyName = "InstrumentationSettings.AltServerPort";
+        String propertyName = "InstrumentationSettings.AppName";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 "AltTesterPrefab").build();
 
@@ -340,14 +340,13 @@ public class TestsSampleScene1 extends BaseTest {
 
         AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 componentName, propertyName, "").build();
-        AltWaitForComponentPropertyParams<Integer> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Integer>(
+        AltWaitForComponentPropertyParams<String> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<String>(
                 altGetComponentPropertyParams).build();
-        int port = TestsHelper.getAltDriverPort();
-        Integer propertyValue = altElement.WaitForComponentProperty(
+        String propertyValue = altElement.WaitForComponentProperty(
                 altWaitForComponentPropertyParams,
-                port,
-                Integer.class);
-        assertEquals(port, propertyValue);
+                "__default__",
+                String.class);
+        assertEquals("__default__", propertyValue);
     }
 
     @Test
