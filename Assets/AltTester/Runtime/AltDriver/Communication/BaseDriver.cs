@@ -49,7 +49,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             this.WsClient.Close();
         }
 
-        public void Connect(string host, int port, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId)
+        public void Connect(string host, int port, int connectTimeout = 60, string appName = "__default__", string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown")
         {
             this.isRunning = false;
             UnityEngine.Debug.Log("Path: " + path);
