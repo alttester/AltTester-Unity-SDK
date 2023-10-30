@@ -837,11 +837,11 @@ Keep in mind that the setup is different for Android and iOS.
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
     ```
-    ```eval_rst
+```eval_rst
 
-    .. note::
-        Please make sure to deactivate any Firewalls on the Windows VM, as it might block the connection.
-    ```
+.. note::
+    Please make sure to deactivate any Firewalls on the Windows VM, as it might block the connection.
+```
 
 #### **Steps for running tests on Android using the remote connection**
 
@@ -1233,7 +1233,8 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
         ``DesiredCapabilities()`` is a deprecated class, so please see our version using ``AppiumOptions()``   
     ```
 
-<!-- !!!!!!! To recheck here the iOS capabilities from article draft (what was put here is from the repo) -->
+    <!-- !!!!!!! To recheck here the iOS capabilities from article draft (what was put here is from the repo) -->
+
     ```eval_rst
     .. tabs::
 
@@ -1284,16 +1285,16 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
                 appiumDriver = new IOSDriver<IOSElement>(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(36000));
                 appiumDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
     ```
-
-    <!-- ```eval_rst
+    
+    ```eval_rst
     .. note::
-        It is important to consult the `list of devices available on BitBar <https://cloud.bitbar.com/#public/devices>`_, to know what you can set for bitbar_device capability.
+        It is important to consult the `list of devices available on BitBar <https://cloud.bitbar.com/#public/devices>`_, to know what you can set for ``bitbar_device`` capability.
     ```
     
     ```eval_rst
     .. note::
         Make sure you review all these capabilities before trying to execute, as you might encounter issues otherwise. For example, providing **appium:bundleId** is important so that the application is installed by Appium on the selected iOS device.
-    ``` -->
+    ``` 
     - initialize AltDriver:
         - **for remote connection**: AltDriver needs to connect to another VM where is AltServer
         ```c#
