@@ -16,8 +16,8 @@
 */
 
 using System;
-using AltTester.AltTesterUnitySDK.Editor;
 using AltTester.AltTesterUnitySDK;
+using AltTester.AltTesterUnitySDK.Editor;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using UnityEditor;
 
@@ -353,6 +353,7 @@ namespace AltTesterTools
             {
                 instrumentationSettings.AltServerPort = 13010;
             }
+            instrumentationSettings.ResetConnectionData = true;
 
             return instrumentationSettings;
         }
