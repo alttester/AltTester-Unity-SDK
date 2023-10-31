@@ -224,14 +224,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
         
-        // [Test] This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185. This test can be uncomment when the issue is fixed
-        // public void TestWaitForNonExistingComponentProperty(){
-        //     const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
-        //     const string propertyName = "InstrumentationSettings.AltServerPort";
-        //     var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
-        //     Assert.NotNull(altElement);
-        //     Assert.Throws<NotFoundException>(() => altElement.WaitForComponentProperty<String>(componentName, propertyName, "UNEXISTING", "AltTester.AltTesterUnitySDK", timeout:10));
-        // }
+        [Test]
+        [Ignore("This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185")]
+        public void TestWaitForNonExistingComponentProperty(){
+            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string propertyName = "InstrumentationSettings.AltServerPort";
+            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+            Assert.NotNull(altElement);
+            Assert.Throws<NotFoundException>(() => altElement.WaitForComponentProperty<String>(componentName, propertyName, "UNEXISTING", "AltTester.AltTesterUnitySDK", timeout:10));
+        }
         
         [TestCase( "UNEXISTING","InstrumentationSettings.AltServerPort", "AltTester.AltTesterUnitySDK", "Component not found")]
         [TestCase( "AltTester.AltTesterUnitySDK.AltRunner","UNEXISTING", "AltTester.AltTesterUnitySDK", "Property UNEXISTING not found")]
@@ -267,7 +268,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
         [TestCase("UnityEngine.UI.Text", "InvalidProperty", "UnityEngine.UI", "Property InvalidProperty not found")]
         [TestCase("UNEXISTING", "m_Text", "UnityEngine.UI", "Component not found")]
-        [TestCase("UnityEngine.UI.Text", "m_Text", "UNEXISTING", "Assembly not found")] // -> this is commented because tere is not Assembly no found exception
+        [TestCase("UnityEngine.UI.Text", "m_Text", "UNEXISTING", "Assembly not found")]
         public void TestGetComponentPropertyNonExistingParams(string component, string property, string assembly, string message)
         {
             Thread.Sleep(1000);
