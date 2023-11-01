@@ -47,4 +47,24 @@ public class TestForScene12 : TestBase
         Assert.That($"Clicked on {name}".Equals(altDriver.FindObject(By.NAME, "Text").GetText()));
     }
 
+    [TestCase("Square")]
+    [TestCase("Circle")]
+    [TestCase("Triangle")]
+    public void TestSwipeOnCoordinates(string name)
+    {
+        var altObject = altDriver.FindObject(By.NAME, name);
+        altDriver.HoldButton(altObject.GetScreenPosition(), 0.3f);
+        Assert.That($"Clicked on {name}".Equals(altDriver.FindObject(By.NAME, "Text").GetText()));
+    }
+    [TestCase("Square")]
+    [TestCase("Circle")]
+    [TestCase("Triangle")]
+    public void TestTouchOnCoordinates(string name)
+    {
+        var altObject = altDriver.FindObject(By.NAME, name);
+        var id = altDriver.BeginTouch(altObject.GetScreenPosition());
+        altDriver.EndTouch(id);
+        Assert.That($"Clicked on {name}".Equals(altDriver.FindObject(By.NAME, "Text").GetText()));
+    }
+
 }
