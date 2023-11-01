@@ -105,12 +105,23 @@ namespace AltTester.AltTesterUnitySDK
                     hitPosition3d = hit.point;
                     gameObject3d = hit.transform.gameObject;
                 }
-                UnityEngine.RaycastHit2D hit2d = UnityEngine.Physics2D.GetRayIntersection(camera.ScreenPointToRay(coordinates));
+                UnityEngine.RaycastHit2D hit2d = UnityEngine.Physics2D.Raycast(coordinates, Vector2.zero);//If UI has colliders2D
                 if (hit2d.collider != null)
                 {
                     hitPosition2d = hit2d.point;
                     gameObject2d = hit2d.transform.gameObject;
                 }
+                else
+                {
+                    hit2d = UnityEngine.Physics2D.GetRayIntersection(camera.ScreenPointToRay(coordinates));//For 2D Objects in scenes
+                    if (hit2d.collider != null)
+                    {
+                        hitPosition2d = hit2d.point;
+                        gameObject2d = hit2d.transform.gameObject;
+                    }
+                }
+
+
 
 
                 if (gameObject2d != null && gameObject3d != null)
