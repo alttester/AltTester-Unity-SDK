@@ -1074,7 +1074,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void TestGetAllScenes()
         {
             var scenes = altDriver.GetAllScenes();
-            Assert.AreEqual(12, scenes.Count);
+            Assert.AreEqual(13, scenes.Count);
             Assert.AreEqual("Scene 1 AltDriverTestScene", scenes[0]);
         }
 
