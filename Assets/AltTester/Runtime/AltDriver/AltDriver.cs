@@ -46,7 +46,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
         /// <param name="appName">The name of the Unity application.</param>
-        public AltDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60, string appName = "__default__", string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown")
+        public AltDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60, string appName = "__default__", string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown", string driverType = "unknown")
         {
 #if UNITY_EDITOR || ALTTESTER
             var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Unity, AltLogLevel.Debug } };
@@ -62,12 +62,16 @@ namespace AltTester.AltTesterUnitySDK.Driver
             }
 
             logger.Debug(
-                "Connecting to AltTester on host: '{0}', port: '{1}' and appName: '{2}'.",
+                "Connecting to AltTester on host: '{0}', port: '{1}', appName: '{2}', platform: '{3}', platformVersion: '{4}', deviceInstanceId: '{5}' and driverType: '{6}'.",
                 host,
                 port,
-                appName
+                appName,
+                platform,
+                platformVersion,
+                deviceInstanceId,
+                driverType
             );
-            communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId);
+            communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType);
             communicationHandler.Connect();
 
             checkServerVersion();

@@ -16,14 +16,15 @@
 */
 
 using System;
-using System.Threading;
 using System.Diagnostics;
-using AltWebSocketSharp;
+using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Driver.Proxy;
+using AltWebSocketSharp;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Communication {
+namespace AltTester.AltTesterUnitySDK.Driver.Communication
+{
     public class DriverWebSocketClient
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
@@ -33,6 +34,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
         private readonly string uri;
         private readonly string appName;
         private readonly int connectTimeout;
+        private readonly string platform;
+        private readonly string platformVersion;
+        private readonly string deviceInstanceId;
+        private string appId;
+        private string driverType;
 
         private String error = null;
 
@@ -45,18 +51,23 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
         public string URI { get { return this.uri; } }
 
-        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout)
+        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType)
         {
             this.host = host;
             this.port = port;
             this.appName = appName;
             this.connectTimeout = connectTimeout;
+            this.platform = platform;
+            this.platformVersion = platformVersion;
+            this.deviceInstanceId = deviceInstanceId;
+            this.appId = appId;
+            this.driverType = driverType;
 
             this.error = null;
             this.closeCode = 0;
             this.closeReason = null;
 
-            this.uri = Utils.CreateURI(host, port, path, appName).ToString();
+            this.uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, driverType).ToString();
         }
 
         private void CheckCloseMessage()
@@ -168,8 +179,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             this.wsClient.Close();
         }
 
-        public void Send(string message) {
-            if (!this.IsAlive) {
+        public void Send(string message)
+        {
+            if (!this.IsAlive)
+            {
                 logger.Warn("The connection is already closed.");
                 return;
             }
