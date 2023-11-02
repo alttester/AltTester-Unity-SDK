@@ -38,6 +38,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private readonly string platformVersion;
         private readonly string deviceInstanceId;
         private string appId;
+        private string driverType;
 
         private String error = null;
 
@@ -50,7 +51,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
         public string URI { get { return this.uri; } }
 
-        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId)
+        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType)
         {
             this.host = host;
             this.port = port;
@@ -60,12 +61,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             this.platformVersion = platformVersion;
             this.deviceInstanceId = deviceInstanceId;
             this.appId = appId;
+            this.driverType = driverType;
 
             this.error = null;
             this.closeCode = 0;
             this.closeReason = null;
 
-            this.uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId).ToString();
+            this.uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, driverType).ToString();
         }
 
         private void CheckCloseMessage()

@@ -49,11 +49,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             this.WsClient.Close();
         }
 
-        public void Connect(string host, int port, int connectTimeout = 60, string appName = "__default__", string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown")
+        public void Connect(string host, int port, int connectTimeout = 60, string appName = "__default__", string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown", string driverType = "unknown")
         {
             this.isRunning = false;
             UnityEngine.Debug.Log("Path: " + path);
-            this.WsClient = new DriverWebSocketClient(host, port, path, appName, connectTimeout, platform, platformVersion, deviceInstanceId, appId);
+            this.WsClient = new DriverWebSocketClient(host, port, path, appName, connectTimeout, platform, platformVersion, deviceInstanceId, appId, driverType);
             this.WsClient.OnMessage += (sender, e) =>
             {
                 if (e.IsText)

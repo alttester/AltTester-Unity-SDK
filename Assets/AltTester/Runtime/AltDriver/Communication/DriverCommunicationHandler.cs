@@ -43,6 +43,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private readonly string platformVersion;
         private readonly string deviceInstanceId;
         private readonly string appId;
+        private readonly string driverType;
         private readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
         {
             ContractResolver = new DefaultContractResolver(),
@@ -61,7 +62,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private List<Action<AltLogNotificationResultParams>> logCallbacks = new List<Action<AltLogNotificationResultParams>>();
         private List<Action<bool>> applicationPausedCallbacks = new List<Action<bool>>();
 
-        public DriverCommunicationHandler(string host, int port, int connectTimeout, string appName, string platform, string platformVersion, string deviceInstanceId, string appId)
+        public DriverCommunicationHandler(string host, int port, int connectTimeout, string appName, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType = "SDK")
         {
             this.host = host;
             this.port = port;
@@ -71,13 +72,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             this.platformVersion = platformVersion;
             this.deviceInstanceId = deviceInstanceId;
             this.appId = appId;
+            this.driverType = driverType;
+
 
             this.messages = new Queue<CommandResponse>();
         }
 
         public void Connect()
         {
-            this.wsClient = new DriverWebSocketClient(this.host, this.port, "/altws", this.appName, this.connectTimeout, this.platform, this.platformVersion, this.deviceInstanceId, this.appId);
+            this.wsClient = new DriverWebSocketClient(this.host, this.port, "/altws", this.appName, this.connectTimeout, this.platform, this.platformVersion, this.deviceInstanceId, this.appId, this.driverType);
             this.wsClient.OnMessage += (sender, e) =>
             {
                 OnMessage(sender, e.Data);
