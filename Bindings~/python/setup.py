@@ -29,8 +29,10 @@ LICENSE = 'GNU GPLv3'
 
 
 with open("alttester/__version__.py") as f:
-    VERSION = f.readline().replace("VERSION = ", "").replace("\"", "").replace("\n", "")
-
+    for line in f.readlines():
+        if "VERSION = " in line:
+            VERSION = line.replace(
+                "VERSION = ", "").replace("\"", "").replace("\n", "")
 
 with open('requirements.txt') as f:
     REQUIRED = f.read().splitlines()
