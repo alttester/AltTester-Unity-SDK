@@ -7,7 +7,10 @@ public class AltExample2DController : MonoBehaviour
     public void OnMouseDown()
     {
         text.text = $"Clicked on {gameObject.name}";
-
+        if (gameObject.name.Equals("Square"))
+        {
+            Destroy(gameObject);
+        }
     }
 
 }

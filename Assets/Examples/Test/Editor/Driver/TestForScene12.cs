@@ -66,5 +66,15 @@ public class TestForScene12 : TestBase
         altDriver.EndTouch(id);
         Assert.That($"Clicked on {name}".Equals(altDriver.FindObject(By.NAME, "Text").GetText()));
     }
+    [Test]
+    public void TestDragObjet()
+    {
+        var altObject = altDriver.FindObject(By.NAME, "Hexagon Flat-Top");
+        var currentPosition = altObject.GetScreenPosition();
+        altDriver.Swipe(currentPosition, currentPosition * 1.1f);
+        altObject = altDriver.FindObject(By.NAME, "Hexagon Flat-Top");
+        Assert.That(currentPosition.x < altObject.GetScreenPosition().x, $"Expected x to be smaller: {currentPosition.x} but was {altObject.GetScreenPosition().x}");
+        Assert.That(currentPosition.y < altObject.GetScreenPosition().y, $"Expected y to be smaller: {currentPosition.y} but was {altObject.GetScreenPosition().y}");
+    }
 
 }
