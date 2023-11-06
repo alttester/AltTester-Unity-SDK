@@ -1,8 +1,8 @@
 import Foundation
 import JavaScriptCore
 
-@objc public class ProxyFinder: NSObject {
-    @objc public static let shared = ProxyFinder()
+@objc public class AltProxyFinder: NSObject {
+    @objc public static let shared = AltProxyFinder()
 
     @objc public func swiftGetProxy(_ destinationUrl: String, destinationHost: String) -> String {
         guard let systemProxySettings = CFNetworkCopySystemProxySettings()?.takeUnretainedValue() as? [String: Any] else {
