@@ -2,7 +2,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.alttester.AltPortForwarding;
+import com.alttester.AltReversePortForwarding;
 import com.alttester.AltDriver;
 import com.alttester.AltObject;
 import com.alttester.Commands.FindObject.AltFindObjectsParameters;

@@ -300,7 +300,7 @@ In the routing table, the personal hotspot network would be secondary, therefore
 
             .. tab:: Android
 
-                Use the following static methods from the **AltPortForwarding** class in your test file:
+                Use the following static methods from the **AltReversePortForwarding** class in your test file:
 
                     - **reverse_port_forwarding_android** (device_port = 13000, local_port = 13000, device_id = "")
                     - **remove_reverse_port_forwarding_android** (device_port = 13000, device_id = "")

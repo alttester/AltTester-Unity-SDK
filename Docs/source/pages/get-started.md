@@ -260,13 +260,12 @@ AltTester package contains AltDriver class used to connect to the instrumented a
 
                 .. literalinclude:: ../_static/examples~/common/csharp-android-test.cs
                     :language: c#
-                    :emphasize-lines: 11,19
+                    :emphasize-lines: 12,20
 
             .. tab:: iOS
 
                 .. literalinclude:: ../_static/examples~/common/csharp-ios-test.cs
                     :language: c#
-                    :emphasize-lines: 11,19
 
 
         Run your test file from the command line by using the following command:
@@ -328,13 +327,12 @@ AltTester package contains AltDriver class used to connect to the instrumented a
 
                 .. literalinclude:: ../_static/examples~/common/csharp-android-test.cs
                     :language: c#
-                    :emphasize-lines: 11,19
+                    :emphasize-lines: 12,20
 
             .. tab:: iOS
 
                 .. literalinclude:: ../_static/examples~/common/csharp-ios-test.cs
                     :language: c#
-                    :emphasize-lines: 11,19
 
     .. tab:: Java
 
@@ -385,7 +383,6 @@ AltTester package contains AltDriver class used to connect to the instrumented a
 
                 .. literalinclude:: ../_static/examples~/common/java-ios-test.java
                     :language: java
-                    :emphasize-lines: 19,26
 
 
     .. tab:: Python
@@ -468,7 +465,6 @@ AltTester package contains AltDriver class used to connect to the instrumented a
 
                 .. literalinclude:: ../_static/examples~/common/python-ios-test.py
                     :language: py
-                    :emphasize-lines: 12,18
 
 ```
 
