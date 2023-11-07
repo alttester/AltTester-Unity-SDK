@@ -30,7 +30,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
         [TestCase("Plane")]
         [TestCase("EventSystem")]
-        [TestCase("Plane")]
         [TestCase("Cube")]
         [Test]
         public void TestFindElementInASceneWithNoCameras(string ObjectName)
