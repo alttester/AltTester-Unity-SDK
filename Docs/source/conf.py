@@ -21,7 +21,7 @@ from recommonmark.transform import AutoStructify
 
 copyright = '2023, Altom Consulting'
 author = 'Altom'
-project = 'AltTester Unity SDK'
+project = 'AltTester® Unity SDK'
 
 # Before creating a new tag, add the new one here and update 'latest' with the new SDK tag in index.rst line 44
 # Currently there is no way to add in toctree a dynamic link based on the version.

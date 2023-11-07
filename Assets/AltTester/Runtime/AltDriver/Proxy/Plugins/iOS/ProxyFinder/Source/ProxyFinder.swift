@@ -59,14 +59,14 @@ import JavaScriptCore
         if let httpSEnable = systemProxySettings["HTTPSEnable"] as? Int, httpSEnable == 1,
            destinationUrl.starts(with: "https") {
             if let host = systemProxySettings["HTTPSProxy"] as? String,
-               let port = systemProxySettings["HTTPSPort"] as? String {
+               let port = systemProxySettings["HTTPSPort"] as? Int {
                 return "https://\(host):\(port)"
             }
         }
 
         if let httpEnable = systemProxySettings["HTTPEnable"] as? Int, httpEnable == 1 {
             if let host = systemProxySettings["HTTPProxy"] as? String,
-               let port = systemProxySettings["HTTPPort"] as? String {
+               let port = systemProxySettings["HTTPPort"] as? Int {
                 return "http://\(host):\(port)"
             }
         }

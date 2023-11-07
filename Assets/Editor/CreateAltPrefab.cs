@@ -243,47 +243,6 @@ namespace AltTesterTools
 
     public class CreateAltPrefab : MonoBehaviour
     {
-        public static AltInputsVisualizer CreateInputVisualizer(Transform parent)
-        {
-            var CanvasInputVisualiserGameObject = new GameObject("CanvasInputVisualiser", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster) });
-
-            var CanvasInputVisualiserRectTransform = CanvasInputVisualiserGameObject.GetComponent<RectTransform>();
-            CanvasInputVisualiserRectTransform.SetParent(parent, false);
-
-            CanvasInputVisualiserRectTransform.localPosition = new Vector3(0, 0, 0);
-            CanvasInputVisualiserRectTransform.anchorMin = Vector2.zero;
-            CanvasInputVisualiserRectTransform.anchorMax = Vector2.zero;
-            CanvasInputVisualiserRectTransform.anchoredPosition = new Vector2(960, 540);
-            CanvasInputVisualiserRectTransform.sizeDelta = new Vector2(1920, 1080);
-            CanvasInputVisualiserRectTransform.pivot = new Vector2(0.5f, 0.5f);
-
-            var CanvasInputVisualiser = CanvasInputVisualiserGameObject.GetComponent<Canvas>();
-            CanvasInputVisualiser.renderMode = RenderMode.ScreenSpaceOverlay;
-            CanvasInputVisualiser.sortingOrder = 32767;
-
-            // Create InputVisualiser
-            var InputVisualiser = new GameObject("InputVisualiser", new System.Type[] { typeof(RectTransform), typeof(AltInputsVisualizer) });
-
-            var InputVisualiserRectTransform = InputVisualiser.GetComponent<RectTransform>();
-            InputVisualiserRectTransform.SetParent(CanvasInputVisualiserRectTransform, false);
-
-            InputVisualiserRectTransform.localPosition = new Vector3(0, 0, 0);
-            InputVisualiserRectTransform.anchorMin = Vector2.zero;
-            InputVisualiserRectTransform.anchorMax = Vector2.zero;
-            InputVisualiserRectTransform.sizeDelta = Vector2.zero;
-            InputVisualiserRectTransform.pivot = Vector2.zero;
-
-            var InputsVisualizerComponent = InputVisualiser.GetComponent<AltInputsVisualizer>();
-
-            InputsVisualizerComponent.VisibleTime = 1;
-            InputsVisualizerComponent.approachSpeed = 0.02f;
-            InputsVisualizerComponent.growthBound = 2;
-
-            var InputMark = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Runtime/Prefab/InputMark.prefab", typeof(GameObject));
-            InputsVisualizerComponent.Template = ((GameObject)InputMark).GetComponent<AltInputMark>();
-
-            return InputsVisualizerComponent;
-        }
 
         public static GameObject CreateAltDialog(Transform parent)
         {
@@ -346,7 +305,7 @@ namespace AltTesterTools
             TitleRectTransform.pivot = new Vector2(0.5f, 1f);
 
             var TitleText = TitleGameObject.GetComponent<Text>();
-            TitleText.text = "AltTester v." + version;
+            TitleText.text = "AltTester® v." + version;
             TitleText.fontSize = 30;
             TitleText.color = Color.white;
             TitleText.alignment = TextAnchor.MiddleCenter;
@@ -681,7 +640,7 @@ namespace AltTesterTools
             return ToggleComponet;
         }
 
-        public static void SetUpAltRunnerVariables(AltRunner altRunnerComponent, AltInputsVisualizer altInputsVisualizer)
+        public static void SetUpAltRunnerVariables(AltRunner altRunnerComponent)
         {
             var outlineShader = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Runtime/Shader/OutlineShader.shader", typeof(Shader));
             altRunnerComponent.outlineShader = outlineShader as Shader;
@@ -690,10 +649,9 @@ namespace AltTesterTools
             altRunnerComponent.panelHightlightPrefab = panelHightlightPrefab as GameObject;
 
             altRunnerComponent.RunOnlyInDebugMode = true;
-            altRunnerComponent.InputsVisualizer = altInputsVisualizer;
         }
 
-        public static void SavePrefab(GameObject prefab)
+        public static void SavePrefab(GameObject prefab, bool checkEquality = true)
         {
             string Path = "Assets/AltTester/Runtime/Prefab/AltTesterPrefab.prefab";
             string TestPath = "Assets/Editor/AltTesterPrefab.prefab";
@@ -703,7 +661,8 @@ namespace AltTesterTools
             var OldPrefab = PrefabUtility.LoadPrefabContents(Path);
             var NewPrefab = PrefabUtility.LoadPrefabContents(TestPath);
 
-            AltTesterPrefabChecker.CheckObjectEquality(OldPrefab, NewPrefab);
+            if (checkEquality)
+                AltTesterPrefabChecker.CheckObjectEquality(OldPrefab, NewPrefab);
 
             AssetDatabase.DeleteAsset(Path);
 
@@ -719,9 +678,19 @@ namespace AltTesterTools
             }
         }
 
-        // Start is called before the first frame update
         [UnityEditor.MenuItem("AltTester/Create AltTester Prefab", false, 80)]
         public static void CreateAltTesterPrefab()
+        {
+            var prefab = CreatePrefab();
+            SavePrefab(prefab);
+        }
+        [UnityEditor.MenuItem("AltTester/Create AltTester Prefab Without Checking Equality", false, 90)]
+        public static void CreateAltTesterPrefabWithoutCheck()
+        {
+            var prefab = CreatePrefab();
+            SavePrefab(prefab, false);
+        }
+        public static GameObject CreatePrefab()
         {
             ///
             /// IMPORTANT! ALTTESTER MUST BE DEFINE TO CREATE CORRECTLY THE PREFAB
@@ -736,8 +705,7 @@ namespace AltTesterTools
             var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(Input), typeof(NewInputSystem) });
             var RectTransform = Prefab.GetComponent<Transform>();
             var AltRunnerComponent = Prefab.GetComponent<AltRunner>();
-            var InputVisualizer = CreateInputVisualizer(RectTransform);
-            SetUpAltRunnerVariables(AltRunnerComponent, InputVisualizer);
+            SetUpAltRunnerVariables(AltRunnerComponent);
 
             var AltDialogGameObject = CreateAltDialog(RectTransform);
             var AltDialogTransform = AltDialogGameObject.GetComponent<RectTransform>();
@@ -757,8 +725,7 @@ namespace AltTesterTools
             AltDialog.AppNameInputField = CreateAppNameInputField(DialogTransform);
             AltDialog.RestartButton = CreateRestartButton(DialogTransform);
             AltDialog.CustomInputToggle = CreateCustomInputToggle(DialogTransform);
-
-            SavePrefab(Prefab);
+            return Prefab;
         }
     }
 }

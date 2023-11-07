@@ -19,7 +19,7 @@ from setuptools import setup, find_packages
 
 
 NAME = 'AltTester-Driver'
-DESCRIPTION = "Python bindings for the AltTester framework. AltTester is an open-source UI driven test " \
+DESCRIPTION = "Python bindings for the AltTester® framework. AltTester® is an open-source UI driven test " \
     "automation tool that helps you find objects in your game and interacts with them."
 URL = 'https://alttester.com/docs/sdk/latest/'
 EMAIL = 'contact@alttester.com'
