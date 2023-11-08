@@ -354,6 +354,7 @@ namespace AltTesterTools
             {
                 instrumentationSettings.AltServerPort = 13010;
             }
+            instrumentationSettings.ResetConnectionData = true;
 
             return instrumentationSettings;
         }

@@ -265,6 +265,43 @@ class TestScene01:
 
         assert result is True
 
+    def test_wait_for_component_property_component_not_found(self):
+        componentName = "AltTester.AltTesterUnitySDK.AltRunnerTest"
+        propertyName = "InstrumentationSettings.AltServerPort"
+        alt_object = self.altdriver.find_object(By.NAME, "AltTesterPrefab")
+        with pytest.raises(exceptions.ComponentNotFoundException) as execinfo:
+            alt_object.wait_for_component_property(
+                componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK")
+        assert str(execinfo.value) == "Component not found"
+
+    def test_wait_for_component_property_not_found(self):
+        componentName = "AltTester.AltTesterUnitySDK.AltRunner"
+        propertyName = "InstrumentationSettings.AltServerPortTest"
+        alt_object = self.altdriver.find_object(By.NAME, "AltTesterPrefab")
+        with pytest.raises(exceptions.PropertyNotFoundException) as execinfo:
+            alt_object.wait_for_component_property(
+                componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK")
+        assert str(execinfo.value) == "Property AltServerPortTest not found"
+
+    def test_wait_for_component_property_timeout(self):
+        componentName = "AltTester.AltTesterUnitySDK.AltRunner"
+        propertyName = "InstrumentationSettings.AltServerPort"
+        alt_object = self.altdriver.find_object(By.NAME, "AltTesterPrefab")
+        with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
+            alt_object.wait_for_component_property(
+                componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK", 2)
+        assert str(
+            execinfo.value) == "Property InstrumentationSettings.AltServerPort not found after 2 seconds"
+
+    def test_wait_for_component_property_assembly_not_found(self):
+        componentName = "AltExampleScriptCapsule"
+        propertyName = "InstrumentationSettings.AltServerPort"
+        alt_object = self.altdriver.find_object(By.NAME, "AltTesterPrefab")
+        with pytest.raises(exceptions.AssemblyNotFoundException) as execinfo:
+            alt_object.wait_for_component_property(
+                componentName, propertyName, "13000", "Assembly-CSharpTest")
+        assert str(execinfo.value) == "Assembly not found"
+
     def test_get_component_property(self):
         alt_object = self.altdriver.find_object(By.NAME, "Capsule")
         result = alt_object.get_component_property(
