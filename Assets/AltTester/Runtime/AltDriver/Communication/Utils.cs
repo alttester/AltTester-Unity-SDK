@@ -22,12 +22,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 {
     public class Utils
     {
-        public static Uri CreateURI(string host, int port, string path, string appName)
+        public static Uri CreateURI(string domainName, string stage, string clientType, string appName)
         {
             Uri uri;
-            if (!Uri.TryCreate(string.Format("ws://{0}:{1}{2}?appName={3}", host, port, path, Uri.EscapeDataString(appName)), UriKind.Absolute, out uri))
+            if (!Uri.TryCreate(string.Format("wss://{0}/{1}?clientType={2}&appName={3}", domainName, stage, clientType, Uri.EscapeDataString(appName)), UriKind.Absolute, out uri))
             {
-                throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
+                throw new Exception(String.Format("Invalid host or port {0}:{1}", domainName, stage));
             }
 
             return uri;

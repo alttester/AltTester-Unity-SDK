@@ -48,15 +48,19 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.port = port;
             this.appName = appName;
 
-            Uri uri = Utils.CreateURI(host, port, path, appName);
-            wsClient = new WebSocket(uri.ToString());
+            // Uri uri = Utils.CreateURI(host, port, path, appName);
+            Uri uri = Utils.CreateURI("737pj76ti2.execute-api.eu-central-1.amazonaws.com", "Production", "app", appName);
+
+            wsClient = new WebSocket(uri.ToString(), "authorization_header");
             wsClient.Log.Level = LogLevel.Fatal;
 
+            /*
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);
             if (proxyUri != null)
             {
                 wsClient.SetProxy(proxyUri, null, null);
             }
+            */
 
             wsClient.OnOpen += (sender, message) =>
             {

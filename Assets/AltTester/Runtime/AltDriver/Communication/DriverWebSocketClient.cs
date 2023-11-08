@@ -56,7 +56,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             this.closeCode = 0;
             this.closeReason = null;
 
-            this.uri = Utils.CreateURI(host, port, path, appName).ToString();
+            // this.uri = Utils.CreateURI(host, port, path, appName).ToString();
+            this.uri = Utils.CreateURI("737pj76ti2.execute-api.eu-central-1.amazonaws.com", "Production", "driver", appName).ToString();
         }
 
         private void CheckCloseMessage()
@@ -115,7 +116,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
             int delay = 100;
 
-            this.wsClient = new WebSocket(this.uri);
+            this.wsClient = new WebSocket(this.uri, "authorization_header");
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
             if (proxyUri != null)

@@ -359,7 +359,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 DisconnectLiveUpdateFlag = false;
                 DisconnectCommunicationFlag = false;
                 _communication.Connect();
-                _liveUpdateCommunication.Connect();
+                // _liveUpdateCommunication.Connect();
             }
             catch (RuntimeWebSocketClientException ex)
             {
