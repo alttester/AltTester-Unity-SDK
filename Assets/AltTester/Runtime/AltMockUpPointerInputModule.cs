@@ -249,13 +249,18 @@ namespace AltTester.AltTesterUnitySDK
         private UnityEngine.GameObject getGameObjectHit(UnityEngine.Touch touch)
         {
 
-            foreach (var camera in UnityEngine.Camera.allCameras)
+            foreach (var camera in UnityEngine.Camera.allCameras.OrderByDescending(c => c.depth))
             {
                 UnityEngine.Ray ray = camera.ScreenPointToRay(touch.position);
                 UnityEngine.RaycastHit hit;
                 if (UnityEngine.Physics.Raycast(ray, out hit))
                 {
                     return hit.transform.gameObject;
+                }
+                UnityEngine.RaycastHit2D hit2d = UnityEngine.Physics2D.GetRayIntersection(camera.ScreenPointToRay(touch.position));
+                if (hit2d.collider != null)
+                {
+                    return hit2d.transform.gameObject;
                 }
             }
             return null;

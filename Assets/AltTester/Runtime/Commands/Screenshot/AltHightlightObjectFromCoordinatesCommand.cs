@@ -16,9 +16,9 @@
 */
 
 using System.Collections.Generic;
+using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Communication;
 using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
@@ -52,7 +52,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             return "Ok";
         }
 
-        private GameObject getObjectAtCoordinates()
+        private GameObject getObjectAtCoordinates()//TODO refactor this to use FindObjectViaRaycast class
         {
             GameObject selectedObject = null;
             AltMockUpPointerInputModule mockUp = new AltMockUpPointerInputModule();
@@ -82,6 +82,25 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     Ray ray = camera.ScreenPointToRay(screenCoordinates);
                     RaycastHit[] hits;
                     hits = Physics.RaycastAll(ray);
+                    if (hits.Length > 0)
+                    {
+                        currentResults.Add(hits[hits.Length - 1].transform.gameObject);
+                        if (previousResults == null || previousScreenCoordinates != screenCoordinates || previousResults.Count < currentResults.Count || previousResults[currentResults.Count - 1] != currentResults[currentResults.Count - 1])
+                        {
+                            selectedObject = hits[hits.Length - 1].transform.gameObject;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (selectedObject == null)
+            {
+                foreach (var camera in Camera.allCameras)
+                {
+
+                    Vector2 worldPoint = camera.ScreenToWorldPoint(screenCoordinates);
+                    RaycastHit2D[] hits;
+                    hits = Physics2D.RaycastAll(worldPoint, Vector2.zero);
                     if (hits.Length > 0)
                     {
                         currentResults.Add(hits[hits.Length - 1].transform.gameObject);
