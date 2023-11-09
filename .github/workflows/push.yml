@@ -100,28 +100,28 @@ jobs:
             sampleGame.apk
             **/*.log
 
-build-ipa:
-    runs-on: [self-hosted, macOS]
-    needs: paths-filter
-    if: needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
-    steps:
-      - uses: actions/checkout@v3
+  build-ipa:
+      runs-on: [self-hosted, macOS]
+      needs: paths-filter
+      if: needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
+      steps:
+        - uses: actions/checkout@v3
 
-      - name: Build sampleGame ipa
-        run: |
-          export ALTSERVER_PORT=13005
-          export ALTSERVER_HOST="192.168.11.35"
-          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildAndroid.log -quit
-          xcodebuild -project $CI_PROJECT_DIR/sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath $CI_PROJECT_DIR/Unity-iPhone.xcarchive archive
-          xcodebuild -exportArchive -archivePath $CI_PROJECT_DIR/Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath $CI_PROJECT_DIR
-      
-      - uses: actions/upload-artifact@v3
-        if: always() # run this step even if one of the previous step failed
-        with:
-          name: BuildiOSArtifact
-          path: |
-            sampleGame.ipa
-            **/*.log
+        - name: Build sampleGame ipa
+          run: |
+            export ALTSERVER_PORT=13005
+            export ALTSERVER_HOST="192.168.11.35"
+            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildAndroid.log -quit
+            xcodebuild -project $CI_PROJECT_DIR/sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath $CI_PROJECT_DIR/Unity-iPhone.xcarchive archive
+            xcodebuild -exportArchive -archivePath $CI_PROJECT_DIR/Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath $CI_PROJECT_DIR
+        
+        - uses: actions/upload-artifact@v3
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: BuildiOSArtifact
+            path: |
+              sampleGame.ipa
+              **/*.log
 
   test-CSharp-Editor:
     runs-on: [self-hosted, macOS]
