@@ -111,11 +111,10 @@ jobs:
           run: |
             export ALTSERVER_PORT=13005
             export ALTSERVER_HOST="192.168.11.35"
-            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildAndroid.log -quit
-            echo $CI_PROJECT_DIR
-            pwd
-            xcodebuild -project $CI_PROJECT_DIR/sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath $CI_PROJECT_DIR/Unity-iPhone.xcarchive archive
-            xcodebuild -exportArchive -archivePath $CI_PROJECT_DIR/Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath $CI_PROJECT_DIR
+            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildAndroid.log -quit
+
+            xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
+            xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath 
         
         - uses: actions/upload-artifact@v3
           if: always() # run this step even if one of the previous step failed
