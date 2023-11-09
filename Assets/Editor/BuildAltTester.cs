@@ -204,7 +204,7 @@ namespace AltTesterTools
                 string versionNumber = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
                 PlayerSettings.companyName = "Altom";
                 PlayerSettings.productName = "sampleGame";
-                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, "com.altom.sampleGame");
+                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, "com.altom.sampleGameiOS");
                 PlayerSettings.bundleVersion = versionNumber;
                 PlayerSettings.iOS.appleEnableAutomaticSigning = true;
                 PlayerSettings.iOS.appleDeveloperTeamID = "59ESG8ELF5";
