@@ -47,6 +47,7 @@ def get_browserstack_username():
 def get_browserstack_key():
     return os.environ.get("BROWSERSTACK_KEY", "")
 
+
 def get_ui_automator_capabilities(platform_name, platform_version, device_name, url, build_name):
     return {
             "platformName": platform_name,
@@ -93,32 +94,34 @@ def appium_driver(request):
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
         if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") == "true":
             files = {
-            'file': ('sampleGame.apk', open('sampleGame.apk', 'rb')),
+                'file': ('sampleGame.apk', open('sampleGame.apk', 'rb')),
             }
             response = requests.post(
-            'https://api-cloud.browserstack.com/app-automate/upload',
-            files=files,
-            auth=(get_browserstack_username(), get_browserstack_key()))
+                'https://api-cloud.browserstack.com/app-automate/upload',
+                files=files,
+                auth=(get_browserstack_username(), get_browserstack_key()))
             try:
                 app_url = response.json()['app_url']
             except Exception():
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
-            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("android", "12.0", "Google Pixel 6", app_url, "alttester-pipeline-python-android"))
+            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("android",
+                             "12.0", "Google Pixel 6", app_url, "alttester-pipeline-python-android"))
         if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
             files = {
-            'file': ('sampleGame.ipa', open('sampleGame.ipa', 'rb')),
+                'file': ('sampleGame.ipa', open('sampleGame.ipa', 'rb')),
             }
             response = requests.post(
-            'https://api-cloud.browserstack.com/app-automate/upload',
-            files=files,
-            auth=(get_browserstack_username(), get_browserstack_key()))
+                'https://api-cloud.browserstack.com/app-automate/upload',
+                files=files,
+                auth=(get_browserstack_username(), get_browserstack_key()))
             try:
                 app_url = response.json()['app_url']
             except Exception():
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
-            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("ios", "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
+            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("ios",
+                                 "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
                          "forcelocal": "true",
