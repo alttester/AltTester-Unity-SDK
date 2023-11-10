@@ -91,15 +91,6 @@ def appium_driver(request):
     appium_driver = None
 
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
-        response = requests.post(
-            'https://api-cloud.browserstack.com/app-automate/upload',
-            files=files,
-            auth=(get_browserstack_username(), get_browserstack_key()))
-        try:
-            app_url = response.json()['app_url']
-        except Exception():
-            pytest.fail("Error uploading app to BrowserStack, response: "
-                        + str(response.text))
         if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") == "true":
             files = {
             'file': ('sampleGame.apk', open('sampleGame.apk', 'rb')),
@@ -110,7 +101,16 @@ def appium_driver(request):
             'file': ('sampleGame.ipa', open('sampleGame.ipa', 'rb')),
             }
             options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("ios", "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
-
+        response = requests.post(
+            'https://api-cloud.browserstack.com/app-automate/upload',
+            files=files,
+            auth=(get_browserstack_username(), get_browserstack_key()))
+        try:
+            app_url = response.json()['app_url']
+        except Exception():
+            pytest.fail("Error uploading app to BrowserStack, response: "
+                        + str(response.text))
+        
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
                          "forcelocal": "true",
