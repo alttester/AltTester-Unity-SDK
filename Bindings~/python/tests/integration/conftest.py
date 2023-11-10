@@ -95,22 +95,30 @@ def appium_driver(request):
             files = {
             'file': ('sampleGame.apk', open('sampleGame.apk', 'rb')),
             }
+            response = requests.post(
+            'https://api-cloud.browserstack.com/app-automate/upload',
+            files=files,
+            auth=(get_browserstack_username(), get_browserstack_key()))
+            try:
+                app_url = response.json()['app_url']
+            except Exception():
+                pytest.fail("Error uploading app to BrowserStack, response: "
+                            + str(response.text))
             options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("android", "12.0", "Google Pixel 6", app_url, "alttester-pipeline-python-android"))
         if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
             files = {
             'file': ('sampleGame.ipa', open('sampleGame.ipa', 'rb')),
             }
-            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("ios", "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
-        response = requests.post(
+            response = requests.post(
             'https://api-cloud.browserstack.com/app-automate/upload',
             files=files,
             auth=(get_browserstack_username(), get_browserstack_key()))
-        try:
-            app_url = response.json()['app_url']
-        except Exception():
-            pytest.fail("Error uploading app to BrowserStack, response: "
-                        + str(response.text))
-        
+            try:
+                app_url = response.json()['app_url']
+            except Exception():
+                pytest.fail("Error uploading app to BrowserStack, response: "
+                            + str(response.text))
+            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("ios", "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
                          "forcelocal": "true",
