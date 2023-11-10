@@ -47,6 +47,28 @@ def get_browserstack_username():
 def get_browserstack_key():
     return os.environ.get("BROWSERSTACK_KEY", "")
 
+def get_ui_automator_capabilities(platform_name, platform_version, device_name, url, build_name):
+    return {
+            "platformName": platform_name,
+            "platformVersion": platform_version,
+            "deviceName": device_name,
+            "app": url,
+
+            # Set other BrowserStack capabilities
+            'bstack:options': {
+                "projectName": "AltTester",
+                "buildName": build_name,
+                "sessionName": 'tests-{date:%Y-%m-%d_%H:%M:%S}'
+                .format(date=datetime.datetime.now()),
+                "local": "true",
+                "wsLocalSupport": "true",
+                "deviceOrientation": "landscape",
+                "networkLogs": "true",
+                "userName": get_browserstack_username(),
+                "accessKey": get_browserstack_key()
+            }
+        }
+
 
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
@@ -68,11 +90,7 @@ def altdriver(appium_driver):
 def appium_driver(request):
     appium_driver = None
 
-    if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") == "true":
-        files = {
-            'file': ('sampleGame.apk', open('sampleGame.apk', 'rb')),
-        }
-
+    if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
         response = requests.post(
             'https://api-cloud.browserstack.com/app-automate/upload',
             files=files,
@@ -82,27 +100,16 @@ def appium_driver(request):
         except Exception():
             pytest.fail("Error uploading app to BrowserStack, response: "
                         + str(response.text))
-
-        options = UiAutomator2Options().load_capabilities({
-            "platformName": "android",
-            "platformVersion": "12.0",
-            "deviceName": "Google Pixel 6",
-            "app": app_url,
-
-            # Set other BrowserStack capabilities
-            'bstack:options': {
-                "projectName": "AltTester",
-                "buildName": "alttester-pipeline-python-android",
-                "sessionName": 'tests-{date:%Y-%m-%d_%H:%M:%S}'
-                .format(date=datetime.datetime.now()),
-                "local": "true",
-                "wsLocalSupport": "true",
-                "deviceOrientation": "landscape",
-                "networkLogs": "true",
-                "userName": get_browserstack_username(),
-                "accessKey": get_browserstack_key()
+        if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") == "true":
+            files = {
+            'file': ('sampleGame.apk', open('sampleGame.apk', 'rb')),
             }
-        })
+            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("android", "12.0", "Google Pixel 6", app_url, "alttester-pipeline-python-android"))
+        if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
+            files = {
+            'file': ('sampleGame.ipa', open('sampleGame.ipa', 'rb')),
+            }
+            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("ios", "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
 
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
@@ -114,14 +121,14 @@ def appium_driver(request):
         time.sleep(10)
     yield appium_driver
 
-    if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") == "true":
+    if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
         appium_driver.quit()
         bs_local.stop()
 
 
 @pytest.fixture(autouse=True)
 def do_something_with_appium(appium_driver):
-    if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") != "true":
+    if os.environ.get("RUN_IN_BROWSERSTACK", "") != "true":
         return
     # browserstack has an idle timeout of max 300 seconds
     # so we need to do something with the appium driver
