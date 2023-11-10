@@ -46,7 +46,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
         /// <param name="appName">The name of the Unity application.</param>
-        public AltDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60, string appName = "__default__", string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown", string driverType = "unknown")
+        public AltDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60, string appName = "__default__", string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown", string driverType = "SDK")
         {
 #if UNITY_EDITOR || ALTTESTER
             var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Unity, AltLogLevel.Debug } };

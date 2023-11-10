@@ -22,7 +22,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 {
     public class Utils
     {
-        public static Uri CreateURI(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId = null, string driverType = null)
+        public static Uri CreateURI(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId = null, string driverType = "SDK")
         {
             Uri uri;
             if (string.IsNullOrEmpty(appId))
