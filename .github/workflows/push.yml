@@ -82,7 +82,7 @@ jobs:
   build-android:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
-    if: needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
+    # if: needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -252,7 +252,7 @@ jobs:
   test-Python-Android-Browserstack:
     runs-on: [self-hosted, macOS]
     needs: build-android
-    if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    # if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
       - uses: actions/checkout@v3
 
