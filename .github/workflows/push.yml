@@ -76,7 +76,7 @@ jobs:
   build-macOS:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
-    # if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
+    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -155,14 +155,14 @@ jobs:
           name: BuildMacArtifact
 
       - run: |
-          # export ALTSERVER_PORT=13005
-          # export ALTSERVER_HOST="192.168.11.35"
-          # chmod -R 755 sampleGame.app
-          # open sampleGame.app
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          chmod -R 755 sampleGame.app
+          open sampleGame.app
       - run: |
-          # export ALTSERVER_PORT=13005
-          # export ALTSERVER_HOST="192.168.11.35"
-          # $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile - -quit
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile - -quit
       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
@@ -201,12 +201,12 @@ jobs:
         uses: actions/setup-dotnet@v2.1.1
 
       - run: |
-          # export ALTSERVER_PORT=13005
-          # echo $ALTSERVER_PORT
-          # export ALTSERVER_HOST="192.168.11.35"
-          # chmod -R 755  sampleGame.app
-          # open sampleGame.app
-          # dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
+          export ALTSERVER_PORT=13005
+          echo $ALTSERVER_PORT
+          export ALTSERVER_HOST="192.168.11.35"
+          chmod -R 755  sampleGame.app
+          open sampleGame.app
+          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
@@ -240,11 +240,11 @@ jobs:
 
       - name: Open application
         run: |
-          # export RUN_ANDROID_IN_BROWSERSTACK="false"
-          # export ALTSERVER_PORT=13005
-          # export ALTSERVER_HOST="192.168.11.35"
-          # chmod -R 755 sampleGame.app
-          # open sampleGame.app
+          export RUN_ANDROID_IN_BROWSERSTACK="false"
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          chmod -R 755 sampleGame.app
+          open sampleGame.app
 
       - uses: actions/setup-python@v4
         with:
