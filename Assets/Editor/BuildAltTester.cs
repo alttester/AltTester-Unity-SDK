@@ -339,18 +339,14 @@ namespace AltTesterTools
         {
             var instrumentationSettings = new AltInstrumentationSettings();
 
-            var host = System.Environment.GetEnvironmentVariable("ALTSERVER_HOST");
+            // var host = System.Environment.GetEnvironmentVariable("ALTSERVER_HOST");
             if (!string.IsNullOrEmpty(host))
             {
-                instrumentationSettings.AltServerHost = host;
+                instrumentationSettings.AltServerHost = "192.168.11.35";
             }
 
-            var port = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
+            // var port = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
             if (!string.IsNullOrEmpty(port))
-            {
-                instrumentationSettings.AltServerPort = int.Parse(port);
-            }
-            else
             {
                 instrumentationSettings.AltServerPort = 13005;
             }
