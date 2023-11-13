@@ -16,6 +16,7 @@ jobs:
       editor: ${{ steps.filter.outputs.editor }}
       docs: ${{ steps.filter.outputs.docs }}
       scenes: ${{steps.filter.outputs.scenes}}
+      proxy: ${{steps.filter.outputs.proxy}}
     steps:
       - uses: actions/checkout@v2
       - uses: dorny/paths-filter@v2
@@ -34,6 +35,8 @@ jobs:
               - 'Docs/**'
             scenes:
               - 'Assets/AltTester/Examples/Scenes/**'
+            proxy:
+              - 'Assets/AltTester/Runtime/AltDriver/Proxy/**'
 
   build-docs:
     runs-on: ubuntu-latest
@@ -83,7 +86,7 @@ jobs:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
 
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
 
     steps:
       - uses: actions/checkout@v3
@@ -255,7 +258,7 @@ jobs:
     runs-on: [self-hosted, macOS]
     needs: build-android
 
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
 
     steps:
       - uses: actions/checkout@v3
