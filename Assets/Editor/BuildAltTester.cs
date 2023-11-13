@@ -352,7 +352,7 @@ namespace AltTesterTools
             }
             else
             {
-                instrumentationSettings.AltServerPort = 13010;
+                instrumentationSettings.AltServerPort = 13005;
             }
             instrumentationSettings.ResetConnectionData = true;
 
