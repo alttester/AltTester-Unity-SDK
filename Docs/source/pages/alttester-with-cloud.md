@@ -1109,6 +1109,33 @@ BitBar is another popular platform that provides access to hundreds of real iOS 
 
 You can create a free account at <https://cloud.bitbar.com> and try out the test examples detailed below for yourself.
 
+### Brief description of the working setups
+
+In this dashboard you can have an overview of the setup combinations we tried and which were successful:
+
+```eval_rst
+.. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-connectivity-dashboard.png
+```
+*because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build cannot connect to AltServer on localhost.
+
+As in the case of running [Client-Side Appium testing](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/), we need to deal with the connectivity between: the test script (where we instantiate [AltDriver](https://alttester.com/docs/sdk/2.0.2/pages/commands.html#altdriver)), AltTester Desktop and the instrumented application installed on a device in the cloud.
+
+In a local environment, setting up is relatively simple since all three components are co-located and can interact with each other on the localhost at port 13000. For communication with a USB-connected device on **Android**, [reverse port forwarding](https://alttester.com/docs/sdk/2.0.2/pages/commands.html#altreverseportforwarding) is employed to establish connectivity.
+
+For **iOS** devices, things are not so straightforward because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build does not connect to AltServer - please [consult a workaround from the documentation for further details](https://alttester.com/docs/sdk/2.0.2/pages/advanced-usage.html#in-case-of-ios). 
+
+Because we used BitBar’s free plan, we got a machine and we do not have control over what IP it has on each test session. If you are considering doing the same, we strongly recommend having **AltTester Desktop** installed and launched on a machine which is in your control.
+
+When starting a server-side running test session with **Android devices**, BitBar offers an Ubuntu machine - in this case the script which will set up Appium and execute the tests, also needs to install AltTester Desktop and activate the license. 
+
+```eval_rst
+
+    .. note::
+         In order to start the **AltTester Desktop in batchmode**, it is required you have an **AltTester Pro license**.
+```
+
+For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltServer can not be made, so please setup a machine of your choice and install AltTester Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.0.2.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.0.2.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
+
 ### BitBar C# project example running server-side
 
 In BitBar terms, the [server-side](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/automated-testing/appium-support/running-cloud-side-appium-tests.html) execution means that **we upload** to the platform **everything** we need for the tests to run.
@@ -1117,13 +1144,6 @@ Using a `run-tests.sh` we can install all that is needed, run tests and prepare 
 
 <!-- To update the link for the blog article -->
 For more details check [this article](https://insert-article-link-here/) from our Blog.
-
-In this dashboard you can have an overview of the setup combinations we tried and which were successful:
-
-```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-connectivity-dashboard.png
-```
-*because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build cannot connect to AltServer. Also, [the workaround offered in the documentation](https://alttester.com/docs/sdk/latest/pages/advanced-usage.html#in-case-of-ios) cannot be applied on the BitBar cloud, but the custom IP method is still available when the AltServer is running on another machine (VM).
 
 #### Prerequisites for running AltServer
 
@@ -1196,7 +1216,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
-[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.0.2`.
+[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.0.*`.
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
@@ -1217,9 +1237,15 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
     - after installing the packages, you can see them in `.csproj` (check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/TestAlttrashCSharp.csproj))
 
 - create a `BaseTest.cs` file with [**OneTimeSetUp**](https://docs.nunit.org/articles/nunit/writing-tests/attributes/onetimesetup.html) and [**OneTimeTeardown**](https://docs.nunit.org/articles/nunit/writing-tests/attributes/onetimeteardown.html) methods
-    - before the commands from actual tests we need to:
-        - start Appium driver with desired capabilities
-        - initialize [AltDriver](https://alttester.com/docs/sdk/latest/pages/commands.html#altdriver)
+    - In **OneTimeSetUp** method you need to define instructions to:
+        - Start Appium driver with desired capabilities
+        - Initialize [AltDriver](https://alttester.com/docs/sdk/latest/pages/commands.html#altdriver)
+        Make sure that all test classes will inherit this `BaseTest.cs` in order to have this setup executed.
+
+    - In **OneTimeTearDown** method you define instructions to:
+        - Stop AltDriver
+        - Quit Appium driver
+
     - import the Appium namespace:
     ```c#
     using OpenQA.Selenium.Appium;
@@ -1232,8 +1258,6 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
     .. note::
         ``DesiredCapabilities()`` is a deprecated class, so please see our version using ``AppiumOptions()``   
     ```
-
-    <!-- !!!!!!! To recheck here the iOS capabilities from article draft (what was put here is from the repo) -->
 
     ```eval_rst
     .. tabs::
@@ -1250,11 +1274,12 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
 
             .. code-block:: C#
 
-                capabilities.AddAdditionalCapability("appium:deviceName", "Android");
+                string appPath = System.Environment.CurrentDirectory + "/../../../application.apk";
+                capabilities.AddAdditionalCapability("appium:app", appPath);
+                capabilities.AddAdditionalCapability("appium:deviceName", "Android Phone");
                 capabilities.AddAdditionalCapability("platformName", "Android");
                 capabilities.AddAdditionalCapability("automationName", "UIAutomator2");
                 capabilities.AddAdditionalCapability("newCommandTimeout", 2000);
-                capabilities.AddAdditionalCapability("app", "application.apk");
 
             .. code-block:: C#
 
@@ -1283,29 +1308,21 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
             .. code-block:: C#
 
                 appiumDriver = new IOSDriver<IOSElement>(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(36000));
-                appiumDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
     ```
-    
-    ```eval_rst
-    .. note::
-        It is important to consult the `list of devices available on BitBar <https://cloud.bitbar.com/#public/devices>`_, to know what you can set for ``bitbar_device`` capability.
-    ```
-    
-    ```eval_rst
-    .. note::
-        Make sure you review all these capabilities before trying to execute, as you might encounter issues otherwise. For example, providing **appium:bundleId** is important so that the application is installed by Appium on the selected iOS device.
-    ``` 
+
     - initialize AltDriver:
         - **for remote connection**: AltDriver needs to connect to another VM where is AltServer
         ```c#
-        altDriver = new AltDriver(host: "insert_ip_here");
+        altDriver = new AltDriver(host: "INSERT_VM_IP");
         ```    
-        - **for local connection**: AltDriver and AltServer are on same BitBar machine
+        - **for local connection**: AltDriver and AltServer are on the same BitBar machine
         ```c#
         altDriver = new AltDriver();
         ```  
 
-<!-- To update here when the article is more advanced if there are other details on the setup -->
+    Please consult our example of BaseTest class:
+    - for [Android, with altDriver connecting to localhost](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/tests/BaseTest.cs)
+    - for [iOS, with altDriver connecting to external VM](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/tests/BaseTest.cs)
 
 **3. Prepare the `.zip` archive with tests and `run-tests.sh`**
 
@@ -1355,11 +1372,12 @@ Upload the app you instrumented earlier (see **1. Prepare the application** from
 
 There are a few important observations here as well. Please consult the [BitBar steps summary](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/automated-testing/appium-support/running-cloud-side-appium-tests.html#UUID-64e75ca6-080d-3c13-5cee-3f673df86b94_id_upload-and-execute) and [the devices and device groups available](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/organizing-your-projects-and-devices/managing-devices-and-device-groups.html).
 
-If you are using [free trial version](https://smartbear.com/product/bitbar/free-trial/) (14 days) leave the **Use existing device group* option checked, together with *Trial Android devices* selected 
+If you are using [free trial version](https://smartbear.com/product/bitbar/free-trial/) (14 days) you will get:
+- [Trial Android devices](https://cloud.bitbar.com/#testing/devices?group=14) with 4 devices
+- [Trial iOS devices](https://cloud.bitbar.com/#testing/devices?group=4127) with 2 devices
+
 <!-- to recheck this information if the problem is solved for the 2.1 release -->
 An automated test session starts **simultaneously** on all the devices from the group selected. Since **AltServer v2.0.\*** version does not currently support running the same tests (same appName) in more than one device at the same time, we need to manually abort the session on one of the devices.
-
-If you have a subscription, please see the BitBar cloud documentation for more info about [creating your own device groups](https://docs.bitbar.com/testing/user-manuals/device-groups).
 
 ```eval_rst
 .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-test-run.png
@@ -1369,8 +1387,7 @@ If you have a subscription, please see the BitBar cloud documentation for more i
 
 Running the tests from your machine offers better control over the environment. The only thing we need to set up is the connectivity between the **devices from the cloud**, **the AltDriver** (from test scripts) and **the AltServer module** from the AltTester® Desktop app.
 
-<!-- To update the link for the blog article -->
-For more details check [this article](https://insert-article-link-here/) from our Blog.
+For more details check [this article](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/) from our Blog.
 
 In this dashboard you can have an overview of the setup combinations we tried and which were successful:
 ```eval_rst
