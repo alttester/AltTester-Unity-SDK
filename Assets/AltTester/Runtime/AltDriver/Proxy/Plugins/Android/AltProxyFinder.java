@@ -7,7 +7,7 @@ import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URI;
 
-public class ProxyFinder {
+public class AltProxyFinder {
     public static String getProxy(String uri) {
         try {
 			System.setProperty("java.net.useSystemProxies", "true");

@@ -651,7 +651,7 @@ namespace AltTesterTools
             altRunnerComponent.RunOnlyInDebugMode = true;
         }
 
-        public static void SavePrefab(GameObject prefab)
+        public static void SavePrefab(GameObject prefab, bool checkEquality = true)
         {
             string Path = "Assets/AltTester/Runtime/Prefab/AltTesterPrefab.prefab";
             string TestPath = "Assets/Editor/AltTesterPrefab.prefab";
@@ -661,7 +661,8 @@ namespace AltTesterTools
             var OldPrefab = PrefabUtility.LoadPrefabContents(Path);
             var NewPrefab = PrefabUtility.LoadPrefabContents(TestPath);
 
-            AltTesterPrefabChecker.CheckObjectEquality(OldPrefab, NewPrefab);
+            if (checkEquality)
+                AltTesterPrefabChecker.CheckObjectEquality(OldPrefab, NewPrefab);
 
             AssetDatabase.DeleteAsset(Path);
 
@@ -677,9 +678,19 @@ namespace AltTesterTools
             }
         }
 
-        // Start is called before the first frame update
         [UnityEditor.MenuItem("AltTester/Create AltTester Prefab", false, 80)]
         public static void CreateAltTesterPrefab()
+        {
+            var prefab = CreatePrefab();
+            SavePrefab(prefab);
+        }
+        [UnityEditor.MenuItem("AltTester/Create AltTester Prefab Without Checking Equality", false, 90)]
+        public static void CreateAltTesterPrefabWithoutCheck()
+        {
+            var prefab = CreatePrefab();
+            SavePrefab(prefab, false);
+        }
+        public static GameObject CreatePrefab()
         {
             ///
             /// IMPORTANT! ALTTESTER MUST BE DEFINE TO CREATE CORRECTLY THE PREFAB
@@ -714,8 +725,7 @@ namespace AltTesterTools
             AltDialog.AppNameInputField = CreateAppNameInputField(DialogTransform);
             AltDialog.RestartButton = CreateRestartButton(DialogTransform);
             AltDialog.CustomInputToggle = CreateCustomInputToggle(DialogTransform);
-
-            SavePrefab(Prefab);
+            return Prefab;
         }
     }
 }

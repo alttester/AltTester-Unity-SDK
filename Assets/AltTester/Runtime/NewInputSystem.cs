@@ -386,19 +386,13 @@ namespace AltTester.AltTesterUnitySDK
         {
             InputTestFixture.MoveTouch(fingerId, screenPosition, screen: Touchscreen);
             endTouchScreenPos = screenPosition;
-#if !ENABLE_LEGACY_INPUT_MANAGER
-            var inputId = inputIdDictionary[fingerId];
-#endif
-
         }
 
         internal static IEnumerator EndTouch(int fingerId)
         {
             yield return new WaitForEndOfFrame();
-#if !ENABLE_LEGACY_INPUT_MANAGER
-            var inputId = inputIdDictionary[fingerId];
-            inputIdDictionary.Remove(fingerId);
-#endif
+
+
             InputTestFixture.EndTouch(fingerId, endTouchScreenPos, screen: Touchscreen);
             touches[fingerId] = true;
 

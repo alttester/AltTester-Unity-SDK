@@ -105,23 +105,40 @@ namespace AltTester.AltTesterUnitySDK
                     hitPosition3d = hit.point;
                     gameObject3d = hit.transform.gameObject;
                 }
-                UnityEngine.RaycastHit2D hit2d;
-                if (hit2d = UnityEngine.Physics2D.Raycast(coordinates, UnityEngine.Vector2.zero))
+                UnityEngine.RaycastHit2D hit2d = UnityEngine.Physics2D.Raycast(coordinates, Vector2.zero);//If UI has colliders2D
+                if (hit2d.collider != null)
                 {
                     hitPosition2d = hit2d.point;
                     gameObject2d = hit2d.transform.gameObject;
                 }
+                else
+                {
+                    hit2d = UnityEngine.Physics2D.GetRayIntersection(camera.ScreenPointToRay(coordinates));//For 2D Objects in scenes
+                    if (hit2d.collider != null)
+                    {
+                        hitPosition2d = hit2d.point;
+                        gameObject2d = hit2d.transform.gameObject;
+                    }
+                }
+
+
 
 
                 if (gameObject2d != null && gameObject3d != null)
                 {
-                    if (UnityEngine.Vector3.Distance(camera.transform.position, hitPosition2d) < UnityEngine.Vector3.Distance(camera.transform.position, hitPosition3d))
-                        return gameObject2d;
-                    else
-                        return gameObject3d;
+                    return UnityEngine.Vector3.Distance(camera.transform.position, hitPosition2d) < UnityEngine.Vector3.Distance(camera.transform.position, hitPosition3d)
+                        ? gameObject2d
+                        : gameObject3d;
                 }
-                if (gameObject2d != null) return gameObject2d;
-                if (gameObject3d != null) return gameObject3d;
+                if (gameObject2d != null)
+                {
+                    return gameObject2d;
+                }
+
+                if (gameObject3d != null)
+                {
+                    return gameObject3d;
+                }
             }
             return null;
         }

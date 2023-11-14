@@ -16,8 +16,8 @@
 */
 
 using System;
-using AltTester.AltTesterUnitySDK.Editor;
 using AltTester.AltTesterUnitySDK;
+using AltTester.AltTesterUnitySDK.Editor;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using UnityEditor;
 
@@ -191,7 +191,8 @@ namespace AltTesterTools
                     "Assets/Examples/Scenes/scene 9 NIS.unity",
                     "Assets/Examples/Scenes/Scene 10 Sample NIS.unity",
                     "Assets/Examples/Scenes/Scene 7 New Input System Actions.unity",
-                    "Assets/Examples/Scenes/Scene 11 ScrollView Scene.unity"
+                    "Assets/Examples/Scenes/Scene 11 ScrollView Scene.unity",
+                    "Assets/Examples/Scenes/Sceme 12 2D Objects.unity",
                     };
         }
 
@@ -353,6 +354,7 @@ namespace AltTesterTools
             {
                 instrumentationSettings.AltServerPort = 13010;
             }
+            instrumentationSettings.ResetConnectionData = true;
 
             return instrumentationSettings;
         }
