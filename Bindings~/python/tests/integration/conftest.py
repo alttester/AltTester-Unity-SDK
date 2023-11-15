@@ -120,8 +120,29 @@ def appium_driver(request):
             except Exception():
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
-            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("ios",
-                                 "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
+            options = {
+              {
+            "platformName": "ios",
+            "platformVersion": "16",
+            "deviceName": "iPhone14",
+            "app": app_url,
+            "automationName": "XCUITest"
+
+            # Set other BrowserStack capabilities
+            'bstack:options': {
+                "projectName": "AltTester",
+                "buildName": "alttester-pipeline-python-ios",
+                "sessionName": 'tests-{date:%Y-%m-%d_%H:%M:%S}'
+                .format(date=datetime.datetime.now()),
+                "local": "true",
+                "wsLocalSupport": "true",
+                "deviceOrientation": "landscape",
+                "networkLogs": "true",
+                "userName": get_browserstack_username(),
+                "accessKey": get_browserstack_key()
+            }
+        }
+            } 
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
                          "forcelocal": "true",
