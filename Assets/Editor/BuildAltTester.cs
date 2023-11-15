@@ -357,8 +357,9 @@ namespace AltTesterTools
             }
             
             instrumentationSettings.ResetConnectionData = true;
-            Debug.Log("AICI");
-            Debug.Log(port + "   ()()()()()()()   "+host);
+            Debug.Log(instrumentationSettings.AltServerHost +"        HOST-ul");
+            Debug.Log(instrumentationSettings.AltServerPort +"        PORT-ul");
+            
             return instrumentationSettings;
         }
     }
