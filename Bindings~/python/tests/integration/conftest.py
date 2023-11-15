@@ -121,12 +121,11 @@ def appium_driver(request):
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
             options = {
-              {
             "platformName": "ios",
             "platformVersion": "16",
             "deviceName": "iPhone14",
             "app": app_url,
-            "automationName": "XCUITest"
+            "automationName": "XCUITest",
 
             # Set other BrowserStack capabilities
             'bstack:options': {
@@ -142,7 +141,6 @@ def appium_driver(request):
                 "accessKey": get_browserstack_key()
             }
         }
-            } 
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
                          "forcelocal": "true",
