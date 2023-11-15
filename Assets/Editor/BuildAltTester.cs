@@ -355,10 +355,10 @@ namespace AltTesterTools
             {
                 instrumentationSettings.AltServerPort = 13010;
             }
+            
+            instrumentationSettings.ResetConnectionData = true;
             Debug.Log("AICI");
             Debug.Log(port + "   ()()()()()()()   "+host);
-            instrumentationSettings.ResetConnectionData = true;
-
             return instrumentationSettings;
         }
     }
