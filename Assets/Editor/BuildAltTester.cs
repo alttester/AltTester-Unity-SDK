@@ -20,6 +20,7 @@ using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.Editor;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using UnityEditor;
+using UnityEngine;
 
 namespace AltTesterTools
 {
@@ -354,7 +355,7 @@ namespace AltTesterTools
             {
                 instrumentationSettings.AltServerPort = 13010;
             }
-            Debug.log("AICI");
+            Debug.Log("AICI");
             Debug.Log(port + "   ()()()()()()()   "+host);
             instrumentationSettings.ResetConnectionData = true;
 
