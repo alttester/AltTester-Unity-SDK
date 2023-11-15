@@ -92,6 +92,7 @@ jobs:
           export ALTSERVER_HOST="192.168.11.35"
           echo $ALTSERVER_PORT----------
           echo $ALTSERVER_HOST------------
+          sleep 50000
           # $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
 
       - uses: actions/upload-artifact@v3
