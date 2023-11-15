@@ -90,7 +90,7 @@ jobs:
         run: |
           # export ALTSERVER_PORT=13005
           # export ALTSERVER_HOST="192.168.11.35"
-          echo $ALTSERVER_PORT----------
+          echo $ALTSERVER_PORT-----------
           echo $ALTSERVER_HOST------------
           # $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
           
