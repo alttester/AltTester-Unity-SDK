@@ -24,7 +24,8 @@ from alttester import AltDriver
 from appium.options.android import UiAutomator2Options
 from appium.options.ios import XCUITestOptions
 from browserstack.local import Local
-from appium import webdriver
+from appium.webdriver import webelement
+from appium.webdriver.common.appiumby import AppiumBy
 
 """Holds test fixtures that need to be shared among all tests."""
 
@@ -146,6 +147,6 @@ def do_something_with_appium(appium_driver):
     # so we need to do something with the appium driver
     # to keep it alive
     if os.environ.get("RUN_IOS_IN_BROWSERSTACK" == "true"):
-        el= appium_driver.find_element_by_accesibility_id("Allow")
+        el = appium_driver.find_element(by=AppiumBy.ID, value='Allow')
         el.click()
     appium_driver.get_window_size()
