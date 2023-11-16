@@ -24,7 +24,7 @@ from alttester import AltDriver
 from appium.options.android import UiAutomator2Options
 from appium.options.ios import XCUITestOptions
 from browserstack.local import Local
-from appium.webdriver import webelement
+from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 
 """Holds test fixtures that need to be shared among all tests."""
