@@ -61,7 +61,7 @@ jobs:
   build-macOS:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
-    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
+    # if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
     steps:
       - uses: actions/checkout@v3
 
