@@ -1109,7 +1109,11 @@ BitBar is another popular platform that provides access to hundreds of real iOS 
 
 You can create a free account at <https://cloud.bitbar.com> and try out the test examples detailed below for yourself.
 
-### Brief description of the working setups
+### BitBar C# project example running server-side
+
+In BitBar terms, the [server-side](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/automated-testing/appium-support/running-cloud-side-appium-tests.html) execution means that **we upload** to the platform **everything** we need for the tests to run.
+
+#### Brief description of the working setups
 
 In this dashboard you can have an overview of the setup combinations we tried and which were successful:
 
@@ -1130,15 +1134,11 @@ When starting a server-side running test session with **Android devices**, BitBa
 
 ```eval_rst
 
-    .. note::
-         In order to start the **AltTester Desktop in batchmode**, it is required you have an **AltTester Pro license**.
+.. note::
+    In order to start the **AltTester Desktop in batchmode**, it is required you have an **AltTester Pro license**.
 ```
 
 For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltServer can not be made, so please setup a machine of your choice and install AltTester Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.0.2.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.0.2.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
-
-### BitBar C# project example running server-side
-
-In BitBar terms, the [server-side](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/automated-testing/appium-support/running-cloud-side-appium-tests.html) execution means that **we upload** to the platform **everything** we need for the tests to run.
 
 Using a `run-tests.sh` we can install all that is needed, run tests and prepare the test report. For running **C#** tests, part of the setup and installation means: installing `.NET`.
 
