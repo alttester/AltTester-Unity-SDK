@@ -140,6 +140,14 @@ def appium_driver(request):
         bs_local.stop()
 
 
+@pytest.fixture(scope="session")
+def ios_click_on_allow(appium_driver):
+    if os.environ.get("RUN_IOS_IN_BROWSERSTACK" == "true"):
+        el = appium_driver.find_element(MobileBy.ACCESSIBILITY_ID, 'Allow')
+        action = TouchAction(appium_driver)
+        action.tap(el).perform()
+
+
 @pytest.fixture(autouse=True)
 def do_something_with_appium(appium_driver):
     if os.environ.get("RUN_IN_BROWSERSTACK", "") != "true":
@@ -147,8 +155,4 @@ def do_something_with_appium(appium_driver):
     # browserstack has an idle timeout of max 300 seconds
     # so we need to do something with the appium driver
     # to keep it alive
-    if os.environ.get("RUN_IOS_IN_BROWSERSTACK" == "true"):
-        el = appium_driver.find_element(MobileBy.ACCESSIBILITY_ID, 'Allow')
-        action = TouchAction(appium_driver)
-        action.tap(el).perform()
     appium_driver.get_window_size()
