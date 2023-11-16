@@ -123,7 +123,7 @@ def appium_driver(request):
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
             options = options = XCUITestOptions().load_capabilities(get_ui_automator_capabilities("ios",
-                             "15", "iPhone 13", app_url, "alttester-pipeline-python-ios"))
+                             "16", "iPhone 13", app_url, "alttester-pipeline-python-ios"))
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
                          "forcelocal": "true",
