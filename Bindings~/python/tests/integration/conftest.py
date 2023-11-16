@@ -80,7 +80,6 @@ def altdriver(appium_driver, ios_click_on_allow):
         host=get_host(),
         port=get_port(),
         app_name=get_app_name(),
-        enable_logging=True,
         timeout=60
     )
     print("altdriver started")
@@ -142,9 +141,9 @@ def appium_driver(request):
 
 @pytest.fixture(scope="session")
 def ios_click_on_allow(appium_driver):
-    if os.environ.get("RUN_IOS_IN_BROWSERSTACK" == "true"):
-        el = appium_driver.find_element(MobileBy.ID, 'Allow')
-        el.click()
+    # if os.environ.get("RUN_IOS_IN_BROWSERSTACK" == "true"):
+    el = appium_driver.find_element(MobileBy.ID, 'Allow')
+    el.click()
 
 
 @pytest.fixture(autouse=True)
