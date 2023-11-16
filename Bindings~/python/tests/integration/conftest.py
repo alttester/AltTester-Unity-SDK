@@ -25,7 +25,8 @@ from appium.options.android import UiAutomator2Options
 from appium.options.ios import XCUITestOptions
 from browserstack.local import Local
 from appium import webdriver
-from appium.webdriver.common.appiumby import AppiumBy
+from appium.webdriver.common.mobileby import MobileBy
+from appium.webdriver.common.touch_action import TouchAction
 
 """Holds test fixtures that need to be shared among all tests."""
 
@@ -123,7 +124,7 @@ def appium_driver(request):
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
             options = options = XCUITestOptions().load_capabilities(get_ui_automator_capabilities("ios",
-                             "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
+                             "17", "iPhone 13", app_url, "alttester-pipeline-python-ios"))
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
                          "forcelocal": "true",
@@ -135,9 +136,6 @@ def appium_driver(request):
     yield appium_driver
 
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
-        if os.environ.get("RUN_IOS_IN_BROWSERSTACK" == "true"):
-            el = appium_driver.find_element(by=AppiumBy.ID, value='Allow')
-            el.click()
         appium_driver.quit()
         bs_local.stop()
 
@@ -149,5 +147,8 @@ def do_something_with_appium(appium_driver):
     # browserstack has an idle timeout of max 300 seconds
     # so we need to do something with the appium driver
     # to keep it alive
-    
+    if os.environ.get("RUN_IOS_IN_BROWSERSTACK" == "true"):
+        el = appium_driver.find_element(MobileBy.ACCESSIBILITY_ID, 'Allow')
+        action = TouchAction(appium_driver)
+        action.tap(el).perform()
     appium_driver.get_window_size()
