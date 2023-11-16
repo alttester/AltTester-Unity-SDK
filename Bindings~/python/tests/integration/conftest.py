@@ -135,6 +135,9 @@ def appium_driver(request):
     yield appium_driver
 
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
+        if os.environ.get("RUN_IOS_IN_BROWSERSTACK" == "true"):
+            el = appium_driver.find_element(by=AppiumBy.ID, value='Allow')
+            el.click()
         appium_driver.quit()
         bs_local.stop()
 
@@ -146,7 +149,5 @@ def do_something_with_appium(appium_driver):
     # browserstack has an idle timeout of max 300 seconds
     # so we need to do something with the appium driver
     # to keep it alive
-    if os.environ.get("RUN_IOS_IN_BROWSERSTACK" == "true"):
-        el = appium_driver.find_element(by=AppiumBy.ID, value='Allow')
-        el.click()
+    
     appium_driver.get_window_size()
