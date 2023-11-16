@@ -34,7 +34,7 @@ jobs:
               - 'Docs/**'
             scenes:
               - 'Assets/AltTester/Examples/Scenes/**'
-
+  
   # build-docs:
   #   runs-on: ubuntu-latest
   #   needs: paths-filter
@@ -78,6 +78,21 @@ jobs:
           path: |
             sampleGame.app
             **/*.log
+
+      - name: Send Slack Notifications On Failed Jobs
+        steps:
+        - uses: ravsamhq/notify-slack-action@2.3.0
+          if: always()    
+          with:
+            status: ${{ job.status }}
+            notification_title: "{workflow} has {status_message}"
+            message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>"
+            footer: "Linked Repo <{repo_url}|{repo}>"
+            notify_when: "failure"
+            mention_groups: "github-slack-integration,!channel"
+            mention_groups_when: "failure"
+          env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }
 
   # build-android:
   #   runs-on: [self-hosted, macOS]
