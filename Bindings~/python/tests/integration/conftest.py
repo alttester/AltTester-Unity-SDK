@@ -75,7 +75,7 @@ def get_ui_automator_capabilities(platform_name, platform_version, device_name, 
 
 
 @pytest.fixture(scope="session")
-def altdriver(appium_driver):
+def altdriver(appium_driver, ios_click_on_allow):
     altdriver = AltDriver(
         host=get_host(),
         port=get_port(),
