@@ -368,8 +368,9 @@ jobs:
 
   send-slack-notifications-on-failed-jobs:
     runs-on: [self-hosted, macOS]
-    if: always()
-      uses: ravsamhq/notify-slack-action@2.3.0
+    steps:
+    - uses: ravsamhq/notify-slack-action@2.3.0
+      if: always()    
       with:
         status: ${{ job.status }}
         notification_title: "{workflow} has {status_message}"
