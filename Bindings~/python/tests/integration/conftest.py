@@ -143,9 +143,8 @@ def appium_driver(request):
 @pytest.fixture(scope="session")
 def ios_click_on_allow(appium_driver):
     if os.environ.get("RUN_IOS_IN_BROWSERSTACK" == "true"):
-        el = appium_driver.find_element(MobileBy.ACCESSIBILITY_ID, 'Allow')
-        action = TouchAction(appium_driver)
-        action.tap(el).perform()
+        el = appium_driver.find_element(MobileBy.ID, 'Allow')
+        el.click()
 
 
 @pytest.fixture(autouse=True)
