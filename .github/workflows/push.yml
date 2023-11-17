@@ -80,16 +80,16 @@ jobs:
             **/*.log
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: always()    
+        # run: echo "${{ toJson(github) }}"
+        if: ${{ always() && github.ref_name == '1432-github-slack-integration-to-receive-notifications-on-failed-dev-workflows' }}    
         with:
-          name: Send Slack Notifications On Failed Jobs
           status: ${{ job.status }}
-          notification_title: "{workflow} has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>"
+          notification_title: "{job} in {workflow} has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "github-slack-integration,!channel"
-          mention_groups_when: "failure"
+          mention_groups: "github-slack-integration,!here"
+          mention_groups_when: "failure, warnings"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
@@ -380,19 +380,4 @@ jobs:
   #         password: ${{ secrets.PASSWORD_ALTTESTER }}
   #         rmRemote: true
 
-  send-slack-notifications-on-failed-jobs:
-    runs-on: [self-hosted, macOS]
-    steps:
-    - uses: ravsamhq/notify-slack-action@2.3.0
-      if: always()    
-      with:
-        status: ${{ job.status }}
-        notification_title: "{workflow} has {status_message}"
-        message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>"
-        footer: "Linked Repo <{repo_url}|{repo}>"
-        notify_when: "failure"
-        mention_groups: "github-slack-integration,!channel"
-        mention_groups_when: "failure"
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
