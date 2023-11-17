@@ -1142,8 +1142,7 @@ For the testing session with iOS devices, BitBar offers a macOS machine. As we d
 
 Using a `run-tests.sh` we can install all that is needed, run tests and prepare the test report. For running **C#** tests, part of the setup and installation means: installing `.NET`.
 
-<!-- To update the link for the blog article -->
-For more details check [this article](https://insert-article-link-here/) from our Blog.
+For more details check [this article](https://alttester.com/run-c-tests-with-appium-and-alttester-in-bitbar-server-side/) from our Blog.
 
 #### Prerequisites for running AltServer
 
