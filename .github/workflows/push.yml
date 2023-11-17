@@ -80,11 +80,10 @@ jobs:
             **/*.log
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        # run: echo "${{ toJson(github) }}"
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == '1432-github-slack-integration-to-receive-notifications-on-failed-dev-workflows' }}    
         with:
           status: ${{ job.status }}
-          notification_title: "*{job}* in *{workflow}* has {status_message}"
+          notification_title: "The job *{job}* in Workflow *{workflow}* has {status_message}"
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
