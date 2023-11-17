@@ -75,7 +75,7 @@ def get_ui_automator_capabilities(platform_name, platform_version, device_name, 
 
 
 @pytest.fixture(scope="session")
-def altdriver(appium_driver, ios_click_on_allow):
+def altdriver(appium_driver):
     altdriver = AltDriver(
         host=get_host(),
         port=get_port(),
@@ -104,7 +104,7 @@ def appium_driver(request):
                 auth=(get_browserstack_username(), get_browserstack_key()))
             try:
                 app_url = response.json()['app_url']
-            except Exception():
+            except Exception:
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
             options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("android",
@@ -119,7 +119,7 @@ def appium_driver(request):
                 auth=(get_browserstack_username(), get_browserstack_key()))
             try:
                 app_url = response.json()['app_url']
-            except Exception():
+            except Exception:
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
             options = options = XCUITestOptions().load_capabilities(get_ui_automator_capabilities("ios",
@@ -132,6 +132,11 @@ def appium_driver(request):
         appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
                                          options=options)
         time.sleep(10)
+
+        if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
+            el = appium_driver.find_element(MobileBy.ID, 'Allow')
+            el.click()
+
     yield appium_driver
 
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
@@ -139,11 +144,9 @@ def appium_driver(request):
         bs_local.stop()
 
 
-@pytest.fixture(scope="session")
-def ios_click_on_allow(appium_driver):
-    if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
-        el = appium_driver.find_element(MobileBy.ID, 'Allow')
-        el.click()
+# @pytest.fixture(scope="session")
+# def ios_click_on_allow(appium_driver):
+    
 
 
 @pytest.fixture(autouse=True)
