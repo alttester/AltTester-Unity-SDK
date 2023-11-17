@@ -1122,23 +1122,23 @@ In this dashboard you can have an overview of the setup combinations we tried an
 ```
 *because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build cannot connect to AltServer on localhost.
 
-As in the case of running [Client-Side Appium testing](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/), we need to deal with the connectivity between: the test script (where we instantiate [AltDriver](https://alttester.com/docs/sdk/2.0.2/pages/commands.html#altdriver)), AltTester Desktop and the instrumented application installed on a device in the cloud.
+As in the case of running [Client-Side Appium testing](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/), we need to deal with the connectivity between: the test script (where we instantiate [AltDriver](https://alttester.com/docs/sdk/2.0.2/pages/commands.html#altdriver)), AltTester® Desktop and the instrumented application installed on a device in the cloud.
 
 In a local environment, setting up is relatively simple since all three components are co-located and can interact with each other on the localhost at port 13000. For communication with a USB-connected device on **Android**, [reverse port forwarding](https://alttester.com/docs/sdk/2.0.2/pages/commands.html#altreverseportforwarding) is employed to establish connectivity.
 
 For **iOS** devices, things are not so straightforward because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build does not connect to AltServer - please [consult a workaround from the documentation for further details](https://alttester.com/docs/sdk/2.0.2/pages/advanced-usage.html#in-case-of-ios). 
 
-Because we used BitBar’s free plan, we got a machine and we do not have control over what IP it has on each test session. If you are considering doing the same, we strongly recommend having **AltTester Desktop** installed and launched on a machine which is in your control.
+Because we used BitBar’s free plan, we got a machine and we do not have control over what IP it has on each test session. If you are considering doing the same, we strongly recommend having **AltTester® Desktop** installed and launched on a machine which is in your control.
 
-When starting a server-side running test session with **Android devices**, BitBar offers an Ubuntu machine - in this case the script which will set up Appium and execute the tests, also needs to install AltTester Desktop and activate the license. 
+When starting a server-side running test session with **Android devices**, BitBar offers an Ubuntu machine - in this case the script which will set up Appium and execute the tests, also needs to install AltTester® Desktop and activate the license. 
 
 ```eval_rst
 
 .. note::
-    In order to start the **AltTester Desktop in batchmode**, it is required you have an **AltTester Pro license**.
+    In order to start the **AltTester® Desktop in batchmode**, it is required you have an **AltTester® Pro license**.
 ```
 
-For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltServer can not be made, so please setup a machine of your choice and install AltTester Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.0.2.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.0.2.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
+For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltServer can not be made, so please setup a machine of your choice and install AltTester® Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.0.2.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.0.2.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
 
 Using a `run-tests.sh` we can install all that is needed, run tests and prepare the test report. For running **C#** tests, part of the setup and installation means: installing `.NET`.
 
