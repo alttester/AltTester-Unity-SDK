@@ -126,27 +126,23 @@ def appium_driver(request):
                              "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
-                         "forcelocal": "true",
+                         "forcelocal": "false",
                          "force": "true"}
         bs_local.start(**bs_local_args)
         appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
                                          options=options)
-        time.sleep(10)
-
+        
         if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
             el = appium_driver.find_element(MobileBy.ID, 'Allow')
             el.click()
+
+        time.sleep(1000)
 
     yield appium_driver
 
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
         appium_driver.quit()
         bs_local.stop()
-
-
-# @pytest.fixture(scope="session")
-# def ios_click_on_allow(appium_driver):
-    
 
 
 @pytest.fixture(autouse=True)
