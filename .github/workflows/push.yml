@@ -108,7 +108,7 @@ jobs:
   build-ipa:
       runs-on: [self-hosted, macOS]
       needs: paths-filter
-      if: needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
+      if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
       steps:
         - uses: actions/checkout@v3
 
