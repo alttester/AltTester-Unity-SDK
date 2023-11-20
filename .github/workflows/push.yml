@@ -359,13 +359,21 @@ jobs:
             export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
             export ALTSERVER_PORT=13005
             export ALTSERVER_HOST="192.168.11.35"
-            pytest -s Bindings~/python/tests/integration
+            allure generate
+            pytest -s -v --alluredir=allure-report/ Bindings~/python/tests/integration
+
+        - name: Generate Allure report
+          run: |
+            allure generate -c allure-report -o allure-results-html
+            allure-combine ./allure-results-html
 
         - uses: actions/upload-artifact@v3
           if: always() # run this step even if one of the previous step failed
           with:
             name: TestPythoniOSInBrowserstackArtifact
-            path: "**/*.log"
+            path: |
+                "**/*.log"
+                ./allure-results-html/complete.html
 
         - name: Unset Browserstack Flag
           if: always()
