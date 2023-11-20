@@ -136,7 +136,7 @@ def appium_driver(request):
             el = appium_driver.find_element(MobileBy.ID, 'Allow')
             el.click()
 
-        time.sleep(1000)
+        time.sleep(10)
 
     yield appium_driver
 
