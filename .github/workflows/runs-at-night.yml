@@ -1,0 +1,301 @@
+name: Runs at night
+
+on:
+  workflow_dispatch:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: '0 0 * * *' # run at the end of every day
+
+jobs:
+  build-WebGL-Unity2021:
+    runs-on: [self-hosted, macOS]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: |
+          export ALTSERVER_PORT=13020
+          export ALTSERVER_HOST="127.0.0.1"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WebGLBuildFromCommandLine -logFile buildWebGL.log -quit
+
+      - uses: actions/upload-artifact@v3.1.0
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildWebGLArtifact
+          path: |
+            build
+            buildWebGL.log
+
+  build-ipa:
+      runs-on: [self-hosted, macOS]
+      steps:
+        - uses: actions/checkout@v3
+
+        - name: Build sampleGame ipa
+          run: |
+            $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildiOS.log -quit
+            xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
+            xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath ./
+            osascript -e 'tell app "Xcode" to quit'
+
+        - uses: actions/upload-artifact@v3
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: BuildiOSArtifact
+            path: |
+              sampleGame.ipa
+              **/*.log
+  
+  build-android:
+    runs-on: [self-hosted, macOS]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build SampleGame apk
+        run: |
+          # export ALTSERVER_PORT=13005
+          # export ALTSERVER_HOST="192.168.11.35"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+
+      - uses: actions/upload-artifact@v3
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildAndroidArtifact
+          path: |
+            sampleGame.apk
+            **/*.log
+
+  test-DotNet:
+    needs: build-WebGL-Unity2021
+
+    runs-on: [self-hosted, macOS]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name:
+            BuildWebGLArtifact
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v2.1.1
+
+      - run: |
+          export ALTSERVER_PORT=13020
+          export ALTSERVER_HOST="127.0.0.1"
+          cd build/webgl
+          python3 -m http.server --cgi 8360 &
+          osascript -e 'quit app "Chrome"'
+          open http://localhost:8360/index.html
+          cd ../..
+          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
+
+      - name: Close Chrome
+        if: always()
+        run: osascript -e 'quit app "Chrome"'
+
+      - uses: actions/upload-artifact@v3.1.0
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestCSharpArtifact
+          path: |
+            *.log
+
+  test-Python:
+    needs: build-WebGL-Unity2021
+
+    runs-on: [self-hosted, macOS]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name:
+            BuildWebGLArtifact
+
+      - name: Open application
+        run: |
+          export ALTSERVER_PORT=13020
+          export ALTSERVER_HOST="127.0.0.1"
+          cd build/webgl
+          python3 -m http.server --cgi 8360 &
+          osascript -e 'quit app "Chrome"'
+          open http://localhost:8360/index.html
+          cd ../..
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip setuptools wheel
+          pip uninstall AltTester-Driver
+          pip install -r "Bindings~/python/requirements.txt"
+          pip install -r "Bindings~/python/requirements-dev.txt"
+          pip install -e "Bindings~/python" --root "Bindings~/python"
+
+      - name: Run integration tests
+        run: |
+          export ALTSERVER_PORT=13020
+          export ALTSERVER_HOST="127.0.0.1"
+          pytest Bindings~/python/tests/integration -m "not WebGLUnsupported"
+
+      - name: Close Chrome
+        if: always()
+        run: osascript -e 'quit app "Chrome"'
+
+      - uses: actions/upload-artifact@v3.1.0
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestPythonArtifact
+          path: "**/*.log"
+
+  test-Java:
+    needs: build-WebGL-Unity2021
+
+    runs-on: [self-hosted, macOS]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3.0.0
+        with:
+          name:
+            BuildWebGLArtifact
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.5.1
+        with:
+          distribution: temurin
+          java-version: 11
+
+      - uses: stCarolas/setup-maven@v4.4
+
+      - run: |
+          export ALTSERVER_PORT=13020
+          export ALTSERVER_HOST="127.0.0.1"
+          cd build/webgl
+          python3 -m http.server --cgi 8360 &
+          osascript -e 'quit app "Chrome"'
+          open http://localhost:8360/index.html
+          cd ../../Bindings~/java
+          mvn clean  -Dtest=com.alttester.Tests* test -Dgroups=\!WebGLUnsupported
+
+      - name: Close Chrome
+        if: always()
+        run: osascript -e 'quit app "Chrome"'
+
+      - uses: actions/upload-artifact@v3.1.0
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestJavaArtifact
+          path: |
+            *.log
+
+  test-Python-iOS-Browserstack:
+      runs-on: [self-hosted, macOS]
+      needs: build-ipa
+      steps:
+        - uses: actions/checkout@v3
+
+        - uses: actions/download-artifact@v3
+          with:
+            name: BuildiOSArtifact
+
+        - name: Copy application to Python test folder
+          run: |
+            cp sampleGame.ipa  Bindings~/python
+
+        - uses: actions/setup-python@v4
+          with:
+            python-version: "3.10"
+
+        - name: Install dependencies
+          run: |
+            pip install --upgrade pip setuptools wheel
+            pip uninstall AltTester-Driver
+            pip install -r "Bindings~/python/requirements.txt"
+            pip install -r "Bindings~/python/requirements-dev.txt"
+            pip install -e "Bindings~/python" --root "Bindings~/python"
+
+        - name: Run integration tests
+          run: |
+            export RUN_IN_BROWSERSTACK="true"
+            export RUN_IOS_IN_BROWSERSTACK="true"
+            export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
+            export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
+            export ALTSERVER_PORT=13005
+            export ALTSERVER_HOST="192.168.11.35"
+            allure generate
+            pytest -s -v --alluredir=allure-report/ Bindings~/python/tests/integration
+
+        - name: Generate Allure report
+          if: always()  
+          run: |
+            allure generate -c allure-report -o allure-results-html
+            allure-combine ./allure-results-html
+
+        - uses: actions/upload-artifact@v3
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: TestPythoniOSInBrowserstackArtifact
+            path: |
+                **/*.log
+                ./allure-results-html/complete.html
+
+        - name: Unset Browserstack Flag
+          if: always()
+          run: |
+            export RUN_IOS_IN_BROWSERSTACK="false"
+            export RUN_IN_BROWSERSTACK="false"
+
+  test-Python-Android-Browserstack:
+      runs-on: [self-hosted, macOS]
+      needs: build-android
+      steps:
+        - uses: actions/checkout@v3
+
+        - uses: actions/download-artifact@v3
+          with:
+            name: BuildAndroidArtifact
+
+        - name: Copy application to Python test folder
+          run: |
+            cp sampleGame.apk  Bindings~/python
+
+        - uses: actions/setup-python@v4
+          with:
+            python-version: "3.10"
+
+        - name: Install dependencies
+          run: |
+            pip install --upgrade pip setuptools wheel
+            pip uninstall AltTester-Driver
+            pip install -r "Bindings~/python/requirements.txt"
+            pip install -r "Bindings~/python/requirements-dev.txt"
+            pip install -e "Bindings~/python" --root "Bindings~/python"
+
+        - name: Run integration tests
+          run: |
+            export RUN_IN_BROWSERSTACK="true"
+            export RUN_ANDROID_IN_BROWSERSTACK="true"
+            export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
+            export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
+            export ALTSERVER_PORT=13005
+            export ALTSERVER_HOST="192.168.11.35"
+            pytest -s Bindings~/python/tests/integration
+
+        - uses: actions/upload-artifact@v3
+          if: always() # run this step even if one of the previous step failed
+          with:
+            name: TestPythonAndroidInBrowserstackArtifact
+            path: "**/*.log"
+
+        - name: Unset Browserstack Flag
+          if: always()
+          run: |
+            export RUN_IN_BROWSERSTACK="false"
+            export RUN_ANDROID_IN_BROWSERSTACK="false"
