@@ -14,3 +14,7 @@ pytest-repeat
 #browserstack
 browserstack-local
 Appium-Python-Client
+
+# Allure
+allure-pytest
+allure-combine
