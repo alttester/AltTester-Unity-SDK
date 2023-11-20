@@ -363,6 +363,7 @@ jobs:
             pytest -s -v --alluredir=allure-report/ Bindings~/python/tests/integration
 
         - name: Generate Allure report
+          if: always()  
           run: |
             allure generate -c allure-report -o allure-results-html
             allure-combine ./allure-results-html
