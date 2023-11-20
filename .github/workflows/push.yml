@@ -373,7 +373,7 @@ jobs:
           with:
             name: TestPythoniOSInBrowserstackArtifact
             path: |
-                "**/*.log"
+                **/*.log
                 ./allure-results-html/complete.html
 
         - name: Unset Browserstack Flag
