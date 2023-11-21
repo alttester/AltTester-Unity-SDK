@@ -1330,33 +1330,33 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
 
 - when running tests on iOS devices, the `run-tests.sh` needs to be adapted as well - be aware of the different *end of file* for OSX machines.
 
-- **for remote connection**
+- **for local connection**
     - here is what the archived package contains to be able to execute tests server-side when AltServer is running on the machine offered by BitBar:
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-remote-connection-zip-archive.png
     ```
 
-- **for local connection**
+- **for remote connection**
     - here is what the archived package contains to be able to execute tests server-side when AltServer is running on a separate machine, not on the one offered by BitBar:
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-local-connection-zip-archive.png
     ```
 
-    ```eval_rst
-    .. note::
-        We recommend using ``wget`` in order to install the `batchmode Linux build for AltTester® Desktop <https://alttester.com/app/uploads/AltTester®/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and not put it in the archive because that increases the running time for the entire flow.
+```eval_rst
+.. note::
+    We recommend using ``wget`` in order to install the `batchmode Linux build for AltTester® Desktop <https://alttester.com/app/uploads/AltTester®/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and not put it in the archive because that increases the running time for the entire flow.
         
-        An important note for this setup is that both running in batchmode and using the Linux build require `AltTester® Pro License <https://alttester.com/alttester/#pricing>`_.
-    ```
+    An important note for this setup is that both running in batchmode and using the Linux build require `AltTester® Pro License <https://alttester.com/alttester/#pricing>`_.
+```
 
 Please see our shell script examples from the repository:
-- for [**remote connection**](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/run-tests.sh)
-- for [**local connection**](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-ios-VM-IP/run-tests.sh)
+- for [**local connection**](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/run-tests.sh)
+- for [**remote connection**](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-ios-VM-IP/run-tests.sh)
 
 ```eval_rst
 
-    .. note::
-        When running server-side on an Android device, Bitbar offers an Ubuntu machine. Further on you can find a ``run-tests.sh`` script prepared for that. It contains the instructions for downloading, installing `AltTester® Desktop Linux batch mode <https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and activating and deactivating the license.
+.. note::
+    When running server-side on an Android device, Bitbar offers an Ubuntu machine. Further on you can find a ``run-tests.sh`` script prepared for that. It contains the instructions for downloading, installing `AltTester® Desktop Linux batch mode <https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and activating and deactivating the license.
 ```
 
 #### **Steps for running the tests**
