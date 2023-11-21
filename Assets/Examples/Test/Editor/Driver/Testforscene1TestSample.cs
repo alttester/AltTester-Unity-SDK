@@ -2023,6 +2023,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void TestResetInput()
         {
             altDriver.KeyDown(AltKeyCode.P, 1);
+            Thread.Sleep(300);
             Assert.True(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK"));
             altDriver.ResetInput();
             Assert.False(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK"));

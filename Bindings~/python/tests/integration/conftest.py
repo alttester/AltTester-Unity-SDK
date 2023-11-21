@@ -26,7 +26,6 @@ from appium.options.ios import XCUITestOptions
 from browserstack.local import Local
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
-from appium.webdriver.common.touch_action import TouchAction
 
 """Holds test fixtures that need to be shared among all tests."""
 
@@ -107,8 +106,8 @@ def appium_driver(request):
             except Exception:
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
-            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("android",
-                             "12.0", "Google Pixel 6", app_url, "alttester-pipeline-python-android"))
+            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("android", "12.0",
+                                                                                             "Google Pixel 6", app_url, "alttester-pipeline-python-android"))
         if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
             files = {
                 'file': ('sampleGame.ipa', open('sampleGame.ipa', 'rb')),
@@ -122,8 +121,8 @@ def appium_driver(request):
             except Exception:
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
-            options = options = XCUITestOptions().load_capabilities(get_ui_automator_capabilities("ios",
-                             "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
+            options = options = XCUITestOptions().load_capabilities(get_ui_automator_capabilities("ios", "16", 
+                                                                                                  "iPhone 14", app_url, "alttester-pipeline-python-ios"))
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
                          "forcelocal": "false",
@@ -131,13 +130,10 @@ def appium_driver(request):
         bs_local.start(**bs_local_args)
         appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
                                          options=options)
-        
         if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
             el = appium_driver.find_element(MobileBy.ID, 'Allow')
             el.click()
-
         time.sleep(10)
-
     yield appium_driver
 
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
