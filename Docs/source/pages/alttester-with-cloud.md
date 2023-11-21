@@ -7,7 +7,7 @@ Some of these cloud services allow running Appium automated tests by giving you 
 ```eval_rst
 
 .. note::
-    BrowserStack and SauceLabs don’t support server-side testing, meaning that the test folder can’t be uploaded onto the platform in order to run the tests. Client side testing generally focuses on testing the application or website directly on the user’s end. For testing carried out on cloud services, this means that the test suite is stored locally, on a computer and connected to a device in the cloud.
+    BrowserStack and SauceLabs don’t support server-side testing, meaning that the test folder can’t be uploaded onto the platform in order to run the tests. Client-side testing generally focuses on testing the application or website directly on the user’s end. For testing carried out on cloud services, this means that the test suite is stored locally, on a computer and connected to a device in the cloud.
 
 ```
 
@@ -519,7 +519,7 @@ In this example, the AltTester® Desktop app is running on a **public virtual ma
 
 **1. Create a virtual machine and install AltTester® Desktop** 
 
-It can either be a ***Windows** virtual machine running AltTester® Desktop in **GUI mode** or a **Linux** machine running in **batchmode** (note that the batchmode requires an [AltTester® license](https://alttester.com/alttester/#pricing) key)
+It can either be a **Windows** virtual machine running AltTester® Desktop in **GUI mode** or a **Linux** machine running in **batchmode** (note that the batchmode requires an [AltTester® license](https://alttester.com/alttester/#pricing) key)
 
 For this purpose, an [Azure virtual machine](https://azure.microsoft.com/en-us/pricing/free-services/) was used, configured with specific inbound and outbound rules to facilitate the build's connection. See the documentation for more detailed instructions on [how to create a Windows VM in the Azure portal](https://learn.microsoft.com/en-us/azure/virtual-machines/windows/quick-create-portal#create-virtual-machine).
 
@@ -543,7 +543,7 @@ For this purpose, an [Azure virtual machine](https://azure.microsoft.com/en-us/p
 
 **2. Have a set of C# tests that use AltTester® Unity SDK v2.0.\***
 
-- check the example repository
+- check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/tree/saucelabs_example)
 
 **3. Prepare the build instrumented with AltTester® Unity SDK v2.0.\***
 
@@ -637,8 +637,7 @@ In this file add code that will:
 
                 options.AddAdditionalCapability("appium:automationName", "XCUITest");
 
-                var sauceOptions = new 
-                Dictionary<string, object>();
+                var sauceOptions = new Dictionary<string, object>();
                 sauceOptions.Add("appiumVersion", "2.0.0");
                 sauceOptions.Add("username", SAUCE_USERNAME);
                 sauceOptions.Add("accessKey", SAUCE_ACCESS_KEY); 
