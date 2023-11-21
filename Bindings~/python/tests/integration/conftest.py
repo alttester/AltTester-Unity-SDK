@@ -106,8 +106,10 @@ def appium_driver(request):
             except Exception:
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
-            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("android", "12.0",
-                                                                                            "Google Pixel 6", app_url,
+            options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("android",
+                                                                                            "12.0",
+                                                                                            "Google Pixel 6",
+                                                                                            app_url,
                                                                                             "alttester-pipeline-python-android"))
         if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
             files = {
@@ -122,9 +124,8 @@ def appium_driver(request):
             except Exception:
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
-            options = options = XCUITestOptions().load_capabilities(get_ui_automator_capabilities("ios", "16",
-                                                                                                 "iPhone 14", app_url,
-                                                                                                 "alttester-pipeline-python-ios"))
+            options = options = XCUITestOptions().load_capabilities(get_ui_automator_capabilities("ios",
+                                            "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
                          "forcelocal": "false",
