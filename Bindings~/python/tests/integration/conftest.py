@@ -107,7 +107,7 @@ def appium_driver(request):
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
             options = UiAutomator2Options().load_capabilities(get_ui_automator_capabilities("android",
-                               "12.0", "Google Pixel 6", app_url, "alttester-pipeline-python-android"))
+                                "12.0", "Google Pixel 6", app_url, "alttester-pipeline-python-android"))
         if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
             files = {
                 'file': ('sampleGame.ipa', open('sampleGame.ipa', 'rb')),
@@ -122,11 +122,10 @@ def appium_driver(request):
                 pytest.fail("Error uploading app to BrowserStack, response: "
                             + str(response.text))
             options = options = XCUITestOptions().load_capabilities(get_ui_automator_capabilities("ios",
-                                            "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
+                                             "16", "iPhone 14", app_url, "alttester-pipeline-python-ios"))
         bs_local = Local()
         bs_local_args = {"key": get_browserstack_key(),
-                                 "forcelocal": "false",
-                                       "force": "true"}
+                  "forcelocal": "false","force": "true"}
         bs_local.start(**bs_local_args)
         appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
                                          options=options)
