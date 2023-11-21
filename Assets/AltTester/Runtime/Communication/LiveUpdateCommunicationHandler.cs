@@ -15,7 +15,6 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using AltWebSocketSharp;
 using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Communication
@@ -63,7 +62,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
             this.wsClient.OnDisconnect += (code, reason) =>
             {
-                this.isRunning = false; 
+                this.isRunning = false;
                 if (this.OnDisconnect != null) this.OnDisconnect(code, reason);
             };
 
@@ -77,16 +76,16 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 this.OnMessage(message);
             };
         }
-        
+
         public void Connect()
         {
-            this.isRunning = false; 
+            this.isRunning = false;
             this.wsClient.Connect();
         }
 
         public void Close()
         {
-            this.isRunning = false; 
+            this.isRunning = false;
             this.wsClient.Close();
         }
 

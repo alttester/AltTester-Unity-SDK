@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterUnitySDK.Driver.WebSocketClient;
 using Newtonsoft.Json;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Communication {
@@ -30,7 +31,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
         private DriverWebSocketClient wsClient = null;
 
-        public event EventHandler<byte[]> OnMessage;
+        public WebSocketMessageEventHandler OnMessage;
 
         private bool isRunning = false;
 
@@ -41,9 +42,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
         {
             this.isRunning = false;
             this.wsClient = new DriverWebSocketClient(host, port, "/altws/live-update", appName, connectTimeout);
-            this.wsClient.OnMessage += (sender, e) =>
+            this.wsClient.OnMessage += (bytes) =>
             {
-                this.OnMessage.Invoke(this, e.RawData);
+                this.OnMessage.Invoke(bytes);
             };
             this.wsClient.Connect();
         }

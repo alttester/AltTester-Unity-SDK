@@ -150,7 +150,6 @@ namespace AltTester.AltTesterUnitySDK.UI
                 update = 0.0f;
                 StartCoroutine(this.SendScreenshot());
             }
-
         }
 
         private void checkIfPlayerPrefNeedsToBeDeleted()

@@ -18,10 +18,11 @@
 using System;
 using System.Threading;
 using System.Diagnostics;
-using AltWebSocketSharp;
+using System.Threading.Tasks;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Driver.Proxy;
+using AltTester.AltTesterUnitySDK.Driver.WebSocketClient;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Communication {
     public class DriverWebSocketClient
@@ -39,8 +40,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
         private int closeCode = 0;
         private String closeReason = null;
 
-        private WebSocket wsClient = null;
-        public event EventHandler<MessageEventArgs> OnMessage;
+        private IWebSocketClient wsClient = null;
+        public WebSocketMessageEventHandler OnMessage;
 
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
         public string URI { get { return this.uri; } }
@@ -90,23 +91,18 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
             }
         }
 
-        protected void OnError(object sender, AltWebSocketSharp.ErrorEventArgs e)
+        protected void OnError(string message)
         {
-            logger.Error(e.Message);
-            if (e.Exception != null)
-            {
-                logger.Error(e.Exception);
-            }
-
-            this.error = e.Message;
+            logger.Error(message);
+            this.error = message;
         }
 
-        protected void OnClose(object sender, CloseEventArgs e)
+        protected void OnClose(int code, string reason)
         {
-            logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
+            logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}].", code, reason);
 
-            this.closeCode = e.Code;
-            this.closeReason = e.Reason;
+            this.closeCode = code;
+            this.closeReason = reason;
         }
 
         public void Connect()
@@ -115,17 +111,17 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
             int delay = 100;
 
-            this.wsClient = new WebSocket(this.uri);
+            this.wsClient = WebSocketClientFactory.CreateWebSocketClient(new Uri(this.uri), null, null, false);
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
             if (proxyUri != null)
             {
-                wsClient.SetProxy(proxyUri, null, null);
+                wsClient.SetProxy(proxyUri);
             }
 
             this.wsClient.OnError += OnError;
             this.wsClient.OnClose += OnClose;
-            this.wsClient.OnMessage += (sender, message) => this.OnMessage.Invoke(this, message);
+            this.wsClient.OnMessage += (message) => this.OnMessage.Invoke(message);
 
             Stopwatch watch = Stopwatch.StartNew();
             int retries = 0;
@@ -140,7 +136,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
                 {
                     logger.Debug(string.Format("Retrying #{0} to connect to: '{1}'.", retries, this.uri));
                 }
-                wsClient.Connect();
+                wsClient.ConnectAsync();
 
                 if (wsClient.IsAlive)
                 {

@@ -20,15 +20,15 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver.Communication;
+using AltTester.AltTesterUnitySDK.Driver.WebSocketClient;
 using AltTester.AltTesterUnitySDK.Driver.Proxy;
 using AltTester.AltTesterUnitySDK.Logging;
-using AltWebSocketSharp;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
     public class RuntimeWebSocketClient : IRuntimeWebSocketClient
     {
-        private WebSocket wsClient;
+        private IWebSocketClient wsClient;
 
         private readonly string host;
         private readonly int port;
@@ -41,7 +41,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.IsAlive; } }
 
-
         public RuntimeWebSocketClient(string host, int port, string path, string appName)
         {
             this.host = host;
@@ -49,33 +48,27 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.appName = appName;
 
             Uri uri = Utils.CreateURI(host, port, path, appName);
-            wsClient = new WebSocket(uri.ToString());
-            wsClient.Log.Level = LogLevel.Fatal;
+            string proxyUrl = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);
+            wsClient = WebSocketClientFactory.CreateWebSocketClient(uri, null, proxyUrl);
 
-            string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);
-            if (proxyUri != null)
-            {
-                wsClient.SetProxy(proxyUri, null, null);
-            }
-
-            wsClient.OnOpen += (sender, message) =>
+            wsClient.OnOpen += () =>
             {
                 if (this.OnConnect != null) this.OnConnect();
             };
 
-            wsClient.OnClose += (sender, args) =>
+            wsClient.OnClose += (code, reason) =>
             {
-                if (this.OnDisconnect != null) this.OnDisconnect(args.Code, args.Reason);
+                if (this.OnDisconnect != null) this.OnDisconnect(code, reason);
             };
 
-            wsClient.OnError += (sender, args) =>
+            wsClient.OnError += (message) =>
             {
-                if (this.OnError != null) this.OnError.Invoke(args.Message, args.Exception);
+                if (this.OnError != null) this.OnError.Invoke(message, null);
             };
 
-            wsClient.OnMessage += (sender, args) =>
+            wsClient.OnMessage += (data) =>
             {
-                if (this.OnMessage != null) this.OnMessage.Invoke(args.Data);
+                if (this.OnMessage != null) this.OnMessage.Invoke(System.Text.Encoding.UTF8.GetString(data));
             };
         }
 

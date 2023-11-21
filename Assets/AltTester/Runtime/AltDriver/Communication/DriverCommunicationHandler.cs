@@ -70,9 +70,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         public void Connect()
         {
             this.wsClient = new DriverWebSocketClient(this.host, this.port, "/altws", this.appName, this.connectTimeout);
-            this.wsClient.OnMessage += (sender, e) =>
+            this.wsClient.OnMessage += (bytes) =>
             {
-                OnMessage(sender, e.Data);
+                OnMessage(System.Text.Encoding.UTF8.GetString(bytes));
             };
 
             this.wsClient.Connect();
@@ -145,7 +145,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             commandTimeout = timeout;
         }
 
-        protected void OnMessage(object sender, string data)
+        protected void OnMessage(string data)
         {
             var message = JsonConvert.DeserializeObject<CommandResponse>(data, jsonSerializerSettings);
 
