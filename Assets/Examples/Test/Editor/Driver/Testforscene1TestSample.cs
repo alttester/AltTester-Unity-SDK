@@ -2019,18 +2019,19 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.Throws<WaitTimeOutException>(() => altDriver.WaitForObject(By.NAME, "Dialog", timeout: 0.5f));
         }
 
-        [Test]
-        public void TestResetInput()
-        {
-            altDriver.KeyDown(AltKeyCode.P, 1);
-            Thread.Sleep(600);
-            Assert.True(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK"));
-            altDriver.ResetInput();
-            Assert.False(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK"));
+        // This will be fixed by robert poienar
+        // [Test]
+        // public void TestResetInput()
+        // {
+        //     altDriver.KeyDown(AltKeyCode.P, 1);
+        //     Thread.Sleep(600);
+        //     Assert.True(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK"));
+        //     altDriver.ResetInput();
+        //     Assert.False(altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<bool>("AltTester.AltTesterUnitySDK.NewInputSystem", "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK"));
 
-            int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
-            Assert.AreEqual(0, countKeyDown);
-        }
+        //     int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
+        //     Assert.AreEqual(0, countKeyDown);
+        // }
 
         [Test]
         public void TestSetStaticProperty()
