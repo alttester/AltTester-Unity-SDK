@@ -98,8 +98,14 @@ namespace AltTester.AltTesterUnitySDK.UI
             SetUpPortInputField();
             SetUpAppNameInputField();
             resetConnectionDataBasedOnUID();
-            SetUpRestartButton();
-            SetUpCustomInputToggle();
+            setUpRestartButton();
+            setUpCustomInputToggle();
+
+            this.platform = Application.platform.ToString();
+            this.platformVersion = SystemInfo.operatingSystem;
+            this.deviceInstanceId = SystemInfo.deviceUniqueIdentifier;
+            validateFields();
+            onStart();
         }
 
         protected void Update()
@@ -166,6 +172,60 @@ namespace AltTester.AltTesterUnitySDK.UI
                 PlayerPrefs.DeleteKey(UID);
                 resetConnectionDataBasedOnUID();
             }
+        }
+
+        private void handleConnectionLogic()
+        {
+            if (_liveUpdateCommunication == null && _communication == null)
+            {
+                //This is the initial state where no connection is established
+                if (isDataValid)
+                    beginCommunication();
+                return;
+            }
+            if (_liveUpdateCommunication != null && _communication == null)
+            {
+                //Communication somehow stopped so we stop liveUpdate as well
+                stopClient(_liveUpdateCommunication);
+                _liveUpdateCommunication = null;
+                beginCommunication();
+                return;
+            }
+            if (_communication != null && _communication.IsConnected && _liveUpdateCommunication == null && AppId != null)
+            {
+                //Communication is connected and we start LiveUpdate to connect
+                initLiveUpdateClient();
+                startClient(_liveUpdateCommunication);
+                return;
+            }
+            if (_communication != null && !_communication.IsConnected && !wasConnected)
+            {
+                //Communication is initialized but there is no server to connect to yet
+                startClient(_communication);
+                return;
+            }
+            if (_communication.IsConnected == false || (_liveUpdateCommunication != null && _liveUpdateCommunication.IsConnected == false))
+            {
+                //One of the connections or both are disconnected
+                stopClients();
+                beginCommunication();
+            }
+        }
+
+        private void initLiveUpdateClient()
+        {
+            _liveUpdateCommunication = new LiveUpdateCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId, AppId);
+            _liveUpdateCommunication.OnDisconnect += onDisconnect;
+            _liveUpdateCommunication.OnError += onError;
+            _liveUpdateCommunication.OnConnect += onConnect;
+            _liveUpdateCommunication.Init();
+        }
+
+        private void beginCommunication()
+        {
+            ToggleCustomInput(false);
+            initRuntimeClient();
+            startClient(_communication);
         }
 
         protected IEnumerator SendScreenshot()
@@ -380,32 +440,13 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             _updateQueue.Clear();
             _connectedDrivers.Clear();
-
-            if (_communication != null)
-            {
-                // Remove the callbacks before stopping the client to prevent the OnDisconnect callback to be called when we stop or restart the client.
-                _communication.OnConnect = null;
-                _communication.OnDisconnect = null;
-                _communication.OnError = null;
-
-                if (_communication.IsConnected)
-                    _communication.Close();
-                _communication = null;
-                DisconnectCommunicationFlag = true;
-            }
-
-            if (_liveUpdateCommunication != null)
-            {
-                _liveUpdateCommunication.OnDisconnect = null;
-                _liveUpdateCommunication.OnError = null;
-                _liveUpdateCommunication.OnConnect = null;
-
-                if (_liveUpdateCommunication.IsConnected)
-                    _liveUpdateCommunication.Close();
-                _liveUpdateCommunication = null;
-                DisconnectLiveUpdateFlag = true;
-            }
-            OnStart();
+            stopClient(_communication);
+            _communication = null;
+            stopClient(_liveUpdateCommunication);
+            _liveUpdateCommunication = null;
+            onStart();
+            AppId = null;
+            wasConnected = false;
         }
 
         private void OnDisconnectCommunication(int code, string reason)
