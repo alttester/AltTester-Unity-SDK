@@ -510,8 +510,9 @@ One of the [architectural changes from v2.0.0](https://alttester.com/alttester-d
 
 You can download our example project from [here](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/tree/saucelabs_example). Also, for more details check [this article](https://alttester.com/sauce-labs-integration-execute-alttester-based-c-tests/) from our Blog.
 
-Unfortunately for the case of having the AltTester® Desktop app running on the same machine where the tests are running the instrumented app is not able to connect to localhost successfully, due to the fact that the 
-[Sauce Connect Tunnel proxy](https://docs.saucelabs.com/secure-connections/sauce-connect/setup-configuration/basic-setup/) implementation is not yet compatible with the WebSocket used in AltServer. 
+<!-- To update here when there are updates -->
+At the moment of creating this section of the documentation for the case of having the AltTester® Desktop app running on the same machine where the tests are running the instrumented app was not able to connect to localhost successfully, due to the fact that the 
+[Sauce Connect Tunnel Proxy](https://docs.saucelabs.com/secure-connections/sauce-connect/setup-configuration/basic-setup/) implementation was not yet compatible with the WebSocket used in AltServer. But more recently, SauceLabs confirmed that WebSocket communication is now working for tunnel connections between tests and cloud devices. For this reason, we are now working on running the tests using **Sauce Connect Tunnel Proxy** and we will provide setup instructions shortly.
 
 In this example, the AltTester® Desktop app is running on a **public virtual machine**, which **can be accessed by the instrumented app** installed on a device in the cloud.
 
