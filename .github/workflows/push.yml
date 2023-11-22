@@ -231,7 +231,7 @@ jobs:
           export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="192.168.11.35"
           allure generate
-          pytest Bindings~/python/tests/integration
+          pytest -s -v --alluredir=allure-report/ Bindings~/python/tests/integration
 
       - name: Generate Allure report
         if: always()  
