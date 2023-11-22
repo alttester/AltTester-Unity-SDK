@@ -103,6 +103,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             this.platformVersion = SystemInfo.operatingSystem;
             this.deviceInstanceId = SystemInfo.deviceUniqueIdentifier;
             validateFields();
+            onStart();
         }
 
         protected void Update()
@@ -145,7 +146,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 beginCommunication();
                 return;
             }
-            if (_communication != null && _communication.IsConnected && _liveUpdateCommunication == null)
+            if (_communication != null && _communication.IsConnected && _liveUpdateCommunication == null && AppId != null)
             {
                 //Communication is connected and we start LiveUpdate to connect
                 initLiveUpdateClient();
@@ -158,7 +159,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 startClient(_communication);
                 return;
             }
-            if (_communication.IsConnected == false || _liveUpdateCommunication.IsConnected == false)
+            if (_communication.IsConnected == false || (_liveUpdateCommunication != null && _liveUpdateCommunication.IsConnected == false))
             {
                 //One of the connections or both are disconnected
                 stopClients();
@@ -352,6 +353,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             stopClient(_liveUpdateCommunication);
             _liveUpdateCommunication = null;
             onStart();
+            AppId = null;
             wasConnected = false;
         }
 
