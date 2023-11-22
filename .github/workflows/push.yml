@@ -230,13 +230,22 @@ jobs:
         run: |
           export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="192.168.11.35"
+          allure generate
           pytest Bindings~/python/tests/integration
+
+      - name: Generate Allure report
+        if: always()  
+        run: |
+          allure generate -c allure-report -o allure-results-html
+          allure-combine ./allure-results-html
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
         with:
           name: TestPythonArtifact
-          path: "**/*.log"
+          path: |
+              **/*.log
+              ./allure-results-html/complete.html
 
   # test-Java:
   #   runs-on: [self-hosted, macOS]
