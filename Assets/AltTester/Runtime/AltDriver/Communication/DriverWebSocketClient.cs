@@ -35,10 +35,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
         private readonly string appName;
         private readonly int connectTimeout;
 
-        private String error = null;
+        private string error = null;
 
         private int closeCode = 0;
-        private String closeReason = null;
+        private string closeReason = null;
 
         private IWebSocketClient wsClient = null;
         public WebSocketMessageEventHandler OnMessage;
