@@ -252,7 +252,9 @@ jobs:
   test-Python-Android-Browserstack:
     runs-on: [self-hosted, macOS]
     needs: build-android
+    framework: python
     # if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    app: bs://sampleGame.apk
     platforms:
       - platformName: android
         deviceName: Samsung Galaxy S22 Ultra
