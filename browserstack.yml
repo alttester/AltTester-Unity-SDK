@@ -1,6 +1,6 @@
 userName: ${BROWSERSTACK_USERNAME}
 accessKey: ${BROWSERSTACK_KEY}
-app: bs://sampleGame.apk
+app: app_url
 platforms:
   - platformName: android
     deviceName: Samsung Galaxy S22 Ultra
@@ -13,8 +13,8 @@ platforms:
     platformVersion: 11.0
 parallelsPerPlatform: 1    
 browserstackLocal: true
-buildName: test-Python-Android-Browserstack
+buildName: alttester-pipeline-python-android
 buildIdentifier: ${BUILD_NUMBER}
-projectName: alttester-pipeline-python-android
+projectName: AltTester
 debug: true
 networkLogs: true
