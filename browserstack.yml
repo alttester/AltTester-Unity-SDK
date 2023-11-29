@@ -1,0 +1,20 @@
+userName: ${{ secrets.BROWSERSTACK_USERNAME }}
+accessKey: ${{ secrets.BROWSERSTACK_KEY }}
+app: sampleGame.apk
+platforms:
+  - platformName: android
+    deviceName: Samsung Galaxy S22 Ultra
+    platformVersion: 12.0
+  - platformName: android
+    deviceName: Google Pixel 7 Pro
+    platformVersion: 13.0
+  - platformName: android
+    deviceName: OnePlus 9
+    platformVersion: 11.0
+parallelsPerPlatform: 1    
+browserstackLocal: true
+buildName: test-Python-Android-Browserstack
+buildIdentifier: ${BUILD_NUMBER}
+projectName: alttester-pipeline-python-android
+debug: true
+networkLogs: true
