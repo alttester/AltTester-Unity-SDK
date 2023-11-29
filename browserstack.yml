@@ -1,20 +1,20 @@
-# userName: ${BROWSERSTACK_USERNAME}
-# accessKey: ${BROWSERSTACK_KEY}
-# app: bs://sampleGame.apk
-# platforms:
-#   - platformName: android
-#     deviceName: Samsung Galaxy S22 Ultra
-#     platformVersion: 12.0
-#   - platformName: android
-#     deviceName: Google Pixel 7 Pro
-#     platformVersion: 13.0
-#   - platformName: android
-#     deviceName: OnePlus 9
-#     platformVersion: 11.0
-# parallelsPerPlatform: 1    
-# browserstackLocal: true
-# buildName: alttester-pipeline-python-android
-# buildIdentifier: ${BUILD_NUMBER}
-# projectName: AltTester
-# debug: true
-# networkLogs: true
+userName: ${BROWSERSTACK_USERNAME}
+accessKey: ${BROWSERSTACK_KEY}
+app: bs://sampleGame.apk
+platforms:
+  - platformName: android
+    deviceName: Samsung Galaxy S22 Ultra
+    platformVersion: 12.0
+  - platformName: android
+    deviceName: Google Pixel 7 Pro
+    platformVersion: 13.0
+  - platformName: android
+    deviceName: OnePlus 9
+    platformVersion: 11.0
+parallelsPerPlatform: 1    
+browserstackLocal: true
+buildName: alttester-pipeline-python-android
+buildIdentifier: ${BUILD_NUMBER}
+projectName: AltTester
+debug: true
+networkLogs: true

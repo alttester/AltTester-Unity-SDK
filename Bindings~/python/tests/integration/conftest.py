@@ -47,8 +47,8 @@ def get_browserstack_username():
 def get_browserstack_key():
     return os.environ.get("BROWSERSTACK_KEY", "")
 
-def get_browserstack_platforms():
-    return os.environ.get("PLATFORMS", "")
+# def get_browserstack_platforms():
+#     return os.environ.get("PLATFORMS", "")
 
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
@@ -71,25 +71,25 @@ def appium_driver(request):
     appium_driver = None
 
     if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") == "true":
-        files = {
-            'file': ('sampleGame.apk', open('sampleGame.apk', 'rb')),
-        }
+        # files = {
+        #     'file': ('sampleGame.apk', open('sampleGame.apk', 'rb')),
+        # }
 
-        response = requests.post(
-            'https://api-cloud.browserstack.com/app-automate/upload',
-            files=files,
-            auth=(get_browserstack_username(), get_browserstack_key()))
-        try:
-            app_url = response.json()['app_url']
-        except Exception():
-            pytest.fail("Error uploading app to BrowserStack, response: "
-                        + str(response.text))
+        # response = requests.post(
+        #     'https://api-cloud.browserstack.com/app-automate/upload',
+        #     files=files,
+        #     auth=(get_browserstack_username(), get_browserstack_key()))
+        # try:
+        #     app_url = response.json()['app_url']
+        # except Exception():
+        #     pytest.fail("Error uploading app to BrowserStack, response: "
+        #                 + str(response.text))
 
         options = UiAutomator2Options().load_capabilities({
             "platformName": "android",
             "platformVersion": "12.0",
-            "deviceName": "Google Pixel 6",
-            "app": app_url,
+            "deviceName": "Google Pixel 6"
+            # "app": app_url,
 
             # Set other BrowserStack capabilities
             'bstack:options': {
@@ -102,8 +102,8 @@ def appium_driver(request):
                 "deviceOrientation": "landscape",
                 "networkLogs": "true",
                 "userName": get_browserstack_username(),
-                "accessKey": get_browserstack_key(),
-                "platforms": get_browserstack_platforms()
+                "accessKey": get_browserstack_key()
+                # "platforms": get_browserstack_platforms()
             }
         })
 
