@@ -13,4 +13,5 @@ pytest-repeat
 
 #browserstack
 browserstack-local
+browserstack-sdk
 Appium-Python-Client
