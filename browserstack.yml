@@ -13,8 +13,8 @@ platforms:
     platformVersion: 11.0
 parallelsPerPlatform: 1    
 browserstackLocal: true
-buildName: test-Python-Android-Browserstack
-buildIdentifier: ${BUILD_NUMBER}
-projectName: alttester-pipeline-python-android
+# buildName: test-Python-Android-Browserstack
+# buildIdentifier: ${BUILD_NUMBER}
+# projectName: alttester-pipeline-python-android
 debug: true
 networkLogs: true
