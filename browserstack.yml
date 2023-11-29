@@ -1,6 +1,6 @@
 userName: ${{ secrets.BROWSERSTACK_USERNAME }}
 accessKey: ${{ secrets.BROWSERSTACK_KEY }}
-app: sampleGame.apk
+app: bs://sampleGame.apk
 platforms:
   - platformName: android
     deviceName: Samsung Galaxy S22 Ultra
