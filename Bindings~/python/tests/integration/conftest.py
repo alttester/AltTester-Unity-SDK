@@ -47,9 +47,6 @@ def get_browserstack_username():
 def get_browserstack_key():
     return os.environ.get("BROWSERSTACK_KEY", "")
 
-def get_browserstack_platforms():
-    return os.environ.get("PLATFORMS", "")
-
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
     altdriver = AltDriver(
@@ -103,7 +100,6 @@ def appium_driver(request):
                 "networkLogs": "true",
                 "userName": get_browserstack_username(),
                 "accessKey": get_browserstack_key(),
-                "platforms": get_browserstack_platforms()
             }
         })
 
