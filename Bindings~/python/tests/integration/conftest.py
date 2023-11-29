@@ -88,11 +88,11 @@ def appium_driver(request):
         options = UiAutomator2Options().load_capabilities({
             "platformName": "android",
             "platformVersion": "12.0",
-            "deviceName": "Google Pixel 6"
+            "deviceName": "Google Pixel 6",
             # "app": app_url,
 
             # Set other BrowserStack capabilities
-            'bstack:options': {
+            "bstack:options": {
                 "projectName": "AltTester",
                 "buildName": "alttester-pipeline-python-android",
                 "sessionName": 'tests-{date:%Y-%m-%d_%H:%M:%S}'
