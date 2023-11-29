@@ -1,5 +1,5 @@
-userName: ${{ secrets.BROWSERSTACK_USERNAME }}
-accessKey: ${{ secrets.BROWSERSTACK_KEY }}
+userName: ${BROWSERSTACK_USERNAME}
+accessKey: ${BROWSERSTACK_KEY}
 app: bs://sampleGame.apk
 platforms:
   - platformName: android
