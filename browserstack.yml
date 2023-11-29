@@ -1,6 +1,6 @@
 userName: ${BROWSERSTACK_USERNAME}
 accessKey: ${BROWSERSTACK_KEY}
-app: app_url
+app: bs://sampleGame.apk
 platforms:
   - platformName: android
     deviceName: Samsung Galaxy S22 Ultra

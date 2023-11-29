@@ -99,7 +99,7 @@ def appium_driver(request):
                 "deviceOrientation": "landscape",
                 "networkLogs": "true",
                 "userName": get_browserstack_username(),
-                "accessKey": get_browserstack_key(),
+                "accessKey": get_browserstack_key()
             }
         })
 
