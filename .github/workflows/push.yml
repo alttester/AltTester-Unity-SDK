@@ -253,6 +253,19 @@ jobs:
     runs-on: [self-hosted, macOS]
     needs: build-android
     # if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    strategry:
+      matrix:
+        platforms:
+          - platformName: android
+            deviceName: Samsung Galaxy S22 Ultra
+            platformVersion: 12.0
+          - platformName: android
+            deviceName: Google Pixel 7 Pro
+            platformVersion: 13.0
+          - platformName: android
+            deviceName: OnePlus 9
+            platformVersion: 11.0
+    
     steps:
       - uses: actions/checkout@v3
 
@@ -283,8 +296,9 @@ jobs:
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
           export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="192.168.11.35"
-          # browserstack-sdk pytest -s Bindings~/python/tests/integration
-          browserstack-sdk pytest -s Bindings~/python/tests/integration --browserstack.config "browserstack.yml"
+          export PLATFORMS=${{ matrix.platforms }}
+          browserstack-sdk pytest -s Bindings~/python/tests/integration
+          # browserstack-sdk pytest -s Bindings~/python/tests/integration --browserstack.config "browserstack.yml"
 
       # - uses: actions/upload-artifact@v3
       #   if: always() # run this step even if one of the previous step failed

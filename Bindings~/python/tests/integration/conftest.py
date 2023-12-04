@@ -56,6 +56,10 @@ def get_browserstack_key():
 #     platforms = collections.ChainMap(platform1, platform2, platform3)
 #     return json.dumps(dict(platforms))
 
+def get_browserstack_platforms():
+    platforms = os.environ.get('PLATFORMS')
+    return platforms
+
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
     altdriver = AltDriver(
@@ -108,8 +112,8 @@ def appium_driver(request):
                 "deviceOrientation": "landscape",
                 "networkLogs": "true",
                 "userName": get_browserstack_username(),
-                "accessKey": get_browserstack_key()
-                # "platforms": get_browserstack_platforms()
+                "accessKey": get_browserstack_key(),
+                "platforms": get_browserstack_platforms()
             }
         })
 
