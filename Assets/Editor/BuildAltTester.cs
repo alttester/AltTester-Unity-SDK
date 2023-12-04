@@ -67,7 +67,7 @@ namespace AltTesterTools
                 PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
 #endif
                 logger.Debug("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-                var buildPlayerOptions = GetBuildPlayerOptions("sampleGame.apk", BuildTarget.Android);
+                var buildPlayerOptions = GetBuildPlayerOptions("sampleGame.apk", BuildTarget.Android, false);
 
                 buildGame(buildPlayerOptions, BuildTargetGroup.Android);
 
@@ -91,7 +91,7 @@ namespace AltTesterTools
 
                 logger.Debug("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
 
-                var buildPlayerOptions = GetBuildPlayerOptions("sampleGame", BuildTarget.iOS);
+                var buildPlayerOptions = GetBuildPlayerOptions("sampleGame", BuildTarget.iOS, false);
                 buildGame(buildPlayerOptions, BuildTargetGroup.iOS);
 
             }
@@ -225,7 +225,7 @@ namespace AltTesterTools
             AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(targetGroup);
 
         }
-        public static BuildPlayerOptions GetBuildPlayerOptions(string locationPathName, BuildTarget target)
+        public static BuildPlayerOptions GetBuildPlayerOptions(string locationPathName, BuildTarget target, bool autorun = true)
         {
             return new BuildPlayerOptions
             {
@@ -233,7 +233,7 @@ namespace AltTesterTools
 
                 locationPathName = locationPathName,
                 target = target,
-                options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer
+                options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | (autorun ? BuildOptions.AutoRunPlayer : BuildOptions.None)
             };
         }
     }
