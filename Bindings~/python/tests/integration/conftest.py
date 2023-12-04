@@ -47,8 +47,12 @@ def get_browserstack_username():
 def get_browserstack_key():
     return os.environ.get("BROWSERSTACK_KEY", "")
 
-# def get_browserstack_platforms():
-#     return os.environ.get("PLATFORMS", "")
+def get_browserstack_platforms():
+    platform1 = {"platformName": "android", "deviceName": "Samsung Galaxy S22 Ultra", "platformVersion": "12.0"}
+    platform2 = {"platformName": "android", "deviceName": "Google Pixel 7 Pro", "platformVersion": "13.0"}
+    platform3 = {"platformName": "android", "deviceName": "OnePlus 9", "platformVersion": "11.0"}
+    platforms = {**platform1, **platform2, **platform3}
+    return platforms
 
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
@@ -103,18 +107,7 @@ def appium_driver(request):
                 "networkLogs": "true",
                 "userName": get_browserstack_username(),
                 "accessKey": get_browserstack_key(),
-                "platforms": {[
-                    "platformName": "android",
-                    "deviceName: "Samsung Galaxy S22 Ultra",
-                    "platformVersion": "12.0"
-                    ],
-                    [ "platformName": "android",
-                    "deviceName: "Google Pixel 7 Pro",
-                    "platformVersion": "13.0"],
-                    ["platformName": "android",
-                    "deviceName: "OnePlus 9",
-                    "platformVersion": "11.0"
-                ]}
+                "platforms": get_browserstack_platforms()
             }
         })
 
