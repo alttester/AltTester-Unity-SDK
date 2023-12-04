@@ -253,18 +253,18 @@ jobs:
     runs-on: [self-hosted, macOS]
     needs: build-android
     # if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
-    strategy:
-      matrix:
-        platforms:
-          - platformName: android
-            deviceName: Samsung Galaxy S22 Ultra
-            platformVersion: 12.0
-          - platformName: android
-            deviceName: Google Pixel 7 Pro
-            platformVersion: 13.0
-          - platformName: android
-            deviceName: OnePlus 9
-            platformVersion: 11.0
+    # strategy:
+    #   matrix:
+    #     platforms:
+    #       - platformName: android
+    #         deviceName: Samsung Galaxy S22 Ultra
+    #         platformVersion: 12.0
+    #       - platformName: android
+    #         deviceName: Google Pixel 7 Pro
+    #         platformVersion: 13.0
+    #       - platformName: android
+    #         deviceName: OnePlus 9
+    #         platformVersion: 11.0
     
     steps:
       - uses: actions/checkout@v3
@@ -290,13 +290,14 @@ jobs:
           pip install -e "Bindings~/python" --root "Bindings~/python"
 
       - name: Run integration tests
+        uses: browserstack/github-actions/app-automate-setup@v1
         run: |
           export RUN_ANDROID_IN_BROWSERSTACK="true"
           export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
           export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="192.168.11.35"
-          export PLATFORMS=${{ matrix.platforms }}
+          # export PLATFORMS=${{ matrix.platforms }}
           browserstack-sdk pytest -s Bindings~/python/tests/integration
           # browserstack-sdk pytest -s Bindings~/python/tests/integration --browserstack.config "browserstack.yml"
 
