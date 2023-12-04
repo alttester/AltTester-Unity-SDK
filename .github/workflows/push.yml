@@ -289,8 +289,10 @@ jobs:
           pip install -r "Bindings~/python/requirements-dev.txt"
           pip install -e "Bindings~/python" --root "Bindings~/python"
 
-      - name: Run integration tests
+      - name: Set up BrowserStack
         uses: browserstack/github-actions/app-automate-setup@v1
+      
+      - name: Run integration tests
         run: |
           export RUN_ANDROID_IN_BROWSERSTACK="true"
           export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
