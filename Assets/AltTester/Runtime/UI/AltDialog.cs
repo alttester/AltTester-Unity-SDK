@@ -217,8 +217,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void resetConnectionDataBasedOnUID()
         {
-            UnityEngine.Debug.LogWarning($"======Instrumentations Setup ResetConnectionData is set to: {InstrumentationSettings.ResetConnectionData}");
-            UnityEngine.Debug.LogWarning($"======Instrumentations Setup UID is set to: {InstrumentationSettings.UID}");
             if (InstrumentationSettings.ResetConnectionData && (InstrumentationSettings.UID != PlayerPrefs.GetString(UID, "")))
             {
                 PlayerPrefs.SetString(HOST, InstrumentationSettings.AltServerHost);
