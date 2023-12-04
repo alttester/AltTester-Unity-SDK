@@ -21,6 +21,7 @@ import requests
 import time
 import datetime
 import collections
+import json
 from alttester import AltDriver
 from appium.options.android import UiAutomator2Options
 from browserstack.local import Local
@@ -53,7 +54,7 @@ def get_browserstack_platforms():
     platform2 = {"platformName": "android", "deviceName": "Google Pixel 7 Pro", "platformVersion": "13.0"}
     platform3 = {"platformName": "android", "deviceName": "OnePlus 9", "platformVersion": "11.0"}
     platforms = collections.ChainMap(platform1, platform2, platform3)
-    return platforms
+    return json.dumps(dict(platforms))
 
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
