@@ -290,7 +290,7 @@ jobs:
           pip install -e "Bindings~/python" --root "Bindings~/python"
 
       - name: Set up BrowserStack
-        uses: browserstack/github-actions/app-automate-setup@v1
+        uses: browserstack/github-actions/setup-local@master
       
       - name: Run integration tests
         run: |
