@@ -40,6 +40,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private readonly string PORT = "AltTesterPort";
         private readonly string APP_NAME = "AltTesterAppName";
         private readonly string UID = "UID";
+        private int responseCode = 0;
 
         [UnityEngine.SerializeField]
         public UnityEngine.GameObject Dialog = null;
@@ -176,6 +177,10 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void handleConnectionLogic()
         {
+            if (responseCode > 4000 && responseCode < 5000)
+            {
+                return;
+            }
             if (_liveUpdateCommunication == null && _communication == null)
             {
                 //This is the initial state where no connection is established
@@ -302,7 +307,9 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void SetUpAppNameInputField()
         {
-            AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+            responseCode = 0;
+            stopClients();
+            validateFields();
         }
 
         private void OnRestartButtonPress()
@@ -451,6 +458,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void OnDisconnectCommunication(int code, string reason)
         {
+            responseCode = code;
             // All custom close codes must be between 4000 - 4999.
             if (code > 4000)
             {
