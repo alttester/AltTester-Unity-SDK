@@ -49,12 +49,12 @@ def get_browserstack_username():
 def get_browserstack_key():
     return os.environ.get("BROWSERSTACK_KEY", "")
 
-def get_browserstack_platforms():
-    platform1 = {"platformName": "android", "deviceName": "Samsung Galaxy S22 Ultra", "platformVersion": "12.0"}
-    platform2 = {"platformName": "android", "deviceName": "Google Pixel 7 Pro", "platformVersion": "13.0"}
-    platform3 = {"platformName": "android", "deviceName": "OnePlus 9", "platformVersion": "11.0"}
-    platforms = collections.ChainMap(platform1, platform2, platform3)
-    return json.dumps(dict(platforms))
+# def get_browserstack_platforms():
+#     platform1 = {"platformName": "android", "deviceName": "Samsung Galaxy S22 Ultra", "platformVersion": "12.0"}
+#     platform2 = {"platformName": "android", "deviceName": "Google Pixel 7 Pro", "platformVersion": "13.0"}
+#     platform3 = {"platformName": "android", "deviceName": "OnePlus 9", "platformVersion": "11.0"}
+#     platforms = collections.ChainMap(platform1, platform2, platform3)
+#     return json.dumps(dict(platforms))
 
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
@@ -92,9 +92,9 @@ def appium_driver(request):
                         + str(response.text))
 
         options = UiAutomator2Options().load_capabilities({
-            # "platformName": "android",
-            # "platformVersion": "12.0",
-            # "deviceName": "Google Pixel 6",
+            "platformName": "android",
+            "platformVersion": "12.0",
+            "deviceName": "Google Pixel 6",
             "app": app_url,
 
             # Set other BrowserStack capabilities
@@ -108,8 +108,8 @@ def appium_driver(request):
                 "deviceOrientation": "landscape",
                 "networkLogs": "true",
                 "userName": get_browserstack_username(),
-                "accessKey": get_browserstack_key(),
-                "platforms": get_browserstack_platforms()
+                "accessKey": get_browserstack_key()
+                # "platforms": get_browserstack_platforms()
             }
         })
 
