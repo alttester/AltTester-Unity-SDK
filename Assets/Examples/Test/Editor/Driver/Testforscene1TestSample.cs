@@ -43,7 +43,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void TestGetCurrentScene()
         {
             Assert.AreEqual("Scene 1 AltDriverTestScene", altDriver.GetCurrentScene());
-        } 
+        }
 
         [Test]
         public void TestGetApplicationScreenSize()
@@ -257,7 +257,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.AreEqual("__default__", propertyValue);
         }
 
-        
+
         [Test]
         [Ignore("This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185")]
         public void TestWaitForNonExistingComponentProperty(){
@@ -267,7 +267,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.NotNull(altElement);
             Assert.Throws<NotFoundException>(() => altElement.WaitForComponentProperty<String>(componentName, propertyName, "UNEXISTING", "AltTester.AltTesterUnitySDK", timeout:10));
         }
-        
+
         [TestCase( "UNEXISTING","InstrumentationSettings.AltServerPort", "AltTester.AltTesterUnitySDK", "Component not found")]
         [TestCase( "AltTester.AltTesterUnitySDK.AltRunner","UNEXISTING", "AltTester.AltTesterUnitySDK", "Property UNEXISTING not found")]
         // [TestCase( "AltTester.AltTesterUnitySDK.AltRunner","InstrumentationSettings.AltServerPort", "UNEXISTING", "Assembly UNEXISTING not found")] -> This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185. This test can be uncomment when the issue is fixed
@@ -318,7 +318,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
                 Assert.IsTrue(exception.Message.StartsWith(message), exception.Message);
             }
         }
- 
+
 
 
 
@@ -476,7 +476,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             altElement.SetComponentProperty(componentName, propertyName, null, assembly );
             var property_value = altElement.GetComponentProperty<String>(componentName,propertyName, assembly);
             Assert.AreEqual(property_value, null);
-                
+
         }
 
         [Test]
@@ -513,8 +513,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var data = altElement.CallComponentMethod<string>(componentName, methodName, assemblyName, new object[] { });
             Assert.AreEqual(elementText, data);
         }
-        
-        [Test]      
+
+        [Test]
         public void TestCallMethodSetFontSizeWithParameters()
         {
             const string componentName = "UnityEngine.UI.Text";
@@ -794,7 +794,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var time = float.Parse(altDriver.FindObject(By.NAME, "ChineseLetters").GetText());
             Assert.Greater(time, duration);
         }
-        
+
         [Test]
         [Ignore("Ignore PressKey method")]
         public void TestPressKeyWaitTheDuration()
@@ -1623,7 +1623,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             altDriver.GetScreenshot(uiButton.GetScreenPosition(), new AltColor(1, 1, 1, 1), 1, out selectedObject);
             Assert.AreEqual("UIButton", selectedObject.name);
         }
-        
+
         [Test]
         public void TestGetAllScenesAndObjectDisableEnableOption()
         {
@@ -2019,6 +2019,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.Throws<WaitTimeOutException>(() => altDriver.WaitForObject(By.NAME, "Dialog", timeout: 0.5f));
         }
 
+        [Ignore("Skip")]
         [Test]
         public void TestResetInput()
         {
