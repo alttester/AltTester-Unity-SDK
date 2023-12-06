@@ -206,13 +206,13 @@ namespace AltTesterTools
             {
                 logger.Error("Total Errors: " + results.summary.totalErrors);
                 logger.Error("Build failed! " + results.steps + "\n Result: " + results.summary.result + "\n Stripping info: " + results.strippingInfo);
-                // EditorApplication.Exit(1);
+                EditorApplication.Exit(1);
             }
 
 #endif
 
             logger.Info("Finished. " + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-            // EditorApplication.Exit(0);
+            EditorApplication.Exit(0);
         }
         public static void SetCommonSettings(BuildTargetGroup targetGroup)
         {
