@@ -366,7 +366,8 @@ namespace AltTester.AltTesterUnitySDK.UI
             catch (Exception ex)
             {
                 setMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
-                logger.Error(ex, "An unexpected error occurred while starting the AltTester client.");
+                // logger.Error(ex, "An unexpected error occurred while starting the AltTester client.");
+                logger.Error(ex, ex.StackTrace);
                 stopClient(communicationHandler);
             }
         }
