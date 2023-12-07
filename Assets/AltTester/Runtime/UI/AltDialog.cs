@@ -139,7 +139,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 }
             }
 
-            if (this._liveUpdateCommunication == null || !this._liveUpdateCommunication.IsConnected)
+            if (this._liveUpdateCommunication == null || !this._liveUpdateCommunication.IsRunning || !this._liveUpdateCommunication.IsConnected)
             {
                 return;
             }
