@@ -44,6 +44,8 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public NotificationHandler OnDriverConnect { get; set; }
         public NotificationHandler OnDriverDisconnect { get; set; }
+        public NotificationHandler OnAppConnect { get; set; }
+
 
         public CommandHandler()
         {
