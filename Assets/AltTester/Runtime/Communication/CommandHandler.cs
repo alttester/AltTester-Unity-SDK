@@ -74,6 +74,11 @@ namespace AltTester.AltTesterUnitySDK.Communication
                     handleNotifications(cmdParams);
                     return;
                 }
+                if (cmdParams.commandName == "AppId")
+                {
+                    handleAppId(cmdParams);
+                    return;
+                }
 
                 var type = getCommandType((string)cmdParams.commandName);
                 var commandParams = JsonConvert.DeserializeObject(data, type, jsonSerializerSettings) as CommandParams;
@@ -99,6 +104,16 @@ namespace AltTester.AltTesterUnitySDK.Communication
                         this.Send(response);
                     }
                 });
+        }
+        public void handleAppId(CommandParams cmdParams)
+        {
+            if (cmdParams.commandName == "AppId")
+            {
+                if (this.OnAppConnect != null)
+                {
+                    this.OnAppConnect.Invoke(cmdParams.driverId);
+                }
+            }
         }
 
         public void handleNotifications(CommandParams cmdParams)
