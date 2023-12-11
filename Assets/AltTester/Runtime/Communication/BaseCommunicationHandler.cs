@@ -35,6 +35,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public CommunicationErrorHandler OnError { get; set; }
 
         public bool IsConnected { get { return this.WsClient != null && this.WsClient.IsConnected; } }
+        public bool waitingToConnect = true;
 
 
         protected string Host { get => host; set => host = value; }

@@ -89,6 +89,8 @@ namespace AltTester.AltTesterUnitySDK.UI
         private string platform;
         private string platformVersion;
         private string deviceInstanceId;
+        private float currentTime;
+        float retryTime = 3f;
 
         protected void Start()
         {
@@ -151,6 +153,19 @@ namespace AltTester.AltTesterUnitySDK.UI
                 beginCommunication();
                 return;
             }
+            if (communication != null && communication.waitingToConnect && currentTime <= retryTime)
+            {
+                if (communication.IsConnected)
+                {
+                    communication.waitingToConnect = false;
+                }
+                else
+                {
+                    currentTime += Time.unscaledDeltaTime;
+                    return;
+                }
+            }
+            currentTime = 0;
             if (communication != null && communication.IsConnected && liveUpdateCommunication == null && AppId != null)
             {
                 //Communication is connected and we start LiveUpdate to connect
@@ -352,6 +367,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             try
             {
+                communicationHandler.waitingToConnect = true;
                 communicationHandler.Connect();
             }
             catch (RuntimeWebSocketClientException ex)
@@ -359,12 +375,14 @@ namespace AltTester.AltTesterUnitySDK.UI
                 setMessage("An unexpected runtime error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex.InnerException, "An unexpected error occurred while starting the AltTester client.");
                 stopClient(communicationHandler);
+                communicationHandler.waitingToConnect = false;
             }
             catch (Exception ex)
             {
                 setMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex, "An unexpected error occurred while starting the AltTester client.");
                 stopClient(communicationHandler);
+                communicationHandler.waitingToConnect = false;
             }
         }
 
