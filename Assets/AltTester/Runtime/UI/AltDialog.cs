@@ -179,6 +179,18 @@ namespace AltTester.AltTesterUnitySDK.UI
                 startClient(communication);
                 return;
             }
+            if (liveUpdateCommunication != null && liveUpdateCommunication.waitingToConnect && currentTime <= retryTime)
+            {
+                if (liveUpdateCommunication.IsConnected)
+                {
+                    liveUpdateCommunication.waitingToConnect = false;
+                }
+                else
+                {
+                    currentTime += Time.unscaledDeltaTime;
+                    return;
+                }
+            }
             if (communication.IsConnected == false || (liveUpdateCommunication != null && liveUpdateCommunication.IsConnected == false))
             {
                 //One of the connections or both are disconnected
