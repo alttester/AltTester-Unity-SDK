@@ -382,12 +382,15 @@ namespace AltTester.AltTesterUnitySDK.UI
                 communicationHandler.waitingToConnect = true;
                 communicationHandler.Connect();
             }
-            catch (RuntimeWebSocketClientException ex)
+            catch (InvalidOperationException)
             {
-                setMessage("An unexpected runtime error occurred while starting the AltTester client.", ERROR_COLOR, true);
-                logger.Error(ex.InnerException, "An unexpected error occurred while starting the AltTester client.");
                 stopClient(communicationHandler);
                 communicationHandler.waitingToConnect = false;
+                if (communicationHandler.GetType().Equals(typeof(RuntimeCommunicationHandler)))
+                    initRuntimeClient();
+                else
+                    initLiveUpdateClient();
+
             }
             catch (Exception ex)
             {

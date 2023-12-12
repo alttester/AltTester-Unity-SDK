@@ -93,6 +93,10 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 this.wsClient.ConnectAsync();
             }
+            catch (InvalidOperationException e)
+            {
+                throw new InvalidOperationException("Could not connect", e);
+            }
             catch (Exception ex)
             {
                 throw new RuntimeWebSocketClientException("An error occurred while starting the AltTester client.", ex);
