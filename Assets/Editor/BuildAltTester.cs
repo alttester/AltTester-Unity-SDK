@@ -152,7 +152,7 @@ namespace AltTesterTools
 
             return instrumentationSettings;
         }
-        public static string[] GetScene()
+        public static string[] GetScenes()
         {
             return new string[]
                     {
@@ -229,7 +229,7 @@ namespace AltTesterTools
         {
             return new BuildPlayerOptions
             {
-                scenes = GetScene(),
+                scenes = GetScenes(),
 
                 locationPathName = locationPathName,
                 target = target,
