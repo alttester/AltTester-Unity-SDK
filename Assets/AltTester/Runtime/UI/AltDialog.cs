@@ -134,6 +134,13 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void handleConnectionLogic()
         {
+            if (currentTime <= retryTime)
+            {
+                currentTime += Time.unscaledDeltaTime;
+                return;
+            }
+            currentTime = 0;
+
             if (responseCode > 4000 && responseCode < 5000)
             {
                 return;
@@ -153,19 +160,10 @@ namespace AltTester.AltTesterUnitySDK.UI
                 beginCommunication();
                 return;
             }
-            if (communication != null && communication.waitingToConnect && currentTime <= retryTime)
+            if (communication != null && communication.waitingToConnect && communication.IsConnected)
             {
-                if (communication.IsConnected)
-                {
-                    communication.waitingToConnect = false;
-                }
-                else
-                {
-                    currentTime += Time.unscaledDeltaTime;
-                    return;
-                }
+                communication.waitingToConnect = false;
             }
-            currentTime = 0;
             if (communication != null && communication.IsConnected && liveUpdateCommunication == null && AppId != null)
             {
                 //Communication is connected and we start LiveUpdate to connect
@@ -179,17 +177,9 @@ namespace AltTester.AltTesterUnitySDK.UI
                 startClient(communication);
                 return;
             }
-            if (liveUpdateCommunication != null && liveUpdateCommunication.waitingToConnect && currentTime <= retryTime)
+            if (liveUpdateCommunication != null && liveUpdateCommunication.waitingToConnect && liveUpdateCommunication.IsConnected)
             {
-                if (liveUpdateCommunication.IsConnected)
-                {
-                    liveUpdateCommunication.waitingToConnect = false;
-                }
-                else
-                {
-                    currentTime += Time.unscaledDeltaTime;
-                    return;
-                }
+                liveUpdateCommunication.waitingToConnect = false;
             }
             if (communication.IsConnected == false || (liveUpdateCommunication != null && liveUpdateCommunication.IsConnected == false))
             {
