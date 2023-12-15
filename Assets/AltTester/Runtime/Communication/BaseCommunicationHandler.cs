@@ -15,6 +15,8 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+using AltWebSocketSharp;
+
 namespace AltTester.AltTesterUnitySDK.Communication
 {
     public abstract class BaseCommunicationHandler
@@ -35,6 +37,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public CommunicationErrorHandler OnError { get; set; }
 
         public bool IsConnected { get { return this.WsClient != null && this.WsClient.IsConnected; } }
+        public WebSocketState WsClientReadyState { get { return WsClient.ReadyState; } }
         public bool waitingToConnect = true;
 
 

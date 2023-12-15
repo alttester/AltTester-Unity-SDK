@@ -45,6 +45,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.IsAlive; } }
 
+        public WebSocketState ReadyState { get { return this.wsClient.ReadyState; } }
 
         public RuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId = null)
         {

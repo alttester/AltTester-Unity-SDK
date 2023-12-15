@@ -90,7 +90,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private string platformVersion;
         private string deviceInstanceId;
         private float currentTime;
-        float retryTime = 3f;
+        float retryTime = 0.3f;
 
         protected void Start()
         {
@@ -149,23 +149,34 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 //This is the initial state where no connection is established
                 if (isDataValid)
+                {
                     beginCommunication();
+                    setInteractibilityForRestartButton(false);
+                }
                 return;
             }
             if (liveUpdateCommunication != null && communication == null)
             {
+
                 //Communication somehow stopped so we stop liveUpdate as well
                 stopClient(liveUpdateCommunication);
                 liveUpdateCommunication = null;
                 beginCommunication();
                 return;
             }
-            if (communication != null && communication.waitingToConnect && communication.IsConnected)
+            if (communication != null && communication.waitingToConnect)
             {
-                communication.waitingToConnect = false;
+                if (communication.IsConnected)
+                    communication.waitingToConnect = false;
+                if (communication.WsClientReadyState == WebSocketState.Closed)
+                {
+                    beginCommunication();
+                }
+                return;
             }
             if (communication != null && communication.IsConnected && liveUpdateCommunication == null && AppId != null)
             {
+
                 //Communication is connected and we start LiveUpdate to connect
                 initLiveUpdateClient();
                 startClient(liveUpdateCommunication);
@@ -173,20 +184,27 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             if (communication != null && !communication.IsConnected && !wasConnected)
             {
+
                 //Communication is initialized but there is no server to connect to yet
                 startClient(communication);
                 return;
             }
-            if (liveUpdateCommunication != null && liveUpdateCommunication.waitingToConnect && liveUpdateCommunication.IsConnected)
+            if (liveUpdateCommunication != null && liveUpdateCommunication.waitingToConnect)
             {
-                liveUpdateCommunication.waitingToConnect = false;
+                if (liveUpdateCommunication.IsConnected)
+                    liveUpdateCommunication.waitingToConnect = false;
+                return;
             }
             if (communication.IsConnected == false || (liveUpdateCommunication != null && liveUpdateCommunication.IsConnected == false))
             {
+
                 //One of the connections or both are disconnected
                 stopClients();
                 beginCommunication();
+                return;
             }
+            setInteractibilityForRestartButton(true);
+
         }
 
         private void checkIfPlayerPrefNeedsToBeDeleted()
@@ -250,6 +268,8 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 PortInputField.text = "";
             }
+            setInteractibilityForRestartButton(true);
+
         }
 
         private void resetConnectionDataBasedOnUID()
@@ -265,7 +285,16 @@ namespace AltTester.AltTesterUnitySDK.UI
             PortInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
             AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
         }
-        private void setUpHostInputField() => HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
+        private void setUpHostInputField()
+        {
+            HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
+            HostInputField.onValueChanged.AddListener(onHostValueChange);
+        }
+
+        private void onHostValueChange(string _)
+        {
+            setInteractibilityForRestartButton(true);
+        }
 
         private void setUpPortInputField()
         {
@@ -274,13 +303,23 @@ namespace AltTester.AltTesterUnitySDK.UI
             PortInputField.characterValidation = UnityEngine.UI.InputField.CharacterValidation.Integer;
         }
 
-        private void setUpAppNameInputField() => AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+        private void setUpAppNameInputField()
+        {
+            AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+            AppNameInputField.onValueChanged.AddListener(onAppNameValueChanged);
+        }
+
+        private void onAppNameValueChanged(string _)
+        {
+            setInteractibilityForRestartButton(true);
+        }
 
         private void onRestartButtonPress()
         {
             responseCode = 0;
             stopClients();
             validateFields();
+            setInteractibilityForRestartButton(false);
         }
         private void validateFields()
         {
@@ -363,7 +402,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             communication.CmdHandler.OnAppConnect += onAppConnect;
             communication.Init();
         }
-
+        private void setInteractibilityForRestartButton(bool isInteractable) => RestartButton.interactable = isInteractable;
 
         private void startClient(BaseCommunicationHandler communicationHandler)
         {
