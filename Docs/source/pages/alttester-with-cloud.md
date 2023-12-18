@@ -731,7 +731,7 @@ You can connect to AltTester® Desktop in two ways:
 **A. A remote connection**
 
 - AltTester® Desktop is opened in a remote location (e.g. a virtual machine in the cloud) from where it can be accessed through IP/URL.
-- For the purpose of this example [AltTester® Desktop was installed on an AWS instance](https://docs.google.com/document/d/1sZFnmYXsINdR5R0Szx1ce1Pao9_R0_jFiqNJZJv5BJU/edit#heading=h.o24rsr65ynnr). You can connect with the application through IP/URL. In this case, during instrumentation, you need to specify the IP/URL as the AltServerHost. 
+- For the purpose of this example AltTester® Desktop was installed on an AWS instance. You can connect with the application through IP/URL. In this case, during instrumentation, you need to specify the IP/URL as the AltServerHost. 
 - This works for both Android and iOS.
 
 **B. A local connection**
