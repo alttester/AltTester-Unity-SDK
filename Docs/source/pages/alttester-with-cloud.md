@@ -860,7 +860,7 @@ The instructions and resources will be for running tests on Android, for an appl
 - add the instrumented application build making sure you are on the `Mobile App` tab
 - at the configuration step, choose *"Appium Python"* for the purpose of this example, then upload the **.zip** file
 - the example project contains a **.yml** configuration file. Use it at the next step, by selecting *"Run your test in a custom environment"*. This will define how your test environment is set up and how the tests run
-- the next step will allow you to select on which devices the tests will be executedb - You can create your own device pool, or use the recommended top devices
+- the next step will allow you to select on which devices the tests will be executed - You can create your own device pool, or use the recommended top devices
 - for this example, no changes need to be done to the Device state configuration
 - at the last step, you can set the execution timeout for your devices, then start the tests
 
