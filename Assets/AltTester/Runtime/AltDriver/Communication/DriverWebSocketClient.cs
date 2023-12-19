@@ -89,7 +89,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     throw new MultipleDriversException(this.closeReason);
                 }
 
-                throw new ConnectionException(string.Format("Connection closed by AltServer with reason: {}.", this.closeReason));
+                throw new ConnectionException(string.Format("Connection closed by AltServer with reason: {0}.", this.closeReason));
             }
         }
 

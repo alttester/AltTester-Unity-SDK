@@ -95,6 +95,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         protected void Start()
         {
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
+            resetConnectionDataBasedOnUID();
 
             setTitle("AltTester® v." + AltRunner.VERSION);
             setUpCloseButton();
@@ -285,6 +286,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
             PortInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
             AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+
         }
         private void setUpHostInputField()
         {
