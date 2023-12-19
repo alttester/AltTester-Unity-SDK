@@ -143,6 +143,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             if (responseCode > 4000 && responseCode < 5000)
             {
+                setInteractibilityForRestartButton(true);
                 return;
             }
             if (liveUpdateCommunication == null && communication == null)
