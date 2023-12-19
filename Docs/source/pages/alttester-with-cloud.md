@@ -8,6 +8,7 @@ Some of these cloud services allow running Appium automated tests by giving you 
 
 .. note::
     BrowserStack and SauceLabs don’t support server-side testing, meaning that the test folder can’t be uploaded onto the platform in order to run the tests. Client-side testing generally focuses on testing the application or website directly on the user’s end. For testing carried out on cloud services, this means that the test suite is stored locally, on a computer and connected to a device in the cloud.
+    BrowserStack and SauceLabs don’t support server-side testing, meaning that the test folder can’t be uploaded onto the platform in order to run the tests. Client-side testing generally focuses on testing the application or website directly on the user’s end. For testing carried out on cloud services, this means that the test suite is stored locally, on a computer and connected to a device in the cloud.
 
 ```
 
@@ -527,6 +528,9 @@ You can download our example project from [here](https://github.com/alttester/EX
 <!-- To update here when there are updates -->
 At the moment of creating this section of the documentation for the case of having the AltTester® Desktop app running on the same machine where the tests are running the instrumented app was not able to connect to localhost successfully, due to the fact that the 
 [Sauce Connect Tunnel Proxy](https://docs.saucelabs.com/secure-connections/sauce-connect/setup-configuration/basic-setup/) implementation was not yet compatible with the WebSocket used in AltServer. But more recently, SauceLabs confirmed that WebSocket communication is now working for tunnel connections between tests and cloud devices. For this reason, we are now working on running the tests using **Sauce Connect Tunnel Proxy** and we will provide setup instructions shortly.
+<!-- To update here when there are updates -->
+At the moment of creating this section of the documentation for the case of having the AltTester® Desktop app running on the same machine where the tests are running the instrumented app was not able to connect to localhost successfully, due to the fact that the 
+[Sauce Connect Tunnel Proxy](https://docs.saucelabs.com/secure-connections/sauce-connect/setup-configuration/basic-setup/) implementation was not yet compatible with the WebSocket used in AltServer. But more recently, SauceLabs confirmed that WebSocket communication is now working for tunnel connections between tests and cloud devices. For this reason, we are now working on running the tests using **Sauce Connect Tunnel Proxy** and we will provide setup instructions shortly.
 
 In this example, the AltTester® Desktop app is running on a **public virtual machine**, which **can be accessed by the instrumented app** installed on a device in the cloud.
 
@@ -558,6 +562,7 @@ For this purpose, an [Azure virtual machine](https://azure.microsoft.com/en-us/p
 
 **2. Have a set of C# tests that use AltTester® Unity SDK v2.0.\***
 
+- check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/tree/saucelabs_example)
 - check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/tree/saucelabs_example)
 
 **3. Prepare the build instrumented with AltTester® Unity SDK v2.0.\***
@@ -1282,6 +1287,9 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
                 string appPath = System.Environment.CurrentDirectory + "/../../../application.apk";
                 capabilities.AddAdditionalCapability("appium:app", appPath);
                 capabilities.AddAdditionalCapability("appium:deviceName", "Android Phone");
+                string appPath = System.Environment.CurrentDirectory + "/../../../application.apk";
+                capabilities.AddAdditionalCapability("appium:app", appPath);
+                capabilities.AddAdditionalCapability("appium:deviceName", "Android Phone");
                 capabilities.AddAdditionalCapability("platformName", "Android");
                 capabilities.AddAdditionalCapability("automationName", "UIAutomator2");
                 capabilities.AddAdditionalCapability("newCommandTimeout", 2000);
@@ -1315,16 +1323,23 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
                 appiumDriver = new IOSDriver<IOSElement>(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(36000));
     ```
 
+    ```
+
     - initialize AltDriver:
         - **for remote connection**: AltDriver needs to connect to another VM where is AltServer
         ```c#
         altDriver = new AltDriver(host: "INSERT_VM_IP");
+        altDriver = new AltDriver(host: "INSERT_VM_IP");
         ```    
+        - **for local connection**: AltDriver and AltServer are on the same BitBar machine
         - **for local connection**: AltDriver and AltServer are on the same BitBar machine
         ```c#
         altDriver = new AltDriver();
         ```  
 
+    Please consult our example of BaseTest class:
+    - for [Android, with altDriver connecting to localhost](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/tests/BaseTest.cs)
+    - for [iOS, with altDriver connecting to external VM](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/tests/BaseTest.cs)
     Please consult our example of BaseTest class:
     - for [Android, with altDriver connecting to localhost](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/tests/BaseTest.cs)
     - for [iOS, with altDriver connecting to external VM](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/tests/BaseTest.cs)
@@ -1337,11 +1352,13 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
 - when running tests on iOS devices, the `run-tests.sh` needs to be adapted as well - be aware of the different *end of file* for OSX machines.
 
 - **for local connection**
+- **for local connection**
     - here is what the archived package contains to be able to execute tests server-side when AltServer is running on the machine offered by BitBar:
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-remote-connection-zip-archive.png
     ```
 
+- **for remote connection**
 - **for remote connection**
     - here is what the archived package contains to be able to execute tests server-side when AltServer is running on a separate machine, not on the one offered by BitBar:
     ```eval_rst
@@ -1351,16 +1368,25 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
 ```eval_rst
 .. note::
     We recommend using ``wget`` in order to install the `batchmode Linux build for AltTester® Desktop <https://alttester.com/app/uploads/AltTester®/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and not put it in the archive because that increases the running time for the entire flow.
+```eval_rst
+.. note::
+    We recommend using ``wget`` in order to install the `batchmode Linux build for AltTester® Desktop <https://alttester.com/app/uploads/AltTester®/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and not put it in the archive because that increases the running time for the entire flow.
         
+    An important note for this setup is that both running in batchmode and using the Linux build require `AltTester® Pro License <https://alttester.com/alttester/#pricing>`_.
+```
     An important note for this setup is that both running in batchmode and using the Linux build require `AltTester® Pro License <https://alttester.com/alttester/#pricing>`_.
 ```
 
 Please see our shell script examples from the repository:
 - for [**local connection**](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/run-tests.sh)
 - for [**remote connection**](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-ios-VM-IP/run-tests.sh)
+- for [**local connection**](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/run-tests.sh)
+- for [**remote connection**](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-ios-VM-IP/run-tests.sh)
 
 ```eval_rst
 
+.. note::
+    When running server-side on an Android device, Bitbar offers an Ubuntu machine. Further on you can find a ``run-tests.sh`` script prepared for that. It contains the instructions for downloading, installing `AltTester® Desktop Linux batch mode <https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and activating and deactivating the license.
 .. note::
     When running server-side on an Android device, Bitbar offers an Ubuntu machine. Further on you can find a ``run-tests.sh`` script prepared for that. It contains the instructions for downloading, installing `AltTester® Desktop Linux batch mode <https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and activating and deactivating the license.
 ```
@@ -1391,6 +1417,7 @@ An automated test session starts **simultaneously** on all the devices from the 
 
 Running the tests from your machine offers better control over the environment. The only thing we need to set up is the connectivity between the **devices from the cloud**, **the AltDriver** (from test scripts) and **the AltServer module** from the AltTester® Desktop app.
 
+For more details check [this article](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/) from our Blog.
 For more details check [this article](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/) from our Blog.
 
 In this dashboard you can have an overview of the setup combinations we tried and which were successful:

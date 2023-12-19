@@ -39,7 +39,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
         private int closeCode = 0;
         private String closeReason = null;
 
-        private WebSocket wsClient = null;
+        private ClientWebSocket wsClient = null;
         public event EventHandler<MessageEventArgs> OnMessage;
 
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
@@ -78,7 +78,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
                     throw new MultipleDriversException(this.closeReason);
                 }
 
-                throw new ConnectionException(string.Format("Connection closed by AltServer with reason: {}.", this.closeReason));
+                throw new ConnectionException(string.Format("Connection closed by AltServer with reason: {0}.", this.closeReason));
             }
         }
 
@@ -115,7 +115,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
             int delay = 100;
 
-            this.wsClient = new WebSocket(this.uri);
+            this.wsClient = new ClientWebSocket(this.uri);
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
             if (proxyUri != null)
