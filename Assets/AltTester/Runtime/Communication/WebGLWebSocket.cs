@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using AltWebSocketSharp;
 using AOT;
 
 namespace AltTester.AltTesterUnitySDK.Communication
@@ -43,13 +44,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
         TlsHandshakeFailure = 1015
     }
 
-    public enum WebSocketState
-    {
-        Connecting,
-        Open,
-        Closing,
-        Closed
-    }
 
     public delegate void WebSocketOpenEventHandler();
     public delegate void WebSocketMessageEventHandler(byte[] data);

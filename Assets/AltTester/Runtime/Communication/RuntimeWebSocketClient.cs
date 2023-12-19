@@ -138,13 +138,21 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.State == WebSocketState.Open; } }
 
-        public WebGLRuntimeWebSocketClient(string host, int port, string path, string appName)
+        public WebSocketState ReadyState
+        {
+            get
+            {
+                return this.wsClient.State;
+            }
+        }
+
+        public WebGLRuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId)
         {
             this.host = host;
             this.port = port;
             this.appName = appName;
 
-            Uri uri = Utils.CreateURI(host, port, path, appName);
+            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, "SDK");
             wsClient = new WebGLWebSocket(uri.ToString());
 
             wsClient.OnOpen += () =>
