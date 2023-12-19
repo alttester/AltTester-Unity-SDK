@@ -31,6 +31,13 @@ In this automation process, BrowserStack uses a set of Appium capabilities to cu
 
 You can download our example project from [here](https://github.com/alttester/EXAMPLES-CSharp-BrowserStack-AltTrashCat). Also, for more details check [this article](https://alttester.com/running-alttester-based-c-tests-on-browserstack-app-automate/) from our Blog.
 
+```eval_rst
+
+.. note::
+    This example was created for running tests on a single device.
+
+```
+
 Because our tests are written in C# using the NUnit framework, we used the [Appium with NUnit section](https://www.browserstack.com/docs/app-automate/appium/getting-started/c-sharp/nunit) from the BrowserStack App Automate documentation to guide us through client-side testing.
 
 An important aspect of running tests on BrowserStack is that there’s a [local testing connection](https://www.browserstack.com/docs/app-automate/appium/getting-started/c-sharp/nunit/local-testing#3-configure-and-run-your-local-test) needed. **Local Testing**, a BrowserStack option, allows us to conduct automated test execution for mobile apps that access resources hosted in development or testing environments.
@@ -246,6 +253,13 @@ Make sure AltTester® Desktop is running, the environment variables are set and 
 A benefit that comes with the GitHub integration is that you don't need to have the AltTester® Desktop app running on your computer in order to run the tests. In this case **AltServer** is running on another machine, making it possible for any team member to trigger the workflow that runs the tests on BrowserStack.
 
 You can download our example project from [here](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat). Also, for more details check [this article](https://alttester.com/how-to-run-alttester-based-c-tests-on-browserstack-using-github-actions/) from our Blog.
+
+```eval_rst
+
+.. note::
+    This example was created for running tests on a single device.
+
+```
 
 For this integration, the best solution is to create and use a **self-hosted runner** because it allows you to install and run the AltTester® Desktop app that keeps AltServer active at all times. Starting with the [AltTester® Unity SDK 2.0.0](https://alttester.com/alttester-desktop-2-0-0-alttester-unity-sdk-2-0-0-recorder-support-for-webgl-and-architectural-changes/) update it is required to have AltServer running in order to run tests.
 
