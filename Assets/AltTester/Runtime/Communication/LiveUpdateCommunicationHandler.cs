@@ -63,7 +63,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
             this.wsClient.OnDisconnect += (code, reason) =>
             {
-                this.isRunning = false; 
+                this.isRunning = false;
                 if (this.OnDisconnect != null) this.OnDisconnect(code, reason);
             };
 
@@ -77,16 +77,16 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 this.OnMessage(message);
             };
         }
-        
+
         public void Connect()
         {
-            this.isRunning = false; 
+            this.isRunning = false;
             this.wsClient.Connect();
         }
 
         public void Close()
         {
-            this.isRunning = false; 
+            this.isRunning = false;
             this.wsClient.Close();
         }
 
@@ -125,7 +125,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private byte[] GetScreenshot()
         {
             var screenshot = UnityEngine.ScreenCapture.CaptureScreenshotAsTexture();
-            var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality: this.quality);
+            var screenshotSerialized = UnityEngine.ImageConversion.EncodeToJPG(screenshot, quality);
 
             UnityEngine.Object.Destroy(screenshot);
             return screenshotSerialized;

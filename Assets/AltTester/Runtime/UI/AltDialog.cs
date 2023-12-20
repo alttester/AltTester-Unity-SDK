@@ -90,6 +90,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         protected void Start()
         {
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
+            resetConnectionDataBasedOnUID();
 
             SetTitle("AltTester® v." + AltRunner.VERSION);
             SetUpCloseButton();
@@ -97,7 +98,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             SetUpHostInputField();
             SetUpPortInputField();
             SetUpAppNameInputField();
-            resetConnectionDataBasedOnUID();
             SetUpRestartButton();
             SetUpCustomInputToggle();
         }
@@ -139,7 +139,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 }
             }
 
-            if (this._liveUpdateCommunication == null || !this._liveUpdateCommunication.IsConnected)
+            if (this._liveUpdateCommunication == null || !this._liveUpdateCommunication.IsRunning || !this._liveUpdateCommunication.IsConnected)
             {
                 return;
             }
@@ -227,6 +227,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
             PortInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
             AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+
         }
         private void SetUpHostInputField()
         {
