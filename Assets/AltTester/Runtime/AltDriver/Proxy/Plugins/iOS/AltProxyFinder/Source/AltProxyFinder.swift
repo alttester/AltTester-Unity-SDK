@@ -27,7 +27,12 @@ import JavaScriptCore
                 }
 
                 if let data = data {
-                    if let pacContent = String(data: data, encoding: .utf8) {
+                    if var pacContent = String(data: data, encoding: .utf8) {
+                        pacContent = pacContent.trimmingCharacters(in: .whitespacesAndNewlines)
+                        if (pacContent.starts(with:"<!DOCTYPE html>")) {
+                            return
+                        }
+
                         let proxies = CFNetworkCopyProxiesForAutoConfigurationScript(pacContent as CFString, CFURLCreateWithString(kCFAllocatorDefault, destinationUrl as CFString, nil), nil)!.takeUnretainedValue() as? [[AnyHashable: Any]] ?? [];
 
                         if (proxies.count > 0) {
