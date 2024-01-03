@@ -28,6 +28,9 @@ import JavaScriptCore
 
                 if let data = data {
                     if var pacContent = String(data: data, encoding: .utf8) {
+                        // Workaround for BrowserStack with Forced Local mode.
+                        // An issue arises where, instead of receiving the expected PAC file, an error page is returned,
+                        // parsing which would lead to a crash in the application.
                         pacContent = pacContent.trimmingCharacters(in: .whitespacesAndNewlines)
                         if (pacContent.starts(with:"<!DOCTYPE html>")) {
                             return
