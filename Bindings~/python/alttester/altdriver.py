@@ -48,7 +48,18 @@ class AltDriver:
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, enable_logging=False, timeout=60, app_name="__default__", platform="unknown", platform_version="unknown", device_instance_id="unknown", app_id="unknown"):
+    def __init__(
+        self,
+        host="127.0.0.1",
+        port=13000,
+        enable_logging=False,
+        timeout=60,
+        app_name="__default__",
+        platform="unknown",
+        platform_version="unknown",
+        device_instance_id="unknown",
+        app_id="unknown"
+    ):
         self.host = host
         self.port = port
         self.app_name = app_name
