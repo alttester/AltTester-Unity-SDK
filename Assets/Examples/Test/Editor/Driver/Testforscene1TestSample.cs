@@ -1901,7 +1901,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         {
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
             counterElement.CallComponentMethod<string>("AltExampleScriptIncrementOnClick", "eventsRaised.Clear", "Assembly-CSharp", new object[] { }, null);
-            var counterElementPosition = counterElement.GetScreenPosition() + new AltVector2(50, 15);
+            var counterElementPosition = counterElement.GetScreenPosition() + new AltVector2(2, 4);
             altDriver.MoveMouse(counterElementPosition, 1f);
 
             var eventsRaised = counterElement.GetComponentProperty<List<string>>("AltExampleScriptIncrementOnClick", "eventsRaised", "Assembly-CSharp");
