@@ -46,8 +46,9 @@ public class Input : MonoBehaviour
     private static UnityEngine.Vector3 _mousePosition = new UnityEngine.Vector3();
     private static UnityEngine.Vector3 _mouseDelta = new Vector3();
     private static System.Collections.Generic.List<AltAxis> AxisList;
+
     private static GameObject eventSystemTargetMouseDown;
-    private static GameObject monoBehaviourTargetMouseDown;
+    internal static GameObject monoBehaviourTargetMouseDown;
     private static UnityEngine.Vector3 previousMousePosition = new UnityEngine.Vector3();
     private static UnityEngine.GameObject monoBehaviourPreviousTarget = null;
     private static UnityEngine.GameObject previousEventSystemTarget = null;
@@ -494,13 +495,19 @@ public class Input : MonoBehaviour
     {
         var touch = createTouch(screenPosition);
 
-        if (touch.fingerId == 0)
-            mousePosition = screenPosition;
         var pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch);
+        if (touch.fingerId == 0)
+        {
+            mousePosition = screenPosition;
+            mouseTriggerInit(PointerEventData.InputButton.Left, out PointerEventData _, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
+            mouseDownTrigger(PointerEventData.InputButton.Left, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+            mouseDownPointerEventData = pointerEventData;
+        }
         _pointerEventsDataDictionary.Add(touch.fingerId, pointerEventData);
         _instance.StartCoroutine(setMouse0KeyCodePressedDown());
         var inputId = AltRunner._altRunner.ShowInput(touch.position);
         _inputIdDictionary.Add(touch.fingerId, inputId);
+
 
         return touch.fingerId;
     }
@@ -550,10 +557,15 @@ public class Input : MonoBehaviour
     {
         var touch = createTouch(positions[0]);
 
-        if (touch.fingerId == 0)
-            mousePosition = new UnityEngine.Vector3(_touches[0].position.x, _touches[0].position.y, 0);
 
         var pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch);
+        if (touch.fingerId == 0)
+        {
+            mousePosition = new UnityEngine.Vector3(_touches[0].position.x, _touches[0].position.y, 0);
+            mouseTriggerInit(PointerEventData.InputButton.Left, out PointerEventData _, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
+            mouseDownTrigger(PointerEventData.InputButton.Left, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+            mouseDownPointerEventData = pointerEventData;
+        }
         var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
         yield return new WaitForEndOfFrame();
         _keyCodesPressedDown.Add(keyStructure);
@@ -626,7 +638,6 @@ public class Input : MonoBehaviour
                 _mockUpPointerInputModule.ExecuteDragPointerEvents(mouseDownPointerEventData);
                 mouseDownPointerEventData.position = mousePosition;
                 mouseDownPointerEventData.delta = _mouseDelta;
-                ;
                 findEventSystemObject(mouseDownPointerEventData);
             }
             AltRunner._altRunner.ShowInput(mousePosition, inputId);
@@ -658,7 +669,7 @@ public class Input : MonoBehaviour
 #if ENABLE_INPUT_SYSTEM
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-                UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.scrollHandler);
+                if (eventSystemTarget != null ? eventSystemTarget : false) UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.scrollHandler);
         }
         _mouseScrollDelta = UnityEngine.Vector2.zero;//reset the value after scroll ended
     }
@@ -1137,6 +1148,7 @@ public class Input : MonoBehaviour
 
         if (mouseButtons.Contains(mouseButton) && mouseDownPointerEventData != null)
             _mockUpPointerInputModule.ExecuteEndDragPointerEvents(mouseDownPointerEventData);
+        monoBehaviourTargetMouseDown = null;
 
         mouseDownPointerEventData = null;
     }
@@ -1172,7 +1184,7 @@ public class Input : MonoBehaviour
     {
         if (keyName.Length == 0)
         {
-            return (KeyCode.None);
+            return KeyCode.None;
         }
         if (keyName.Length == 1 && Char.IsLetter(keyName[0]))
         {
