@@ -871,7 +871,7 @@ class TestScene01:
 
         element = self.altdriver.find_object_at_coordinates(
             [80 + counter_button.x, 15 + counter_button.y])
-        assert element.name == "Text"
+        assert element.name == "ButtonCounter"
 
     def test_find_object_by_coordinates_no_element(self):
         element = self.altdriver.find_object_at_coordinates([-1, -1])

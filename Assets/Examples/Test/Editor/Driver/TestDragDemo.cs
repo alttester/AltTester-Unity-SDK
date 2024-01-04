@@ -26,9 +26,9 @@ public class TestDragDemo : TestBase
         var holderObject = altDriver.FindObject(By.NAME, "Holder Object (0)");
         var dragObject = altDriver.FindObject(By.NAME, "0-Object");
         var initialPosition = dragObject.GetScreenPosition();
-        altDriver.MoveMouse(initialPosition);
+        altDriver.MoveMouse(initialPosition, 0.3f);
         altDriver.KeyDown(AltKeyCode.Mouse0);
-        altDriver.MoveMouse(holderObject.GetScreenPosition());
+        altDriver.MoveMouse(holderObject.GetScreenPosition(), 0.3f);
         altDriver.KeyUp(AltKeyCode.Mouse0);
         var finalPosition = altDriver.FindObject(By.NAME, "0-Object").GetScreenPosition();
         Assert.That(!initialPosition.Equals(finalPosition));
