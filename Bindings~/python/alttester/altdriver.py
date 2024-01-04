@@ -48,7 +48,7 @@ class AltDriver:
 
     """
 
-    def __init__(self, host= "127.0.0.1", port= 13000, enable_logging= False, timeout= 60, app_name= "__default__", platform= "unknown", platform_version= "unknown", device_instance_id= "unknown", app_id= "unknown"):
+    def __init__(self, host="127.0.0.1", port=13000, enable_logging=False, timeout=60, app_name="__default__", platform="unknown", platform_version="unknown", device_instance_id="unknown", app_id="unknown"):
         self.host = host
         self.port = port
         self.app_name = app_name
@@ -58,7 +58,6 @@ class AltDriver:
         self.platform_version = platform_version
         self.device_instance_id = device_instance_id
         self.app_id = app_id
-
 
         self._config_logging(self.enable_logging)
 
@@ -76,7 +75,14 @@ class AltDriver:
             port=self.port,
             timeout=self.timeout,
             path="altws",
-            params={"appName": self.app_name, "platform": self.platform, "platformVersion": self.platform_version, "deviceInstanceId": self.device_instance_id, "appId": self.app_id, "driverType": "SDK"},
+            params={
+                "appName": self.app_name,
+                "platform": self.platform,
+                "platformVersion": self.platform_version,
+                "deviceInstanceId": self.device_instance_id,
+                "appId": self.app_id,
+                "driverType": "SDK"
+            },
             command_handler=self._command_handler,
             notification_handler=self._notification_handler
         )
