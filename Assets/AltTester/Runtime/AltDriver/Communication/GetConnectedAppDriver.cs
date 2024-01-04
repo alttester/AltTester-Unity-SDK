@@ -15,30 +15,18 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.alttester;
+namespace AltTester.AltTesterUnitySDK.Driver.Communication
+{
+    public class GetConnectedAppDriver : BaseDriver
+    {
+        private new string path = "/altws/connected-app";
 
-public class TestsHelper {
-    public static int getAltDriverPort() {
-        String port = System.getenv("ALTSERVER_PORT");
-
-        if (port != null && port != "") {
-            return Integer.parseInt(port);
+        public GetConnectedAppDriver(string path) : base(path)
+        {
         }
-
-        return 13000;
-    }
-
-    public static String getAltDriverHost() {
-        String host = System.getenv("ALTSERVER_HOST");
-
-        if (host != null && host != "") {
-            return host;
+        public void Send()
+        {
+            WsClient.Send("GetApps");
         }
-
-        return "127.0.0.1";
-    }
-
-    public static AltDriver getAltDriver() {
-        return new AltDriver(TestsHelper.getAltDriverHost(), TestsHelper.getAltDriverPort(), true, 60);
     }
 }

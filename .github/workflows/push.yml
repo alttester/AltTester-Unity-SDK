@@ -61,7 +61,7 @@ jobs:
           name: DocumentationHTML
           path: Docs/build/
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -95,7 +95,7 @@ jobs:
             **/*.log
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -131,7 +131,7 @@ jobs:
             **/*.log
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -174,7 +174,7 @@ jobs:
             reportTest.xml
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -215,7 +215,7 @@ jobs:
           path: "**/*.log"
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -279,7 +279,7 @@ jobs:
           path: "**/*.log"
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -326,7 +326,7 @@ jobs:
           path: "**/*.log"
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -345,7 +345,7 @@ jobs:
           pwsh copyright.ps1
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -407,7 +407,7 @@ jobs:
           export RUN_ANDROID_IN_BROWSERSTACK="false"
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -458,7 +458,7 @@ jobs:
           rmRemote: true
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -503,7 +503,7 @@ jobs:
           rmRemote: true
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -514,5 +514,3 @@ jobs:
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
-
-

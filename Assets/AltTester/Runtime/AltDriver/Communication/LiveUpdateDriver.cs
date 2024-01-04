@@ -15,67 +15,40 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
 using Newtonsoft.Json;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Communication {
-    public class LiveUpdateDriver
+namespace AltTester.AltTesterUnitySDK.Driver.Communication
+{
+
+    public class LiveUpdateDriver : BaseDriver
     {
-        private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
-
-        private DriverWebSocketClient wsClient = null;
-
-        public event EventHandler<byte[]> OnMessage;
-
-        private bool isRunning = false;
-
-        public bool IsRunning { get { return this.isRunning; } }
-        public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
-
-        public void Connect(string host, int port, string appName, int connectTimeout)
+        public LiveUpdateDriver(string path) : base(path)
         {
-            this.isRunning = false;
-            this.wsClient = new DriverWebSocketClient(host, port, "/altws/live-update", appName, connectTimeout);
-            this.wsClient.OnMessage += (sender, e) =>
-            {
-                this.OnMessage.Invoke(this, e.RawData);
-            };
-            this.wsClient.Connect();
         }
-
-        public void Close()
-        {
-            logger.Info(string.Format("Closing connection to AltTester on: '{0}'.", this.wsClient.URI));
-
-            this.isRunning = false;
-            this.wsClient.Close();
-        }
-
         public void Start()
         {
-            this.wsClient.Send("Start");
+            this.WsClient.Send("Start");
             this.isRunning = true;
         }
 
         public void Stop()
         {
-            this.wsClient.Send("Stop");
+            this.WsClient.Send("Stop");
             this.isRunning = false;
         }
 
         public void UpdateFrameRate(int frameRate)
         {
-            this.wsClient.Send(string.Format("FrameRate:{0}", frameRate));
+            this.WsClient.Send(string.Format("FrameRate:{0}", frameRate));
         }
 
         public void UpdateQuality(int quality)
         {
-            this.wsClient.Send(string.Format("Quality:{0}", quality));
+            this.WsClient.Send(string.Format("Quality:{0}", quality));
         }
     }
 }

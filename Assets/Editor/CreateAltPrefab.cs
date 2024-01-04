@@ -250,11 +250,11 @@ namespace AltTesterTools
             var AltDialogTransform = AltDialogGameObject.GetComponent<RectTransform>();
             AltDialogTransform.SetParent(parent, false);
 
-            AltDialogTransform.localPosition = new Vector3(0, 0, 0);
+            AltDialogTransform.localPosition = new Vector3(960, 540, 0);
             AltDialogTransform.anchorMin = Vector2.zero;
             AltDialogTransform.anchorMax = Vector2.zero;
             AltDialogTransform.anchoredPosition = new Vector2(960, 540);
-            AltDialogTransform.sizeDelta = new Vector2(3135, 661);
+            AltDialogTransform.sizeDelta = new Vector2(1920, 1080);
             AltDialogTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var AltDialogCanvas = AltDialogGameObject.GetComponent<Canvas>();
@@ -278,7 +278,7 @@ namespace AltTesterTools
             DialogTransform.anchorMin = new Vector2(0.5f, 0.5f);
             DialogTransform.anchorMax = new Vector2(0.5f, 0.5f);
             DialogTransform.pivot = new Vector2(0.5f, 0.5f);
-            DialogTransform.sizeDelta = new Vector2(440, 600);
+            DialogTransform.sizeDelta = new Vector2(440, 707);
             DialogTransform.localPosition = new Vector3(0, 0, 0);
 
             var DialogImage = DialogGameObject.GetComponent<Image>();
@@ -298,9 +298,10 @@ namespace AltTesterTools
             var TitleRectTransform = TitleGameObject.GetComponent<RectTransform>();
             TitleRectTransform.SetParent(parent, false);
 
-            TitleRectTransform.localPosition = new Vector3(0, -31, 0);
+            TitleRectTransform.localPosition = new Vector3(0, -322, 0);
             TitleRectTransform.anchorMin = new Vector2(0.5f, 1f);
             TitleRectTransform.anchorMax = new Vector2(0.5f, 1f);
+            TitleRectTransform.anchoredPosition = new Vector2(0, -31);
             TitleRectTransform.sizeDelta = new Vector2(300, 75);
             TitleRectTransform.pivot = new Vector2(0.5f, 1f);
 
@@ -320,10 +321,11 @@ namespace AltTesterTools
             var MessageRectTransform = MessageGameObject.GetComponent<RectTransform>();
             MessageRectTransform.SetParent(parent, false);
 
-            MessageRectTransform.localPosition = new Vector3(0, 100, 0);
+            MessageRectTransform.localPosition = new Vector3(0, 96, 0);
             MessageRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             MessageRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            MessageRectTransform.sizeDelta = new Vector2(400, 120);
+            MessageRectTransform.anchoredPosition = new Vector2(0, 96);
+            MessageRectTransform.sizeDelta = new Vector2(400, 303);
             MessageRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var MessageText = MessageGameObject.GetComponent<Text>();
@@ -341,7 +343,8 @@ namespace AltTesterTools
             var LabelRectTransform = LabelGameObject.GetComponent<RectTransform>();
             LabelRectTransform.SetParent(parent, false);
 
-            LabelRectTransform.localPosition = new Vector3(0, -50, 0);
+            LabelRectTransform.localPosition = new Vector3(0, -93, 0);
+            LabelRectTransform.anchoredPosition = new Vector2(0, -93);
             LabelRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             LabelRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             LabelRectTransform.sizeDelta = new Vector2(400, 75);
@@ -363,7 +366,7 @@ namespace AltTesterTools
             var InputFieldTransform = InputFieldGameObject.GetComponent<RectTransform>();
             InputFieldTransform.SetParent(parent, false);
 
-            InputFieldTransform.localPosition = new Vector3(0, -110, 0);
+            InputFieldTransform.localPosition = new Vector3(0, -153, 0);
             InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
             InputFieldTransform.sizeDelta = new Vector2(240, 34);
@@ -414,7 +417,7 @@ namespace AltTesterTools
             var InputFieldTransform = InputFieldGameObject.GetComponent<RectTransform>();
             InputFieldTransform.SetParent(parent, false);
 
-            InputFieldTransform.localPosition = new Vector3(0, -155, 0);
+            InputFieldTransform.localPosition = new Vector3(0, -198, 0);
             InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
             InputFieldTransform.sizeDelta = new Vector2(240, 34);
@@ -464,7 +467,7 @@ namespace AltTesterTools
             var InputFieldTransform = InputFieldGameObject.GetComponent<RectTransform>();
             InputFieldTransform.SetParent(parent, false);
 
-            InputFieldTransform.localPosition = new Vector3(0, -200, 0);
+            InputFieldTransform.localPosition = new Vector3(0, -243, 0);
             InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
             InputFieldTransform.sizeDelta = new Vector2(240, 34);
@@ -514,7 +517,7 @@ namespace AltTesterTools
             var RestartButtonTransform = RestartButtonGameObject.GetComponent<RectTransform>();
             RestartButtonTransform.SetParent(parent, false);
 
-            RestartButtonTransform.localPosition = new Vector3(0, -245, 0);
+            RestartButtonTransform.localPosition = new Vector3(0, -288, 0);
             RestartButtonTransform.anchorMin = new Vector2(0.5f, 0.5f);
             RestartButtonTransform.anchorMax = new Vector2(0.5f, 0.5f);
             RestartButtonTransform.sizeDelta = new Vector2(240, 34);
@@ -546,9 +549,10 @@ namespace AltTesterTools
             var CloseButtonTransform = CloseButtonGameObject.GetComponent<RectTransform>();
             CloseButtonTransform.SetParent(parent, false);
 
-            CloseButtonTransform.localPosition = new Vector3(-15, -15, 0);
+            CloseButtonTransform.localPosition = new Vector3(205, 338, 0);
             CloseButtonTransform.anchorMin = new Vector2(1f, 1f);
             CloseButtonTransform.anchorMax = new Vector2(1f, 1f);
+            CloseButtonTransform.anchoredPosition = new Vector2(-15, -15);
             CloseButtonTransform.sizeDelta = new Vector2(30, 30);
             CloseButtonTransform.pivot = new Vector2(1f, 1f);
 
@@ -586,7 +590,7 @@ namespace AltTesterTools
             var ToggleTransform = Toggle.GetComponent<RectTransform>();
             ToggleTransform.SetParent(parent, false);
 
-            ToggleTransform.localPosition = new Vector3(18, -295, 0);
+            ToggleTransform.localPosition = new Vector3(18, -338, 0);
             ToggleTransform.sizeDelta = new Vector2(15, 25);
             ToggleTransform.anchorMin = new Vector2(0.5f, 0.5f);
             ToggleTransform.anchorMax = new Vector2(0.5f, 0.5f);

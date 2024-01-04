@@ -49,6 +49,10 @@ public class WebsocketConnection {
     private int port;
     private String appName;
     private int connectTimeout;
+    private String platform;
+    private String platformVersion;
+    private String deviceInstanceId;
+    private String appId;
 
     private String error = null;
     private CloseReason closeReason = null;
@@ -56,11 +60,16 @@ public class WebsocketConnection {
     public Session session = null;
     public IMessageHandler messageHandler = null;
 
-    public WebsocketConnection(String host, int port, String appName, int connectTimeout) {
+    public WebsocketConnection(String host, int port, String appName, int connectTimeout, String platform,
+            String platformVersion, String deviceInstanceId, String appId) {
         this.host = host;
         this.port = port;
         this.appName = appName;
         this.connectTimeout = connectTimeout;
+        this.platform = platform;
+        this.platformVersion = platformVersion;
+        this.deviceInstanceId = deviceInstanceId;
+        this.appId = appId;
     }
 
     public boolean isOpen() {
@@ -69,7 +78,10 @@ public class WebsocketConnection {
 
     private URI getURI() {
         try {
-            return new URI("ws", null, host, port, "/altws", "appName=" + appName, null);
+            return new URI("ws", null, host, port, "/altws",
+                    "appName=" + appName + "&platform=" + platform + "&platformVersion=" + platformVersion
+                            + "&deviceInstanceId=" + deviceInstanceId + "&appId=" + appId + "&driverType=SDK",
+                    null);
         } catch (URISyntaxException e) {
             logger.error(e);
             throw new ConnectionException(e.getMessage(), e);
