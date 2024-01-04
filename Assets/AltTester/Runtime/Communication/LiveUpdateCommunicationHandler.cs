@@ -20,7 +20,7 @@ using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
-    public class LiveUpdateCommunicationHandler: BaseCommunicationHandler
+    public class LiveUpdateCommunicationHandler : BaseCommunicationHandler
     {
         private string path = "/altws/live-update/app";
 

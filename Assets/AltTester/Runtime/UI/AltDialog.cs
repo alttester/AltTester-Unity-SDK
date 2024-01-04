@@ -121,7 +121,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             handleConnectionLogic();
 
-            if (this.liveUpdateCommunication == null || !this.liveUpdateCommunication.IsConnected)
+            if (this.liveUpdateCommunication == null || !this.liveUpdateCommunication.IsRunning || !this.liveUpdateCommunication.IsConnected)
                 return;
 
             update += Time.unscaledDeltaTime;
