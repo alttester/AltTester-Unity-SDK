@@ -15,7 +15,6 @@ public class AltDragController : MonoBehaviour
 
     public void OnMouseDown()
     {
-        UnityEngine.Debug.Log("MouseDown");
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = transform.position.z;
         offset = transform.position - mousePos;
@@ -24,7 +23,6 @@ public class AltDragController : MonoBehaviour
 
     public void OnMouseDrag()
     {
-        UnityEngine.Debug.Log("Test");
         if (mouseButtonClick)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -50,7 +48,6 @@ public class AltDragController : MonoBehaviour
 
     public void OnMouseUp()
     {
-        UnityEngine.Debug.Log("Up");
         OnBlockSet();
     }
 
