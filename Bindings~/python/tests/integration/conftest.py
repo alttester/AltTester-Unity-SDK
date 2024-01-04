@@ -136,7 +136,7 @@ def appium_driver(request):
             )
 
         bs_local = Local()
-        bs_local_args = {"key": get_browserstack_key(), "forcelocal": "true",
+        bs_local_args = {"key": get_browserstack_key(), "forcelocal": "false",
                                                         "force": "true"}
         bs_local.start(**bs_local_args)
         appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
