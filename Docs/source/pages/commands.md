@@ -2777,12 +2777,9 @@ Invokes static methods from your app.
         @Test
         public void TestCallStaticMethod() throws Exception
         {
-
-            AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", new Object[] {"Test", 1}).withTypeOfParameters("").build();
-            altDriver.callStaticMethod(altCallStaticMethodParams, Void.class);
-            altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "GetInt", "UnityEngine.CoreModule", new Object[] {"Test", 2}).withTypeOfParameters("").build();
-            int a = altDriver.callStaticMethod(altCallStaticMethodParams, Integer.class);
-            assertEquals(1,a);
+            altDriver.callStaticMethod(new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "SetInt", "", new Object[] { "Test", "1" }).build(), String.class);
+            int a = altDriver.callStaticMethod(new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "GetInt", "", new Object[] { "Test", "2" }).build(), Integer.class);
+            assertEquals(1, a);
         }
 
     .. code-tab:: py
