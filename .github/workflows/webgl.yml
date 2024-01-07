@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="127.0.0.1"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WebGLBuildFromCommandLine -logFile buildWebGL.log -quit
 
@@ -27,7 +27,7 @@ jobs:
             buildWebGL.log
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -56,7 +56,7 @@ jobs:
         uses: actions/setup-dotnet@v2.1.1
 
       - run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="127.0.0.1"
           cd build/webgl
           python3 -m http.server --cgi 8360 &
@@ -77,7 +77,7 @@ jobs:
             *.log
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -104,7 +104,7 @@ jobs:
 
       - name: Open application
         run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="127.0.0.1"
           cd build/webgl
           python3 -m http.server --cgi 8360 &
@@ -126,7 +126,7 @@ jobs:
 
       - name: Run integration tests
         run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="127.0.0.1"
           pytest Bindings~/python/tests/integration -m "not WebGLUnsupported"
 
@@ -141,7 +141,7 @@ jobs:
           path: "**/*.log"
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
@@ -175,7 +175,7 @@ jobs:
       - uses: stCarolas/setup-maven@v4.4
 
       - run: |
-          export ALTSERVER_PORT=13020
+          export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="127.0.0.1"
           cd build/webgl
           python3 -m http.server --cgi 8360 &
@@ -196,7 +196,7 @@ jobs:
             *.log
 
       - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}    
+        if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
