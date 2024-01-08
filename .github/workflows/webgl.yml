@@ -18,7 +18,7 @@ jobs:
 
       - run: |
           export ALTSERVER_PORT=13005
-          export ALTSERVER_HOST="127.0.0.1"
+          export ALTSERVER_HOST="192.168.11.35"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WebGLBuildFromCommandLine -logFile buildWebGL.log -quit
 
       - uses: actions/upload-artifact@v3.1.0
@@ -60,7 +60,7 @@ jobs:
 
       - run: |
           export ALTSERVER_PORT=13005
-          export ALTSERVER_HOST="127.0.0.1"
+          export ALTSERVER_HOST="192.168.11.35"
           cd build/webgl
           python3 -m http.server --cgi 8360 &
           osascript -e 'quit app "Chrome"'
@@ -108,7 +108,7 @@ jobs:
       - name: Open application
         run: |
           export ALTSERVER_PORT=13005
-          export ALTSERVER_HOST="127.0.0.1"
+          export ALTSERVER_HOST="192.168.11.35"
           cd build/webgl
           python3 -m http.server --cgi 8360 &
           osascript -e 'quit app "Chrome"'
@@ -130,7 +130,7 @@ jobs:
       - name: Run integration tests
         run: |
           export ALTSERVER_PORT=13005
-          export ALTSERVER_HOST="127.0.0.1"
+          export ALTSERVER_HOST="192.168.11.35"
           pytest Bindings~/python/tests/integration -m "not WebGLUnsupported"
 
       - name: Close Chrome
@@ -179,7 +179,7 @@ jobs:
 
       - run: |
           export ALTSERVER_PORT=13005
-          export ALTSERVER_HOST="127.0.0.1"
+          export ALTSERVER_HOST="192.168.11.35"
           cd build/webgl
           python3 -m http.server --cgi 8360 &
           osascript -e 'quit app "Chrome"'
