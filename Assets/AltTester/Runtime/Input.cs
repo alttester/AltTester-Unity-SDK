@@ -1003,6 +1003,7 @@ public class Input : MonoBehaviour
     internal static IEnumerator KeyDownLifeCycle(KeyCode keyCode, float power)
     {
         _keyDownFlag = true;
+        yield return new WaitForEndOfFrame();
         var keyStructure = new KeyStructure(keyCode, power);
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
