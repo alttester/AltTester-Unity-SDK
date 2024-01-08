@@ -819,8 +819,8 @@ class TestScene01:
         assert input_field.get_component_property(
             "AltInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp")
 
-    # @pytest.mark.WebGLUnsupported
-    @pytest.mark.skip(reason="Fails on iOS")
+    @pytest.mark.WebGLUnsupported
+    @pytest.mark.iOSUnsupported
     def test_get_static_property(self):
 
         self.altdriver.call_static_method(
