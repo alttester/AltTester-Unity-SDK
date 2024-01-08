@@ -1004,11 +1004,8 @@ public class Input : MonoBehaviour
     {
         _keyDownFlag = true;
         var keyStructure = new KeyStructure(keyCode, power);
-        yield return null;
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
-        yield return null;
-        _keyCodesPressedDown.Remove(keyStructure);
         if (mouseKeyCodes.Contains(keyCode))
         {
             var inputButton = keyCodeToInputButton(keyCode);
@@ -1016,6 +1013,9 @@ public class Input : MonoBehaviour
             mouseDownTrigger(inputButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
             mouseDownPointerEventData = pointerEventData;
         }
+        yield return null;
+        _keyCodesPressedDown.Remove(keyStructure);
+
         _keyDownFlag = false;
     }
 
