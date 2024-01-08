@@ -293,7 +293,7 @@ class TestScene01:
         assert str(
             execinfo.value) == "Property InstrumentationSettings.AltServerPort not found after 2 seconds"
 
-    @pytest.mark.skip(reason="Fails on iOS")
+    @pytest.mark.iOSUnsupported
     def test_wait_for_component_property_assembly_not_found(self):
         componentName = "AltExampleScriptCapsule"
         propertyName = "InstrumentationSettings.AltServerPort"
