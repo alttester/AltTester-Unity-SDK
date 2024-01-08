@@ -21,7 +21,7 @@ jobs:
           export ALTSERVER_HOST="192.168.11.35"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WebGLBuildFromCommandLine -logFile buildWebGL.log -quit
 
-      - uses: actions/upload-artifact@v3.1.0
+      - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
         with:
           name: BuildWebGLArtifact
@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3.0.0
+      - uses: actions/download-artifact@v3
         with:
           name:
             BuildWebGLArtifact
@@ -66,13 +66,15 @@ jobs:
           osascript -e 'quit app "Chrome"'
           open http://localhost:8360/index.html
           cd ../..
+
+      - run: |
           dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
 
       - name: Close Chrome
         if: always()
         run: osascript -e 'quit app "Chrome"'
 
-      - uses: actions/upload-artifact@v3.1.0
+      - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
         with:
           name: TestCSharpArtifact
@@ -100,7 +102,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3.0.0
+      - uses: actions/download-artifact@v3
         with:
           name:
             BuildWebGLArtifact
@@ -137,7 +139,7 @@ jobs:
         if: always()
         run: osascript -e 'quit app "Chrome"'
 
-      - uses: actions/upload-artifact@v3.1.0
+      - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
         with:
           name: TestPythonArtifact
@@ -164,7 +166,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3.0.0
+      - uses: actions/download-artifact@v3
         with:
           name:
             BuildWebGLArtifact
@@ -191,7 +193,7 @@ jobs:
         if: always()
         run: osascript -e 'quit app "Chrome"'
 
-      - uses: actions/upload-artifact@v3.1.0
+      - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
         with:
           name: TestJavaArtifact
