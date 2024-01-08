@@ -304,7 +304,7 @@ jobs:
             export ALTSERVER_PORT=13005
             export ALTSERVER_HOST="192.168.11.35"
             allure generate
-            pytest -s -v --alluredir=allure-report/ Bindings~/python/tests/integration
+            pytest -s -v --alluredir=allure-report/ Bindings~/python/tests/integration -m "not iOSUnsupported"
 
         - name: Generate Allure report
           if: always()  
