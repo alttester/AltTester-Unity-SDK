@@ -55,10 +55,8 @@ jobs:
           name:
             BuildWebGLArtifact
 
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v2.1.1
-
-      - run: |
+      - name: Open application
+        run: |
           export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="192.168.11.35"
           cd build/webgl
@@ -67,7 +65,12 @@ jobs:
           open http://localhost:8360/index.html
           cd ../..
 
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v2.1.1
+
       - run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
           dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
 
       - name: Close Chrome
