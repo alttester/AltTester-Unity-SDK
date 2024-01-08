@@ -160,7 +160,7 @@ namespace AltTester.AltTesterUnitySDK
 
         public void ExecuteDragPointerEvents(PointerEventData previousData)
         {
-#if ALTTESTER
+#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
             if (Input.monoBehaviourTargetMouseDown != null)
             {
                 Input.monoBehaviourTargetMouseDown.SendMessage("OnMouseDrag", UnityEngine.SendMessageOptions.DontRequireReceiver);
@@ -210,7 +210,7 @@ namespace AltTester.AltTesterUnitySDK
 
         public void ExecuteEndDragPointerEvents(PointerEventData previousData)
         {
-#if ALTTESTER
+#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
 
             if (Input.monoBehaviourTargetMouseDown != null)
             {
