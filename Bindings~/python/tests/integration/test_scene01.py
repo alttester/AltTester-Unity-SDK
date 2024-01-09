@@ -293,6 +293,7 @@ class TestScene01:
         assert str(
             execinfo.value) == "Property InstrumentationSettings.AltServerPort not found after 2 seconds"
 
+    @pytest.mark.WebGLUnsupported # Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
     def test_wait_for_component_property_assembly_not_found(self):
         componentName = "AltExampleScriptCapsule"
         propertyName = "InstrumentationSettings.AltServerPort"

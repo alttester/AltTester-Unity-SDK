@@ -233,6 +233,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.NotNull(altElement);
             Assert.Throws<WaitTimeOutException>(() => altElement.WaitForComponentProperty(componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK", 2));
         }
+
+        [Category("WebGLUnsupported")] // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
         [Test]
         public void TestWaitForComponentPropertyAssemblyNotFound()
         {
