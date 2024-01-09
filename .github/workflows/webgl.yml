@@ -11,7 +11,7 @@ on: ['push']
 
 env:
   ALTSERVER_PORT: 13005
-  ALTSERVER_HOST: '192.168.11.35'
+  ALTSERVER_HOST: 192.168.11.35
 
 jobs:
   build-WebGL-Unity2021:
@@ -195,6 +195,7 @@ jobs:
           open http://localhost:8360/index.html
 
       - name: Run tests
+        run: |
           cd Bindings~/java
           mvn clean  -Dtest=com.alttester.Tests* test -Dgroups=\!WebGLUnsupported
 
@@ -210,7 +211,7 @@ jobs:
           path: |
             *.log
 
-      - name: Notify on Slack-
+      - name: Notify on Slack
         uses: ravsamhq/notify-slack-action@2.3.0
         if: ${{ always() && github.ref_name == 'development' }}
         with:
