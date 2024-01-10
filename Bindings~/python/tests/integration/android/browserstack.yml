@@ -1,7 +1,7 @@
-userName: $BROWSERSTACK_UNSERNAME
-accessKey: $BROWSERSTACK_KEY
+userName: ${BROWSERSTACK_USERNAME}
+accessKey: ${BROWSERSTACK_KEY}
 framework: pytest
-app: bs://577f91013264c13b37e5b554c1fbedf01f38a447
+app: ${APP_URL}
 platforms:
   - platformName: android
     deviceName: Samsung Galaxy S22 Ultra
@@ -11,7 +11,15 @@ platforms:
     deviceName: OnePlus 9
     platformVersion: 11.0
     deviceOrientation: landscape
+  - platformName: android
+    deviceName: Xiaomi Redmi Note 11
+    platformVersion: 11.0
+    deviceOrientation: landscape
+  - platformNAme: android
+    deviceName: OnePlus 11R
+    platformVersion: 13.0
+    deviceOrientation: landscape
 parallelsPerPlatform: 1
 browserstackLocal: true
-buildName: browserstack-build-1
+buildName: multiple-devices-${DATE_TIME}
 projectName: BrowserStack Sample

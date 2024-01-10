@@ -47,8 +47,8 @@ def get_browserstack_key():
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
     altdriver = AltDriver(
-        host="192.168.11.35",
-        port=13005,
+        host=get_host(),
+        port=get_port(),
         app_name=get_app_name(),
         enable_logging=True,
         timeout=60
@@ -62,7 +62,6 @@ def altdriver(appium_driver):
 @pytest.fixture(scope="session")
 def appium_driver(request, session_capabilities):
     appium_driver = None
-
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
         appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
                                          session_capabilities)
