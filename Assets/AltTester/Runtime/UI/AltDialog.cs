@@ -242,7 +242,14 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         protected IEnumerator SendScreenshot()
         {
-            yield return new UnityEngine.WaitForEndOfFrame();
+#if UNITY_EDITOR
+            if (Application.isBatchMode)
+            {
+                yield return null;
+            }
+            else
+#endif
+                yield return new UnityEngine.WaitForEndOfFrame();
             this.liveUpdateCommunication.SendScreenshot();
         }
 
