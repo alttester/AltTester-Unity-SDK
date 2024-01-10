@@ -388,7 +388,7 @@ jobs:
 
       - name: Run integration tests
         run: |
-          export RUN_ANDROID_IN_BROWSERSTACK="true"
+          export RUN_IN_BROWSERSTACK="true"
           export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
           export ALTSERVER_PORT=13005
@@ -404,7 +404,7 @@ jobs:
       - name: Unset Browserstack Flag
         if: always()
         run: |
-          export RUN_ANDROID_IN_BROWSERSTACK="false"
+          export RUN_IN_BROWSERSTACK="false"
 
       - uses: ravsamhq/notify-slack-action@2.3.0
         if: ${{ always() && github.ref_name == 'development' }}

@@ -17,12 +17,8 @@
 
 import os
 import pytest
-import requests
 import time
-import datetime
 from alttester import AltDriver
-from appium.options.android import UiAutomator2Options
-from browserstack.local import Local
 from appium import webdriver
 
 """Holds test fixtures that need to be shared among all tests."""
@@ -51,8 +47,8 @@ def get_browserstack_key():
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
     altdriver = AltDriver(
-        host=get_host(),
-        port=get_port(),
+        host="192.168.11.35",
+        port=13005,
         app_name=get_app_name(),
         enable_logging=True,
         timeout=60
@@ -67,19 +63,19 @@ def altdriver(appium_driver):
 def appium_driver(request, session_capabilities):
     appium_driver = None
 
-    if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") == "true":
+    if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
         appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
                                          session_capabilities)
         time.sleep(10)
     yield appium_driver
 
-    if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") == "true":
+    if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
         appium_driver.quit()
 
 
 @pytest.fixture(autouse=True)
 def do_something_with_appium(appium_driver):
-    if os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") != "true":
+    if os.environ.get("RUN_IN_BROWSERSTACK", "") != "true":
         return
     # browserstack has an idle timeout of max 300 seconds
     # so we need to do something with the appium driver
