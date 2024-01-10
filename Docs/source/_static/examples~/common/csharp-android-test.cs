@@ -1,4 +1,5 @@
 using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.AltReversePortForwarding;
 using NUnit.Framework;
 
 public class MyFirstTest

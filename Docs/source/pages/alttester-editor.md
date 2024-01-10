@@ -45,47 +45,18 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     The product name (same with Unity's Player Settings).
 
-- *Input Visualizer*
-
-    Lets you see where on screen an action (e.g. swipe or click) happens.
-    The action position is marked on the screen with a red circle.
-
-
-To activate this option before build check the "Input visualizer" checkbox.
-
-| Input Visualizer Disabled                          | Input Visualizer Enabled                       |
-| -------------------------------------------------- | ---------------------------------------------- |
-| ![No Input Visualizer Demo](../_static/img/alttester-editor/no-input-visualizer.gif) | ![Input Visualizer Demo](../_static/img/alttester-editor/input-visualizer.gif) |
-
-You can also activate this option from within the test using the following code:
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        altDriver.FindObject(By.NAME, "AltTesterPrefab").SetComponentProperty("AltRunner", "ShowInputs", "Assembly-CSharp", "true");
-
-    .. code-tab:: java
-
-        altDriver.findObject(AltDriver.By.NAME,"AltTesterPrefab").setComponentProperty("AltRunner", "ShowInputs", "Assembly-CSharp", "true");
-
-    .. code-tab:: py
-
-        altdriver.find_object(By.NAME,"AltTesterPrefab").set_component_property("AltRunner", "ShowInputs", "Assembly-CSharp", "true")
-
-```
 
 - *Show Popup*
 
     If this option is checked, it will display the *"AltTester"* popup in
     app containing the text *"Waiting for connection on port 13000"*. That
-    means the build contains the AltTester Unity SDK. Popup will disappear once the
+    means the build contains the AltTester® Unity SDK. Popup will disappear once the
     tests are started.
+    In case you modified the connection data inside the popup, you can use the *LeftCtrl+LeftShift+D+L* key combination to reset your connection data to the default values, a.k.a the values specified in the *Build Settings*.
 
 ![Popup Screenshot](../_static/img/alttester-editor/popup.png)
 
--   *Append "Test" to product name for AltTester Unity SDK builds*:
+-   *Append "Test" to product name for AltTester® Unity SDK builds*:
 
     Will add "Test" to the product name.
 
@@ -102,6 +73,10 @@ You can also activate this option from within the test using the following code:
 
     Refers to the port the AltServer is listening on.
     You can change this value and make a new app build if you want to use another port.
+
+- *Reset Connection Data*
+
+    In case you are building your app on the same device but you do not want to start the new build with the connection data from the old build, you will want to check this box. Even if you managed to connect to the old build with different data, your new build will use the host, port and app name specified in the Build Settings.
 
 ## Test run Settings
 ![Test run Settings Screenshot](../_static/img/alttester-editor/testrun-settings.png)

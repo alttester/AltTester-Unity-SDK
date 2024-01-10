@@ -22,7 +22,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 
-public static class ProxyFinderPostProcess
+public static class AltProxyFinderPostProcess
 {
     [PostProcessBuild]
     public static void OnPostProcessBuild(BuildTarget buildTarget, string buildPath)

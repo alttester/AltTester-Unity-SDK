@@ -65,22 +65,27 @@ public class AltDriver {
     private WebsocketConnection connection = null;
 
     public AltDriver() {
-        this("127.0.0.1", 13000);
+        this("127.0.0.1", 13000, false, 60, "__default__", "unknown", "unknown", "unknown", "unknown");
     }
 
     public AltDriver(String host, int port) {
-        this(host, port, false);
+        this(host, port, false, 60, "__default__", "unknown", "unknown", "unknown", "unknown");
     }
 
     public AltDriver(String host, int port, Boolean enableLogging) {
-        this(host, port, enableLogging, 60);
+        this(host, port, enableLogging, 60, "__default__", "unknown", "unknown", "unknown", "unknown");
     }
 
     public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout) {
-        this(host, port, enableLogging, connectTimeout, "__default__");
+        this(host, port, enableLogging, connectTimeout, "__default__", "unknown", "unknown", "unknown", "unknown");
     }
 
     public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String appName) {
+        this(host, port, enableLogging, connectTimeout, appName, "unknown", "unknown", "unknown", "unknown");
+    }
+
+    public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String appName, String platform,
+            String platformVersion, String deviceInstanceId, String appId) {
         if (!enableLogging) {
             AltDriverConfigFactory.DisableLogging();
         }
@@ -90,7 +95,8 @@ public class AltDriver {
         }
 
         logger.debug("Connecting to AltTester on host: '{}', port: '{}' and appName: '{}'.", host, port, appName);
-        this.connection = new WebsocketConnection(host, port, appName, connectTimeout);
+        this.connection = new WebsocketConnection(host, port, appName, connectTimeout, platform, platformVersion,
+                deviceInstanceId, appId);
         this.connection.connect();
 
         checkServerVersion();

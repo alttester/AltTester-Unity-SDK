@@ -30,7 +30,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Proxy
 
         private string CallJavaGetProxy(string uri)
         {
-            using (var JavaClass = new AndroidJavaClass("com.alttester.utils.ProxyFinder")) {
+            using (var JavaClass = new AndroidJavaClass("com.alttester.utils.AltProxyFinder")) {
                 return JavaClass.CallStatic<string>("getProxy", uri);
             }
         }

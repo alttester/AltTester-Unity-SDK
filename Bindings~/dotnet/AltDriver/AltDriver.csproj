@@ -8,10 +8,10 @@
         <PackageVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</PackageVersion>
         <Title>AltTester-Driver</Title>
         <Description>
-            AltTester-Driver package includes the C# bindings needed to run tests against Unity apps using AltTester Unity SDK.
+            AltTester-Driver package includes the C# bindings needed to run tests against Unity apps using AltTester® Unity SDK.
         </Description>
         <Summary>
-            C# Bindings to allow tests to be run against Unity games and apps using AltTester Unity SDK
+            C# Bindings to allow tests to be run against Unity games and apps using AltTester® Unity SDK
         </Summary>
         <Authors> Altom </Authors>
 
@@ -30,6 +30,6 @@
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
         <PackageReference Include="NLog" Version="4.7.9" />
-        <PackageReference Include="AltWebSocketSharp" Version="1.0.0" />
+        <PackageReference Include="AltWebSocketSharp" Version="1.0.7" />
     </ItemGroup>
 </Project>

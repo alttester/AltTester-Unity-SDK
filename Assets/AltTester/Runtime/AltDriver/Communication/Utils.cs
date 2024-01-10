@@ -22,13 +22,24 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 {
     public class Utils
     {
-        public static Uri CreateURI(string host, int port, string path, string appName)
+        public static Uri CreateURI(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId = null, string driverType = "SDK")
         {
             Uri uri;
-            if (!Uri.TryCreate(string.Format("ws://{0}:{1}{2}?appName={3}", host, port, path, Uri.EscapeDataString(appName)), UriKind.Absolute, out uri))
+            if (string.IsNullOrEmpty(appId))
             {
-                throw new Exception(String.Format("Invalid host or port {0}:{1}", host, port));
+                if (!Uri.TryCreate(string.Format("ws://{0}:{1}{2}?appName={3}&platform={4}&platformVersion={5}&deviceInstanceId={6}&driverType={7}", host, port, path, Uri.EscapeDataString(appName), Uri.EscapeDataString(platform), Uri.EscapeDataString(platformVersion), Uri.EscapeDataString(deviceInstanceId), Uri.EscapeDataString(driverType)), UriKind.Absolute, out uri))
+                {
+                    throw new Exception(String.Format("Invalid host or port {0}:{1}{2}", host, port, path));
+                }
             }
+            else
+            {
+                if (!Uri.TryCreate(string.Format("ws://{0}:{1}{2}?appName={3}&platform={4}&platformVersion={5}&deviceInstanceId={6}&appId={7}&driverType={8}", host, port, path, Uri.EscapeDataString(appName), Uri.EscapeDataString(platform), Uri.EscapeDataString(platformVersion), Uri.EscapeDataString(deviceInstanceId), Uri.EscapeDataString(appId), Uri.EscapeDataString(driverType)), UriKind.Absolute, out uri))
+                {
+                    throw new Exception(String.Format("Invalid host or port {0}:{1}{2}", host, port, path));
+                }
+            }
+
 
             return uri;
         }
