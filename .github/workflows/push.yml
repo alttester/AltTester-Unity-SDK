@@ -388,6 +388,7 @@ jobs:
           pip uninstall AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
           pip install -r "Bindings~/python/requirements-dev.txt"
+          pip install -r "Bindings~/python/requirements-browserstack.txt"
           pip install -e "Bindings~/python" --root "Bindings~/python"
 
       - name: Run integration tests
