@@ -108,8 +108,8 @@ var LibraryWebSocket = {
 		if (instance.ws && instance.ws.readyState < 2) {
 			try {
 				instance.ws.close(code, reason);
-			} catch (err) {
-				return -7;
+			} catch
+			{
 			}
 		}
 
