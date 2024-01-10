@@ -1,13 +1,11 @@
 name: WebGL Tests
 
-on: ['push']
-
-# on:
-  # workflow_dispatch:
-  # schedule:
-  #   # * is a special character in YAML so you have to quote this string
-  #   - cron: '0 4 * * 6' # run on every Saturday
-  # push:
+on:
+  workflow_dispatch:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: '0 4 * * 6' # run on every Saturday
+  push:
 
 env:
   ALTSERVER_PORT: 13005
