@@ -13,4 +13,13 @@ pytest-repeat
 
 #browserstack
 browserstack-local
+jsonmerge
+multiprocess
+paver
+selenium==4.6.0
+psutil
+pytest-variables
+pytest-selenium
 Appium-Python-Client
+browserstack-sdk
+py
