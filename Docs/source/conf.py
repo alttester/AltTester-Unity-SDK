@@ -28,7 +28,7 @@ project = 'AltTester® Unity SDK'
 # https://github.com/sphinx-doc/sphinx/issues/1836
 # https://github.com/sphinx-doc/sphinx/issues/500
 
-TAGS = ['1.8.1', '2.0.0', '2.0.1', '2.0.2']
+TAGS = ['1.8.1', '2.0.0', '2.0.1', '2.0.2', '2.0.3']
 LATEST_VERSION = 'master'
 BRANCHES = ['master']
 
@@ -52,8 +52,10 @@ release = version
 desktop_release_version = 'v.' + release
 sdk_release_version = version.replace('.', '_')
 
-alttester_sdk_docs_link         = "https://alttester.com/docs/desktop/" + desktop_release_version + "/%s"
-alttester_sdk_download_link     = "https://alttester.com/app/uploads/AltTester/sdks/AltTester_" + sdk_release_version + ".unitypackage%s"
+alttester_sdk_docs_link = "https://alttester.com/docs/desktop/" + \
+    desktop_release_version + "/%s"
+alttester_sdk_download_link = "https://alttester.com/app/uploads/AltTester/sdks/AltTester_" + \
+    sdk_release_version + ".unitypackage%s"
 
 extlinks = {
     "alttesterpage":                    ("https://alttester.com/alttester/%s", None),
@@ -122,6 +124,7 @@ html_theme_options = {
     'collapse_navigation': False,
     'navigation_depth': 5
 }
+
 
 def setup(app):
     app.add_transform(AutoStructify)
