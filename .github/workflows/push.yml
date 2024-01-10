@@ -397,6 +397,7 @@ jobs:
           export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="192.168.11.35"
           cd Bindings~/python/tests/integration/android/
+          echo $response----------------AICI
           browserstack-sdk pytest -s ../
 
       - uses: actions/upload-artifact@v3
