@@ -59,6 +59,7 @@ def altdriver(appium_driver):
 
     altdriver.stop()
 
+
 @pytest.fixture(scope="session")
 def appium_driver(request, session_capabilities):
     appium_driver = None
