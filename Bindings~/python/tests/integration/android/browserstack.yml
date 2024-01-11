@@ -16,8 +16,8 @@ platforms:
     platformVersion: 11.0
     deviceOrientation: landscape
   - platformName: android
-    deviceName: Google Pixel 7 Pro
-    platformVersion: 13.0
+    deviceName: Google Pixel 6
+    platformVersion: 12.0
     deviceOrientation: landscape
   - platformName: android
     deviceName: Samsung Galaxy S23
