@@ -61,11 +61,11 @@ def altdriver(appium_driver):
 
 
 @pytest.fixture(scope="session")
-def appium_driver(request, session_capabilities):
+def appium_driver(request):
     appium_driver = None
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
         appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
-                                         session_capabilities)
+                                         request.getfixturevalue("session_capabilities"))
         time.sleep(10)
     yield appium_driver
 
