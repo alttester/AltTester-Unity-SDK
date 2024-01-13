@@ -552,7 +552,14 @@ public class Input : MonoBehaviour
 
     public static IEnumerator EndTouch(int fingerId)
     {
-        yield return new WaitForEndOfFrame();
+#if UNITY_EDITOR
+            if (Application.isBatchMode)
+            {
+                yield return null;
+            }
+            else
+#endif
+                yield return new UnityEngine.WaitForEndOfFrame();
 
         var touch = findTouch(fingerId);
         var previousPointerEventData = _pointerEventsDataDictionary[touch.fingerId];
@@ -577,7 +584,14 @@ public class Input : MonoBehaviour
 
         var pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch);
         var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
-        yield return new WaitForEndOfFrame();
+#if UNITY_EDITOR
+            if (Application.isBatchMode)
+            {
+                yield return null;
+            }
+            else
+#endif
+                yield return new UnityEngine.WaitForEndOfFrame();
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
 
@@ -757,7 +771,14 @@ public class Input : MonoBehaviour
     private static IEnumerator setMouse0KeyCodePressedDown()
     {
         var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
-        yield return new WaitForEndOfFrame();
+#if UNITY_EDITOR
+            if (Application.isBatchMode)
+            {
+                yield return null;
+            }
+            else
+#endif
+                yield return new UnityEngine.WaitForEndOfFrame();
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
 
@@ -817,7 +838,14 @@ public class Input : MonoBehaviour
         var eventSystemTarget = findEventSystemObject(pointerEventData);
         var monoBehaviourTarget = FindObjectViaRayCast.FindMonoBehaviourObject(screenPosition);
 
-        yield return new WaitForEndOfFrame();//run after Update
+#if UNITY_EDITOR
+            if (Application.isBatchMode)
+            {
+                yield return null;
+            }
+            else
+#endif
+                yield return new UnityEngine.WaitForEndOfFrame();//run after Update
 
         mousePosition = screenPosition;
         pointerEventData.pointerEnter = eventSystemTarget;
@@ -905,7 +933,14 @@ public class Input : MonoBehaviour
     {
         UnityEngine.Vector3 screenPosition;
         AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
-        yield return new WaitForEndOfFrame();//run after Update
+#if UNITY_EDITOR
+            if (Application.isBatchMode)
+            {
+                yield return null;
+            }
+            else
+#endif
+                yield return new UnityEngine.WaitForEndOfFrame();//run after Update
 
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
         {
