@@ -24,6 +24,7 @@ using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -41,13 +42,27 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         protected System.Collections.IEnumerator SendTexturedScreenshotCoroutine(UnityEngine.Vector2 size, int quality)
         {
-            yield return new UnityEngine.WaitForEndOfFrame();
+#if UNITY_EDITOR
+            if (Application.isBatchMode)
+            {
+                yield return null;
+            }
+            else
+#endif
+                yield return new UnityEngine.WaitForEndOfFrame();
             sendTexturedScreenshotResponse(size, quality);
         }
 
         protected System.Collections.IEnumerator SendPNGScreenshotCoroutine()
         {
-            yield return new UnityEngine.WaitForEndOfFrame();
+#if UNITY_EDITOR
+            if (Application.isBatchMode)
+            {
+                yield return null;
+            }
+            else
+#endif
+                yield return new UnityEngine.WaitForEndOfFrame();
             var response = ExecuteAndSerialize(getPNGScreenshot);
             Handler.Send(response);
         }
@@ -66,7 +81,14 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     renderer.materials[i].SetColor("_OutlineColor", color);
                     renderer.materials[i].SetFloat("_OutlineWidth", width);
                 }
-                yield return new UnityEngine.WaitForEndOfFrame();
+#if UNITY_EDITOR
+                if (Application.isBatchMode)
+                {
+                    yield return null;
+                }
+                else
+#endif
+                    yield return new UnityEngine.WaitForEndOfFrame();
                 sendTexturedScreenshotResponse(size, quality);
 
                 renderer.materials = originalMaterials;
@@ -79,14 +101,28 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     var panelHighlight = UnityEngine.Object.Instantiate(AltRunner._altRunner.panelHightlightPrefab, rectTransform);
                     panelHighlight.GetComponent<UnityEngine.UI.Image>().color = color;
 
-                    yield return new UnityEngine.WaitForEndOfFrame();
+#if UNITY_EDITOR
+                    if (Application.isBatchMode)
+                    {
+                        yield return null;
+                    }
+                    else
+#endif
+                        yield return new UnityEngine.WaitForEndOfFrame();
                     sendTexturedScreenshotResponse(size, quality);
 
                     UnityEngine.Object.Destroy(panelHighlight);
                 }
                 else
                 {
-                    yield return new UnityEngine.WaitForEndOfFrame();
+#if UNITY_EDITOR
+                    if (Application.isBatchMode)
+                    {
+                        yield return null;
+                    }
+                    else
+#endif
+                        yield return new UnityEngine.WaitForEndOfFrame();
                     sendTexturedScreenshotResponse(size, quality);
                 }
             }
