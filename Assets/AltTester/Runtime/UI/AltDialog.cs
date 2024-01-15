@@ -106,6 +106,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             resetConnectionDataBasedOnUID();
             setUpRestartButton();
             setUpCustomInputToggle();
+            setInteractibilityForRestartButton(false);
 
             this.platform = Application.platform.ToString();
             this.platformVersion = SystemInfo.operatingSystem;
@@ -135,6 +136,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void handleConnectionLogic()
         {
+            if (RestartButton.interactable) //to prevent auto connect
+                return;
             if (currentTime <= retryTime)
             {
                 currentTime += Time.unscaledDeltaTime;
