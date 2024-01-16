@@ -480,6 +480,11 @@ namespace AltTester.AltTesterUnitySDK.UI
                     setMessage(reason, ERROR_COLOR, true);
                 });
             }
+            updateQueue.ScheduleResponse(() =>
+                {
+                    onStart();
+                    onRestartButtonPress();
+                });
         }
 
         private void onStart()
