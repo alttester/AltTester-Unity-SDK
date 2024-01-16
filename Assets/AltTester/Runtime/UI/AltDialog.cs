@@ -90,6 +90,9 @@ namespace AltTester.AltTesterUnitySDK.UI
         private string platformVersion;
         private string deviceInstanceId;
         private float currentTime;
+        private string currentHost;
+        private string currentName;
+        private string currentPort;
         float retryTime = 0.3f;
 
         protected void Start()
@@ -229,7 +232,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void initLiveUpdateClient()
         {
-            liveUpdateCommunication = new LiveUpdateCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId, AppId);
+            liveUpdateCommunication = new LiveUpdateCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId, AppId);
             liveUpdateCommunication.OnDisconnect += onDisconnect;
             liveUpdateCommunication.OnError += onError;
             liveUpdateCommunication.OnConnect += onConnect;
@@ -252,7 +255,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             else
 #endif
-                yield return new UnityEngine.WaitForEndOfFrame();
+            yield return new UnityEngine.WaitForEndOfFrame();
             this.liveUpdateCommunication.SendScreenshot();
         }
 
@@ -278,7 +281,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             // Allow only positive numbers.
             if (value == "-")
             {
-                PortInputField.text = "";
+                currentPort = "";
             }
             setInteractibilityForRestartButton(true);
 
@@ -293,14 +296,18 @@ namespace AltTester.AltTesterUnitySDK.UI
                 PlayerPrefs.SetString(APP_NAME, InstrumentationSettings.AppName);
             }
             PlayerPrefs.SetString(UID, InstrumentationSettings.UID);
-            HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
-            PortInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
-            AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+            currentHost = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
+            currentPort = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
+            currentName = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+            HostInputField.text = currentHost;
+            PortInputField.text = currentPort;
+            AppNameInputField.text = currentName;
 
         }
         private void setUpHostInputField()
         {
-            HostInputField.text = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
+            currentHost = PlayerPrefs.GetString(HOST, InstrumentationSettings.AltServerHost);
+            HostInputField.text = currentHost;
             HostInputField.onValueChanged.AddListener(onHostValueChange);
         }
 
@@ -311,14 +318,16 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void setUpPortInputField()
         {
-            PortInputField.text = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
+            currentPort = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
+            PortInputField.text = currentPort;
             PortInputField.onValueChanged.AddListener(onPortInputFieldValueChange);
             PortInputField.characterValidation = UnityEngine.UI.InputField.CharacterValidation.Integer;
         }
 
         private void setUpAppNameInputField()
         {
-            AppNameInputField.text = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+            currentName = PlayerPrefs.GetString(APP_NAME, InstrumentationSettings.AppName);
+            AppNameInputField.text = currentName;
             AppNameInputField.onValueChanged.AddListener(onAppNameValueChanged);
         }
 
@@ -330,8 +339,8 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onRestartButtonPress()
         {
             responseCode = 0;
-            stopClients();
             validateFields();
+            stopClients();
             setInteractibilityForRestartButton(false);
         }
         private void validateFields()
@@ -340,7 +349,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             if (Uri.CheckHostName(HostInputField.text) != UriHostNameType.Unknown)
             {
-                InstrumentationSettings.AltServerHost = HostInputField.text;
+                currentHost = HostInputField.text;
+                InstrumentationSettings.AltServerHost = currentHost;
             }
             else
             {
@@ -351,6 +361,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             int port;
             if (Int32.TryParse(PortInputField.text, out port) && port > 0 && port <= 65535)
             {
+                currentPort = port.ToString();
                 InstrumentationSettings.AltServerPort = port;
             }
             else
@@ -361,7 +372,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             if (!string.IsNullOrEmpty(AppNameInputField.text))
             {
-                InstrumentationSettings.AppName = AppNameInputField.text;
+                currentName = AppNameInputField.text;
+                InstrumentationSettings.AppName = currentName;
             }
             else
             {
@@ -405,7 +417,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void initRuntimeClient()
         {
-            communication = new RuntimeCommunicationHandler(HostInputField.text, int.Parse(PortInputField.text), AppNameInputField.text, platform, platformVersion, deviceInstanceId);
+            communication = new RuntimeCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId);
             communication.OnConnect += onConnect;
             communication.OnDisconnect += onDisconnect;
             communication.OnError += onError;
@@ -480,23 +492,28 @@ namespace AltTester.AltTesterUnitySDK.UI
                     setMessage(reason, ERROR_COLOR, true);
                 });
             }
-            updateQueue.ScheduleResponse(() =>
-                {
-                    onStart();
-                    onRestartButtonPress();
-                });
+            else
+            {
+                if (code == 1001)
+                    updateQueue.ScheduleResponse(() =>
+                        {
+                            responseCode = 0;
+                            stopClients();
+                            setInteractibilityForRestartButton(false);
+                        });
+            }
         }
 
         private void onStart()
         {
-            string message = String.Format("Waiting to connect to AltServer on {0}host:port {1}:{2}with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceId: '{9}' {10}and appId '{11}'.", Environment.NewLine, HostInputField.text, PortInputField.text + Environment.NewLine, AppNameInputField.text, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, AppId);
+            string message = String.Format("Waiting to connect to AltServer on {0}host:port {1}:{2}with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceId: '{9}' {10}and appId '{11}'.", Environment.NewLine, currentHost, currentPort + Environment.NewLine, currentName, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, AppId);
             setMessage(message, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
         }
 
         private void onConnect()
         {
             wasConnected = true;
-            string message = $"Connected to AltServer on {Environment.NewLine}host:port {HostInputField.text}:{PortInputField.text}{Environment.NewLine}with appName: '{AppNameInputField.text}'{Environment.NewLine}platform: '{platform}'{Environment.NewLine}platformVersion: '{platformVersion}'{Environment.NewLine}deviceId: '{deviceInstanceId}' {Environment.NewLine}appId '{AppId}'.{Environment.NewLine}Waiting for Driver to connect.";
+            string message = $"Connected to AltServer on {Environment.NewLine}host:port {currentHost}:{currentPort}{Environment.NewLine}with appName: '{currentName}'{Environment.NewLine}platform: '{platform}'{Environment.NewLine}platformVersion: '{platformVersion}'{Environment.NewLine}deviceId: '{deviceInstanceId}' {Environment.NewLine}appId '{AppId}'.{Environment.NewLine}Waiting for Driver to connect.";
 
             updateQueue.ScheduleResponse(() =>
             {
@@ -516,7 +533,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onDriverConnect(string driverId)
         {
             logger.Debug("Driver Connected: " + driverId);
-            string message = String.Format("Connected to AltServer on {0}host:port {1}:{2}with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceId: '{9}' {10}and appId '{11}'.{12}Driver connected.", Environment.NewLine, HostInputField.text, PortInputField.text + Environment.NewLine, AppNameInputField.text, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, AppId, Environment.NewLine);
+            string message = String.Format("Connected to AltServer on {0}host:port {1}:{2}with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceId: '{9}' {10}and appId '{11}'.{12}Driver connected.", Environment.NewLine, currentHost, currentPort + Environment.NewLine, currentName, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, AppId, Environment.NewLine);
 
             connectedDrivers.Add(driverId);
 
@@ -524,9 +541,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 updateQueue.ScheduleResponse(() =>
                 {
-                    PlayerPrefs.SetString(HOST, HostInputField.text);
-                    PlayerPrefs.SetString(PORT, PortInputField.text);
-                    PlayerPrefs.SetString(APP_NAME, AppNameInputField.text);
+                    PlayerPrefs.SetString(HOST, currentHost);
+                    PlayerPrefs.SetString(PORT, currentPort);
+                    PlayerPrefs.SetString(APP_NAME, currentName);
                     ToggleCustomInput(true);
                     setMessage(message, color: SUCCESS_COLOR, visible: false);
                 });
@@ -537,7 +554,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onDriverDisconnect(string driverId)
         {
             logger.Debug("Driver Disconnect: " + driverId);
-            string message = String.Format("Connected to AltServer on {0}host:port {1}:{2}with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceId: '{9}' {10}and appId '{11}'.{12}Waiting for Driver to connect.", Environment.NewLine, HostInputField.text, PortInputField.text + Environment.NewLine, AppNameInputField.text, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, AppId, Environment.NewLine);
+            string message = String.Format("Connected to AltServer on {0}host:port {1}:{2}with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceId: '{9}' {10}and appId '{11}'.{12}Waiting for Driver to connect.", Environment.NewLine, currentHost, currentPort + Environment.NewLine, currentName, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, AppId, Environment.NewLine);
 
             connectedDrivers.Remove(driverId);
             if (connectedDrivers.Count == 0)
