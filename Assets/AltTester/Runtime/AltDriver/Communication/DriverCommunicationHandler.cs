@@ -61,6 +61,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private List<Action<String>> unloadSceneCallbacks = new List<Action<String>>();
         private List<Action<AltLogNotificationResultParams>> logCallbacks = new List<Action<AltLogNotificationResultParams>>();
         private List<Action<bool>> applicationPausedCallbacks = new List<Action<bool>>();
+        private bool isApplicationPaused = false;
 
         public DriverCommunicationHandler(string host, int port, int connectTimeout, string appName, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType = "SDK")
         {
@@ -104,7 +105,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     messageIdTimeouts.Add(param.messageId);
                     throw new CommandResponseTimeoutException();
                 }
+                if (!wsClient.IsAlive && isApplicationPaused)
+                {
+                    UnityEngine.Debug.LogWarning("Connection tried again");
 
+                    wsClient.Connect();
+                    continue;
+                }
                 if (!wsClient.IsAlive)
                 {
                     throw new AltException("Driver disconnected");
@@ -200,6 +207,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     break;
                 case "applicationPausedNotification":
                     bool data2 = JsonConvert.DeserializeObject<bool>(message.data, jsonSerializerSettings);
+                    isApplicationPaused = data2;
+                    UnityEngine.Debug.LogWarning("NotifcationCalled");
                     foreach (var callback in applicationPausedCallbacks)
                     {
                         callback(data2);

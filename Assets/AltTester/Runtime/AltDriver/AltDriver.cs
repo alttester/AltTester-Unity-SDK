@@ -73,8 +73,12 @@ namespace AltTester.AltTesterUnitySDK.Driver
             );
             communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType);
             communicationHandler.Connect();
-
+            AddNotificationListener<bool>(NotificationType.APPLICATION_PAUSED, test, true);
             checkServerVersion();
+        }
+        public void test(bool t)
+        {
+
         }
 
         private void splitVersion(string version, out string major, out string minor)

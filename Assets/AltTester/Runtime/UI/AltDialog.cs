@@ -91,6 +91,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private string deviceInstanceId;
         private float currentTime;
         float retryTime = 0.3f;
+        private bool isApplicationPaused;
 
         protected void Start()
         {
@@ -133,9 +134,29 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
 
         }
+        public void OnApplicationPause(bool pauseStatus)
+        {
+            UnityEngine.Debug.LogWarning("Application paused: " + pauseStatus);
+            if (pauseStatus)
+            {
+                onRestartButtonPress();
+            }
+            isApplicationPaused = pauseStatus;
+        }
+        public void OnApplicationFocus(bool pauseStatus)
+        {
+            UnityEngine.Debug.LogWarning("Application Focused: " + pauseStatus);
+            if (!pauseStatus)
+            {
+                onRestartButtonPress();
+            }
+            isApplicationPaused = !pauseStatus;
+        }
 
         private void handleConnectionLogic()
         {
+            if (isApplicationPaused)
+                return;
             if (RestartButton.interactable) //to prevent auto connect
                 return;
             if (currentTime <= retryTime)
