@@ -281,7 +281,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             // Allow only positive numbers.
             if (value == "-")
             {
-                currentPort = "";
+                PortInputField.text = "";
             }
             setInteractibilityForRestartButton(true);
 
