@@ -1605,6 +1605,7 @@ GameObject:
   - component: {fileID: 2311167282348367968}
   - component: {fileID: 7695510088387210045}
   - component: {fileID: 2897973323993218084}
+  - component: {fileID: 5153076170903719702}
   m_Layer: 0
   m_Name: AltTesterPrefab
   m_TagString: Untagged
@@ -1661,6 +1662,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 034fc8215b30f0d45981e6bab63f47ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5153076170903719702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6109659716071776507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ab5129be68c7b4f8774c2eb52caea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7199241592347970510
