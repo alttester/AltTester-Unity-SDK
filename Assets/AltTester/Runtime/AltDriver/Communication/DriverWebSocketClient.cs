@@ -132,7 +132,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             // TODO: Remove this after the issue is fixed in AltWebSocketSharp
             if (this.driverType == "Desktop")
             {
-                this.wsClient.WaitTime = System.TimeSpan.FromSeconds(0.3);
+                this.wsClient.WaitTime = System.TimeSpan.FromSeconds(0.1);
             }
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
@@ -158,7 +158,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 {
                     logger.Debug(string.Format("Retrying #{0} to connect to: '{1}'.", retries, this.uri));
                 }
-                wsClient.Connect();
+
+                try {
+                    wsClient.Connect();
+                } catch (System.InvalidOperationException) {
+                }
 
                 if (wsClient.IsAlive)
                 {
