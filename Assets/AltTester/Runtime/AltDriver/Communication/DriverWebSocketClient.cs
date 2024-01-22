@@ -47,6 +47,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         private ClientWebSocket wsClient = null;
         public event EventHandler<MessageEventArgs> OnMessage;
+        public event EventHandler<CloseEventArgs> OnCloseEvent;
 
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
         public string URI { get { return this.uri; } }
@@ -115,7 +116,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         protected void OnClose(object sender, CloseEventArgs e)
         {
             logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
-
+            OnCloseEvent.Invoke(this, e);
             this.closeCode = e.Code;
             this.closeReason = e.Reason;
         }
