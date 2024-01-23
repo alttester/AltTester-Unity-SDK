@@ -151,7 +151,14 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 {
                     logger.Debug(string.Format("Retrying #{0} to connect to: '{1}'.", retries, this.uri));
                 }
-                wsClient.Connect();
+
+                try {
+                    wsClient.Connect();
+                }
+                catch (Exception e)
+                {
+                    logger.Debug(string.Format("Connection error: {0}", e.Message));
+                }
 
                 if (wsClient.IsAlive)
                 {
