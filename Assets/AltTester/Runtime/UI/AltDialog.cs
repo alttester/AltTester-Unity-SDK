@@ -40,6 +40,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private readonly string PORT = "AltTesterPort";
         private readonly string APP_NAME = "AltTesterAppName";
         private readonly string UID = "UID";
+        private readonly string EDITING_TEXT = $"Editing host, port or appName.{Environment.NewLine}Press the Restart button to start connection with the new values.";
         private int responseCode = 0;
 
         [UnityEngine.SerializeField]
@@ -284,8 +285,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 PortInputField.text = "";
             }
             setInteractibilityForRestartButton(true);
-            string message = $"Editing host, port or appName.{Environment.NewLine}Press the Restart button to start connection with the new values.";
-            setMessage(message, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
+            setMessage(EDITING_TEXT, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
 
         }
 
@@ -316,8 +316,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onHostValueChange(string _)
         {
             setInteractibilityForRestartButton(true);
-            string message = $"Editing host, port or appName.{Environment.NewLine}Press the Restart button to start connection with the new values.";
-            setMessage(message, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
+            setMessage(EDITING_TEXT, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
         }
 
         private void setUpPortInputField()
@@ -338,8 +337,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onAppNameValueChanged(string _)
         {
             setInteractibilityForRestartButton(true);
-            string message = $"Editing host, port or appName.{Environment.NewLine}Press the Restart button to start connection with the new values.";
-            setMessage(message, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
+            setMessage(EDITING_TEXT, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
         }
 
         private void onRestartButtonPress()
@@ -501,22 +499,14 @@ namespace AltTester.AltTesterUnitySDK.UI
                     setMessage(reason, ERROR_COLOR, true);
                 });
             }
-            else if (code == 1001)
-                updateQueue.ScheduleResponse(() =>
-                    {
-                        responseCode = 0;
-                        stopClients();
-                        setInteractibilityForRestartButton(false);
-                    });
             else
             {
                 updateQueue.ScheduleResponse(() =>
                 {
                     responseCode = 0;
-                    if (wasConnected)
+                    if (wasConnected || code == 1001)
                         setInteractibilityForRestartButton(false);
                     stopClients();
-
                 });
             }
         }
