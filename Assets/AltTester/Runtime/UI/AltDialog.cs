@@ -40,6 +40,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private readonly string PORT = "AltTesterPort";
         private readonly string APP_NAME = "AltTesterAppName";
         private readonly string UID = "UID";
+        private readonly string EDITING_TEXT = $"Editing host, port or appName.{Environment.NewLine}Press the Restart button to start connection with the new values.";
         private int responseCode = 0;
 
         [UnityEngine.SerializeField]
@@ -139,7 +140,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void handleConnectionLogic()
         {
-            if (RestartButton.interactable) //to prevent auto connect
+            if (RestartButton.interactable)//to prevent auto connect
                 return;
             if (currentTime <= retryTime)
             {
@@ -255,7 +256,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             else
 #endif
-            yield return new UnityEngine.WaitForEndOfFrame();
+                yield return new UnityEngine.WaitForEndOfFrame();
             this.liveUpdateCommunication.SendScreenshot();
         }
 
@@ -284,6 +285,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 PortInputField.text = "";
             }
             setInteractibilityForRestartButton(true);
+            setMessage(EDITING_TEXT, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
 
         }
 
@@ -314,6 +316,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onHostValueChange(string _)
         {
             setInteractibilityForRestartButton(true);
+            setMessage(EDITING_TEXT, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
         }
 
         private void setUpPortInputField()
@@ -334,6 +337,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onAppNameValueChanged(string _)
         {
             setInteractibilityForRestartButton(true);
+            setMessage(EDITING_TEXT, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
         }
 
         private void onRestartButtonPress()
@@ -427,7 +431,10 @@ namespace AltTester.AltTesterUnitySDK.UI
             communication.CmdHandler.OnAppConnect += onAppConnect;
             communication.Init();
         }
-        private void setInteractibilityForRestartButton(bool isInteractable) => RestartButton.interactable = isInteractable;
+        private void setInteractibilityForRestartButton(bool isInteractable)
+        {
+            RestartButton.interactable = isInteractable;
+        }
 
         private void startClient(BaseCommunicationHandler communicationHandler)
         {
@@ -494,13 +501,13 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             else
             {
-                if (code == 1001)
-                    updateQueue.ScheduleResponse(() =>
-                        {
-                            responseCode = 0;
-                            stopClients();
-                            setInteractibilityForRestartButton(false);
-                        });
+                updateQueue.ScheduleResponse(() =>
+                {
+                    responseCode = 0;
+                    if (wasConnected || code == 1001)
+                        setInteractibilityForRestartButton(false);
+                    stopClients();
+                });
             }
         }
 
