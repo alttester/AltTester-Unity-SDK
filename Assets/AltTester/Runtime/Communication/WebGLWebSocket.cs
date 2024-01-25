@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using AltWebSocketSharp;
 using AOT;
 
 namespace AltTester.AltTesterUnitySDK.Communication
@@ -41,14 +42,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
         MandatoryExtension = 1010,
         ServerError = 1011,
         TlsHandshakeFailure = 1015
-    }
-
-    public enum WebSocketState
-    {
-        Connecting,
-        Open,
-        Closing,
-        Closed
     }
 
     public delegate void WebSocketOpenEventHandler();
@@ -109,7 +102,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
             int ret = WebSocketConnect(this.InstanceId);
 
             if (ret < 0)
+            {
                 throw WebSocketHelpers.GetErrorMessageFromCode(ret, null);
+            }
 
             return Task.CompletedTask;
         }
@@ -117,7 +112,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public void CancelConnection()
         {
             if (State == WebSocketState.Open)
+            {
                 Close(WebSocketCloseCode.Abnormal);
+            }
         }
 
         public Task Close(WebSocketCloseCode code = WebSocketCloseCode.Normal, string reason = null)
@@ -125,7 +122,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
             int ret = WebSocketClose(this.InstanceId, (int)code, reason);
 
             if (ret < 0)
+            {
                 throw WebSocketHelpers.GetErrorMessageFromCode(ret, null);
+            }
 
             return Task.CompletedTask;
         }
@@ -135,7 +134,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
             int ret = WebSocketSend(this.InstanceId, data, data.Length);
 
             if (ret < 0)
+            {
                 throw WebSocketHelpers.GetErrorMessageFromCode(ret, null);
+            }
 
             return Task.CompletedTask;
         }
@@ -145,7 +146,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
             int ret = WebSocketSendText(this.InstanceId, message);
 
             if (ret < 0)
+            {
                 throw WebSocketHelpers.GetErrorMessageFromCode(ret, null);
+            }
 
             return Task.CompletedTask;
         }
@@ -157,7 +160,9 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 int state = WebSocketGetState(this.InstanceId);
 
                 if (state < 0)
+                {
                     throw WebSocketHelpers.GetErrorMessageFromCode(state, null);
+                }
 
                 switch (state)
                 {
@@ -205,7 +210,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
     /// </summary>
     public static class WebSocketFactory
     {
-
         /* Map of websocket instances */
         public static Dictionary<Int32, WebGLWebSocket> instances = new Dictionary<Int32, WebGLWebSocket>();
 
@@ -242,7 +246,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
         */
         public static void Initialize()
         {
-
             WebSocketSetOnOpen(DelegateOnOpenEvent);
             WebSocketSetOnMessage(DelegateOnMessageEvent);
             WebSocketSetOnError(DelegateOnErrorEvent);
@@ -258,29 +261,24 @@ namespace AltTester.AltTesterUnitySDK.Communication
         /// <param name="instanceId">Instance identifier.</param>
         public static void HandleInstanceDestroy(int instanceId)
         {
-
             instances.Remove(instanceId);
             WebSocketFree(instanceId);
-
         }
 
         [MonoPInvokeCallback(typeof(OnOpenCallback))]
         public static void DelegateOnOpenEvent(int instanceId)
         {
-
             WebGLWebSocket instanceRef;
 
             if (instances.TryGetValue(instanceId, out instanceRef))
             {
                 instanceRef.DelegateOnOpenEvent();
             }
-
         }
 
         [MonoPInvokeCallback(typeof(OnMessageCallback))]
         public static void DelegateOnMessageEvent(int instanceId, System.IntPtr msgPtr, int msgSize)
         {
-
             WebGLWebSocket instanceRef;
 
             if (instances.TryGetValue(instanceId, out instanceRef))
@@ -290,55 +288,34 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
                 instanceRef.DelegateOnMessageEvent(msg);
             }
-
         }
 
         [MonoPInvokeCallback(typeof(OnErrorCallback))]
         public static void DelegateOnErrorEvent(int instanceId, System.IntPtr errorPtr)
         {
-
             WebGLWebSocket instanceRef;
 
             if (instances.TryGetValue(instanceId, out instanceRef))
             {
-
                 string errorMsg = Marshal.PtrToStringAuto(errorPtr);
                 instanceRef.DelegateOnErrorEvent(errorMsg);
-
             }
-
         }
 
         [MonoPInvokeCallback(typeof(OnCloseCallback))]
         public static void DelegateOnCloseEvent(int instanceId, int closeCode, string reason)
         {
-
             WebGLWebSocket instanceRef;
 
             if (instances.TryGetValue(instanceId, out instanceRef))
             {
                 instanceRef.DelegateOnCloseEvent(closeCode, reason);
             }
-
         }
     }
 
     public static class WebSocketHelpers
     {
-        public static WebSocketCloseCode ParseCloseCodeEnum(int closeCode)
-        {
-
-            if (WebSocketCloseCode.IsDefined(typeof(WebSocketCloseCode), closeCode))
-            {
-                return (WebSocketCloseCode)closeCode;
-            }
-            else
-            {
-                return WebSocketCloseCode.Undefined;
-            }
-
-        }
-
         public static WebSocketException GetErrorMessageFromCode(int errorCode, Exception inner)
         {
             switch (errorCode)

@@ -18,8 +18,11 @@
 package com.alttester;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
@@ -49,6 +52,10 @@ public class WebsocketConnection {
     private int port;
     private String appName;
     private int connectTimeout;
+    private String platform;
+    private String platformVersion;
+    private String deviceInstanceId;
+    private String appId;
 
     private String error = null;
     private CloseReason closeReason = null;
@@ -56,20 +63,40 @@ public class WebsocketConnection {
     public Session session = null;
     public IMessageHandler messageHandler = null;
 
-    public WebsocketConnection(String host, int port, String appName, int connectTimeout) {
+    public WebsocketConnection(String host, int port, String appName, int connectTimeout, String platform,
+            String platformVersion, String deviceInstanceId, String appId) {
         this.host = host;
         this.port = port;
         this.appName = appName;
         this.connectTimeout = connectTimeout;
+        this.platform = platform;
+        this.platformVersion = platformVersion;
+        this.deviceInstanceId = deviceInstanceId;
+        this.appId = appId;
     }
 
     public boolean isOpen() {
         return this.session.isOpen();
     }
 
-    private URI getURI() {
+    public static String escapeDataString(String value) {
         try {
-            return new URI("ws", null, host, port, "/altws", "appName=" + appName, null);
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
+    }
+
+    private URI getURI() {
+
+        String query = String.format(
+                "appName=%s&platform=%s&platformVersion=%s&deviceInstanceId=%s&appId=%s&driverType=SDK",
+                escapeDataString(appName), escapeDataString(platform),
+                escapeDataString(platformVersion), escapeDataString(deviceInstanceId),
+                escapeDataString(appId));
+
+        try {
+            return new URI("ws", null, host, port, "/altws", query, null);
         } catch (URISyntaxException e) {
             logger.error(e);
             throw new ConnectionException(e.getMessage(), e);

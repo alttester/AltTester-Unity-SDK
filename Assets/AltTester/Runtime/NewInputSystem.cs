@@ -390,7 +390,14 @@ namespace AltTester.AltTesterUnitySDK
 
         internal static IEnumerator EndTouch(int fingerId)
         {
-            yield return new WaitForEndOfFrame();
+#if UNITY_EDITOR
+            if (Application.isBatchMode)
+            {
+                yield return null;
+            }
+            else
+#endif
+                yield return new UnityEngine.WaitForEndOfFrame();
 
 
             InputTestFixture.EndTouch(fingerId, endTouchScreenPos, screen: Touchscreen);

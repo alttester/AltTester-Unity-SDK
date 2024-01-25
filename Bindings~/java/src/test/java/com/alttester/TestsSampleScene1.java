@@ -422,6 +422,7 @@ public class TestsSampleScene1 extends BaseTest {
                 });
     }
 
+    @Tag("WebGLUnsupported") // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
     @Test
     public void TestWaitForComponentPropertyAssemblyNotFound() throws InterruptedException {
         Thread.sleep(1000);

@@ -717,38 +717,58 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         private BuildTargetGroup getBuildTargetGroupFromAltPlatform(AltPlatform altPlatform)
         {
-            return altPlatform switch
+            switch (altPlatform)
             {
-                AltPlatform.Android => BuildTargetGroup.Android,
-                AltPlatform.Standalone => BuildTargetGroup.Standalone,
-                AltPlatform.iOS => BuildTargetGroup.iOS,
-                AltPlatform.WebGL => BuildTargetGroup.WebGL,
-                _ => throw new NotImplementedException(),
-            };
+                case AltPlatform.Android:
+                    return BuildTargetGroup.Android;
+                case AltPlatform.Standalone:
+                    return BuildTargetGroup.Standalone;
+                case AltPlatform.iOS:
+                    return BuildTargetGroup.iOS;
+                case AltPlatform.WebGL:
+                    return BuildTargetGroup.WebGL;
+                default:
+                    throw new NotImplementedException();
+
+
+            }
         }
         private static AltPlatform getAltPlatformFromBuildTargetGroup(BuildTargetGroup targetGroup)
         {
-            return targetGroup switch
+            switch (targetGroup)
             {
-                BuildTargetGroup.Standalone => AltPlatform.Standalone,
-                BuildTargetGroup.Android => AltPlatform.Android,
-                BuildTargetGroup.WebGL => AltPlatform.WebGL,
-                BuildTargetGroup.iOS => AltPlatform.Standalone,
-                _ => AltPlatform.Editor
+                case BuildTargetGroup.Standalone:
+                    return AltPlatform.Standalone;
+                case BuildTargetGroup.Android:
+                    return AltPlatform.Android;
+                case BuildTargetGroup.WebGL:
+                    return AltPlatform.WebGL;
+                case BuildTargetGroup.iOS:
+                    return AltPlatform.iOS;
+                default:
+                    return AltPlatform.Editor;
             };
+
 
 
         }
         private BuildTarget[] getBuildTargetFromAltPlatform(AltPlatform altPlatform)
         {
-            return altPlatform switch
+            switch (altPlatform)
             {
-                AltPlatform.Android => new BuildTarget[] { BuildTarget.Android },
-                AltPlatform.Standalone => new BuildTarget[] { BuildTarget.StandaloneWindows, BuildTarget.StandaloneWindows64, BuildTarget.StandaloneOSX, BuildTarget.StandaloneLinux64 },
-                AltPlatform.iOS => new BuildTarget[] { BuildTarget.iOS },
-                AltPlatform.WebGL => new BuildTarget[] { BuildTarget.WebGL },
-                _ => throw new NotImplementedException(),
-            };
+                case AltPlatform.Android:
+                    return new BuildTarget[] { BuildTarget.Android };
+                case AltPlatform.Standalone:
+                    return new BuildTarget[] { BuildTarget.StandaloneWindows, BuildTarget.StandaloneWindows64, BuildTarget.StandaloneOSX, BuildTarget.StandaloneLinux64 };
+                case AltPlatform.iOS:
+                    return new BuildTarget[] { BuildTarget.iOS };
+                case AltPlatform.WebGL:
+                    return new BuildTarget[] { BuildTarget.WebGL };
+                default:
+                    throw new NotImplementedException();
+
+
+            }
         }
 
         private void displayPlatformAndPlatformSettings(float size)
