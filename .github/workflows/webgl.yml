@@ -40,59 +40,59 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # test-DotNet:
-  #   needs: build-WebGL-Unity2021
+  test-DotNet:
+    needs: build-WebGL-Unity2021
 
-  #   runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, macOS]
 
-  #   steps:
-  #     - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Download build
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name:
-  #           BuildWebGLArtifact
+      - name: Download build
+        uses: actions/download-artifact@v3
+        with:
+          name:
+            BuildWebGLArtifact
 
-  #     - name: Open application
-  #       run: |
-  #         cd build/webgl
-  #         python3 -m http.server --cgi 8360 &
-  #         osascript -e 'quit app "Chrome"'
-  #         open http://localhost:8360/index.html
+      - name: Open application
+        run: |
+          cd build/webgl
+          python3 -m http.server --cgi 8360 &
+          osascript -e 'quit app "Chrome"'
+          open http://localhost:8360/index.html
 
-  #     - name: Setup .NET Core SDK
-  #       uses: actions/setup-dotnet@v2.1.1
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v2.1.1
 
-  #     - name: Run tests
-  #       run: |
-  #         dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
+      - name: Run tests
+        run: |
+          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
 
-  #     - name: Close Chrome
-  #       if: always()
-  #       run: osascript -e 'quit app "Chrome"'
+      - name: Close Chrome
+        if: always()
+        run: osascript -e 'quit app "Chrome"'
 
-  #     - name: Upload logs
-  #       uses: actions/upload-artifact@v3
-  #       if: always() # run this step even if one of the previous step failed
-  #       with:
-  #         name: TestCSharpArtifact
-  #         path: |
-  #           *.log
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestCSharpArtifact
+          path: |
+            *.log
 
-  #     - name: Notify on Slack-
-  #       uses: ravsamhq/notify-slack-action@2.3.0
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - name: Notify on Slack-
+        uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-Python:
     needs: build-WebGL-Unity2021
@@ -130,7 +130,7 @@ jobs:
 
       - name: Run integration tests
         run: |
-          pytest Bindings~/python/tests/integration/test_scene02.py -m "not WebGLUnsupported"
+          pytest Bindings~/python/tests/integration/ -m "not WebGLUnsupported"
 
       - name: Close Chrome
         if: always()
@@ -157,63 +157,63 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # test-Java:
-  #   needs: build-WebGL-Unity2021
+  test-Java:
+    needs: build-WebGL-Unity2021
 
-  #   runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, macOS]
 
-  #   steps:
-  #     - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Download build
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name:
-  #           BuildWebGLArtifact
+      - name: Download build
+        uses: actions/download-artifact@v3
+        with:
+          name:
+            BuildWebGLArtifact
 
-  #     - name: Setup Java JDK
-  #       uses: actions/setup-java@v3.5.1
-  #       with:
-  #         distribution: temurin
-  #         java-version: 11
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.5.1
+        with:
+          distribution: temurin
+          java-version: 11
 
-  #     - name: Setup Maven
-  #       uses: stCarolas/setup-maven@v4.4
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v4.4
 
-  #     - name: Open application
-  #       run: |
-  #         cd build/webgl
-  #         python3 -m http.server --cgi 8360 &
-  #         osascript -e 'quit app "Chrome"'
-  #         open http://localhost:8360/index.html
+      - name: Open application
+        run: |
+          cd build/webgl
+          python3 -m http.server --cgi 8360 &
+          osascript -e 'quit app "Chrome"'
+          open http://localhost:8360/index.html
 
-  #     - name: Run tests
-  #       run: |
-  #         cd Bindings~/java
-  #         mvn clean  -Dtest=com.alttester.Tests* test -Dgroups=\!WebGLUnsupported
+      - name: Run tests
+        run: |
+          cd Bindings~/java
+          mvn clean  -Dtest=com.alttester.Tests* test -Dgroups=\!WebGLUnsupported
 
-  #     - name: Close Chrome
-  #       if: always()
-  #       run: osascript -e 'quit app "Chrome"'
+      - name: Close Chrome
+        if: always()
+        run: osascript -e 'quit app "Chrome"'
 
-  #     - name: Upload logs
-  #       uses: actions/upload-artifact@v3
-  #       if: always() # run this step even if one of the previous step failed
-  #       with:
-  #         name: TestJavaArtifact
-  #         path: |
-  #           *.log
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestJavaArtifact
+          path: |
+            *.log
 
-  #     - name: Notify on Slack
-  #       uses: ravsamhq/notify-slack-action@2.3.0
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - name: Notify on Slack
+        uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
