@@ -1,0 +1,18 @@
+userName: ${BROWSERSTACK_USERNAME}
+accessKey: ${BROWSERSTACK_KEY}
+platforms:
+  - os: Windows
+    osVersion: 11
+    browserName: Chrome
+    browserVersion: 103.0
+  - os: Windows
+    osVersion: 10
+    browserName: Chrome
+    browserVersion: 119.0
+  - os: Windows
+    osVersion: 10
+    browserName: Chrome
+    browserVersion: 117.0
+browserstackLocal: true
+buildName: browserstack-build-1
+projectName: BrowserStack Sample

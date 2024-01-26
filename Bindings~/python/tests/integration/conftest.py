@@ -24,6 +24,8 @@ from alttester import AltDriver
 from appium.options.android import UiAutomator2Options
 from browserstack.local import Local
 from appium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver import Chrome
 
 """Holds test fixtures that need to be shared among all tests."""
 
@@ -49,7 +51,7 @@ def get_browserstack_key():
 
 
 @pytest.fixture(scope="session")
-def altdriver(appium_driver):
+def altdriver(appium_driver, selenium_driver):
     altdriver = AltDriver(
         host=get_host(),
         port=get_port(),
@@ -62,6 +64,27 @@ def altdriver(appium_driver):
     yield altdriver
 
     altdriver.stop()
+    
+
+@pytest.fixture(scope="session")
+def selenium_driver(request):
+    driver = None
+    if os.environ.get("RUN_WEBGL_IN_BROWSERSTACK", "") == "true":
+        options = ChromeOptions()
+        options.set_capability('WebGL tests', 'BStack Local Test')
+        driver = webdriver.Remote(command_executor='http://localhost:4444/wd/hub',
+        options=options)
+        driver.get("http://localhost:8360/index.html")
+    
+    if os.environ.get("RUN_WEBGL", "") == "true":
+        driver = Chrome()
+        driver.implicitly_wait(10)
+        driver.maximize_window()
+        driver.get("http://localhost:8360/index.html")
+
+    yield driver
+    if os.environ.get("RUN_WEBGL_IN_BROWSERSTACK", "") == "true" and os.environ.get("RUN_WEBGL", "") == "true" :
+        driver.quit()
 
 
 @pytest.fixture(scope="session")
