@@ -14,5 +14,6 @@ platforms:
     browserName: Chrome
     browserVersion: 117.0
 browserstackLocal: true
-buildName: browserstack-build-1
+buildName: sample-scenes-webgl
+buildIdentifier: ${DATE_TIME}
 projectName: BrowserStack Sample

@@ -135,6 +135,7 @@ jobs:
       - name: Run integration tests
         run: |
           export RUN_WEBGL_IN_BROWSERSTACK="true"
+          cd Bindings~/python/tests/integration/webGL/
           browserstack-sdk pytest Bindings~/python/tests/integration -m "not WebGLUnsupported"
 
       # - name: Close Chrome
