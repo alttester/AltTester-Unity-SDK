@@ -162,8 +162,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
                 try {
                     wsClient.Connect();
-                } catch (System.InvalidOperationException) {
                 }
+                catch (Exception e)
+                {
+                    logger.Debug(string.Format("Connection error: {0}", e.Message));
+                } 
 
                 if (wsClient.IsAlive)
                 {
