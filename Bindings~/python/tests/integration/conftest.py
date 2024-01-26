@@ -150,3 +150,12 @@ def do_something_with_appium(appium_driver):
     # so we need to do something with the appium driver
     # to keep it alive
     appium_driver.get_window_size()
+
+@pytest.fixture(autouse=True)
+def do_something_with_selenium(selenium_driver):
+    if os.environ.get("RUN_WEBGL_IN_BROWSERSTACK", "") != "true":
+        return
+    # browserstack has an idle timeout of max 300 seconds
+    # so we need to do something with the appium driver
+    # to keep it alive
+    selenium_driver.maximize_window()
