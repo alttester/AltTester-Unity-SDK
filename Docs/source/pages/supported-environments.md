@@ -5,7 +5,7 @@
 
 # Supported environments
 
-## Platforms supported with AltTester
+## Platforms supported with AltTester®
 
 <google-sheets-html-origin style="color: rgb(0, 0, 0);"><table xmlns="http://www.w3.org/1999/xhtml" cellspacing="0" cellpadding="0" dir="ltr" border="1" data-sheets-root="1" style="table-layout: fixed; font-size: 10pt; font-family: Arial; width: 0px; border-collapse: collapse; border: none;">
   <thead>
@@ -13,7 +13,7 @@
       <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">OS/Platform type</th>
       <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Platform</th>
       <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Details</th>
-      <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Supported with AltTester (Yes/No/ Not Verified/ WIP)</th>
+      <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Supported with AltTester® (Yes/No/ Not Verified/ WIP)</th>
       <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Type based on connectivity with other devices *</th>
       <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Controls</th>
       <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Unity version range (LTS)</th>
@@ -175,18 +175,18 @@
 <br />
 <br />
 
-## Testing tools and services supported with AltTester (new architecture)
+## Testing tools and services supported with AltTester® (new architecture)
 
 <google-sheets-html-origin style="color: rgb(0, 0, 0);"><table xmlns="http://www.w3.org/1999/xhtml" cellspacing="0" cellpadding="0" dir="ltr" border="1" data-sheets-root="1" style="table-layout: fixed; font-size: 10pt; font-family: Arial; width: 0px; border-collapse: collapse; border: none;">
   <thead>
     <tr style="height: 77px;">
       <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;"></th>
       <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Name</th>
-      <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">AltTester version<br>(SDK + Desktop)</th>
-      <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">AltTester Desktop platform<br>for running AltServer</th>
+      <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">AltTester® version<br>(SDK + Desktop)</th>
+      <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">AltTester® Desktop platform<br>for running AltServer</th>
       <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Platform for<br>instrumented builds</th>
       <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Bindings language</th>
-      <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Supported with AltTester (Yes/No/ Not Verified/ WIP)</th>
+      <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Supported with AltTester® (Yes/No/ Not Verified/ WIP)</th>
     </tr>
   </thead><colgroup><col width="150"><col width="150"><col width="150"><col width="150"><col width="150"><col width="150"><col width="150"></colgroup>
   <tbody>
@@ -465,13 +465,13 @@
 <br />
 <br />
 
-## Unity packages/extensions/dependencies supported with AltTester
+## Unity packages/extensions/dependencies supported with AltTester®
 
 <google-sheets-html-origin style="color: rgb(0, 0, 0);"><table xmlns="http://www.w3.org/1999/xhtml" cellspacing="0" cellpadding="0" dir="ltr" border="1" data-sheets-root="1" style="table-layout: fixed; font-size: 10pt; font-family: Arial; width: 0px; border-collapse: collapse; border: none;">
   <thead>
     <tr style="height: 21px;">
       <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Package/ Extension/ Dependency</th>
-      <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Supported with AltUnity Tester (Yes/No/ Not yet/ WIP)</th>
+      <th rowspan="11" colspan="1" data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;OS for instrumenting builds in Unity&quot;}" style="border-width: 1px; border-style: solid; border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0); border-image: initial; overflow: hidden; padding: 2px 3px; vertical-align: center; background-color: rgb(217, 217, 217); font-weight: bold; overflow-wrap: break-word;">Supported with AltTester® (Yes/No/ Not yet/ WIP)</th>
     </tr>
   </thead><colgroup><col width="150"><col width="150"></colgroup>
   <tbody>
