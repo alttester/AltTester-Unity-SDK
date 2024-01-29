@@ -409,9 +409,6 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: BuildAndroidArtifact
-
-      - name: Upload the app on Browserstack App Automate
-        run: |
           
       - uses: actions/setup-python@v4
         with:
@@ -458,6 +455,7 @@ jobs:
           export RUN_IN_BROWSERSTACK="false"
           unset APP_URL
           unset response
+
       - uses: ravsamhq/notify-slack-action@2.3.0
         if: ${{ always() && github.ref_name == 'development' }}
         with:
@@ -483,10 +481,6 @@ jobs:
           with:
             name: BuildiOSArtifact
 
-        - name: Copy application to Python test folder
-          run: |
-            cp sampleGame.ipa  Bindings~/python
-
         - uses: actions/setup-python@v4
           with:
             python-version: "3.10"
@@ -501,19 +495,21 @@ jobs:
 
         - name: Run integration tests
           run: |
-            export RUN_IN_BROWSERSTACK="true"
-            export RUN_IOS_IN_BROWSERSTACK="true"
-            export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
-            export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
             export ALTSERVER_PORT=13005
             export ALTSERVER_HOST="192.168.11.35"
+            export RUN_IN_BROWSERSTACK="true"
+            export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
+            export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
+            export response=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
+            export APP_URL=$(echo "${response}" | jq -r .app_url)
+            cd Bindings~/python/tests/integration/iOS/
             allure generate
-            pytest -s -v --alluredir=allure-report/ Bindings~/python/tests/integration -m "not iOSUnsupported"
+            browserstack-sdk pytest -s ../ -v --alluredir=allure-report/
 
         - name: Generate Allure report
           if: always()  
           run: |
-            allure generate -c allure-report -o allure-results-html
+            allure generate -c Bindings~/python/tests/integration/iOS/allure-report -o allure-results-html
             allure-combine ./allure-results-html
 
         - uses: actions/upload-artifact@v3
@@ -527,8 +523,9 @@ jobs:
         - name: Unset Browserstack Flag
           if: always()
           run: |
-            export RUN_IOS_IN_BROWSERSTACK="false"
             export RUN_IN_BROWSERSTACK="false"
+            unset APP_URL
+            unset response
 
         - uses: ravsamhq/notify-slack-action@2.3.0
           if: ${{ always() && github.ref_name == 'development' }}    

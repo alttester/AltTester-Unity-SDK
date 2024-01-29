@@ -25,6 +25,6 @@ platforms:
     deviceOrientation: landscape
 parallelsPerPlatform: 1
 browserstackLocal: true
-buildName: multiple-devices
+buildName: android-multiple-devices
 buildIdentifier: ${DATE_TIME}
 projectName: BrowserStack Sample
