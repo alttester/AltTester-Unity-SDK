@@ -756,7 +756,7 @@ You will need two files in order to run your tests:
 * **.apk** file, with a build of your app containing the AltDriver;
 * A **.zip** file containing your tests, the batchmode Linux AltTester® Desktop build (in case of local connection), and other configuration files depending on the language you're running the tests on.
 
-### AWS Device Farm python project example
+### AWS Device Farm Python project example
 
 You can download our example project from [here](https://github.com/alttester-test-examples/Python-AWS-AltTrashCat).
 
@@ -891,7 +891,7 @@ Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws
 #### **Preparation steps**
 
 **1. Prepare the application**
-- get info in the same section from [the python project example](#aws-device-farm-python-project-example)
+- get info in the same section from [the Python project example](#aws-device-farm-python-project-example)
 
 **2. Prepare test code and dependencies**
 - use the accepted .NET version (currently the .NET `6.0` version is required on the AWS Virtual Machine)
@@ -1230,7 +1230,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
 
 **2. Prepare the test code and dependencies**
 
-- install de necessary libraries (we prefer dotnet cli)
+- install de necessary libraries (we prefer dotnet CLI)
     - we need the Selenium Webdriver extension for Appium to establish a connection between our test script and the target mobile application
     - the other package, JunitXml.TestLogger is required to have test results generated and parsed nicely in BitBar’s UI.
     ```
@@ -1454,7 +1454,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 
 **2. Prepare the test code and dependencies**
 
-- install de necessary libraries (we prefer dotnet cli)
+- install de necessary libraries (we prefer dotnet CLI)
     - we need the Selenium Webdriver extension for Appium to establish a connection between our test script and the target mobile application
     - in case you have not done it so far, add the AltTester-Driver package as well
     ```c#
