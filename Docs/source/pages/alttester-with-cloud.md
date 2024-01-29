@@ -1230,7 +1230,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
 
 **2. Prepare the test code and dependencies**
 
-- install de necessary libraries (we prefer dotnet CLI)
+- install the necessary libraries (we prefer dotnet CLI)
     - we need the Selenium Webdriver extension for Appium to establish a connection between our test script and the target mobile application
     - the other package, JunitXml.TestLogger is required to have test results generated and parsed nicely in BitBar’s UI.
     ```
@@ -1454,7 +1454,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 
 **2. Prepare the test code and dependencies**
 
-- install de necessary libraries (we prefer dotnet CLI)
+- install the necessary libraries (we prefer dotnet CLI)
     - we need the Selenium Webdriver extension for Appium to establish a connection between our test script and the target mobile application
     - in case you have not done it so far, add the AltTester-Driver package as well
     ```c#
