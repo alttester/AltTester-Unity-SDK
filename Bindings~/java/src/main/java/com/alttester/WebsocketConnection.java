@@ -18,8 +18,11 @@
 package com.alttester;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
@@ -76,12 +79,24 @@ public class WebsocketConnection {
         return this.session.isOpen();
     }
 
-    private URI getURI() {
+    public static String escapeDataString(String value) {
         try {
-            return new URI("ws", null, host, port, "/altws",
-                    "appName=" + appName + "&platform=" + platform + "&platformVersion=" + platformVersion
-                            + "&deviceInstanceId=" + deviceInstanceId + "&appId=" + appId + "&driverType=SDK",
-                    null);
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
+    }
+
+    private URI getURI() {
+
+        String query = String.format(
+                "appName=%s&platform=%s&platformVersion=%s&deviceInstanceId=%s&appId=%s&driverType=SDK",
+                escapeDataString(appName), escapeDataString(platform),
+                escapeDataString(platformVersion), escapeDataString(deviceInstanceId),
+                escapeDataString(appId));
+
+        try {
+            return new URI("ws", null, host, port, "/altws", query, null);
         } catch (URISyntaxException e) {
             logger.error(e);
             throw new ConnectionException(e.getMessage(), e);

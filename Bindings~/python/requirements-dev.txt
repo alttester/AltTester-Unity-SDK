@@ -23,3 +23,8 @@ pytest-selenium
 Appium-Python-Client
 browserstack-sdk
 py
+Appium-Python-Client
+
+# Allure
+allure-pytest
+allure-combine

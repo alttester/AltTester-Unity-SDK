@@ -8,7 +8,6 @@ Some of these cloud services allow running Appium automated tests by giving you 
 
 .. note::
     BrowserStack and SauceLabs don’t support server-side testing, meaning that the test folder can’t be uploaded onto the platform in order to run the tests. Client-side testing generally focuses on testing the application or website directly on the user’s end. For testing carried out on cloud services, this means that the test suite is stored locally, on a computer and connected to a device in the cloud.
-
 ```
 
 However, some of these cloud services give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. 
@@ -30,6 +29,13 @@ BrowserStack App Automate is a cloud-based testing platform that allows develope
 In this automation process, BrowserStack uses a set of Appium capabilities to customize and configure the testing environment to match various scenarios.
 
 You can download our example project from [here](https://github.com/alttester/EXAMPLES-CSharp-BrowserStack-AltTrashCat). Also, for more details check [this article](https://alttester.com/running-alttester-based-c-tests-on-browserstack-app-automate/) from our Blog.
+
+```eval_rst
+
+.. note::
+    This example was created for running tests on a single device.
+
+```
 
 Because our tests are written in C# using the NUnit framework, we used the [Appium with NUnit section](https://www.browserstack.com/docs/app-automate/appium/getting-started/c-sharp/nunit) from the BrowserStack App Automate documentation to guide us through client-side testing.
 
@@ -246,6 +252,13 @@ Make sure AltTester® Desktop is running, the environment variables are set and 
 A benefit that comes with the GitHub integration is that you don't need to have the AltTester® Desktop app running on your computer in order to run the tests. In this case **AltServer** is running on another machine, making it possible for any team member to trigger the workflow that runs the tests on BrowserStack.
 
 You can download our example project from [here](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat). Also, for more details check [this article](https://alttester.com/how-to-run-alttester-based-c-tests-on-browserstack-using-github-actions/) from our Blog.
+
+```eval_rst
+
+.. note::
+    This example was created for running tests on a single device.
+
+```
 
 For this integration, the best solution is to create and use a **self-hosted runner** because it allows you to install and run the AltTester® Desktop app that keeps AltServer active at all times. Starting with the [AltTester® Unity SDK 2.0.0](https://alttester.com/alttester-desktop-2-0-0-alttester-unity-sdk-2-0-0-recorder-support-for-webgl-and-architectural-changes/) update it is required to have AltServer running in order to run tests.
 
@@ -731,7 +744,7 @@ You can connect to AltTester® Desktop in two ways:
 **A. A remote connection**
 
 - AltTester® Desktop is opened in a remote location (e.g. a virtual machine in the cloud) from where it can be accessed through IP/URL.
-- For the purpose of this example [AltTester® Desktop was installed on an AWS instance](https://docs.google.com/document/d/1sZFnmYXsINdR5R0Szx1ce1Pao9_R0_jFiqNJZJv5BJU/edit#heading=h.o24rsr65ynnr). You can connect with the application through IP/URL. In this case, during instrumentation, you need to specify the IP/URL as the AltServerHost. 
+- For the purpose of this example AltTester® Desktop was installed on an AWS instance. You can connect with the application through IP/URL. In this case, during instrumentation, you need to specify the IP/URL as the AltServerHost. 
 - This works for both Android and iOS.
 
 **B. A local connection**
@@ -743,7 +756,7 @@ You will need two files in order to run your tests:
 * **.apk** file, with a build of your app containing the AltDriver;
 * A **.zip** file containing your tests, the batchmode Linux AltTester® Desktop build (in case of local connection), and other configuration files depending on the language you're running the tests on.
 
-### AWS Device Farm python project example
+### AWS Device Farm Python project example
 
 You can download our example project from [here](https://github.com/alttester-test-examples/Python-AWS-AltTrashCat).
 
@@ -755,13 +768,10 @@ You can download our example project from [here](https://github.com/alttester-te
     - localhost (`127.0.0.1`) - for local connection 
     - IP/URL provided by the AWS Instance where AltTester® Desktop is running - for remote connection
 
-<!-- To update here about the multiple devices concurency after the feature is done and tested -->
 ```eval_rst
 
 .. note::
-    If you want to use the AltTester® Desktop Community edition (FREE plan) you need to create a Windows AWS Instance. You may only test on 1 device at a time.
-    For the moment, the same applies if using the PRO edition too, as in the AWS Device Farm the tests run concurrently on devices and the instrumented app has the same AppName for all instances, which will not allow the AltServer to connect to all of them. In a future release, this problem will be handled so you may be able to test on more than 1 device (on the PRO edition). 
-
+    If you want to use the AltTester® Desktop Community edition (FREE plan) you need to create a Windows AWS Instance. You may only test on 1 device at a time for this plan.
 ```
 
 ```eval_rst
@@ -860,7 +870,7 @@ The instructions and resources will be for running tests on Android, for an appl
 - add the instrumented application build making sure you are on the `Mobile App` tab
 - at the configuration step, choose *"Appium Python"* for the purpose of this example, then upload the **.zip** file
 - the example project contains a **.yml** configuration file. Use it at the next step, by selecting *"Run your test in a custom environment"*. This will define how your test environment is set up and how the tests run
-- the next step will allow you to select on which devices the tests will be executedb - You can create your own device pool, or use the recommended top devices
+- the next step will allow you to select on which devices the tests will be executed - You can create your own device pool, or use the recommended top devices
 - for this example, no changes need to be done to the Device state configuration
 - at the last step, you can set the execution timeout for your devices, then start the tests
 
@@ -881,7 +891,7 @@ Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws
 #### **Preparation steps**
 
 **1. Prepare the application**
-- get info in the same section from [the python project example](#aws-device-farm-python-project-example)
+- get info in the same section from [the Python project example](#aws-device-farm-python-project-example)
 
 **2. Prepare test code and dependencies**
 - use the accepted .NET version (currently the .NET `6.0` version is required on the AWS Virtual Machine)
@@ -1087,12 +1097,6 @@ The instructions and resources will be for running tests on Android, for an appl
 ```
 - at the next step, select *"Run your test in a custom environment"* and edit the default YAML in order to add the necessary commands, described in the preparation step and then save the file - this will define how your test environment is set up and how the tests run
 - the next step will allow you to select on which devices the tests will be executed - You can create your own device pool, or use the recommended top devices (Device Farm offers the option to run tests concurrently on a pool of devices of your choice)
-<!-- To update here if running concurrently on multiple devices is possible or not -->
-<!-- ```eval_rst
-
-.. note::
-At the moment AltServer is unable to differentiate between applications with the same AppName. Therefore, we recommend running the tests on one device only.
-``` -->
 - for this example, no changes need to be done to the Device state configuration
 - at the last step, you can set the execution timeout for your devices, then start the tests
     - once the status is available the project screen will show the overall status of the tests execution progress and results - selecting individual runs and devices will give detailed logs about the tests, together with a video recording of the run itself
@@ -1109,11 +1113,7 @@ BitBar is another popular platform that provides access to hundreds of real iOS 
 
 You can create a free account at <https://cloud.bitbar.com> and try out the test examples detailed below for yourself.
 
-### BitBar C# project example running server-side
-
-In BitBar terms, the [server-side](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/automated-testing/appium-support/running-cloud-side-appium-tests.html) execution means that **we upload** to the platform **everything** we need for the tests to run.
-
-#### Brief description of the working setups
+### Brief description of the working setups
 
 In this dashboard you can have an overview of the setup combinations we tried and which were successful:
 
@@ -1139,6 +1139,10 @@ When starting a server-side running test session with **Android devices**, BitBa
 ```
 
 For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltServer can not be made, so please setup a machine of your choice and install AltTester® Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.0.2.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.0.2.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
+
+### BitBar C# project example running server-side
+
+In BitBar terms, the [server-side](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/automated-testing/appium-support/running-cloud-side-appium-tests.html) execution means that **we upload** to the platform **everything** we need for the tests to run.
 
 Using a `run-tests.sh` we can install all that is needed, run tests and prepare the test report. For running **C#** tests, part of the setup and installation means: installing `.NET`.
 
@@ -1226,7 +1230,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
 
 **2. Prepare the test code and dependencies**
 
-- install de necessary libraries (we prefer dotnet cli)
+- install the necessary libraries (we prefer dotnet CLI)
     - we need the Selenium Webdriver extension for Appium to establish a connection between our test script and the target mobile application
     - the other package, JunitXml.TestLogger is required to have test results generated and parsed nicely in BitBar’s UI.
     ```
@@ -1342,10 +1346,11 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
         .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-local-connection-zip-archive.png
     ```
 
+
 ```eval_rst
 .. note::
     We recommend using ``wget`` in order to install the `batchmode Linux build for AltTester® Desktop <https://alttester.com/app/uploads/AltTester®/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and not put it in the archive because that increases the running time for the entire flow.
-        
+
     An important note for this setup is that both running in batchmode and using the Linux build require `AltTester® Pro License <https://alttester.com/alttester/#pricing>`_.
 ```
 
@@ -1375,8 +1380,7 @@ If you are using [free trial version](https://smartbear.com/product/bitbar/free-
 - [Trial Android devices](https://cloud.bitbar.com/#testing/devices?group=14) with 4 devices
 - [Trial iOS devices](https://cloud.bitbar.com/#testing/devices?group=4127) with 2 devices
 
-<!-- to recheck this information if the problem is solved for the 2.1 release -->
-An automated test session starts **simultaneously** on all the devices from the group selected. Since **AltServer v2.0.\*** version does not currently support running the same tests (same appName) in more than one device at the same time, we need to manually abort the session on one of the devices.
+An automated test session starts **simultaneously** on all the devices from the group selected.
 
 ```eval_rst
 .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-test-run.png
@@ -1450,7 +1454,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 
 **2. Prepare the test code and dependencies**
 
-- install de necessary libraries (we prefer dotnet cli)
+- install the necessary libraries (we prefer dotnet CLI)
     - we need the Selenium Webdriver extension for Appium to establish a connection between our test script and the target mobile application
     - in case you have not done it so far, add the AltTester-Driver package as well
     ```c#
@@ -1823,11 +1827,11 @@ Upload the app you instrumented earlier (see **1. Prepare the application** from
 
 There are a few important observations here as well. Please consult the [BitBar steps summary](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/automated-testing/appium-support/running-cloud-side-appium-tests.html#UUID-64e75ca6-080d-3c13-5cee-3f673df86b94_id_upload-and-execute) and [the devices and device groups available](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/organizing-your-projects-and-devices/managing-devices-and-device-groups.html).
 
-If you are using [free trial version](https://smartbear.com/product/bitbar/free-trial/) (14 days) leave the **Use existing device group* option checked, together with *Trial Android devices* selected 
-<!-- to recheck this information if the problem is solved for the 2.1 release -->
-An automated test session starts **simultaneously** on all the devices from the group selected. Since **AltServer v2.0.\*** version does not currently support running the same tests (same appName) in more than one device at the same time, we need to manually abort the session on one of the devices.
+If you are using [free trial version](https://smartbear.com/product/bitbar/free-trial/) (14 days) you will get:
+- [Trial Android devices](https://cloud.bitbar.com/#testing/devices?group=14) with 4 devices
+- [Trial iOS devices](https://cloud.bitbar.com/#testing/devices?group=4127) with 2 devices
 
-If you have a subscription, please see the BitBar cloud documentation for more info about [creating your own device groups](https://docs.bitbar.com/testing/user-manuals/device-groups).
+An automated test session starts **simultaneously** on all the devices from the group selected.
 
 ```eval_rst
 .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-test-run.png
@@ -2022,10 +2026,7 @@ Since we are running our tests from a local environment we need a way to authent
 
 **2. Execute test run to trigger new session on BitBar cloud**
 
-From your machine trigger execution for tests. We prefer using the cmd terminal for this:
-```python
-
-```
+From your machine trigger execution for tests. 
 - a new automation test session should be visible running under the *bitbar_project* defined in script
 - once the test execution is finished you can consult the logs (`appium.log`, `console.log`, `device.log`) and screen record of the execution
 

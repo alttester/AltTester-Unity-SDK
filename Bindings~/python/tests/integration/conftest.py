@@ -19,7 +19,11 @@ import os
 import pytest
 import time
 from alttester import AltDriver
+from appium.options.android import UiAutomator2Options
+from appium.options.ios import XCUITestOptions
+from browserstack.local import Local
 from appium import webdriver
+from appium.webdriver.common.mobileby import MobileBy
 
 """Holds test fixtures that need to be shared among all tests."""
 
@@ -44,13 +48,35 @@ def get_browserstack_key():
     return os.environ.get("BROWSERSTACK_KEY", "")
 
 
+def get_ui_automator_capabilities(platform_name, platform_version, device_name, url, build_name):
+    return {
+            "platformName": platform_name,
+            "platformVersion": platform_version,
+            "deviceName": device_name,
+            "app": url,
+
+            # Set other BrowserStack capabilities
+            'bstack:options': {
+                "projectName": "AltTester",
+                "buildName": build_name,
+                "sessionName": 'tests-{date:%Y-%m-%d_%H:%M:%S}'
+                .format(date=datetime.datetime.now()),
+                "local": "true",
+                "wsLocalSupport": "true",
+                "deviceOrientation": "landscape",
+                "networkLogs": "true",
+                "userName": get_browserstack_username(),
+                "accessKey": get_browserstack_key()
+            }
+        }
+
+
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
     altdriver = AltDriver(
         host=get_host(),
         port=get_port(),
         app_name=get_app_name(),
-        enable_logging=True,
         timeout=60
     )
     print("altdriver started")
