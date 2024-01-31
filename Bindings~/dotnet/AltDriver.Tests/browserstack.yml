@@ -1,11 +1,10 @@
 userName: rucindrea_tQ1EC2
 accessKey: mCR1rtsDjAEZz9Kdown1
-idleTimeout: 3000
 platforms:
   - os: Windows
-    osVersion: 11
+    osVersion: 10
     browserName: Chrome
-    browserVersion: 103.0
+    browserVersion: 120.0
   - os: Windows
     osVersion: 10
     browserName: Chrome
@@ -17,3 +16,4 @@ platforms:
 browserstackLocal: true
 buildName: browserstack-build-1
 projectName: BrowserStack Sample
+idleTimeout: 7200

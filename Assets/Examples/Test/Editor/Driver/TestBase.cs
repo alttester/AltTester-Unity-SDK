@@ -31,6 +31,7 @@ public class TestBase
     protected AltDriver altDriver;
     protected string sceneName;
     private static bool setupExecuted = false;
+    private static int numberFiles = 0;
     protected RemoteWebDriver driver;   
     [OneTimeSetUp] 
     public void SetUp()
@@ -44,7 +45,9 @@ public class TestBase
             );
             driver.Navigate().GoToUrl("http://localhost:8360/index.html");
             setupExecuted = true;
+            driver.Manage().Window.Maximize();
         }
+        numberFiles ++;
         altDriver = TestsHelper.GetAltDriver();
         DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
         DriverLogManager.SetMinLogLevel(AltLogger.Unity, AltLogLevel.Info);
@@ -54,12 +57,17 @@ public class TestBase
     public void TearDown()
     {
         altDriver.Stop();
+        if (numberFiles == 7 && setupExecuted && Environment.GetEnvironmentVariable("RUN_WEBGL_IN_BROWSERSTACK") == "true"){
+             driver.Quit();
+        }
     }
 
     [SetUp]
     protected void LoadLevel()
     {   
-        driver.Manage().Window.Maximize();
+        if (Environment.GetEnvironmentVariable("RUN_WEBGL_IN_BROWSERSTACK") == "true"){
+            Assert.That(driver.Url == "http://localhost:8360/index.html");
+        }
         altDriver.ResetInput();
         altDriver.SetCommandResponseTimeout(60);
         altDriver.LoadScene(this.sceneName, true);
