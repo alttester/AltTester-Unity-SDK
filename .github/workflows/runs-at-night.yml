@@ -150,7 +150,7 @@ jobs:
 
       - name: Open application
         run: |
-          cd build/webgl
+          cd webgl
           python3 -m http.server --cgi 8360 &
           osascript -e 'quit app "Chrome"'
           open http://localhost:8360/index.html
@@ -204,7 +204,7 @@ jobs:
 
       - name: Open application
         run: |
-          cd build/webgl
+          cd webgl
           python3 -m http.server --cgi 8360 &
           osascript -e 'quit app "Chrome"'
           open http://localhost:8360/index.html
@@ -270,7 +270,7 @@ jobs:
 
       - name: Open application
         run: |
-          cd build/webgl
+          cd webgl
           python3 -m http.server --cgi 8360 &
           osascript -e 'quit app "Chrome"'
           open http://localhost:8360/index.html
@@ -322,7 +322,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ios-build
-          path: Bindings~/python
+          path: Bindings~/python/
+
+      - run: ls -l Bindings~/python/
 
       - uses: actions/setup-python@v5
         with:
@@ -398,7 +400,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: android-build
-          path: Bindings~/python
+          path: Bindings~/python/
+
+      - run: ls -l Bindings~/python/
 
       - name: Install dependencies
         run: |
