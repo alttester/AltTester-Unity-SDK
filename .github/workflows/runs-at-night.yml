@@ -25,7 +25,7 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@v4
         with:
-          name: BuildWebGLArtifact
+          name: webgl-build
           path: |
             build
 
@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: BuildWebGLArtifact
+          name: webgl-build-logs
           path: |
             buildWebGL.log
 
@@ -67,7 +67,7 @@ jobs:
       - name: Upload builds
         uses: actions/upload-artifact@v4
         with:
-          name: BuildiOSArtifact
+          name: ios-build
           path: |
             sampleGame.ipa
 
@@ -106,7 +106,7 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@v4
         with:
-          name: BuildAndroidArtifact
+          name: android-build
           path: |
             sampleGame.apk
 
@@ -147,7 +147,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name:
-            BuildWebGLArtifact
+            webgl-build
 
       - name: Open application
         run: |
@@ -168,7 +168,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
-          name: TestCSharpArtifact
+          name: webgl-dotnet-logs
           path: |
             **/*.log
 
@@ -202,7 +202,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name:
-            BuildWebGLArtifact
+            webgl-build
 
       - name: Open application
         run: |
@@ -231,7 +231,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
-          name: TestPythonArtifact
+          name: webgl-python-logs
           path: "**/*.log"
 
       - name: Notify on Slack
@@ -269,7 +269,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name:
-            BuildWebGLArtifact
+            webgl-build
 
       - name: Open application
         run: |
@@ -291,9 +291,9 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: TestJavaArtifact
+          name: webgl-java-logs
           path: |
-            *.log
+            **/*.log
 
       - name: Notify on Slack
         uses: ravsamhq/notify-slack-action@v2
@@ -320,7 +320,7 @@ jobs:
       - name: Download build
         uses: actions/download-artifact@v4
         with:
-          name: BuildiOSArtifact
+          name: ios-build
 
       - uses: actions/setup-python@v5
         with:
@@ -357,7 +357,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: TestPythoniOSInBrowserstackArtifact
+          name: ios-browserstack-python-artifacts
           path: |
               **/*.log
               ./allure-results-html/complete.html
@@ -397,7 +397,7 @@ jobs:
       - name: Download build
         uses: actions/download-artifact@v4
         with:
-          name: BuildAndroidArtifact
+          name: android-build
 
       - name: Copy application to Python test folder
         run: |
@@ -423,7 +423,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: TestPythonAndroidInBrowserstackArtifact
+          name: android-browserstack-python-logs
           path: "**/*.log"
 
       # - name: Unset Browserstack Flag
