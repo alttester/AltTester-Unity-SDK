@@ -15,8 +15,12 @@ An AltDriver instance will connect to the running instrumented Unity application
 | host           | string  | No       | The IP or hostname AltTester® Unity SDK is listening on. The default value is "127.0.0.1". |
 | port           | int     | No       | The default value is 13000.                                                           |
 | enableLogging  | boolean | No       | The default value is false.                                                           |
-| connectTimeout | int     | No       | The connect timeout in seconds.The default value is 60.                                |
-| appName        | string  | No       | The name of the Unity application.The default value is `__default__`.                  |
+| connectTimeout | int     | No       | The connect timeout in seconds. The default value is 60.                                |
+| appName        | string  | No       | The name of the Unity application. The default value is `__default__`.                  |
+| platform       | string  | No       | The platform of the Unity application. The default value is `unknown`.                  |
+| platformVersion| string  | No       | The platform version of the Unity application. The default value is `unknown`.          |
+| deviceInstanceId| string  | No      | The device instance id of the Unity application. The default value is`unknown`.         |
+| appId        | string  | No         | The unique id of the Unity application. The default value is `unknown`.                 |
 
 Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the app. The available methods are the following:
 

@@ -488,7 +488,13 @@ Use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-i
 
 In the `AltDriver` constructor you have the option to specify multiple tags. The available tags are: app name, platform, platform version, device instance id and app id. The app id can be used to uniquely identify an app. In case you specify no tags, the tests will be run on a randomly chosen app.
 
-Keep in mind that, the tags given in the constructor will choose one random free app satisfying the requirements. Only one test can run on one app simultaneously. If you want to run the same tests on multiple apps concurrently you have to use the `dotnet test` command as many times as many apps you want your tests to be executed on.
+Keep in mind that, the tags given in the constructor will choose one random free app satisfying the requirements. Only one test can run on one app simultaneously. If you want to run the same tests on multiple apps concurrently, you have to start the `dotnet test` command multiple times, once for each app/device that you want your tests to be executed on. Depending on your setup, you might want to replace the `dotnet test` command with `pytest` or any other command that you usually use to start your tests.
+
+```eval_rst
+.. note::
+
+    In order to ensure that the `dotnet test` command is executed multiple times concurrently within the same terminal add an `&` at the end of the command to run it in the background.
+```
 
 For example, let's say we want to run a set of tests on all apps started on Windows 11 (the exact platform version is displayed in the green popup and in AltTester® Desktop). For that, use the following code snippet:
 
@@ -504,7 +510,7 @@ For example, let's say we want to run a set of tests on all apps started on Wind
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, platform_version:"Windows 11  (10.0.22621) 64bit")
+            altDriver = AltDriver(host:"127.0.0.1", port:13000, platform_version:"Windows 11  (10.0.22621) 64bit")
 ```
 
 ```eval_rst
