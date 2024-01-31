@@ -15,7 +15,6 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -80,7 +79,6 @@ namespace AltTester.AltTesterUnitySDK
                                 previousData.eligibleForClick = false;
                             }
                             ExecuteDragPointerEvents(previousData);
-                            GameObjectHit = getGameObjectHit(touch);
 
                             GetFirstRaycastResult(previousData, out raycastResult);
                             previousData.pointerCurrentRaycast = raycastResult;
@@ -142,11 +140,7 @@ namespace AltTester.AltTesterUnitySDK
                                           ExecuteEvents.pointerClickHandler);
                                 previousData.eligibleForClick = false;
                             }
-                            if (previousData.pointerPress != null)
-                            {
-                                previousData.pointerPress.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
-                                previousData.pointerPress.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-                            }
+
 
                             ExecuteEndDragPointerEvents(previousData);
 #if ENABLE_INPUT_SYSTEM
@@ -166,6 +160,12 @@ namespace AltTester.AltTesterUnitySDK
 
         public void ExecuteDragPointerEvents(PointerEventData previousData)
         {
+#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+            if (Input.monoBehaviourTargetMouseDown != null)
+            {
+                Input.monoBehaviourTargetMouseDown.SendMessage("OnMouseDrag", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            }
+#endif
             if (previousData.pointerDrag == null)
             {
                 previousData.dragging = true;
@@ -210,6 +210,15 @@ namespace AltTester.AltTesterUnitySDK
 
         public void ExecuteEndDragPointerEvents(PointerEventData previousData)
         {
+#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+
+            if (Input.monoBehaviourTargetMouseDown != null)
+            {
+                Input.monoBehaviourTargetMouseDown.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                Input.monoBehaviourTargetMouseDown.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                Input.monoBehaviourTargetMouseDown = null;
+            }
+#endif
             if (previousData.pointerDrag != null)
             {
 #if ENABLE_INPUT_SYSTEM

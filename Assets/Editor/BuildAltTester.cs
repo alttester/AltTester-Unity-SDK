@@ -79,7 +79,6 @@ namespace AltTesterTools
 
         }
 
-
         [MenuItem("Build/iOS")]
         protected static void IosBuildFromCommandLine()
         {
@@ -169,6 +168,7 @@ namespace AltTesterTools
                     "Assets/Examples/Scenes/Scene 7 New Input System Actions.unity",
                     "Assets/Examples/Scenes/Scene 11 ScrollView Scene.unity",
                     "Assets/Examples/Scenes/Sceme 12 2D Objects.unity",
+                    "Assets/Examples/Scenes/DragDemo.unity"
                     };
         }
         private static void buildGame(BuildPlayerOptions buildPlayerOptions, BuildTargetGroup targetGroup)

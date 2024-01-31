@@ -15,9 +15,11 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 namespace AltTester.AltTesterUnitySDK
 {
@@ -51,11 +53,16 @@ namespace AltTester.AltTesterUnitySDK
         /// <returns>the found gameObject</returns>
         private static UnityEngine.GameObject findEventSystemObject(UnityEngine.EventSystems.PointerEventData pointerEventData)
         {
-            UnityEngine.EventSystems.RaycastResult firstRaycastResult;
-            AltMockUpPointerInputModule.GetFirstRaycastResult(pointerEventData, out firstRaycastResult);
-            pointerEventData.pointerCurrentRaycast = firstRaycastResult;
-            pointerEventData.pointerPressRaycast = firstRaycastResult;
-            return firstRaycastResult.gameObject;
+            List<UnityEngine.EventSystems.RaycastResult> firstRaycastResult;
+            AltMockUpPointerInputModule.GetAllRaycastResults(pointerEventData, out firstRaycastResult);
+            foreach (var result in firstRaycastResult)
+            {
+                if (ExecuteEvents.CanHandleEvent<IPointerClickHandler>(result.gameObject))
+                {
+                    return result.gameObject;
+                }
+            }
+            return null;
         }
         public static UnityEngine.GameObject FindObjectAtCoordinates(UnityEngine.Vector2 screenPosition)
         {

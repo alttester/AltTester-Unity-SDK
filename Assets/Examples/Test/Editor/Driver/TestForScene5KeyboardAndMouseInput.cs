@@ -173,6 +173,17 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             }
 
         }
+        [Test]
+        public void TestTabToCloseImage()
+        {
+            Assert.That(altDriver.FindObject(By.PATH, "//Canvas/Image", enabled: false).enabled);
+            altDriver.KeyDown(AltKeyCode.Tab);
+            altDriver.KeyUp(AltKeyCode.Tab);
+            Assert.That(!altDriver.FindObject(By.PATH, "//Canvas/Image", enabled: false).enabled);
+            altDriver.KeyDown(AltKeyCode.Tab);
+            altDriver.KeyUp(AltKeyCode.Tab);
+            Assert.That(altDriver.FindObject(By.PATH, "//Canvas/Image", enabled: false).enabled);
+        }
 
         [Test]
         public void TestPowerJoystick()
