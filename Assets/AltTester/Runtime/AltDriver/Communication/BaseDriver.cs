@@ -18,6 +18,7 @@
 using System;
 using System.Diagnostics;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltWebSocketSharp;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Communication
 {
@@ -34,6 +35,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public event EventHandler<byte[]> OnMessage;
         public event EventHandler<String> OnMessageData;
+        public event EventHandler<CloseEventArgs> OnCloseEvent;
         protected string path;
 
         public BaseDriver(string path)
@@ -61,6 +63,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     return;
                 }
                 this.OnMessage.Invoke(this, e.RawData);
+            };
+            this.WsClient.OnCloseEvent += (sender, data) =>
+            {
+                OnCloseEvent.Invoke(this, data);
             };
             this.WsClient.Connect();
         }

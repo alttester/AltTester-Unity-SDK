@@ -157,22 +157,34 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
             wsClient.OnOpen += () =>
             {
-                if (this.OnConnect != null) this.OnConnect.Invoke();
+                if (this.OnConnect != null)
+                {
+                    this.OnConnect.Invoke();
+                }
 
                 wsClient.OnError += (string errorMsg) =>
                 {
-                    if (this.OnError != null) this.OnError.Invoke(errorMsg, null);
+                    if (this.OnError != null)
+                    {
+                        this.OnError.Invoke(errorMsg, null);
+                    }
                 };
             };
 
             wsClient.OnClose += (int closeCode, string reason) =>
             {
-                if (this.OnDisconnect != null) this.OnDisconnect.Invoke(closeCode, reason);
+                if (this.OnDisconnect != null)
+                {
+                    this.OnDisconnect.Invoke(closeCode, reason);
+                }
             };
 
             wsClient.OnMessage += (byte[] message) =>
             {
-                if (this.OnMessage != null) this.OnMessage.Invoke(Encoding.UTF8.GetString(message));
+                if (this.OnMessage != null)
+                {
+                    this.OnMessage.Invoke(Encoding.UTF8.GetString(message));
+                }
             };
         }
 
@@ -194,7 +206,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 this.wsClient.Close().GetAwaiter().GetResult();
             }
-            catch (WebSocketInvalidStateException ex)
+            catch (WebSocketException ex)
             {
                 logger.Debug(ex.Message);
             }

@@ -293,6 +293,8 @@ class TestScene01:
         assert str(
             execinfo.value) == "Property InstrumentationSettings.AltServerPort not found after 2 seconds"
 
+    @pytest.mark.iOSUnsupported
+    @pytest.mark.WebGLUnsupported
     def test_wait_for_component_property_assembly_not_found(self):
         componentName = "AltExampleScriptCapsule"
         propertyName = "InstrumentationSettings.AltServerPort"
@@ -819,6 +821,7 @@ class TestScene01:
             "AltInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp")
 
     @pytest.mark.WebGLUnsupported
+    @pytest.mark.iOSUnsupported
     def test_get_static_property(self):
 
         self.altdriver.call_static_method(

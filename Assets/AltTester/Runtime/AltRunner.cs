@@ -22,6 +22,7 @@ using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Logging;
 using AltTester.AltTesterUnitySDK.Notification;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK
 {
@@ -191,7 +192,14 @@ namespace AltTester.AltTesterUnitySDK
 
         public System.Collections.IEnumerator RunActionAfterEndOfFrame(Action action)
         {
-            yield return new UnityEngine.WaitForEndOfFrame();
+#if UNITY_EDITOR
+            if (Application.isBatchMode)
+            {
+                yield return null;
+            }
+            else
+#endif
+                yield return new UnityEngine.WaitForEndOfFrame();
             action();
         }
 
