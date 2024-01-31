@@ -19,9 +19,6 @@ import os
 import pytest
 import time
 from alttester import AltDriver
-from appium.options.android import UiAutomator2Options
-from appium.options.ios import XCUITestOptions
-from browserstack.local import Local
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
 
@@ -70,6 +67,11 @@ def appium_driver(request):
         appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
                                          request.getfixturevalue("session_capabilities"))
         time.sleep(10)
+    
+        if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
+            el = appium_driver.find_element(MobileBy.ID, 'Allow')
+            el.click()
+
     yield appium_driver
 
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":

@@ -498,6 +498,7 @@ jobs:
             export ALTSERVER_PORT=13005
             export ALTSERVER_HOST="192.168.11.35"
             export RUN_IN_BROWSERSTACK="true"
+            export RUN_IOS_IN_BROWSERSTACK="true"
             export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
             export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
             export response=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
@@ -524,6 +525,7 @@ jobs:
           if: always()
           run: |
             export RUN_IN_BROWSERSTACK="false"
+            export RUN_IOS_IN_BROWSERSTACK="false"
             unset APP_URL
             unset response
 
