@@ -507,6 +507,12 @@ For example, let's say we want to run a set of tests on all apps started on Wind
             cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, platform_version:"Windows 11  (10.0.22621) 64bit")
 ```
 
+```eval_rst
+.. important::
+
+    Although this version of AltTester® Unity SDK is backwards compatible, in case you have older versions of instrumented apps, you won't be able to run your tests concurrently.
+```
+
 ## Using AltTester® Unity SDK in Release mode
 
 By default AltTester® Unity SDK does not run in release mode. We recommended that you do not instrument your Unity application in release mode with AltTester® Unity SDK. That being said, if you do want to instrument your application in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltRunnerPrefab inside AltTester® Unity SDK asset folder `AltTester/Prefab/AltRunnerPrefab.prefab`
