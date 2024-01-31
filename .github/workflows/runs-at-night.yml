@@ -149,8 +149,7 @@ jobs:
       - name: Download build
         uses: actions/download-artifact@v4
         with:
-          name:
-            webgl-build
+          name: webgl-build
 
       - name: Open application
         run: |
@@ -204,8 +203,7 @@ jobs:
       - name: Download build
         uses: actions/download-artifact@v4
         with:
-          name:
-            webgl-build
+          name: webgl-build
 
       - name: Open application
         run: |
@@ -271,8 +269,7 @@ jobs:
       - name: Download build
         uses: actions/download-artifact@v4
         with:
-          name:
-            webgl-build
+          name: webgl-build
 
       - name: Open application
         run: |
@@ -317,6 +314,10 @@ jobs:
 
     runs-on: [self-hosted, macOS]
 
+    env:
+      RUN_IN_BROWSERSTACK: true
+      RUN_ANDROID_IN_BROWSERSTACK: true
+
     steps:
       - uses: actions/checkout@v4
 
@@ -343,8 +344,6 @@ jobs:
 
       - name: Run integration tests
         run: |
-          export RUN_IN_BROWSERSTACK="true"
-          export RUN_IOS_IN_BROWSERSTACK="true"
           export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
           allure generate
@@ -390,6 +389,10 @@ jobs:
 
     runs-on: [self-hosted, macOS]
 
+    env:
+      RUN_IN_BROWSERSTACK: true
+      RUN_ANDROID_IN_BROWSERSTACK: true
+
     steps:
       - uses: actions/checkout@v4
 
@@ -416,8 +419,6 @@ jobs:
 
       - name: Run integration tests
         run: |
-          export RUN_IN_BROWSERSTACK="true"
-          export RUN_ANDROID_IN_BROWSERSTACK="true"
           export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
           pytest -s Bindings~/python/tests/integration
