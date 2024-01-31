@@ -484,6 +484,29 @@ Use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-i
     On mobile devices, AltDriver can interact only with a single app at a time and the app needs to be in focus. In case of 2 drivers and 2 apps, you need to switch (in your test scripts) between the applications. This is due to the fact that on Android/iOS only one application is in focus at a time, even when using split screen mode.
 ```
 
+## Execute tests concurrently
+
+In the `AltDriver` constructor you have the option to specify multiple tags. The available tags are: app name, platform, platform version, device instance id and app id. The app id can be used to uniquely identify an app. In case you specify no tags, the tests will be run on a randomly chosen app.
+
+Keep in mind that, the tags given in the constructor will choose one random free app satisfying the requirements. Only one test can run on one app simultaneously. If you want to run the same tests on multiple apps concurrently you have to use the `dotnet test` command as many times as many apps you want your tests to be executed on.
+
+For example, let's say we want to run a set of tests on all apps started on Windows 11 (the exact platform version is displayed in the green popup and in AltTester® Desktop). For that, use the following code snippet:
+
+```eval_rst
+.. tabs::
+    .. code-tab:: c#
+
+            altDriver = new AltDriver (host = "127.0.0.1", port = 13000, platformVersion = "Windows 11  (10.0.22621) 64bit");
+
+    .. code-tab:: java
+
+            altDriver = new AltDriver ("127.0.0.1", 13000, false, 60, "unknown", "unknown", "Windows 11  (10.0.22621) 64bit", "unknown", "unknown");
+
+    .. code-tab:: py
+
+            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, platform_version:"Windows 11  (10.0.22621) 64bit")
+```
+
 ## Using AltTester® Unity SDK in Release mode
 
 By default AltTester® Unity SDK does not run in release mode. We recommended that you do not instrument your Unity application in release mode with AltTester® Unity SDK. That being said, if you do want to instrument your application in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltRunnerPrefab inside AltTester® Unity SDK asset folder `AltTester/Prefab/AltRunnerPrefab.prefab`
