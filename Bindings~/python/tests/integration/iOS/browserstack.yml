@@ -4,24 +4,24 @@ framework: pytest
 app: ${APP_URL}
 platforms:
   - platformName: ios
-    deviceName: iPhone 15 Pro
+    deviceName: iPhone 15 Pro Max
     platformVersion: 17
     deviceOrientation: landscape
   - platformName: ios
-    deviceName: iPhone 13
-    platformVersion: 17
+    deviceName: iPhone 14 Pro Max
+    platformVersion: 16
     deviceOrientation: landscape
   - platformName: ios
     deviceName: iPhone 12 Pro Max
     platformVersion: 14
     deviceOrientation: landscape
   - platformName: ios
-    deviceName: iPhone 14
-    platformVersion: 16
-    deviceOrientation: landscape
-  - platformName: ios
     deviceName: iPhone 13 Pro Max
     platformVersion: 15
+    deviceOrientation: landscape
+  - platformName: ios
+    deviceName: iPhone 11 Pro Max
+    platformVersion: 14
     deviceOrientation: landscape
 parallelsPerPlatform: 1    
 browserstackLocal: true
