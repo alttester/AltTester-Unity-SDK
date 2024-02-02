@@ -30,3 +30,4 @@ buildIdentifier: ${DATE_TIME}
 projectName: BrowserStack Sample
 debug: true
 networkLogs: true
+autoGrantPermissions: true
