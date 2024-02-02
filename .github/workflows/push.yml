@@ -446,13 +446,13 @@ jobs:
         run: |
           allure generate -c allure-report1 -o allure-results-html1
           allure-combine ./allure-results-html1
-          allure generate -c allure-report1 -o allure-results-html2
+          allure generate -c allure-report2 -o allure-results-html2
           allure-combine ./allure-results-html2
-          allure generate -c allure-report1 -o allure-results-html3
+          allure generate -c allure-report3 -o allure-results-html3
           allure-combine ./allure-results-html3
-          allure generate -c allure-report1 -o allure-results-html4
+          allure generate -c allure-report4 -o allure-results-html4
           allure-combine ./allure-results-html4
-          allure generate -c allure-report1 -o allure-results-html5
+          allure generate -c allure-report5 -o allure-results-html5
           allure-combine ./allure-results-html5
 
       - uses: actions/upload-artifact@v3
