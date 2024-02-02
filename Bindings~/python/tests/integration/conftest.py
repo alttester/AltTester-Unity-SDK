@@ -73,6 +73,15 @@ def get_ui_automator_capabilities(platform_name, platform_version, device_name, 
         }
 
 
+def pytest_addoption(parser):
+    parser.addoption(
+        "--platform_version", action="store", default=None, help="This is the device's OS version"
+    )
+    parser.addoption(
+        "--device_name", action="store", default=None, help="This is the name of the device"
+    )
+
+
 @pytest.fixture(scope="session")
 def altdriver(appium_driver):
     altdriver = AltDriver(
@@ -109,10 +118,11 @@ def appium_driver(request):
             options = UiAutomator2Options().load_capabilities(
                 get_ui_automator_capabilities(
                     "android",
-                    "12.0",
-                    "Google Pixel 6",
+                    request.config.getoption("--platform_version"),
+                    request.config.getoption("--device_name"),
                     app_url,
-                    "alttester-pipeline-python-android",
+                    "alttester-pipeline-python-android-" +
+                    str(datetime.date.today())
                 )
             )
         if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
@@ -130,8 +140,10 @@ def appium_driver(request):
                             + str(response.text))
             options = options = XCUITestOptions().load_capabilities(
                 get_ui_automator_capabilities(
-                    "ios", "16", "iPhone 14", app_url,
-                    "alttester-pipeline-python-ios"
+                    "ios", request.config.getoption("--platform_version"),
+                    request.config.getoption("--device_name"), app_url,
+                    "alttester-pipeline-python-ios-" +
+                    str(datetime.date.today())
                 )
             )
 
