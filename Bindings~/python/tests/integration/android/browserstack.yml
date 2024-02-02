@@ -28,3 +28,5 @@ browserstackLocal: true
 buildName: android-multiple-devices
 buildIdentifier: ${DATE_TIME}
 projectName: BrowserStack Sample
+debug: true
+networkLogs: true
