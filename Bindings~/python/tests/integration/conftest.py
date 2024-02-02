@@ -69,10 +69,10 @@ def appium_driver(request):
         time.sleep(10)
     
         if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
-            allow_button = appium_driver.find_element(MobileBy.ID, 'Allow')
-            if allow_button is not None:
+            try:
+                allow_button = appium_driver.find_element(MobileBy.ID, 'Allow')
                 allow_button.click()
-            else:
+            except:
                 ok_button = appium_driver.find_element(MobileBy.ID, 'OK')
                 ok_button.click()
     yield appium_driver
