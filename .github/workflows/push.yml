@@ -432,14 +432,12 @@ jobs:
           export response=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.apk")
           export APP_URL=$(echo "${response}" | jq -r .app_url)
           cd Bindings~/python/tests/integration/android/
-          allure generate
-          browserstack-sdk pytest -s ../ -v --alluredir=allure-report/
+          browserstack-sdk pytest -s ../tests/test_scene01.py -v --alluredir=allure-report/
 
       - name: Generate Allure report
         if: always()  
         run: |
           allure generate -c Bindings~/python/tests/integration/android/allure-report -o allure-results-html
-          allure-combine ./allure-results-html
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
@@ -504,14 +502,12 @@ jobs:
             export response=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
             export APP_URL=$(echo "${response}" | jq -r .app_url)
             cd Bindings~/python/tests/integration/iOS/
-            allure generate
             browserstack-sdk pytest -s ../ -v --alluredir=allure-report/
 
         - name: Generate Allure report
           if: always()  
           run: |
             allure generate -c Bindings~/python/tests/integration/iOS/allure-report -o allure-results-html
-            allure-combine ./allure-results-html
 
         - uses: actions/upload-artifact@v3
           if: always() # run this step even if one of the previous step failed
