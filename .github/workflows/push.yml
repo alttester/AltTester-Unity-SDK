@@ -432,12 +432,27 @@ jobs:
           export response=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.apk")
           export APP_URL=$(echo "${response}" | jq -r .app_url)
           cd Bindings~/python/tests/integration/android/
-          browserstack-sdk pytest -s ../tests/test_scene01.py -v --alluredir=allure-report/
+          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-android1/ --browserstack.config "android1.yml" &
+          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-android2/ --browserstack.config "android2.yml" &
+          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-android3/ --browserstack.config "android3.yml" &
+          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-android4/ --browserstack.config "android4.yml" &
+          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-android5/ --browserstack.config "android5.yml" &
+          wait
 
       - name: Generate Allure report
         if: always()  
         run: |
-          allure generate -c Bindings~/python/tests/integration/android/allure-report -o allure-results-html
+          allure generate -c Bindings~/python/tests/integration/android/allure-report-android1 -o allure-results-html-android1
+          allure generate -c Bindings~/python/tests/integration/android/allure-report-android2 -o allure-results-html-android2
+          allure generate -c Bindings~/python/tests/integration/android/allure-report-android3 -o allure-results-html-android3
+          allure generate -c Bindings~/python/tests/integration/android/allure-report-android4 -o allure-results-html-android4
+          allure generate -c Bindings~/python/tests/integration/android/allure-report-android5 -o allure-results-html-android5
+
+          allure-combine ./allure-results-html-android1
+          allure-combine ./allure-results-html-android2
+          allure-combine ./allure-results-html-android3
+          allure-combine ./allure-results-html-android4
+          allure-combine ./allure-results-html-android5
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
@@ -445,7 +460,11 @@ jobs:
           name: TestPythonAndroidInBrowserstackArtifact
           path: |
               **/*.log
-              ./allure-results-html/complete.html
+              ./allure-results-html-android1/complete.html
+              ./allure-results-html-android2/complete.html
+              ./allure-results-html-android3/complete.html
+              ./allure-results-html-android4/complete.html
+              ./allure-results-html-android5/complete.html
 
       - name: Unset Browserstack Flag
         if: always()
@@ -508,6 +527,7 @@ jobs:
           if: always()  
           run: |
             allure generate -c Bindings~/python/tests/integration/iOS/allure-report -o allure-results-html
+            allure-combine ./allure-results-html
 
         - uses: actions/upload-artifact@v3
           if: always() # run this step even if one of the previous step failed
