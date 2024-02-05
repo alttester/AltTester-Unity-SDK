@@ -1,7 +1,7 @@
 userName: ${BROWSERSTACK_USERNAME}
 accessKey: ${BROWSERSTACK_KEY}
 framework: pytest
-app: ${APP_URL}
+app: bs://9d80b9d1a6d98630b1d1c2165267fe924ce9ba08
 platforms:
   - platformName: android
     deviceName: Samsung Galaxy S22 Ultra
