@@ -473,11 +473,11 @@ jobs:
               ./allure-results-html-redmi_note_11/complete.html
               ./allure-results-html-google_pixel_9/complete.html
               ./allure-results-html-galaxy_s23/complete.html
-              Bindings~/python/tests/integration/android/galaxy_s22_ultra.log
-              Bindings~/python/tests/integration/android/one_plus_9.log
-              Bindings~/python/tests/integration/android/redmi_note_11.log
-              Bindings~/python/tests/integration/android/google_pixel_9.log
-              Bindings~/python/tests/integration/android/galaxy_s23.log
+              ./Bindings~/python/tests/integration/android/galaxy_s22_ultra.log
+              ./Bindings~/python/tests/integration/android/one_plus_9.log
+              ./Bindings~/python/tests/integration/android/redmi_note_11.log
+              ./Bindings~/python/tests/integration/android/google_pixel_9.log
+              ./Bindings~/python/tests/integration/android/galaxy_s23.log
 
       - name: Unset Browserstack Flag
         if: always()
