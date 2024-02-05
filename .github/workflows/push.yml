@@ -456,11 +456,11 @@ jobs:
 
       - name: Re-check if the tests have failed
         run: |
-          pytest --file_to_log="Bindings~/python/tests/integration/android/galaxy_s22_ultra.log" re-check.py
-          pytest --file_to_log="Bindings~/python/tests/integration/android/one_plus_9.log" re-check.py
-          pytest --file_to_log="Bindings~/python/tests/integration/android/redmi_note_11.log" re-check.py
-          pytest --file_to_log="Bindings~/python/tests/integration/android/google_pixel_9.log" re-check.py
-          pytest --file_to_log="Bindings~/python/tests/integration/android/galaxy_s23.log" re-check.py
+          pytest --file_to_log="Bindings~/python/tests/integration/android/galaxy_s22_ultra.log" Bindings~/python/tests/re-check.py
+          pytest --file_to_log="Bindings~/python/tests/integration/android/one_plus_9.log" Bindings~/python/tests/re-check.py
+          pytest --file_to_log="Bindings~/python/tests/integration/android/redmi_note_11.log" Bindings~/python/tests/re-check.py
+          pytest --file_to_log="Bindings~/python/tests/integration/android/google_pixel_9.log" Bindings~/python/tests/re-check.py
+          pytest --file_to_log="Bindings~/python/tests/integration/android/galaxy_s23.log" Bindings~/python/tests/re-check.py
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
