@@ -534,7 +534,7 @@ jobs:
             export response=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
             export APP_URL=$(echo "${response}" | jq -r .app_url)
             cd Bindings~/python/tests/integration/iOS/
-            browserstack-sdk pytest -s ../ -v --alluredir=allure-report-g11_pro_max/ --browserstack.config "11_pro_max.yml" > 11_pro_max.log &
+            browserstack-sdk pytest -s ../ -v --alluredir=allure-report-11_pro_max/ --browserstack.config "11_pro_max.yml" > 11_pro_max.log &
             browserstack-sdk pytest -s ../ -v --alluredir=allure-report-12_pro_max/ --browserstack.config "12_pro_max.yml" > 12_pro_max.log &
             browserstack-sdk pytest -s ../ -v --alluredir=allure-report-13_pro_max/ --browserstack.config "13_pro_max.yml" > 13_pro_max.log &
             browserstack-sdk pytest -s ../ -v --alluredir=allure-report-14_pro_max/ --browserstack.config "14_pro_max.yml" > 14_pro_max.log &
@@ -553,7 +553,7 @@ jobs:
             allure-combine ./allure-results-html-12_pro_max
             allure-combine ./allure-results-html-13_pro_max
             allure-combine ./allure-results-html-14_pro_max
-            allure-combine ./allure-results-html-g15_pro_max
+            allure-combine ./allure-results-html-15_pro_max
 
         - name: Re-check if the tests have failed
           run: |
