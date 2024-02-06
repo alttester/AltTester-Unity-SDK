@@ -102,7 +102,8 @@ used inside the AltTester® Unity SDK. There are other alternatives that work wi
 instrumented builds. For Android you can use the Android Emulator inside the
 Android Studio. For iOS you can use a simulator inside Xcode.
 
-**Affects**: AltUnity Tester v1.7.*. 
+**Affects**: AltUnity Tester v1.7.*.
+
 Note: In version 2.0.2 this issue has been fixed.
 
 Networking
@@ -114,3 +115,10 @@ AltTester® does not support proxy configurations
 **Problem**: At the moment, AltTester® does not have built-in support for proxy configurations. When using AltTester®, the tool does not handle proxy settings, which can cause connectivity issues
 
 **Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester® Unity SDK v1.8.*, v2.0.x
+
+WegGL app disconnects
+---------------------
+
+**Problem** The WebGL application disconnects due to WebSocket timeouts occurring over time when no data is transmitted.
+
+**Affects**: AltTester® Unity SDK v2.x
