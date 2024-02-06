@@ -352,7 +352,7 @@ There are multiple scenarios:
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp")
+            cls.altDriver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
 ```
 
 In this case **reverse port forwarding** is not needed as both the app and tests are using localhost:13000.
@@ -378,7 +378,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp")
+            cls.altDriver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
 ```
 
 ### Establish connection via IP when the app is running on a device
@@ -402,7 +402,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp")
+            cls.altDriver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
 ```
 
 In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) is not needed. **Despite that**, it is recommended to use reverse port forwarding since IP addresses could change and would need to be updated more frequently.
@@ -431,8 +431,8 @@ In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when
 
     .. code-tab:: py
 
-            cls.altDriver1 = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp1")
-            cls.altDriver2 = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp2")
+            cls.altDriver1 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp1")
+            cls.altDriver2 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp2")
 ```
 
 The same happens with n devices. Repeat the steps n times.
@@ -470,8 +470,8 @@ Ex. with 2 Android devices:
 
     .. code-tab:: py
 
-            cls.altDriver1 = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp1")
-            cls.altDriver2 = AltDriver(host:"127.0.0.1", port:13000, app_name:"MyApp2")
+            cls.altDriver1 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp1")
+            cls.altDriver2 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp2")
 ```
 
 #### Connection through USB
@@ -496,7 +496,7 @@ Keep in mind that, the tags given in the constructor will choose one random free
     In order to ensure that the `dotnet test` command is executed multiple times concurrently within the same terminal add an `&` at the end of the command to run it in the background.
 ```
 
-For example, let's say we want to run a set of tests on all apps started on Windows 11 (the exact platform version is displayed in the green popup and in AltTester® Desktop). For that, use the following code snippet:
+Ex1. Let's say we want to run a set of tests on all apps started on Windows 11 (the exact platform version is displayed in the green popup and in AltTester® Desktop). For that, use the following code snippet:
 
 ```eval_rst
 .. tabs::
@@ -510,7 +510,69 @@ For example, let's say we want to run a set of tests on all apps started on Wind
 
     .. code-tab:: py
 
-            altDriver = AltDriver(host:"127.0.0.1", port:13000, platform_version:"Windows 11  (10.0.22621) 64bit")
+            altDriver = AltDriver(host="127.0.0.1", port=13000, platform_version="Windows 11  (10.0.22621) 64bit")
+```
+
+Ex2. Let's say we want to run the same set of tests on Windows and Android platforms. If you run your tests with `pytest`, use the following code snippets:
+
+In your test file:
+```eval_rst
+    .. code-block:: py
+
+        def test(platform):
+            altDriver = AltDriver(host="127.0.0.1", port=13000, platform=platform)
+```
+
+In your conftest.py file:
+```eval_rst
+    .. code-block:: py
+
+        def pytest_addoption(parser):
+            parser.addoption("--platform", action="store", default="default name")
+
+
+        def pytest_generate_tests(metafunc):
+            option_value = metafunc.config.option.platform
+            if 'platform' in metafunc.fixturenames and option_value is not None:
+                metafunc.parametrize("platform", [option_value])
+```
+
+Then you can run from the command line with a command line argument:
+
+```eval_rst
+    .. code-block:: bash
+
+        pytest --platform "WindowsPlayer" &
+        pytest --platform "Android"
+```
+
+Another way of doing this is with environment variables:
+
+In your test file:
+```eval_rst
+    .. code-block:: py
+
+        def test():
+            altDriver = AltDriver(host="127.0.0.1", port=13000, platform=get_platform())
+```
+
+In your conftest.py file:
+```eval_rst
+    .. code-block:: py
+
+        def get_platform():
+            return os.environ.get("PLATFORM", "")
+```
+
+Then you can set the environment variables and run from the command line the `pytest` command:
+
+```eval_rst
+    .. code-block:: bash
+
+        export PLATFORM="WindowsPlayer"
+        pytest &
+        export PLATFORM="Android"
+        pytest
 ```
 
 ```eval_rst
