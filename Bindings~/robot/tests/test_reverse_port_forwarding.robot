@@ -18,7 +18,7 @@ Test Open Close Panel
 *** Keywords ***
 SetUp Tests
     Reverse Port Forwarding Android
-    Initialize Altdriver
+    Initialize AltDriver With Custom Host And Port
 
 TearDown Tests
     Stop Altdriver

@@ -3,7 +3,7 @@ Library           AltTesterLibrary
 Library           BuiltIn
 Library           Collections
 Library           ../.venv/lib/site-packages/robot/libraries/XML.py
-Suite Setup       Initialize AltDriver    ${host}    ${port}
+Suite Setup       Initialize AltDriver With Custom Host And Port
 Test Setup        SetUp Tests
 Suite Teardown    Stop Altdriver
 Resource          utils_keywords.robot

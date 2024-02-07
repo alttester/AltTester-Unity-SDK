@@ -3,7 +3,7 @@ Library           String
 Library           AltTesterLibrary
 Library           BuiltIn
 Library           Collections
-Suite Setup       Initialize AltDriver    ${host}    ${port}
+Suite Setup       Initialize AltDriver With Custom Host And Port
 Test Setup        SetUp Tests
 Suite Teardown    Stop Altdriver
 Resource          utils_keywords.robot
@@ -754,12 +754,12 @@ Test Find Object By Coordinates
     ${counter_button}=    Find Object    NAME    ButtonCounter
     ${counter_button_x}=    Get Object X    ${counter_button}
     ${counter_button_y}=    Get Object Y    ${counter_button}
-    ${coordinate_x}=    Evaluate    5+${counter_button_x}
-    ${coordinate_y}=    Evaluate    5+${counter_button_y}
+    ${coordinate_x}=    Evaluate    1+${counter_button_x}
+    ${coordinate_y}=    Evaluate    1+${counter_button_y}
     ${coordinates}=    Create List    ${coordinate_x}    ${coordinate_y}
     ${element}=    Find Object At Coordinates    ${coordinates}
     ${element_name}=    Get Object Name    ${element}
-    Should Be Equal As Strings    ${element_name}    ButtonCounter
+    Should Be Equal As Strings    ${element_name}    Text
 
 Test Find Object By Coordinates No Element
     ${coordinates}=    Create List    -1    -1

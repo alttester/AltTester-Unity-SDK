@@ -2,6 +2,7 @@
 Library           AltTesterLibrary
 Library           BuiltIn
 Library           Collections
+Library           OperatingSystem
 
 *** Variables ***
 ${host}           127.0.0.1
@@ -33,3 +34,9 @@ Drop Image With Multipoint Swipe
         Append To List    ${positions}    ${alt_object_positions}
     END
     Multipoint Swipe    ${positions}    duration=${duration}    wait=${wait}
+
+Initialize AltDriver With Custom Host And Port
+    [Arguments]
+    ${host} =  Get Environment Variable  ALTSERVER_HOST
+    ${port} =  Get Environment Variable  ALTSERVER_PORT
+    Initialize AltDriver    ${host}    ${port}
