@@ -368,8 +368,7 @@ jobs:
         run: |
           export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="192.168.11.35"
-          mkdir -p Bindings~/robot/results
-          robot Bindings~/robot/tests --outputdir Bindings~/robot/results
+          robot Bindings~/robot/tests
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
@@ -377,7 +376,9 @@ jobs:
           name: TestRobotArtifact
           path: |
               **/*.log
-              Bindings~/robot/results/*.*
+              Bindings~/robot/log.html
+              Bindings~/robot/report.html
+              Bindings~/robot/output.xml
 
   test-Java:
     runs-on: [self-hosted, macOS]
