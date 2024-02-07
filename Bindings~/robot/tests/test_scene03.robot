@@ -2,7 +2,7 @@
 Library           AltTesterLibrary
 Library           BuiltIn
 Library           Collections
-Suite Setup       IInitialize AltDriver With Custom Host And Port
+Suite Setup       Initialize AltDriver With Custom Host And Port
 Test Setup        SetUp Tests
 Suite Teardown    Stop Altdriver
 Resource          utils_keywords.robot

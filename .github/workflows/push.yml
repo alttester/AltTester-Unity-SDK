@@ -377,9 +377,9 @@ jobs:
           name: TestRobotArtifact
           path: |
               **/*.log
-              Bindings~/robot/log.html
-              Bindings~/robot/report.html
-              Bindings~/robot/output.xml
+              **/log.html
+              **/report.html
+              **/output.xml
 
   test-Java:
     runs-on: [self-hosted, macOS]
