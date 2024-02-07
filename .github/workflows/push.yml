@@ -368,6 +368,7 @@ jobs:
         run: |
           export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="192.168.11.35"
+          mkdir -p Bindings~/robot/results
           robot Bindings~/robot/tests --outputdir Bindings~/robot/results
 
       - uses: actions/upload-artifact@v3
