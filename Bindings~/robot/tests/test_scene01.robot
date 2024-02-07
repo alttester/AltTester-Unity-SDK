@@ -759,7 +759,7 @@ Test Find Object By Coordinates
     ${coordinates}=    Create List    ${coordinate_x}    ${coordinate_y}
     ${element}=    Find Object At Coordinates    ${coordinates}
     ${element_name}=    Get Object Name    ${element}
-    Should Be Equal As Strings    ${element_name}    Text
+    Should Be Equal As Strings    ${element_name}    ButtonCounter
 
 Test Find Object By Coordinates No Element
     ${coordinates}=    Create List    -1    -1

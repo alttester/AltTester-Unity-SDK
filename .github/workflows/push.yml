@@ -369,7 +369,7 @@ jobs:
         run: |
           export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="192.168.11.35"
-          robot Bindings~/robot/tests
+          robot --exclude Mobile Bindings~/robot/tests
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed

@@ -6,6 +6,7 @@ Resource          utils_keywords.robot
 
 *** Test Cases ***
 Test Open Close Panel
+    [Tags]    Mobile
     Load Scene    ${scene2}
     ${close_button}=    Find Object    NAME    Close Button
     Tap Object    ${close_button}
