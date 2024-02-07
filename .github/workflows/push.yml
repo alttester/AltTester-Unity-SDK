@@ -333,49 +333,50 @@ jobs:
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
-test-Robot:
-  runs-on: [self-hosted, macOS]
-  needs: build-macOS
-  if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.robot == 'true'
-  steps:
-    - uses: actions/checkout@v3
+          
+  test-Robot:
+    runs-on: [self-hosted, macOS]
+    needs: build-macOS
+    if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.robot == 'true'
+    steps:
+      - uses: actions/checkout@v3
 
-    - uses: actions/download-artifact@v3
-      with:
-        name: BuildMacArtifact
+      - uses: actions/download-artifact@v3
+        with:
+          name: BuildMacArtifact
 
-    - name: Open application
-      run: |
-        export RUN_IN_BROWSERSTACK="false"
-        export ALTSERVER_PORT=13005
-        export ALTSERVER_HOST="192.168.11.35"
-        chmod -R 755 sampleGame.app
-        open sampleGame.app
+      - name: Open application
+        run: |
+          export RUN_IN_BROWSERSTACK="false"
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          chmod -R 755 sampleGame.app
+          open sampleGame.app
 
-    - uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
 
-    - name: Install dependencies
-      run: |
-        pip install --upgrade pip setuptools wheel
-        pip install -r "Bindings~/robot/requirements.txt"
-        pip uninstall AltTester-Driver
-        pip install -e "Bindings~/python" --root "Bindings~/python"
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip setuptools wheel
+          pip install -r "Bindings~/robot/requirements.txt"
+          pip uninstall AltTester-Driver
+          pip install -e "Bindings~/python" --root "Bindings~/python"
 
-    - name: Run Robot tests
-      run: |
-        export ALTSERVER_PORT=13005
-        export ALTSERVER_HOST="192.168.11.35"
-        robot Bindings~/robot/tests --outputdir Bindings~/robot/results
+      - name: Run Robot tests
+        run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          robot Bindings~/robot/tests --outputdir Bindings~/robot/results
 
-    - uses: actions/upload-artifact@v3
-      if: always() # run this step even if one of the previous step failed
-      with:
-        name: TestRobotArtifact
-        path: |
-            **/*.log
-            Bindings~/robot/results/*.*
+      - uses: actions/upload-artifact@v3
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestRobotArtifact
+          path: |
+              **/*.log
+              Bindings~/robot/results/*.*
 
   test-Java:
     runs-on: [self-hosted, macOS]
