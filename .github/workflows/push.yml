@@ -361,7 +361,7 @@ jobs:
         run: |
           pip install --upgrade pip setuptools wheel
           pip install -r "Bindings~/robot/requirements.txt"
-          pip uninstall AltTester-Driver
+          pip uninstall -y AltTester-Driver
           pip install -e "Bindings~/python" --root "Bindings~/python"
 
       - name: Run Robot tests
