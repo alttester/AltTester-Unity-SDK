@@ -3,6 +3,7 @@ Library           AltTesterLibrary
 Library           OperatingSystem
 Library           Collections
 Suite Setup       Initialize AltDriver With Custom Host And Port
+Suite Teardown    Stop Altdriver
 Resource          utils_keywords.robot
 
 *** Test Cases ***
