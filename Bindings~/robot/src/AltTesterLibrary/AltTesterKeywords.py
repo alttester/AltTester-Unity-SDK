@@ -25,26 +25,13 @@ class AltTesterKeywords(object):
     def __init__(self):
         self._driver = None
 
-# def __init__(
-#         self,
-#         host="127.0.0.1",
-#         port=13000,
-#         enable_logging=False,
-#         timeout=60,
-#         app_name="__default__",
-#         platform="unknown",
-#         platform_version="unknown",
-#         device_instance_id="unknown",
-#         app_id="unknown"
-#     ):
-
     def initialize_altdriver(
         self,
         host="127.0.0.1",
         port=13000,
+        app_name="__default__",
         enable_logging=False,
         timeout=60,
-        app_name="__default__",
         platform="unknown",
         platform_version="unknown",
         device_instance_id="unknown",
@@ -80,9 +67,9 @@ class AltTesterKeywords(object):
         self._driver = AltDriver(
             host=host,
             port=port,
+            app_name=app_name,
             enable_logging=enable_logging,
             timeout=timeout,
-            app_name=app_name,
             platform=platform,
             platform_version=platform_version,
             device_instance_id=device_instance_id,
