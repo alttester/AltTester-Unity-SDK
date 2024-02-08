@@ -25,8 +25,30 @@ class AltTesterKeywords(object):
     def __init__(self):
         self._driver = None
 
+# def __init__(
+#         self,
+#         host="127.0.0.1",
+#         port=13000,
+#         enable_logging=False,
+#         timeout=60,
+#         app_name="__default__",
+#         platform="unknown",
+#         platform_version="unknown",
+#         device_instance_id="unknown",
+#         app_id="unknown"
+#     ):
+
     def initialize_altdriver(
-        self, host="127.0.0.1", port=13000, app_name="__default__", enable_logging=False, timeout=60
+        self,
+        host="127.0.0.1",
+        port=13000,
+        enable_logging=False,
+        timeout=60,
+        app_name="__default__",
+        platform="unknown",
+        platform_version="unknown",
+        device_instance_id="unknown",
+        app_id="unknown"
     ):
         """Initialize AltDriver and return it.
 
@@ -39,12 +61,33 @@ class AltTesterKeywords(object):
         `enable_logging` : If set to ``True`` will turn on logging, by default logging is disabled.
 
         `timeout` : The connect timeout in seconds. The default value is 60.
+        
+        `platform` : The platform of the device. The default value is ``unknown``.
+        
+        `platform_version` : The version of the platform. The default value is ``unknown``.
+        
+        `device_instance_id` : The id of the device. The default value is ``unknown``.
+        
+        `app_id` : The id of the application. The default value is ``unknown``.
 
         Example:
 
         | ${altDriver}= | Initialize AltDriver  | 127.0.0.1  |  15001
+
+        | ${altDriver}= | Initialize AltDriver  | platform="Android"
+        
         """
-        self._driver = AltDriver(host, port, app_name=app_name, enable_logging=enable_logging, timeout=timeout)
+        self._driver = AltDriver(
+            host=host,
+            port=port,
+            enable_logging=enable_logging,
+            timeout=timeout,
+            app_name=app_name,
+            platform=platform,
+            platform_version=platform_version,
+            device_instance_id=device_instance_id,
+            app_id=app_id
+        )
         return self._driver
 
     def stop_altdriver(self):
