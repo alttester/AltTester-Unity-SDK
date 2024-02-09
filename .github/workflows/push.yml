@@ -107,38 +107,38 @@ jobs:
   #       env:
   #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  build-android:
-    runs-on: [self-hosted, macOS]
-    needs: paths-filter
+  # build-android:
+  #   runs-on: [self-hosted, macOS]
+  #   needs: paths-filter
 
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
+  #   if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Build SampleGame apk
-        run: |
-          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+  #     - name: Build SampleGame apk
+  #       run: |
+  #         $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
 
-      - uses: actions/upload-artifact@v3
-        if: always() # run this step even if one of the previous step failed
-        with:
-          name: BuildAndroidArtifact
-          path: |
-            sampleGame.apk
-            **/*.log
-      - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+  #     - uses: actions/upload-artifact@v3
+  #       if: always() # run this step even if one of the previous step failed
+  #       with:
+  #         name: BuildAndroidArtifact
+  #         path: |
+  #           sampleGame.apk
+  #           **/*.log
+  #     - uses: ravsamhq/notify-slack-action@2.3.0
+  #       if: ${{ always() && github.ref_name == 'development' }}
+  #       with:
+  #         status: ${{ job.status }}
+  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+  #         footer: "Linked Repo <{repo_url}|{repo}>"
+  #         notify_when: "failure"
+  #         mention_groups: "alttester,!here"
+  #         mention_groups_when: "failure"
+  #       env:
+  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   build-ipa:
       runs-on: [self-hosted, macOS]
