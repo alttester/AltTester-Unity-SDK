@@ -543,6 +543,7 @@ jobs:
             browserstack-sdk pytest -s ../ -v --alluredir=allure-report-13_pro_max/ --browserstack.config "13_pro_max.yml" > 13_pro_max.log &
             browserstack-sdk pytest -s ../ -v --alluredir=allure-report-14_pro_max/ --browserstack.config "14_pro_max.yml" > 14_pro_max.log &
             browserstack-sdk pytest -s ../ -v --alluredir=allure-report-15_pro_max/ --browserstack.config "15_pro_max.yml" > 15_pro_max.log &
+            wait 
             
         - name: Copy devices log to the current folder  
           run: |
