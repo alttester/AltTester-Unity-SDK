@@ -454,6 +454,14 @@ jobs:
           allure-combine ./allure-results-html-google_pixel_9
           allure-combine ./allure-results-html-galaxy_s23
 
+      - name: Copy devices log to the current folder  
+        run: |
+          cp Bindings~/python/tests/integration/android/galaxy_s22_ultra.log .
+          cp Bindings~/python/tests/integration/android/one_plus_9.log .
+          cp Bindings~/python/tests/integration/android/redmi_note_11.log .
+          cp Bindings~/python/tests/integration/android/google_pixel_9.log .
+          cp Bindings~/python/tests/integration/android/galaxy_s23.log .
+
       - name: Re-check if the tests have failed
         run: |
           pytest --file_to_log="Bindings~/python/tests/integration/android/galaxy_s22_ultra.log" Bindings~/python/tests/re-check.py
@@ -461,11 +469,6 @@ jobs:
           pytest --file_to_log="Bindings~/python/tests/integration/android/redmi_note_11.log" Bindings~/python/tests/re-check.py
           pytest --file_to_log="Bindings~/python/tests/integration/android/google_pixel_9.log" Bindings~/python/tests/re-check.py
           pytest --file_to_log="Bindings~/python/tests/integration/android/galaxy_s23.log" Bindings~/python/tests/re-check.py
-          cp Bindings~/python/tests/integration/android/galaxy_s22_ultra.log .
-          cp Bindings~/python/tests/integration/android/one_plus_9.log .
-          cp Bindings~/python/tests/integration/android/redmi_note_11.log .
-          cp Bindings~/python/tests/integration/android/google_pixel_9.log .
-          cp Bindings~/python/tests/integration/android/galaxy_s23.log .
 
 
       - uses: actions/upload-artifact@v3
