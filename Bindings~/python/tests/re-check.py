@@ -14,4 +14,3 @@ def test_file_does_not_contains_errors(request):
             if error in content:
                 print("The tests on BrowserStack failed >>>>>>>>>>> " + error)
                 assert False
-                
