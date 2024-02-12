@@ -67,12 +67,12 @@ def appium_driver(request):
         appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
                                          request.getfixturevalue("session_capabilities"))
         time.sleep(10)
-    
         if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
             try:
                 allow_button = appium_driver.find_element(MobileBy.ID, 'Allow')
                 allow_button.click()
-            except:
+            except Exception as e:
+                print(e)
                 ok_button = appium_driver.find_element(MobileBy.ID, 'OK')
                 ok_button.click()
     yield appium_driver
