@@ -1,0 +1,17 @@
+userName: ${BROWSERSTACK_USERNAME}
+accessKey: ${BROWSERSTACK_KEY}
+framework: pytest
+app: ${APP_URL}
+platforms:
+  - platformName: ios
+    deviceName: iPhone 13 Pro Max
+    platformVersion: 15
+    deviceOrientation: landscape
+parallelsPerPlatform: 1    
+browserstackLocal: true
+buildName: ios-multiple-devices
+buildIdentifier: ${DATE_TIME}
+projectName: BrowserStack Sample
+debug: true
+networkLogs: true
+autoGrantPermissions: true
