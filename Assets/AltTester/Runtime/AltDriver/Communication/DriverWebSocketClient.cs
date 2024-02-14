@@ -131,10 +131,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
             // Workaround for disconnect issue in Desktop
             // TODO: Remove this after the issue is fixed in AltWebSocketSharp
-            // if (this.driverType == "Desktop")
-            // {
+            if (this.driverType == "Desktop")
+            {
                 this.wsClient.WaitTime = System.TimeSpan.FromSeconds(30);
-            // }
+            }
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
             if (proxyUri != null)
