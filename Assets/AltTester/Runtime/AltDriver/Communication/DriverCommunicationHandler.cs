@@ -33,6 +33,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
 
+        private readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver(),
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Culture = CultureInfo.InvariantCulture
+        };
+
         private DriverWebSocketClient wsClient = null;
 
         private readonly string host;
@@ -44,18 +51,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private readonly string deviceInstanceId;
         private readonly string appId;
         private readonly string driverType;
-        private readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
-        {
-            ContractResolver = new DefaultContractResolver(),
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            Culture = CultureInfo.InvariantCulture
-        };
 
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
 
-        private Queue<CommandResponse> messages;
         private List<string> messageIdTimeouts = new List<string>();
+
+        private Dictionary<string, Queue<CommandResponse>> messages;
 
         private List<Action<AltLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltLoadSceneNotificationResultParams>>();
         private List<Action<String>> unloadSceneCallbacks = new List<Action<String>>();
@@ -74,8 +76,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             this.appId = appId;
             this.driverType = driverType;
 
-
-            this.messages = new Queue<CommandResponse>();
+            this.messages = new Dictionary<string, Queue<CommandResponse>>();
         }
 
         public void Connect()
@@ -94,7 +95,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             Stopwatch watch = Stopwatch.StartNew();
             while (true)
             {
-                while (messages.Count == 0 && wsClient.IsAlive && commandTimeout >= watch.Elapsed.TotalSeconds)
+                if (!wsClient.IsAlive)
+                {
+                    throw new AltException("Driver disconnected");
+                }
+
+                while (!messages.ContainsKey(param.messageId) && wsClient.IsAlive && commandTimeout >= watch.Elapsed.TotalSeconds)
                 {
                     Thread.Sleep(10);
                 }
@@ -105,11 +111,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     throw new CommandResponseTimeoutException();
                 }
 
-                if (!wsClient.IsAlive)
-                {
-                    throw new AltException("Driver disconnected");
+
+                Queue<CommandResponse> queue;
+                messages.TryGetValue(param.messageId, out queue);
+                var message = queue.Dequeue();
+
+                if (queue.Count == 0) {
+                    messages.Remove(param.messageId);
                 }
-                var message = messages.Dequeue();
+
                 if (messageIdTimeouts.Contains(message.messageId))
                 {
                     continue;
@@ -166,7 +176,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             }
             else
             {
-                messages.Enqueue(message);
+                if (messages.ContainsKey(message.messageId)) {
+                    Queue<CommandResponse> queue;
+                    messages.TryGetValue(message.messageId, out queue);
+                    queue.Enqueue(message);
+                } else {
+                    var queue = new Queue<CommandResponse>();
+                    queue.Enqueue(message);
+                    messages.Add(message.messageId, queue);
+                }
                 logger.Debug("Response received: " + Utils.TrimLog(data));
             }
         }

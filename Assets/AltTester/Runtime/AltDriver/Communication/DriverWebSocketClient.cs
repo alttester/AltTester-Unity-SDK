@@ -43,7 +43,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private String error = null;
 
         private int closeCode = 0;
-        private String closeReason = null;
+        private string closeReason = null;
 
         private ClientWebSocket wsClient = null;
         public event EventHandler<MessageEventArgs> OnMessage;
@@ -166,7 +166,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 catch (Exception e)
                 {
                     logger.Debug(string.Format("Connection error: {0}", e.Message));
-                } 
+                }
 
                 if (wsClient.IsAlive)
                 {
