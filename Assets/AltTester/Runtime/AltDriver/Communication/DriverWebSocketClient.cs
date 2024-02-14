@@ -43,7 +43,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private String error = null;
 
         private int closeCode = 0;
-        private String closeReason = null;
+        private string closeReason = null;
 
         private ClientWebSocket wsClient = null;
         public event EventHandler<MessageEventArgs> OnMessage;
@@ -131,10 +131,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
             // Workaround for disconnect issue in Desktop
             // TODO: Remove this after the issue is fixed in AltWebSocketSharp
-            if (this.driverType == "Desktop")
-            {
-                this.wsClient.WaitTime = System.TimeSpan.FromSeconds(0.1);
-            }
+            // if (this.driverType == "Desktop")
+            // {
+                this.wsClient.WaitTime = System.TimeSpan.FromSeconds(30);
+            // }
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
             if (proxyUri != null)
@@ -166,7 +166,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 catch (Exception e)
                 {
                     logger.Debug(string.Format("Connection error: {0}", e.Message));
-                } 
+                }
 
                 if (wsClient.IsAlive)
                 {
