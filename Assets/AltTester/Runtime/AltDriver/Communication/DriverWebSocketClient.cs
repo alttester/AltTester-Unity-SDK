@@ -133,7 +133,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             // TODO: Remove this after the issue is fixed in AltWebSocketSharp
             if (this.driverType == "Desktop")
             {
-                this.wsClient.WaitTime = System.TimeSpan.FromSeconds(30);
+                this.wsClient.WaitTime = System.TimeSpan.FromSeconds(0.1);
             }
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
