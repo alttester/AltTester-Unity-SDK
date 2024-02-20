@@ -115,6 +115,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         protected void OnClose(object sender, CloseEventArgs e)
         {
+            UnityTarget.Log($"OnClose | Connection to AltTester closed: [Code:{e.Code}}, Reason:{e.Reason}].");
             logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
             OnCloseEvent.Invoke(this, e);
             this.closeCode = e.Code;
@@ -160,7 +161,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     logger.Debug(string.Format("Retrying #{0} to connect to: '{1}'.", retries, this.uri));
                 }
 
-                try {
+                try
+                {
                     wsClient.Connect();
                 }
                 catch (Exception e)

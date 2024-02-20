@@ -50,6 +50,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Logging
                 Debug.Log(message);
             }
         }
+        public static void Log(string message)
+        {
+#if UNITY_EDITOR_WIN || UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX
+            Debug.Log(message);
+#endif
+        }
     }
 
 }
