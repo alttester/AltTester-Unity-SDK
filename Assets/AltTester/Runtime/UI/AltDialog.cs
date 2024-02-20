@@ -243,14 +243,14 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void initLiveUpdateClient()
         {
-            UnityEngine.Debug.LogError($"initLiveUpdateClient | Start Method");
+            UnityEngine.Debug.Log($"initLiveUpdateClient | Start Method");
 
             liveUpdateCommunication = new LiveUpdateCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId, AppId);
             liveUpdateCommunication.OnDisconnect += onDisconnect;
             liveUpdateCommunication.OnError += onError;
             liveUpdateCommunication.OnConnect += onConnect;
             liveUpdateCommunication.Init();
-            UnityEngine.Debug.LogError($"initLiveUpdateClient | Finished Method");
+            UnityEngine.Debug.Log($"initLiveUpdateClient | Finished Method");
 
         }
 
@@ -437,7 +437,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void initRuntimeClient()
         {
-            UnityEngine.Debug.LogError($"initRuntimeClient | Start Method");
+            UnityEngine.Debug.Log($"initRuntimeClient | Start Method");
             communication = new RuntimeCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId);
             communication.OnConnect += onConnect;
             communication.OnDisconnect += onDisconnect;
@@ -447,7 +447,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             communication.CmdHandler.OnDriverDisconnect += onDriverDisconnect;
             communication.CmdHandler.OnAppConnect += onAppConnect;
             communication.Init();
-            UnityEngine.Debug.LogError($"initRuntimeClient | Method Finished");
+            UnityEngine.Debug.Log($"initRuntimeClient | Method Finished");
 
         }
         private void setInteractibilityForRestartButton(bool isInteractable)
@@ -483,12 +483,12 @@ namespace AltTester.AltTesterUnitySDK.UI
                 stopClient(communicationHandler);
                 communicationHandler.waitingToConnect = false;
             }
-            UnityEngine.Debug.LogError($"startClient | Finished method");
+            UnityEngine.Debug.Log($"startClient | Finished method");
         }
 
         private void stopClients()
         {
-            UnityEngine.Debug.LogError($"stopClients | start stopClients");
+            UnityEngine.Debug.Log($"stopClients | start stopClients");
             updateQueue.Clear();
             connectedDrivers.Clear();
             stopClient(communication);
@@ -498,13 +498,13 @@ namespace AltTester.AltTesterUnitySDK.UI
             onStart();
             AppId = null;
             wasConnected = false;
-            UnityEngine.Debug.LogError($"stopClients | finished stopClients");
+            UnityEngine.Debug.Log($"stopClients | finished stopClients");
 
         }
 
         private static void stopClient(BaseCommunicationHandler communicationHandler)
         {
-            UnityEngine.Debug.LogError($"stopClient | start stopClient for {communicationHandler.GetType()}");
+            UnityEngine.Debug.Log($"stopClient | start stopClient for {communicationHandler.GetType()}");
             if (communicationHandler == null)
                 return;
             // Remove the callbacks before stopping the client to prevent the OnDisconnect callback to be called when we stop or restart the client.
@@ -514,12 +514,12 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             if (communicationHandler.IsConnected)
                 communicationHandler.Close();
-            UnityEngine.Debug.LogError($"stopClient | finished stopClient for {communicationHandler.GetType()}");
+            UnityEngine.Debug.Log($"stopClient | finished stopClient for {communicationHandler.GetType()}");
         }
 
         private void onDisconnect(int code, string reason)
         {
-            UnityEngine.Debug.LogError($"onDisconnect | start Method with code: {code} and reason: {reason}");
+            UnityEngine.Debug.Log($"onDisconnect | start Method with code: {code} and reason: {reason}");
             responseCode = code;
             // All custom close codes must be between 4000 - 4999.
             if (code > 4000)
@@ -539,7 +539,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                     stopClients();
                 });
             }
-            UnityEngine.Debug.LogError($"onDisconnect | finished method");
+            UnityEngine.Debug.Log($"onDisconnect | finished method");
         }
 
         private void onStart()
