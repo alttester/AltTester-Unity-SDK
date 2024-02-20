@@ -115,7 +115,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         protected void OnClose(object sender, CloseEventArgs e)
         {
-            UnityTarget.Log($"OnClose | Connection to AltTester closed: [Code:{e.Code}}, Reason:{e.Reason}].");
+            UnityTarget.Log($"OnClose | Connection to AltTester closed: [Code:{e.Code}, Reason:{e.Reason}].");
             logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
             OnCloseEvent.Invoke(this, e);
             this.closeCode = e.Code;
