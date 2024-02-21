@@ -504,7 +504,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private static void stopClient(BaseCommunicationHandler communicationHandler)
         {
-            UnityEngine.Debug.Log($"stopClient | start stopClient for {communicationHandler.GetType()}");
+            UnityEngine.Debug.Log($"stopClient | start stopClient for {communicationHandler?.GetType()}");
             if (communicationHandler == null)
                 return;
             // Remove the callbacks before stopping the client to prevent the OnDisconnect callback to be called when we stop or restart the client.
@@ -514,7 +514,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             if (communicationHandler.IsConnected)
                 communicationHandler.Close();
-            UnityEngine.Debug.Log($"stopClient | finished stopClient for {communicationHandler.GetType()}");
+            UnityEngine.Debug.Log($"stopClient | finished stopClient for {communicationHandler?.GetType()}");
         }
 
         private void onDisconnect(int code, string reason)
