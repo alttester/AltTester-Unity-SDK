@@ -104,26 +104,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             while (true)
             {
 
-                while (!messages.ContainsKey(param.messageId) && commandTimeout >= watch.Elapsed.TotalSeconds)
+                if (!wsClient.IsAlive)
                 {
-                    var retry = 0;
-                    while (true)
-                    {
-                        if (retry > 5)
-                        {
-                            throw new AltException("Driver disconnected");
-                        }
-                        if (!wsClient.IsAlive)
-                        {
-                            retry++;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
+                    throw new AltException("Driver disconnected");
+                }
+
+                while (!messages.ContainsKey(param.messageId) && wsClient.IsAlive && commandTimeout >= watch.Elapsed.TotalSeconds)
+                {
                     Thread.Sleep(10);
                 }
+
 
                 if (commandTimeout < watch.Elapsed.TotalSeconds && wsClient.IsAlive)
                 {
