@@ -52,7 +52,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Logging
         }
         public static void Log(string message)
         {
-#if UNITY_EDITOR_WIN || UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX
+#if UNITY_EDITOR_WIN || UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX	
             Debug.Log(message);
 #endif
         }
