@@ -151,7 +151,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
                 try
                 {
-                    UnityTarget.Log($"Recvall | Got the following data: {message.data}");
+                    UnityTarget.Log($"Recvall | Got the following data: {(message.data.Length > 150 ? message.data.Substring(0, 149) : message.data)}");
                     return JsonConvert.DeserializeObject<T>(message.data, jsonSerializerSettings);
                 }
                 catch (JsonReaderException)
