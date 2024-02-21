@@ -186,7 +186,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         protected void OnMessage(object sender, string data)
         {
-            UnityTarget.Log($"OnMessage | Start Method | data: {data}");
+            UnityTarget.Log($"OnMessage | Start Method | data: {(data.Length > 150 ? data.Substring(0, 149) : data)}");
             var message = JsonConvert.DeserializeObject<CommandResponse>(data, jsonSerializerSettings);
 
             if (message.isNotification)
