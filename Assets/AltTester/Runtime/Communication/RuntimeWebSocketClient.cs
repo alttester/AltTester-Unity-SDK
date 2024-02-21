@@ -28,7 +28,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 {
     public class RuntimeWebSocketClient : IRuntimeWebSocketClient
     {
-        private ClientWebSocket wsClient;
+        private WebSocket wsClient;
 
         private readonly string host;
         private readonly int port;
@@ -58,7 +58,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.appId = appId;
 
             Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId);
-            wsClient = new ClientWebSocket(uri.ToString());
+            wsClient = new WebSocket(uri.ToString());
             wsClient.Log.Level = LogLevel.Fatal;
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);

@@ -45,7 +45,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private int closeCode = 0;
         private string closeReason = null;
 
-        private ClientWebSocket wsClient = null;
+        private WebSocket wsClient = null;
         public event EventHandler<MessageEventArgs> OnMessage;
         public event EventHandler<CloseEventArgs> OnCloseEvent;
 
@@ -127,7 +127,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
             int delay = 100;
 
-            this.wsClient = new ClientWebSocket(this.uri);
+            this.wsClient = new WebSocket(this.uri);
 
             // Workaround for disconnect issue in Desktop
             // TODO: Remove this after the issue is fixed in AltWebSocketSharp
