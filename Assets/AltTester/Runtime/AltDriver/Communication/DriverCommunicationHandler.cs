@@ -103,10 +103,23 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             Stopwatch watch = Stopwatch.StartNew();
             while (true)
             {
-                if (!wsClient.IsAlive)
+                var retry = 0;
+                while (true)
                 {
-                    throw new AltException("Driver disconnected");
+                    if (retry > 5)
+                    {
+                        throw new AltException("Driver disconnected");
+                    }
+                    if (!wsClient.IsAlive)
+                    {
+                        retry++;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
+
 
                 while (!messages.ContainsKey(param.messageId) && wsClient.IsAlive && commandTimeout >= watch.Elapsed.TotalSeconds)
                 {
