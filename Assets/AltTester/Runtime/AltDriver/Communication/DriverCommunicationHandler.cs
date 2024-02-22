@@ -103,8 +103,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             Stopwatch watch = Stopwatch.StartNew();
             while (true)
             {
-
-
                 while (!messages.ContainsKey(param.messageId) && commandTimeout >= watch.Elapsed.TotalSeconds)
                 {
                     if (!wsClient.IsAlive)
@@ -115,16 +113,39 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     Thread.Sleep(10);
                 }
 
+
                 if (commandTimeout < watch.Elapsed.TotalSeconds && wsClient.IsAlive)
                 {
                     UnityTarget.Log($"Recvall | Message with id: {param.messageId} was added to timeoutMessages");
                     messageIdTimeouts.Add(param.messageId);
                     throw new CommandResponseTimeoutException();
                 }
-
-
+                if (param == null)
+                {
+                    UnityTarget.Log($"Recvall | Parama null");
+                }
+                else
+                {
+                    UnityTarget.Log($"Recvall | Param is not null");
+                    UnityTarget.Log($"Recvall | Param.messageId= {param.messageId}");
+                    UnityTarget.Log($"Recvall | Param.isNotification= {param.isNotification}");
+                    UnityTarget.Log($"Recvall | Param.driverId= {param.driverId}");
+                    UnityTarget.Log($"Recvall | Param.commandName= {param.commandName}");
+                }
                 Queue<CommandResponse> queue;
                 messages.TryGetValue(param.messageId, out queue);
+                if (queue == null)
+                {
+                    UnityTarget.Log($"Recvall | Queue was null");
+                    UnityTarget.Log($"Recvall | Was looking for messageId: {param.messageId}");
+                    UnityTarget.Log($"Recvall | In the dictionary that contains the following keys:");
+                    foreach (var key in messages.Keys)
+                    {
+                        UnityTarget.Log($"Recvall | {key}");
+                    }
+                    throw new AltException(" Could not find the message");
+
+                }
                 var message = queue.Dequeue();
 
                 if (queue.Count == 0)
