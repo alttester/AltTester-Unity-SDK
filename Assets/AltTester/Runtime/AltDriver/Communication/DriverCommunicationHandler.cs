@@ -103,13 +103,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             Stopwatch watch = Stopwatch.StartNew();
             while (true)
             {
-                if (!wsClient.IsAlive)
-                {
-                    throw new AltException("Driver disconnected");
-                }
 
-                while (!messages.ContainsKey(param.messageId) && wsClient.IsAlive && commandTimeout >= watch.Elapsed.TotalSeconds)
+
+                while (!messages.ContainsKey(param.messageId) && commandTimeout >= watch.Elapsed.TotalSeconds)
                 {
+                    if (!wsClient.IsAlive)
+                    {
+                        if (!wsClient.IsAlive)//Retry only once  TODO Decide if this is how we want to keep it
+                            throw new AltException("Driver disconnected");
+                    }
                     Thread.Sleep(10);
                 }
 
@@ -151,7 +153,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
                 try
                 {
-                    UnityTarget.Log($"Recvall | Got the following data: {message.data}");
+                    UnityTarget.Log($"Recvall | Got the following data: {(message.data.Length > 150 ? message.data.Substring(0, 149) : message.data)}");
                     return JsonConvert.DeserializeObject<T>(message.data, jsonSerializerSettings);
                 }
                 catch (JsonReaderException)

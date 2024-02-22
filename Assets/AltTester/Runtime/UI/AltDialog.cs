@@ -140,10 +140,11 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void handleConnectionLogic()
         {
-            if (RestartButton.interactable)//to prevent auto connect
-            {
-                return;
-            }
+            //TODO See what we do with this after we tested for deconection problems
+            // if (RestartButton.interactable)//to prevent auto connect
+            // {
+            //     return;
+            // }
             if (currentTime <= retryTime)
             {
                 currentTime += Time.unscaledDeltaTime;
