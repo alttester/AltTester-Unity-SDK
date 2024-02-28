@@ -81,7 +81,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public void Connect()
         {
-            UnityTarget.Log($"Connect | start method");
             this.wsClient = new DriverWebSocketClient(this.host, this.port, "/altws", this.appName, this.connectTimeout, this.platform, this.platformVersion, this.deviceInstanceId, this.appId, this.driverType);
             this.wsClient.OnMessage += (sender, e) =>
             {
@@ -89,12 +88,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             };
             this.wsClient.OnCloseEvent += (sender, e) =>
             {
-                UnityTarget.Log($"OnClose | Closed was called with the following code {e.Code} reason: {e.Reason} from the following sender: {sender}");
                 Console.WriteLine($"CloseEvent called: {e.Code}-{e.Reason} ");
             };
 
             this.wsClient.Connect();
-            UnityTarget.Log($"Connect | finished method and  wsClient is connected: {wsClient.IsAlive}");
 
         }
 
@@ -116,53 +113,29 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
                 if (commandTimeout < watch.Elapsed.TotalSeconds && wsClient.IsAlive)
                 {
-                    UnityTarget.Log($"Recvall | Message with id: {param.messageId} was added to timeoutMessages");
                     messageIdTimeouts.Add(param.messageId);
                     throw new CommandResponseTimeoutException();
-                }
-                if (param == null)
-                {
-                    UnityTarget.Log($"Recvall | Parama null");
-                }
-                else
-                {
-                    UnityTarget.Log($"Recvall | Param is not null");
-                    UnityTarget.Log($"Recvall | Param.messageId= {param.messageId}");
-                    UnityTarget.Log($"Recvall | Param.isNotification= {param.isNotification}");
-                    UnityTarget.Log($"Recvall | Param.driverId= {param.driverId}");
-                    UnityTarget.Log($"Recvall | Param.commandName= {param.commandName}");
                 }
                 Queue<CommandResponse> queue;
                 messages.TryGetValue(param.messageId, out queue);
                 if (queue == null)
                 {
-                    UnityTarget.Log($"Recvall | Queue was null");
-                    UnityTarget.Log($"Recvall | Was looking for messageId: {param.messageId}");
-                    UnityTarget.Log($"Recvall | In the dictionary that contains the following keys:");
-                    foreach (var key in messages.Keys)
-                    {
-                        UnityTarget.Log($"Recvall | {key}");
-                    }
                     throw new AltException(" Could not find the message");
-
                 }
                 var message = queue.Dequeue();
 
                 if (queue.Count == 0)
                 {
-                    UnityTarget.Log($"Recvall | queue count was 0 so we remove message with id {param.messageId} from messages");
                     messages.Remove(param.messageId);
                 }
 
                 if (messageIdTimeouts.Contains(message.messageId))
                 {
-                    UnityTarget.Log($"Recvall | messagesTimeout contains message with id {param.messageId}");
                     continue;
                 }
 
                 if ((message.error == null || message.error.type != AltErrors.errorInvalidCommand) && (message.messageId != param.messageId || message.commandName != param.commandName))
                 {
-                    UnityTarget.Log($"Recvall | ERROR | Response received does not match command send. Expected {param.commandName}:{param.messageId}. Got {message.commandName}:{message.messageId}");
                     throw new AltRecvallMessageIdException(string.Format("Response received does not match command send. Expected {0}:{1}. Got {2}:{3}", param.commandName, param.messageId, message.commandName, message.messageId));
                 }
 
@@ -174,7 +147,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
                 try
                 {
-                    UnityTarget.Log($"Recvall | Got the following data: {(message.data.Length > 150 ? message.data.Substring(0, 149) : message.data)}");
                     return JsonConvert.DeserializeObject<T>(message.data, jsonSerializerSettings);
                 }
                 catch (JsonReaderException)
@@ -186,20 +158,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public void Send(CommandParams param)
         {
-            UnityTarget.Log($"Send | Start Method");
             param.messageId = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
             string message = JsonConvert.SerializeObject(param, jsonSerializerSettings);
             this.wsClient.Send(message);
             logger.Debug("Command sent: " + Utils.TrimLog(message));
-            UnityTarget.Log($"Send | Finished Method | Sent the following message: {message}");
         }
 
         public void Close()
         {
-            UnityTarget.Log($"Close | Start Method");
             logger.Info(string.Format("Closing connection to AltTester on: {0}", this.wsClient.URI));
             this.wsClient.Close();
-            UnityTarget.Log($"Close | Finished Method");
         }
 
         public void SetCommandTimeout(int timeout)
@@ -209,19 +177,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         protected void OnMessage(object sender, string data)
         {
-            UnityTarget.Log($"OnMessage | Start Method | data: {(data.Length > 150 ? data.Substring(0, 149) : data)}");
             var message = JsonConvert.DeserializeObject<CommandResponse>(data, jsonSerializerSettings);
 
             if (message.isNotification)
             {
-                UnityTarget.Log($"OnMessage | IsNotification");
                 handleNotification(message);
             }
             else
             {
                 if (messages.ContainsKey(message.messageId))
                 {
-                    UnityTarget.Log($"OnMessage | messages ContainsKey {message.messageId}");
 
                     Queue<CommandResponse> queue;
                     messages.TryGetValue(message.messageId, out queue);
@@ -229,14 +194,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 }
                 else
                 {
-                    UnityTarget.Log($"OnMessage | messages does not ContainsKey {message.messageId}");
                     var queue = new Queue<CommandResponse>();
                     queue.Enqueue(message);
                     messages.Add(message.messageId, queue);
                 }
                 logger.Debug("Response received: " + Utils.TrimLog(data));
             }
-            UnityTarget.Log($"OnMessage | Finished method");
         }
 
         private void handleNotification(CommandResponse message)

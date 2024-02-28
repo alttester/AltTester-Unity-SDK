@@ -154,13 +154,11 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             if (responseCode > 4000 && responseCode < 5000)
             {
-                UnityEngine.Debug.Log($"HandleConnectionLogic | Response code was: {responseCode}");
                 setInteractibilityForRestartButton(true);
                 return;
             }
             if (liveUpdateCommunication == null && communication == null)
             {
-                UnityEngine.Debug.Log($"HandleConnectionLogic | Both connections are null");
                 //This is the initial state where no connection is established
                 if (isDataValid)
                 {
@@ -171,30 +169,24 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             if (liveUpdateCommunication != null && communication == null)
             {
-                UnityEngine.Debug.Log($"HandleConnectionLogic | LiveUpdate was not null and Communication was null");
-                UnityEngine.Debug.Log($"HandleConnectionLogic | Stopping LiveUpdate");
                 //Communication somehow stopped so we stop liveUpdate as well
                 stopClient(liveUpdateCommunication);
                 liveUpdateCommunication = null;
-                UnityEngine.Debug.Log($"HandleConnectionLogic | Starting Communication");
                 beginCommunication();
                 return;
             }
             if (communication != null && communication.waitingToConnect)
             {
-                UnityEngine.Debug.Log($"HandleConnectionLogic | Communication is not null but is not connected");
                 if (communication.IsConnected)
                     communication.waitingToConnect = false;
                 if (communication.WsClientReadyState == WebSocketState.Closed)
                 {
-                    UnityEngine.Debug.Log($"HandleConnectionLogic | Communication has ReadyState set to Closed");
                     beginCommunication();
                 }
                 return;
             }
             if (communication != null && communication.IsConnected && liveUpdateCommunication == null && AppId != null)
             {
-                UnityEngine.Debug.Log($"HandleConnectionLogic | Communication is connected and we start LiveUpdate to connect");
                 //Communication is connected and we start LiveUpdate to connect
                 initLiveUpdateClient();
                 startClient(liveUpdateCommunication);
@@ -202,14 +194,12 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             if (communication != null && !communication.IsConnected && !wasConnected)
             {
-                UnityEngine.Debug.Log($"HandleConnectionLogic | Communication is initialized but there is no server to connect to yet");
                 //Communication is initialized but there is no server to connect to yet
                 startClient(communication);
                 return;
             }
             if (liveUpdateCommunication != null && liveUpdateCommunication.waitingToConnect)
             {
-                UnityEngine.Debug.Log($"HandleConnectionLogic | LiveUpdate is not connected yet");
                 if (liveUpdateCommunication.IsConnected)
                     liveUpdateCommunication.waitingToConnect = false;
                 return;
@@ -217,7 +207,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (communication.IsConnected == false || (liveUpdateCommunication != null && liveUpdateCommunication.IsConnected == false))
             {
 
-                UnityEngine.Debug.Log($"HandleConnectionLogic | Communication is conenected = {communication.IsConnected} and LiveUpdate is connected {(liveUpdateCommunication != null && liveUpdateCommunication.IsConnected == false)}");
                 //One of the connections or both are disconnected
                 stopClients();
                 beginCommunication();
@@ -244,24 +233,20 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void initLiveUpdateClient()
         {
-            UnityEngine.Debug.Log($"initLiveUpdateClient | Start Method");
 
             liveUpdateCommunication = new LiveUpdateCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId, AppId);
             liveUpdateCommunication.OnDisconnect += onDisconnect;
             liveUpdateCommunication.OnError += onError;
             liveUpdateCommunication.OnConnect += onConnect;
             liveUpdateCommunication.Init();
-            UnityEngine.Debug.Log($"initLiveUpdateClient | Finished Method");
 
         }
 
         private void beginCommunication()
         {
-            UnityEngine.Debug.Log($"BeginCommuncation | Initiating and starting communication websocket");
             ToggleCustomInput(false);
             initRuntimeClient();
             startClient(communication);
-            UnityEngine.Debug.Log($"BeginCommuncation | Finished Method");
         }
 
         protected IEnumerator SendScreenshot()
@@ -438,7 +423,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void initRuntimeClient()
         {
-            UnityEngine.Debug.Log($"initRuntimeClient | Start Method");
             communication = new RuntimeCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId);
             communication.OnConnect += onConnect;
             communication.OnDisconnect += onDisconnect;
@@ -448,7 +432,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             communication.CmdHandler.OnDriverDisconnect += onDriverDisconnect;
             communication.CmdHandler.OnAppConnect += onAppConnect;
             communication.Init();
-            UnityEngine.Debug.Log($"initRuntimeClient | Method Finished");
 
         }
         private void setInteractibilityForRestartButton(bool isInteractable)
@@ -458,16 +441,13 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void startClient(BaseCommunicationHandler communicationHandler)
         {
-            UnityEngine.Debug.Log($"startClient | Starting client");
             try
             {
                 communicationHandler.waitingToConnect = true;
                 communicationHandler.Connect();
-                UnityEngine.Debug.Log($"startClient | {communicationHandler.GetType()} is connected= {communicationHandler.IsConnected}");
             }
             catch (InvalidOperationException e)
             {
-                UnityEngine.Debug.LogError($"startClient | {e.Message}");
                 stopClient(communicationHandler);
                 communicationHandler.waitingToConnect = false;
                 if (communicationHandler.GetType().Equals(typeof(RuntimeCommunicationHandler)))
@@ -478,18 +458,15 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogError($"startClient | {ex.Message}");
                 setMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex, "An unexpected error occurred while starting the AltTester client.");
                 stopClient(communicationHandler);
                 communicationHandler.waitingToConnect = false;
             }
-            UnityEngine.Debug.Log($"startClient | Finished method");
         }
 
         private void stopClients()
         {
-            UnityEngine.Debug.Log($"stopClients | start stopClients");
             updateQueue.Clear();
             connectedDrivers.Clear();
             stopClient(communication);
@@ -499,13 +476,11 @@ namespace AltTester.AltTesterUnitySDK.UI
             onStart();
             AppId = null;
             wasConnected = false;
-            UnityEngine.Debug.Log($"stopClients | finished stopClients");
 
         }
 
         private static void stopClient(BaseCommunicationHandler communicationHandler)
         {
-            UnityEngine.Debug.Log($"stopClient | start stopClient for {communicationHandler?.GetType()}");
             if (communicationHandler == null)
                 return;
             // Remove the callbacks before stopping the client to prevent the OnDisconnect callback to be called when we stop or restart the client.
@@ -515,12 +490,10 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             if (communicationHandler.IsConnected)
                 communicationHandler.Close();
-            UnityEngine.Debug.Log($"stopClient | finished stopClient for {communicationHandler?.GetType()}");
         }
 
         private void onDisconnect(int code, string reason)
         {
-            UnityEngine.Debug.Log($"onDisconnect | start Method with code: {code} and reason: {reason}");
             responseCode = code;
             // All custom close codes must be between 4000 - 4999.
             if (code > 4000)
@@ -540,7 +513,6 @@ namespace AltTester.AltTesterUnitySDK.UI
                     stopClients();
                 });
             }
-            UnityEngine.Debug.Log($"onDisconnect | finished method");
         }
 
         private void onStart()
