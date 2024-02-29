@@ -62,6 +62,10 @@ namespace AltTester.AltTesterUnitySDK
                     return result.gameObject;
                 }
             }
+            foreach (var result in firstRaycastResult)//if nothing has click handler then return the first UI element encountered
+            {
+                return result.gameObject;
+            }
             return null;
         }
         public static UnityEngine.GameObject FindObjectAtCoordinates(UnityEngine.Vector2 screenPosition)
