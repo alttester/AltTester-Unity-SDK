@@ -171,8 +171,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             if (liveUpdateCommunication != null && communication == null)
             {
-                UnityEngine.Debug.Log($"HandleConnectionLogic | LiveUpdate was not null and Communication was null");
-                UnityEngine.Debug.Log($"HandleConnectionLogic | Stopping LiveUpdate");
                 //Communication somehow stopped so we stop liveUpdate as well
                 stopClient(liveUpdateCommunication);
                 liveUpdateCommunication = null;
@@ -194,7 +192,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             if (communication != null && communication.IsConnected && liveUpdateCommunication == null && AppId != null)
             {
-                UnityEngine.Debug.Log($"HandleConnectionLogic | Communication is connected and we start LiveUpdate to connect");
                 //Communication is connected and we start LiveUpdate to connect
                 initLiveUpdateClient();
                 startClient(liveUpdateCommunication);
@@ -202,7 +199,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             if (communication != null && !communication.IsConnected && !wasConnected)
             {
-                UnityEngine.Debug.Log($"HandleConnectionLogic | Communication is initialized but there is no server to connect to yet");
                 //Communication is initialized but there is no server to connect to yet
                 startClient(communication);
                 return;
@@ -244,14 +240,12 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void initLiveUpdateClient()
         {
-            UnityEngine.Debug.Log($"initLiveUpdateClient | Start Method");
 
             liveUpdateCommunication = new LiveUpdateCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId, AppId);
             liveUpdateCommunication.OnDisconnect += onDisconnect;
             liveUpdateCommunication.OnError += onError;
             liveUpdateCommunication.OnConnect += onConnect;
             liveUpdateCommunication.Init();
-            UnityEngine.Debug.Log($"initLiveUpdateClient | Finished Method");
 
         }
 
@@ -448,7 +442,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             communication.CmdHandler.OnDriverDisconnect += onDriverDisconnect;
             communication.CmdHandler.OnAppConnect += onAppConnect;
             communication.Init();
-            UnityEngine.Debug.Log($"initRuntimeClient | Method Finished");
 
         }
         private void setInteractibilityForRestartButton(bool isInteractable)
@@ -499,7 +492,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             onStart();
             AppId = null;
             wasConnected = false;
-            UnityEngine.Debug.Log($"stopClients | finished stopClients");
 
         }
 
