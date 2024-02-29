@@ -161,7 +161,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 {
                     logger.Debug(string.Format("Connection error: {0}", e.Message));
                 }
-
+                Thread.Sleep(delay);
                 if (wsClient.IsAlive)
                 {
                     break;
