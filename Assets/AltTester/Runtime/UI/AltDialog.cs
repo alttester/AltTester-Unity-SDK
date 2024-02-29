@@ -140,8 +140,11 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void handleConnectionLogic()
         {
-            if (RestartButton.interactable)//to prevent auto connect
-                return;
+            //TODO See what we do with this after we tested for deconection problems
+            // if (RestartButton.interactable)//to prevent auto connect
+            // {
+            //     return;
+            // }
             if (currentTime <= retryTime)
             {
                 currentTime += Time.unscaledDeltaTime;
@@ -166,7 +169,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             if (liveUpdateCommunication != null && communication == null)
             {
-
                 //Communication somehow stopped so we stop liveUpdate as well
                 stopClient(liveUpdateCommunication);
                 liveUpdateCommunication = null;
@@ -185,7 +187,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             if (communication != null && communication.IsConnected && liveUpdateCommunication == null && AppId != null)
             {
-
                 //Communication is connected and we start LiveUpdate to connect
                 initLiveUpdateClient();
                 startClient(liveUpdateCommunication);
@@ -193,7 +194,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             if (communication != null && !communication.IsConnected && !wasConnected)
             {
-
                 //Communication is initialized but there is no server to connect to yet
                 startClient(communication);
                 return;
@@ -233,11 +233,13 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void initLiveUpdateClient()
         {
+
             liveUpdateCommunication = new LiveUpdateCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId, AppId);
             liveUpdateCommunication.OnDisconnect += onDisconnect;
             liveUpdateCommunication.OnError += onError;
             liveUpdateCommunication.OnConnect += onConnect;
             liveUpdateCommunication.Init();
+
         }
 
         private void beginCommunication()
@@ -430,6 +432,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             communication.CmdHandler.OnDriverDisconnect += onDriverDisconnect;
             communication.CmdHandler.OnAppConnect += onAppConnect;
             communication.Init();
+
         }
         private void setInteractibilityForRestartButton(bool isInteractable)
         {
@@ -443,7 +446,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 communicationHandler.waitingToConnect = true;
                 communicationHandler.Connect();
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException e)
             {
                 stopClient(communicationHandler);
                 communicationHandler.waitingToConnect = false;
@@ -473,6 +476,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             onStart();
             AppId = null;
             wasConnected = false;
+
         }
 
         private static void stopClient(BaseCommunicationHandler communicationHandler)

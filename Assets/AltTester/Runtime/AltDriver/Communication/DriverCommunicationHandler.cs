@@ -86,8 +86,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             {
                 OnMessage(sender, e.Data);
             };
+            this.wsClient.OnCloseEvent += (sender, e) =>
+            {
+                Console.WriteLine($"CloseEvent called: {e.Code}-{e.Reason} ");
+            };
 
             this.wsClient.Connect();
+
         }
 
         public T Recvall<T>(CommandParams param)
@@ -95,28 +100,32 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             Stopwatch watch = Stopwatch.StartNew();
             while (true)
             {
-                if (!wsClient.IsAlive)
+                while (!messages.ContainsKey(param.messageId) && commandTimeout >= watch.Elapsed.TotalSeconds)
                 {
-                    throw new AltException("Driver disconnected");
-                }
-
-                while (!messages.ContainsKey(param.messageId) && wsClient.IsAlive && commandTimeout >= watch.Elapsed.TotalSeconds)
-                {
+                    if (!wsClient.IsAlive)
+                    {
+                        if (!wsClient.IsAlive)//Retry only once  TODO Decide if this is how we want to keep it
+                            throw new AltException("Driver disconnected");
+                    }
                     Thread.Sleep(10);
                 }
+
 
                 if (commandTimeout < watch.Elapsed.TotalSeconds && wsClient.IsAlive)
                 {
                     messageIdTimeouts.Add(param.messageId);
                     throw new CommandResponseTimeoutException();
                 }
-
-
                 Queue<CommandResponse> queue;
                 messages.TryGetValue(param.messageId, out queue);
+                if (queue == null)
+                {
+                    throw new AltException(" Could not find the message");
+                }
                 var message = queue.Dequeue();
 
-                if (queue.Count == 0) {
+                if (queue.Count == 0)
+                {
                     messages.Remove(param.messageId);
                 }
 
@@ -176,11 +185,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             }
             else
             {
-                if (messages.ContainsKey(message.messageId)) {
+                if (messages.ContainsKey(message.messageId))
+                {
+
                     Queue<CommandResponse> queue;
                     messages.TryGetValue(message.messageId, out queue);
                     queue.Enqueue(message);
-                } else {
+                }
+                else
+                {
                     var queue = new Queue<CommandResponse>();
                     queue.Enqueue(message);
                     messages.Add(message.messageId, queue);
