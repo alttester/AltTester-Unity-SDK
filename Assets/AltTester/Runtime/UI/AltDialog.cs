@@ -276,8 +276,9 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onRestartButtonPress()
         {
             responseCode = 0;
-            isEditing = false;
             validateFields();
+            if (isDataValid)
+                isEditing = false;
             stopClients();
         }
         private void validateFields()
@@ -408,12 +409,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             stopClientsCalled = true;
             try
             {
-                updateQueue.Clear();
                 connectedDrivers.Clear();
                 stopCommunicationClient();
                 stopLiveUpdateClient();
-                if (!isEditing)//If is not editing the input field try reconnecting
-                    updateQueue.ScheduleResponse(() => onStart());
                 appId = null;
                 wasConnected = false;
                 if (responseCode > 4000 && responseCode < 5000)
@@ -423,7 +421,11 @@ namespace AltTester.AltTesterUnitySDK.UI
                     return;
                 }
                 if (!isEditing && isDataValid)//If is not editing the input field try reconnecting
+                {
+                    updateQueue.Clear();
+                    updateQueue.ScheduleResponse(() => onStart());
                     beginCommunication();
+                }
             }
             catch (Exception e)
             {
