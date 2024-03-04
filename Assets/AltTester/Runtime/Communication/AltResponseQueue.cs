@@ -41,6 +41,10 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 }
             }
         }
+        public int GetCount()
+        {
+            return responseQueue.Count;
+        }
 
         public void ScheduleResponse(SendResponse newResponse)
         {
