@@ -461,7 +461,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onDisconnect(int code, string reason)
         {
             responseCode = code;
-            stopClients();
+            updateQueue.ScheduleResponse(() => stopClients());
         }
 
         private void onStart()
@@ -518,7 +518,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onAppConnect(string appId)
         {
             this.appId = appId;
-            beginLiveUpdate();
+            updateQueue.ScheduleResponse(() => beginLiveUpdate());
         }
 
 
