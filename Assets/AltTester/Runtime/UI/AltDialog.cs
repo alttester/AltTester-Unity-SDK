@@ -167,8 +167,10 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void beginCommunication()
         {
+            Debug.Log("beginCommunication | Method Started");
             if (beginCommunicationCalled)
             {
+                Debug.Log("beginCommunication | Method Ended because beginCommunicationCalled");
                 return;
             }
             beginCommunicationCalled = true;
@@ -178,6 +180,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             startClient(communicationClient);
 
             beginCommunicationCalled = false;
+            Debug.Log("beginCommunication | Method Ended");
         }
         private void beginLiveUpdate()
         {
@@ -275,11 +278,15 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onRestartButtonPress()
         {
+            Debug.Log("onRestartButtonPress | Method started");
+
             responseCode = 0;
             validateFields();
             if (isDataValid)
                 isEditing = false;
             stopClients();
+            Debug.Log("onRestartButtonPress | Method Ended");
+
         }
         private void validateFields()
         {
@@ -373,6 +380,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void startClient(BaseCommunicationHandler communicationHandler)
         {
+            Debug.Log("startClient| Method Started");
             try
             {
                 communicationHandler.waitingToConnect = true;
@@ -395,15 +403,19 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             catch (Exception ex)
             {
+                Debug.LogError($"startClient| {ex.Message}");
+
                 setMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex, "An unexpected error occurred while starting the AltTester client.");
                 stopClient(communicationHandler);
                 communicationHandler.waitingToConnect = false;
             }
+            Debug.Log("startClient| Method Ended");
         }
 
         private void stopClients()
         {
+            Debug.Log("StopClients| Method Started");
             if (stopClientsCalled)//Stop clients was already called
                 return;
             stopClientsCalled = true;
@@ -431,24 +443,36 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 updateQueue.ScheduleResponse(() => Debug.LogError(e));
             }
+            Debug.Log("StopClients| Method Ended");
+
             stopClientsCalled = false;
 
         }
         private void stopCommunicationClient()
         {
+            Debug.Log("stopCommunicationClient| Method Started");
             stopClient(communicationClient);
             communicationClient = null;
+            Debug.Log("stopCommunicationClient| Method Ended");
+
         }
         private void stopLiveUpdateClient()
         {
+            Debug.Log("stopLiveUpdateClient| Method Started");
             stopClient(liveUpdateClient);
             liveUpdateClient = null;
+            Debug.Log("stopLiveUpdateClient| Method Ended");
+
         }
 
         private static void stopClient(BaseCommunicationHandler communicationHandler)
         {
+            Debug.Log("StopClient| Method Started");
             if (communicationHandler == null)
+            {
+                Debug.Log("StopClient| Method Ended because communication handler was null");
                 return;
+            }
             // Remove the callbacks before stopping the client to prevent the OnDisconnect callback to be called when we stop or restart the client.
             communicationHandler.OnConnect = null;
             communicationHandler.OnDisconnect = null;
@@ -456,6 +480,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             if (communicationHandler.IsConnected)
                 communicationHandler.Close();
+            Debug.Log("StopClient| Method Ended");
+
         }
 
         private void onDisconnect(int code, string reason)
