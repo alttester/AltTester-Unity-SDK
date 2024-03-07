@@ -89,6 +89,9 @@ namespace AltTester.AltTesterUnitySDK.UI
         private bool stopClientsCalled = false;
         private bool beginCommunicationCalled = false;
         private bool isEditing = false;
+        private bool isCommunicationConnected;
+        private bool isLiveUpdateConnected;
+
 
         private UnityEngine.UI.Image dialogImage;
         protected void Awake()
@@ -205,13 +208,9 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void setMessage(string message, Color color, bool visible = true)
         {
-            updateQueue.ScheduleResponse(() =>
-            {
-                Dialog.SetActive(visible);
-                dialogImage.color = color;
-                MessageText.text = message;
-            });
-
+            Dialog.SetActive(visible);
+            dialogImage.color = color;
+            MessageText.text = message;
         }
 
         private void setTitle(string title) => TitleText.text = title;
@@ -422,20 +421,31 @@ namespace AltTester.AltTesterUnitySDK.UI
             try
             {
                 connectedDrivers.Clear();
-                stopCommunicationClient();
-                stopLiveUpdateClient();
+                if (isCommunicationConnected)
+                {
+                    stopCommunicationClient();
+                    isCommunicationConnected = false;
+                }
+                if (isLiveUpdateConnected)
+                {
+                    stopLiveUpdateClient();
+                    isLiveUpdateConnected = false;
+                }
+
                 appId = null;
                 wasConnected = false;
                 if (responseCode > 4000 && responseCode < 5000)
                 {
                     isEditing = true;
                     stopClientsCalled = false;
+                    Debug.Log("StopClients| Method Ended in If");
+
                     return;
                 }
                 if (!isEditing && isDataValid)//If is not editing the input field try reconnecting
                 {
                     updateQueue.Clear();
-                    updateQueue.ScheduleResponse(() => onStart());
+                    onStart();
                     beginCommunication();
                 }
             }
@@ -487,6 +497,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onDisconnect(int code, string reason)
         {
             responseCode = code;
+            Debug.Log($"OnDisconnect| {code}-{reason}");
             updateQueue.ScheduleResponse(() => stopClients());
         }
 
@@ -497,12 +508,15 @@ namespace AltTester.AltTesterUnitySDK.UI
         }
         private void onCommunicationConnected()
         {
+            isCommunicationConnected = true;
             UnityEngine.Debug.Log("Communication Connected");
         }
         private void onLiveUpdateConnected()
         {
+
             UnityEngine.Debug.Log("LiveUpdateConnected Connected");
-            onConnect();
+            isLiveUpdateConnected = true;
+            updateQueue.ScheduleResponse(() => onConnect());
         }
 
         private void onConnect()
@@ -514,6 +528,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onError(string message, Exception ex)
         {
+            UnityEngine.Debug.Log($"OnErrorWasCalled | {message}");
             UnityEngine.Debug.LogError(message);
             logger.Error(message);
             if (ex != null)
