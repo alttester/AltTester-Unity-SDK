@@ -51,6 +51,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             {
                 logger.Debug($"Waiting for property {propertyName} to be {propertyValue}.");
                 T propertyFound = altObject.GetComponentProperty<T>(componentName, propertyName, assembly);
+                if (propertyFound == null && propertyValue == null) //avoid null reference exception
+                    return propertyFound;
                 if (propertyFound.Equals(propertyValue))
                     return propertyFound;
 
