@@ -337,7 +337,6 @@ public class Input : MonoBehaviour
             }
             if (axis.type == InputType.MouseMovement)
             {
-                UnityEngine.Debug.Log(axis.axisDirection);
                 if (axis.axisDirection == 0)
                     return _mouseDelta.x;
                 if (axis.axisDirection == 1)

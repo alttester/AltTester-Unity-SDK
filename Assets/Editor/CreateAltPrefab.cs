@@ -307,7 +307,7 @@ namespace AltTesterTools
 
             var TitleText = TitleGameObject.GetComponent<Text>();
             TitleText.text = "AltTester® v." + version;
-            TitleText.fontSize = 30;
+            TitleText.fontSize = 27;
             TitleText.color = Color.white;
             TitleText.alignment = TextAnchor.MiddleCenter;
 
@@ -330,7 +330,7 @@ namespace AltTesterTools
 
             var MessageText = MessageGameObject.GetComponent<Text>();
             MessageText.text = "Starting communication protocol!";
-            MessageText.fontSize = 24;
+            MessageText.fontSize = 20;
             MessageText.color = Color.white;
             MessageText.alignment = TextAnchor.MiddleCenter;
 
@@ -352,7 +352,7 @@ namespace AltTesterTools
 
             var LabelText = LabelGameObject.GetComponent<Text>();
             LabelText.text = "To change the host, port or app name input a new value and press the Restart button.";
-            LabelText.fontSize = 20;
+            LabelText.fontSize = 15;
             LabelText.color = Color.white;
             LabelText.alignment = TextAnchor.MiddleCenter;
 
