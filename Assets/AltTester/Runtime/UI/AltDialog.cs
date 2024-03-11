@@ -252,9 +252,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void resetConnectionDataBasedOnUID()
         {
-            UnityEngine.Debug.LogError($"InstrumentationSettings.ResetConnectionData: {InstrumentationSettings.ResetConnectionData}");
-            UnityEngine.Debug.LogError($"InstrumentationSettings.UID: {InstrumentationSettings.UID}");
-            UnityEngine.Debug.LogError($"PlayerPref.UID: {PlayerPrefs.GetString(UID, "")}");
             if (InstrumentationSettings.ResetConnectionData && (InstrumentationSettings.UID != PlayerPrefs.GetString(UID, "")))
             {
 
