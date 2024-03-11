@@ -71,7 +71,7 @@ jobs:
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "alttester,!here"
+          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -105,7 +105,7 @@ jobs:
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "alttester,!here"
+          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -138,7 +138,7 @@ jobs:
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "alttester,!here"
+          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -172,7 +172,7 @@ jobs:
             message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
             footer: "Linked Repo <{repo_url}|{repo}>"
             notify_when: "failure"
-            mention_groups: "alttester,!here"
+            mention_groups: "alttester-pipelines,!here"
             mention_groups_when: "failure"
           env:
             SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -215,7 +215,7 @@ jobs:
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "alttester,!here"
+          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -256,7 +256,7 @@ jobs:
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "alttester,!here"
+          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -329,7 +329,7 @@ jobs:
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "alttester,!here"
+          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -423,7 +423,7 @@ jobs:
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "alttester,!here"
+          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -442,7 +442,7 @@ jobs:
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "alttester,!here"
+          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -548,7 +548,7 @@ jobs:
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "alttester,!here"
+          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -659,7 +659,7 @@ jobs:
             message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
             footer: "Linked Repo <{repo_url}|{repo}>"
             notify_when: "failure"
-            mention_groups: "alttester,!here"
+            mention_groups: "alttester-pipelines,!here"
             mention_groups_when: "failure"
           env:
             SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -710,7 +710,7 @@ jobs:
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "alttester,!here"
+          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
@@ -755,7 +755,7 @@ jobs:
           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
-          mention_groups: "alttester,!here"
+          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
