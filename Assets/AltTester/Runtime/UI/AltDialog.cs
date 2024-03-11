@@ -254,6 +254,11 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             if (InstrumentationSettings.ResetConnectionData && (InstrumentationSettings.UID != PlayerPrefs.GetString(UID, "")))
             {
+                UnityEngine.Debug.LogError("Reseting the connection data");
+                UnityEngine.Debug.LogError($"Setting Host to: {InstrumentationSettings.AltServerHost}");
+                UnityEngine.Debug.LogError($"Setting Port to: {InstrumentationSettings.AltServerPort}");
+                UnityEngine.Debug.LogError($"Setting appName to: {InstrumentationSettings.AppName}");
+
                 PlayerPrefs.SetString(HOST, InstrumentationSettings.AltServerHost);
                 PlayerPrefs.SetInt(PORT, InstrumentationSettings.AltServerPort);
                 PlayerPrefs.SetString(APP_NAME, InstrumentationSettings.AppName);
