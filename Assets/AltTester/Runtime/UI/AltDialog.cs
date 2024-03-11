@@ -253,14 +253,10 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void resetConnectionDataBasedOnUID()
         {
             UnityEngine.Debug.LogError($"InstrumentationSettings.ResetConnectionData: {InstrumentationSettings.ResetConnectionData}");
-            UnityEngine.Debug.LogError($"InstrumentationSettings.UID: {InstrumentationSettings.ResetConnectionData}");
+            UnityEngine.Debug.LogError($"InstrumentationSettings.UID: {InstrumentationSettings.UID}");
             UnityEngine.Debug.LogError($"PlayerPref.UID: {PlayerPrefs.GetString(UID, "")}");
             if (InstrumentationSettings.ResetConnectionData && (InstrumentationSettings.UID != PlayerPrefs.GetString(UID, "")))
             {
-                UnityEngine.Debug.LogError("Reseting the connection data");
-                UnityEngine.Debug.LogError($"Setting Host to: {InstrumentationSettings.AltServerHost}");
-                UnityEngine.Debug.LogError($"Setting Port to: {InstrumentationSettings.AltServerPort}");
-                UnityEngine.Debug.LogError($"Setting appName to: {InstrumentationSettings.AppName}");
 
                 PlayerPrefs.SetString(HOST, InstrumentationSettings.AltServerHost);
                 PlayerPrefs.SetInt(PORT, InstrumentationSettings.AltServerPort);
