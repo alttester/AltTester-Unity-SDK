@@ -10,6 +10,7 @@ flake8
 pytest
 pytest-cov
 pytest-repeat
+pytest-retry
 
 #browserstack
 browserstack-local
