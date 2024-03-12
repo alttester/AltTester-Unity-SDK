@@ -485,11 +485,11 @@ jobs:
           export response=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.apk")
           export APP_URL=$(echo "${response}" | jq -r .app_url)
           cd Bindings~/python/tests/integration/android/
-          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-galaxy_s22_ultra/ --browserstack.config "galaxy_s22_ultra.yml" > galaxy_s22_ultra.log &
-          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-one_plus_9/ --browserstack.config "one_plus_9.yml" > one_plus_9.log &
-          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-redmi_note_11/ --browserstack.config "redmi_note_11.yml" > redmi_note_11.log &
-          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-google_pixel_9/ --browserstack.config "google_pixel_9.yml" > google_pixel_9.log &
-          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-galaxy_s23/ --browserstack.config "galaxy_s23.yml" > galaxy_s23.log &
+          browserstack-sdk pytest -s ../test_scene01.py -v --alluredir=allure-report-galaxy_s22_ultra/ --browserstack.config "galaxy_s22_ultra.yml" > galaxy_s22_ultra.log &
+          browserstack-sdk pytest -s ../test_notifications.py ../test_driver.py -v --alluredir=allure-report-one_plus_9/ --browserstack.config "one_plus_9.yml" > one_plus_9.log &
+          browserstack-sdk pytest -s ../test_scene02.py ../test_scene03.py -v --alluredir=allure-report-redmi_note_11/ --browserstack.config "redmi_note_11.yml" > redmi_note_11.log &
+          browserstack-sdk pytest -s ../test_scene05.py ../test_scene07.py -v --alluredir=allure-report-google_pixel_9/ --browserstack.config "google_pixel_9.yml" > google_pixel_9.log &
+          browserstack-sdk pytest -s ../test_scene09.py ../test_scene10.py -v --alluredir=allure-report-galaxy_s23/ --browserstack.config "galaxy_s23.yml" > galaxy_s23.log &
           wait
 
       - name: Copy devices log to the current folder
@@ -589,11 +589,18 @@ jobs:
           export response=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
           export APP_URL=$(echo "${response}" | jq -r .app_url)
           cd Bindings~/python/tests/integration/iOS/
-          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-11_pro_max/ --browserstack.config "11_pro_max.yml" > 11_pro_max.log &
-          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-12_pro_max/ --browserstack.config "12_pro_max.yml" > 12_pro_max.log &
-          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-13_pro_max/ --browserstack.config "13_pro_max.yml" > 13_pro_max.log &
-          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-14_pro_max/ --browserstack.config "14_pro_max.yml" > 14_pro_max.log &
-          browserstack-sdk pytest -s ../ -v --alluredir=allure-report-15_pro_max/ --browserstack.config "15_pro_max.yml" > 15_pro_max.log &
+          browserstack-sdk pytest -s ../test_scene01.py -v --alluredir=allure-report-galaxy_s22_ultra/ --browserstack.config "galaxy_s22_ultra.yml" > galaxy_s22_ultra.log &
+          browserstack-sdk pytest -s ../test_notifications.py ../test_driver.py -v --alluredir=allure-report-one_plus_9/ --browserstack.config "one_plus_9.yml" > one_plus_9.log &
+          browserstack-sdk pytest -s ../test_scene02.py ../test_scene03.py -v --alluredir=allure-report-redmi_note_11/ --browserstack.config "redmi_note_11.yml" > redmi_note_11.log &
+          browserstack-sdk pytest -s ../test_scene05.py ../test_scene07.py -v --alluredir=allure-report-google_pixel_9/ --browserstack.config "google_pixel_9.yml" > google_pixel_9.log &
+          browserstack-sdk pytest -s ../test_scene09.py ../test_scene10.py -v --alluredir=allure-report-galaxy_s23/ --browserstack.config "galaxy_s23.yml" > galaxy_s23.log &
+
+
+          browserstack-sdk pytest -s ../test_scene01.py -v --alluredir=allure-report-11_pro_max/ --browserstack.config "11_pro_max.yml" > 11_pro_max.log &
+          browserstack-sdk pytest -s ../test_notifications.py  ../test_driver.py -v --alluredir=allure-report-12_pro_max/ --browserstack.config "12_pro_max.yml" > 12_pro_max.log &
+          browserstack-sdk pytest -s ../test_scene02.py ../test_scene03.py -v --alluredir=allure-report-13_pro_max/ --browserstack.config "13_pro_max.yml" > 13_pro_max.log &
+          browserstack-sdk pytest -s ../test_scene05.py ../test_scene07.py -v --alluredir=allure-report-14_pro_max/ --browserstack.config "14_pro_max.yml" > 14_pro_max.log &
+          browserstack-sdk pytest -s ../test_scene09.py ../test_scene10.py -v --alluredir=allure-report-15_pro_max/ --browserstack.config "15_pro_max.yml" > 15_pro_max.log &
           wait
 
       - name: Copy devices log to the current folder
