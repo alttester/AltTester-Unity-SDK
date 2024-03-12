@@ -295,11 +295,9 @@ class TestScene01:
                 "AltTester.AltTesterUnitySDK",
                 timeout=2,
             )
-        assert str(
-            execinfo.value
-        ) == "After 2 seconds, exception was: Property AltServerPortTest not \
-              found for component: {} and property {}".format(
-            componentName, propertyName
+        assert str(execinfo.value) == (
+            "After 2 seconds, exception was: Property AltServerPortTest not found "
+            "for component: {} and property {}".format(componentName, propertyName)
         )
 
     def test_wait_for_component_property_timeout(self):
