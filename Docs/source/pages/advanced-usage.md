@@ -344,7 +344,7 @@ There are multiple scenarios:
 .. tabs::
     .. code-tab:: c#
 
-            altDriver = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp");
+            altDriver = new AltDriver (host: "127.0.0.1", port: 13000, appName: "MyApp");
 
     .. code-tab:: java
 
@@ -370,7 +370,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 .. tabs::
     .. code-tab:: c#
 
-            altDriver = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp");
+            altDriver = new AltDriver (host: "127.0.0.1", port: 13000, appName: "MyApp");
 
     .. code-tab:: java
 
@@ -394,7 +394,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 .. tabs::
     .. code-tab:: c#
 
-            altDriver = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp");
+            altDriver = new AltDriver (host: "127.0.0.1", port: 13000, appName: "MyApp");
 
     .. code-tab:: java
 
@@ -421,8 +421,8 @@ In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when
 .. tabs::
     .. code-tab:: c#
 
-            altDriver1 = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp1");
-            altDriver2 = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp2");
+            altDriver1 = new AltDriver (host: "127.0.0.1", port: 13000, appName: "MyApp1");
+            altDriver2 = new AltDriver (host: "127.0.0.1", port: 13000, appName: "MyApp2");
 
     .. code-tab:: java
 
@@ -460,8 +460,8 @@ Ex. with 2 Android devices:
 .. tabs::
     .. code-tab:: c#
 
-            altDriver1 = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp1");
-            altDriver2 = new AltDriver (host = "127.0.0.1", port = 13000, appName = "MyApp2");
+            altDriver1 = new AltDriver (host: "127.0.0.1", port: 13000, appName: "MyApp1");
+            altDriver2 = new AltDriver (host: "127.0.0.1", port: 13000, appName: "MyApp2");
 
     .. code-tab:: java
 
@@ -502,7 +502,7 @@ Ex1. Let's say we want to run a set of tests on all apps started on Windows 11 (
 .. tabs::
     .. code-tab:: c#
 
-            altDriver = new AltDriver (host = "127.0.0.1", port = 13000, platformVersion = "Windows 11  (10.0.22621) 64bit");
+            altDriver = new AltDriver (host: "127.0.0.1", port: 13000, platformVersion: "Windows 11  (10.0.22621) 64bit");
 
     .. code-tab:: java
 
