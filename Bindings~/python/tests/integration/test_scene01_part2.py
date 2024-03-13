@@ -15,12 +15,10 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-import time
-
 import pytest
 
 from .utils import Scenes
-from alttester import By, PlayerPrefKeyType, AltKeyCode
+from alttester import By, AltKeyCode
 import alttester.exceptions as exceptions
 
 
