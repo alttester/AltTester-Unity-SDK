@@ -10,6 +10,7 @@ flake8
 pytest
 pytest-cov
 pytest-retry
+pytest-selenium
 
 #browserstack
 browserstack-local

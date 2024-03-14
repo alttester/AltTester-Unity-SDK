@@ -492,13 +492,18 @@ jobs:
           browserstack-sdk pytest -s ../test_scene09.py ../test_scene10.py -v --retries 2 --alluredir=allure-report-galaxy_s23/ --browserstack.config "galaxy_s23.yml" > galaxy_s23.log &
           wait
 
-      - name: Copy devices log to the current folder
+      - name: Print and copy devices log to the current folder
         run: |
           cp Bindings~/python/tests/integration/android/galaxy_s22_ultra.log .
+          cat galaxy_s22_ultra.log
           cp Bindings~/python/tests/integration/android/one_plus_9.log .
+          cat one_plus_9.log
           cp Bindings~/python/tests/integration/android/redmi_note_11.log .
+          cat redmi_note_11.log
           cp Bindings~/python/tests/integration/android/google_pixel_9.log .
+          cat google_pixel_9.log
           cp Bindings~/python/tests/integration/android/galaxy_s23.log .
+          cat galaxy_s23.log
 
       - name: Generate Allure report
         if: always()
@@ -597,13 +602,18 @@ jobs:
           browserstack-sdk pytest -s ../test_scene09.py ../test_scene10.py -v --alluredir=allure-report-15_pro_max/ --browserstack.config "15_pro_max.yml" > 15_pro_max.log &
           wait
 
-      - name: Copy devices log to the current folder
+      - name: Print and copy devices log to the current folder
         run: |
           cp Bindings~/python/tests/integration/iOS/11_pro_max.log .
+          cat 11_pro_max.log
           cp Bindings~/python/tests/integration/iOS/12_pro_max.log .
+          cat 12_pro_max.log
           cp Bindings~/python/tests/integration/iOS/13_pro_max.log .
+          cat 13_pro_max.log
           cp Bindings~/python/tests/integration/iOS/14_pro_max.log .
+          cat 14_pro_max.log
           cp Bindings~/python/tests/integration/iOS/15_pro_max.log .
+          cat 15_pro_max.log
 
       - name: Generate Allure report
         if: always()
