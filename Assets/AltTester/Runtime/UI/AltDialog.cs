@@ -296,7 +296,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onRestartButtonPress()
         {
             Debug.Log("onRestartButtonPress | Method started");
-            // appId = null;
+            appId = null;
 
             responseCode = 0;
             validateFields();
