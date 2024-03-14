@@ -91,6 +91,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private bool isEditing = false;
         private bool isCommunicationConnected;
         private bool isLiveUpdateConnected;
+        private bool isDriverConnected;
 
 
         private UnityEngine.UI.Image dialogImage;
@@ -212,6 +213,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void setMessage(string message, Color color, bool visible = true)
         {
+            UnityEngine.Debug.Log("=== " + message);
             Dialog.SetActive(visible);
             dialogImage.color = color;
             MessageText.text = message;
@@ -458,7 +460,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 updateQueue.ScheduleResponse(() => Debug.LogError(e));
             }
             Debug.Log("StopClients| Method Ended");
-
+            isDriverConnected = false;
             stopClientsCalled = false;
 
         }
@@ -525,9 +527,16 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onConnect()
         {
+
             wasConnected = true;
-            string message = $"Connected to AltServer on {Environment.NewLine}host:port {currentHost}:{currentPort}{Environment.NewLine}with appName: '{currentName}'{Environment.NewLine}platform: '{platform}'{Environment.NewLine}platformVersion: '{platformVersion}'{Environment.NewLine}deviceInstanceId: '{deviceInstanceId}' {Environment.NewLine}appId '{appId}'.{Environment.NewLine}Waiting for Driver to connect.";
-            setMessage(message, color: SUCCESS_COLOR, visible: true);
+
+            if (!isDriverConnected)
+            {
+
+                string message = $"Connected to AltServer on {Environment.NewLine}host:port {currentHost}:{currentPort}{Environment.NewLine}with appName: '{currentName}'{Environment.NewLine}platform: '{platform}'{Environment.NewLine}platformVersion: '{platformVersion}'{Environment.NewLine}deviceInstanceId: '{deviceInstanceId}' {Environment.NewLine}appId '{appId}'.{Environment.NewLine}Waiting for Driver to connect.";
+                setMessage(message, color: SUCCESS_COLOR, visible: true);
+            }
+
         }
 
         private void onError(string message, Exception ex)
@@ -544,6 +553,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onDriverConnect(string driverId)
         {
             logger.Debug("Driver Connected: " + driverId);
+            isDriverConnected = true;
             string message = String.Format("Connected to AltServer on {0}host:port {1}:{2}with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceInstanceId: '{9}' {10}and appId '{11}'.{12}Driver connected.", Environment.NewLine, currentHost, currentPort + Environment.NewLine, currentName, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, appId, Environment.NewLine);
 
             connectedDrivers.Add(driverId);
