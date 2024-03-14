@@ -111,7 +111,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             resetConnectionDataBasedOnUID();
             setUpRestartButton();
             setUpCustomInputToggle();
-            setInteractibilityForRestartButton(false);
 
             this.platform = Application.platform.ToString();
             this.platformVersion = SystemInfo.operatingSystem;
