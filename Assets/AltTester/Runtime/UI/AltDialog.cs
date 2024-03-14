@@ -226,6 +226,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void setMessage(string message, Color color, bool visible = true)
         {
+            UnityEngine.Debug.Log("=== " + message);
             Dialog.SetActive(visible);
             dialogImage.color = color;
             MessageText.text = message;
@@ -464,6 +465,10 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 updateQueue.ScheduleResponse(() => Debug.LogError(e));
             }
+<<<<<<< HEAD
+=======
+            Debug.Log("StopClients| Method Ended");
+>>>>>>> 336f1fa6 (Fixed popup issue with reconnect)
             isDriverConnected = false;
             stopClientsCalled = false;
 
