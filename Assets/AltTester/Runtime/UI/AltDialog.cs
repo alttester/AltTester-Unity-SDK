@@ -204,7 +204,12 @@ namespace AltTester.AltTesterUnitySDK.UI
             this.liveUpdateClient.SendScreenshot();
         }
 
-        protected void OnApplicationQuit() => stopClients();
+        protected void OnApplicationQuit()
+        {
+            isEditing = true;//I set it true here to stop starting the communication in stopClients()
+            stopClients();
+        }
+
 
         private void setMessage(string message, Color color, bool visible = true)
         {
@@ -278,7 +283,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onRestartButtonPress()
         {
             Debug.Log("onRestartButtonPress | Method started");
-            appId = null;
+            // appId = null;
 
             responseCode = 0;
             validateFields();
