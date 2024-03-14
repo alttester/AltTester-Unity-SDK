@@ -278,6 +278,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onRestartButtonPress()
         {
             Debug.Log("onRestartButtonPress | Method started");
+            appId = null;
 
             responseCode = 0;
             validateFields();
@@ -361,7 +362,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void initCommunicationClient()
         {
             UnityEngine.Debug.Log($"Init RuntimeClient");
-            communicationClient = new RuntimeCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId);
+            communicationClient = new RuntimeCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId, appId == null ? "unknown" : appId);
             communicationClient.OnConnect += onCommunicationConnected;
             communicationClient.OnDisconnect += onDisconnect;
             communicationClient.OnError += onError;
@@ -432,7 +433,6 @@ namespace AltTester.AltTesterUnitySDK.UI
                     isLiveUpdateConnected = false;
                 }
 
-                appId = null;
                 wasConnected = false;
                 if (responseCode > 4000 && responseCode < 5000)
                 {

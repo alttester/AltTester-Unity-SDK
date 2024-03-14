@@ -29,7 +29,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public ICommandHandler CmdHandler { get { return this.cmdHandler; } }
 
-        public RuntimeCommunicationHandler(string host, int port, string appName, string platform, string platformVersion, string deviceInstanceId)
+        public RuntimeCommunicationHandler(string host, int port, string appName, string platform, string platformVersion, string deviceInstanceId, string appID = "unknown")
         {
             this.Host = host;
             this.Port = port;
@@ -37,6 +37,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.Platform = platform;
             this.PlatformVersion = platformVersion;
             this.DeviceInstanceId = deviceInstanceId;
+            this.AppId = appID;
             this.cmdHandler = new CommandHandler();
         }
 
