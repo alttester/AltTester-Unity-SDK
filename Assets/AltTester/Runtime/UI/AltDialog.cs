@@ -122,8 +122,24 @@ namespace AltTester.AltTesterUnitySDK.UI
             //Connection
             if (isDataValid)
                 beginCommunication();
+            InvokeRepeating("CheckAlive", 5, 5);//TODO 
 
 
+
+
+        }
+        protected void CheckAlive()// This method is just to see if sending a ping will keep client from disconnecting .
+        {
+            if (liveUpdateClient != null)
+            {
+                var test = liveUpdateClient.IsConnected;
+                UnityEngine.Debug.Log($"LiveUpdateClient is Connected: {test}");
+            }
+            if (communicationClient != null)
+            {
+                var test = communicationClient.IsConnected;
+                UnityEngine.Debug.Log($"CommunicationClient is Connected: {test}");
+            }
         }
 
         protected void Update()
