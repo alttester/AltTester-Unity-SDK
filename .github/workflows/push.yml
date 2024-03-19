@@ -450,9 +450,11 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  test-Python-Android-Browserstack:
+  test-Python-Browserstack-ios-android:
     runs-on: [self-hosted, macOS]
-    needs: build-android
+    needs: 
+      - build-android
+      - build-ipa
 
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
 
@@ -483,50 +485,20 @@ jobs:
           export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
           export response=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.apk")
-          export APP_URL=$(echo "${response}" | jq -r .app_url)
-          cd Bindings~/python/tests/integration/android/
-          browserstack-sdk pytest -s ../test_scene01_part1.py -v --alluredir=allure-report-galaxy_s22_ultra/ --browserstack.config "galaxy_s22_ultra.yml" > galaxy_s22_ultra.log &
-          browserstack-sdk pytest -s ../test_notifications.py ../test_driver.py -v --retries 2 --alluredir=allure-report-one_plus_9/ --browserstack.config "one_plus_9.yml" > one_plus_9.log &
-          browserstack-sdk pytest -s ../test_scene01_part2.py ../test_scene02.py ../test_scene03.py -v --retries 2 --alluredir=allure-report-redmi_note_11/ --browserstack.config "redmi_note_11.yml" > redmi_note_11.log &
-          browserstack-sdk pytest -s ../test_scene05.py ../test_scene07.py -v --retries 2 --alluredir=allure-report-google_pixel_9/ --browserstack.config "google_pixel_9.yml" > google_pixel_9.log &
-          browserstack-sdk pytest -s ../test_scene09.py ../test_scene10.py -v --retries 2 --alluredir=allure-report-galaxy_s23/ --browserstack.config "galaxy_s23.yml" > galaxy_s23.log &
-          wait
+          export APP_URL_ANDROID=$(echo "${response}" | jq -r .app_url)
+          export response=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
+          export APP_URL_IOS=$(echo "${response}" | jq -r .app_url)
 
-      - name: Print and copy devices log to the current folder
-        run: |
-          cp Bindings~/python/tests/integration/android/galaxy_s22_ultra.log .
-          cat galaxy_s22_ultra.log
-          cp Bindings~/python/tests/integration/android/one_plus_9.log .
-          cat one_plus_9.log
-          cp Bindings~/python/tests/integration/android/redmi_note_11.log .
-          cat redmi_note_11.log
-          cp Bindings~/python/tests/integration/android/google_pixel_9.log .
-          cat google_pixel_9.log
-          cp Bindings~/python/tests/integration/android/galaxy_s23.log .
-          cat galaxy_s23.log
+          cd Bindings~/python/tests/integration/
+          /usr/local/bin/BrowserStackLocal --key $BROWSERSTACK_KEY --force > bs_local.log &
+          sleep 5
+          pytest -s -v -n 4 tests --alluredir=allure-report/ --retries 2 --dist=loadfile    
 
       - name: Generate Allure report
         if: always()
         run: |
-          allure generate -c Bindings~/python/tests/integration/android/allure-report-galaxy_s22_ultra -o allure-results-html-galaxy_s22_ultra
-          allure generate -c Bindings~/python/tests/integration/android/allure-report-one_plus_9 -o allure-results-html-one_plus_9
-          allure generate -c Bindings~/python/tests/integration/android/allure-report-redmi_note_11 -o allure-results-html-redmi_note_11
-          allure generate -c Bindings~/python/tests/integration/android/allure-report-google_pixel_9 -o allure-results-html-google_pixel_9
-          allure generate -c Bindings~/python/tests/integration/android/allure-report-galaxy_s23 -o allure-results-html-galaxy_s23
-
-          allure-combine ./allure-results-html-galaxy_s22_ultra
-          allure-combine ./allure-results-html-one_plus_9
-          allure-combine ./allure-results-html-redmi_note_11
-          allure-combine ./allure-results-html-google_pixel_9
-          allure-combine ./allure-results-html-galaxy_s23
-
-      - name: Re-check if the tests have failed
-        run: |
-          pytest --file_to_log="Bindings~/python/tests/integration/android/galaxy_s22_ultra.log" Bindings~/python/tests/re-check.py
-          pytest --file_to_log="Bindings~/python/tests/integration/android/one_plus_9.log" Bindings~/python/tests/re-check.py
-          pytest --file_to_log="Bindings~/python/tests/integration/android/redmi_note_11.log" Bindings~/python/tests/re-check.py
-          pytest --file_to_log="Bindings~/python/tests/integration/android/google_pixel_9.log" Bindings~/python/tests/re-check.py
-          pytest --file_to_log="Bindings~/python/tests/integration/android/galaxy_s23.log" Bindings~/python/tests/re-check.py
+          allure generate -c Bindings~/python/tests/integration/allure-report -o allure-results-html
+          allure-combine ./allure-results-html
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
@@ -534,11 +506,7 @@ jobs:
           name: TestPythonAndroidInBrowserstackArtifact
           path: |
             **/*.log
-            ./allure-results-html-galaxy_s22_ultra/complete.html
-            ./allure-results-html-one_plus_9/complete.html
-            ./allure-results-html-redmi_note_11/complete.html
-            ./allure-results-html-google_pixel_9/complete.html
-            ./allure-results-html-galaxy_s23/complete.html
+            ./allure-results-html/complete.html
 
       - name: Unset Browserstack Flag
         if: always()

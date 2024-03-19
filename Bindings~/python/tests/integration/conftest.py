@@ -15,12 +15,19 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
+import datetime
 import os
+import sys
 import pytest
 import time
+import tests.integration.device_config as device
 from alttester import AltDriver
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
+from appium.options.android import UiAutomator2Options
+from appium.options.ios import XCUITestOptions
+
+sys.stdout = sys.stderr
 
 """Holds test fixtures that need to be shared among all tests."""
 
@@ -45,47 +52,104 @@ def get_browserstack_key():
     return os.environ.get("BROWSERSTACK_KEY", "")
 
 
-@pytest.fixture(scope="session")
-def altdriver(appium_driver):
-    altdriver = AltDriver(
-        host=get_host(),
-        port=get_port(),
-        app_name=get_app_name(),
-        timeout=60
-    )
-    print("altdriver started")
+def get_browserstack_app_url(device):
+    if device["os"] == "android":
+        return os.environ.get("APP_URL_ANDROID", "")
+    return os.environ.get("APP_URL_IOS", "")
 
+
+@pytest.fixture(scope="class", autouse=True)
+def altdriver(request, appium_driver, worker_id):
+    altdriver = AltDriver(
+        host=get_host(), port=get_port(), app_name=get_app_name(), timeout=60
+    )
+    request.cls.altdriver = altdriver
+    print("Started altdriver (worker {})".format(worker_id))
     yield altdriver
 
     altdriver.stop()
 
 
-@pytest.fixture(scope="session")
-def appium_driver(request):
+def get_ui_automator_capabilities(device):
+    return {
+        "platformName": device["os"],
+        "platformVersion": device["os_version"],
+        "deviceName": device["name"],
+        "app": get_browserstack_app_url(device),
+        "newCommandTimeout": "300",
+        # Set other BrowserStack capabilities
+        "bstack:options": {
+            "projectName": "AltTester",
+            "buildName": "pipeline-build-{}".format(device["os"]),
+            "sessionName": "tests-{date:%Y-%m-%d_%H:%M:%S}".format(
+                date=datetime.datetime.now()
+            ),
+            "local": "true",
+            "wsLocalSupport": "true",
+            "deviceOrientation": "landscape",
+            "idleTimeout": "300",
+            "networkLogs": "true",
+            "userName": get_browserstack_username(),
+            "accessKey": get_browserstack_key(),
+        },
+    }
+
+
+@pytest.fixture(autouse=True, scope="class")
+def current_device(request, worker_id):
+    current_device = None
+    if worker_id == "master":
+        current_device = device.devices[0]
+    else:
+        index = int(worker_id.split("gw")[1])
+        current_device = device.devices[index]
+    yield current_device
+
+
+@pytest.fixture(scope="class", autouse=True)
+def appium_driver(request, current_device, worker_id):
     appium_driver = None
+    options = None
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
-        appium_driver = webdriver.Remote("http://hub.browserstack.com/wd/hub",
-                                         request.getfixturevalue("session_capabilities"))
+        if current_device["os"] == "android":
+            options = UiAutomator2Options().load_capabilities(
+                get_ui_automator_capabilities(current_device)
+            )
+        else:
+            options = options = XCUITestOptions().load_capabilities(
+                get_ui_automator_capabilities(current_device)
+            )
+        print("Starting appium driver for device: {}".format(current_device["name"]))
+        appium_driver = webdriver.Remote(
+            "http://hub.browserstack.com/wd/hub", options=options
+        )
         time.sleep(10)
-        if os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
+        if current_device["os"] == "ios":
             try:
-                allow_button = appium_driver.find_element(MobileBy.ID, 'Allow')
+                allow_button = appium_driver.find_element(MobileBy.ID, "Allow")
                 allow_button.click()
-            except Exception as e:
-                print(e)
-                ok_button = appium_driver.find_element(MobileBy.ID, 'OK')
-                ok_button.click()
+            except:
+                try:
+                    ok_button = appium_driver.find_element(MobileBy.ID, "OK")
+                    ok_button.click()
+                except:
+                    pass
+    request.cls.appium_driver = appium_driver
+
     yield appium_driver
 
     if os.environ.get("RUN_IN_BROWSERSTACK", "") == "true":
-        appium_driver.quit()
+        request.cls.appium_driver.quit()
 
 
 @pytest.fixture(autouse=True)
-def do_something_with_appium(appium_driver):
+def do_something_with_appium(request):
     if os.environ.get("RUN_IN_BROWSERSTACK", "") != "true":
         return
     # browserstack has an idle timeout of max 300 seconds
     # so we need to do something with the appium driver
     # to keep it alive
-    appium_driver.get_window_size()
+    try:
+        request.cls.appium_driver.get_window_size()
+    except:
+        pass
