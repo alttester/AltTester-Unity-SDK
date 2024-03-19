@@ -13,7 +13,6 @@ pytest-retry
 pytest-selenium
 
 #browserstack
-browserstack-local
 jsonmerge
 multiprocess
 paver

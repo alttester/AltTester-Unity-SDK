@@ -492,7 +492,7 @@ jobs:
           cd Bindings~/python/tests/integration/
           /usr/local/bin/BrowserStackLocal --key $BROWSERSTACK_KEY --force > bs_local.log &
           sleep 5
-          pytest -s -v -n 4 tests --alluredir=allure-report/ --retries 2 --dist=loadfile    
+          pytest -s -v -n 4 ./ --alluredir=allure-report/ --retries 2 --dist=loadfile    
 
       - name: Generate Allure report
         if: always()
