@@ -59,7 +59,11 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
             Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId);
             wsClient = new ClientWebSocket(uri.ToString());
-            wsClient.Log.Level = LogLevel.Fatal;
+            wsClient.Log.Level = LogLevel.Trace;
+            wsClient.Log.Output = (logData, output) =>
+            {
+                UnityEngine.Debug.Log($"[{logData.Level}] {logData.Date.ToString("yyyy-MM-dd HH:mm:ss.ffff")} - {logData.Message}");
+            };
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);
             if (proxyUri != null)

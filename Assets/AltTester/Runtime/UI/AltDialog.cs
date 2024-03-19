@@ -91,6 +91,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private bool isEditing = false;
         private bool isCommunicationConnected;
         private bool isLiveUpdateConnected;
+        private bool isDriverConnected;
 
 
         private UnityEngine.UI.Image dialogImage;
@@ -111,7 +112,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             resetConnectionDataBasedOnUID();
             setUpRestartButton();
             setUpCustomInputToggle();
-            setInteractibilityForRestartButton(false);
 
             this.platform = Application.platform.ToString();
             this.platformVersion = SystemInfo.operatingSystem;
@@ -122,8 +122,24 @@ namespace AltTester.AltTesterUnitySDK.UI
             //Connection
             if (isDataValid)
                 beginCommunication();
+            InvokeRepeating("CheckAlive", 5, 5);//TODO 
 
 
+
+
+        }
+        protected void CheckAlive()// This method is just to see if sending a ping will keep client from disconnecting .
+        {
+            if (liveUpdateClient != null)
+            {
+                var test = liveUpdateClient.IsConnected;
+                UnityEngine.Debug.Log($"LiveUpdateClient is Connected: {test}");
+            }
+            if (communicationClient != null)
+            {
+                var test = communicationClient.IsConnected;
+                UnityEngine.Debug.Log($"CommunicationClient is Connected: {test}");
+            }
         }
 
         protected void Update()
@@ -170,10 +186,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void beginCommunication()
         {
-            Debug.Log("beginCommunication | Method Started");
             if (beginCommunicationCalled)
             {
-                Debug.Log("beginCommunication | Method Ended because beginCommunicationCalled");
                 return;
             }
             beginCommunicationCalled = true;
@@ -183,7 +197,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             startClient(communicationClient);
 
             beginCommunicationCalled = false;
-            Debug.Log("beginCommunication | Method Ended");
         }
         private void beginLiveUpdate()
         {
@@ -204,7 +217,12 @@ namespace AltTester.AltTesterUnitySDK.UI
             this.liveUpdateClient.SendScreenshot();
         }
 
-        protected void OnApplicationQuit() => stopClients();
+        protected void OnApplicationQuit()
+        {
+            isEditing = true;//I set it true here to stop starting the communication in stopClients()
+            stopClients();
+        }
+
 
         private void setMessage(string message, Color color, bool visible = true)
         {
@@ -277,14 +295,13 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onRestartButtonPress()
         {
-            Debug.Log("onRestartButtonPress | Method started");
+            appId = null;
 
             responseCode = 0;
             validateFields();
             if (isDataValid)
                 isEditing = false;
             stopClients();
-            Debug.Log("onRestartButtonPress | Method Ended");
 
         }
         private void validateFields()
@@ -361,7 +378,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void initCommunicationClient()
         {
             UnityEngine.Debug.Log($"Init RuntimeClient");
-            communicationClient = new RuntimeCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId);
+            communicationClient = new RuntimeCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId, appId == null ? "unknown" : appId);
             communicationClient.OnConnect += onCommunicationConnected;
             communicationClient.OnDisconnect += onDisconnect;
             communicationClient.OnError += onError;
@@ -379,7 +396,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void startClient(BaseCommunicationHandler communicationHandler)
         {
-            Debug.Log("startClient| Method Started");
             try
             {
                 communicationHandler.waitingToConnect = true;
@@ -402,19 +418,16 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             catch (Exception ex)
             {
-                Debug.LogError($"startClient| {ex.Message}");
 
                 setMessage("An unexpected error occurred while starting the AltTester client.", ERROR_COLOR, true);
                 logger.Error(ex, "An unexpected error occurred while starting the AltTester client.");
                 stopClient(communicationHandler);
                 communicationHandler.waitingToConnect = false;
             }
-            Debug.Log("startClient| Method Ended");
         }
 
         private void stopClients()
         {
-            Debug.Log("StopClients| Method Started");
             if (stopClientsCalled)//Stop clients was already called
                 return;
             stopClientsCalled = true;
@@ -432,13 +445,11 @@ namespace AltTester.AltTesterUnitySDK.UI
                     isLiveUpdateConnected = false;
                 }
 
-                appId = null;
                 wasConnected = false;
                 if (responseCode > 4000 && responseCode < 5000)
                 {
                     isEditing = true;
                     stopClientsCalled = false;
-                    Debug.Log("StopClients| Method Ended in If");
 
                     return;
                 }
@@ -453,34 +464,27 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 updateQueue.ScheduleResponse(() => Debug.LogError(e));
             }
-            Debug.Log("StopClients| Method Ended");
-
+            isDriverConnected = false;
             stopClientsCalled = false;
 
         }
         private void stopCommunicationClient()
         {
-            Debug.Log("stopCommunicationClient| Method Started");
             stopClient(communicationClient);
             communicationClient = null;
-            Debug.Log("stopCommunicationClient| Method Ended");
 
         }
         private void stopLiveUpdateClient()
         {
-            Debug.Log("stopLiveUpdateClient| Method Started");
             stopClient(liveUpdateClient);
             liveUpdateClient = null;
-            Debug.Log("stopLiveUpdateClient| Method Ended");
 
         }
 
         private static void stopClient(BaseCommunicationHandler communicationHandler)
         {
-            Debug.Log("StopClient| Method Started");
             if (communicationHandler == null)
             {
-                Debug.Log("StopClient| Method Ended because communication handler was null");
                 return;
             }
             // Remove the callbacks before stopping the client to prevent the OnDisconnect callback to be called when we stop or restart the client.
@@ -490,14 +494,12 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             if (communicationHandler.IsConnected)
                 communicationHandler.Close();
-            Debug.Log("StopClient| Method Ended");
 
         }
 
         private void onDisconnect(int code, string reason)
         {
             responseCode = code;
-            Debug.Log($"OnDisconnect| {code}-{reason}");
             updateQueue.ScheduleResponse(() => stopClients());
         }
 
@@ -521,15 +523,20 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onConnect()
         {
+
             wasConnected = true;
-            string message = $"Connected to AltServer on {Environment.NewLine}host:port {currentHost}:{currentPort}{Environment.NewLine}with appName: '{currentName}'{Environment.NewLine}platform: '{platform}'{Environment.NewLine}platformVersion: '{platformVersion}'{Environment.NewLine}deviceInstanceId: '{deviceInstanceId}' {Environment.NewLine}appId '{appId}'.{Environment.NewLine}Waiting for Driver to connect.";
-            setMessage(message, color: SUCCESS_COLOR, visible: true);
+
+            if (!isDriverConnected)
+            {
+
+                string message = $"Connected to AltServer on {Environment.NewLine}host:port {currentHost}:{currentPort}{Environment.NewLine}with appName: '{currentName}'{Environment.NewLine}platform: '{platform}'{Environment.NewLine}platformVersion: '{platformVersion}'{Environment.NewLine}deviceInstanceId: '{deviceInstanceId}' {Environment.NewLine}appId '{appId}'.{Environment.NewLine}Waiting for Driver to connect.";
+                setMessage(message, color: SUCCESS_COLOR, visible: true);
+            }
+
         }
 
         private void onError(string message, Exception ex)
         {
-            UnityEngine.Debug.Log($"OnErrorWasCalled | {message}");
-            UnityEngine.Debug.LogError(message);
             logger.Error(message);
             if (ex != null)
             {
@@ -540,6 +547,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onDriverConnect(string driverId)
         {
             logger.Debug("Driver Connected: " + driverId);
+            isDriverConnected = true;
             string message = String.Format("Connected to AltServer on {0}host:port {1}:{2}with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceInstanceId: '{9}' {10}and appId '{11}'.{12}Driver connected.", Environment.NewLine, currentHost, currentPort + Environment.NewLine, currentName, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, appId, Environment.NewLine);
 
             connectedDrivers.Add(driverId);

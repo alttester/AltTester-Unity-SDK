@@ -102,17 +102,17 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             {
                 while (!messages.ContainsKey(param.messageId) && commandTimeout >= watch.Elapsed.TotalSeconds)
                 {
-                    if (!wsClient.IsAlive)
-                    {
-                        if (!wsClient.IsAlive)//Retry only once  TODO Decide if this is how we want to keep it
-                            throw new AltException("Driver disconnected");
-                    }
                     Thread.Sleep(10);
                 }
 
 
-                if (commandTimeout < watch.Elapsed.TotalSeconds && wsClient.IsAlive)
+                if (commandTimeout < watch.Elapsed.TotalSeconds)
                 {
+                    if (!wsClient.IsAlive)//Because IsAlive is unreliable I moved the check if the connection is alive only when the timout for commmand was reached.
+                    {
+                        if (!wsClient.IsAlive)//Retry only once  TODO Decide if this is how we want to keep it
+                            throw new AltException("Driver disconnected");
+                    }
                     messageIdTimeouts.Add(param.messageId);
                     throw new CommandResponseTimeoutException();
                 }
