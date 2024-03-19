@@ -20,7 +20,6 @@ import os
 import sys
 import pytest
 import time
-import tests.integration.device_config as device
 from alttester import AltDriver
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
@@ -28,6 +27,17 @@ from appium.options.android import UiAutomator2Options
 from appium.options.ios import XCUITestOptions
 
 sys.stdout = sys.stderr
+
+devices = [
+    {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
+    {"name": "Samsung Galaxy S23", "os": "android", "os_version": "13.0"},
+    {"name": "Google Pixel 6 Pro", "os": "android", "os_version": "13.0"},
+    {"name": "OnePlus 9", "os": "android", "os_version": "11.0"},
+    {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
+    {"name": "Google Pixel 6", "os": "android", "os_version": "12.0"},
+    # Add more devices as needed
+]
+
 
 """Holds test fixtures that need to be shared among all tests."""
 
@@ -97,12 +107,13 @@ def get_ui_automator_capabilities(device):
 
 @pytest.fixture(autouse=True, scope="class")
 def current_device(request, worker_id):
+    global devices
     current_device = None
     if worker_id == "master":
-        current_device = device.devices[0]
+        current_device = devices[0]
     else:
         index = int(worker_id.split("gw")[1])
-        current_device = device.devices[index]
+        current_device = devices[index]
     yield current_device
 
 
@@ -128,11 +139,17 @@ def appium_driver(request, current_device, worker_id):
             try:
                 allow_button = appium_driver.find_element(MobileBy.ID, "Allow")
                 allow_button.click()
-            except:
+            except Exception as e:
                 try:
+                    print(
+                        "No Allow button found, trying to find OK button, error: {}".format(
+                            e
+                        )
+                    )
                     ok_button = appium_driver.find_element(MobileBy.ID, "OK")
                     ok_button.click()
-                except:
+                except Exception as e:
+                    print("No OK button found, error: {}".format(e))
                     pass
     request.cls.appium_driver = appium_driver
 
@@ -151,5 +168,6 @@ def do_something_with_appium(request):
     # to keep it alive
     try:
         request.cls.appium_driver.get_window_size()
-    except:
+    except Exception as e:
+        print("Could not get window size: {}".format(e))
         pass
