@@ -489,11 +489,13 @@ jobs:
 
           export response_ios=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
           export APP_URL_IOS=$(echo "${response_ios}" | jq -r .app_url)
+          echo $APP_URL_ANDROID
+          echo $APP_URL_IOS
           cd Bindings~/python/tests/integration/
           pkill -f BrowserStackLocal
           /usr/local/bin/BrowserStackLocal --key $BROWSERSTACK_KEY --force > bs_local.log &
           sleep 5
-          pytest -s -v -n 4 ./ --alluredir=allure-report/ --retries 2 --dist=loadfile
+          pytest -s -v -n 3 ./ --alluredir=allure-report/ --retries 2 --dist=loadfile
           pkill -f BrowserStackLocal
 
       - name: Generate Allure report
