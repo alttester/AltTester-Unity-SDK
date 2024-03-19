@@ -229,7 +229,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void setMessage(string message, Color color, bool visible = true)
         {
-            UnityEngine.Debug.Log("=== " + message);
             Dialog.SetActive(visible);
             dialogImage.color = color;
             MessageText.text = message;
