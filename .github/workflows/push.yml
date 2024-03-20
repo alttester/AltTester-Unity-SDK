@@ -465,6 +465,10 @@ jobs:
         with:
           name: BuildAndroidArtifact
 
+      - uses: actions/download-artifact@v3
+        with:
+          name: BuildiOSArtifact
+
       - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
@@ -488,7 +492,6 @@ jobs:
           echo $response_android
           export APP_URL_ANDROID=$(echo "${response_android}" | jq -r .app_url)
           export response_ios=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
-          echo $response_ios
           export APP_URL_IOS=$(echo "${response_ios}" | jq -r .app_url)
           echo $APP_URL_ANDROID
           echo $APP_URL_IOS
