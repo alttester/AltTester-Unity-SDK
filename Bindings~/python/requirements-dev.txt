@@ -9,7 +9,7 @@ flake8
 # Tests
 pytest
 pytest-cov
-pytest-retry
+pytest-rerunfailures
 pytest-selenium
 
 #browserstack
