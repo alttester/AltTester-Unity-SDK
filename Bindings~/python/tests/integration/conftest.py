@@ -69,9 +69,14 @@ def get_browserstack_app_url(device):
 
 
 @pytest.fixture(scope="class", autouse=True)
-def altdriver(request, appium_driver, worker_id):
+def altdriver(request, appium_driver, worker_id, current_device):
     altdriver = AltDriver(
-        host=get_host(), port=get_port(), app_name=get_app_name(), timeout=60
+        host=get_host(), 
+        port=get_port(), 
+        app_name=get_app_name(), 
+        platform=current_device["os"],
+        platform_version=current_device["os_version"].split(".")[0],
+        timeout=180
     )
     request.cls.altdriver = altdriver
     print("Started altdriver (worker {})".format(worker_id))
