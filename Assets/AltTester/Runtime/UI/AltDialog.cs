@@ -450,7 +450,6 @@ namespace AltTester.AltTesterUnitySDK.UI
                 {
                     isEditing = true;
                     stopClientsCalled = false;
-
                     return;
                 }
                 if (!isEditing && isDataValid)//If is not editing the input field try reconnecting
@@ -500,6 +499,8 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onDisconnect(int code, string reason)
         {
             responseCode = code;
+            if (code >= 4000 && code < 5000)
+                updateQueue.ScheduleResponse(() => setMessage(reason, ERROR_COLOR, true));
             updateQueue.ScheduleResponse(() => stopClients());
         }
 
