@@ -15,6 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
+import allure
 import datetime
 import os
 import sys
@@ -74,9 +75,9 @@ def altdriver(request, appium_driver, worker_id, current_device):
     if current_device["os"] == "ios":
         platform = "iphone"
     altdriver = AltDriver(
-        host=get_host(), 
-        port=get_port(), 
-        app_name=get_app_name(), 
+        host=get_host(),
+        port=get_port(),
+        app_name=get_app_name(),
         platform=platform,
         platform_version=current_device["os_version"].split(".")[0],
         timeout=180
@@ -114,6 +115,11 @@ def get_ui_automator_capabilities(device):
     }
 
 
+@allure.step("Log: {message}")
+def log_to_report(message):
+    print(message)
+
+
 @pytest.fixture(autouse=True, scope="class")
 def current_device(request, worker_id):
     global devices
@@ -123,6 +129,7 @@ def current_device(request, worker_id):
     else:
         index = int(worker_id.split("gw")[1])
         current_device = devices[index]
+    log_to_report("Using device: {}".format(current_device))
     yield current_device
 
 
@@ -160,6 +167,7 @@ def appium_driver(request, current_device, worker_id):
                     print("No OK button found: {}".format(type(e).__name__))
                     pass
     request.cls.appium_driver = appium_driver
+    request.cls.current_device = current_device
 
     yield appium_driver
 
