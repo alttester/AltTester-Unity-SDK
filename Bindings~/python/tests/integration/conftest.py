@@ -30,13 +30,17 @@ from appium.options.ios import XCUITestOptions
 sys.stdout = sys.stderr
 
 devices = [
-    {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
     {"name": "Samsung Galaxy S23", "os": "android", "os_version": "13.0"},
     {"name": "Google Pixel 6 Pro", "os": "android", "os_version": "13.0"},
+    {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
     {"name": "OnePlus 9", "os": "android", "os_version": "11.0"},
     {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
     {"name": "Google Pixel 6", "os": "android", "os_version": "12.0"},
     # Add more devices as needed
+]
+
+local_run_device = [
+    {"name": "mac", "os": "OSX", "os_version": "mac"},
 ]
 
 
@@ -123,12 +127,16 @@ def log_to_report(message):
 @pytest.fixture(autouse=True, scope="class")
 def current_device(request, worker_id):
     global devices
+    global local_run_device
     current_device = None
-    if worker_id == "master":
-        current_device = devices[0]
+    if os.environ.get("RUN_IN_BROWSERSTACK", "") != "true":
+        current_device = local_run_device[0]
     else:
-        index = int(worker_id.split("gw")[1])
-        current_device = devices[index]
+        if worker_id == "master":
+            current_device = devices[0]
+        else:
+            index = int(worker_id.split("gw")[1])
+            current_device = devices[index]
     log_to_report("Using device: {}".format(current_device))
     yield current_device
 
