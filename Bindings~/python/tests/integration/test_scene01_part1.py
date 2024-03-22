@@ -15,9 +15,8 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-import time
-
 import pytest
+import time
 
 from .utils import Scenes
 from alttester import By, PlayerPrefKeyType
