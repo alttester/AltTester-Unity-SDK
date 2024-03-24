@@ -226,7 +226,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void setMessage(string message, Color color, bool visible = true)
         {
-            UnityEngine.Debug.Log("=== " + message);
             Dialog.SetActive(visible);
             dialogImage.color = color;
             MessageText.text = message;
@@ -254,7 +253,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             if (InstrumentationSettings.ResetConnectionData && (InstrumentationSettings.UID != PlayerPrefs.GetString(UID, "")))
             {
-
                 PlayerPrefs.SetString(HOST, InstrumentationSettings.AltServerHost);
                 PlayerPrefs.SetInt(PORT, InstrumentationSettings.AltServerPort);
                 PlayerPrefs.SetString(APP_NAME, InstrumentationSettings.AppName);
@@ -297,7 +295,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onRestartButtonPress()
         {
-            Debug.Log("onRestartButtonPress | Method started");
             appId = null;
 
             responseCode = 0;
@@ -466,7 +463,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 updateQueue.ScheduleResponse(() => Debug.LogError(e));
             }
-            Debug.Log("StopClients| Method Ended");
             isDriverConnected = false;
             stopClientsCalled = false;
 
