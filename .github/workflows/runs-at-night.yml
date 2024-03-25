@@ -1,10 +1,12 @@
 name: Runs at night
 
-on:
-  workflow_dispatch:
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron: '0 0 * * *' # run at the end of every day
+# on:
+#   workflow_dispatch:
+#   schedule:
+#     # * is a special character in YAML so you have to quote this string
+#     - cron: '0 0 * * *' # run at the end of every day
+
+on: [push, workflow_dispatch]
 
 env:
   ALTSERVER_PORT: 13005
@@ -37,19 +39,19 @@ jobs:
           path: |
             buildWebGL.log
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      # - name: Notify on Slack
+      #   uses: ravsamhq/notify-slack-action@v2
+      #   if: ${{ always() && github.ref_name == 'development' }}
+      #   with:
+      #     status: ${{ job.status }}
+      #     notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+      #     message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+      #     footer: "Linked Repo <{repo_url}|{repo}>"
+      #     notify_when: "failure"
+      #     mention_groups: "alttester-pipelines,!here"
+      #     mention_groups_when: "failure"
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   build-ios:
     runs-on: [self-hosted, macOS]
@@ -79,19 +81,19 @@ jobs:
           path: |
             **/*.log
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      # - name: Notify on Slack
+      #   uses: ravsamhq/notify-slack-action@v2
+      #   if: ${{ always() && github.ref_name == 'development' }}
+      #   with:
+      #     status: ${{ job.status }}
+      #     notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+      #     message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+      #     footer: "Linked Repo <{repo_url}|{repo}>"
+      #     notify_when: "failure"
+      #     mention_groups: "alttester-pipelines,!here"
+      #     mention_groups_when: "failure"
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   build-android:
     runs-on: [self-hosted, macOS]
@@ -118,19 +120,19 @@ jobs:
           path: |
             **/*.log
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      # - name: Notify on Slack
+      #   uses: ravsamhq/notify-slack-action@v2
+      #   if: ${{ always() && github.ref_name == 'development' }}
+      #   with:
+      #     status: ${{ job.status }}
+      #     notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+      #     message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+      #     footer: "Linked Repo <{repo_url}|{repo}>"
+      #     notify_when: "failure"
+      #     mention_groups: "alttester-pipelines,!here"
+      #     mention_groups_when: "failure"
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-webgl-dotnet:
     needs: build-webgl
@@ -171,19 +173,19 @@ jobs:
           path: |
             **/*.log
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      # - name: Notify on Slack
+      #   uses: ravsamhq/notify-slack-action@v2
+      #   if: ${{ always() && github.ref_name == 'development' }}
+      #   with:
+      #     status: ${{ job.status }}
+      #     notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+      #     message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+      #     footer: "Linked Repo <{repo_url}|{repo}>"
+      #     notify_when: "failure"
+      #     mention_groups: "alttester-pipelines,!here"
+      #     mention_groups_when: "failure"
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-webgl-python:
     needs: build-webgl
@@ -232,19 +234,19 @@ jobs:
           name: webgl-python-logs
           path: "**/*.log"
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      # - name: Notify on Slack
+      #   uses: ravsamhq/notify-slack-action@v2
+      #   if: ${{ always() && github.ref_name == 'development' }}
+      #   with:
+      #     status: ${{ job.status }}
+      #     notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+      #     message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+      #     footer: "Linked Repo <{repo_url}|{repo}>"
+      #     notify_when: "failure"
+      #     mention_groups: "alttester-pipelines,!here"
+      #     mention_groups_when: "failure"
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-webgl-java:
     needs: build-webgl
@@ -292,19 +294,19 @@ jobs:
           path: |
             **/*.log
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      # - name: Notify on Slack
+      #   uses: ravsamhq/notify-slack-action@v2
+      #   if: ${{ always() && github.ref_name == 'development' }}
+      #   with:
+      #     status: ${{ job.status }}
+      #     notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+      #     message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+      #     footer: "Linked Repo <{repo_url}|{repo}>"
+      #     notify_when: "failure"
+      #     mention_groups: "alttester-pipelines,!here"
+      #     mention_groups_when: "failure"
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-ios-browserstack-python:
     needs: build-ios
@@ -314,7 +316,6 @@ jobs:
     env:
       RUN_IN_BROWSERSTACK: true
       RUN_IOS_IN_BROWSERSTACK: true
-
     steps:
       - uses: actions/checkout@v4
 
@@ -344,7 +345,7 @@ jobs:
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
           allure generate
           cd Bindings~/python/
-          pytest --alluredir=allure-report/ -m "not iOSUnsupported" tests/integration
+          pytest -n 2 -s -v --alluredir=allure-report/ -m "not iOSUnsupported" tests/integration
 
       - name: Generate Allure report
         if: always()
@@ -362,19 +363,19 @@ jobs:
               **/*.log
               ./allure-results-html/complete.html
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      # - name: Notify on Slack
+      #   uses: ravsamhq/notify-slack-action@v2
+      #   if: ${{ always() && github.ref_name == 'development' }}
+      #   with:
+      #     status: ${{ job.status }}
+      #     notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+      #     message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+      #     footer: "Linked Repo <{repo_url}|{repo}>"
+      #     notify_when: "failure"
+      #     mention_groups: "alttester-pipelines,!here"
+      #     mention_groups_when: "failure"
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-android-browserstack-python:
     needs: build-android
@@ -384,7 +385,6 @@ jobs:
     env:
       RUN_IN_BROWSERSTACK: true
       RUN_ANDROID_IN_BROWSERSTACK: true
-
     steps:
       - uses: actions/checkout@v4
 
@@ -413,7 +413,7 @@ jobs:
           export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
           cd Bindings~/python/
-          pytest tests/integration
+          pytest -n 2 -s -v tests/integration
 
       - name: Upload logs
         uses: actions/upload-artifact@v4
@@ -422,16 +422,16 @@ jobs:
           name: android-browserstack-python-logs
           path: "**/*.log"
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      # - name: Notify on Slack
+      #   uses: ravsamhq/notify-slack-action@v2
+      #   if: ${{ always() && github.ref_name == 'development' }}
+      #   with:
+      #     status: ${{ job.status }}
+      #     notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+      #     message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+      #     footer: "Linked Repo <{repo_url}|{repo}>"
+      #     notify_when: "failure"
+      #     mention_groups: "alttester-pipelines,!here"
+      #     mention_groups_when: "failure"
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}

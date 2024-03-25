@@ -27,8 +27,6 @@ from appium.webdriver.common.mobileby import MobileBy
 from appium.options.android import UiAutomator2Options
 from appium.options.ios import XCUITestOptions
 
-sys.stdout = sys.stderr
-
 devices = [
     {"name": "Samsung Galaxy S23", "os": "android", "os_version": "13.0"},
     {"name": "Google Pixel 6 Pro", "os": "android", "os_version": "13.0"},
@@ -40,9 +38,18 @@ devices = [
 ]
 
 local_run_device = [
-    {"name": "mac", "os": "OSX", "os_version": "mac"},
+    {"name": "local", "os": "", "os_version": ""},
 ]
 
+ios_devices_only = [
+    {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
+    {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
+]
+
+android_devices_only = [
+    {"name": "Samsung Galaxy S23", "os": "android", "os_version": "13.0"},
+    {"name": "Google Pixel 6", "os": "android", "os_version": "12.0"},
+]
 
 """Holds test fixtures that need to be shared among all tests."""
 
@@ -128,15 +135,25 @@ def log_to_report(message):
 def current_device(request, worker_id):
     global devices
     global local_run_device
+    global ios_devices_only
+    global android_devices_only
     current_device = None
     if os.environ.get("RUN_IN_BROWSERSTACK", "") != "true":
         current_device = local_run_device[0]
+    elif os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") == "true":
+        devices_to_use = android_devices_only
+    elif os.environ.get("RUN_IOS_IN_BROWSERSTACK", "") == "true":
+        devices_to_use = ios_devices_only
     else:
-        if worker_id == "master":
-            current_device = devices[0]
-        else:
-            index = int(worker_id.split("gw")[1])
-            current_device = devices[index]
+        devices_to_use = devices
+
+    if worker_id == "master":
+        current_device = devices_to_use[0]
+    else:
+        index = int(worker_id.split("gw")[1])
+        current_device = devices_to_use[index]
+        # with pytest xdist, only stderr is shown in the console
+        sys.stdout = sys.stderr
     log_to_report("Using device: {}".format(current_device))
     yield current_device
 
