@@ -54,6 +54,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
+        private bool websocketClosedCalled = false;
 
         private List<string> messageIdTimeouts = new List<string>();
 
@@ -88,8 +89,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             };
             this.wsClient.OnCloseEvent += (sender, e) =>
             {
+                websocketClosedCalled = true;
                 Console.WriteLine($"CloseEvent called: {e.Code}-{e.Reason} ");
             };
+            websocketClosedCalled = false;
 
             this.wsClient.Connect();
 
@@ -100,19 +103,18 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             Stopwatch watch = Stopwatch.StartNew();
             while (true)
             {
-                while (!messages.ContainsKey(param.messageId) && commandTimeout >= watch.Elapsed.TotalSeconds)
+                while (!messages.ContainsKey(param.messageId) && commandTimeout >= watch.Elapsed.TotalSeconds && !websocketClosedCalled)
                 {
                     Thread.Sleep(10);
                 }
 
-
+                if (websocketClosedCalled)
+                {
+                    throw new AltException("Driver disconnected");
+                }
                 if (commandTimeout < watch.Elapsed.TotalSeconds)
                 {
-                    if (!wsClient.IsAlive)//Because IsAlive is unreliable I moved the check if the connection is alive only when the timout for commmand was reached.
-                    {
-                        if (!wsClient.IsAlive)//Retry only once  TODO Decide if this is how we want to keep it
-                            throw new AltException("Driver disconnected");
-                    }
+
                     messageIdTimeouts.Add(param.messageId);
                     throw new CommandResponseTimeoutException();
                 }
@@ -166,7 +168,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public void Close()
         {
+
             logger.Info(string.Format("Closing connection to AltTester on: {0}", this.wsClient.URI));
+            websocketClosedCalled = true;
             this.wsClient.Close();
         }
 
