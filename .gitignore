@@ -140,3 +140,4 @@ aws-device-farm-example/wheelhouse/**
 
 ## Bindings
 Bindings~/**/*.meta
+sampleGame.app/
