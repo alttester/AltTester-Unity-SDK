@@ -138,6 +138,7 @@ def current_device(request, worker_id):
     global ios_devices_only
     global android_devices_only
     current_device = None
+    devices_to_use = None
     if os.environ.get("RUN_IN_BROWSERSTACK", "") != "true":
         current_device = local_run_device[0]
     elif os.environ.get("RUN_ANDROID_IN_BROWSERSTACK", "") == "true":
