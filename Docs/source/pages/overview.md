@@ -18,6 +18,7 @@ You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity E
 - support for Browserstack on Android and iOS
 - see test results and reports inside the Unity Editor
 - generate XML test report from the Editor Window
+- run tests concurrently on different devices
 
 
 ## How it works
