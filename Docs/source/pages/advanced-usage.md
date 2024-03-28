@@ -499,7 +499,7 @@ Keep in mind that, the tags given in the constructor will choose one random free
 ```eval_rst
 .. note::
 
-    Make sure that your **app names are different** in case you started multiple instrumented apps on the **same device**, otherwise your tests might fail because they are using the same resources (ex. values saved to `PlayerPref`).
+    Make sure that your **product name are different** in case you started multiple instrumented apps on the **same device**, otherwise your tests might fail because they are using the same resources (ex. values saved to `PlayerPref`).
 ```
 
 Ex1. Let's say we want to run a set of tests on all apps started on Windows 11 (the exact platform version is displayed in the green popup and in AltTester® Desktop). For that, use the following code snippet:
