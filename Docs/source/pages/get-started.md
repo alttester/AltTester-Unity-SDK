@@ -40,12 +40,12 @@ To instrument your Unity application with AltTester® Unity SDK you first need t
 
 -   Newtonsoft.Json
 
-In order for AltTester® Unity SDK to work you need dependency for Newtonsoft.Json. Add `"com.unity.nuget.newtonsoft-json": "3.0.1"` to your project `manifest.json`, inside `dependencies`.
+In order for AltTester® Unity SDK to work you need dependency for Newtonsoft.Json. Add `"com.unity.nuget.newtonsoft-json": "3.1.0"` to your project `manifest.json`, inside `dependencies`.
 
 ```json
 {
     "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.0.1"
+        "com.unity.nuget.newtonsoft-json": "3.1.0"
     }
 }
 ```

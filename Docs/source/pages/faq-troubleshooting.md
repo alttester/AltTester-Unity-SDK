@@ -10,7 +10,7 @@ PC, Mac, Android, iOS and Unity Editor; support for WebGL and Consoles is work i
 <details>
 <summary> What programming language can I use to write tests?</summary>
 <br>
- C#, Python and Java.
+ C#, Python, Java or Robot Framework.
 </details>
 <br>
 
@@ -74,12 +74,12 @@ You get this error due to multiple imports of Newtonsoft.Json.dll library. You c
 <br>
 You get this error because you don't have a reference to Newtonsoft.Json package.
 <br>
-Add `"com.unity.nuget.newtonsoft-json": "3.0.1"` to your project `manifest.json`, inside `dependencies`.
+Add `"com.unity.nuget.newtonsoft-json": "3.1.0"` to your project `manifest.json`, inside `dependencies`.
 
 ```
 {
     "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.0.1"
+        "com.unity.nuget.newtonsoft-json": "3.1.0"
     }
 }
 ```
