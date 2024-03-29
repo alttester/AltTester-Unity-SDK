@@ -1,6 +1,6 @@
 # Overview
 
-AltTester® Unity SDK is an open-source UI driven test automation tool that helps you find objects in your Unity application and interact with them using tests written in C#, Python or Java.
+AltTester® Unity SDK is an open-source UI driven test automation tool that helps you find objects in your Unity application and interact with them using tests written in C#, Python, Java or Robot Framework.
 
 You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity Editor.
 
@@ -13,7 +13,7 @@ You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity E
 - manipulate and generate test data
 - get screenshots from your Unity App
 - instrument your app and run C# tests from within the Unity Editor using the AltTester Editor window
-- run C#, Python or Java tests using your favorite IDE and against the app running on a device or inside the Unity Editor
+- run C#, Python, Java or Robot Framework tests using your favorite IDE and against the app running on a device or inside the Unity Editor
 - integrate with Appium tests for the ability to interact with native elements
 - support for Browserstack on Android and iOS
 - see test results and reports inside the Unity Editor
