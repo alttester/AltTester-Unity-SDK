@@ -114,7 +114,7 @@ class TestDriver:
             parameters=["AltServerFileRule"],
         )
 
-        # Default logging level in AltTester is Debug level
+        # Default logging level in AltTester® is Debug level
         assert len(rule["Levels"]) == 5
 
         self.altdriver.set_server_logging(AltLogger.File, AltLogLevel.Off)

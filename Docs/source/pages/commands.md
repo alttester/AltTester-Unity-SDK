@@ -4268,7 +4268,7 @@ There are several characters that you need to escape when you try to find an obj
 Is a solution offered by AltTester® Unity SDK in order to find object easier. This is an unique identifier stored in an component and added to every object.
 **A limitation of this is that only the object already in the scene before building the app will have an AltId. Object instantiated during run time will not have an AltId**
 
-To add AltId to every object simply just click _Add AltId to every object_ from AltTester menu.
+To add AltId to every object simply just click _Add AltId to every object_ from AltTester® menu.
 
 ![Add AltId](../_static/img/commands/add-alt-id.png)
 

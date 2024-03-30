@@ -16,9 +16,9 @@ To run the first test for your Unity app you need to:
 
 ```
 
-## Import AltTester package in Unity Editor
+## Import AltTester® package in Unity Editor
 
-To instrument your Unity application with AltTester® Unity SDK you first need to import the AltTester package into Unity. This can be done either by downloading from the AltTester® website, or by following the steps from the OpenUPM website.
+To instrument your Unity application with AltTester® Unity SDK you first need to import the AltTester® package into Unity. This can be done either by downloading from the AltTester® website, or by following the steps from the OpenUPM website.
 
 ```eval_rst
 
@@ -73,7 +73,7 @@ In order for AltTester® Unity SDK to work with your project you need the depend
 ```
 
 <!--
-To instrument your Unity application with AltTester® Unity SDK you first need to import the AltTester package into Unity.
+To instrument your Unity application with AltTester® Unity SDK you first need to import the AltTester® package into Unity.
 
 ```eval_rst
 
@@ -88,7 +88,7 @@ To instrument your Unity application with AltTester® Unity SDK you first need t
 
 .. important::
 
-    To make sure the import was correct, check if you can open the AltTester Editor window from Unity Editor -> AltTester -> AltTester Editor.
+    To make sure the import was correct, check if you can open the AltTester® Editor window from Unity Editor -> AltTester® -> AltTester® Editor.
 
 ```
 
@@ -98,8 +98,8 @@ To instrument your Unity application with AltTester® Unity SDK you first need t
 
 Steps:
 
-1. Open the AltTester Editor window from Unity Editor -> AltTester -> AltTester Editor <!--2. In the Build Settings section set the **AltServer host** to the IP/hostname of the device where the AltServer is running. Set the **AltServer port** to the port configured in the AltServer. -->
-2. In the Build Settings section set **AltTester Port** to 13000
+1. Open the AltTester® Editor window from Unity Editor -> AltTester® -> AltTester® Editor <!--2. In the Build Settings section set the **AltTester® Server host** to the IP/hostname of the device where the AltTester® Server is running. Set the **AltTester® Server port** to the port configured in the AltTester® Server. -->
+2. In the Build Settings section set **AltTester® Port** to 13000
 3. In the Scene Manager section select the scenes you want to include in your build
 4. In the Platform section select desired platform and set the path to where you want to save the build
 5. Press "Build Only" to instrument the app or "Build & Run" to start your instrumented app
@@ -114,7 +114,7 @@ Steps:
 
 .. note::
 
-    If you want to build your intrumented app from outside the AltTester Editor window you will have to make sure to uncheck the `Development Build` setting from the Build Settings menu in Unity (go to File -> Build Settings) after selecting your Scenes, as seen bellow.
+    If you want to build your intrumented app from outside the AltTester® Editor window you will have to make sure to uncheck the `Development Build` setting from the Build Settings menu in Unity (go to File -> Build Settings) after selecting your Scenes, as seen bellow.
 ```
 
 ![Build Settings menu from Unity](../_static/img/get-started/create-build-outside-alttestereditor.png)
@@ -146,9 +146,9 @@ Steps:
 
 ```
 
-## Start the AltServer Module
+## Start the AltTester® Server Module
 
-The AltServer Module is incorporated in AltTester® Desktop. In order to start it, all you have to do is to open AltTester® Desktop.
+The AltTester® Server Module is incorporated in AltTester® Desktop. In order to start it, all you have to do is to open AltTester® Desktop.
 
 ## Run your app in Unity or on desired platform
 
@@ -160,13 +160,13 @@ Before running your tests you need to start the instrumented Unity application. 
 
     .. tab:: Unity Editor
 
-        1. Open AltTester Editor
+        1. Open AltTester® Editor
         2. In platform section select Editor
         3. Click Play in Editor
 
     .. tab:: PC
 
-        1. Open AltTester Editor
+        1. Open AltTester® Editor
         2. In platform section select Standalone
         3. Choose your build target
         4. Click Build & Run
@@ -185,7 +185,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         Steps:
 
-        1. Open AltTester Editor
+        1. Open AltTester® Editor
         2. In platform section select Android
         3. Click Build & Run
 
@@ -198,7 +198,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         Steps:
 
-        1. Open AltTester Editor
+        1. Open AltTester® Editor
         2. In platform section select iOS
         3. Click Build & Run
 
@@ -208,7 +208,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
 .. note::
 
-    You can switch between the regular and the AltTester input by toggling the box with the `AltTester Input` label. Take into consideration that if you are using the New Input System, then after activating the AltTester input, you will only be able to interact with the instrumented build via your automated tests or the AltTester® Desktop.
+    You can switch between the regular and the AltTester® input by toggling the box with the `AltTester® Input` label. Take into consideration that if you are using the New Input System, then after activating the AltTester® input, you will only be able to interact with the instrumented build via your automated tests or the AltTester® Desktop.
 
 ```
 
@@ -221,7 +221,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         Steps:
 
-        1. Open AltTester Editor
+        1. Open AltTester® Editor
         2. In platform section select WebGL
         3. Click Build & Run
  -->
@@ -230,7 +230,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
 To write tests with AltTester® Unity SDK you need to import the AltDriver in your tests project.
 
-AltTester package contains AltDriver class used to connect to the instrumented app. In the setup method create an instance of the driver and in the tear-down method invoke the stop method of the driver. With the instance of the driver you can query the Unity objects and interact with the app.
+AltTester® package contains AltDriver class used to connect to the instrumented app. In the setup method create an instance of the driver and in the tear-down method invoke the stop method of the driver. With the instance of the driver you can query the Unity objects and interact with the app.
 
 ```eval_rst
 
@@ -238,12 +238,12 @@ AltTester package contains AltDriver class used to connect to the instrumented a
 
     .. tab:: C#-Unity
 
-        AltTester-Driver for C# is already included in AltTester package. If you are writing tests in C# then you can create your tests directly from Unity.
+        AltTester-Driver for C# is already included in AltTester® package. If you are writing tests in C# then you can create your tests directly from Unity.
 
         1.  Create a folder named Editor in your Unity Project.
         2.  Right-click on Editor folder and select `Create -> AltTest`. This will create a template file in which you could start to write your test.
         3.  Name the file MyFirstTest.
-        4.  Open AltTester Editor.
+        4.  Open AltTester® Editor.
         5.  Make sure that the AltTester® Desktop app is running (Starting with version ``2.0.0``, AltTester® Desktop must be running on your PC while the tests are running).
         6.  In the `Run Tests` section press "Run All Tests" button. You should see the output of the tests in Unity Editor Console
 
@@ -287,7 +287,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
             1. The AltTester® Desktop app is running.
             2. The instrumented build is running.
             3. Configure the IP of the build in order to match the IP of the machine (PC) the Desktop app is running on.
-            4. Then press the restart button in the AltTester dialog and wait until the `Connected to AltServer…` message is displayed in the dialog.
+            4. Then press the restart button in the AltTester® dialog and wait until the `Connected to AltTester® Server…` message is displayed in the dialog.
 
         **Test Setup:**
             - You can use any IDE you want. As a suggestion, we prefer `Visual Studio Code <https://code.visualstudio.com/>`_.
@@ -347,7 +347,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
             1. The AltTester® Desktop app is running.
             2. The instrumented build is running.
             3. Configure the IP of the build in order to match the IP of the machine (PC) the Desktop app is running on.
-            4. Then press the restart button in the AltTester dialog and wait until the `Connected to AltServer…` message is displayed in the dialog.
+            4. Then press the restart button in the AltTester® dialog and wait until the `Connected to AltTester® Server…` message is displayed in the dialog.
 
         **Test Setup:**
             - You can use any IDE that works with Java, but for this setup tutorial, we will use `IntelliJ <https://www.jetbrains.com/idea/download/#section=windows>`_.
@@ -398,7 +398,7 @@ AltTester package contains AltDriver class used to connect to the instrumented a
             1. The AltTester® Desktop app is running.
             2. The instrumented build is running.
             3. Configure the IP of the build in order to match the IP of the machine (PC) the Desktop app is running on.
-            4. Then press the restart button in the AltTester dialog and wait until the `Connected to AltServer…` message is displayed in the dialog.
+            4. Then press the restart button in the AltTester® dialog and wait until the `Connected to AltTester® Server…` message is displayed in the dialog.
 
         **Test Setup:**
             - We suggest using the ``git bash`` terminal type for all the commands below.
@@ -474,7 +474,7 @@ Now your project can use all the [AltDriver Commands](./commands.md).
 ```eval_rst
 
 .. note::
-    Before running your tests, start the AltServer and the Instrumented Unity app.
+    Before running your tests, start the AltTester® Server and the Instrumented Unity app.
 
 ```
 -->
@@ -482,6 +482,6 @@ Now your project can use all the [AltDriver Commands](./commands.md).
 ```eval_rst
 
 .. note::
-    Before the connection step, start the instrumented app and wait for the green popup with the message: `Waiting to connect to AltServer on IP:port with app name: 'your app name'`.
+    Before the connection step, start the instrumented app and wait for the green popup with the message: `Waiting to connect to AltTester® Server on IP:port with app name: 'your app name'`.
 
 ```

@@ -41,8 +41,8 @@ namespace AltTester.AltTesterUnitySDK.Driver
         /// <summary>
         /// Initiates AltDriver and begins connection with the instrumented Unity application through to AltServer.
         /// </summary>
-        /// <param name="host">The IP or hostname AltServer is listening on.</param>
-        /// <param name="port">The port AltServer is listening on.</param>
+        /// <param name="host">The IP or hostname AltTester® Server is listening on.</param>
+        /// <param name="port">The port AltTester® Server is listening on.</param>
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
         /// <param name="appName">The name of the Unity application.</param>
@@ -62,7 +62,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
             }
 
             logger.Debug(
-                "Connecting to AltTester on host: '{0}', port: '{1}', appName: '{2}', platform: '{3}', platformVersion: '{4}', deviceInstanceId: '{5}' and driverType: '{6}'.",
+                "Connecting to AltTester® on host: '{0}', port: '{1}', appName: '{2}', platform: '{3}', platformVersion: '{4}', deviceInstanceId: '{5}' and driverType: '{6}'.",
                 host,
                 port,
                 appName,
@@ -98,7 +98,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
             if (majorServer != majorDriver || minorServer != minorDriver)
             {
-                string message = "Version mismatch. AltDriver version is " + VERSION + ". AltTester version is " + serverVersion + ".";
+                string message = "Version mismatch. AltDriver version is " + VERSION + ". AltTester® version is " + serverVersion + ".";
                 logger.Warn(message);
             }
         }

@@ -102,7 +102,7 @@ public class AltObject {
     }
 
     /**
-     * Returns the parent of the AltTester object on which it is called
+     * Returns the parent of the AltTester® object on which it is called
      *
      * @return - The parent object
      */
@@ -115,7 +115,7 @@ public class AltObject {
     }
 
     /**
-     * Returns the screen position of the AltTester object
+     * Returns the screen position of the AltTester® object
      *
      * @return - The screen position
      */
@@ -124,7 +124,7 @@ public class AltObject {
     }
 
     /**
-     * Returns the world position of the AltTester object
+     * Returns the world position of the AltTester® object
      *
      * @return - The world position
      */

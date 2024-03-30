@@ -102,7 +102,7 @@ class CouldNotPerformOperationException(AltException):
 
 
 class CouldNotParseJsonStringException(AltException):
-    """Raised when AltTester could not parse an JSON command."""
+    """Raised when AltTester® could not parse an JSON command."""
 
 
 class NullReferenceException(AltException):

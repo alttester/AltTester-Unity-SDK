@@ -1,9 +1,9 @@
-# AltTester Editor
+# AltTester® Editor
 
-The GUI refers to the AltTester Editor window that is displayed when
-adding the AltTester package in Unity.
+The GUI refers to the AltTester® Editor window that is displayed when
+adding the AltTester® package in Unity.
 
-![AltTester Editor Screenshot](../_static/img/alttester-editor/editor-screenshot.png)
+![AltTester® Editor Screenshot](../_static/img/alttester-editor/editor-screenshot.png)
 
 In the following sections you can see a breakdown of all the sections in the GUI.
 
@@ -21,7 +21,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 .. note::
 
-    Make sure that each time you modify anything in the test script (e.g. test's name, code, add or delete a test etc.) before running tests in the AltTester Editor you click the Refresh button to update the tests list.
+    Make sure that each time you modify anything in the test script (e.g. test's name, code, add or delete a test etc.) before running tests in the AltTester® Editor you click the Refresh button to update the tests list.
 
 ```
 
@@ -64,14 +64,14 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     Will add "ALTTESTER" to the scripting define symbols. This is usually done automatically when entering in play mode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
-- *AltServer Host*
+- *AltTester® Server Host*
 
-    Refers to the host the AltServer is listening on.
+    Refers to the host the AltTester® Server is listening on.
     You can change this value and make a new app build if you want to use another host.
 
-- *AltServer Port*
+- *AltTester® Server Port*
 
-    Refers to the port the AltServer is listening on.
+    Refers to the port the AltTester® Server is listening on.
     You can change this value and make a new app build if you want to use another port.
 
 - *Reset Connection Data*
