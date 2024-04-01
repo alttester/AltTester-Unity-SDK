@@ -3,21 +3,21 @@
 This guide covers some of the more advanced features, patterns and
 configuration options of AltTester® Unity SDK.
 
-## AltTester input
+## AltTester® input
 
-AtTester Unity SDK has an `Input` class which overrides the Input class implemented by Unity. This way AltTester® intercepts the input actions to be performed in the instrumented app and simulates them through this class.
+AltTester® Unity SDK has an `Input` class which overrides the Input class implemented by Unity. This war® intercepts the input actions to be performed in the instrumented app and simulates them through this class.
 In case you are using assembly definitions inside your project, you will have to reference the `AltTesterUnitySDK.asmdef` in all your .asmdef files which use input actions.
 
-## AltTester input vs. regular input
+## AltTester® input vs. regular input
 
-AltTester®'s custom input is active, by default, in any instrumented build. This means that certain input related actions (the ones that are part of Unity's `Input` class) will be inactive for regular input (the device's input). Because of this, pressing a key from the keyboard for example will not have any effect on the app. However, the simulated input from the tests, like the `PressKey` command, will be able to manipulate the object within the scene. While the AltTester input is active, the icon from the right bottom corner is green. You can change this behaviour by clicking on the AltTester®'s icon and unchecking the box with the `AltTester Input` message. Now the icon will turn darker, signaling that the regular input is active. In this state, you can interfere with the object from the app using the keyboard or other input. Keep in mind that, input actions from the AltTester® Desktop won't have any effect while regular input is active. At the same time, if you want to run some automated tests, the AltTester input will be activated automatically for you.
+AltTester®'s custom input is active, by default, in any instrumented build. This means that certain input related actions (the ones that are part of Unity's `Input` class) will be inactive for regular input (the device's input). Because of this, pressing a key from the keyboard for example will not have any effect on the app. However, the simulated input from the tests, like the `PressKey` command, will be able to manipulate the object within the scene. While the AltTester® input is active, the icon from the right bottom corner is green. You can change this behaviour by clicking on the AltTester®'s icon and unchecking the box with the `AltTester® Input` message. Now the icon will turn darker, signaling that the regular input is active. In this state, you can interfere with the object from the app using the keyboard or other input. Keep in mind that, input actions from the AltTester® Desktop won't have any effect while regular input is active. At the same time, if you want to run some automated tests, the AltTester® input will be activated automatically for you.
 
 ## Build apps from the command line
 
 To build your Unity application from command line you need a static method in
 your project that handles the build logic. To instrument your Unity application
 with AltTester® Unity SDK, your build method must define `ALTTESTER` scripting
-symbol and must insert AltTester Prefab in the first scene of the app.
+symbol and must insert AltTester® Prefab in the first scene of the app.
 
 Depending on your project's setup, there are two ways in which apps can be
 built from the command line:
@@ -27,9 +27,9 @@ built from the command line:
 .. note::
 
     AltTester® Unity SDK does not work by default in release mode. If you instrument
-    your app in release mode, AltTester Prefab self removes from the scenes and
+    your app in release mode, AltTester® Prefab self removes from the scenes and
     the socket server does not start. Best case practice is to customize your
-    build script to insert AltTester Prefab only in Debug mode.
+    build script to insert AltTester® Prefab only in Debug mode.
 
     If you do want to use AltTester® Unity SDK in release mode see
     `Using AltTester® Unity SDK in Release mode section <#using-alttester-unity-sdk-in-release-mode>`_.
@@ -97,7 +97,7 @@ You can find more information about the build command and arguments
 
 ## How to make a production build
 
-There is no need to remove the AltTester package entirely from the project, only the `ALTTESTER` Scripting Define Symbol should be deleted from the Player Settings. Also, make sure that the `Keep ALTTESTER symbol defined` checkbox is unchecked. After that, you can build your app normally as you would do in Unity.
+There is no need to remove the AltTester® package entirely from the project, only the `ALTTESTER` Scripting Define Symbol should be deleted from the Player Settings. Also, make sure that the `Keep ALTTESTER symbol defined` checkbox is unchecked. After that, you can build your app normally as you would do in Unity.
 
 ## Run tests from the command line
 
@@ -196,7 +196,7 @@ Reverse port forwarding, is the behind-the-scenes process of intercepting
 data traffic and redirecting it from a device's IP and/or port to the computer's IP and/or port.
 
 When you run your app instrumented with AltTester® Unity SDK on a device, you need
-to tell your build how to connect to the AltServer.
+to tell your build how to connect to the AltTester® Server.
 
 Reverse port forwarding can be set up either through the command line or in the
 test code by using the methods available in the AltTester® SDK classes.
@@ -223,13 +223,13 @@ For further information including how to install ADB, check [this article](https
 
 Unfortunately, IProxy does not have a way of setting up reverse port forwarding. As a workaround, to connect the device via USB you should follow the steps below:
 - set the iOS device as a Personal Hotspot 
-- enable Hotspot via USB on the machine running the AltServer 
+- enable Hotspot via USB on the machine running the AltTester® Server 
   - for this to work, you need to make sure that you have the `Disable unless needed` toggle disabled in the Network settings for the USB connection
   ```eval_rst
     .. image:: ../_static/img/advanced-usage/connect-via-hotspot-USB_iOS.png
   ```
   - the hotspot network and the first device to connect to it are most of the time on `172.20.10.2` so you could set this IP for builds for iOS
-- add the IP of the machine running the AltServer to the first input field in the green popup from the instrumented app/game
+- add the IP of the machine running the AltTester® Server to the first input field in the green popup from the instrumented app/game
 
 In the routing table, the personal hotspot network would be secondary, therefore the traffic shouldn't be redirected through the hotspot:
 
@@ -322,7 +322,7 @@ In the routing table, the personal hotspot network would be secondary, therefore
     The port can be changed from the green popup. Make sure to press `Restart` after modifying its value.
 ```
 
-## Connect AltTester® Unity SDK running inside the app to AltServer
+## Connect AltTester® Unity SDK running inside the app to AltTester® Server
 
 There are multiple scenarios:
 
@@ -336,9 +336,9 @@ There are multiple scenarios:
 
 ![reverse port forwarding case 1](../_static/img/advanced-usage/case1.png)
 
-1. Start AltServer on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
-2. Open your instrumented app on the same machine. It will automatically connect to AltServer. The server identifies the app using the **appName**.
-3. Connect your tests to the server using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission happens on localhost.
+1. Start AltTester® Server on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
+2. Open your instrumented app on the same machine. It will automatically connect to AltTester® Server. The server identifies the app using the **appName**.
+3. Connect your tests to the server using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltTester® Server, the instrumented app and your tests are using **the same port**. Data transmission happens on localhost.
 
 ```eval_rst
 .. tabs::
@@ -361,10 +361,10 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
 ![reverse port forwarding case 2](../_static/img/advanced-usage/case2.png)
 
-1. Start AltServer on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
+1. Start AltTester® Server on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
 2. Open your instrumented app on your device.
-3. Use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) to direct the data traffic from the device's port to the computer's port. After this, your app will be connected to AltServer. The server identifies the app using the **appName**.
-4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission happens on localhost.
+3. Use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) to direct the data traffic from the device's port to the computer's port. After this, your app will be connected to AltTester® Server. The server identifies the app using the **appName**.
+4. Connect your tests to AltTester® Server using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltTester® Server, the instrumented app and your tests are using **the same port**. Data transmission happens on localhost.
 
 ```eval_rst
 .. tabs::
@@ -385,10 +385,10 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
 ![reverse port forwarding case 3](../_static/img/advanced-usage/case3.png)
 
-1. Start AltServer on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
+1. Start AltTester® Server on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
 2. Open your instrumented app on your device. 
-3. Change the host from the green popup in your instrumented build to the machine's IP AltServer is running on. The server identifies the app using the **appName**.
-4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between device and server happens on the host's IP.
+3. Change the host from the green popup in your instrumented build to the machine's IP AltTester® Server is running on. The server identifies the app using the **appName**.
+4. Connect your tests to AltTester® Server using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltTester® Server, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between device and server happens on the host's IP.
 
 ```eval_rst
 .. tabs::
@@ -412,10 +412,10 @@ In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when
 #### Connection through IP
 ![reverse port forwarding case 4](../_static/img/advanced-usage/case4.png)
 
-1. Start AltServer on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
+1. Start AltTester® Server on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
 2. Open your instrumented app on your devices. Make sure they have different names. In case you want to change the name, you can do that in the green popup. There is no need to make another instrumented build.
-3. Change the hosts from the green popups in your instrumented builds to the machine's IP AltServer is running on. The server identifies the apps using the **appName**.
-4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. You will need to create **2 AltDrivers** as you have 2 devices. AltDriver1 will communicate with device1 and AltDriver2 with device2. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between devices and server happens on the host's IP.
+3. Change the hosts from the green popups in your instrumented builds to the machine's IP AltTester® Server is running on. The server identifies the apps using the **appName**.
+4. Connect your tests to AltTester® Server using the line below in your **OneTimeSetup()**. You will need to create **2 AltDrivers** as you have 2 devices. AltDriver1 will communicate with device1 and AltDriver2 with device2. Start your tests on the machine used before. Make sure that AltTester® Server, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between devices and server happens on the host's IP.
 
 ```eval_rst
 .. tabs::
@@ -451,10 +451,10 @@ Ex. with 2 Android devices:
 #### Connection through IP
 ![reverse port forwarding case 5](../_static/img/advanced-usage/case5.png)
 
-1. Start AltServer on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
+1. Start AltTester® Server on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
 2. Open your instrumented apps on your device. Make sure they have different names. In case you want to change the name, you can do that in the green popup. There is no need to make another instrumented build.
-3. Change the hosts from the green popups in your instrumented builds to the machine's IP AltServer is running on. The server identifies the apps using the **appName**.
-4. Connect your tests to AltServer using the line below in your **OneTimeSetup()**. You will need to create **2 AltDrivers** as you have 2 apps. AltDriver1 will communicate with app1 and AltDriver2 with app2. Start your tests on the machine used before. Make sure that AltServer, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between device and server happens on the host's IP.
+3. Change the hosts from the green popups in your instrumented builds to the machine's IP AltTester® Server is running on. The server identifies the apps using the **appName**.
+4. Connect your tests to AltTester® Server using the line below in your **OneTimeSetup()**. You will need to create **2 AltDrivers** as you have 2 apps. AltDriver1 will communicate with app1 and AltDriver2 with app2. Start your tests on the machine used before. Make sure that AltTester® Server, the instrumented app and your tests are using **the same port**. Data transmission between tests and server happens on localhost; transmission between device and server happens on the host's IP.
 
 ```eval_rst
 .. tabs::
@@ -682,7 +682,7 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
             /* start AltDriver with logging enabled */
             altDriver = new AltDriver("127.0.0.1", 13000, true);
 
-            /* disable logging for com.AltTester logger */
+            /* disable logging for com.AltTester® logger */
             final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
             final Configuration config = ctx.getConfiguration();
             config.getLoggerConfig("com.AltTester").setLevel(Level.OFF);

@@ -39,7 +39,7 @@ These give you access to a virtual machine or a Docker container that has a clou
 <details>
 <summary> Do I need access to the source code of the Unity App to write tests?</summary>
 <br>
-In order to run tests using AltTester® Unity SDK you require an <a href="get-started.html#instrument-your-app-with-alttester-unity-sdk">instrumented build</a> of the Unity App. To create an instrumented build of the Unity App you need to <a href="get-started.html#import-alttester-package-in-unity-editor">import</a> the AltTester package in Unity Editor.
+In order to run tests using AltTester® Unity SDK you require an <a href="get-started.html#instrument-your-app-with-alttester-unity-sdk">instrumented build</a> of the Unity App. To create an instrumented build of the Unity App you need to <a href="get-started.html#import-alttester-package-in-unity-editor">import</a> the AltTester® package in Unity Editor.
 </details>
 <br>
 
@@ -124,10 +124,10 @@ To use the Input from AltTester® Unity SDK you have to reference <strong>AltTes
 <br>
 
 <details>
-<summary> I downloaded the AltTester package v1.7.2 from the documentation on MacOS. I got a warning pop-up about the input system where I chose 'Yes' because I am using the New Input System. After reopening Unity Editor, <strong>AltTester® Unity SDK is missing.</strong></summary>
+<summary> I downloaded the AltTester® package v1.7.2 from the documentation on MacOS. I got a warning pop-up about the input system where I chose 'Yes' because I am using the New Input System. After reopening Unity Editor, <strong>AltTester® Unity SDK is missing.</strong></summary>
 <br>
 
-After reopening Unity Editor, add again the AltTester package in your project.
+After reopening Unity Editor, add again the AltTester® package in your project.
 <br>
 
 </details>

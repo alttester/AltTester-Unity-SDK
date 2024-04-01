@@ -633,7 +633,7 @@ namespace AltTesterTools
             LabelTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var LabelText = Label.GetComponent<Text>();
-            LabelText.text = "AltTester input";
+            LabelText.text = "AltTester® input";
             LabelText.fontSize = 18;
             LabelText.alignment = TextAnchor.MiddleLeft;
 
@@ -682,13 +682,13 @@ namespace AltTesterTools
             }
         }
 
-        [UnityEditor.MenuItem("AltTester/Create AltTester Prefab", false, 80)]
+        [UnityEditor.MenuItem("AltTester®/Create AltTester® Prefab", false, 80)]
         public static void CreateAltTesterPrefab()
         {
             var prefab = CreatePrefab();
             SavePrefab(prefab);
         }
-        [UnityEditor.MenuItem("AltTester/Create AltTester Prefab Without Checking Equality", false, 90)]
+        [UnityEditor.MenuItem("AltTester®/Create AltTester® Prefab Without Checking Equality", false, 90)]
         public static void CreateAltTesterPrefabWithoutCheck()
         {
             var prefab = CreatePrefab();

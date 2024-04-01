@@ -32,7 +32,7 @@ from .commands.Notifications.load_scene_mode import LoadSceneMode
 
 
 class Store:
-    """Stores the responses from AltServer."""
+    """Stores the responses from AltTester® Server."""
 
     def __init__(self, dict=None):
         self._store = dict or defaultdict(deque)
@@ -57,7 +57,7 @@ class Store:
 
 
 class NotificationHandler:
-    """Handles the parsing of the notification messages from AltServer."""
+    """Handles the parsing of the notification messages from AltTester® Server."""
 
     def __init__(self):
         self._notification_callbacks = defaultdict(list)
@@ -104,7 +104,7 @@ class NotificationHandler:
 
 
 class CommandHandler:
-    """Handles the parsing of command messages from AltServer."""
+    """Handles the parsing of command messages from AltTester® Server."""
 
     def __init__(self):
         self._store = Store()
@@ -143,7 +143,7 @@ class CommandHandler:
 
 
 class WebsocketConnection:
-    """Handles the websocket connection with AltServer.
+    """Handles the websocket connection with AltTester® Server.
 
     Args:
         host (:obj:`str`, optional): The host to connect to. Defaults to ``127.0.0.1``.
@@ -211,7 +211,7 @@ class WebsocketConnection:
             if self._close_message[0] == 4005:
                 raise exceptions.AppDisconnectedError(reason)
 
-            raise exceptions.ConnectionError("Connection closed by AltServer with reason: {}.".format(reason))
+            raise exceptions.ConnectionError("Connection closed by AltTester® Server with reason: {}.".format(reason))
 
     def _check_errors(self):
         if self._errors:
@@ -248,7 +248,7 @@ class WebsocketConnection:
         """A callback which is called when the connection is closed."""
 
         logger.debug(
-            "Connection to AltServer closed with status code: {} and message: '{}'.",
+            "Connection to AltTester® Server closed with status code: {} and message: '{}'.",
             close_status_code,
             close_msg
         )
@@ -291,7 +291,7 @@ class WebsocketConnection:
             self.close()
 
             raise exceptions.ConnectionTimeoutError(
-                "Failed to connect to AltServer host: {} port: {}.".format(self.host, self.port)
+                "Failed to connect to AltTester® Server host: {} port: {}.".format(self.host, self.port)
             )
 
     def send(self, data):
@@ -320,7 +320,7 @@ class WebsocketConnection:
             raise exceptions.CommandResponseTimeoutException()
 
     def close(self):
-        logger.info("Closing connection to AltServer on host: {} port: {}", self.host, self.port)
+        logger.info("Closing connection to AltTester® Server on host: {} port: {}", self.host, self.port)
 
         if self._websocket:
             self._websocket.close()

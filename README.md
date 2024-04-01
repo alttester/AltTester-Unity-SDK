@@ -18,7 +18,7 @@ Our documentation is available here:
 ### Build a Unity package from source
 
 1. Open your project in Unity.
-1. From `AltTester` menu choose `Create AltTester Package`.
+1. From `AltTester` menu choose `Create AltTester® Package`.
 1. See the created unity package under the project.
 
 ## Contributing

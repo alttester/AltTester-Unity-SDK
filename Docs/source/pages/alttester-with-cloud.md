@@ -47,7 +47,7 @@ An important aspect of running tests on BrowserStack is that there’s a [local 
 
 #### **Prerequisites**
 - Test suite - we used [EXAMPLES-TrashCat-Tests](https://github.com/alttester/EXAMPLES-TrashCat-Tests)
-- AltTester® Desktop app installed for running AltServer
+- AltTester® Desktop app installed for running AltTester® Server
 - [BrowserStack account](https://www.browserstack.com/users/sign_in?utm_source=google&utm_medium=cpc&utm_platform=paidads&utm_content=610276476173&utm_campaign=Search-Brand-Tier2-EMEA-CL&utm_campaigncode=BrowserStack.com+1011804&utm_term=p+browserstack%20com) - there is a free plan available that offers 100 min to run tests
 - .NET `v5.0+` and NUnit `v3.0.0+`
 
@@ -241,7 +241,7 @@ In this file add code that will:
 
 **6. Have AltTester® Server running on local machine**
 
-One of the [architectural changes from v2.0.0](https://alttester.com/alttester-desktop-2-0-0-alttester-unity-sdk-2-0-0-recorder-support-for-webgl-and-architectural-changes/) is that the AltServer module is incorporated in AltTester® Desktop. In order to be able to execute tests, you need to have the **AltTester® Desktop running** so that the AltDriver from the tests can connect to the local server. You can download the free version from [our website](https://alttester.com/alttester/#pricing).
+One of the [architectural changes from v2.0.0](https://alttester.com/alttester-desktop-2-0-0-alttester-unity-sdk-2-0-0-recorder-support-for-webgl-and-architectural-changes/) is that the AltTester® Server module is incorporated in AltTester® Desktop. In order to be able to execute tests, you need to have the **AltTester® Desktop running** so that the AltDriver from the tests can connect to the local server. You can download the free version from [our website](https://alttester.com/alttester/#pricing).
 
 **7. Run the tests**
 
@@ -249,7 +249,7 @@ Make sure AltTester® Desktop is running, the environment variables are set and 
 
 ### BrowserStack with GitHub Actions C# project example
 
-A benefit that comes with the GitHub integration is that you don't need to have the AltTester® Desktop app running on your computer in order to run the tests. In this case **AltServer** is running on another machine, making it possible for any team member to trigger the workflow that runs the tests on BrowserStack.
+A benefit that comes with the GitHub integration is that you don't need to have the AltTester® Desktop app running on your computer in order to run the tests. In this case **AltTester® Server** is running on another machine, making it possible for any team member to trigger the workflow that runs the tests on BrowserStack.
 
 You can download our example project from [here](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat). Also, for more details check [this article](https://alttester.com/how-to-run-alttester-based-c-tests-on-browserstack-using-github-actions/) from our Blog.
 
@@ -260,7 +260,7 @@ You can download our example project from [here](https://github.com/alttester/EX
 
 ```
 
-For this integration, the best solution is to create and use a **self-hosted runner** because it allows you to install and run the AltTester® Desktop app that keeps AltServer active at all times. Starting with the [AltTester® Unity SDK 2.0.0](https://alttester.com/alttester-desktop-2-0-0-alttester-unity-sdk-2-0-0-recorder-support-for-webgl-and-architectural-changes/) update it is required to have AltServer running in order to run tests.
+For this integration, the best solution is to create and use a **self-hosted runner** because it allows you to install and run the AltTester® Desktop app that keeps AltTester® Server active at all times. Starting with the [AltTester® Unity SDK 2.0.0](https://alttester.com/alttester-desktop-2-0-0-alttester-unity-sdk-2-0-0-recorder-support-for-webgl-and-architectural-changes/) update it is required to have AltTester® Server running in order to run tests.
 
 #### **Local testing connection using BrowserStackLocal**
 
@@ -284,10 +284,10 @@ In this case we need a connection between the self-hosted runner that executes t
 
 For creating this testing context a Windows machine was defined as runner, but it is possible to use other systems as well. Please follow the [GitHub documentation](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners) for more details.
 
-**1. Create a self-hosted runner and have AltServer running**
+**1. Create a self-hosted runner and have AltTester® Server running**
 
 - the `Listening for jobs` line confirms that it is up and running
-- now [download](https://alttester.com/alttester/#pricing), install and open the AltTester® Desktop app (which contains AltServer)
+- now [download](https://alttester.com/alttester/#pricing), install and open the AltTester® Desktop app (which contains AltTester® Server)
 
 **2. Upload a test build of your app in BrowserStack and get the generated URL**
 
@@ -517,7 +517,7 @@ SauceLabs provides **automated testing solutions** for web and mobile applicatio
 
 You can create a free trial SauceLabs account where you get 2000 credits per week (which is enough to run some test suites multiple times on their free devices and emulators).
 
-One of the [architectural changes from v2.0.0](https://alttester.com/alttester-desktop-2-0-0-alttester-unity-sdk-2-0-0-recorder-support-for-webgl-and-architectural-changes/) is that the AltServer module is incorporated in AltTester® Desktop. In order to be able to execute tests, we need to have an **AltTester® Desktop app running and publicly reachable**/accessible so that the AltDriver that is instantiated in the tests and **the instrumented app can connect to the AltServer**.
+One of the [architectural changes from v2.0.0](https://alttester.com/alttester-desktop-2-0-0-alttester-unity-sdk-2-0-0-recorder-support-for-webgl-and-architectural-changes/) is that the AltTester® Server module is incorporated in AltTester® Desktop. In order to be able to execute tests, we need to have an **AltTester® Desktop app running and publicly reachable**/accessible so that the AltDriver that is instantiated in the tests and **the instrumented app can connect to the AltTester® Server**.
 
 ### SauceLabs C# project example
 
@@ -525,7 +525,7 @@ You can download our example project from [here](https://github.com/alttester/EX
 
 <!-- To update here when there are updates -->
 At the moment of creating this section of the documentation for the case of having the AltTester® Desktop app running on the same machine where the tests are running the instrumented app was not able to connect to localhost successfully, due to the fact that the 
-[Sauce Connect Tunnel Proxy](https://docs.saucelabs.com/secure-connections/sauce-connect/setup-configuration/basic-setup/) implementation was not yet compatible with the WebSocket used in AltServer. But more recently, SauceLabs confirmed that WebSocket communication is now working for tunnel connections between tests and cloud devices. For this reason, we are now working on running the tests using **Sauce Connect Tunnel Proxy** and we will provide setup instructions shortly.
+[Sauce Connect Tunnel Proxy](https://docs.saucelabs.com/secure-connections/sauce-connect/setup-configuration/basic-setup/) implementation was not yet compatible with the WebSocket used in AltTester® Server. But more recently, SauceLabs confirmed that WebSocket communication is now working for tunnel connections between tests and cloud devices. For this reason, we are now working on running the tests using **Sauce Connect Tunnel Proxy** and we will provide setup instructions shortly.
 
 In this example, the AltTester® Desktop app is running on a **public virtual machine**, which **can be accessed by the instrumented app** installed on a device in the cloud.
 
@@ -539,7 +539,7 @@ For this purpose, an [Azure virtual machine](https://azure.microsoft.com/en-us/p
 
 - virtual machine **network settings**
     - the virtual machine used for this example is running on **Windows Server 2019 Datacenter, x64 architecture**, Gen2 - it is configured with inbound and outbound rules
-    - besides the default port rules created, in order to make AltServer visible by external devices, it was needed to create an Inbound port rule for *Protocol*: **TCP**, *Port*: **13000** and *Source*: **Any** (destination)
+    - besides the default port rules created, in order to make AltTester® Server visible by external devices, it was needed to create an Inbound port rule for *Protocol*: **TCP**, *Port*: **13000** and *Source*: **Any** (destination)
 
     ```eval_rst
     .. image:: ../_static/img/alttester-with-cloud/sauce-labs-virtual-machine-settings1.png
@@ -684,7 +684,7 @@ In this file add code that will:
 
 - initialize AltDriver with custom IP for the Host parameter
 
-    - Since the AltServer is running and listening on the Windows VM previously created, the test classes need to know how to connect to it. In order to enable this connection, the Host parameter can be used when AltDriver is instantiated in the `BaseTest.cs` file.
+    - Since the AltTester® Server is running and listening on the Windows VM previously created, the test classes need to know how to connect to it. In order to enable this connection, the Host parameter can be used when AltDriver is instantiated in the `BaseTest.cs` file.
 
     - To overcome slow build launches causing test failures due to insufficient waiting, instantiate the `altDriver` with a `connectTimeout` of `3000`.
     ```c#
@@ -737,7 +737,7 @@ You can find your tests results in the designated section **Tests Results**
 
 Amazon offers another great alternative to cloud mobile testing, in the form of [**AWS Device Farm**](https://docs.aws.amazon.com/devicefarm/index.html). You can register for free and get a 1000 device minutes trial period (a credit card will be required for registration).
 
-Because the application is instrumented with AltUnityTester SDK with a version ≥ v2.0.0, AltServer is no longer integrated into the instrumented application. In order to connect to AltServer, AltTester® Desktop needs to be running and accessible from the devices running inside the AWS Device Farm. 
+Because the application is instrumented with AltUnityTester SDK with a version ≥ v2.0.0, AltTester® Server is no longer integrated into the instrumented application. In order to connect to AltTester® Server, AltTester® Desktop needs to be running and accessible from the devices running inside the AWS Device Farm. 
 
 You can connect to AltTester® Desktop in two ways:
 
@@ -764,7 +764,7 @@ You can download our example project from [here](https://github.com/alttester-te
 
 **1. Prepare the application**
 - instrument the TrashCat application using AltTester® Unity SDK `v2.1.0`- For additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x).
-- Based on your option to connect to AltTester® Desktop you need to set AltServer Host of the instrumented app to:
+- Based on your option to connect to AltTester® Desktop you need to set AltTester® Server Host of the instrumented app to:
     - localhost (`127.0.0.1`) - for local connection 
     - IP/URL provided by the AWS Instance where AltTester® Desktop is running - for remote connection
 
@@ -800,7 +800,7 @@ Make sure to place all the files in the root directory.
 Keep in mind that the setup is different for Android and iOS. 
 
 - **for local connection**
-    - here are the commands needed in the Configuration file to run [AltServer in batchmode](https://alttester.com/docs/desktop/latest/pages/advanced-usage.html#running-altserver-in-terminal). You can choose to include these commands in your test code or add it in the Test Configuration file like in our example.
+    - here are the commands needed in the Configuration file to run [AltTester® Server in batchmode](https://alttester.com/docs/desktop/latest/pages/advanced-usage.html#running-altserver-in-terminal). You can choose to include these commands in your test code or add it in the Test Configuration file like in our example.
 
         ```
         - export LICENSE_KEY=$(cat license.txt)
@@ -829,7 +829,7 @@ Keep in mind that the setup is different for Android and iOS.
         - kill -2 `ps -ef | awk '/AltTesterDesktop.x86_64/{print $2}'`
         - ./AltTesterDesktop.x86_64 -batchmode -nographics -removeActivation
         ```
-- **for remote connection** - a way to connect to AltServer, within the AltTester® Desktop application is by installing AltTester® Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
+- **for remote connection** - a way to connect to AltTester® Server, within the AltTester® Desktop application is by installing AltTester® Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
     - create a [Windows instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2Win_Infrastructure.html) 
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-windows-instance.png
@@ -1016,7 +1016,7 @@ Keep in mind that the setup is different for Android and iOS.
         dotnet test
         ```
 - **for local connection**
-    - here are the commands needed in the Configuration file to run [AltServer in batchmode](https://alttester.com/docs/desktop/latest/pages/advanced-usage.html#running-altserver-in-terminal). You can choose to include these commands in your test code or add it in the Test Configuration file like in our example.
+    - here are the commands needed in the Configuration file to run [AltTester® Server in batchmode](https://alttester.com/docs/desktop/latest/pages/advanced-usage.html#running-altserver-in-terminal). You can choose to include these commands in your test code or add it in the Test Configuration file like in our example.
 
         ```
         - export LICENSE_KEY=$(cat license.txt)
@@ -1046,7 +1046,7 @@ Keep in mind that the setup is different for Android and iOS.
         - ./AltTesterDesktop.x86_64 -batchmode -nographics -removeActivation
         ```
 
-- **for remote connection** - a way to connect to AltServer, within the AltTester® Desktop application is by installing AltTester® Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
+- **for remote connection** - a way to connect to AltTester® Server, within the AltTester® Desktop application is by installing AltTester® Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
     - create a [Windows instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2Win_Infrastructure.html) 
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-windows-instance.png
@@ -1120,13 +1120,13 @@ In this dashboard you can have an overview of the setup combinations we tried an
 ```eval_rst
 .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-connectivity-dashboard.png
 ```
-*because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build cannot connect to AltServer on localhost.
+*because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build cannot connect to AltTester® Server on localhost.
 
 As in the case of running [Client-Side Appium testing](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/), we need to deal with the connectivity between: the test script (where we instantiate [AltDriver](https://alttester.com/docs/sdk/2.1.0/pages/commands.html#altdriver)), AltTester® Desktop and the instrumented application installed on a device in the cloud.
 
 In a local environment, setting up is relatively simple since all three components are co-located and can interact with each other on the localhost at port 13000. For communication with a USB-connected device on **Android**, [reverse port forwarding](https://alttester.com/docs/sdk/2.1.0/pages/commands.html#altreverseportforwarding) is employed to establish connectivity.
 
-For **iOS** devices, things are not so straightforward because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build does not connect to AltServer - please [consult a workaround from the documentation for further details](https://alttester.com/docs/sdk/2.1.0/pages/advanced-usage.html#in-case-of-ios). 
+For **iOS** devices, things are not so straightforward because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build does not connect to AltTester® Server - please [consult a workaround from the documentation for further details](https://alttester.com/docs/sdk/2.1.0/pages/advanced-usage.html#in-case-of-ios). 
 
 Because we used BitBar’s free plan, we got a machine and we do not have control over what IP it has on each test session. If you are considering doing the same, we strongly recommend having **AltTester® Desktop** installed and launched on a machine which is in your control.
 
@@ -1138,7 +1138,7 @@ When starting a server-side running test session with **Android devices**, BitBa
     In order to start the **AltTester® Desktop in batchmode**, it is required you have an **AltTester® Pro license**.
 ```
 
-For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltServer can not be made, so please setup a machine of your choice and install AltTester® Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.1.0.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.1.0.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
+For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltTester® Server can not be made, so please setup a machine of your choice and install AltTester® Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.1.0.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.1.0.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
 
 ### BitBar C# project example running server-side
 
@@ -1148,7 +1148,7 @@ Using a `run-tests.sh` we can install all that is needed, run tests and prepare 
 
 For more details check [this article](https://alttester.com/run-c-tests-with-appium-and-alttester-in-bitbar-server-side/) from our Blog.
 
-#### Prerequisites for running AltServer
+#### Prerequisites for running AltTester® Server
 
 You can connect to AltTester® Desktop in two ways in order to run the tests server-side:
 
@@ -1175,7 +1175,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
     ```eval_rst
 
         .. note::
-            You can have AltServer waiting for connections either by starting it manually via GUI or you can use a cmd to start in batchmode (the ease of running in batch mode comes with the requirement to have an **AltTester® Pro license**).
+            You can have AltTester® Server waiting for connections either by starting it manually via GUI or you can use a cmd to start in batchmode (the ease of running in batch mode comes with the requirement to have an **AltTester® Pro license**).
     ```
     - since in our example we chose the batchmode option, we have to set up the path of the AltTester® Desktop app executable in the system **PATH environment variable**
     - then from *Azure portal Operations* > *Run Command* option we choose: *RunPowerShellScript*
@@ -1188,7 +1188,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
         AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
         ```
 
-    We have now a VM where AltServer is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
+    We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
 
 **B. A local connection**
 
@@ -1224,7 +1224,7 @@ You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) fil
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
 
-Based on your option to connect to AltTester® Desktop you need to set the AltServer Host of the instrumented app to:
+Based on your option to connect to AltTester® Desktop you need to set the AltTester® Server Host of the instrumented app to:
 - localhost (`127.0.0.1`) - for local connection 
 - IP/URL provided by the Bitbar Ubuntu VM where AltTester® Desktop is running - for remote connection
 
@@ -1314,11 +1314,11 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
     ```
 
     - initialize AltDriver:
-        - **for remote connection**: AltDriver needs to connect to another VM where is AltServer
+        - **for remote connection**: AltDriver needs to connect to another VM where is AltTester® Server
         ```c#
         altDriver = new AltDriver(host: "INSERT_VM_IP");
         ```    
-        - **for local connection**: AltDriver and AltServer are on the same BitBar machine
+        - **for local connection**: AltDriver and AltTester® Server are on the same BitBar machine
         ```c#
         altDriver = new AltDriver();
         ```  
@@ -1335,13 +1335,13 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
 - when running tests on iOS devices, the `run-tests.sh` needs to be adapted as well - be aware of the different *end of file* for OSX machines.
 
 - **for local connection**
-    - here is what the archived package contains to be able to execute tests server-side when AltServer is running on the machine offered by BitBar:
+    - here is what the archived package contains to be able to execute tests server-side when AltTester® Server is running on the machine offered by BitBar:
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-remote-connection-zip-archive.png
     ```
 
 - **for remote connection**
-    - here is what the archived package contains to be able to execute tests server-side when AltServer is running on a separate machine, not on the one offered by BitBar:
+    - here is what the archived package contains to be able to execute tests server-side when AltTester® Server is running on a separate machine, not on the one offered by BitBar:
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-local-connection-zip-archive.png
     ```
@@ -1388,7 +1388,7 @@ An automated test session starts **simultaneously** on all the devices from the 
 
 ### BitBar C# project example running client-side
 
-Running the tests from your machine offers better control over the environment. The only thing we need to set up is the connectivity between the **devices from the cloud**, **the AltDriver** (from test scripts) and **the AltServer module** from the AltTester® Desktop app.
+Running the tests from your machine offers better control over the environment. The only thing we need to set up is the connectivity between the **devices from the cloud**, **the AltDriver** (from test scripts) and **the AltTester® Server module** from the AltTester® Desktop app.
 
 For more details check [this article](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/) from our Blog.
 
@@ -1401,10 +1401,10 @@ In this dashboard you can have an overview of the setup combinations we tried an
 ```eval_rst
 
 .. important::
-    Currently **running client-side tests with AltServer on the same machine is failing** even if SmartBear SecureTunnel is connected. We assume this is happening due to WebSocket implementation and incompatibility with AltServer.
+    Currently **running client-side tests with AltTester® Server on the same machine is failing** even if SmartBear SecureTunnel is connected. We assume this is happening due to WebSocket implementation and incompatibility with AltTester® Server.
 ```
 
-#### Prerequisites for running AltServer (remote connection)
+#### Prerequisites for running AltTester® Server (remote connection)
 
 - AltTester® Desktop is opened in a remote location in a **Windows Azure VM** (accessible by both tests and game build through IP)
 - the conditions for the connection to work:
@@ -1427,7 +1427,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
 ```eval_rst
 
     .. note::
-        You can have AltServer waiting for connections either by starting it manually via GUI or you can use a cmd to start in batchmode (the ease of running in batch mode comes with the requirement to have an **AltTester® Pro license**).
+        You can have AltTester® Server waiting for connections either by starting it manually via GUI or you can use a cmd to start in batchmode (the ease of running in batch mode comes with the requirement to have an **AltTester® Pro license**).
 ```
 - since in our example we chose the batchmode option, we have to set up the path of the AltTester® Desktop app executable in the system **PATH environment variable**
 - then from *Azure portal Operations* > *Run Command* option we choose: *RunPowerShellScript*
@@ -1440,7 +1440,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
     AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
      ```
 
-We have now a VM where AltServer is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
+We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
 
 #### **Preparation steps**
 
@@ -1521,7 +1521,7 @@ After you finish setting up the build, you need to use the **Archive** option to
             .. code-block:: C#
 
                 capabilities.AddAdditionalCapability("bitbar_apiKey", BITBAR_APIKEY);
-                capabilities.AddAdditionalCapability("bitbar_project", "client-side: AltServer on custom host; Android");
+                capabilities.AddAdditionalCapability("bitbar_project", "client-side: AltTester® Server on custom host; Android");
                 capabilities.AddAdditionalCapability("bitbar_testrun", "Start Page Tests on Samsung");
                 capabilities.AddAdditionalCapability("bitbar_app", BITBAR_APP_ID_SDK_202);
 
@@ -1549,7 +1549,7 @@ After you finish setting up the build, you need to use the **Archive** option to
             .. code-block:: C#
 
                 capabilities.AddAdditionalCapability("bitbar_apiKey", BITBAR_APIKEY);
-                capabilities.AddAdditionalCapability("bitbar_project", "client-side: AltServer on custom host; iOS");
+                capabilities.AddAdditionalCapability("bitbar_project", "client-side: AltTester® Server on custom host; iOS");
                 capabilities.AddAdditionalCapability("bitbar_testrun", "Start Page Tests on Apple iPhone SE 2020 A2296 13.4.1");
                 capabilities.AddAdditionalCapability("bitbar_app", BITBAR_APP_ID_SDK_202_IPA);
 
@@ -1610,7 +1610,7 @@ Using a `run-tests.sh` we can install all that is needed, run tests and prepare 
 
 You can download our example BitBar project FROM [here](https://github.com/alttester-test-examples/Python-Bitbar-AltTrashCat).
 
-#### Prerequisites for running AltServer
+#### Prerequisites for running AltTester® Server
 
 You can connect to AltTester® Desktop in two ways in order to run the tests server-side:
 
@@ -1637,7 +1637,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
     ```eval_rst
 
         .. note::
-            You can have AltServer waiting for connections either by starting it manually via GUI or you can use a cmd to start in batchmode (the ease of running in batch mode comes with the requirement to have an **AltTester® Pro license**).
+            You can have AltTester® Server waiting for connections either by starting it manually via GUI or you can use a cmd to start in batchmode (the ease of running in batch mode comes with the requirement to have an **AltTester® Pro license**).
     ```
     - since in our example we chose the batchmode option, we have to set up the path of the AltTester® Desktop app executable in the system **PATH environment variable**
     - then from *Azure portal Operations* > *Run Command* option we choose: *RunPowerShellScript*
@@ -1650,7 +1650,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
         AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
         ```
 
-    We have now a VM where AltServer is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
+    We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
 
 **B. A local connection**
 
@@ -1686,7 +1686,7 @@ You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) fil
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
 
-Based on your option to connect to AltTester® Desktop you need to set the AltServer Host of the instrumented app to:
+Based on your option to connect to AltTester® Desktop you need to set the AltTester® Server Host of the instrumented app to:
 - localhost (`127.0.0.1`) - for local connection 
 - IP/URL provided by the Bitbar Ubuntu VM where AltTester® Desktop is running - for remote connection
 
@@ -1767,11 +1767,11 @@ Based on your option to connect to AltTester® Desktop you need to set the AltSe
     ```
 
     - initialize AltDriver:
-        - **for remote connection**: AltDriver needs to connect to another VM where is AltServer
+        - **for remote connection**: AltDriver needs to connect to another VM where is AltTester® Server
         ```python
         cls.altdriver = AltDriver(host="INSERT_VM_IP")
         ```    
-        - **for local connection**: AltDriver and AltServer are on same BitBar machine
+        - **for local connection**: AltDriver and AltTester® Server are on same BitBar machine
         ```python
         cls.altdriver = AltDriver()
         ```  
@@ -1784,14 +1784,14 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
 - when running tests on iOS devices, the `run-tests.sh` needs to be adapted as well - be aware of the different *end of file* for OSX machines.
 
 - **for remote connection**
-    - here is what the archived package contains to be able to execute tests server-side when AltServer is running on the machine offered by BitBar:
+    - here is what the archived package contains to be able to execute tests server-side when AltTester® Server is running on the machine offered by BitBar:
         - the `requirements.txt` file
         - the `tests` folder (which contains also the `pages` folder) - don`t forget to add the IP/URL of the remote VM when defining AltDriver in ``base_test.py``
 
         Our example repository already contains a [script](https://github.com/alttester/EXAMPLES-Python-Bitbar-AltTrashCat/blob/server-side-ios-VM-IP/create-bitbar-package.sh) to create the required package for iOS. Just run the `create-bitbar-package.sh` script and it will create a ``.zip`` file, containing all the files required to execute the tests.
 
 - **for local connection**
-    - here is what the archived package contains to be able to execute tests server-side when AltServer is running on a separate machine, not on the one offered by BitBar:
+    - here is what the archived package contains to be able to execute tests server-side when AltTester® Server is running on a separate machine, not on the one offered by BitBar:
         - a `license.txt` file which will store your AltTester® Desktop PRO license, needed to run batch mode commands - if you only have 1 seat per license please remove the activation in other places before using it here
         - the `requirements.txt` file
         - the `tests` folder (which contains also the `pages` folder)
@@ -1839,7 +1839,7 @@ An automated test session starts **simultaneously** on all the devices from the 
 
 ### BitBar Python project example running client-side
 
-Running the tests from your machine offers better control over the environment. The only thing we need to set up is the connectivity between the **devices from the cloud**, **the AltDriver** (from test scripts) and **the AltServer module** from the AltTester® Desktop app.
+Running the tests from your machine offers better control over the environment. The only thing we need to set up is the connectivity between the **devices from the cloud**, **the AltDriver** (from test scripts) and **the AltTester® Server module** from the AltTester® Desktop app.
 
 In this dashboard you can have an overview of the setup combinations we tried and which were successful:
 ```eval_rst
@@ -1850,10 +1850,10 @@ In this dashboard you can have an overview of the setup combinations we tried an
 ```eval_rst
 
 .. important::
-    Currently **running client-side tests with AltServer on the same machine is failing** even if SmartBear SecureTunnel is connected. We assume this is happening due to WebSocket implementation and incompatibility with AltServer.
+    Currently **running client-side tests with AltTester® Server on the same machine is failing** even if SmartBear SecureTunnel is connected. We assume this is happening due to WebSocket implementation and incompatibility with AltTester® Server.
 ```
 
-#### Prerequisites for running AltServer (remote connection)
+#### Prerequisites for running AltTester® Server (remote connection)
 
 - AltTester® Desktop is opened in a remote location in a **Windows Azure VM** (accessible by both tests and game build through IP)
 - the conditions for the connection to work:
@@ -1876,7 +1876,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
 ```eval_rst
 
     .. note::
-        You can have AltServer waiting for connections either by starting it manually via GUI or you can use a cmd to start in batchmode (the ease of running in batch mode comes with the requirement to have an **AltTester® Pro license**).
+        You can have AltTester® Server waiting for connections either by starting it manually via GUI or you can use a cmd to start in batchmode (the ease of running in batch mode comes with the requirement to have an **AltTester® Pro license**).
 ```
 - since in our example we chose the batchmode option, we have to set up the path of the AltTester® Desktop app executable in the system **PATH environment variable**
 - then from *Azure portal Operations* > *Run Command* option we choose: *RunPowerShellScript*
@@ -1889,7 +1889,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
     AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
      ```
 
-We have now a VM where AltServer is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
+We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
 
 #### **Preparation steps**
 
@@ -1961,7 +1961,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 
                 options.set_capability("bitbar_apikey", BITBAR_APIKEY)
                 options.set_capability("bitbar_app", BITBAR_APP_ID_SDK_202)
-                options.set_capability("bitbar_project", "client-side: AltServer on custom host; Android")
+                options.set_capability("bitbar_project", "client-side: AltTester® Server on custom host; Android")
                 options.set_capability("bitbar_testrun", "Start Page Tests on Samsung")
                 options.set_capability("bitbar_device", "Samsung Galaxy A52 -US")                
 
@@ -1988,7 +1988,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 
                 options.set_capability("bitbar_apiKey", BITBAR_APIKEY);
                 options.set_capability("bitbar_app", BITBAR_APP_ID_SDK_202_IPA);
-                options.set_capability("bitbar_project", "client-side: AltServer on custom host; iOS");
+                options.set_capability("bitbar_project", "client-side: AltTester® Server on custom host; iOS");
                 options.set_capability("bitbar_testrun", "Start Page Tests on Apple iPhone SE 2020 A2296 13.4.1");
                 
 

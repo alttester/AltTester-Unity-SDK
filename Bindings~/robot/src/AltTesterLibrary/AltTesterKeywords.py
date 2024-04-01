@@ -87,7 +87,7 @@ class AltTesterKeywords(object):
         self._driver.stop()
 
     def get_command_response_timeout(self):
-        """Gets the current command response timeout for the AltTester connection.
+        """Gets the current command response timeout for the AltTester® connection.
 
         Example:
 
@@ -96,7 +96,7 @@ class AltTesterKeywords(object):
         return self._driver.get_command_response_timeout()
 
     def set_command_response_timeout(self, timeout):
-        """Sets the command response timeout for the AltTester connection.
+        """Sets the command response timeout for the AltTester® connection.
 
         timeout : The new command response timeout in seconds.
 
@@ -374,7 +374,7 @@ class AltTesterKeywords(object):
                                                        timeout=timeout, interval=interval, enabled=enabled)
 
     def set_command_response_timeout(self, timeout):
-        """Sets the command response timeout for the AltTester connection.
+        """Sets the command response timeout for the AltTester® connection.
 
         timeout: The new command response timeout in seconds.
 

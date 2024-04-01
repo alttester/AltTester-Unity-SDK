@@ -90,7 +90,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     throw new MultipleDriversException(this.closeReason);
                 }
 
-                throw new ConnectionException(string.Format("Connection closed by AltServer with reason: {0}.", this.closeReason));
+                throw new ConnectionException(string.Format("Connection closed by AltTester® Server with reason: {0}.", this.closeReason));
             }
         }
 
@@ -115,7 +115,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         protected void OnClose(object sender, CloseEventArgs e)
         {
-            logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
+            logger.Debug("Connection to AltTester® closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
             OnCloseEvent.Invoke(this, e);
             this.closeCode = e.Code;
             this.closeReason = e.Reason;
@@ -176,7 +176,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
             if (watch.Elapsed.TotalSeconds > this.connectTimeout && !wsClient.IsAlive)
             {
-                throw new ConnectionTimeoutException(string.Format("Failed to connect to AltServer on host: {0} port: {1}.", this.host, this.port));
+                throw new ConnectionTimeoutException(string.Format("Failed to connect to AltTester® Server on host: {0} port: {1}.", this.host, this.port));
             }
 
             logger.Debug(string.Format("Connected to: '{0}'.", this.uri));
@@ -184,7 +184,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public void Close()
         {
-            logger.Info(string.Format("Closing connection to AltServer on: '{0}'.", this.uri));
+            logger.Info(string.Format("Closing connection to AltTester® Server on: '{0}'.", this.uri));
             this.wsClient.Close();
         }
 

@@ -61,7 +61,7 @@ connected to the tests or to AltTester® Desktop.
 objects. The New Input System actions for UI objects are not affected, as well
 as the Old Input System actions.
 
-AltTester Editor
+AltTester® Editor
 ----------------
 
 Playing in Editor throws ``EntryPointNotFoundException: WebSocketSetOnOpen assembly:<unknown assembly> type:<unknown type> member:(null)``
@@ -82,12 +82,12 @@ Play in Editor does not start the instrumented app in the Unity Editor
 
 **Affects**: AltTester® Unity SDK v1.8.*, AltTester® Unity SDK v2.0.0
 
-Opening AltTester Editor throws ``IndexOutOfRangeException: Index was outside the bounds of the array``
+Opening AltTester® Editor throws ``IndexOutOfRangeException: Index was outside the bounds of the array``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Problem**: Sometimes when opening the AltTester Editor window ``IndexOutOfRangeException: Index was outside the bounds of the array`` is thrown.
+**Problem**: Sometimes when opening the AltTester® Editor window ``IndexOutOfRangeException: Index was outside the bounds of the array`` is thrown.
 
-**Workaround**: Close and reopen the AltTester Editor window.
+**Workaround**: Close and reopen the AltTester® Editor window.
 
 **Affects**: AltTester® Unity SDK v2.0.0, v2.0.1
 

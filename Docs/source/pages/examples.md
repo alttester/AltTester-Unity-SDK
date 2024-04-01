@@ -33,7 +33,7 @@ We plan to add more examples in the near future.
 
 * C# tests [SampleScenes](https://alttester.com/app/uploads/AltTester/sdks/SampleScenes.unitypackage)
 
-    Import this package under your AltTester package in Unity, to have access to the SampleScenes and C# tests.
+    Import this package under your AltTester® package in Unity, to have access to the SampleScenes and C# tests.
 
 
 **3.** Example test projects for AltTester® Unity SDK v.2.0.1 and the New Input System:

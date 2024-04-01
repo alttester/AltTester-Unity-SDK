@@ -94,7 +94,7 @@ public class AltDriver {
             throw new InvalidParameterException("Provided host address is null or empty.");
         }
 
-        logger.debug("Connecting to AltTester on host: '{}', port: '{}' and appName: '{}'.", host, port, appName);
+        logger.debug("Connecting to AltTester® on host: '{}', port: '{}' and appName: '{}'.", host, port, appName);
         this.connection = new WebsocketConnection(host, port, appName, connectTimeout, platform, platformVersion,
                 deviceInstanceId, appId);
         this.connection.connect();
@@ -138,7 +138,7 @@ public class AltDriver {
 
         if (!majorServer.equals(majorDriver) || !minorServer.equals(minorDriver)) {
             String message = String.format(
-                    "Version mismatch. AltDriver version is %s. AltTester version is %s.",
+                    "Version mismatch. AltDriver version is %s. AltTester® version is %s.",
                     AltDriver.VERSION, serverVersion);
             logger.warn(message);
             System.out.println(message);
@@ -155,9 +155,9 @@ public class AltDriver {
     }
 
     /**
-     * Gets the AltTester version, used to instrument the app.
+     * Gets the AltTester® version, used to instrument the app.
      *
-     * @return AltTester version
+     * @return AltTester® version
      */
     public String getServerVersion() {
         return new GetServerVersionCommand(this.connection.messageHandler).Execute();
