@@ -48,6 +48,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private ClientWebSocket wsClient = null;
         public event EventHandler<MessageEventArgs> OnMessage;
         public event EventHandler<CloseEventArgs> OnCloseEvent;
+        public bool driverRegisteredCalled = false;
 
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
         public string URI { get { return this.uri; } }
@@ -117,6 +118,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         {
             logger.Debug("Connection to AltTester® closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
             OnCloseEvent.Invoke(this, e);
+            driverRegisteredCalled = false;
             this.closeCode = e.Code;
             this.closeReason = e.Reason;
         }
@@ -161,10 +163,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 {
                     logger.Debug(string.Format("Connection error: {0}", e.Message));
                 }
-                Thread.Sleep(delay);
-                if (wsClient.IsAlive)
+                float waitForNotification = 0;
+                while (waitForNotification < 5000)
                 {
-                    break;
+                    if (driverRegisteredCalled)
+                    {
+                        logger.Debug(string.Format("Connected to: '{0}'.", this.uri));
+                        return;
+                    }
+                    Thread.Sleep(delay);
+                    waitForNotification += delay;
                 }
 
                 retries++;
@@ -179,12 +187,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 throw new ConnectionTimeoutException(string.Format("Failed to connect to AltTester® Server on host: {0} port: {1}.", this.host, this.port));
             }
 
-            logger.Debug(string.Format("Connected to: '{0}'.", this.uri));
         }
 
         public void Close()
         {
-            logger.Info(string.Format("Closing connection to AltTester® Server on: '{0}'.", this.uri));
+            logger.Info(string.Format("Closing connection to AltServer on: '{0}'.", this.uri));
+            driverRegisteredCalled = false;
             this.wsClient.Close();
         }
 
