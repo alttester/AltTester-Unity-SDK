@@ -59,7 +59,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             {
                 if (e.IsText)
                 {
-                    UnityEngine.Debug.Log(e.Data);
                     if (e.Data.Contains("driverRegistered"))
                     {
                         WsClient.driverRegisteredCalled = true;

@@ -48,7 +48,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private ClientWebSocket wsClient = null;
         public event EventHandler<MessageEventArgs> OnMessage;
         public event EventHandler<CloseEventArgs> OnCloseEvent;
-        public bool driverRegisteredCalled = false;
 
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
         public string URI { get { return this.uri; } }
