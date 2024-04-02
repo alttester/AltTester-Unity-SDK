@@ -174,7 +174,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     Thread.Sleep(delay);
                     waitForNotification += delay;
                 }
-
+                if (wsClient.IsAlive)//Added this to be also backward compatible but it will be slower
+                {
+                    break;
+                }
                 retries++;
             }
 
@@ -185,6 +188,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             {
                 throw new ConnectionTimeoutException(string.Format("Failed to connect to AltTester® Server on host: {0} port: {1}.", this.host, this.port));
             }
+            logger.Debug(string.Format("Connected to: '{0}'.", this.uri));
 
         }
 

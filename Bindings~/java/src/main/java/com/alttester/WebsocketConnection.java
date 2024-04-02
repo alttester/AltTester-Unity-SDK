@@ -183,7 +183,11 @@ public class WebsocketConnection {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
                 waitForNotification += delay;
+            }
+            if (session.isOpen()) {// Added this to be also backward compatible but it will be slower
+                break;
             }
 
             retries++;

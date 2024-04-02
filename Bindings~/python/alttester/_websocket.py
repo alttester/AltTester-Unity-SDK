@@ -293,7 +293,9 @@ class WebsocketConnection:
                 time.sleep(self.delay)
                 wait_for_notification += self.delay
             elapsed_time += wait_for_notification
-            self.close()
+
+            if self._is_open:  # Added this to be also backward compatible but it will be slower
+                return
 
         self._check_close_message()
         self._check_errors()
