@@ -61,7 +61,8 @@ extlinks = {
     "alttesterpage":                    ("https://alttester.com/alttester/%s", None),
     "alttesterdesktopdocumentation":    (alttester_sdk_docs_link, None),
     "alttestersdkdownload":             (alttester_sdk_download_link, None),
-    "alttesteriphoneblog":              ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
+    "alttesteriphoneblog":              ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None),
+    "stagingSDKdownload":               ("https://staging-alttesterdotcom-staging.kinsta.cloud/downloads/", None)
 }
 
 # -- General configuration ---------------------------------------------------
