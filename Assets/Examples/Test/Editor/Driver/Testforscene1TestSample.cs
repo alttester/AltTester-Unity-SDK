@@ -24,6 +24,8 @@ using NUnit.Framework;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
+    [TestFixture]
+    [Parallelizable]
     [Timeout(30000)]
     public class TestForScene1TestSample : TestBase
     {

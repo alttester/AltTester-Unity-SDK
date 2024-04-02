@@ -18,6 +18,8 @@
 using AltTester.AltTesterUnitySDK.Driver;
 using NUnit.Framework;
 
+[TestFixture]
+[Parallelizable]
 [Ignore("No Android pipeline is set up yet")]
 public class TestReversePortForwarding
 {
