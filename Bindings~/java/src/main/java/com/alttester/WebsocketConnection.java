@@ -62,7 +62,7 @@ public class WebsocketConnection {
 
     public Session session = null;
     public IMessageHandler messageHandler = null;
-    public bool driverRegisteredCalled = false;
+    public boolean driverRegisteredCalled = false;
 
     public WebsocketConnection(String host, int port, String appName, int connectTimeout, String platform,
             String platformVersion, String deviceInstanceId, String appId) {
@@ -175,10 +175,14 @@ public class WebsocketConnection {
             float waitForNotification = 0;
             while (waitForNotification < 5000) {
                 if (driverRegisteredCalled) {
-                    logger.Debug(String.Format("Connected to: '{0}'.", this.uri));
+                    logger.debug("Connected to: '{}'.", uri);
                     return;
                 }
-                Thread.Sleep(delay);
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 waitForNotification += delay;
             }
 

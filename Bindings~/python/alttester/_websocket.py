@@ -240,7 +240,7 @@ class WebsocketConnection:
         response = json.loads(message)
 
         if response.get("isNotification"):
-            if "registeredDriver" in message:
+            if "driverRegistered" in message:
                 self._driver_registered_called = True
             else:
                 self._notification_handler.handle_notification(response)
@@ -286,9 +286,9 @@ class WebsocketConnection:
         while self.timeout is None or elapsed_time < self.timeout:
             self._create_connection()
             wait_for_notification = 0
-            while wait_for_notification < 5000:
+            while wait_for_notification < 5:
                 if self._driver_registered_called:
-                    logger.debug("Connected to: '{0}'.".format(self.uri))
+                    logger.debug("Connected to: '{0}'.".format(self.url))
                     return
                 time.sleep(self.delay)
                 wait_for_notification += self.delay
