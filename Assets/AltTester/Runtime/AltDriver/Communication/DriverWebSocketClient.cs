@@ -176,7 +176,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 }
 
                 retries++;
-                Thread.Sleep(delay); // Delay between retries.
             }
 
             this.CheckCloseMessage();
