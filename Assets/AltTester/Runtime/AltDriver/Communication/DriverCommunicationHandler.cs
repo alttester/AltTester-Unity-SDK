@@ -242,7 +242,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     }
                     break;
                 case "driverRegistered":
-                    wsClient.driverRegisteredCalled = true;
+                    wsClient.DriverRegisteredCalled = true;
                     break;
             }
         }

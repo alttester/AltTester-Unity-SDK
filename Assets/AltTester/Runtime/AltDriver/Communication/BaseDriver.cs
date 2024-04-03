@@ -61,7 +61,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 {
                     if (e.Data.Contains("driverRegistered"))
                     {
-                        WsClient.driverRegisteredCalled = true;
+                        WsClient.DriverRegisteredCalled = true;
                         return;
                     }
                     OnMessageData.Invoke(this, e.Data);

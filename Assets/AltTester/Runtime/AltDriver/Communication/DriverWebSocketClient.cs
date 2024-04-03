@@ -51,6 +51,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
         public string URI { get { return this.uri; } }
+        public bool DriverRegisteredCalled = false;
 
         public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType)
         {
@@ -117,7 +118,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         {
             logger.Debug("Connection to AltTester® closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
             OnCloseEvent.Invoke(this, e);
-            driverRegisteredCalled = false;
+            DriverRegisteredCalled = false;
             this.closeCode = e.Code;
             this.closeReason = e.Reason;
         }
@@ -165,7 +166,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 float waitForNotification = 0;
                 while (waitForNotification < 5000)
                 {
-                    if (driverRegisteredCalled)
+                    if (DriverRegisteredCalled)
                     {
                         logger.Debug(string.Format("Connected to: '{0}'.", this.uri));
                         return;
@@ -194,7 +195,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         public void Close()
         {
             logger.Info(string.Format("Closing connection to AltServer on: '{0}'.", this.uri));
-            driverRegisteredCalled = false;
+            DriverRegisteredCalled = false;
             this.wsClient.Close();
         }
 
