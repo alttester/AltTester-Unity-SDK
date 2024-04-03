@@ -26,7 +26,7 @@ To instrument your Unity application with AltTester® Unity SDK you first need t
 
     .. tab:: UnityPackage from AltTester® website
 
-        1. Download from :stagingSDKdownload:`AltTester® <>`.
+        1. Download from :alttesterpage:`AltTester® <downloads/>`.
         2. Import it by drag and drop inside your Unity project.
 
     .. tab:: UnityPackage from OpenUPM website
