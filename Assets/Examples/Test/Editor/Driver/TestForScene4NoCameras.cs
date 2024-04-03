@@ -21,6 +21,8 @@ using NUnit.Framework;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
+    [TestFixture]
+    [Parallelizable]
     public class TestForScene4NoCameras : TestBase
     {
         public TestForScene4NoCameras()

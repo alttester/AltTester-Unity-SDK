@@ -23,6 +23,8 @@ using NUnit.Framework;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
+    [TestFixture]
+    [Parallelizable]
     [Timeout(10000)]
     public class TestForScene2DraggablePanel : TestBase
     {
