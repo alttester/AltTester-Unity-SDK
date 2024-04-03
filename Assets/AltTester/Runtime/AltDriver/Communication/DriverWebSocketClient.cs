@@ -194,7 +194,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public void Close()
         {
-            logger.Info(string.Format("Closing connection to AltTester® on: '{0}'.", this.uri));
+            logger.Info(string.Format("Closing connection to AltTester® Server on: '{0}'.", this.uri));
             DriverRegisteredCalled = false;
             this.wsClient.Close();
         }
