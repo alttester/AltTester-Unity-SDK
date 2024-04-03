@@ -16,7 +16,7 @@ applications.
 
 - AltTester® Desktop is an application allowing users to inspect the
   object hierarchy and interact with their app outside the Unity Editor. Get
-  AltTester® Desktop from :alttesterpage:`our website <>`.
+  AltTester® Desktop from :alttesterpage:`our website <downloads/>`.
 
 
 Documentation

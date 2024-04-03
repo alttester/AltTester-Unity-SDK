@@ -58,7 +58,7 @@ alttester_sdk_download_link = "https://alttester.com/app/uploads/AltTester/sdks/
     sdk_release_version + ".unitypackage%s"
 
 extlinks = {
-    "alttesterpage":                    ("https://alttester.com/alttester/%s", None),
+    "alttesterpage":                    ("https://alttester.com/%s", None),
     "alttesterdesktopdocumentation":    (alttester_sdk_docs_link, None),
     "alttestersdkdownload":             (alttester_sdk_download_link, None),
     "alttesteriphoneblog":              ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
