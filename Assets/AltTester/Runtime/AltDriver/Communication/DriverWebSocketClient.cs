@@ -116,7 +116,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         protected void OnClose(object sender, CloseEventArgs e)
         {
-            logger.Debug("Connection to AltTester® closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
+            logger.Debug("Connection to AltTester® Server closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
             OnCloseEvent.Invoke(this, e);
             DriverRegisteredCalled = false;
             this.closeCode = e.Code;
