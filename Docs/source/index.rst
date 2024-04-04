@@ -57,7 +57,8 @@ Documentation
    :hidden:
 
    Source Code <https://github.com/alttester/AltTester-Unity-SDK>
-   PyPi <https://pypi.org/project/AltTester-Driver/>
+   PyPi Python <https://pypi.org/project/AltTester-Driver/>
+   PyPi Robot <https://pypi.org/project/alttester-robotframework-library/0.0.1/>
    NuGet <https://www.nuget.org/packages/AltTester-Driver/>
    Maven Repository <https://mvnrepository.com/artifact/com.alttester/alttester>
    OpenUPM <https://openupm.com/packages/com.alttester.sdk/>
