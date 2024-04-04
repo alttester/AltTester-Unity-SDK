@@ -452,7 +452,7 @@ jobs:
 
   test-Python-Browserstack-ios-android:
     runs-on: [self-hosted, macOS]
-    needs: 
+    needs:
       - build-android
       - build-ipa
 

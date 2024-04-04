@@ -116,7 +116,8 @@ class CommandHandler:
         return "{}()".format(self.__class__.__name__)
 
     def set_current_command(self, message):
-        self._current_command = (message.get("messageId"), message.get("commandName"))
+        self._current_command = (message.get(
+            "messageId"), message.get("commandName"))
 
     def get_current_command(self):
         return self._current_command
@@ -161,7 +162,8 @@ class WebsocketConnection:
         self.path = path
         self.params = params or {}
 
-        self.url = urlunparse(["ws", "{}:{}".format(self.host, self.port), self.path, "", urlencode(self.params), ""])
+        self.url = urlunparse(["ws", "{}:{}".format(
+            self.host, self.port), self.path, "", urlencode(self.params), ""])
 
         self.timeout = timeout
         self.command_timeout = 60
@@ -176,6 +178,7 @@ class WebsocketConnection:
 
         self._command_handler = command_handler
         self._notification_handler = notification_handler
+        self._driver_registered_called = False
 
     def __repr__(self):
         return "{}({!r}, {!r}, {!r}, {!r}, {!r})".format(
@@ -198,7 +201,8 @@ class WebsocketConnection:
             on_error=self._on_error,
             on_close=self._on_close
         )
-        self._thread = Thread(target=self._websocket.run_forever, daemon=True).start()
+        self._thread = Thread(
+            target=self._websocket.run_forever, daemon=True).start()
 
     def _check_close_message(self):
         if self._close_message:
@@ -211,7 +215,8 @@ class WebsocketConnection:
             if self._close_message[0] == 4005:
                 raise exceptions.AppDisconnectedError(reason)
 
-            raise exceptions.ConnectionError("Connection closed by AltTester® Server with reason: {}.".format(reason))
+            raise exceptions.ConnectionError(
+                "Connection closed by AltTester® Server with reason: {}.".format(reason))
 
     def _check_errors(self):
         if self._errors:
@@ -225,7 +230,8 @@ class WebsocketConnection:
 
         if self._websocket is None or not self._is_open:
             self.close()
-            raise exceptions.ConnectionError("Connection closed. An unexpected error ocurred.")
+            raise exceptions.ConnectionError(
+                "Connection closed. An unexpected error ocurred.")
 
     def _on_message(self, ws, message):
         """A callback which is called when the connection receives data."""
@@ -234,7 +240,10 @@ class WebsocketConnection:
         response = json.loads(message)
 
         if response.get("isNotification"):
-            self._notification_handler.handle_notification(response)
+            if "driverRegistered" in message:
+                self._driver_registered_called = True
+            else:
+                self._notification_handler.handle_notification(response)
         else:
             self._command_handler.handle_command(response)
 
@@ -254,7 +263,7 @@ class WebsocketConnection:
         )
 
         self._close_message = (close_status_code, close_msg)
-
+        self._driver_registered_called = False
         self._is_open = False
         self._websocket = None
 
@@ -274,25 +283,26 @@ class WebsocketConnection:
         logger.info("Connecting to URL: '{}'.", self.url)
 
         elapsed_time = 0
-        self._create_connection()
+        while self.timeout is None or elapsed_time < self.timeout:
+            self._create_connection()
+            wait_for_notification = 0
+            while wait_for_notification < 5:
+                if self._driver_registered_called:
+                    logger.debug("Connected to: '{0}'.".format(self.url))
+                    return
+                time.sleep(self.delay)
+                wait_for_notification += self.delay
+            elapsed_time += wait_for_notification
 
-        while not self._is_open and (self.timeout is None or elapsed_time < self.timeout):
-            if self._errors or self._close_message:
-                self.close()
-                self._create_connection()
-
-            time.sleep(self.delay)
-            elapsed_time += self.delay
+            if self._is_open:  # Added this to be also backward compatible but it will be slower
+                return
 
         self._check_close_message()
         self._check_errors()
-
-        if not self._is_open:
-            self.close()
-
-            raise exceptions.ConnectionTimeoutError(
-                "Failed to connect to AltTester® Server host: {} port: {}.".format(self.host, self.port)
-            )
+        raise exceptions.ConnectionTimeoutError(
+            "Failed to connect to AltTester® Server host: {} port: {}.".format(
+                self.host, self.port)
+        )
 
     def send(self, data):
         self._ensure_connection_is_open()
@@ -320,7 +330,8 @@ class WebsocketConnection:
             raise exceptions.CommandResponseTimeoutException()
 
     def close(self):
-        logger.info("Closing connection to AltTester® Server on host: {} port: {}", self.host, self.port)
+        logger.info(
+            "Closing connection to AltTester® Server on host: {} port: {}", self.host, self.port)
 
         if self._websocket:
             self._websocket.close()
@@ -333,3 +344,4 @@ class WebsocketConnection:
         self._errors = []
         self._close_message = None
         self._is_open = False
+        self._driver_registered_called = False

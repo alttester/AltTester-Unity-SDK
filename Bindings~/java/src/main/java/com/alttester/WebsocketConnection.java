@@ -62,6 +62,7 @@ public class WebsocketConnection {
 
     public Session session = null;
     public IMessageHandler messageHandler = null;
+    public boolean driverRegisteredCalled = false;
 
     public WebsocketConnection(String host, int port, String appName, int connectTimeout, String platform,
             String platformVersion, String deviceInstanceId, String appId) {
@@ -126,7 +127,8 @@ public class WebsocketConnection {
                 throw new MultipleDriversException(reason);
             }
 
-            throw new ConnectionException(String.format("Connection closed by AltTester® Server with reason: %s.", reason));
+            throw new ConnectionException(
+                    String.format("Connection closed by AltTester® Server with reason: %s.", reason));
         }
     }
 
@@ -170,13 +172,21 @@ public class WebsocketConnection {
                 connectionError = e;
             }
 
-            try {
-                Thread.sleep(delay); // Delay between retries.
-            } catch (InterruptedException e) {
-                break;
-            }
+            float waitForNotification = 0;
+            while (waitForNotification < 5000) {
+                if (driverRegisteredCalled) {
+                    logger.debug("Connected to: '{}'.", uri);
+                    return;
+                }
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-            if (this.session != null && this.session.isOpen()) {
+                waitForNotification += delay;
+            }
+            if (session.isOpen()) {// Added this to be also backward compatible but it will be slower
                 break;
             }
 
@@ -230,7 +240,11 @@ public class WebsocketConnection {
 
     @OnMessage
     public void onMessage(String message) {
-        messageHandler.onMessage(message);
+        if (message.contains("driverRegistered")) {
+            driverRegisteredCalled = true;
+        } else {
+            messageHandler.onMessage(message);
+        }
     }
 
     @OnError

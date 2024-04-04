@@ -51,6 +51,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
         public string URI { get { return this.uri; } }
+        public bool DriverRegisteredCalled = false;
 
         public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType)
         {
@@ -115,8 +116,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         protected void OnClose(object sender, CloseEventArgs e)
         {
-            logger.Debug("Connection to AltTester® closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
+            logger.Debug("Connection to AltTester® Server closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
             OnCloseEvent.Invoke(this, e);
+            DriverRegisteredCalled = false;
             this.closeCode = e.Code;
             this.closeReason = e.Reason;
         }
@@ -161,14 +163,22 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 {
                     logger.Debug(string.Format("Connection error: {0}", e.Message));
                 }
-                Thread.Sleep(delay);
-                if (wsClient.IsAlive)
+                float waitForNotification = 0;
+                while (waitForNotification < 5000)
+                {
+                    if (DriverRegisteredCalled)
+                    {
+                        logger.Debug(string.Format("Connected to: '{0}'.", this.uri));
+                        return;
+                    }
+                    Thread.Sleep(delay);
+                    waitForNotification += delay;
+                }
+                if (wsClient.IsAlive)//Added this to be also backward compatible but it will be slower
                 {
                     break;
                 }
-
                 retries++;
-                Thread.Sleep(delay); // Delay between retries.
             }
 
             this.CheckCloseMessage();
@@ -178,13 +188,14 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             {
                 throw new ConnectionTimeoutException(string.Format("Failed to connect to AltTester® Server on host: {0} port: {1}.", this.host, this.port));
             }
-
             logger.Debug(string.Format("Connected to: '{0}'.", this.uri));
+
         }
 
         public void Close()
         {
             logger.Info(string.Format("Closing connection to AltTester® Server on: '{0}'.", this.uri));
+            DriverRegisteredCalled = false;
             this.wsClient.Close();
         }
 
