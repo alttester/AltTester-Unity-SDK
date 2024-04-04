@@ -38,6 +38,10 @@ class AppDisconnectedError(ConnectionError):
     """Raised when the app closed the connection or unexpectedly disconnected."""
 
 
+class MultileDriverError(ConnectionError):
+    """Raised when multiple drivers are trying to connect to the server at the same time."""
+
+
 class AltTesterInvalidServerResponse(AltException):
     """Raised when the server responds with an invalid response."""
 
@@ -49,11 +53,13 @@ class InvalidParameterTypeException(TypeError, AltException):
     """Raised when an function or method receives an parameter that has the inappropriate type."""
 
     def __init__(self, parameter_name, expected_types, received_type):
-        expected_types = [expected_type.__name__ for expected_type in expected_types]
+        expected_types = [
+            expected_type.__name__ for expected_type in expected_types]
         expected_types = ", ".join(expected_types)
 
         super().__init__(
-            "TypeError: {} must be {}; not {}.".format(parameter_name, expected_types, received_type.__name__)
+            "TypeError: {} must be {}; not {}.".format(
+                parameter_name, expected_types, received_type.__name__)
         )
 
 

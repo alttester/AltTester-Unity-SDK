@@ -214,6 +214,8 @@ class WebsocketConnection:
                 raise exceptions.AppDisconnectedError(reason)
             if self._close_message[0] == 4005:
                 raise exceptions.AppDisconnectedError(reason)
+            if self._close_message[0] == 4007:
+                raise exceptions.MultileDriverError(reason)
 
             raise exceptions.ConnectionError(
                 "Connection closed by AltTester® Server with reason: {}.".format(reason))
@@ -286,12 +288,17 @@ class WebsocketConnection:
         while self.timeout is None or elapsed_time < self.timeout:
             self._create_connection()
             wait_for_notification = 0
-            while wait_for_notification < 5:
-                if self._driver_registered_called:
-                    logger.debug("Connected to: '{0}'.".format(self.url))
-                    return
-                time.sleep(self.delay)
-                wait_for_notification += self.delay
+            try:
+                while wait_for_notification < 5:
+                    if self._driver_registered_called:
+                        logger.debug("Connected to: '{0}'.".format(self.url))
+                        return
+                    time.sleep(self.delay)
+                    wait_for_notification += self.delay
+                    self._check_close_message()
+            except Exception:
+                self.close()
+
             elapsed_time += wait_for_notification
 
             if self._is_open:  # Added this to be also backward compatible but it will be slower
