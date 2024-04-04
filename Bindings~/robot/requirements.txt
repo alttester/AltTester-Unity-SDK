@@ -1,2 +1,2 @@
-AltTester-Driver~=2.0.2
+AltTester-Driver~=2.1.0
 robotframework~=3.0
