@@ -90,6 +90,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 {
                     throw new MultipleDriversException(this.closeReason);
                 }
+                if (closeCode == 4007)
+                {
+                    throw new MultipleDriversException(closeReason);
+                }
 
                 throw new ConnectionException(string.Format("Connection closed by AltTester® Server with reason: {0}.", this.closeReason));
             }
@@ -164,20 +168,25 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     logger.Debug(string.Format("Connection error: {0}", e.Message));
                 }
                 float waitForNotification = 0;
-                while (waitForNotification < 5000)
+                try
                 {
-                    if (DriverRegisteredCalled)
+                    while (waitForNotification < 5000)
                     {
-                        logger.Debug(string.Format("Connected to: '{0}'.", this.uri));
-                        return;
+                        if (DriverRegisteredCalled)
+                        {
+                            logger.Debug(string.Format("Connected to: '{0}'.", this.uri));
+                            return;
+                        }
+                        Thread.Sleep(delay);
+                        waitForNotification += delay;
+                        this.CheckCloseMessage();
                     }
-                    Thread.Sleep(delay);
-                    waitForNotification += delay;
                 }
-                if (wsClient.IsAlive)//Added this to be also backward compatible but it will be slower
+                catch (Exception e)
                 {
-                    break;
+                    logger.Debug($"Closed connection because {e}");
                 }
+
                 retries++;
             }
 
