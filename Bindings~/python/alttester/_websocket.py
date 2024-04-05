@@ -213,9 +213,10 @@ class WebsocketConnection:
             if self._close_message[0] == 4002:
                 raise exceptions.AppDisconnectedError(reason)
             if self._close_message[0] == 4005:
-                raise exceptions.AppDisconnectedError(reason)
-            if self._close_message[0] == 4007:
                 raise exceptions.MultipleDriverError(reason)
+            if self._close_message[0] == 4007:
+                raise exceptions.MultipleDriversTryingToConnectException(
+                    reason)
 
             raise exceptions.ConnectionError(
                 "Connection closed by AltTester® Server with reason: {}.".format(reason))

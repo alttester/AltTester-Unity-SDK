@@ -92,7 +92,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 }
                 if (closeCode == 4007)
                 {
-                    throw new MultipleDriversException(closeReason);
+                    throw new MultipleDriversTryingToConnectException(closeReason);
                 }
 
                 throw new ConnectionException(string.Format("Connection closed by AltTester® Server with reason: {0}.", this.closeReason));

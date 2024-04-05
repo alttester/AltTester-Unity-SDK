@@ -38,8 +38,12 @@ class AppDisconnectedError(ConnectionError):
     """Raised when the app closed the connection or unexpectedly disconnected."""
 
 
-class MultileDriverError(ConnectionError):
-    """Raised when multiple drivers are trying to connect to the server at the same time."""
+class MultipleDriverError(ConnectionError):
+    """ Raised when the client tries to connect to a server with a driver already connected. Free accounts are limited to a single driver connection at a time."""
+
+
+class MultipleDriversTryingToConnectException(ConnectionError):
+    """Raised when the client tries to connect to a server at the same time with another driver"""
 
 
 class AltTesterInvalidServerResponse(AltException):
