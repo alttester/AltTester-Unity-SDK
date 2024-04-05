@@ -268,6 +268,8 @@ class WebsocketConnection:
         self._driver_registered_called = False
         self._is_open = False
         self._websocket = None
+        if close_status_code == 4002:
+            self.connect()
 
     def _on_open(self, ws):
         """A callback which is called when the connection is opened."""
