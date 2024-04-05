@@ -186,7 +186,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 {
                     logger.Debug($"Closed connection because {e}");
                 }
-
                 retries++;
             }
 

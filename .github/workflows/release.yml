@@ -6,7 +6,7 @@ on:
     types: [published]
 
 jobs:
-  publish-pip-package:
+  publish-python-pip-package:
     runs-on: [self-hosted, macOS]
 
     steps:
@@ -23,6 +23,26 @@ jobs:
       - name: Upload to PyPi
         run: |
           cd "Bindings~/python"
+          python3 setup.py sdist bdist_wheel
+          python3 -m twine upload dist/*
+
+  publish-robot-pip-package:
+    runs-on: [self-hosted, macOS]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -r "Bindings~/robot/requirements.txt"
+          pip install -r "Bindings~/robot/requirements-dev.txt"
+
+      - name: Upload to PyPi
+        run: |
+          cd "Bindings~/robot"
           python3 setup.py sdist bdist_wheel
           python3 -m twine upload dist/*
 

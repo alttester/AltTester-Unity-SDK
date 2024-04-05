@@ -22,6 +22,8 @@ using NUnit.Framework;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
+    [TestFixture]
+    [Parallelizable]
     public class AltCommandsTests
     {
         private AltDriver altDriver;

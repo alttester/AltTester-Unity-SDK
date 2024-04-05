@@ -24,6 +24,8 @@ using NUnit.Framework;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
+    [TestFixture]
+    [Parallelizable]
     public class TestForScene5KeyboardAndMouseInput : TestBase
     {
 #pragma warning disable CS0618
