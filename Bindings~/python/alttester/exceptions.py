@@ -39,7 +39,8 @@ class AppDisconnectedError(ConnectionError):
 
 
 class MultipleDriverError(ConnectionError):
-    """ Raised when the client tries to connect to a server with a driver already connected. Free accounts are limited to a single driver connection at a time."""
+    """ Raised when the client tries to connect to a server with a driver already connected.
+      Free accounts are limited to a single driver connection at a time."""
 
 
 class MultipleDriversTryingToConnectException(ConnectionError):
