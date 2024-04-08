@@ -43,6 +43,7 @@ import com.alttester.altTesterExceptions.ConnectionTimeoutException;
 import com.alttester.altTesterExceptions.NoAppConnectedException;
 import com.alttester.altTesterExceptions.AppDisconnectedException;
 import com.alttester.altTesterExceptions.MultipleDriversException;
+import com.alttester.altTesterExceptions.MultipleDriversTryingToConnectException;
 
 @ClientEndpoint
 public class WebsocketConnection {
@@ -126,7 +127,9 @@ public class WebsocketConnection {
             if (code == 4005) {
                 throw new MultipleDriversException(reason);
             }
-
+            if (code == 4007) {
+                throw new MultipleDriversTryingToConnectException(reason);
+            }
             throw new ConnectionException(
                     String.format("Connection closed by AltTester® Server with reason: %s.", reason));
         }
@@ -173,19 +176,26 @@ public class WebsocketConnection {
             }
 
             float waitForNotification = 0;
-            while (waitForNotification < 5000) {
-                if (driverRegisteredCalled) {
-                    logger.debug("Connected to: '{}'.", uri);
-                    return;
-                }
-                try {
-                    Thread.sleep(delay);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            try {
 
-                waitForNotification += delay;
+                while (waitForNotification < 5000) {
+                    if (driverRegisteredCalled) {
+                        logger.debug("Connected to: '{}'.", uri);
+                        return;
+                    }
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    checkCloseReason();
+
+                    waitForNotification += delay;
+                }
+            } catch (Exception e) {
+
             }
+
             if (session.isOpen()) {// Added this to be also backward compatible but it will be slower
                 break;
             }
