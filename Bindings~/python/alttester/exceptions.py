@@ -47,6 +47,11 @@ class MultipleDriversTryingToConnectException(ConnectionError):
     """Raised when the client tries to connect to a server at the same time with another driver"""
 
 
+class MaxNoOfConnectionsDriversExceededException(ConnectionError):
+    """Raised when the client tries to connect to a server but the limit of drivers connected
+        is exceeded"""
+
+
 class AltTesterInvalidServerResponse(AltException):
     """Raised when the server responds with an invalid response."""
 
