@@ -204,18 +204,21 @@ class WebsocketConnection:
         self._thread = Thread(
             target=self._websocket.run_forever, daemon=True).start()
 
-    def _check_close_message(self):
-        if self._close_message:
-            reason = self._close_message[1]
+    def _check_close_message(self, close_message):
+        if close_message:
+            reason = close_message[1]
 
-            if self._close_message[0] == 4001:
+            if close_message[0] == 4001:
                 raise exceptions.NoAppConnected(reason)
-            if self._close_message[0] == 4002:
+            if close_message[0] == 4002:
                 raise exceptions.AppDisconnectedError(reason)
-            if self._close_message[0] == 4005:
+            if close_message[0] == 4005:
                 raise exceptions.MultipleDriverError(reason)
-            if self._close_message[0] == 4007:
+            if close_message[0] == 4007:
                 raise exceptions.MultipleDriversTryingToConnectException(
+                    reason)
+            if close_message[0] == 4009:
+                raise exceptions.MaxNoOfConnectionsDriversExceeded(
                     reason)
 
             raise exceptions.ConnectionError(
@@ -228,7 +231,7 @@ class WebsocketConnection:
             raise exceptions.ConnectionError(error)
 
     def _ensure_connection_is_open(self):
-        self._check_close_message()
+        self._check_close_message(self._close_message)
         self._check_errors()
 
         if self._websocket is None or not self._is_open:
@@ -286,7 +289,7 @@ class WebsocketConnection:
 
     def connect(self):
         logger.info("Connecting to URL: '{}'.", self.url)
-
+        last_close_message = None
         elapsed_time = 0
         while self.timeout is None or elapsed_time < self.timeout:
             self._create_connection()
@@ -298,8 +301,9 @@ class WebsocketConnection:
                         return
                     time.sleep(self.delay)
                     wait_for_notification += self.delay
-                    self._check_close_message()
+                    self._check_close_message(self._close_message)
             except Exception:
+                last_close_message = self._close_message
                 self.close()
 
             elapsed_time += wait_for_notification
@@ -307,7 +311,7 @@ class WebsocketConnection:
             if self._is_open:  # Added this to be also backward compatible but it will be slower
                 return
 
-        self._check_close_message()
+        self._check_close_message(last_close_message)
         self._check_errors()
         raise exceptions.ConnectionTimeoutError(
             "Failed to connect to AltTester® Server host: {} port: {}.".format(

@@ -93,9 +93,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 websocketClosedCalled = true;
                 Console.WriteLine($"CloseEvent called: {e.Code}-{e.Reason} ");
             };
-            websocketClosedCalled = false;
 
             this.wsClient.Connect();
+            websocketClosedCalled = false;
 
         }
 
