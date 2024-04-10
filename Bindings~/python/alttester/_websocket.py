@@ -231,7 +231,7 @@ class WebsocketConnection:
             raise exceptions.ConnectionError(error)
 
     def _ensure_connection_is_open(self):
-        self._check_close_message()
+        self._check_close_message(self._close_message)
         self._check_errors()
 
         if self._websocket is None or not self._is_open:
