@@ -39,6 +39,17 @@ devices = [
     # Add more devices as needed
 ]
 
+android_devices = [
+    {"name": "Samsung Galaxy S23", "os": "android", "os_version": "13.0"},
+    {"name": "OnePlus 9", "os": "android", "os_version": "11.0"},
+    {"name": "Google Pixel 6", "os": "android", "os_version": "12.0"},
+]
+
+ios_devices = [
+    {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
+    {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
+]
+
 local_run_device = [
 
     {"name": "__default__", "os": "unknown", "os_version": "unknown"},
@@ -129,7 +140,10 @@ def log_to_report(message):
 def current_device(request, worker_id):
     global devices
     global local_run_device
+    global android_devices
+    global ios_devices
     current_device = None
+    selected_devices = []
     if os.environ.get("RUN_IN_BROWSERSTACK", "") != "true":
         current_device = local_run_device[0]
     else:
@@ -137,7 +151,11 @@ def current_device(request, worker_id):
             current_device = devices[0]
         else:
             index = int(worker_id.split("gw")[1])
-            current_device = devices[index]
+            if os.environ.get("RUN_IN_BROWSERSTACK_ANDROID_ONLY", "") == "true":
+                selected_devices = android_devices
+            elif os.environ.get("RUN_IN_BROWSERSTACK_IOS_ONLY", "") == "true":
+                selected_devices = ios_devices
+            current_device = selected_devices[index]
     log_to_report("Using device: {}".format(current_device))
     yield current_device
 

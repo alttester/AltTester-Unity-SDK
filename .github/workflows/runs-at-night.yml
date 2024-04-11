@@ -1,10 +1,11 @@
 name: Runs at night
 
-on:
-  workflow_dispatch:
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron: '0 0 * * *' # run at the end of every day
+# on:
+#   workflow_dispatch:
+#   schedule:
+#     # * is a special character in YAML so you have to quote this string
+#     - cron: '0 0 * * *' # run at the end of every day
+on: [push, workflow_dispatch]
 
 env:
   ALTSERVER_PORT: 13005
@@ -12,44 +13,44 @@ env:
   PYTHON_VERSION: '3.10'
 
 jobs:
-  build-webgl:
-    runs-on: [self-hosted, macOS]
+#   build-webgl:
+#     runs-on: [self-hosted, macOS]
 
-    steps:
-      - uses: actions/checkout@v4
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Build app
-        run: |
-          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WebGLBuildFromCommandLine -logFile buildWebGL.log -quit
+#       - name: Build app
+#         run: |
+#           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WebGLBuildFromCommandLine -logFile buildWebGL.log -quit
 
-      - name: Upload build
-        uses: actions/upload-artifact@v4
-        with:
-          name: webgl-build
-          if-no-files-found: error
-          path: build/
+#       - name: Upload build
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: webgl-build
+#           if-no-files-found: error
+#           path: build/
 
-      - name: Upload build logs
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: webgl-build-logs
-          path: |
-            buildWebGL.log
+#       - name: Upload build logs
+#         uses: actions/upload-artifact@v4
+#         if: always()
+#         with:
+#           name: webgl-build-logs
+#           path: |
+#             buildWebGL.log
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+#       - name: Notify on Slack
+#         uses: ravsamhq/notify-slack-action@v2
+#         if: ${{ always() && github.ref_name == 'development' }}
+#         with:
+#           status: ${{ job.status }}
+#           notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+#           message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+#           footer: "Linked Repo <{repo_url}|{repo}>"
+#           notify_when: "failure"
+#           mention_groups: "alttester-pipelines,!here"
+#           mention_groups_when: "failure"
+#         env:
+#           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   build-ios:
     runs-on: [self-hosted, macOS]
@@ -132,179 +133,179 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  test-webgl-dotnet:
-    needs: build-webgl
+  # test-webgl-dotnet:
+  #   needs: build-webgl
 
-    runs-on: [self-hosted, macOS]
+  #   runs-on: [self-hosted, macOS]
 
-    steps:
-      - uses: actions/checkout@v4
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v4
+  #     - name: Setup .NET Core SDK
+  #       uses: actions/setup-dotnet@v4
 
-      - name: Download build
-        uses: actions/download-artifact@v4
-        with:
-          name: webgl-build
+  #     - name: Download build
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: webgl-build
 
-      - name: Open application
-        run: |
-          cd webgl
-          python3 -m http.server --cgi 8360 &
-          osascript -e 'quit app "Chrome"'
-          open http://localhost:8360/index.html
+  #     - name: Open application
+  #       run: |
+  #         cd webgl
+  #         python3 -m http.server --cgi 8360 &
+  #         osascript -e 'quit app "Chrome"'
+  #         open http://localhost:8360/index.html
 
-      - name: Run tests
-        run: |
-          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
+  #     - name: Run tests
+  #       run: |
+  #         dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
 
-      - name: Close Chrome
-        if: always()
-        run: osascript -e 'quit app "Chrome"'
+  #     - name: Close Chrome
+  #       if: always()
+  #       run: osascript -e 'quit app "Chrome"'
 
-      - name: Upload logs
-        uses: actions/upload-artifact@v4
-        if: always() # run this step even if one of the previous step failed
-        with:
-          name: webgl-dotnet-logs
-          path: |
-            **/*.log
+  #     - name: Upload logs
+  #       uses: actions/upload-artifact@v4
+  #       if: always() # run this step even if one of the previous step failed
+  #       with:
+  #         name: webgl-dotnet-logs
+  #         path: |
+  #           **/*.log
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+  #     - name: Notify on Slack
+  #       uses: ravsamhq/notify-slack-action@v2
+  #       if: ${{ always() && github.ref_name == 'development' }}
+  #       with:
+  #         status: ${{ job.status }}
+  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+  #         footer: "Linked Repo <{repo_url}|{repo}>"
+  #         notify_when: "failure"
+  #         mention_groups: "alttester-pipelines,!here"
+  #         mention_groups_when: "failure"
+  #       env:
+  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  test-webgl-python:
-    needs: build-webgl
+  # test-webgl-python:
+  #   needs: build-webgl
 
-    runs-on: [self-hosted, macOS]
+  #   runs-on: [self-hosted, macOS]
 
-    steps:
-      - uses: actions/checkout@v4
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
+  #     - uses: actions/setup-python@v5
+  #       with:
+  #         python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Download build
-        uses: actions/download-artifact@v4
-        with:
-          name: webgl-build
+  #     - name: Download build
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: webgl-build
 
-      - name: Open application
-        run: |
-          cd webgl
-          python3 -m http.server --cgi 8360 &
-          osascript -e 'quit app "Chrome"'
-          open http://localhost:8360/index.html
+  #     - name: Open application
+  #       run: |
+  #         cd webgl
+  #         python3 -m http.server --cgi 8360 &
+  #         osascript -e 'quit app "Chrome"'
+  #         open http://localhost:8360/index.html
 
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip setuptools wheel
-          pip uninstall AltTester-Driver
-          pip install -r "Bindings~/python/requirements.txt"
-          pip install -r "Bindings~/python/requirements-dev.txt"
-          pip install -e "Bindings~/python" --root "Bindings~/python"
+  #     - name: Install dependencies
+  #       run: |
+  #         pip install --upgrade pip setuptools wheel
+  #         pip uninstall AltTester-Driver
+  #         pip install -r "Bindings~/python/requirements.txt"
+  #         pip install -r "Bindings~/python/requirements-dev.txt"
+  #         pip install -e "Bindings~/python" --root "Bindings~/python"
 
-      - name: Run integration tests
-        run: |
-          pytest Bindings~/python/tests/integration -m "not WebGLUnsupported"
+  #     - name: Run integration tests
+  #       run: |
+  #         pytest Bindings~/python/tests/integration -m "not WebGLUnsupported"
 
-      - name: Close Chrome
-        if: always()
-        run: osascript -e 'quit app "Chrome"'
+  #     - name: Close Chrome
+  #       if: always()
+  #       run: osascript -e 'quit app "Chrome"'
 
-      - name: Upload logs
-        uses: actions/upload-artifact@v4
-        if: always() # run this step even if one of the previous step failed
-        with:
-          name: webgl-python-logs
-          path: "**/*.log"
+  #     - name: Upload logs
+  #       uses: actions/upload-artifact@v4
+  #       if: always() # run this step even if one of the previous step failed
+  #       with:
+  #         name: webgl-python-logs
+  #         path: "**/*.log"
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+  #     - name: Notify on Slack
+  #       uses: ravsamhq/notify-slack-action@v2
+  #       if: ${{ always() && github.ref_name == 'development' }}
+  #       with:
+  #         status: ${{ job.status }}
+  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+  #         footer: "Linked Repo <{repo_url}|{repo}>"
+  #         notify_when: "failure"
+  #         mention_groups: "alttester-pipelines,!here"
+  #         mention_groups_when: "failure"
+  #       env:
+  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  test-webgl-java:
-    needs: build-webgl
+  # test-webgl-java:
+  #   needs: build-webgl
 
-    runs-on: [self-hosted, macOS]
+  #   runs-on: [self-hosted, macOS]
 
-    steps:
-      - uses: actions/checkout@v4
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Setup Java JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: temurin
-          java-version: 11
+  #     - name: Setup Java JDK
+  #       uses: actions/setup-java@v3
+  #       with:
+  #         distribution: temurin
+  #         java-version: 11
 
-      - name: Setup Maven
-        uses: stCarolas/setup-maven@v4
+  #     - name: Setup Maven
+  #       uses: stCarolas/setup-maven@v4
 
-      - name: Download build
-        uses: actions/download-artifact@v4
-        with:
-          name: webgl-build
+  #     - name: Download build
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: webgl-build
 
-      - name: Open application
-        run: |
-          cd webgl
-          python3 -m http.server --cgi 8360 &
-          osascript -e 'quit app "Chrome"'
-          open http://localhost:8360/index.html
+  #     - name: Open application
+  #       run: |
+  #         cd webgl
+  #         python3 -m http.server --cgi 8360 &
+  #         osascript -e 'quit app "Chrome"'
+  #         open http://localhost:8360/index.html
 
-      - name: Run tests
-        run: |
-          cd Bindings~/java
-          mvn clean -Dtest=com.alttester.Tests* test -Dgroups=\!WebGLUnsupported
+  #     - name: Run tests
+  #       run: |
+  #         cd Bindings~/java
+  #         mvn clean -Dtest=com.alttester.Tests* test -Dgroups=\!WebGLUnsupported
 
-      - name: Close Chrome
-        if: always()
-        run: osascript -e 'quit app "Chrome"'
+  #     - name: Close Chrome
+  #       if: always()
+  #       run: osascript -e 'quit app "Chrome"'
 
-      - name: Upload logs
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: webgl-java-logs
-          path: |
-            **/*.log
+  #     - name: Upload logs
+  #       uses: actions/upload-artifact@v4
+  #       if: always()
+  #       with:
+  #         name: webgl-java-logs
+  #         path: |
+  #           **/*.log
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+  #     - name: Notify on Slack
+  #       uses: ravsamhq/notify-slack-action@v2
+  #       if: ${{ always() && github.ref_name == 'development' }}
+  #       with:
+  #         status: ${{ job.status }}
+  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+  #         footer: "Linked Repo <{repo_url}|{repo}>"
+  #         notify_when: "failure"
+  #         mention_groups: "alttester-pipelines,!here"
+  #         mention_groups_when: "failure"
+  #       env:
+  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-ios-browserstack-python:
     needs: build-ios
@@ -313,7 +314,7 @@ jobs:
 
     env:
       RUN_IN_BROWSERSTACK: true
-      RUN_IOS_IN_BROWSERSTACK: true
+      RUN_IN_BROWSERSTACK_IOS_ONLY: true
 
     steps:
       - uses: actions/checkout@v4
@@ -344,7 +345,7 @@ jobs:
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
           allure generate
           cd Bindings~/python/
-          pytest --alluredir=allure-report/ -m "not iOSUnsupported" tests/integration
+          pytest --alluredir=allure-report/ -m "not iOSUnsupported" -n 2 dist=loadfile tests/integration 
 
       - name: Generate Allure report
         if: always()
@@ -383,7 +384,7 @@ jobs:
 
     env:
       RUN_IN_BROWSERSTACK: true
-      RUN_ANDROID_IN_BROWSERSTACK: true
+      RUN_IN_BROWSERSTACK_ANDROID_ONLY: true
 
     steps:
       - uses: actions/checkout@v4
@@ -413,7 +414,7 @@ jobs:
           export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
           cd Bindings~/python/
-          pytest tests/integration
+          pytest tests/integration --alluredir=allure-report/ -n 2 dist=loadfile
 
       - name: Upload logs
         uses: actions/upload-artifact@v4

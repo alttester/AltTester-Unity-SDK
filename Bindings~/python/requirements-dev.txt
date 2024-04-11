@@ -10,7 +10,6 @@ flake8
 pytest
 pytest-cov
 pytest-rerunfailures
-pytest-selenium
 
 #browserstack
 jsonmerge
@@ -20,7 +19,6 @@ selenium==4.6.0
 psutil
 pytest-variables
 Appium-Python-Client
-browserstack-sdk
 py
 Appium-Python-Client
 
