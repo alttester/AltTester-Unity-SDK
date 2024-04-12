@@ -343,9 +343,21 @@ jobs:
         run: |
           export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
-          allure generate
-          cd Bindings~/python/
-          pytest --alluredir=allure-report/ -m "not iOSUnsupported" -n 2 dist=loadfile tests/integration 
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          export RUN_IN_BROWSERSTACK="true"
+          cd Bindings~/python
+          export response_android=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.apk")
+          echo $response_android
+          export APP_URL_ANDROID=$(echo "${response_android}" | jq -r .app_url)
+          echo $APP_URL_ANDROID
+          cd tests/integration/
+          pkill -f BrowserStackLocal || true
+          /usr/local/bin/BrowserStackLocal --key $BROWSERSTACK_KEY --force > bs_local.log &
+          sleep 5
+          pytest -s -v -n 3 ./ --alluredir=allure-report/ --reruns 3 --reruns-delay 10 --dist=loadfile
+          pkill -f BrowserStackLocal || true
+
 
       - name: Generate Allure report
         if: always()
@@ -413,8 +425,19 @@ jobs:
         run: |
           export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
           export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
-          cd Bindings~/python/
-          pytest tests/integration --alluredir=allure-report/ -n 2 dist=loadfile
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          export RUN_IN_BROWSERSTACK="true"
+          cd Bindings~/python
+          export response_ios=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
+          export APP_URL_IOS=$(echo "${response_ios}" | jq -r .app_url)
+          echo $APP_URL_IOS
+          cd tests/integration/
+          pkill -f BrowserStackLocal || true
+          /usr/local/bin/BrowserStackLocal --key $BROWSERSTACK_KEY --force > bs_local.log &
+          sleep 5
+          pytest -s -v -n 3 ./ --alluredir=allure-report/ --reruns 3 --reruns-delay 10 --dist=loadfile
+          pkill -f BrowserStackLocal || true
 
       - name: Upload logs
         uses: actions/upload-artifact@v4

@@ -48,6 +48,7 @@ android_devices = [
 ios_devices = [
     {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
     {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
+    {"name": "iPhone 12 Pro", "os": "ios", "os_version": "14"},
 ]
 
 local_run_device = [
