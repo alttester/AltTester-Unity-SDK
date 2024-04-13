@@ -313,6 +313,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             }
         }
 
+        [Category("WebGLUnsupported")] // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
         [TestCase("UnityEngine.UI.Text", "InvalidProperty", "UnityEngine.UI", "Property InvalidProperty not found")]
         [TestCase("UNEXISTING", "m_Text", "UnityEngine.UI", "Component not found")]
         [TestCase("UnityEngine.UI.Text", "m_Text", "UNEXISTING", "Assembly not found")]
@@ -896,6 +897,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.Throws<MethodNotFoundException>(() => altDriver.CallStaticMethod<int>("UnityEngine.PlayerPrefs", "UNEXISTING", "UnityEngine.CoreModule", new[] { "Test", "2" }));
         }
 
+        [Category("WebGLUnsupported")] // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
         [Test]
         public void TestCallStaticMethodNonExistingAssembly()
         {
