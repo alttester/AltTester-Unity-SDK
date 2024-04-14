@@ -156,6 +156,8 @@ def current_device(request, worker_id):
                 selected_devices = android_devices
             elif os.environ.get("RUN_IN_BROWSERSTACK_IOS_ONLY", "") == "true":
                 selected_devices = ios_devices
+            else:
+                selected_devices = devices
             current_device = selected_devices[index]
     log_to_report("Using device: {}".format(current_device))
     yield current_device
