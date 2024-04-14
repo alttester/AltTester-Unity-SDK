@@ -133,12 +133,10 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (liveUpdateClient != null)
             {
                 var test = liveUpdateClient.IsConnected;
-                UnityEngine.Debug.Log($"LiveUpdateClient is Connected: {test}");
             }
             if (communicationClient != null)
             {
                 var test = communicationClient.IsConnected;
-                UnityEngine.Debug.Log($"CommunicationClient is Connected: {test}");
             }
         }
 
@@ -377,7 +375,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void initCommunicationClient()
         {
-            UnityEngine.Debug.Log($"Init RuntimeClient");
             communicationClient = new RuntimeCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId, appId == null ? "unknown" : appId);
             communicationClient.OnConnect += onCommunicationConnected;
             communicationClient.OnDisconnect += onDisconnect;
@@ -512,12 +509,10 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onCommunicationConnected()
         {
             isCommunicationConnected = true;
-            UnityEngine.Debug.Log("Communication Connected");
         }
         private void onLiveUpdateConnected()
         {
 
-            UnityEngine.Debug.Log("LiveUpdateConnected Connected");
             isLiveUpdateConnected = true;
             updateQueue.ScheduleResponse(() => onConnect());
         }
@@ -574,7 +569,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onDriverDisconnect(string driverId)
         {
-            logger.Debug("Driver Disconnect: " + driverId);
             string message = String.Format("Connected to AltTester® Server on {0}host:port {1}:{2}with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceInstanceId: '{9}' {10}and appId '{11}'.{12}Waiting for Driver to connect.", Environment.NewLine, currentHost, currentPort + Environment.NewLine, currentName, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, appId, Environment.NewLine);
 
             connectedDrivers.Remove(driverId);

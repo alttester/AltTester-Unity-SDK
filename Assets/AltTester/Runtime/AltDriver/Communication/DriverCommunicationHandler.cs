@@ -91,7 +91,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             this.wsClient.OnCloseEvent += (sender, e) =>
             {
                 websocketClosedCalled = true;
-                Console.WriteLine($"CloseEvent called: {e.Code}-{e.Reason} ");
             };
 
             this.wsClient.Connect();
@@ -164,7 +163,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             param.messageId = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
             string message = JsonConvert.SerializeObject(param, jsonSerializerSettings);
             this.wsClient.Send(message);
-            logger.Debug("Command sent: " + Utils.TrimLog(message));
         }
 
         public void Close()
@@ -203,7 +201,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     queue.Enqueue(message);
                     messages.Add(message.messageId, queue);
                 }
-                logger.Debug("Response received: " + Utils.TrimLog(data));
             }
         }
 
