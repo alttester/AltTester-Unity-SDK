@@ -21,6 +21,8 @@ using NUnit.Framework;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
+    [TestFixture]
+    [Parallelizable]
     public class TestForScene4NoCameras : TestBase
     {
         public TestForScene4NoCameras()
@@ -28,11 +30,14 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             sceneName = "Scene 4 No Cameras";
         }
 
+        [TestCase("Plane")]
+        [TestCase("EventSystem")]
+        [TestCase("Cube")]
         [Test]
-        public void TestFindElementInASceneWithNoCameras()
+        public void TestFindElementInASceneWithNoCameras(string ObjectName)
         {
             Assert.AreEqual(0, altDriver.GetAllCameras().Count);
-            var altObject = altDriver.FindObject(By.NAME, "Plane");
+            var altObject = altDriver.FindObject(By.NAME, ObjectName);
             Assert.AreEqual(0, altObject.worldX, "WorldX was: " + altObject.worldX + " when it should have been 0");
             Assert.AreEqual(0, altObject.worldY, "WorldY was: " + altObject.worldY + " when it should have been 0");
             Assert.AreEqual(0, altObject.worldZ, "WorldZ was: " + altObject.worldZ + " when it should have been 0");

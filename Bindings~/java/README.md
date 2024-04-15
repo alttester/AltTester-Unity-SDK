@@ -1,6 +1,6 @@
-# AltTester Unity SDK - Java Bindings
+# AltTester® Unity SDK - Java Bindings
 
-AltTester Unity SDK is an open-source UI driven test automation tool that helps you find objects in your application and interacts with them using tests written in C#, Python or Java.
+AltTester® Unity SDK is an open-source UI driven test automation tool that helps you find objects in your application and interacts with them using tests written in C#, Python, Java or Robot Framework.
 
 Read the documentation on https://alttester.com/docs/sdk/latest/
 

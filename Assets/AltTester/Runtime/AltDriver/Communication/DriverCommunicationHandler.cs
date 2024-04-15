@@ -33,12 +33,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
 
-        private DriverWebSocketClient wsClient = null;
-
-        private readonly string host;
-        private readonly int port;
-        private readonly string appName;
-        private readonly int connectTimeout;
         private readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
         {
             ContractResolver = new DefaultContractResolver(),
@@ -46,36 +40,62 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             Culture = CultureInfo.InvariantCulture
         };
 
+        private DriverWebSocketClient wsClient = null;
+
+        private readonly string host;
+        private readonly int port;
+        private readonly string appName;
+        private readonly int connectTimeout;
+        private readonly string platform;
+        private readonly string platformVersion;
+        private readonly string deviceInstanceId;
+        private readonly string appId;
+        private readonly string driverType;
+
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
+        private bool websocketClosedCalled = false;
+        private bool driverRegisteredCalled = false;
 
-        private Queue<CommandResponse> messages;
         private List<string> messageIdTimeouts = new List<string>();
+
+        private Dictionary<string, Queue<CommandResponse>> messages;
 
         private List<Action<AltLoadSceneNotificationResultParams>> loadSceneCallbacks = new List<Action<AltLoadSceneNotificationResultParams>>();
         private List<Action<String>> unloadSceneCallbacks = new List<Action<String>>();
         private List<Action<AltLogNotificationResultParams>> logCallbacks = new List<Action<AltLogNotificationResultParams>>();
         private List<Action<bool>> applicationPausedCallbacks = new List<Action<bool>>();
 
-        public DriverCommunicationHandler(string host, int port, int connectTimeout, string appName)
+        public DriverCommunicationHandler(string host, int port, int connectTimeout, string appName, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType = "SDK")
         {
             this.host = host;
             this.port = port;
             this.appName = appName;
             this.connectTimeout = connectTimeout;
+            this.platform = platform;
+            this.platformVersion = platformVersion;
+            this.deviceInstanceId = deviceInstanceId;
+            this.appId = appId;
+            this.driverType = driverType;
 
-            this.messages = new Queue<CommandResponse>();
+            this.messages = new Dictionary<string, Queue<CommandResponse>>();
         }
 
         public void Connect()
         {
-            this.wsClient = new DriverWebSocketClient(this.host, this.port, "/altws", this.appName, this.connectTimeout);
+            this.wsClient = new DriverWebSocketClient(this.host, this.port, "/altws", this.appName, this.connectTimeout, this.platform, this.platformVersion, this.deviceInstanceId, this.appId, this.driverType);
             this.wsClient.OnMessage += (sender, e) =>
             {
                 OnMessage(sender, e.Data);
             };
+            this.wsClient.OnCloseEvent += (sender, e) =>
+            {
+                websocketClosedCalled = true;
+            };
 
             this.wsClient.Connect();
+            websocketClosedCalled = false;
+
         }
 
         public T Recvall<T>(CommandParams param)
@@ -83,22 +103,34 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             Stopwatch watch = Stopwatch.StartNew();
             while (true)
             {
-                while (messages.Count == 0 && wsClient.IsAlive && commandTimeout >= watch.Elapsed.TotalSeconds)
+                while (!messages.ContainsKey(param.messageId) && commandTimeout >= watch.Elapsed.TotalSeconds && !websocketClosedCalled)
                 {
                     Thread.Sleep(10);
                 }
 
-                if (commandTimeout < watch.Elapsed.TotalSeconds && wsClient.IsAlive)
-                {
-                    messageIdTimeouts.Add(param.messageId);
-                    throw new CommandResponseTimeoutException();
-                }
-
-                if (!wsClient.IsAlive)
+                if (websocketClosedCalled)
                 {
                     throw new AltException("Driver disconnected");
                 }
-                var message = messages.Dequeue();
+                if (commandTimeout < watch.Elapsed.TotalSeconds)
+                {
+
+                    messageIdTimeouts.Add(param.messageId);
+                    throw new CommandResponseTimeoutException();
+                }
+                Queue<CommandResponse> queue;
+                messages.TryGetValue(param.messageId, out queue);
+                if (queue == null)
+                {
+                    throw new AltException(" Could not find the message");
+                }
+                var message = queue.Dequeue();
+
+                if (queue.Count == 0)
+                {
+                    messages.Remove(param.messageId);
+                }
+
                 if (messageIdTimeouts.Contains(message.messageId))
                 {
                     continue;
@@ -131,12 +163,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             param.messageId = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
             string message = JsonConvert.SerializeObject(param, jsonSerializerSettings);
             this.wsClient.Send(message);
-            logger.Debug("Command sent: " + Utils.TrimLog(message));
         }
 
         public void Close()
         {
-            logger.Info(string.Format("Closing connection to AltTester on: {0}", this.wsClient.URI));
+
+            logger.Info(string.Format("Closing connection to AltTester® on: {0}", this.wsClient.URI));
+            websocketClosedCalled = true;
             this.wsClient.Close();
         }
 
@@ -155,8 +188,19 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             }
             else
             {
-                messages.Enqueue(message);
-                logger.Debug("Response received: " + Utils.TrimLog(data));
+                if (messages.ContainsKey(message.messageId))
+                {
+
+                    Queue<CommandResponse> queue;
+                    messages.TryGetValue(message.messageId, out queue);
+                    queue.Enqueue(message);
+                }
+                else
+                {
+                    var queue = new Queue<CommandResponse>();
+                    queue.Enqueue(message);
+                    messages.Add(message.messageId, queue);
+                }
             }
         }
 
@@ -193,6 +237,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                     {
                         callback(data2);
                     }
+                    break;
+                case "driverRegistered":
+                    wsClient.DriverRegisteredCalled = true;
                     break;
             }
         }

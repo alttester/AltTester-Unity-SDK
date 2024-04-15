@@ -12,11 +12,15 @@ An AltDriver instance will connect to the running instrumented Unity application
 
 | Name           | Type    | Required | Description                                                                           |
 | -------------- | ------- | -------- | ------------------------------------------------------------------------------------- |
-| host           | string  | No       | The IP or hostname AltTester Unity SDK is listening on. The default value is "127.0.0.1". |
-| port           | int     | No       | The default value is 13000.                                                           |
-| enableLogging  | boolean | No       | The default value is false.                                                           |
-| connectTimeout | int     | No       | The connect timeout in seconds.The default value is 60.                                |
-| appName        | string  | No       | The name of the Unity application.The default value is `__default__`.                  |
+| host           | string  | No       | The IP or hostname AltTester® Unity SDK is listening on. The default value is `127.0.0.1`. |
+| port           | int     | No       | The default value is `13000`.                                                              |
+| appName        | string  | No       | The name of the Unity application. The default value is `__default__`.                  |
+| enableLogging  | boolean | No       | The default value is `false`.                                                           |
+| connectTimeout | int     | No       | The connect timeout in seconds. The default value is `60`.                              |
+| platform       | string  | No       | The platform of the Unity application. The default value is `unknown`.                  |
+| platformVersion| string  | No       | The platform version of the Unity application. The default value is `unknown`.          |
+| deviceInstanceId| string  | No      | The device instance id of the Unity application. The default value is`unknown`.         |
+| appId        | string  | No         | The unique id of the Unity application. The default value is `unknown`.                 |
 
 Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the app. The available methods are the following:
 
@@ -1821,7 +1825,7 @@ Simulates device rotation action in your app.
 
 #### ResetInput
 
-Clears all active input actions simulated by AltTester.
+Clears all active input actions simulated by AltTester®.
 
 **_Parameters_**
 
@@ -2777,12 +2781,9 @@ Invokes static methods from your app.
         @Test
         public void TestCallStaticMethod() throws Exception
         {
-
-            AltCallStaticMethodParams altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", new Object[] {"Test", 1}).withTypeOfParameters("").build();
-            altDriver.callStaticMethod(altCallStaticMethodParams, Void.class);
-            altCallStaticMethodParams = new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "GetInt", "UnityEngine.CoreModule", new Object[] {"Test", 2}).withTypeOfParameters("").build();
-            int a = altDriver.callStaticMethod(altCallStaticMethodParams, Integer.class);
-            assertEquals(1,a);
+            altDriver.callStaticMethod(new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "SetInt", "", new Object[] { "Test", "1" }).build(), String.class);
+            int a = altDriver.callStaticMethod(new AltCallStaticMethodParams.Builder("UnityEngine.PlayerPrefs", "GetInt", "", new Object[] { "Test", "2" }).build(), Integer.class);
+            assertEquals(1, a);
         }
 
     .. code-tab:: py
@@ -2804,7 +2805,7 @@ Gets the value of the static field or property.
 | ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
 | componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
 | propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
-| assemblyName  | string | Yes      | The name of the assembly containing the component. It is NULL by default.                                                      |
+| assemblyName  | string | Yes      | The name of the assembly containing the component.                                                     |
 | maxDepth      | int    | No       | The maximum depth in the hierarchy to look for the static field or property. Its value is 2 by default. |
 
 **_Returns_**
@@ -2840,11 +2841,19 @@ Gets the value of the static field or property.
     .. code-tab:: py
 
         def test_get_static_property(self):
-            self.altdriver.load_scene('Scene 1 AltDriverTestScene')
-            self.altdriver.call_static_method("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", ["1920", "1080", "True"], ["System.Int32", "System.Int32", "System.Boolean"])
+
+            self.altdriver.call_static_method(
+                "UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
+                parameters=["1920", "1080", "True"],
+                type_of_parameters=["System.Int32",
+                                    "System.Int32", "System.Boolean"]
+            )
             width = self.altdriver.get_static_property(
-                "UnityEngine.Screen", "currentResolution.width", "UnityEngine.CoreModule")
-            self.assertEqual(int(width), 1920)
+                "UnityEngine.Screen", "currentResolution.width",
+                "UnityEngine.CoreModule"
+            )
+
+            assert int(width) == 1920
 
 ```
 
@@ -2858,7 +2867,7 @@ Sets the value of the static field or property.
 | --------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
 | componentName   | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
 | propertyName    | string | Yes      | The name of the property whose value you want to set                                                                  |
-| assemblyName    | string | Yes      | The name of the assembly containing the component. It is NULL by default.                                                |
+| assemblyName    | string | Yes      | The name of the assembly containing the component.                                           |
 | updatedProperty | object | Yes      | The value to be set for the chosen component's static property                                                           |
 
 **_Returns_**
@@ -2908,7 +2917,7 @@ Sets the value of the static field or property.
 
 #### SetServerLogging
 
-Sets the level of logging on AltTester Unity SDK.
+Sets the level of logging on AltTester® Unity SDK.
 
 **_Parameters_**
 
@@ -3293,7 +3302,7 @@ Sets value of the given component property.
 | componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
 | propertyName  | string | Yes      | The name of the property of which value you want to set                                                                  |
 | value         | object | Yes      | The value to be set for the chosen component's property                                               |
-| assemblyName  | string | Yes       | The name of the assembly containing the component. It is NULL by default.                                               |
+| assemblyName  | string | Yes       | The name of the assembly containing the component.                                               |
                                                               
 **_Returns_**
 
@@ -3943,7 +3952,7 @@ None
 ```
 ### GetScreenPosition
 
- Returns the screen position of the AltTester object.
+ Returns the screen position of the AltTester® object.
 
 **_Parameters_**
 
@@ -3998,7 +4007,7 @@ None
 ```
 ### GetWorldPosition
 
-Returns the world position of the AltTester object.
+Returns the world position of the AltTester® object.
 
 **_Parameters_**
 
@@ -4256,10 +4265,10 @@ There are several characters that you need to escape when you try to find an obj
 
 ### AltId
 
-Is a solution offered by AltTester Unity SDK in order to find object easier. This is an unique identifier stored in an component and added to every object.
+Is a solution offered by AltTester® Unity SDK in order to find object easier. This is an unique identifier stored in an component and added to every object.
 **A limitation of this is that only the object already in the scene before building the app will have an AltId. Object instantiated during run time will not have an AltId**
 
-To add AltId to every object simply just click _Add AltId to every object_ from AltTester menu.
+To add AltId to every object simply just click _Add AltId to every object_ from AltTester® menu.
 
 ![Add AltId](../_static/img/commands/add-alt-id.png)
 

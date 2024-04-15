@@ -18,8 +18,11 @@
 package com.alttester;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
@@ -40,6 +43,7 @@ import com.alttester.altTesterExceptions.ConnectionTimeoutException;
 import com.alttester.altTesterExceptions.NoAppConnectedException;
 import com.alttester.altTesterExceptions.AppDisconnectedException;
 import com.alttester.altTesterExceptions.MultipleDriversException;
+import com.alttester.altTesterExceptions.MultipleDriversTryingToConnectException;
 
 @ClientEndpoint
 public class WebsocketConnection {
@@ -49,27 +53,52 @@ public class WebsocketConnection {
     private int port;
     private String appName;
     private int connectTimeout;
+    private String platform;
+    private String platformVersion;
+    private String deviceInstanceId;
+    private String appId;
 
     private String error = null;
     private CloseReason closeReason = null;
 
     public Session session = null;
     public IMessageHandler messageHandler = null;
+    public boolean driverRegisteredCalled = false;
 
-    public WebsocketConnection(String host, int port, String appName, int connectTimeout) {
+    public WebsocketConnection(String host, int port, String appName, int connectTimeout, String platform,
+            String platformVersion, String deviceInstanceId, String appId) {
         this.host = host;
         this.port = port;
         this.appName = appName;
         this.connectTimeout = connectTimeout;
+        this.platform = platform;
+        this.platformVersion = platformVersion;
+        this.deviceInstanceId = deviceInstanceId;
+        this.appId = appId;
     }
 
     public boolean isOpen() {
         return this.session.isOpen();
     }
 
-    private URI getURI() {
+    public static String escapeDataString(String value) {
         try {
-            return new URI("ws", null, host, port, "/altws", "appName=" + appName, null);
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
+    }
+
+    private URI getURI() {
+
+        String query = String.format(
+                "appName=%s&platform=%s&platformVersion=%s&deviceInstanceId=%s&appId=%s&driverType=SDK",
+                escapeDataString(appName), escapeDataString(platform),
+                escapeDataString(platformVersion), escapeDataString(deviceInstanceId),
+                escapeDataString(appId));
+
+        try {
+            return new URI("ws", null, host, port, "/altws", query, null);
         } catch (URISyntaxException e) {
             logger.error(e);
             throw new ConnectionException(e.getMessage(), e);
@@ -98,8 +127,11 @@ public class WebsocketConnection {
             if (code == 4005) {
                 throw new MultipleDriversException(reason);
             }
-
-            throw new ConnectionException(String.format("Connection closed by AltServer with reason: %s.", reason));
+            if (code == 4007) {
+                throw new MultipleDriversTryingToConnectException(reason);
+            }
+            throw new ConnectionException(
+                    String.format("Connection closed by AltTester® Server with reason: %s.", reason));
         }
     }
 
@@ -143,13 +175,28 @@ public class WebsocketConnection {
                 connectionError = e;
             }
 
+            float waitForNotification = 0;
             try {
-                Thread.sleep(delay); // Delay between retries.
-            } catch (InterruptedException e) {
-                break;
+
+                while (waitForNotification < 5000) {
+                    if (driverRegisteredCalled) {
+                        logger.debug("Connected to: '{}'.", uri);
+                        return;
+                    }
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    checkCloseReason();
+
+                    waitForNotification += delay;
+                }
+            } catch (Exception e) {
+
             }
 
-            if (this.session != null && this.session.isOpen()) {
+            if (session.isOpen()) {// Added this to be also backward compatible but it will be slower
                 break;
             }
 
@@ -162,19 +209,19 @@ public class WebsocketConnection {
 
         if (this.session == null || (!this.session.isOpen() && finish - start >= timeout)) {
             throw new ConnectionTimeoutException(
-                    String.format("Failed to connect to AltTester on host: %s port: %s.", host, port),
+                    String.format("Failed to connect to AltTester® on host: %s port: %s.", host, port),
                     connectionError);
         }
 
         if (!this.session.isOpen()) {
             throw new ConnectionException(
-                    String.format("Failed to connect to AltTester on host: %s port: %s.", host, port),
+                    String.format("Failed to connect to AltTester® on host: %s port: %s.", host, port),
                     connectionError);
         }
     }
 
     public void close() {
-        logger.info("Closing connection to AltTester on host: {} port: {}.", host, port);
+        logger.info("Closing connection to AltTester® on host: {} port: {}.", host, port);
 
         if (this.session != null) {
             try {
@@ -203,7 +250,11 @@ public class WebsocketConnection {
 
     @OnMessage
     public void onMessage(String message) {
-        messageHandler.onMessage(message);
+        if (message.contains("driverRegistered")) {
+            driverRegisteredCalled = true;
+        } else {
+            messageHandler.onMessage(message);
+        }
     }
 
     @OnError
@@ -216,7 +267,7 @@ public class WebsocketConnection {
 
     @OnClose
     public void onClose(Session session, CloseReason reason) {
-        logger.debug("Connection to AltTester closed: {}.", reason.toString());
+        logger.debug("Connection to AltTester® closed: {}.", reason.toString());
 
         this.closeReason = reason;
     }

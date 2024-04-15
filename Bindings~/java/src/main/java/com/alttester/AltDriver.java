@@ -41,7 +41,7 @@ import com.alttester.altTesterExceptions.*;
 
 public class AltDriver {
     private static final Logger logger = LogManager.getLogger(AltDriver.class);
-    public static final String VERSION = "2.0.3";
+    public static final String VERSION = "2.1.0";
 
     static {
         ConfigurationFactory custom = new AltDriverConfigFactory();
@@ -65,22 +65,27 @@ public class AltDriver {
     private WebsocketConnection connection = null;
 
     public AltDriver() {
-        this("127.0.0.1", 13000);
+        this("127.0.0.1", 13000, false, 60, "__default__", "unknown", "unknown", "unknown", "unknown");
     }
 
     public AltDriver(String host, int port) {
-        this(host, port, false);
+        this(host, port, false, 60, "__default__", "unknown", "unknown", "unknown", "unknown");
     }
 
     public AltDriver(String host, int port, Boolean enableLogging) {
-        this(host, port, enableLogging, 60);
+        this(host, port, enableLogging, 60, "__default__", "unknown", "unknown", "unknown", "unknown");
     }
 
     public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout) {
-        this(host, port, enableLogging, connectTimeout, "__default__");
+        this(host, port, enableLogging, connectTimeout, "__default__", "unknown", "unknown", "unknown", "unknown");
     }
 
     public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String appName) {
+        this(host, port, enableLogging, connectTimeout, appName, "unknown", "unknown", "unknown", "unknown");
+    }
+
+    public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String appName, String platform,
+            String platformVersion, String deviceInstanceId, String appId) {
         if (!enableLogging) {
             AltDriverConfigFactory.DisableLogging();
         }
@@ -89,8 +94,9 @@ public class AltDriver {
             throw new InvalidParameterException("Provided host address is null or empty.");
         }
 
-        logger.debug("Connecting to AltTester on host: '{}', port: '{}' and appName: '{}'.", host, port, appName);
-        this.connection = new WebsocketConnection(host, port, appName, connectTimeout);
+        logger.debug("Connecting to AltTester® on host: '{}', port: '{}' and appName: '{}'.", host, port, appName);
+        this.connection = new WebsocketConnection(host, port, appName, connectTimeout, platform, platformVersion,
+                deviceInstanceId, appId);
         this.connection.connect();
 
         checkServerVersion();
@@ -132,7 +138,7 @@ public class AltDriver {
 
         if (!majorServer.equals(majorDriver) || !minorServer.equals(minorDriver)) {
             String message = String.format(
-                    "Version mismatch. AltDriver version is %s. AltTester version is %s.",
+                    "Version mismatch. AltDriver version is %s. AltTester® version is %s.",
                     AltDriver.VERSION, serverVersion);
             logger.warn(message);
             System.out.println(message);
@@ -149,9 +155,9 @@ public class AltDriver {
     }
 
     /**
-     * Gets the AltTester version, used to instrument the app.
+     * Gets the AltTester® version, used to instrument the app.
      *
-     * @return AltTester version
+     * @return AltTester® version
      */
     public String getServerVersion() {
         return new GetServerVersionCommand(this.connection.messageHandler).Execute();

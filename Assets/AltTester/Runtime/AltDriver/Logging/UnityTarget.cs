@@ -50,6 +50,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Logging
                 Debug.Log(message);
             }
         }
+
     }
 
 }

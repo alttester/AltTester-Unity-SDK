@@ -132,6 +132,20 @@ namespace AltTester.AltTesterUnitySDK.Driver
         }
     }
 
+    /// <summary>
+    /// Raised when the client tries to connect to a server at the same time with another driver
+    /// </summary>
+    public class MultipleDriversTryingToConnectException : ConnectionException
+    {
+        public MultipleDriversTryingToConnectException()
+        {
+        }
+
+        public MultipleDriversTryingToConnectException(string message) : base(message)
+        {
+        }
+    }
+
     public class NotFoundException : AltException
     {
         public NotFoundException()

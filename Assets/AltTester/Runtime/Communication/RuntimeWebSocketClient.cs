@@ -28,11 +28,15 @@ namespace AltTester.AltTesterUnitySDK.Communication
 {
     public class RuntimeWebSocketClient : IRuntimeWebSocketClient
     {
-        private WebSocket wsClient;
+        private ClientWebSocket wsClient;
 
         private readonly string host;
         private readonly int port;
         private readonly string appName;
+        private readonly string platform;
+        private readonly string platformVersion;
+        private readonly string deviceInstanceId;
+        private readonly string appId;
 
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationDisconnectHandler OnDisconnect { get; set; }
@@ -41,16 +45,26 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.IsAlive; } }
 
+        public WebSocketState ReadyState { get { return this.wsClient.ReadyState; } }
 
-        public RuntimeWebSocketClient(string host, int port, string path, string appName)
+        public RuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId = null)
         {
             this.host = host;
             this.port = port;
             this.appName = appName;
+            this.platform = platform;
+            this.platformVersion = platformVersion;
+            this.deviceInstanceId = deviceInstanceId;
+            this.appId = appId;
 
-            Uri uri = Utils.CreateURI(host, port, path, appName);
-            wsClient = new WebSocket(uri.ToString());
-            wsClient.Log.Level = LogLevel.Fatal;
+            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId);
+            wsClient = new ClientWebSocket(uri.ToString());
+            // To see websocket logs just uncomment the following lines
+            // wsClient.Log.Level = LogLevel.Trace;
+            // wsClient.Log.Output = (logData, output) =>
+            // {
+            //     UnityEngine.Debug.Log($"[{logData.Level}] {logData.Date.ToString("yyyy-MM-dd HH:mm:ss.ffff")} - {logData.Message}");
+            // };
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);
             if (proxyUri != null)
@@ -85,9 +99,13 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 this.wsClient.ConnectAsync();
             }
+            catch (InvalidOperationException e)
+            {
+                throw new InvalidOperationException("Could not connect", e);
+            }
             catch (Exception ex)
             {
-                throw new RuntimeWebSocketClientException("An error occurred while starting the AltTester client.", ex);
+                throw new RuntimeWebSocketClientException("An error occurred while starting the AltTester® client.", ex);
             }
         }
 
@@ -125,33 +143,53 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public bool IsConnected { get { return this.wsClient != null && this.wsClient.State == WebSocketState.Open; } }
 
-        public WebGLRuntimeWebSocketClient(string host, int port, string path, string appName)
+        public WebSocketState ReadyState
+        {
+            get
+            {
+                return this.wsClient.State;
+            }
+        }
+
+        public WebGLRuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId)
         {
             this.host = host;
             this.port = port;
             this.appName = appName;
 
-            Uri uri = Utils.CreateURI(host, port, path, appName);
+            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, "SDK");
             wsClient = new WebGLWebSocket(uri.ToString());
 
             wsClient.OnOpen += () =>
             {
-                if (this.OnConnect != null) this.OnConnect.Invoke();
+                if (this.OnConnect != null)
+                {
+                    this.OnConnect.Invoke();
+                }
 
                 wsClient.OnError += (string errorMsg) =>
                 {
-                    if (this.OnError != null) this.OnError.Invoke(errorMsg, null);
+                    if (this.OnError != null)
+                    {
+                        this.OnError.Invoke(errorMsg, null);
+                    }
                 };
             };
 
             wsClient.OnClose += (int closeCode, string reason) =>
             {
-                if (this.OnDisconnect != null) this.OnDisconnect.Invoke(closeCode, reason);
+                if (this.OnDisconnect != null)
+                {
+                    this.OnDisconnect.Invoke(closeCode, reason);
+                }
             };
 
             wsClient.OnMessage += (byte[] message) =>
             {
-                if (this.OnMessage != null) this.OnMessage.Invoke(Encoding.UTF8.GetString(message));
+                if (this.OnMessage != null)
+                {
+                    this.OnMessage.Invoke(Encoding.UTF8.GetString(message));
+                }
             };
         }
 
@@ -163,7 +201,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             }
             catch (Exception ex)
             {
-                throw new RuntimeWebSocketClientException("An error occurred while starting the AltTester client.", ex);
+                throw new RuntimeWebSocketClientException("An error occurred while starting the AltTester® client.", ex);
             }
         }
 
@@ -173,7 +211,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 this.wsClient.Close().GetAwaiter().GetResult();
             }
-            catch (WebSocketInvalidStateException ex)
+            catch (WebSocketException ex)
             {
                 logger.Debug(ex.Message);
             }

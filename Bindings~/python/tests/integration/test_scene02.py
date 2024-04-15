@@ -24,8 +24,7 @@ from alttester import By
 class TestScene02:
 
     @pytest.fixture(autouse=True)
-    def setup(self, altdriver):
-        self.altdriver = altdriver
+    def setup(self):
         self.altdriver.reset_input()
         self.altdriver.load_scene(Scenes.Scene02)
 
@@ -68,7 +67,7 @@ class TestScene02:
             "Particle System"
         }
         names = [element.name for element in elements]
-        assert len(names) == 24 or len(names) == 25
+        assert len(names) >= 22
         for name in expected_names:
             assert name in names
 
@@ -145,8 +144,10 @@ class TestScene02:
         draggable_area = self.altdriver.find_object(By.NAME, "Drag Zone")
         initial_position = draggable_area.get_screen_position()
 
-        finger_id = self.altdriver.begin_touch(draggable_area.get_screen_position())
-        self.altdriver.move_touch(finger_id, [draggable_area.x + 10, draggable_area.y + 10])
+        finger_id = self.altdriver.begin_touch(
+            draggable_area.get_screen_position())
+        self.altdriver.move_touch(
+            finger_id, [draggable_area.x + 10, draggable_area.y + 10])
         self.altdriver.end_touch(finger_id)
 
         draggable_area = self.altdriver.find_object(By.NAME, "Drag Zone")

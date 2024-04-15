@@ -16,6 +16,7 @@
 */
 
 using System;
+using AltWebSocketSharp;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
@@ -31,6 +32,8 @@ namespace AltTester.AltTesterUnitySDK.Communication
         CommunicationErrorHandler OnError { get; set; }
         CommunicationMessageHandler OnMessage { get; set; }
         bool IsConnected { get; }
+        WebSocketState ReadyState { get; }
+
         void Connect();
         void Close();
         void Send(string message);

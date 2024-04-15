@@ -24,6 +24,8 @@ using NUnit.Framework;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
 {
+    [TestFixture]
+    [Parallelizable]
     public class TestForScene5KeyboardAndMouseInput : TestBase
     {
 #pragma warning disable CS0618
@@ -31,6 +33,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public TestForScene5KeyboardAndMouseInput()
         {
             sceneName = "Scene 5 Keyboard Input";
+        }
+
+        public  AltObject PressKeyAndReturnPlayer1 (AltKeyCode keyCode){
+            altDriver.PressKey(keyCode, 1, 2);
+            return altDriver.FindObject(By.NAME,"Player1");
         }
 
         [Test]
@@ -54,16 +61,27 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         }
 
         [Test]
-        public void TestCameraMovement()
+        public void TestCameraMovementByWASD()
         {
             var cube = altDriver.FindObject(By.NAME, "Player1");
             AltVector3 cubeInitialPostion = cube.GetWorldPosition();
 
-            altDriver.PressKey(AltKeyCode.W, 1, 2);
-            cube = altDriver.FindObject(By.NAME, "Player1");
-            AltVector3 cubeFinalPosition = cube.GetWorldPosition();
+            Assert.AreNotEqual(cubeInitialPostion, PressKeyAndReturnPlayer1(AltKeyCode.W).GetWorldPosition());
+            Assert.AreNotEqual(PressKeyAndReturnPlayer1(AltKeyCode.W).GetWorldPosition(), PressKeyAndReturnPlayer1(AltKeyCode.A).GetWorldPosition());
+            Assert.AreNotEqual(PressKeyAndReturnPlayer1(AltKeyCode.A).GetWorldPosition(), PressKeyAndReturnPlayer1(AltKeyCode.S).GetWorldPosition());
+            Assert.AreNotEqual(PressKeyAndReturnPlayer1(AltKeyCode.S).GetWorldPosition(), PressKeyAndReturnPlayer1(AltKeyCode.D).GetWorldPosition());
+        }
 
-            Assert.AreNotEqual(cubeInitialPostion, cubeFinalPosition);
+        [Test]
+        public void TestCameraMovementByArrows()
+        {
+            var cube = altDriver.FindObject(By.NAME, "Player1");
+            AltVector3 cubeInitialPostion = cube.GetWorldPosition();
+
+            Assert.AreNotEqual(cubeInitialPostion, PressKeyAndReturnPlayer1(AltKeyCode.UpArrow).GetWorldPosition());
+            Assert.AreNotEqual(PressKeyAndReturnPlayer1(AltKeyCode.UpArrow).GetWorldPosition(), PressKeyAndReturnPlayer1(AltKeyCode.DownArrow).GetWorldPosition());
+            Assert.AreNotEqual(PressKeyAndReturnPlayer1(AltKeyCode.DownArrow).GetWorldPosition(), PressKeyAndReturnPlayer1(AltKeyCode.RightArrow).GetWorldPosition());
+            Assert.AreNotEqual(PressKeyAndReturnPlayer1(AltKeyCode.RightArrow).GetWorldPosition(), PressKeyAndReturnPlayer1(AltKeyCode.LeftArrow).GetWorldPosition());
         }
 
         [Test]
@@ -103,7 +121,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var lastKeyDown = altDriver.FindObject(By.NAME, "LastKeyDownValue");
             var lastKeyUp = altDriver.FindObject(By.NAME, "LastKeyUpValue");
             var lastKeyPress = altDriver.FindObject(By.NAME, "LastKeyPressedValue");
-            var runner = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             foreach (AltKeyCode kcode in Enum.GetValues(typeof(AltKeyCode)))
             {
                 if (kcode != AltKeyCode.NoKey && kcode < AltKeyCode.Joystick1Button0)
@@ -238,6 +255,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             }
             Assert.AreEqual(newShadersName, shadersName);
 
+        }
+        [Test]
+        public void TestClickDestroyButton()
+        {
+            altDriver.FindObject(By.NAME, "Destroy").Click();
+            altDriver.WaitForObjectNotBePresent(By.NAME, "Destroy");
         }
 
 #pragma warning restore CS0618

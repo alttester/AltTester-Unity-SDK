@@ -16,14 +16,15 @@
 */
 
 using System;
-using System.Threading;
 using System.Diagnostics;
-using AltWebSocketSharp;
+using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Driver.Proxy;
+using AltWebSocketSharp;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Communication {
+namespace AltTester.AltTesterUnitySDK.Driver.Communication
+{
     public class DriverWebSocketClient
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
@@ -33,30 +34,42 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
         private readonly string uri;
         private readonly string appName;
         private readonly int connectTimeout;
+        private readonly string platform;
+        private readonly string platformVersion;
+        private readonly string deviceInstanceId;
+        private string appId;
+        private string driverType;
 
         private String error = null;
 
         private int closeCode = 0;
-        private String closeReason = null;
+        private string closeReason = null;
 
-        private WebSocket wsClient = null;
+        private ClientWebSocket wsClient = null;
         public event EventHandler<MessageEventArgs> OnMessage;
+        public event EventHandler<CloseEventArgs> OnCloseEvent;
 
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
         public string URI { get { return this.uri; } }
+        public bool DriverRegisteredCalled = false;
 
-        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout)
+        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType)
         {
             this.host = host;
             this.port = port;
             this.appName = appName;
             this.connectTimeout = connectTimeout;
+            this.platform = platform;
+            this.platformVersion = platformVersion;
+            this.deviceInstanceId = deviceInstanceId;
+            this.appId = appId;
+            this.driverType = driverType;
 
             this.error = null;
             this.closeCode = 0;
             this.closeReason = null;
 
-            this.uri = Utils.CreateURI(host, port, path, appName).ToString();
+            this.uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, driverType).ToString();
         }
 
         private void CheckCloseMessage()
@@ -77,8 +90,12 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
                 {
                     throw new MultipleDriversException(this.closeReason);
                 }
+                if (closeCode == 4007)
+                {
+                    throw new MultipleDriversTryingToConnectException(closeReason);
+                }
 
-                throw new ConnectionException(string.Format("Connection closed by AltServer with reason: {}.", this.closeReason));
+                throw new ConnectionException(string.Format("Connection closed by AltTester® Server with reason: {0}.", this.closeReason));
             }
         }
 
@@ -103,8 +120,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
         protected void OnClose(object sender, CloseEventArgs e)
         {
-            logger.Debug("Connection to AltTester closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
-
+            logger.Debug("Connection to AltTester® Server closed: [Code:{0}, Reason:{1}].", e.Code, e.Reason);
+            OnCloseEvent.Invoke(this, e);
+            DriverRegisteredCalled = false;
             this.closeCode = e.Code;
             this.closeReason = e.Reason;
         }
@@ -115,7 +133,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
             int delay = 100;
 
-            this.wsClient = new WebSocket(this.uri);
+            this.wsClient = new ClientWebSocket(this.uri);
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
             if (proxyUri != null)
@@ -140,15 +158,35 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
                 {
                     logger.Debug(string.Format("Retrying #{0} to connect to: '{1}'.", retries, this.uri));
                 }
-                wsClient.Connect();
 
-                if (wsClient.IsAlive)
+                try
                 {
-                    break;
+                    wsClient.Connect();
                 }
-
+                catch (Exception e)
+                {
+                    logger.Debug(string.Format("Connection error: {0}", e.Message));
+                }
+                float waitForNotification = 0;
+                try
+                {
+                    while (waitForNotification < 5000)
+                    {
+                        if (DriverRegisteredCalled)
+                        {
+                            logger.Debug(string.Format("Connected to: '{0}'.", this.uri));
+                            return;
+                        }
+                        Thread.Sleep(delay);
+                        waitForNotification += delay;
+                        this.CheckCloseMessage();
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Debug($"Closed connection because {e}");
+                }
                 retries++;
-                Thread.Sleep(delay); // Delay between retries.
             }
 
             this.CheckCloseMessage();
@@ -156,20 +194,23 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication {
 
             if (watch.Elapsed.TotalSeconds > this.connectTimeout && !wsClient.IsAlive)
             {
-                throw new ConnectionTimeoutException(string.Format("Failed to connect to AltServer on host: {0} port: {1}.", this.host, this.port));
+                throw new ConnectionTimeoutException(string.Format("Failed to connect to AltTester® Server on host: {0} port: {1}.", this.host, this.port));
             }
-
             logger.Debug(string.Format("Connected to: '{0}'.", this.uri));
+
         }
 
         public void Close()
         {
-            logger.Info(string.Format("Closing connection to AltServer on: '{0}'.", this.uri));
+            logger.Info(string.Format("Closing connection to AltTester® Server on: '{0}'.", this.uri));
+            DriverRegisteredCalled = false;
             this.wsClient.Close();
         }
 
-        public void Send(string message) {
-            if (!this.IsAlive) {
+        public void Send(string message)
+        {
+            if (!this.IsAlive)
+            {
                 logger.Warn("The connection is already closed.");
                 return;
             }

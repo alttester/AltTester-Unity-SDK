@@ -39,6 +39,6 @@ public class TestsHelper {
     }
 
     public static AltDriver getAltDriver() {
-        return new AltDriver(TestsHelper.getAltDriverHost(), TestsHelper.getAltDriverPort(), true);
+        return new AltDriver(TestsHelper.getAltDriverHost(), TestsHelper.getAltDriverPort(), true, 60);
     }
 }

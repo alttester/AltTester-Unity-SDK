@@ -333,10 +333,32 @@ public class TestsSampleScene1 extends BaseTest {
     @Test
     public void testWaitForComponentProperty() throws InterruptedException {
         Thread.sleep(1000);
-        String componentName = "UnityEngine.CapsuleCollider";
-        String propertyName = "isTrigger";
+        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String propertyName = "InstrumentationSettings.AppName";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-                "Capsule").build();
+                "AltTesterPrefab").build();
+
+        AltObject altElement = altDriver.findObject(altFindObjectsParams);
+        assertNotNull(altElement);
+
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                componentName, propertyName, "").build();
+        AltWaitForComponentPropertyParams<String> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<String>(
+                altGetComponentPropertyParams).build();
+        String propertyValue = altElement.WaitForComponentProperty(
+                altWaitForComponentPropertyParams,
+                "__default__",
+                String.class);
+        assertEquals("__default__", propertyValue);
+    }
+
+    @Test
+    public void testWaitForComponentPropertyComponentNotFound() throws InterruptedException {
+        Thread.sleep(1000);
+        String componentName = "AltTester.AltTesterUnitySDK.AltRunnerTest";
+        String propertyName = "InstrumentationSettings.AltServerPort";
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                "AltTesterPrefab").build();
 
         AltObject altElement = altDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
@@ -345,12 +367,87 @@ public class TestsSampleScene1 extends BaseTest {
                 componentName, propertyName, "").build();
         AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
                 altGetComponentPropertyParams).build();
+        assertThrows(ComponentNotFoundException.class,
+                () -> {
+                    Boolean propertyValue = altElement.WaitForComponentProperty(
+                            altWaitForComponentPropertyParams,
+                            false,
+                            Boolean.class);
+                });
 
-        Boolean propertyValue = altElement.WaitForComponentProperty(
-                altWaitForComponentPropertyParams,
-                false,
-                Boolean.class);
-        assertEquals(Boolean.FALSE, propertyValue);
+    }
+
+    @Test
+    public void TestWaitForComponentPropertyNotFound() throws InterruptedException {
+        Thread.sleep(1000);
+        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String propertyName = "InstrumentationSettings.AltServerPortTest";
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                "AltTesterPrefab").build();
+
+        AltObject altElement = altDriver.findObject(altFindObjectsParams);
+        assertNotNull(altElement);
+
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                componentName, propertyName, "").build();
+        AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
+                altGetComponentPropertyParams).build();
+        assertThrows(PropertyNotFoundException.class,
+                () -> {
+                    Boolean propertyValue = altElement.WaitForComponentProperty(
+                            altWaitForComponentPropertyParams,
+                            false,
+                            Boolean.class);
+                });
+    }
+
+    @Test
+    public void TestWaitForComponentPropertyTimeOut() throws InterruptedException {
+        Thread.sleep(1000);
+        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String propertyName = "InstrumentationSettings.AltServerPort";
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                "AltTesterPrefab").build();
+
+        AltObject altElement = altDriver.findObject(altFindObjectsParams);
+        assertNotNull(altElement);
+
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                componentName, propertyName, "").build();
+        AltWaitForComponentPropertyParams<String> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<String>(
+                altGetComponentPropertyParams).withTimeout(2).build();
+        assertThrows(WaitTimeOutException.class,
+                () -> {
+                    altElement.WaitForComponentProperty(
+                            altWaitForComponentPropertyParams,
+                            "Test",
+                            String.class);
+                });
+    }
+
+    @Tag("WebGLUnsupported") // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
+    @Test
+    public void TestWaitForComponentPropertyAssemblyNotFound() throws InterruptedException {
+        Thread.sleep(1000);
+        String componentName = "AltExampleScriptCapsule";
+        String propertyName = "InstrumentationSettings.AltServerPort";
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                "Capsule").build();
+
+        AltObject altElement = altDriver.findObject(altFindObjectsParams);
+        assertNotNull(altElement);
+
+        AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
+                componentName, propertyName, "Assembly-CSharpTest").build();
+        AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(
+                altGetComponentPropertyParams).build();
+        assertThrows(AssemblyNotFoundException.class,
+                () -> {
+                    altElement.WaitForComponentProperty(
+                            altWaitForComponentPropertyParams,
+                            false,
+                            Boolean.class);
+                });
     }
 
     @Test

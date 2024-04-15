@@ -34,43 +34,51 @@ namespace AltTester.AltTesterUnitySDK.Driver
     {
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
-        public static readonly string VERSION = "2.0.3";
+        private static object driverLock = new object();
+        public static readonly string VERSION = "2.1.0";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
         /// <summary>
         /// Initiates AltDriver and begins connection with the instrumented Unity application through to AltServer.
         /// </summary>
-        /// <param name="host">The IP or hostname AltServer is listening on.</param>
-        /// <param name="port">The port AltServer is listening on.</param>
+        /// <param name="host">The IP or hostname AltTester® Server is listening on.</param>
+        /// <param name="port">The port AltTester® Server is listening on.</param>
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
         /// <param name="appName">The name of the Unity application.</param>
-        public AltDriver(string host = "127.0.0.1", int port = 13000, bool enableLogging = false, int connectTimeout = 60, string appName = "__default__")
+        public AltDriver(string host = "127.0.0.1", int port = 13000, string appName = "__default__", bool enableLogging = false, int connectTimeout = 60, string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown", string driverType = "SDK")
         {
+            lock (driverLock)
+            {
 #if UNITY_EDITOR || ALTTESTER
-            var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Unity, AltLogLevel.Debug } };
+                var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Unity, AltLogLevel.Debug } };
 #else
-            var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Console, AltLogLevel.Debug } };
+                var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Console, AltLogLevel.Debug } };
 #endif
 
-            DriverLogManager.SetupAltDriverLogging(defaultLevels);
+                DriverLogManager.SetupAltDriverLogging(defaultLevels);
 
-            if (!enableLogging)
-            {
-                DriverLogManager.StopLogging();
+                if (!enableLogging)
+                {
+                    DriverLogManager.StopLogging();
+                }
+
+                logger.Debug(
+                    "Connecting to AltTester® on host: '{0}', port: '{1}', appName: '{2}', platform: '{3}', platformVersion: '{4}', deviceInstanceId: '{5}' and driverType: '{6}'.",
+                    host,
+                    port,
+                    appName,
+                    platform,
+                    platformVersion,
+                    deviceInstanceId,
+                    driverType
+                );
+                communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType);
+                communicationHandler.Connect();
+
+                checkServerVersion();
             }
-
-            logger.Debug(
-                "Connecting to AltTester on host: '{0}', port: '{1}' and appName: '{2}'.",
-                host,
-                port,
-                appName
-            );
-            communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName);
-            communicationHandler.Connect();
-
-            checkServerVersion();
         }
 
         private void splitVersion(string version, out string major, out string minor)
@@ -94,7 +102,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
             if (majorServer != majorDriver || minorServer != minorDriver)
             {
-                string message = "Version mismatch. AltDriver version is " + VERSION + ". AltTester version is " + serverVersion + ".";
+                string message = "Version mismatch. AltDriver version is " + VERSION + ". AltTester® version is " + serverVersion + ".";
                 logger.Warn(message);
             }
         }

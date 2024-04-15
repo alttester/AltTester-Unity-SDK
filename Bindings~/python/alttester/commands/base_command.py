@@ -203,7 +203,7 @@ class BaseCommand(Command):
             raise exceptions.AltTesterInvalidServerResponse(expected, received)
 
     def send(self):
-        """Send a command to the AltTester and return the response."""
+        """Send a command to the AltTester® and return the response."""
 
         self.connection.send(self._parameters)
         response = self.connection.recv()

@@ -36,7 +36,7 @@ class AltDriver:
 
     When you instantiate an ``AltDriver`` object in your tests, you can use it to “drive” your application like one of
     your users would, by interacting with all the application objects, their properties and methods.  An ``AltDriver``
-    instance will connect to the AltServer.
+    instance will connect to the AltTester® Server.
 
     Args:
         host (:obj:`str`, optional): The host to connect to.
@@ -48,17 +48,32 @@ class AltDriver:
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, app_name="__default__", enable_logging=False, timeout=60):
+    def __init__(
+        self,
+        host="127.0.0.1",
+        port=13000,
+        app_name="__default__",
+        enable_logging=False,
+        timeout=60,
+        platform="unknown",
+        platform_version="unknown",
+        device_instance_id="unknown",
+        app_id="unknown"
+    ):
         self.host = host
         self.port = port
         self.app_name = app_name
         self.enable_logging = enable_logging
         self.timeout = timeout
+        self.platform = platform
+        self.platform_version = platform_version
+        self.device_instance_id = device_instance_id
+        self.app_id = app_id
 
         self._config_logging(self.enable_logging)
 
         logger.debug(
-            "Connecting to AltTester on host: '{}', port: '{}' and app name: '{}'.",
+            "Connecting to AltTester® on host: '{}', port: '{}' and app name: '{}'.",
             self.host,
             self.port,
             self.app_name
@@ -71,7 +86,14 @@ class AltDriver:
             port=self.port,
             timeout=self.timeout,
             path="altws",
-            params={"appName": self.app_name},
+            params={
+                "appName": self.app_name,
+                "platform": self.platform,
+                "platformVersion": self.platform_version,
+                "deviceInstanceId": self.device_instance_id,
+                "appId": self.app_id,
+                "driverType": "SDK"
+            },
             command_handler=self._command_handler,
             notification_handler=self._notification_handler
         )
@@ -109,13 +131,13 @@ class AltDriver:
 
     def _check_server_version(self):
         server_version = commands.GetServerVersion.run(self._connection)
-        logger.info("Connection established with instrumented Unity app. AltTester Version: {}", server_version)
+        logger.info("Connection established with instrumented Unity app. AltTester® Version: {}", server_version)
 
         major_server, minor_server = self._split_version(server_version)
         major_driver, minor_driver = self._split_version(VERSION)
 
         if major_server != major_driver or minor_server != minor_driver:
-            message = "Version mismatch. AltDriver version is {}. AltTester version is {}.".format(
+            message = "Version mismatch. AltDriver version is {}. AltTester® version is {}.".format(
                 VERSION,
                 server_version
             )
@@ -164,7 +186,7 @@ class AltDriver:
         self._connection.close()
 
     def get_command_response_timeout(self):
-        """Gets the current command response timeout for the AltTester connection.
+        """Gets the current command response timeout for the AltTester® connection.
 
         Return:
             int or float: The current command response time.
@@ -174,7 +196,7 @@ class AltDriver:
         return self._connection.set_command_timeout()
 
     def set_command_response_timeout(self, timeout):
-        """Sets the command response timeout for the AltTester connection.
+        """Sets the command response timeout for the AltTester® connection.
 
         Args:
             timeout (:obj:`int` or :obj:`float`): The new command response timeout in seconds.

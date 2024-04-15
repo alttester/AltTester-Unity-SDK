@@ -9,8 +9,20 @@ flake8
 # Tests
 pytest
 pytest-cov
-pytest-repeat
+pytest-rerunfailures
+pytest-xdist
 
 #browserstack
-browserstack-local
+jsonmerge
+multiprocess
+paver
+selenium==4.6.0
+psutil
+pytest-variables
 Appium-Python-Client
+py
+Appium-Python-Client
+
+# Allure
+allure-pytest
+allure-combine

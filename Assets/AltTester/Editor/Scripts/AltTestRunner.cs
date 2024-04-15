@@ -59,7 +59,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
             progress = 0;
             total = filters.Filters.Count;
-            TNode xmlContent = new TNode("Test");
+            TNode xmlContent = new TNode("test-run");
             foreach (var assembly in assemblies)
             {
                 if (!assemblyList.Contains(assembly.GetName().Name))
@@ -511,7 +511,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             var Tests = new List<string>();
             var AssemblyToTest = new List<string>();
             var filter = new NUnit.Framework.Internal.Filters.OrFilter();
-            TNode xmlContent = new TNode("Test");
+            TNode xmlContent = new TNode("test-run");
             var testAssemblyRunner = new NUnit.Framework.Api.NUnitTestAssemblyRunner(new NUnit.Framework.Api.DefaultTestAssemblyBuilder());
             NUnit.Framework.Interfaces.ITestListener listener = new AltTestRunListener(null);
             System.Reflection.Assembly[] assemblies = System.AppDomain.CurrentDomain.GetAssemblies();

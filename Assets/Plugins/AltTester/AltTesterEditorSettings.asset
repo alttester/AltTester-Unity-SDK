@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073b5878cbef2364cb928faafba64ca5, type: 3}
+  m_Name: AltTesterEditorSettings
+  m_EditorClassIdentifier: 
+  appendToName: 0
+  AdbPath: /usr/local/bin/adb
+  IProxyPath: /usr/local/bin/iproxy
+  XcrunPath: /usr/bin/xcrun
+  MyTests: []
+  Scenes:
+  - _toBeBuilt: 1
+    _path: Assets/Plugins/AltTesterUnitySDK/Assets/Examples/Scenes/Scene 1 AltDriverTestScene.unity
+    _buildIndex: 0
+  - _toBeBuilt: 1
+    _path: Assets/Plugins/AltTesterUnitySDK/Assets/Examples/Scenes/Scene 8 Draggable
+      Panel NIP.unity
+    _buildIndex: 1
+  - _toBeBuilt: 1
+    _path: Assets/Plugins/AltTesterUnitySDK/Assets/Examples/Scenes/Scene 7 Drag And
+      Drop NIS.unity
+    _buildIndex: 2
+  - _toBeBuilt: 1
+    _path: Assets/Plugins/AltTesterUnitySDK/Assets/Examples/Scenes/Scene 4 No Cameras.unity
+    _buildIndex: 3
+  - _toBeBuilt: 1
+    _path: Assets/Plugins/AltTesterUnitySDK/Assets/Examples/Scenes/Scene 5 Keyboard
+      Input.unity
+    _buildIndex: 4
+  - _toBeBuilt: 1
+    _path: Assets/Plugins/AltTesterUnitySDK/Assets/Examples/Scenes/Scene6.unity
+    _buildIndex: 5
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/1_2_Validation/Demo1_Scene_ClientValidate.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/1_2_Validation/Demo2_Scene_ClientValidateTrial.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/5_Username_And_Trial_Licence/Client/Demo5_Client_ValidateLicence.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/5_Username_And_Trial_Licence/Client/Demo5_GameScene.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/5_Username_And_Trial_Licence/Server/Demo5_Server_CreateLicence.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/Client_Demo/Scene_ClientValidate.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/Client_Demo/Scene_ClientValidateTrial.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/Client_Server_Demo/Demo_Coupon/Demo4_Client.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/Client_Server_Demo/Demo_Coupon/Demo4_Client_Server.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/Client_Server_Demo/Demo_Coupon/Demo4_Server.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/Client_Server_Demo/Demo_Trial/Demo3_Client.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/Client_Server_Demo/Demo_Trial/Demo3_Client_Server.unity
+    _buildIndex: 0
+  - _toBeBuilt: 0
+    _path: Assets/Plugins/OPS/LicenceMe/Demo/Client_Server_Demo/Demo_Trial/Demo3_Server.unity
+    _buildIndex: 0
+  - _toBeBuilt: 1
+    _path: Assets/Scenes/NewMainScene.unity
+    _buildIndex: 6
+  platform: 2
+  StandaloneTarget: 5
+  RanInEditor: 0
+  ScenePathDisplayed: 0
+  ShowPopUp: 1
+  BuildLocationPath: 
+  createXMLReport: 0
+  xMLFilePath: 
+  AltServerPort: 13000
+  AltServerHost: 127.0.0.1
+  AppName: __default__
+  assemblyTestDisplayedIndex: 0
+  ResetConnectionData: 0
+  UID: 
+  KeepAUTSymbolDefined: 0

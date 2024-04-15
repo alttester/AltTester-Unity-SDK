@@ -117,12 +117,12 @@ namespace AltTester.AltTesterUnitySDK.Editor
         private bool playInEditorPressed;
         #region UnityEditor MenuItems
         // Add menu item named "My Window" to the Window menu
-        [UnityEditor.MenuItem("AltTester/AltTester Editor", false, 80)]
+        [UnityEditor.MenuItem("AltTester®/AltTester® Editor", false, 80)]
         public static void ShowWindow()
         {
             Window = (AltTesterEditorWindow)GetWindow(typeof(AltTesterEditorWindow));
             Window.minSize = new UnityEngine.Vector2(windowWidth, 100);
-            Window.titleContent = new UnityEngine.GUIContent("AltTester Editor");
+            Window.titleContent = new UnityEngine.GUIContent("AltTester® Editor");
             Window.Show();
         }
 
@@ -152,20 +152,20 @@ namespace AltTester.AltTesterUnitySDK.Editor
 #endif
         }
 
-        [UnityEditor.MenuItem("AltTester/Create AltTester Package", false, 800)]
+        [UnityEditor.MenuItem("AltTester®/Create AltTester® Package", false, 800)]
         public static void CreateAltTesterPackage()
         {
-            UnityEngine.Debug.Log("AltTester - Unity Package creation started...");
+            UnityEngine.Debug.Log("AltTester® - Unity Package creation started...");
             var version = AltRunner.VERSION.Replace('.', '_');
             string packageName = "AltTester_" + version + ".unitypackage";
             string assetPathName = "Assets/AltTester";
 
-            // add all paths inside AltTester except examples
+            // add all paths inside AltTester® except examples
             var assetPathNames = Directory.GetDirectories(assetPathName).Where(dir => !dir.EndsWith("Examples")).ToList();
             assetPathNames.AddRange(Directory.GetFiles(assetPathName));
 
             UnityEditor.AssetDatabase.ExportPackage(assetPathNames.ToArray(), packageName, UnityEditor.ExportPackageOptions.Recurse);
-            UnityEngine.Debug.Log("AltTester - Unity Package done.");
+            UnityEngine.Debug.Log("AltTester® - Unity Package done.");
         }
 
         public static void CreateSampleScenesPackage()
@@ -199,7 +199,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             Window = this;
         }
 
-        [UnityEditor.MenuItem("AltTester/AltId/Add AltId to every object", false, 800)]
+        [UnityEditor.MenuItem("AltTester®/AltId/Add AltId to every object", false, 800)]
         public static void AddIdComponentToEveryObjectInTheProject()
         {
             var scenes = altGetAllScenes();
@@ -210,7 +210,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             }
         }
 
-        [UnityEditor.MenuItem("AltTester/AltId/Add AltId to every object in active scene", false, 800)]
+        [UnityEditor.MenuItem("AltTester®/AltId/Add AltId to every object in active scene", false, 800)]
         public static void AddIdComponentToEveryObjectInActiveScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -226,7 +226,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
         }
 
 
-        [UnityEditor.MenuItem("AltTester/AltId/Remove AltId from every object", false, 800)]
+        [UnityEditor.MenuItem("AltTester®/AltId/Remove AltId from every object", false, 800)]
         public static void RemoveIdComponentFromEveryObjectInTheProject()
         {
             var scenes = altGetAllScenes();
@@ -237,7 +237,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             }
         }
 
-        [UnityEditor.MenuItem("AltTester/AltId/Remove AltId from every object in active scene", false, 800)]
+        [UnityEditor.MenuItem("AltTester®/AltId/Remove AltId from every object in active scene", false, 800)]
         public static void RemoveComponentFromEveryObjectInTheScene()
         {
             var rootObjects = new List<UnityEngine.GameObject>();
@@ -252,13 +252,13 @@ namespace AltTester.AltTesterUnitySDK.Editor
             EditorSceneManager.SaveScene(scene);
         }
 
-        [UnityEditor.MenuItem("AltTester/Support/Documentation", false, 800)]
+        [UnityEditor.MenuItem("AltTester®/Support/Documentation", false, 800)]
         public static void GoToDocumentation()
         {
             Application.OpenURL("https://alttester.com/docs/sdk/latest/");
         }
 
-        [UnityEditor.MenuItem("AltTester/Support/Discord", false, 800)]
+        [UnityEditor.MenuItem("AltTester®/Support/Discord", false, 800)]
         public static void GoToDiscord()
         {
             Application.OpenURL("https://discord.com/channels/744769398023127102/748159679426985984");
@@ -510,39 +510,12 @@ namespace AltTester.AltTesterUnitySDK.Editor
             UnityEditor.EditorGUILayout.LabelField("Build", UnityEditor.EditorStyles.boldLabel);
             if (EditorConfiguration.platform != AltPlatform.Editor)
             {
-                if (UnityEngine.GUILayout.Button("Build Only"))
-                {
-                    if (EditorConfiguration.platform == AltPlatform.Android)
-                    {
-                        AltBuilder.BuildAndroidFromUI(autoRun: false);
-                    }
-#if UNITY_EDITOR_OSX
-                    else if (EditorConfiguration.platform == AltPlatform.iOS)
-                    {
-                        AltBuilder.BuildiOSFromUI(autoRun: false);
-                    }
-#endif
-                    else if (EditorConfiguration.platform == AltPlatform.Standalone)
-                    {
-                        AltBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: false);
-                    }
-                    else if (EditorConfiguration.platform == AltPlatform.WebGL)
-                    {
-                        AltBuilder.BuildWebGLFromUI(autoRun: false);
-                    }
-                    else
-                    {
-                        runInEditor();
-                    }
-                    UnityEngine.GUIUtility.ExitGUI();
-
-                }
+                if (GUILayout.Button("Build Only"))
+                    BuildGameFromUI(false);
             }
             else
             {
-                UnityEditor.EditorGUI.BeginDisabledGroup(true);
-                UnityEngine.GUILayout.Button("Build Only");
-                UnityEditor.EditorGUI.EndDisabledGroup();
+                CreateDisabledButton("Build Only");
             }
 
             UnityEditor.EditorGUILayout.Separator();
@@ -553,48 +526,21 @@ namespace AltTester.AltTesterUnitySDK.Editor
             if (EditorConfiguration.platform == AltPlatform.Editor && !UnityEditor.EditorApplication.isCompiling && !UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
             {
                 if (UnityEngine.GUILayout.Button("Play in Editor"))
-                {
                     runInEditor();
-                }
             }
             else
             {
-                UnityEditor.EditorGUI.BeginDisabledGroup(true);
-                UnityEngine.GUILayout.Button("Play in Editor");
-                UnityEditor.EditorGUI.EndDisabledGroup();
+                CreateDisabledButton("Play in Editor");
             }
 
             if (EditorConfiguration.platform != AltPlatform.Editor)
             {
-                if (UnityEngine.GUILayout.Button("Build & Run"))
-                {
-                    if (EditorConfiguration.platform == AltPlatform.Android)
-                    {
-                        AltBuilder.BuildAndroidFromUI(autoRun: true);
-                    }
-#if UNITY_EDITOR_OSX
-                    else if (EditorConfiguration.platform == AltPlatform.iOS)
-                    {
-                        AltBuilder.BuildiOSFromUI(autoRun: true);
-                    }
-#endif
-                    else if (EditorConfiguration.platform == AltPlatform.Standalone)
-                    {
-                        AltBuilder.BuildStandaloneFromUI(EditorConfiguration.StandaloneTarget, autoRun: true);
-                    }
-                    else if (EditorConfiguration.platform == AltPlatform.WebGL)
-                    {
-                        AltBuilder.BuildWebGLFromUI(autoRun: true);
-                    }
-                    UnityEngine.GUIUtility.ExitGUI();
-                }
-
+                if (GUILayout.Button("Build & Run"))
+                    BuildGameFromUI(true);
             }
             else
             {
-                UnityEditor.EditorGUI.BeginDisabledGroup(true);
-                UnityEngine.GUILayout.Button("Build & Run", UnityEngine.GUILayout.MinWidth(50));
-                UnityEditor.EditorGUI.EndDisabledGroup();
+                CreateDisabledButton("Build & Run");
             }
             GUIStyle style = new GUIStyle(GUI.skin.label)
             {
@@ -602,6 +548,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 wordWrap = true
             };
             UnityEditor.EditorGUILayout.LabelField("Building or Playing in editor will add ALTTESTER as a define", style);
+            UnityEditor.EditorGUILayout.LabelField("If New Input System is active when you build your app, AltTester® will modify your existing test assembly to be run only in editor to prevent errors", style);
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
@@ -735,48 +682,93 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
             UnityEditor.EditorGUILayout.EndScrollView();
 
+            void BuildGameFromUI(bool autoRun)
+            {
+                if (EditorConfiguration.platform == AltPlatform.Android)
+                {
+                    AltBuilder.BuildGameFromUI(BuildTarget.Android, BuildTargetGroup.Android, autoRun);
+                }
+                else if (EditorConfiguration.platform == AltPlatform.iOS)
+                {
+                    AltBuilder.BuildGameFromUI(BuildTarget.iOS, BuildTargetGroup.iOS, autoRun);
+                }
+                else if (EditorConfiguration.platform == AltPlatform.Standalone)
+                {
+                    AltBuilder.BuildGameFromUI(EditorConfiguration.StandaloneTarget, BuildTargetGroup.Standalone, autoRun);
+                }
+                else if (EditorConfiguration.platform == AltPlatform.WebGL)
+                {
+                    AltBuilder.BuildGameFromUI(BuildTarget.WebGL, BuildTargetGroup.WebGL, autoRun);
+                }
+                else
+                {
+                    runInEditor();
+                }
+                UnityEngine.GUIUtility.ExitGUI();
+            }
+        }
+
+        private static void CreateDisabledButton(string buttonText)
+        {
+            UnityEditor.EditorGUI.BeginDisabledGroup(true);
+            UnityEngine.GUILayout.Button(buttonText, UnityEngine.GUILayout.MinWidth(50));
+            UnityEditor.EditorGUI.EndDisabledGroup();
         }
 
         private BuildTargetGroup getBuildTargetGroupFromAltPlatform(AltPlatform altPlatform)
         {
-            return altPlatform switch
+            switch (altPlatform)
             {
-                AltPlatform.Android => BuildTargetGroup.Android,
-                AltPlatform.Standalone => BuildTargetGroup.Standalone,
-#if UNITY_EDITOR_OSX
-                AltPlatform.iOS => BuildTargetGroup.iOS,
-#endif
-                AltPlatform.WebGL => BuildTargetGroup.WebGL,
-                _ => throw new NotImplementedException(),
-            };
+                case AltPlatform.Android:
+                    return BuildTargetGroup.Android;
+                case AltPlatform.Standalone:
+                    return BuildTargetGroup.Standalone;
+                case AltPlatform.iOS:
+                    return BuildTargetGroup.iOS;
+                case AltPlatform.WebGL:
+                    return BuildTargetGroup.WebGL;
+                default:
+                    throw new NotImplementedException();
+
+
+            }
         }
         private static AltPlatform getAltPlatformFromBuildTargetGroup(BuildTargetGroup targetGroup)
         {
-            return targetGroup switch
+            switch (targetGroup)
             {
-                BuildTargetGroup.Standalone => AltPlatform.Standalone,
-                BuildTargetGroup.Android => AltPlatform.Android,
-                BuildTargetGroup.WebGL => AltPlatform.WebGL,
-#if UNITY_EDITOR_OSX
-                BuildTargetGroup.iOS => AltPlatform.Standalone,
-#endif
-                _ => AltPlatform.Editor
+                case BuildTargetGroup.Standalone:
+                    return AltPlatform.Standalone;
+                case BuildTargetGroup.Android:
+                    return AltPlatform.Android;
+                case BuildTargetGroup.WebGL:
+                    return AltPlatform.WebGL;
+                case BuildTargetGroup.iOS:
+                    return AltPlatform.iOS;
+                default:
+                    return AltPlatform.Editor;
             };
+
 
 
         }
         private BuildTarget[] getBuildTargetFromAltPlatform(AltPlatform altPlatform)
         {
-            return altPlatform switch
+            switch (altPlatform)
             {
-                AltPlatform.Android => new BuildTarget[] { BuildTarget.Android },
-                AltPlatform.Standalone => new BuildTarget[] { BuildTarget.StandaloneWindows, BuildTarget.StandaloneWindows64, BuildTarget.StandaloneOSX, BuildTarget.StandaloneLinux64 },
-#if UNITY_EDITOR_OSX
-                AltPlatform.iOS => new BuildTarget[] { BuildTarget.iOS },
-#endif
-                AltPlatform.WebGL => new BuildTarget[] { BuildTarget.WebGL },
-                _ => throw new NotImplementedException(),
-            };
+                case AltPlatform.Android:
+                    return new BuildTarget[] { BuildTarget.Android };
+                case AltPlatform.Standalone:
+                    return new BuildTarget[] { BuildTarget.StandaloneWindows, BuildTarget.StandaloneWindows64, BuildTarget.StandaloneOSX, BuildTarget.StandaloneLinux64 };
+                case AltPlatform.iOS:
+                    return new BuildTarget[] { BuildTarget.iOS };
+                case AltPlatform.WebGL:
+                    return new BuildTarget[] { BuildTarget.WebGL };
+                default:
+                    throw new NotImplementedException();
+
+
+            }
         }
 
         private void displayPlatformAndPlatformSettings(float size)
@@ -1045,17 +1037,17 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 labelAndInputFieldHorizontalLayout("Product Name*", ref productName);
                 UnityEditor.PlayerSettings.productName = productName;
 
-                labelAndCheckboxHorizontalLayout("Input visualizer*", ref EditorConfiguration.InputVisualizer);
-                labelAndCheckboxHorizontalLayout("Show popup*", ref EditorConfiguration.ShowPopUp);
-                labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltTester builds*", ref EditorConfiguration.appendToName);
+                labelAndCheckboxHorizontalLayout("Show Popup*", ref EditorConfiguration.ShowPopUp);
+                labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltTester® builds*", ref EditorConfiguration.appendToName);
                 var keepATSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTTESTER symbol defined", ref EditorConfiguration.KeepAUTSymbolDefined);
                 if (keepATSymbolChanged)
                     checkAltTesterSymbol();
-                labelAndInputFieldHorizontalLayout("AltServer Host*", ref EditorConfiguration.AltServerHost);
-                labelAndInputFieldHorizontalLayout("AltServer Port*", ref EditorConfiguration.AltServerPort);
+                labelAndInputFieldHorizontalLayout("AltTester® Server Host*", ref EditorConfiguration.AltServerHost);
+                labelAndInputFieldHorizontalLayout("AltTester® Server Port*", ref EditorConfiguration.AltServerPort);
 
 
                 labelAndInputFieldHorizontalLayout("App Name", ref EditorConfiguration.AppName);
+                labelAndCheckboxHorizontalLayout("Reset Connection Data", ref EditorConfiguration.ResetConnectionData);
             }
             GUIStyle style = new GUIStyle(GUI.skin.label)
             {

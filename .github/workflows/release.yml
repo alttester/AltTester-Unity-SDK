@@ -6,7 +6,7 @@ on:
     types: [published]
 
 jobs:
-  publish-pip-package:
+  publish-python-pip-package:
     runs-on: [self-hosted, macOS]
 
     steps:
@@ -26,6 +26,26 @@ jobs:
           python3 setup.py sdist bdist_wheel
           python3 -m twine upload dist/*
 
+  publish-robot-pip-package:
+    runs-on: [self-hosted, macOS]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -r "Bindings~/robot/requirements.txt"
+          pip install -r "Bindings~/robot/requirements-dev.txt"
+
+      - name: Upload to PyPi
+        run: |
+          cd "Bindings~/robot"
+          python3 setup.py sdist bdist_wheel
+          python3 -m twine upload dist/*
+
   publish-nuget-package:
     runs-on: ubuntu-latest
     steps:
@@ -40,7 +60,7 @@ jobs:
         run: |
           cd "Bindings~/dotnet"
           dotnet pack AltDriver/AltDriver.csproj -c release
-          dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.0.3.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+          dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.1.0.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
   create-unity-package:
     runs-on: [self-hosted, macOS]

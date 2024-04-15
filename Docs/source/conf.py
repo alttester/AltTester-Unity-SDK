@@ -21,14 +21,14 @@ from recommonmark.transform import AutoStructify
 
 copyright = '2023, Altom Consulting'
 author = 'Altom'
-project = 'AltTester Unity SDK'
+project = 'AltTester® Unity SDK'
 
 # Before creating a new tag, add the new one here and update 'latest' with the new SDK tag in index.rst line 44
 # Currently there is no way to add in toctree a dynamic link based on the version.
 # https://github.com/sphinx-doc/sphinx/issues/1836
 # https://github.com/sphinx-doc/sphinx/issues/500
 
-TAGS = ['1.8.1', '2.0.0', '2.0.1', '2.0.2', '2.0.3']
+TAGS = ['1.8.1', '2.0.0', '2.0.1', '2.0.2', '2.0.3', '2.1.0']
 LATEST_VERSION = 'master'
 BRANCHES = ['master']
 
@@ -58,7 +58,7 @@ alttester_sdk_download_link = "https://alttester.com/app/uploads/AltTester/sdks/
     sdk_release_version + ".unitypackage%s"
 
 extlinks = {
-    "alttesterpage":                    ("https://alttester.com/alttester/%s", None),
+    "alttesterpage":                    ("https://alttester.com/%s", None),
     "alttesterdesktopdocumentation":    (alttester_sdk_docs_link, None),
     "alttestersdkdownload":             (alttester_sdk_download_link, None),
     "alttesteriphoneblog":              ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)

@@ -24,8 +24,7 @@ from .utils import Scenes
 class TestScene07A:
 
     @pytest.fixture(autouse=True)
-    def setup(self, altdriver):
-        self.altdriver = altdriver
+    def setup(self):
         self.altdriver.reset_input()
         self.altdriver.load_scene(Scenes.Scene07A)
 

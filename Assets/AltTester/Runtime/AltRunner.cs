@@ -22,6 +22,7 @@ using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Logging;
 using AltTester.AltTesterUnitySDK.Notification;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK
 {
@@ -29,7 +30,7 @@ namespace AltTester.AltTesterUnitySDK
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "2.0.3";
+        public static readonly string VERSION = "2.1.0";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
         public AltInstrumentationSettings InstrumentationSettings = null;
@@ -39,12 +40,6 @@ namespace AltTester.AltTesterUnitySDK
         public bool RunOnlyInDebugMode = true;
         public UnityEngine.Shader outlineShader;
         public UnityEngine.GameObject panelHightlightPrefab;
-
-
-        [UnityEngine.Space]
-        [UnityEngine.SerializeField]
-        public AltInputsVisualizer InputsVisualizer = null;
-
 
 
         #region MonoBehaviour
@@ -65,7 +60,7 @@ namespace AltTester.AltTesterUnitySDK
 
             if (RunOnlyInDebugMode && !UnityEngine.Debug.isDebugBuild)
             {
-                logger.Error("AltTester runs only on Debug build");
+                logger.Error("AltTester® runs only on Debug build");
                 Destroy(this.gameObject);
                 return;
             }
@@ -197,26 +192,17 @@ namespace AltTester.AltTesterUnitySDK
 
         public System.Collections.IEnumerator RunActionAfterEndOfFrame(Action action)
         {
-            yield return new UnityEngine.WaitForEndOfFrame();
+#if UNITY_EDITOR
+            if (Application.isBatchMode)
+            {
+                yield return null;
+            }
+            else
+#endif
+                yield return new UnityEngine.WaitForEndOfFrame();
             action();
         }
 
-
-        public void ShowClick(UnityEngine.Vector2 position, UnityEngine.Color color = default)
-        {
-            if (!InstrumentationSettings.InputVisualizer || InputsVisualizer == null)
-                return;
-
-            InputsVisualizer.ShowClick(position, color);
-        }
-
-        public int ShowInput(UnityEngine.Vector2 position, int markId = -1, UnityEngine.Color color = default)
-        {
-            if (!InstrumentationSettings.InputVisualizer || InputsVisualizer == null)
-                return -1;
-
-            return InputsVisualizer.ShowContinuousInput(position, markId, color);
-        }
 
         #endregion
         #region private methods

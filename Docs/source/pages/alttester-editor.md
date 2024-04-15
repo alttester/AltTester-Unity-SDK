@@ -1,9 +1,9 @@
-# AltTester Editor
+# AltTester® Editor
 
-The GUI refers to the AltTester Editor window that is displayed when
-adding the AltTester package in Unity.
+The GUI refers to the AltTester® Editor window that is displayed when
+adding the AltTester® package in Unity.
 
-![AltTester Editor Screenshot](../_static/img/alttester-editor/editor-screenshot.png)
+![AltTester® Editor Screenshot](../_static/img/alttester-editor/editor-screenshot.png)
 
 In the following sections you can see a breakdown of all the sections in the GUI.
 
@@ -21,7 +21,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 .. note::
 
-    Make sure that each time you modify anything in the test script (e.g. test's name, code, add or delete a test etc.) before running tests in the AltTester Editor you click the Refresh button to update the tests list.
+    Make sure that each time you modify anything in the test script (e.g. test's name, code, add or delete a test etc.) before running tests in the AltTester® Editor you click the Refresh button to update the tests list.
 
 ```
 
@@ -45,47 +45,18 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     The product name (same with Unity's Player Settings).
 
-- *Input Visualizer*
-
-    Lets you see where on screen an action (e.g. swipe or click) happens.
-    The action position is marked on the screen with a red circle.
-
-
-To activate this option before build check the "Input visualizer" checkbox.
-
-| Input Visualizer Disabled                          | Input Visualizer Enabled                       |
-| -------------------------------------------------- | ---------------------------------------------- |
-| ![No Input Visualizer Demo](../_static/img/alttester-editor/no-input-visualizer.gif) | ![Input Visualizer Demo](../_static/img/alttester-editor/input-visualizer.gif) |
-
-You can also activate this option from within the test using the following code:
-
-```eval_rst
-.. tabs::
-
-    .. code-tab:: c#
-
-        altDriver.FindObject(By.NAME, "AltTesterPrefab").SetComponentProperty("AltRunner", "ShowInputs", "Assembly-CSharp", "true");
-
-    .. code-tab:: java
-
-        altDriver.findObject(AltDriver.By.NAME,"AltTesterPrefab").setComponentProperty("AltRunner", "ShowInputs", "Assembly-CSharp", "true");
-
-    .. code-tab:: py
-
-        altdriver.find_object(By.NAME,"AltTesterPrefab").set_component_property("AltRunner", "ShowInputs", "Assembly-CSharp", "true")
-
-```
 
 - *Show Popup*
 
     If this option is checked, it will display the *"AltTester"* popup in
     app containing the text *"Waiting for connection on port 13000"*. That
-    means the build contains the AltTester Unity SDK. Popup will disappear once the
+    means the build contains the AltTester® Unity SDK. Popup will disappear once the
     tests are started.
+    In case you modified the connection data inside the popup, you can use the *LeftCtrl+LeftShift+D+L* key combination to reset your connection data to the default values, a.k.a the values specified in the *Build Settings*.
 
 ![Popup Screenshot](../_static/img/alttester-editor/popup.png)
 
--   *Append "Test" to product name for AltTester Unity SDK builds*:
+-   *Append "Test" to product name for AltTester® Unity SDK builds*:
 
     Will add "Test" to the product name.
 
@@ -93,15 +64,19 @@ You can also activate this option from within the test using the following code:
 
     Will add "ALTTESTER" to the scripting define symbols. This is usually done automatically when entering in play mode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
-- *AltServer Host*
+- *AltTester® Server Host*
 
-    Refers to the host the AltServer is listening on.
+    Refers to the host the AltTester® Server is listening on.
     You can change this value and make a new app build if you want to use another host.
 
-- *AltServer Port*
+- *AltTester® Server Port*
 
-    Refers to the port the AltServer is listening on.
+    Refers to the port the AltTester® Server is listening on.
     You can change this value and make a new app build if you want to use another port.
+
+- *Reset Connection Data*
+
+    In case you are building your app on the same device but you do not want to start the new build with the connection data from the old build, you will want to check this box. Even if you managed to connect to the old build with different data, your new build will use the host, port and app name specified in the Build Settings.
 
 ## Test run Settings
 ![Test run Settings Screenshot](../_static/img/alttester-editor/testrun-settings.png)
