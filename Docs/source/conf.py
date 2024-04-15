@@ -19,7 +19,7 @@ from recommonmark.transform import AutoStructify
 
 # -- Project information -----------------------------------------------------
 
-copyright = '2023, Altom Consulting'
+copyright = '2024, Altom Consulting'
 author = 'Altom'
 project = 'AltTester® Unity SDK'
 
