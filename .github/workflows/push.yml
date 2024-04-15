@@ -586,3 +586,35 @@ jobs:
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+
+  deploy-docs:
+    runs-on: ubuntu-latest
+    needs: build-docs
+
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: DocumentationHTML
+          path: DocumentationHTML/
+
+      - name: Update AltTester Desktop link for latest version
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: ${{ secrets.LIVE_URL_ALTTESTER }}/docs/desktop/.*?/
+          replace: ${{ secrets.LIVE_URL_ALTTESTER }}/docs/desktop/latest/
+          include: "DocumentationHTML/latest/**"
+
+      - name: Upload documentation
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: DocumentationHTML
+          remote: ${{ secrets.DOCUMENTATION_PATH }}
+          host: ${{ secrets.HOST_IP_ALTTESTER }}
+          port: ${{ secrets.PORT_LIVE_ALTTESTER }}
+          username: ${{ secrets.USERNAME_ALTTESTER }}
+          password: ${{ secrets.PASSWORD_ALTTESTER }}
+          rmRemote: true
