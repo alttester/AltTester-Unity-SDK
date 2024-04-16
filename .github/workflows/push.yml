@@ -290,7 +290,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip setuptools wheel
-          pip uninstall AltTester-Driver
+          pip uninstall -y AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
           pip install -r "Bindings~/python/requirements-dev.txt"
           pip install -e "Bindings~/python" --root "Bindings~/python"
@@ -476,7 +476,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip setuptools wheel
-          pip uninstall AltTester-Driver
+          pip uninstall -y AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
           pip install -r "Bindings~/python/requirements-dev.txt"
           pip install -e "Bindings~/python" --root "Bindings~/python"
