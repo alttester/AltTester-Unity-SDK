@@ -85,6 +85,17 @@ Finds the first object in the scene that respects the given criteria. Check [By]
         def test_find_object(self):
             altObject = self.altDriver.find_object(By.NAME, "Capsule")
             self.assertEqual(altObject.name, "Capsule")
+
+    .. code-tab:: robot
+
+        Test Find Object By Name
+            ${plane}=    Find Object    NAME    Plane
+            ${capsule}=    Find Object    NAME    Capsule
+            ${plane_name}=    Get Object Name    ${plane}
+            ${capsule_name}=    Get Object Name    ${capsule}
+            Should Be Equal    ${plane_name}    Plane
+            Should Be Equal    ${capsule_name}    Capsule
+
 ```
 
 #### FindObjects
@@ -149,6 +160,13 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
                 altObjects = self.altDriver.find_objects(By.LAYER,"Default")
                 self.assertEquals(8, len(altObjects))
 
+    .. code-tab:: robot
+
+        Test Find Objects By Name
+            ${alt_objects}=    Find Objects    NAME    Plane
+            ${appears}=    Get Length    ${alt_objects}
+            Should Be Equal As Integers    2    ${appears}
+
 ```
 
 #### FindObjectWhichContains
@@ -207,6 +225,14 @@ Finds the first object in the scene that respects the given criteria. Check [By]
         def test_find_object_which_contains(self):
             altObject = self.altDriver.find_object_which_contains(By.NAME, "Event");
             self.assertEqual("EventSystem", altObject.name)
+
+    .. code-tab:: robot
+
+        Test Find Object Which Contains With Not Existing Object
+            ${element_name}=    Set Variable    EventNonExisting
+            ${error_message}=    Set Variable    NotFoundException: Object //*[contains(@name,${element_name})] not found
+            ${error}=    Run Keyword And Ignore Error    Find Object Which Contains    NAME    ${element_name}
+            Should Be Equal As Strings    ${error[1]}    ${error_message}
 
 ```
 
@@ -281,6 +307,17 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
             stars = self.altDriver.find_objects_which_contain(By.NAME, "Star")
             self.assertEqual(3, len(stars))
 
+    .. code-tab:: robot
+        
+        Test Find Objects Which Contain By Name
+            ${alt_objects}=    Find Objects Which Contain    NAME    Capsule
+            ${appears}=    Get Length    ${alt_objects}
+            Should Be Equal As Integers    2    ${appears}
+            FOR    ${obj}    IN    @{alt_objects}
+                ${name}=    Get Object Name    ${obj}
+                Should Contain    ${name}    Capsule
+            END
+
 ```
 
 #### FindObjectAtCoordinates
@@ -335,6 +372,20 @@ Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses
 
             element = self.altdriver.find_object_at_coordinates([80 + counter_button.x, 15 + counter_button.y])
             assert "Text" == element.name
+
+    .. code-tab:: robot
+
+        Test Find Object By Coordinates
+            ${counter_button}=    Find Object    NAME    ButtonCounter
+            ${counter_button_x}=    Get Object X    ${counter_button}
+            ${counter_button_y}=    Get Object Y    ${counter_button}
+            ${coordinate_x}=    Evaluate    80+${counter_button_x}
+            ${coordinate_y}=    Evaluate    15+${counter_button_y}
+            ${coordinates}=    Create List    ${coordinate_x}    ${coordinate_y}
+            ${element}=    Find Object At Coordinates    ${coordinates}
+            ${element_name}=    Get Object Name    ${element}
+            Should Be Equal As Strings    ${element_name}    Text
+
 ```
 
 #### GetAllElements
@@ -381,6 +432,24 @@ Returns information about every objects loaded in the currently loaded scenes. T
         def test_get_all_elements(self):
             alt_elements = self.altDriver.get_all_elements(enabled=False)
             assert alt_elements
+
+    .. code-tab:: robot
+
+        Test Get All Elements
+            ${elements}=    Get All Elements    enabled=${False}
+            Should Not Be Empty    ${elements}
+            ${expected_names}=    Create List    EventSystem    Canvas    Panel Drag Area    Panel    Header    Text    Drag Zone    Resize Zone    Close Button    Debugging    SF Scene Elements    Main Camera    Background    Particle System
+            ${input_marks}=    Create List
+            ${names}=    Create List
+            FOR    ${element}    IN    @{elements}
+                ${name}=    Get Object Name    ${element}
+                Run Keyword If    '${name}'== 'InputMark(Clone)'    Append TransformId To List    ${element}    ${input_marks}
+                ${element_name}=    Get Object Name    ${element}
+                Append To List    ${names}    ${element_name}
+            END
+            FOR    ${name}    IN    @{expected_names}
+                Should Contain    ${names}    ${name}
+            END
 
 ```
 
@@ -455,6 +524,16 @@ Waits until it finds an object that respects the given criteria or until timeout
             alt_object = self.altDriver.wait_for_object(By.NAME, "Capsule")
             assert alt_object.name == "Capsule"
 
+    .. code-tab:: robot
+
+        Test Wait For Object By Name
+            ${plane}=    Wait For Object    NAME    Plane
+            ${capsule}=    Wait For Object    NAME    Capsule
+            ${plane_name}=    Get Object Name    ${plane}
+            ${capsule_name}=    Get Object Name    ${capsule}
+            Should Be Equal    ${plane_name}    Plane
+            Should Be Equal    ${capsule_name}    Capsule
+
 ```
 
 #### WaitForObjectWhichContains
@@ -521,6 +600,13 @@ Waits until it finds an object that respects the given criteria or time runs out
             alt_object = self.altDriver.wait_for_object_which_contains(By.NAME, "Main")
             assert alt_object.name == "Main Camera"
 
+    .. code-tab:: robot
+
+        Test Wait For Object Which Contains
+            ${alt_object}=    Wait For Object Which Contains    NAME    Main
+            ${alt_object_name}=    Get Object Name    ${alt_object}
+            Should Be Equal As Strings    ${alt_object_name}    Main Camera
+
 ```
 
 #### WaitForObjectNotBePresent
@@ -576,6 +662,14 @@ Waits until the object in the scene that respects the given criteria is no longe
 
         def test_wait_for_object_to_not_be_present(self):
             self.altDriver.wait_for_object_to_not_be_present(By.NAME, "Capsuule")
+
+    .. code-tab:: robot
+
+        Test Wait For Object Not Be Present By Camera
+            Wait For Object To Not Be Present    NAME    ObjectDestroyedIn5Secs    camera_by=NAME    camera_value=Main Camera
+            ${elements}=    Get All Elements
+            ${list}=    Convert To String    ${elements}
+            Should Not Contain    ${list}    'name': 'ObjectDestroyedIn5Secs'
 
 ```
 
