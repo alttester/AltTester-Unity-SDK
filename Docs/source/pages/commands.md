@@ -704,6 +704,10 @@ Sets the value for the command response timeout.
 
         altDriver.set_command_response_timeout(command_timeout)
 
+    .. code-tab:: robot
+
+        Set Command Response Timeout    30
+
 ```
 
 
@@ -735,6 +739,10 @@ None
     .. code-tab:: py
 
         altDriver.get_delay_after_command()
+
+    .. code-tab:: robot
+
+        Get Delay After Command
 
 ```
 
@@ -768,6 +776,10 @@ Set the delay after a command.
     .. code-tab:: py
 
         altDriver.set_delay_after_command(5)
+
+    .. code-tab:: robot
+
+        Set Delay After Command     5
 
 ```
 
