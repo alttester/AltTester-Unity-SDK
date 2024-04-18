@@ -2672,6 +2672,15 @@ None
             self.altDriver.set_player_pref_key("test", "1", PlayerPrefKeyType.String)
             val = self.altDriver.get_player_pref_key("test", player_pref_key_type)
             self.assertEqual("1", str(val))
+
+    .. code-tab:: robot
+
+        Test Set Player Pref Keys Int
+            Delete Player Pref
+            Set Player Pref Key    test    ${1}    Int
+            ${actual_value}=    Get Player Pref Key    test    Int
+            Should Be Equal As Integers    ${actual_value}    ${1}
+
 ```
 
 #### GetCurrentScene
@@ -2713,6 +2722,17 @@ None
         def test_get_current_scene(self):
             self.altDriver.load_scene("Scene 1 AltDriverTestScene")
             self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
+
+    .. code-tab:: robot
+
+        Test Load And Wait For Scene
+            Load Scene    ${scene1}
+            Wait For Current Scene To Be    ${scene1}    timeout=1
+            Load Scene    ${scene2}
+            Wait For Current Scene To Be    ${scene2}    timeout=1
+            ${current_scene}=    Get Current Scene
+            Should Be Equal    ${current_scene}    ${scene2}
+
 ```
 
 #### LoadScene
@@ -2758,6 +2778,16 @@ Loads a scene.
         def test_get_current_scene(self):
             self.altDriver.load_scene("Scene 1 AltDriverTestScene",True)
             self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
+
+    .. code-tab:: robot
+
+        Test Load And Wait For Scene
+            Load Scene    ${scene1}
+            Wait For Current Scene To Be    ${scene1}    timeout=1
+            Load Scene    ${scene2}
+            Wait For Current Scene To Be    ${scene2}    timeout=1
+            ${current_scene}=    Get Current Scene
+            Should Be Equal    ${current_scene}    ${scene2}
 
 ```
 
@@ -2815,6 +2845,22 @@ Unloads a scene.
             self.assertEqual(1, len(self.altDriver.get_all_loaded_scenes()))
             self.assertEqual("Scene 1 AltDriverTestScene",
                             self.altDriver.get_all_loaded_scenes()[0])
+    .. code-tab:: robot
+
+        Test Unload Scene
+            Load Scene    ${scene1}    load_single=${True}
+            Load Scene    ${scene2}    load_single=${False}
+            ${scenes}=    Get All Loaded Scenes
+            ${scenes_number}=    Get Length    ${scenes}
+            Should Be Equal As Integers    ${scenes_number}    2
+            Unload Scene    ${scene2}
+            ${scenes}=    Get All Loaded Scenes
+            ${scenes_number}=    Get Length    ${scenes}
+            Should Be Equal As Integers    ${scenes_number}    1
+            ${scenes}=    Get All Loaded Scenes
+            ${scene}=    Get From List    ${scenes}    0
+            Should Be Equal As Strings    ${scene}    ${scene1}
+
 ```
 
 #### GetAllLoadedScenes
@@ -2880,6 +2926,20 @@ None
             scenes_loaded = self.altDriver.get_all_loaded_scenes()
             self.assertEqual(len(scenes_loaded), 5)
 
+    .. code-tab:: robot
+
+        Test Load Additive Scenes
+            Load Scene    ${scene1}    load_single=${True}
+            ${initial_number_of_elements}=    Get All Elements
+            Load Scene    ${scene2}    load_single=${False}
+            ${final_number_of_elements}=    Get All Elements
+            ${initial_number_of_elements_length}=    Get Length    ${initial_number_of_elements}
+            ${final_number_of_elements_length}=    Get Length    ${final_number_of_elements}
+            Should Be True    ${final_number_of_elements_length}>${initial_number_of_elements_length}
+            ${all_loaded_scenes}=    Get All Loaded Scenes
+            ${number_of_scenes}=    Get Length    ${all_loaded_scenes}
+            Should Be Equal As Integers    ${number_of_scenes}    2
+
 ```
 
 #### WaitForCurrentSceneToBe
@@ -2922,16 +2982,16 @@ Waits for the scene to be loaded for a specified amount of time.
 
         @Test
         public void testWaitForCurrentSceneToBe() {
-        String name = "Scene 1 AltDriverTestScene";
-        long timeStart = System.currentTimeMillis();
-        AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
-        altDriver.waitForCurrentSceneToBe(params);
-        long timeEnd = System.currentTimeMillis();
-        long time = timeEnd - timeStart;
-        assertTrue(time / 1000 < 20);
+            String name = "Scene 1 AltDriverTestScene";
+            long timeStart = System.currentTimeMillis();
+            AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
+            altDriver.waitForCurrentSceneToBe(params);
+            long timeEnd = System.currentTimeMillis();
+            long time = timeEnd - timeStart;
+            assertTrue(time / 1000 < 20);
 
-        String currentScene = altDriver.getCurrentScene();
-        assertEquals(name, currentScene);
+            String currentScene = altDriver.getCurrentScene();
+            assertEquals(name, currentScene);
         }
 
     .. code-tab:: py
@@ -2943,6 +3003,16 @@ Waits for the scene to be loaded for a specified amount of time.
             self.altdriver.wait_for_current_scene_to_be(scene_name, timeout=1, interval=0.5)
 
             assert str(execinfo.value) == "Scene {} not loaded after 1 seconds".format(scene_name)
+
+    .. code-tab:: robot
+
+        Test Load And Wait For Scene
+            Load Scene    ${scene1}
+            Wait For Current Scene To Be    ${scene1}    timeout=1
+            Load Scene    ${scene2}
+            Wait For Current Scene To Be    ${scene2}    timeout=1
+            ${current_scene}=    Get Current Scene
+            Should Be Equal    ${current_scene}    ${scene2}
 
 ```
 
@@ -3001,6 +3071,13 @@ None
             assert 1920 == screensize[0]
             assert 1080 == screensize[1]
 
+    .. code-tab:: robot
+
+        Test Get Application Screen Size
+            ${screen_size}=    Get Application Screensize
+            Should Not Be Equal As Numbers    ${screen_size[0]}    0
+            Should Not Be Equal As Numbers    ${screen_size[1]}    0
+
 ```
 
 #### GetTimeScale
@@ -3047,6 +3124,14 @@ None
             time.sleep(1)
             time_scale = self.altDriver.get_time_scale()
             self.assertEqual(0.1, time_scale)
+
+    .. code-tab:: robot
+
+        Test Set And Get Time Scale
+            Set Time Scale    0.1
+            ${time_scale}=    Get Time Scale
+            Should Be Equal As Numbers    ${time_scale}    0.1
+            Set Time Scale    1
 
 ```
 
@@ -3096,6 +3181,14 @@ Sets the value of the time scale.
             time.sleep(1)
             time_scale = self.altDriver.get_time_scale()
             self.assertEqual(0.1, time_scale)
+
+    .. code-tab:: robot
+
+        Test Set And Get Time Scale
+            Set Time Scale    0.1
+            ${time_scale}=    Get Time Scale
+            Should Be Equal As Numbers    ${time_scale}    0.1
+            Set Time Scale    1
 
 ```
 
@@ -3150,6 +3243,15 @@ Invokes static methods from your app.
             self.altdriver.call_static_method("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", ["Test", "1"])
             a = int(self.altdriver.call_static_method("UnityEngine.PlayerPrefs", "GetInt", "UnityEngine.CoreModule", ["Test", "2"]))
             self.assertEqual(1, a)
+
+    .. code-tab:: robot
+
+        Test Call Static Method
+            ${list_to_set}=    Create List    Test    ${1}
+            ${list_to_get}=    Create List    Test    ${2}
+            Call Static Method    UnityEngine.PlayerPrefs    SetInt    UnityEngine.CoreModule    parameters=${list_to_set}
+            ${value}=    Call Static Method    UnityEngine.PlayerPrefs    GetInt    UnityEngine.CoreModule    parameters=${list_to_get}
+            Should Be Equal As Integers    ${value}    ${1}
 
 ```
 
@@ -3213,6 +3315,15 @@ Gets the value of the static field or property.
 
             assert int(width) == 1920
 
+    .. code-tab:: robot
+
+        Test Get Static Property
+            ${parameters}=    Create List    1920    1080    True
+            ${type_of_parameters}=    Create List    System.Int32    System.Int32    System.Boolean
+            Call Static Method    UnityEngine.Screen    SetResolution    UnityEngine.CoreModule    parameters=${parameters}    type_of_parameters=${type_of_parameters}
+            ${width}=    Get Static Property    UnityEngine.Screen    currentResolution.width    UnityEngine.CoreModule
+            Should Be Equal As Integers    ${width}    1920
+
 ```
 
 #### SetStaticProperty
@@ -3269,6 +3380,13 @@ Sets the value of the static field or property.
             value = self.altdriver.get_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
             assert expectedValue == value
 
+    .. code-tab:: robot
+
+        Test Set Static Property
+            Set Static Property    AltExampleScriptCapsule    privateStaticVariable    Assembly-CSharp    5
+            ${value}=    Get Static Property    AltExampleScriptCapsule    privateStaticVariable    Assembly-CSharp
+            Should Be Equal As Integers    5    ${value}
+
 ```
 
 ### Other
@@ -3307,6 +3425,21 @@ Sets the level of logging on AltTester® Unity SDK.
 
         altDriver.set_server_logging(AltLogger.File, AltLogLevel.Off);
         altDriver.set_server_logging(AltLogger.Unity, AltLogLevel.Info);
+
+    .. code-tab:: robot
+
+        Test Set Server Logging
+            ${param}=    Create List    AltServerFileRule
+            ${rule}=    Call Static Method    AltTester.AltTesterUnitySDK.Logging.ServerLogManager    Instance.Configuration.FindRuleByName    Assembly-CSharp    parameters=${param}
+            ${levels}=    Get From Dictionary    ${rule}    Levels
+            ${levels_number}=    Get Length    ${levels}
+            Should Be Equal As Integers    ${levels_number}    5
+            Set Server Logging    File    Off
+            ${rule}=    Call Static Method    AltTester.AltTesterUnitySDK.Logging.ServerLogManager    Instance.Configuration.FindRuleByName    Assembly-CSharp    parameters=${param}
+            ${levels}=    Get From Dictionary    ${rule}    Levels
+            ${levels_number}=    Get Length    ${levels}
+            Should Be Equal As Integers    ${levels_number}    0
+            Set Server Logging    File    Debug
 
 ```
 
