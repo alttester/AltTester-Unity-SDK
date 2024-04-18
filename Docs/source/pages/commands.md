@@ -2278,7 +2278,6 @@ Creates a screenshot of the current screen in png format.
             FileAssert.Exists(path);
         }
 
-
     .. code-tab:: java
 
         @Test
@@ -2289,14 +2288,19 @@ Creates a screenshot of the current screen in png format.
             assertTrue(new File(path).isFile());
         }
 
-
     .. code-tab:: py
 
         def test_screenshot(self):
             png_path = "testPython.png"
             self.altDriver.get_png_screenshot(png_path)
-
             assert path.exists(png_path)
+
+    .. code-tab:: robot
+
+        Test Screenshot
+            ${png_path}=    Set Variable    testPython.png
+            Get Png Screenshot    ${png_path}
+            File Should Exist    ${png_path}
 
 ```
 
