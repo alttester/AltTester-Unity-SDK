@@ -3648,6 +3648,31 @@ Invokes a method from an existing component of the object.
             fontSize = altElement.call_component_method("UnityEngine.UI.Text", "get_fontSize", "UnityEngine.UI", parameters=[])
             assert fontSizeExpected == fontSize
 
+    .. code-tab:: robot
+
+        Test Call Component Method
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${parameters}=    Create List    setFromMethod
+            ${result}=    Call Component Method    ${alt_object}    AltExampleScriptCapsule    Jump    Assembly-CSharp    parameters=${parameters}
+            Should Be Equal    ${result}    ${None}
+            Wait For Object    PATH    //CapsuleInfo[@text=setFromMethod]    timeout=1
+            ${capsule_info}=    Find Object    NAME    CapsuleInfo
+            ${capsule_info_text}=    Get Text    ${capsule_info}
+            Should Be Equal    ${capsule_info_text}    setFromMethod
+
+        Test Call Component Method With No Parameters
+            ${result}=    Find Object    PATH    /Canvas/Button/Text
+            ${text}=    Call Component Method    ${result}    UnityEngine.UI.Text    get_text    UnityEngine.UI
+            Should Be Equal    ${text}    Change Camera Mode
+
+        Test Call Component Method With Parameters
+            ${alt_object}=    Find Object    PATH    /Canvas/UnityUIInputField/Text
+            ${params}=    Create List    ${16}
+            Call Component Method    ${alt_object}    UnityEngine.UI.Text    set_fontSize    UnityEngine.UI    ${params}
+            ${empty_list}=    Create List
+            ${font_size}=    Call Component Method    ${alt_object}    UnityEngine.UI.Text    get_fontSize    UnityEngine.UI    ${empty_list}
+            Should Be Equal As Integers    ${font_size}    16
+
 ```
 ### WaitForComponentProperty
 
@@ -3721,6 +3746,13 @@ Wait until a property has a specific value and returns the value of the given co
                 "Assembly-CSharp")
             assert result is True
 
+    .. code-tab:: robot
+
+       Test Wait For Component Property
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${result}=    Wait For Component Property    ${alt_object}    AltExampleScriptCapsule    TestBool    ${True}    Assembly-CSharp
+            Should Be Equal    ${result}    ${True} 
+
 ```
 
 ### GetComponentProperty
@@ -3779,6 +3811,14 @@ Returns the value of the given component property.
             self.altDriver.load_scene('Scene 1 AltDriverTestScene')
             result = self.altDriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
             self.assertEqual(result, [1,2,3])
+
+    .. code-tab:: robot
+
+        Test Get Component Property
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${result}=    Get Component Property    ${alt_object}    AltExampleScriptCapsule    arrayOfInts    Assembly-CSharp
+            ${list}=    Create List    ${1}    ${2}    ${3}
+            Should Be Equal    ${result}    ${list}
 
 ```
 
@@ -3846,6 +3886,16 @@ Sets value of the given component property.
             propertyValue = altObject.get_component_property(componentName, propertyName)
             self.assertEqual("2", propertyValue)
 
+    .. code-tab:: robot
+
+        Test Set Component Property
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${list}=    Create List    ${2}    ${3}    ${4}
+            Set Component Property    ${alt_object}    AltExampleScriptCapsule    arrayOfInts    Assembly-CSharp    ${list}
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${result}=    Get Component Property    ${alt_object}    AltExampleScriptCapsule    arrayOfInts    Assembly-CSharp
+            Should Be Equal    ${result}    ${list}
+
 ```
 
 ### GetText
@@ -3902,6 +3952,16 @@ None
             text = self.altdriver.find_object(By.NAME, "CapsuleInfo").get_text()
             element = self.altdriver.find_object(By.TEXT, text)
             assert element.get_text() == text
+
+    .. code-tab:: robot
+
+        Test Find Object By Text
+            ${alt_object}=    Find Object    NAME    CapsuleInfo
+            ${text}=    Get Text    ${alt_object}
+            ${element}=    Find Object    TEXT    ${text}
+            ${element_text}=    Get Text    ${element}
+            Should Be Equal    ${element_text}    ${text}
+
 ```
 
 ### SetText
@@ -3960,6 +4020,16 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
             input = self.altDriver.find_object(By.NAME, name).set_text(text, submit=True)
             self.assertNotEqual(input, None)
             self.assertEqual(input.get_text(), text)
+
+    .. code-tab:: robot
+
+        Test Set Text
+            ${text_object}=    Find Object    NAME    NonEnglishText
+            ${original_text}=    Get Text    ${text_object}
+            Set Text    ${text_object}    ModifiedText
+            ${after_text}=    Get Text    ${text_object}
+            Should Not Be Equal As Strings    ${original_text}    ${after_text}
+            Should Be Equal As Strings    ${after_text}    ModifiedText
 
 ```
 
@@ -4020,6 +4090,15 @@ Tap current object.
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             capsule_element.tap()
 
+    .. code-tab:: robot
+
+        Test Tap Object
+            ${object}=    Find Object    NAME    Capsule
+            Tap Object    ${object}
+            ${capsule_info}=    Wait For Object    PATH    //CapsuleInfo[@text=Capsule was clicked to jump!]    timeout=1
+            ${text}=    Get Text    ${capsule_info}
+            Should Be Equal    ${text}    Capsule was clicked to jump!
+
 ```
 
 ### Click
@@ -4079,6 +4158,13 @@ Click current object.
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             capsule_element.click()
 
+    .. code-tab:: robot
+
+        Test Click Element
+            ${capsule_element}=    Find Object    NAME    Capsule
+            Click Object    ${capsule_element}
+            Wait For Object    PATH    //CapsuleInfo[@text=Capsule was clicked to jump!]    timeout=1
+
 ```
 
 ### PointerDown
@@ -4135,6 +4221,15 @@ None
             time.sleep(1)
             color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
             self.assertNotEquals(color1, color2)
+
+    .. code-tab:: robot
+
+        Test Pointer Down From Object
+            ${panel}=    Find Object    NAME    Panel
+            ${color1}=    Get Component Property    ${panel}    AltExampleScriptPanel    normalColor    Assembly-CSharp
+            Pointer Down    ${panel}
+            ${color2}=    Get Component Property    ${panel}    AltExampleScriptPanel    highlightColor    Assembly-CSharp
+            Should Not Be Equal    ${color1}    ${color2}
 
 ```
 
@@ -4197,6 +4292,16 @@ None
             p_panel.pointer_up_from_object()
             color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
             self.assertEquals(color1, color2)
+
+    .. code-tab:: robot
+
+        Test Pointer Up From Object
+            ${panel}=    Find Object    NAME    Panel
+            ${color1}=    Get Component Property    ${panel}    AltExampleScriptPanel    normalColor    Assembly-CSharp
+            Pointer Down    ${panel}
+            Pointer Up    ${panel}
+            ${color2}=    Get Component Property    ${panel}    AltExampleScriptPanel    highlightColor    Assembly-CSharp
+            Should Be Equal    ${color1}    ${color2}
 
 ```
 
@@ -4266,6 +4371,31 @@ None
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
 
+    .. code-tab:: robot
+
+        Test Pointer Enter And Exit
+            ${alt_object}=    Find Object    NAME    Drop Image
+            ${color1}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            Pointer Enter    ${alt_object}
+            ${color2}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            ${color1_r}=    Get Percent From Specific Color    ${color1}    r
+            ${color1_g}=    Get Percent From Specific Color    ${color1}    g
+            ${color1_b}=    Get Percent From Specific Color    ${color1}    b
+            ${color1_a}=    Get Percent From Specific Color    ${color1}    a
+            ${color2_r}=    Get Percent From Specific Color    ${color2}    r
+            ${color2_g}=    Get Percent From Specific Color    ${color2}    g
+            ${color2_b}=    Get Percent From Specific Color    ${color2}    b
+            ${color2_a}=    Get Percent From Specific Color    ${color2}    a
+            Evaluate    ${color1_r}!=${color2_r} or ${color1_g}!=${color2_g} or ${color1_b}!=${color2_b} or ${color1_a}!=${color2_a}
+            Pointer Exit    ${alt_object}
+            ${color3}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            ${color3_r}=    Get Percent From Specific Color    ${color3}    r
+            ${color3_g}=    Get Percent From Specific Color    ${color3}    g
+            ${color3_b}=    Get Percent From Specific Color    ${color3}    b
+            ${color3_a}=    Get Percent From Specific Color    ${color3}    a
+            Evaluate    ${color3_r}!=${color2_r} or ${color3_g}!=${color2_g} or ${color3_b}!=${color2_b} or ${color3_a}!=${color2_a}
+            Evaluate    ${color1_r}!=${color3_r} or ${color1_g}!=${color3_g} or ${color1_b}!=${color3_b} or ${color1_a}!=${color3_a}
+
 ```
 
 ### PointerExit
@@ -4334,6 +4464,32 @@ None
             color3 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
+
+    .. code-tab:: robot
+
+        Test Pointer Enter And Exit
+            ${alt_object}=    Find Object    NAME    Drop Image
+            ${color1}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            Pointer Enter    ${alt_object}
+            ${color2}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            ${color1_r}=    Get Percent From Specific Color    ${color1}    r
+            ${color1_g}=    Get Percent From Specific Color    ${color1}    g
+            ${color1_b}=    Get Percent From Specific Color    ${color1}    b
+            ${color1_a}=    Get Percent From Specific Color    ${color1}    a
+            ${color2_r}=    Get Percent From Specific Color    ${color2}    r
+            ${color2_g}=    Get Percent From Specific Color    ${color2}    g
+            ${color2_b}=    Get Percent From Specific Color    ${color2}    b
+            ${color2_a}=    Get Percent From Specific Color    ${color2}    a
+            Evaluate    ${color1_r}!=${color2_r} or ${color1_g}!=${color2_g} or ${color1_b}!=${color2_b} or ${color1_a}!=${color2_a}
+            Pointer Exit    ${alt_object}
+            ${color3}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            ${color3_r}=    Get Percent From Specific Color    ${color3}    r
+            ${color3_g}=    Get Percent From Specific Color    ${color3}    g
+            ${color3_b}=    Get Percent From Specific Color    ${color3}    b
+            ${color3_a}=    Get Percent From Specific Color    ${color3}    a
+            Evaluate    ${color3_r}!=${color2_r} or ${color3_g}!=${color2_g} or ${color3_b}!=${color2_b} or ${color3_a}!=${color2_a}
+            Evaluate    ${color1_r}!=${color3_r} or ${color1_g}!=${color3_g} or ${color1_b}!=${color3_b} or ${color1_a}!=${color3_a}
+
 ```
 ### UpdateObject
 
@@ -4391,6 +4547,16 @@ None
 
             assert initial_position_z != cube.update_object().worldZ
 
+    .. code-tab:: robot
+
+        Test Update AltObject
+            ${cube}=    Find Object    NAME    Player1
+            ${initial_position_z}=    Get Object WorldZ    ${cube}
+            Press Key    W    power=1    duration=0.1    wait=${False}
+            Sleep    5
+            ${cube_updated}=    Update Object    ${cube}
+            ${final_position_z}=    Get Object WorldZ    ${cube_updated}
+            Should Not Be Equal    ${initial_position_z}    ${final_position_z}
 
 ```
 
@@ -4439,6 +4605,14 @@ None
             element = self.altDriver.find_object(By.NAME, 'Canvas/CapsuleInfo')
             elementParent = element.get_parent()
             self.assertEqual('Canvas', elementParent.name)
+
+    .. code-tab:: robot
+
+        Test Get Parent
+            ${element}=    Find Object    NAME    Canvas/CapsuleInfo
+            ${element_parent}=    Get Parent    ${element}
+            ${element_parent_name}=    Get Object Name    ${element_parent}
+            Should Be Equal As Strings    ${element_parent_name}    Canvas
 
 ```
 ### GetScreenPosition
@@ -4494,6 +4668,16 @@ None
             capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
             text = capsule_info.get_text()
             assert text == "UIButton clicked to jump capsule!"
+
+    ..code-tab:: robot
+
+        Test Hold Button
+            ${button}=    Find Object    NAME    UIButton
+            ${button_position}=    Get Screen Position    ${button}
+            Hold Button    ${button_position}    duration=1
+            ${capsule_info}=    Find Object    NAME    CapsuleInfo
+            ${text}=    Get Text    ${capsule_info}
+            Should Be Equal As Strings    ${text}    UIButton clicked to jump capsule!
 
 ```
 ### GetWorldPosition
@@ -4553,6 +4737,16 @@ None
             capsule = self.altdriver.find_object(By.NAME, "Capsule")
             final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
             assert initial_position != final_position
+
+    .. code-tab:: robot
+
+        Test Camera Movement
+            ${cube}=    Find Object    NAME    Player1
+            ${initial_position}=    Get World Position    ${cube}
+            Press Key    W    power=1    duration=0.1    wait=${False}
+            ${cube}=    Find Object    NAME    Player1
+            ${final_position}=    Get World Position    ${cube}
+            Should Not Be Equal    ${initial_position}    ${final_position}
 
 ```
 
