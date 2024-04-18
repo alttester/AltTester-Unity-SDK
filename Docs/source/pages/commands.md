@@ -870,6 +870,21 @@ Simulates a key down.
             lastKeyUp = self.altDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
 
+    .. code-tab:: robot
+
+        Test Key Down And Key Up
+            Key Down    A
+            ${last_key_down}=    Find Object    NAME    LastKeyDownValue
+            ${last_key_press}=    Find Object    NAME    LastKeyPressedValue
+            ${last_key_down_text}=    Get Text    ${last_key_down}
+            ${last_key_press_text}=    Get Text    ${last_key_press}
+            Should Be Equal As Numbers    ${last_key_down_text}    97
+            Should Be Equal As Numbers    ${last_key_press_text}    97
+            Key Up    A
+            ${last_key_up}=    Find Object    NAME    LastKeyUpValue
+            ${last_key_up_text}=    Get Text    ${last_key_up}
+            Should Be Equal As Numbers    ${last_key_up_text}    97
+
 ```
 
 #### KeyUp
@@ -956,6 +971,21 @@ Simulates a key up.
             lastKeyUp = self.altDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
 
+    ..code-tab:: robot
+
+        Test Key Down And Key Up
+            Key Down    A
+            ${last_key_down}=    Find Object    NAME    LastKeyDownValue
+            ${last_key_press}=    Find Object    NAME    LastKeyPressedValue
+            ${last_key_down_text}=    Get Text    ${last_key_down}
+            ${last_key_press_text}=    Get Text    ${last_key_press}
+            Should Be Equal As Numbers    ${last_key_down_text}    97
+            Should Be Equal As Numbers    ${last_key_press_text}    97
+            Key Up    A
+            ${last_key_up}=    Find Object    NAME    LastKeyUpValue
+            ${last_key_up_text}=    Get Text    ${last_key_up}
+            Should Be Equal As Numbers    ${last_key_up_text}    97
+
 ```
 
 #### HoldButton
@@ -1014,6 +1044,16 @@ Simulates holding left click button down for a specified amount of time at given
             capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
             text = capsule_info.get_text()
             assert text == "UIButton clicked to jump capsule!"
+
+    .. code-tab:: robot
+
+        Test Hold Button
+            ${button}=    Find Object    NAME    UIButton
+            ${button_position}=    Get Screen Position    ${button}
+            Hold Button    ${button_position}    duration=1
+            ${capsule_info}=    Find Object    NAME    CapsuleInfo
+            ${text}=    Get Text    ${capsule_info}
+            Should Be Equal As Strings    ${text}    UIButton clicked to jump capsule!
 
 ```
 
@@ -1098,6 +1138,27 @@ Simulate mouse movement in your app.
             stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
             assert len(stars) == 3
 
+    .. code-tab:: robot
+
+        Test Creating Stars
+            ${stars}=    Find Objects Which Contain    NAME    Star    camera_by=NAME    camera_value=Player2
+            ${appears}=    Get Length    ${stars}
+            Should Be Equal As Integers    1    ${appears}
+            Find Objects Which Contain    NAME    Player    camera_by=NAME    camera_value=Player2
+            ${pressing_point_1}=    Find Object    NAME    PressingPoint1    camera_by=NAME    camera_value=Player2
+            ${pressing_point_1_coordinates}=    Get Screen Position    ${pressing_point_1}
+            Move Mouse    ${pressing_point_1_coordinates}    duration=0.1    wait=${False}
+            Sleep    0.1
+            Press Key    Mouse0    power=1    duration=0.1    wait=${False}
+            ${pressing_point_2}=    Find Object    NAME    PressingPoint2    camera_by=NAME    camera_value=Player2
+            ${pressing_point_2_coordinates}=    Get Screen Position    ${pressing_point_1}
+            Move Mouse    ${pressing_point_2_coordinates}    duration=0.1    wait=${False}
+            Press Key    Mouse0    power=1    duration=0.1    wait=${False}
+            Sleep    0.1
+            ${stars}=    Find Objects Which Contain    NAME    Star
+            ${appears}=    Get Length    ${stars}
+            Should Be Equal As Integers    3    ${appears}
+
 ```
 
 #### PressKey
@@ -1181,6 +1242,27 @@ Simulates key press action in your app.
             stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
             assert len(stars) == 3
 
+    .. code-tab:: robot
+
+        Test Creating Stars
+            ${stars}=    Find Objects Which Contain    NAME    Star    camera_by=NAME    camera_value=Player2
+            ${appears}=    Get Length    ${stars}
+            Should Be Equal As Integers    1    ${appears}
+            Find Objects Which Contain    NAME    Player    camera_by=NAME    camera_value=Player2
+            ${pressing_point_1}=    Find Object    NAME    PressingPoint1    camera_by=NAME    camera_value=Player2
+            ${pressing_point_1_coordinates}=    Get Screen Position    ${pressing_point_1}
+            Move Mouse    ${pressing_point_1_coordinates}    duration=0.1    wait=${False}
+            Sleep    0.1
+            Press Key    Mouse0    power=1    duration=0.1    wait=${False}
+            ${pressing_point_2}=    Find Object    NAME    PressingPoint2    camera_by=NAME    camera_value=Player2
+            ${pressing_point_2_coordinates}=    Get Screen Position    ${pressing_point_1}
+            Move Mouse    ${pressing_point_2_coordinates}    duration=0.1    wait=${False}
+            Press Key    Mouse0    power=1    duration=0.1    wait=${False}
+            Sleep    0.1
+            ${stars}=    Find Objects Which Contain    NAME    Star
+            ${appears}=    Get Length    ${stars}
+            Should Be Equal As Integers    3    ${appears}
+
 ```
 
 #### PressKeys
@@ -1251,6 +1333,15 @@ Simulates multiple key press action in your app.
             )
             assert property_value == "multiple keys pressed"
 
+    .. code-tab:: robot
+
+        Test Press Keys
+            ${keys}=    Create List    K    L
+            Press Keys    ${keys}
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${property_value}=    Get Component Property    ${alt_object}    AltExampleScriptCapsule    stringToSetFromTests    Assembly-CSharp
+            Should Be Equal As Strings    ${property_value}    multiple keys pressed
+
 ```
 
 #### Scroll
@@ -1316,6 +1407,21 @@ Simulate scroll action in your app.
             player2 = self.altdriver.find_object(By.NAME, "Player2")
             cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
             assert cube_initial_position != cubeFinalPosition
+
+    .. code-tab:: robot
+
+        Test Scroll
+            ${player2}=    Find Object    NAME    Player2
+            ${cube_initial_position_x}=    Get Object WorldX    ${player2}
+            ${cube_initial_position_y}=    Get Object WorldY    ${player2}
+            ${cube_initial_position}=    Create List    ${cube_initial_position_x}    ${cube_initial_position_y}    ${cube_initial_position_y}
+            Scroll    4    duration=1    wait=${False}
+            Sleep    1
+            ${player2}=    Find Object    NAME    Player2
+            ${cube_final_position_x}=    Get Object WorldX    ${player2}
+            ${cube_final_position_y}=    Get Object WorldY    ${player2}
+            ${cube_final_position}=    Create List    ${cube_final_position_x}    ${cube_final_position_y}    ${cube_final_position_y}
+            Should Not Be Equal    ${cube_initial_position}    ${cube_final_position}
 
 ```
 
@@ -1459,6 +1565,24 @@ Simulates a swipe action between two points.
                 By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
             assert image_source != image_source_drop_zone
 
+    .. code-tab:: robot
+
+        Test Resize Panel
+            ${alt_object}=    Find Object    NAME    Resize Zone
+            ${alt_object_x}=    Get Object X    ${alt_object}
+            ${alt_object_y}=    Get Object Y    ${alt_object}
+            ${position_init}=    Create List    ${alt_object_x}    ${alt_object_y}
+            ${screen_position}=    Get Screen Position    ${alt_object}
+            ${new_x}=    Evaluate    ${alt_object_x}-200
+            ${new_y}=    Evaluate    ${alt_object_y}-200
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Swipe    ${screen_position}    ${new_screen_position}    duration=2
+            ${alt_object}=    Find Object    NAME    Resize Zone
+            ${alt_object_x}=    Get Object X    ${alt_object}
+            ${alt_object_y}=    Get Object Y    ${alt_object}
+            ${position_final}=    Create List    ${alt_object_x}    ${alt_object_y}
+            Should Not Be Equal    ${position_init}    ${position_final}
+
 ```
 
 #### MultipointSwipe
@@ -1545,6 +1669,38 @@ Simulates a multipoint swipe action.
 
             assert position_init != position_final
 
+    .. code-tab:: robot
+
+        Test Resize Panel With Multipoint Swipe
+            ${alt_object}=    Find Object    NAME    Resize Zone
+            ${alt_object_x}=    Get Object X    ${alt_object}
+            ${alt_object_y}=    Get Object Y    ${alt_object}
+            ${position_init}=    Create List    ${alt_object_x}    ${alt_object_y}
+            ${screen_position}=    Get Screen Position    ${alt_object}
+            ${positions}=    Create List    ${screen_position}
+            ${new_x}=    Evaluate    ${alt_object_x}-200
+            ${new_y}=    Evaluate    ${alt_object_y}-200
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Append To List    ${positions}    ${new_screen_position}
+            ${new_x}=    Evaluate    ${alt_object_x}-300
+            ${new_y}=    Evaluate    ${alt_object_y}-100
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Append To List    ${positions}    ${new_screen_position}
+            ${new_x}=    Evaluate    ${alt_object_x}-50
+            ${new_y}=    Evaluate    ${alt_object_y}-100
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Append To List    ${positions}    ${new_screen_position}
+            ${new_x}=    Evaluate    ${alt_object_x}-100
+            ${new_y}=    Evaluate    ${alt_object_y}-100
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Append To List    ${positions}    ${new_screen_position}
+            Multipoint Swipe    ${positions}    duration=4
+            ${alt_object}=    Find Object    NAME    Resize Zone
+            ${alt_object_x}=    Get Object X    ${alt_object}
+            ${alt_object_y}=    Get Object Y    ${alt_object}
+            ${position_final}=    Create List    ${alt_object_x}    ${alt_object_y}
+            Should Not Be Equal    ${position_init}    ${position_final}
+
 ```
 
 #### BeginTouch
@@ -1610,6 +1766,23 @@ Simulates starting of a touch on the screen. To further interact with the touch 
             self.altDriver.end_touch(finger_id)
             draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
+
+    .. code-tab:: robot
+
+        Test New Touch Commands
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${initial_position}=    Get Screen Position    ${draggable_area}
+            ${finger_id}=    Begin Touch    ${initial_position}
+            ${draggable_area_x}=    Get Object X    ${draggable_area}
+            ${draggable_area_y}=    Get Object Y    ${draggable_area}
+            ${new_x}=    Evaluate    ${draggable_area_x}+10
+            ${new_y}=    Evaluate    ${draggable_area_y}+10
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Move Touch    ${finger_id}    ${new_screen_position}
+            End Touch    ${finger_id}
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${final_position}=    Get Screen Position    ${draggable_area}
+            Should Not Be Equal    ${initial_position}    ${final_position}
 
 ```
 
@@ -1678,6 +1851,23 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
             draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
 
+    .. code-tab:: robot
+
+        Test New Touch Commands
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${initial_position}=    Get Screen Position    ${draggable_area}
+            ${finger_id}=    Begin Touch    ${initial_position}
+            ${draggable_area_x}=    Get Object X    ${draggable_area}
+            ${draggable_area_y}=    Get Object Y    ${draggable_area}
+            ${new_x}=    Evaluate    ${draggable_area_x}+10
+            ${new_y}=    Evaluate    ${draggable_area_y}+10
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Move Touch    ${finger_id}    ${new_screen_position}
+            End Touch    ${finger_id}
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${final_position}=    Get Screen Position    ${draggable_area}
+            Should Not Be Equal    ${initial_position}    ${final_position}        
+
 ```
 
 #### EndTouch
@@ -1743,6 +1933,23 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
             draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
 
+    .. code-tab:: robot
+
+        Test New Touch Commands
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${initial_position}=    Get Screen Position    ${draggable_area}
+            ${finger_id}=    Begin Touch    ${initial_position}
+            ${draggable_area_x}=    Get Object X    ${draggable_area}
+            ${draggable_area_y}=    Get Object Y    ${draggable_area}
+            ${new_x}=    Evaluate    ${draggable_area_x}+10
+            ${new_y}=    Evaluate    ${draggable_area_y}+10
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Move Touch    ${finger_id}    ${new_screen_position}
+            End Touch    ${finger_id}
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${final_position}=    Get Screen Position    ${draggable_area}
+            Should Not Be Equal    ${initial_position}    ${final_position}
+
 ```
 
 #### Click
@@ -1803,6 +2010,14 @@ Click at screen coordinates.
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             self.altDriver.click(capsule_element.get_screen_position())
 
+    .. code-tab:: robot
+
+        Test Click Coordinates
+            ${capsule_element}=    Find Object    NAME    Capsule
+            ${capsule_element_positions}=    Get Screen Position    ${capsule_element}
+            Click    ${capsule_element_positions}
+            Wait For Object    PATH    //CapsuleInfo[@text=Capsule was clicked to jump!]    timeout=1
+
 ```
 
 #### Tap
@@ -1862,6 +2077,14 @@ Tap at screen coordinates.
         def test_tap_coordinates(self):
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             self.altDriver.tap(capsule_element.get_screen_position())
+
+    .. code-tab:: robot
+
+        Test Tap Coordinates
+            ${capsule_element}=    Find Object    NAME    Capsule
+            ${capsule_element_positions}=    Get Screen Position    ${capsule_element}
+            Tap    ${capsule_element_positions}
+            Wait For Object    PATH    //CapsuleInfo[@text=Capsule was clicked to jump!]    timeout=1
 
 ```
 
@@ -1926,6 +2149,17 @@ Simulates device rotation action in your app.
             capsule = self.altdriver.find_object(By.NAME, "Capsule")
             final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
             assert initial_position != final_position
+
+    .. code-tab:: robot
+
+        Test Tilt
+            ${cube}=    Find Object    NAME    Cube (1)
+            ${initial_position}=    Get World Position    ${cube}
+            ${acceleration}=    Create List    1000    10    10
+            Tilt    ${acceleration}    duration=1
+            ${final_position}=    Get World Position    ${cube}
+            ${is_moved}=    Get Component Property    ${cube}    AltCubeNIS    isMoved    Assembly-CSharp
+            Should Be True    ${is_moved}
 
 ```
 
@@ -1997,6 +2231,20 @@ None
                 "Input", "_keyCodesPressed.Count", "Assembly-CSharp")
             assert 0 == countKeyDown
 
+    .. code-tab:: robot
+
+        Test Reset Input
+            Key Down    P    power=1
+            ${object}=    Find Object    NAME    AltTesterPrefab
+            ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK
+            Should Be True    ${nis}
+            Reset Input
+            ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK
+            Should Not Be True    ${nis}
+            ${countKeyDown}=    Find Object    NAME    AltTesterPrefab
+            ${count}=    Get Component Property    ${countKeyDown}    Input    _keyCodesPressed.Count    AltTester.AltTesterUnitySDK
+            Should Be Equal As Integers    0    ${count}
+        
 ```
 
 ### Screenshot
