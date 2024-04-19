@@ -5003,6 +5003,12 @@ This method calls `adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}`
             AltReversePortForwarding.reverse_port_forwarding_android()
             cls.altDriver = AltDriver()
 
+    .. code-tab:: robot
+
+        SetUp Tests
+            Reverse Port Forwarding Android
+            Initialize Altdriver
+
 ```
 **Note:** Sometimes, the execution of reverse port forwarding method is too slow so the tests fail because the port is not actually forwarded when trying to establish the connection. In order to fix this problem, a `sleep()` method should be called after calling the ReversePortForwardingAndroid() method.
 ### RemoveReversePortForwardingAndroid
@@ -5050,6 +5056,12 @@ Nothing
             cls.altDriver.stop()
             AltReversePortForwarding.remove_reverse_port_forwarding_android()
 
+    .. code-tab:: robot
+
+        TearDown Tests
+            Stop Altdriver
+            Remove Reverse Port Forwarding Android
+
 ```
 
 ### RemoveAllReversePortForwardingsAndroid
@@ -5095,5 +5107,9 @@ Nothing
             cls.altDriver.stop()
             AltReversePortForwarding.remove_all__reverse_port_forwardings_android()
 
+    .. code-tab:: robot
 
+        TearDown Tests
+            Stop Altdriver
+            Remove All Reverse Port Forwarding Android
 ```
