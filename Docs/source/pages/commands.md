@@ -2467,6 +2467,42 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
                 :language: py
                 :emphasize-lines: 6,10
 
+    .. tab:: robot
+
+        **Get Player Pref Key
+
+            Returns the value for a given key from PlayerPrefs
+
+            *Parameters*
+
+            +---------+---------+----------+---------------------+
+            |  Name   |  Type   | Required |     Description     |
+            +=========+=========+==========+=====================+
+            | keyname |  string |    Yes   | Key to be retrieved |
+            +---------+---------+----------+---------------------+
+
+            *Returns*
+
+            - string/float/int
+
+            Test Set Player Pref Keys Int
+                Delete Player Pref
+                Set Player Pref Key    test    ${1}    Int
+                ${actual_value}=    Get Player Pref Key    test    Int
+                Should Be Equal As Integers    ${actual_value}    ${1}
+
+            Test Set Player Pref Keys Float
+                Delete Player Pref
+                Set Player Pref Key    test    ${1.3}    Float
+                ${actual_value}=    Get Player Pref Key    test    Float
+                Should Be Equal As Numbers    ${actual_value}    ${1.3}
+
+            Test Set Player Pref Keys String
+                Delete Player Pref
+                Set Player Pref Key    test    string value    String
+                ${actual_value}=    Get Player Pref Key    test    String
+                Should Be Equal As Strings    ${actual_value}    string value
+
 ```
 
 ##### SettingPlayerPrefs
@@ -2485,9 +2521,9 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
             +------------+-----------------------+-----------+----------------------------------+
             |    Name    |          Type         |  Required |           Description            |
             +============+=======================+===========+==================================+
-            |   keyname  |         string        |     Yes   |        Key to be set             |
+            |   keyname  |         string        |    Yes    |        Key to be set             |
             +------------+-----------------------+-----------+----------------------------------+
-            |   value    |  integer/float/string |     Yes   |        Value to be set           |
+            |   value    |  integer/float/string |    Yes    |        Value to be set           |
             +------------+-----------------------+-----------+----------------------------------+
 
             *Returns*
@@ -2511,9 +2547,9 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
             +------------+-----------------------+-----------+----------------------------------+
             |    Name    |          Type         |  Required |           Description            |
             +============+=======================+===========+==================================+
-            |   keyname  |         string        |     Yes   |        Key to be set             |
+            |   keyname  |         string        |    Yes    |        Key to be set             |
             +------------+-----------------------+-----------+----------------------------------+
-            |   value    |  integer/float/string |     Yes   |        Value to be set           |
+            |   value    |  integer/float/string |    Yes    |        Value to be set           |
             +------------+-----------------------+-----------+----------------------------------+
 
             *Returns*
@@ -2537,9 +2573,9 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
             +------------+-----------------------+-----------+----------------------------------+
             |    Name    |          Type         |  Required |           Description            |
             +============+=======================+===========+==================================+
-            |   keyname  |         string        |     Yes   |        Key to be set             |
+            |   keyname  |         string        |    Yes    |        Key to be set             |
             +------------+-----------------------+-----------+----------------------------------+
-            |   value    |  integer/float/string |     Yes   |        Value to be set           |
+            |   value    |  integer/float/string |    Yes    |        Value to be set           |
             +------------+-----------------------+-----------+----------------------------------+
             |   option   |    PlayerPrefKeyType  |    Yes    |         Type of keyname          |
             +------------+-----------------------+-----------+----------------------------------+
@@ -2553,6 +2589,47 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
             .. literalinclude:: ../_static/examples~/commands/python-player-prefs.py
                 :language: py
                 :emphasize-lines: 4,5
+
+    .. tab:: robot
+
+        **Set Player Pref Key
+
+            Sets the value for a given key in PlayerPrefs
+
+            *Parameters*
+
+            +------------+-----------------------+-----------+----------------------------------+
+            |    Name    |          Type         |  Required |           Description            |
+            +============+=======================+===========+==================================+
+            |   keyname  |         string        |    Yes    |        Key to be set             |
+            +------------+-----------------------+-----------+----------------------------------+
+            |   value    |  integer/float/string |    Yes    |        Value to be set           |
+            +------------+-----------------------+-----------+----------------------------------+
+            |   option   |    PlayerPrefKeyType  |    Yes    |         Type of keyname          |
+            +------------+-----------------------+-----------+----------------------------------+
+
+            *Returns*
+
+            - Nothing
+
+            Test Set Player Pref Keys Int
+                Delete Player Pref
+                Set Player Pref Key    test    ${1}    Int
+                ${actual_value}=    Get Player Pref Key    test    Int
+                Should Be Equal As Integers    ${actual_value}    ${1}
+
+            Test Set Player Pref Keys Float
+                Delete Player Pref
+                Set Player Pref Key    test    ${1.3}    Float
+                ${actual_value}=    Get Player Pref Key    test    Float
+                Should Be Equal As Numbers    ${actual_value}    ${1.3}
+
+            Test Set Player Pref Keys String
+                Delete Player Pref
+                Set Player Pref Key    test    string value    String
+                ${actual_value}=    Get Player Pref Key    test    String
+                Should Be Equal As Strings    ${actual_value}    string value
+                
 ```
 
 #### DeleteKeyPlayerPref
