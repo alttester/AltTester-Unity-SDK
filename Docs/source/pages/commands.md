@@ -225,11 +225,10 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
     .. code-tab:: robot
 
-        Test Find Object Which Contains With Not Existing Object
-            ${element_name}=    Set Variable    EventNonExisting
-            ${error_message}=    Set Variable    NotFoundException: Object //*[contains(@name,${element_name})] not found
-            ${error}=    Run Keyword And Ignore Error    Find Object Which Contains    NAME    ${element_name}
-            Should Be Equal As Strings    ${error[1]}    ${error_message}
+        Test Find Object Which Contains
+            ${alt_object}=          Find Object Which Contains      NAME            Event
+            ${alt_object_name}=     Get Object Name                 ${alt_object}
+            Should Contain          ${alt_object_name}              EventSystem
 
 ```
 
