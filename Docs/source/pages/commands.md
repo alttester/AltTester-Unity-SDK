@@ -867,7 +867,7 @@ Simulates a key down.
     .. code-tab:: robot
 
         Test Key Down And Key Up
-            Load Scene    ${scene5}
+            Load Scene              ${scene5}
             Key Down    A
             ${last_key_down}=       Find Object     NAME            LastKeyDownValue
             ${last_key_press}=      Find Object     NAME            LastKeyPressedValue
@@ -877,7 +877,7 @@ Simulates a key down.
             Should Be Equal As Numbers    ${last_key_press_text}    97
             Key Up    A
             ${last_key_up}=         Find Object     NAME            LastKeyUpValue
-            ${last_key_up_text}=    Get Text    ${last_key_up}
+            ${last_key_up_text}=    Get Text        ${last_key_up}
             Should Be Equal As Numbers    ${last_key_up_text}       97
 
 ```
@@ -966,7 +966,7 @@ Simulates a key up.
             lastKeyUp = self.altDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
 
-    ..code-tab:: robot
+    .. code-tab:: robot
 
         Test Key Down And Key Up
             Load Scene              ${scene5}
@@ -1563,21 +1563,31 @@ Simulates a swipe action between two points.
 
     .. code-tab:: robot
 
-        Test Resize Panel
-            ${alt_object}=    Find Object    NAME    Resize Zone
-            ${alt_object_x}=    Get Object X    ${alt_object}
-            ${alt_object_y}=    Get Object Y    ${alt_object}
-            ${position_init}=    Create List    ${alt_object_x}    ${alt_object_y}
-            ${screen_position}=    Get Screen Position    ${alt_object}
-            ${new_x}=    Evaluate    ${alt_object_x}-200
-            ${new_y}=    Evaluate    ${alt_object_y}-200
-            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
-            Swipe    ${screen_position}    ${new_screen_position}    duration=2
-            ${alt_object}=    Find Object    NAME    Resize Zone
-            ${alt_object_x}=    Get Object X    ${alt_object}
-            ${alt_object_y}=    Get Object Y    ${alt_object}
-            ${position_final}=    Create List    ${alt_object_x}    ${alt_object_y}
-            Should Not Be Equal    ${position_init}    ${position_final}
+        Test Multiple Swipes
+            ${drag_location}=    Find Object    NAME    Drag Image2
+            ${drop_location}=    Find Object    NAME    Drop Box2
+            ${drag_location_position}=    Get Screen Position    ${drag_location}
+            ${drop_location_position}=    Get Screen Position    ${drop_location}
+            Swipe    ${drag_location_position}    ${drop_location_position}    duration=1   wait=${False}
+
+            ${drag_location}=    Find Object    NAME    Drag Image2
+            ${drop_location}=    Find Object    NAME    Drop Box1
+            ${drag_location_position}=    Get Screen Position    ${drag_location}
+            ${drop_location_position}=    Get Screen Position    ${drop_location}
+            Swipe    ${drag_location_position}    ${drop_location_position}    duration=1    wait=${False}
+
+            ${drag_location}=    Find Object    NAME    Drag Image1
+            ${drop_location}=    Find Object    NAME    Drop Box1
+            ${drag_location_position}=    Get Screen Position    ${drag_location}
+            ${drop_location_position}=    Get Screen Position    ${drop_location}
+
+            Swipe    ${drag_location_position}    ${drop_location_position}    duration=2    wait=${False}
+
+            Wait For Object To Not Be Present    NAME    icon
+            ${image_source}    ${image_source_drop_zone}=    Get Sprite Name    Drag Image1    Drop Image
+            Should Be Equal    ${image_source}    ${image_source_drop_zone}
+            ${image_source}    ${image_source_drop_zone}=    Get Sprite Name    Drag Image2    Drop
+            Should Be Equal    ${image_source}    ${image_source_drop_zone}
 
 ```
 
