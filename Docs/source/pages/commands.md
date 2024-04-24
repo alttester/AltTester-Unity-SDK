@@ -89,12 +89,9 @@ Finds the first object in the scene that respects the given criteria. Check [By]
     .. code-tab:: robot
 
         Test Find Object By Name
-            ${plane}=    Find Object    NAME    Plane
-            ${capsule}=    Find Object    NAME    Capsule
-            ${plane_name}=    Get Object Name    ${plane}
-            ${capsule_name}=    Get Object Name    ${capsule}
-            Should Be Equal    ${plane_name}    Plane
-            Should Be Equal    ${capsule_name}    Capsule
+            ${capsule}=         Find Object         NAME        Capsule
+            ${capsule_name}=    Get Object Name     ${capsule}
+            Should Be Equal     ${capsule_name}     Capsule
 
 ```
 
@@ -527,12 +524,9 @@ Waits until it finds an object that respects the given criteria or until timeout
     .. code-tab:: robot
 
         Test Wait For Object By Name
-            ${plane}=    Wait For Object    NAME    Plane
-            ${capsule}=    Wait For Object    NAME    Capsule
-            ${plane_name}=    Get Object Name    ${plane}
+            ${capsule}=         Wait For Object    NAME         Capsule
             ${capsule_name}=    Get Object Name    ${capsule}
-            Should Be Equal    ${plane_name}    Plane
-            Should Be Equal    ${capsule_name}    Capsule
+            Should Be Equal     ${capsule_name}    Capsule
 
 ```
 
@@ -873,17 +867,18 @@ Simulates a key down.
     .. code-tab:: robot
 
         Test Key Down And Key Up
+            Load Scene    ${scene5}
             Key Down    A
-            ${last_key_down}=    Find Object    NAME    LastKeyDownValue
-            ${last_key_press}=    Find Object    NAME    LastKeyPressedValue
-            ${last_key_down_text}=    Get Text    ${last_key_down}
-            ${last_key_press_text}=    Get Text    ${last_key_press}
-            Should Be Equal As Numbers    ${last_key_down_text}    97
+            ${last_key_down}=       Find Object     NAME            LastKeyDownValue
+            ${last_key_press}=      Find Object     NAME            LastKeyPressedValue
+            ${last_key_down_text}=      Get Text    ${last_key_down}
+            ${last_key_press_text}=     Get Text    ${last_key_press}
+            Should Be Equal As Numbers    ${last_key_down_text}     97
             Should Be Equal As Numbers    ${last_key_press_text}    97
             Key Up    A
-            ${last_key_up}=    Find Object    NAME    LastKeyUpValue
+            ${last_key_up}=         Find Object     NAME            LastKeyUpValue
             ${last_key_up_text}=    Get Text    ${last_key_up}
-            Should Be Equal As Numbers    ${last_key_up_text}    97
+            Should Be Equal As Numbers    ${last_key_up_text}       97
 
 ```
 
@@ -974,17 +969,18 @@ Simulates a key up.
     ..code-tab:: robot
 
         Test Key Down And Key Up
+            Load Scene              ${scene5}
             Key Down    A
-            ${last_key_down}=    Find Object    NAME    LastKeyDownValue
-            ${last_key_press}=    Find Object    NAME    LastKeyPressedValue
-            ${last_key_down_text}=    Get Text    ${last_key_down}
-            ${last_key_press_text}=    Get Text    ${last_key_press}
-            Should Be Equal As Numbers    ${last_key_down_text}    97
+            ${last_key_down}=       Find Object     NAME            LastKeyDownValue
+            ${last_key_press}=      Find Object     NAME            LastKeyPressedValue
+            ${last_key_down_text}=      Get Text    ${last_key_down}
+            ${last_key_press_text}=     Get Text    ${last_key_press}
+            Should Be Equal As Numbers    ${last_key_down_text}     97
             Should Be Equal As Numbers    ${last_key_press_text}    97
             Key Up    A
-            ${last_key_up}=    Find Object    NAME    LastKeyUpValue
-            ${last_key_up_text}=    Get Text    ${last_key_up}
-            Should Be Equal As Numbers    ${last_key_up_text}    97
+            ${last_key_up}=         Find Object     NAME            LastKeyUpValue
+            ${last_key_up_text}=    Get Text        ${last_key_up}
+            Should Be Equal As Numbers    ${last_key_up_text}       97
 
 ```
 
