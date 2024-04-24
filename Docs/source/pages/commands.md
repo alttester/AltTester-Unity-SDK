@@ -2802,18 +2802,16 @@ None
     .. code-tab:: py
 
         def test_get_current_scene(self):
-            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
+            self.altDriver.load_scene("Scene 1 AltDriverTestScene", True)
             self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
 
     .. code-tab:: robot
 
         Test Load And Wait For Scene
-            Load Scene    ${scene1}
-            Wait For Current Scene To Be    ${scene1}    timeout=1
-            Load Scene    ${scene2}
-            Wait For Current Scene To Be    ${scene2}    timeout=1
-            ${current_scene}=    Get Current Scene
-            Should Be Equal    ${current_scene}    ${scene2}
+            Load Scene                      ${scene1}           ${True}
+            Wait For Current Scene To Be    ${scene1}           timeout=1
+            ${current_scene}=               Get Current Scene
+            Should Be Equal                 ${current_scene}    ${scene1}
 
 ```
 
@@ -2858,18 +2856,16 @@ Loads a scene.
     .. code-tab:: py
 
         def test_get_current_scene(self):
-            self.altDriver.load_scene("Scene 1 AltDriverTestScene",True)
+            self.altDriver.load_scene("Scene 1 AltDriverTestScene", True)
             self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
 
     .. code-tab:: robot
 
         Test Load And Wait For Scene
-            Load Scene    ${scene1}
-            Wait For Current Scene To Be    ${scene1}    timeout=1
-            Load Scene    ${scene2}
-            Wait For Current Scene To Be    ${scene2}    timeout=1
-            ${current_scene}=    Get Current Scene
-            Should Be Equal    ${current_scene}    ${scene2}
+            Load Scene                      ${scene1}           ${True}
+            Wait For Current Scene To Be    ${scene1}           timeout=1
+            ${current_scene}=               Get Current Scene
+            Should Be Equal                 ${current_scene}    ${scene1}
 
 ```
 
@@ -3089,12 +3085,10 @@ Waits for the scene to be loaded for a specified amount of time.
     .. code-tab:: robot
 
         Test Load And Wait For Scene
-            Load Scene    ${scene1}
-            Wait For Current Scene To Be    ${scene1}    timeout=1
-            Load Scene    ${scene2}
-            Wait For Current Scene To Be    ${scene2}    timeout=1
-            ${current_scene}=    Get Current Scene
-            Should Be Equal    ${current_scene}    ${scene2}
+            Load Scene                      ${scene1}           ${True}
+            Wait For Current Scene To Be    ${scene1}           timeout=1
+            ${current_scene}=               Get Current Scene
+            Should Be Equal                 ${current_scene}    ${scene1}
 
 ```
 
