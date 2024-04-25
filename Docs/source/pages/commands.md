@@ -2472,9 +2472,9 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
                 :language: py
                 :emphasize-lines: 6,10
 
-    .. tab:: robot
+    .. tab:: Robot
 
-        **Get Player Pref Key
+        **Get Player Pref Key**
 
             Returns the value for a given key from PlayerPrefs
 
@@ -2490,23 +2490,25 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             - string/float/int
 
-            Test Set Player Pref Keys Int
-                Delete Player Pref
-                Set Player Pref Key    test    ${1}    Int
-                ${actual_value}=    Get Player Pref Key    test    Int
-                Should Be Equal As Integers    ${actual_value}    ${1}
+            .. code-block:: 
 
-            Test Set Player Pref Keys Float
-                Delete Player Pref
-                Set Player Pref Key    test    ${1.3}    Float
-                ${actual_value}=    Get Player Pref Key    test    Float
-                Should Be Equal As Numbers    ${actual_value}    ${1.3}
+                Test Set Player Pref Keys Int
+                    Delete Player Pref
+                    Set Player Pref Key    test    ${1}    Int
+                    ${actual_value}=    Get Player Pref Key    test    Int
+                    Should Be Equal As Integers    ${actual_value}    ${1}
 
-            Test Set Player Pref Keys String
-                Delete Player Pref
-                Set Player Pref Key    test    string value    String
-                ${actual_value}=    Get Player Pref Key    test    String
-                Should Be Equal As Strings    ${actual_value}    string value
+                Test Set Player Pref Keys Float
+                    Delete Player Pref
+                    Set Player Pref Key    test    ${1.3}    Float
+                    ${actual_value}=    Get Player Pref Key    test    Float
+                    Should Be Equal As Numbers    ${actual_value}    ${1.3}
+
+                Test Set Player Pref Keys String
+                    Delete Player Pref
+                    Set Player Pref Key    test    string value    String
+                    ${actual_value}=    Get Player Pref Key    test    String
+                    Should Be Equal As Strings    ${actual_value}    string value
 
 ```
 
@@ -2595,9 +2597,9 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
                 :language: py
                 :emphasize-lines: 4,5
 
-    .. tab:: robot
+    .. tab:: Robot
 
-        **Set Player Pref Key
+        **Set Player Pref Key**
 
             Sets the value for a given key in PlayerPrefs
 
@@ -2617,24 +2619,28 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
             - Nothing
 
-            Test Set Player Pref Keys Int
-                Delete Player Pref
-                Set Player Pref Key    test    ${1}    Int
-                ${actual_value}=    Get Player Pref Key    test    Int
-                Should Be Equal As Integers    ${actual_value}    ${1}
+            .. code-block:: 
 
-            Test Set Player Pref Keys Float
-                Delete Player Pref
-                Set Player Pref Key    test    ${1.3}    Float
-                ${actual_value}=    Get Player Pref Key    test    Float
-                Should Be Equal As Numbers    ${actual_value}    ${1.3}
+                Test Set Player Pref Keys Int
+                    Delete Player Pref
+                    Set Player Pref Key    test    ${1}    Int
+                    ${actual_value}=    Get Player Pref Key    test    Int
+                    Should Be Equal As Integers    ${actual_value}    ${1}
 
-            Test Set Player Pref Keys String
-                Delete Player Pref
-                Set Player Pref Key    test    string value    String
-                ${actual_value}=    Get Player Pref Key    test    String
-                Should Be Equal As Strings    ${actual_value}    string value
-                
+
+                Test Set Player Pref Keys Float
+                    Delete Player Pref
+                    Set Player Pref Key    test    ${1.3}    Float
+                    ${actual_value}=    Get Player Pref Key    test    Float
+                    Should Be Equal As Numbers    ${actual_value}    ${1.3}
+
+
+                Test Set Player Pref Keys String
+                    Delete Player Pref
+                    Set Player Pref Key    test    string value    String
+                    ${actual_value}=    Get Player Pref Key    test    String
+                    Should Be Equal As Strings    ${actual_value}    string value
+                    
 ```
 
 #### DeleteKeyPlayerPref
@@ -4745,7 +4751,7 @@ None
             text = capsule_info.get_text()
             assert text == "UIButton clicked to jump capsule!"
 
-    ..code-tab:: robot
+    .. code-tab:: robot
 
         Test Hold Button
             ${button}=    Find Object    NAME    UIButton
