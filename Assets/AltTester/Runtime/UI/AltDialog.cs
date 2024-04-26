@@ -160,10 +160,15 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void checkIfPlayerPrefNeedsToBeDeleted()
         {
 #if ENABLE_LEGACY_INPUT_MANAGER
+            { }
+            UnityEngine.Debug.LogWarning("Inside: ENABLE_LEGACY_INPUT_MANAGER");
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.L))
 #else
 #if ENABLE_INPUT_SYSTEM
+UnityEngine.Debug.LogWarning("Inside: ENABLE_INPUT_SYSTEM");
             if (Keyboard.current.leftCtrlKey.isPressed && Keyboard.current.leftShiftKey.isPressed && Keyboard.current.dKey.isPressed && Keyboard.current.lKey.isPressed)
+#else
+UnityEngine.Debug.LogWarning("Inside:Nothing");
 #endif
 #endif
             {
