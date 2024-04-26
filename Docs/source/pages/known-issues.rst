@@ -106,8 +106,8 @@ Android Studio. For iOS you can use a simulator inside Xcode.
 
 Note: In version 2.0.2 this issue has been fixed.
 
-Networking
-----------
+Networking & Connectivity
+-------------------------
 
 AltTester® does not support proxy configurations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -117,8 +117,14 @@ AltTester® does not support proxy configurations
 **Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester® Unity SDK v1.8.*, v2.0.x, v2.x
 
 WegGL app disconnects
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 **Problem** The WebGL application disconnects due to WebSocket timeouts occurring over time when no data is transmitted.
+
+**Affects**: AltTester® Unity SDK v2.x
+
+Impossibility to connect to AltTester® Desktop an ``IL2CPP`` instrumented app built with Managed Stripping Level higher than ``Minimal`` which throws ``InvalidCommandException: Unable to find a constructor to use for type AltTester.AltTesterUnitySDK.Driver.Commands.AltGetServerVersionParams. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Workaround**: Set to ``Minimal`` the Managed Stripping Level setting from Player Settings -> Other Settings -> Optimization 
 
 **Affects**: AltTester® Unity SDK v2.x
