@@ -2097,5 +2097,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var value = altDriver.GetStaticProperty<int[]>("AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp");
             Assert.AreEqual(expectedArray, value);
         }
+        [Test]
+        public void TestInputToggleDoesntUntoggleWhenADriverDisconnects()
+        {
+            var toggle = altDriver.FindObject(By.PATH, "//Dialog/Toggle", enabled: false);
+            Assert.True(toggle.GetComponentProperty<bool>("UnityEngine.UI.Toggle", "isOn", "UnityEngine.UI"));
+            var secondDriver = new AltDriver(driverType: "Desktop");
+            Assert.True(toggle.GetComponentProperty<bool>("UnityEngine.UI.Toggle", "isOn", "UnityEngine.UI"));
+            secondDriver.Stop();
+            Assert.True(toggle.GetComponentProperty<bool>("UnityEngine.UI.Toggle", "isOn", "UnityEngine.UI"));
+
+        }
     }
 }
