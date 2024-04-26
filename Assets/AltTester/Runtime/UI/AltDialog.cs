@@ -239,6 +239,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onPortInputFieldValueChange(string value)
         {
+            UnityEngine.Debug.Log("TestPort: " + value);
             // Allow only positive numbers.
             if (value == "-")
             {
@@ -285,8 +286,10 @@ namespace AltTester.AltTesterUnitySDK.UI
             AppNameInputField.onValueChanged.AddListener(onValueChanged);
         }
 
-        private void onValueChanged(string _ = "")
+        private void onValueChanged(string test = "")
         {
+            UnityEngine.Debug.Log("Value changed: " + test);
+
             setMessage(EDITING_TEXT, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
             isEditing = true;
         }
