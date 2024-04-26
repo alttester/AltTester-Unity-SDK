@@ -167,6 +167,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 #endif
 #endif
             {
+                UnityEngine.Debug.LogWarning("ResetConnectionIsCalled");
                 PlayerPrefs.DeleteKey(UID);
                 resetConnectionDataBasedOnUID();
             }
@@ -250,6 +251,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void resetConnectionDataBasedOnUID()
         {
+            UnityEngine.Debug.LogWarning("ResetConnectionIsCalledInsideMethod");
+
             if (InstrumentationSettings.ResetConnectionData && (InstrumentationSettings.UID != PlayerPrefs.GetString(UID, "")))
             {
                 PlayerPrefs.SetString(HOST, InstrumentationSettings.AltServerHost);
