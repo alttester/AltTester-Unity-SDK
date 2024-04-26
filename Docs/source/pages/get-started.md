@@ -146,7 +146,7 @@ Steps:
 
 .. note::
 
-    If you are building your instrumented app using the `IL2CPP` Scripting Backend configuration, you also may want to set to `Minimal` the Managed Stripping Level from Player Settings -> Other Settings -> Optimization to avoid raising an exception and impossibility  to connect to the AltTester® Desktop.
+    If you are building your instrumented app using the `IL2CPP` Scripting Backend configuration, you also may want to set to `Minimal` the Managed Stripping Level from Player Settings -> Other Settings -> Optimization to avoid raising an exception and impossibility to connect to the AltTester® Desktop.
 
 ```
 
