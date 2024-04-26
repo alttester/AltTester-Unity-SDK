@@ -352,7 +352,23 @@ AltTester® package contains AltDriver class used to connect to the instrumented
         **Test Setup:**
             - You can use any IDE that works with Java, but for this setup tutorial, we will use `IntelliJ <https://www.jetbrains.com/idea/download/#section=windows>`_.
             - In order to have the structure already created for us and the possibility to install/update dependencies in an easy way, we can choose to create a `MAVEN project <https://www.jetbrains.com/idea/guide/tutorials/working-with-maven/creating-a-project/>`_.
-            - In the new ``pom.xml`` generated, you should add the following dependencies by searching these names in the manage dependencies window: ``AltTester-Driver``, ``JUnit`` (if it was not added by default).
+            - In the new ``pom.xml`` generated, you should add the ``alttester`` and ``junit`` dependencies (and make sure to use the latest AltTester® driver version):
+            .. code-block:: console
+
+                <dependency>
+                    <groupId>com.alttester</groupId>
+                    <artifactId>alttester</artifactId>
+                    <version>2.1.0</version>
+                </dependency>
+
+            .. code-block:: console
+
+                <dependency>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-engine</artifactId>
+                    <version>5.11.0-M1</version>
+                </dependency>
+
             - When you have these steps completed and you don’t have any errors, you are able to jump into the next section.
 
         **Writing tests:**
