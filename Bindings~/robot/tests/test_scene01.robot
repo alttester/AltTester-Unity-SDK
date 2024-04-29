@@ -373,8 +373,8 @@ Test Set Player Pref Keys String
 
 Test Delete Player Pref Key
     Delete Player Pref
-    Set Player Pref Key           test                  1    String
-    ${actual_value}=              Get Player Pref Key   test      String
+    Set Player Pref Key           test                  1       String
+    ${actual_value}=              Get Player Pref Key   test    String
     Should Be Equal As Strings    ${actual_value}       1
     Delete Player Pref Key        test
 
