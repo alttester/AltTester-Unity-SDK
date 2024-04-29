@@ -144,6 +144,10 @@ Steps:
 
     When running the WebGL build of your app in browser, even with the Run in background setting enabled, you still might experience slow performance if the tab with your content is not on focus. Make sure that the tab with your app is visible, otherwise your content will only update once per second in most browsers.
 
+.. note::
+
+    If you are building your instrumented app using the `IL2CPP` Scripting Backend configuration, you may also want to set the Managed Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization. Otherwise, AltTester® Desktop will throw an exception and will not be able to connect to the game.
+
 ```
 
 ## Start the AltTester® Server Module
