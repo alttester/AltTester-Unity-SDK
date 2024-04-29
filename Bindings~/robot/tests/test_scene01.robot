@@ -373,13 +373,13 @@ Test Set Player Pref Keys String
 
 Test Delete Player Pref Key
     Delete Player Pref
-    Set Player Pref Key           key_01               value_01    String
-    ${actual_value}=              Get Player Pref Key  key_01      String
-    Should Be Equal As Strings    ${actual_value}      value_01
-    Delete Player Pref Key        key_01
+    Set Player Pref Key           test                  1    String
+    ${actual_value}=              Get Player Pref Key   test      String
+    Should Be Equal As Strings    ${actual_value}       1
+    Delete Player Pref Key        test
 
-    Run Keyword And Expect Error    NotFoundException: PlayerPrefs key key_01 not found    
-    ...    Get Player Pref Key      key_01    String
+    Run Keyword And Expect Error    NotFoundException: PlayerPrefs key test not found    
+    ...    Get Player Pref Key      test    String
 
 Test Press Next Scene
     ${initial_scene}=    Get Current Scene
