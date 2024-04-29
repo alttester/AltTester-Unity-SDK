@@ -2512,7 +2512,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
 
 ```
 
-##### SettingPlayerPrefs
+#### SettingPlayerPrefs
 
 ```eval_rst
 .. tabs::
@@ -2710,6 +2710,18 @@ Removes key and its corresponding value from PlayerPrefs.
         .. literalinclude:: ../_static/examples~/commands/python-player-prefs.py
             :language: py
             :emphasize-lines: 8
+
+    .. code-tab:: robot
+
+        Test Delete Player Pref Key
+            Delete Player Pref
+            Set Player Pref Key           key_01               value_01    String
+            ${actual_value}=              Get Player Pref Key  key_01      String
+            Should Be Equal As Strings    ${actual_value}      value_01
+            Delete Player Pref Key        key_01
+
+            Run Keyword And Expect Error    NotFoundException: PlayerPrefs key key_01 not found    
+            ...    Get Player Pref Key      key_01    String
 
 ```
 
