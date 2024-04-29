@@ -101,6 +101,24 @@ namespace AltTester.AltTesterUnitySDK.UI
         }
         protected void Start()
         {
+#if ENABLE_LEGACY_INPUT_MANAGER
+            UnityEngine.Debug.LogWarning("ENABLE_LEGACY_INPUT_MANAGER");
+#endif
+#if ENABLE_INPUT_SYSTEM
+            UnityEngine.Debug.LogWarning("ENABLE_INPUT_SYSTEM");
+#endif
+#if UNITY_2019_1_OR_NEWER
+            UnityEngine.Debug.LogWarning("UNITY_2019_1_OR_NEWER");
+#endif
+#if ALTTESTER
+            UnityEngine.Debug.LogWarning("ALTTESTER");
+#endif
+#if UNITY_2021_2_OR_NEWER
+            UnityEngine.Debug.LogWarning("UNITY_2021_2_OR_NEWER");
+#endif
+#if USE_INPUT_SYSTEM_1_3
+            UnityEngine.Debug.LogWarning("USE_INPUT_SYSTEM_1_3");
+#endif
             Dialog.SetActive(InstrumentationSettings.ShowPopUp);
             resetConnectionDataBasedOnUID();
             setTitle("AltTester® v." + AltRunner.VERSION);
