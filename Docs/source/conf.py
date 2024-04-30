@@ -16,6 +16,7 @@
 import os
 from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
+from pygments.lexers.robotframework import RobotFrameworkLexer
 
 # -- Project information -----------------------------------------------------
 
@@ -125,6 +126,11 @@ html_theme_options = {
     'navigation_depth': 5
 }
 
+class AltTesterRobotFrameworkLexer(RobotFrameworkLexer):
+    name = 'Robot'
+    aliases = ['robot']
+    mimetypes = ['text/x-robotframework']
 
 def setup(app):
     app.add_transform(AutoStructify)
+    app.add_lexer('robot', AltTesterRobotFrameworkLexer)

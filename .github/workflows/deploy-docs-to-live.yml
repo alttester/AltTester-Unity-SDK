@@ -1,0 +1,101 @@
+name: Deploy Docs to live
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  paths-filter:
+    runs-on: ubuntu-latest
+    outputs:
+      docs: ${{ steps.filter.outputs.docs }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            docs:
+              - 'Docs/**'
+
+  build-docs:
+    runs-on: ubuntu-latest
+    needs: paths-filter
+    if: needs.paths-filter.outputs.docs == 'true'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          pip install -r "Docs/requirements.txt"
+      - name: Build docs
+        run: |
+          cd Docs
+          make versionedhtml
+      - uses: actions/upload-artifact@v3
+        with:
+          name: DocumentationHTML
+          path: Docs/build/
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'master' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+
+  deploy-docs:
+    runs-on: ubuntu-latest
+    needs: build-docs
+
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: DocumentationHTML
+          path: DocumentationHTML/
+
+      - name: Update AltTester Desktop link for latest version
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: ${{ secrets.LIVE_URL_ALTTESTER }}/docs/desktop/.*?/
+          replace: ${{ secrets.LIVE_URL_ALTTESTER }}/docs/desktop/latest/
+          include: "DocumentationHTML/latest/**"
+
+      - name: Upload documentation
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: DocumentationHTML
+          remote: ${{ secrets.DOCUMENTATION_PATH }}
+          host: ${{ secrets.HOST_IP_ALTTESTER }}
+          port: ${{ secrets.PORT_LIVE_ALTTESTER }}
+          username: ${{ secrets.USERNAME_ALTTESTER }}
+          password: ${{ secrets.PASSWORD_ALTTESTER }}
+          rmRemote: true
+
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'master' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}

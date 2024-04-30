@@ -79,7 +79,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private RuntimeCommunicationHandler communicationClient;
         private LiveUpdateCommunicationHandler liveUpdateClient;
         private readonly AltResponseQueue updateQueue = new AltResponseQueue();
-        HashSet<string> connectedDrivers = new HashSet<string>();
+        int connectedDrivers = 0;
 
         private bool isDataValid = false;
         private bool wasConnected = false;
@@ -122,7 +122,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             //Connection
             if (isDataValid)
                 beginCommunication();
-            InvokeRepeating("CheckAlive", 5, 5);//TODO 
+            InvokeRepeating(nameof(CheckAlive), 5, 5);
 
 
 
@@ -430,7 +430,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             stopClientsCalled = true;
             try
             {
-                connectedDrivers.Clear();
+                connectedDrivers = 0;
                 if (isCommunicationConnected)
                 {
                     stopCommunicationClient();
@@ -503,7 +503,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onStart()
         {
-            string message = $"Waiting to connect to AltTester® Server on {Environment.NewLine}host:port {currentHost}:{currentPort}with appName: '{currentName}',{Environment.NewLine}platform: '{platform}',{Environment.NewLine}platformVersion: '{platformVersion}',{Environment.NewLine}deviceInstanceId: '{deviceInstanceId}' {Environment.NewLine}and appId '{appId}'.";
+            string message = $"Waiting to connect to AltTester® Server on {Environment.NewLine}host:port {currentHost}:{currentPort} with appName: '{currentName}',{Environment.NewLine}platform: '{platform}',{Environment.NewLine}platformVersion: '{platformVersion}',{Environment.NewLine}deviceInstanceId: '{deviceInstanceId}' {Environment.NewLine}and appId '{appId}'.";
             setMessage(message, color: SUCCESS_COLOR, visible: Dialog.activeSelf);
         }
         private void onCommunicationConnected()
@@ -525,7 +525,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (!isDriverConnected)
             {
 
-                string message = $"Connected to AltTester® Server on {Environment.NewLine}host:port {currentHost}:{currentPort}{Environment.NewLine}with appName: '{currentName}'{Environment.NewLine}platform: '{platform}'{Environment.NewLine}platformVersion: '{platformVersion}'{Environment.NewLine}deviceInstanceId: '{deviceInstanceId}' {Environment.NewLine}appId '{appId}'.{Environment.NewLine}Waiting for Driver to connect.";
+                string message = $"Connected to AltTester® Server on {Environment.NewLine}host:port {currentHost}:{currentPort}{Environment.NewLine} with appName: '{currentName}'{Environment.NewLine}platform: '{platform}'{Environment.NewLine}platformVersion: '{platformVersion}'{Environment.NewLine}deviceInstanceId: '{deviceInstanceId}' {Environment.NewLine}appId '{appId}'.{Environment.NewLine}Waiting for Driver to connect.";
                 setMessage(message, color: SUCCESS_COLOR, visible: true);
             }
 
@@ -544,11 +544,11 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             logger.Debug("Driver Connected: " + driverId);
             isDriverConnected = true;
-            string message = String.Format("Connected to AltTester® Server on {0}host:port {1}:{2}with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceInstanceId: '{9}' {10}and appId '{11}'.{12}Driver connected.", Environment.NewLine, currentHost, currentPort + Environment.NewLine, currentName, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, appId, Environment.NewLine);
+            string message = String.Format("Connected to AltTester® Server on {0}host:port {1}:{2} with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceInstanceId: '{9}' {10}and appId '{11}'.{12}Driver connected.", Environment.NewLine, currentHost, currentPort + Environment.NewLine, currentName, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, appId, Environment.NewLine);
 
-            connectedDrivers.Add(driverId);
+            connectedDrivers++;
 
-            if (connectedDrivers.Count == 1)
+            if (connectedDrivers == 1)
             {
                 updateQueue.ScheduleResponse(() =>
                 {
@@ -569,10 +569,10 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onDriverDisconnect(string driverId)
         {
-            string message = String.Format("Connected to AltTester® Server on {0}host:port {1}:{2}with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceInstanceId: '{9}' {10}and appId '{11}'.{12}Waiting for Driver to connect.", Environment.NewLine, currentHost, currentPort + Environment.NewLine, currentName, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, appId, Environment.NewLine);
+            string message = String.Format("Connected to AltTester® Server on {0}host:port {1}:{2} with appName: '{3}',{4}platform: '{5}',{6}platformVersion: '{7}',{8}deviceInstanceId: '{9}' {10}and appId '{11}'.{12}Waiting for Driver to connect.", Environment.NewLine, currentHost, currentPort + Environment.NewLine, currentName, Environment.NewLine, this.platform, Environment.NewLine, this.platformVersion, Environment.NewLine, this.deviceInstanceId, Environment.NewLine, appId, Environment.NewLine);
 
-            connectedDrivers.Remove(driverId);
-            if (connectedDrivers.Count == 0)
+            connectedDrivers--;
+            if (connectedDrivers == 0)
             {
                 updateQueue.ScheduleResponse(() =>
                 {

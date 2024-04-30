@@ -102,6 +102,8 @@ class AltTesterKeywords(object):
 
         Example:
 
+        Set Command Response Timeout to 30 seconds.
+        
         Set Command Response Timeout | 30
         """
         self._driver.set_command_response_timeout(timeout)
@@ -372,19 +374,6 @@ class AltTesterKeywords(object):
         self._driver.wait_for_object_to_not_be_present(self.get_by_enum(locator_strategy), locator,
                                                        camera_by=self.get_by_enum(camera_by), camera_value=camera_value,
                                                        timeout=timeout, interval=interval, enabled=enabled)
-
-    def set_command_response_timeout(self, timeout):
-        """Sets the command response timeout for the AltTester® connection.
-
-        timeout: The new command response timeout in seconds.
-
-        Example:
-
-        Set Command Response Timeout to 30 seconds.
-
-        | Set Command Response Timeout | 30
-        """
-        self._driver.set_command_response_timeout(timeout)
 
     def get_delay_after_command(self):
         """Gets the current delay after a command.
@@ -1067,8 +1056,8 @@ class AltTesterKeywords(object):
         alt_object.update_object()
 
     def get_screen_position(self, alt_object: AltObject):
-        """Returns the screen position.
-        alt_object : The AltObject for which we want to get screen positions.
+        """Returns the screen position for alt_object.
+        alt_object : The AltObject for which we want to get screen position.
 
         Example:
 
@@ -1081,8 +1070,8 @@ class AltTesterKeywords(object):
         return alt_object.get_screen_position()
 
     def get_world_position(self, alt_object: AltObject):
-        """Returns the world position.
-        alt_object : The AltObject for which we want to get world positions.
+        """Returns the world position for alt_object.
+        alt_object : The AltObject for which we want to get world position.
 
         Example:
 
@@ -1582,36 +1571,6 @@ class AltTesterKeywords(object):
         | ${parent}= | Get Parent  | ${object}
         """
         return alt_object.get_parent()
-
-    def get_screen_position(self, alt_object: AltObject):
-        """Returns the screen position for alt_object.
-
-        alt_object : The AltObject for which we want to get screen position.
-
-        Example:
-
-        Get Screen Position for CapsuleInfo
-
-        | ${object}=    | Find Object | NAME | CapsuleInfo
-
-        | ${positions}= | Get Screen Position  | ${object}
-        """
-        return alt_object.get_screen_position()
-
-    def get_world_position(self, alt_object: AltObject):
-        """Returns the world position for alt_object.
-
-        alt_object : The AltObject for which we want to get world position.
-
-        Example:
-
-        Get World Position for CapsuleInfo
-
-        | ${object}=    | Find Object | NAME | CapsuleInfo
-
-        | ${positions}= | Get World Position  | ${object}
-        """
-        return alt_object.get_world_position()
 
     def get_by_enum(self, locator):
         try:
