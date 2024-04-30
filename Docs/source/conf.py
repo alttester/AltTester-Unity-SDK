@@ -126,10 +126,12 @@ html_theme_options = {
     'navigation_depth': 5
 }
 
+
 class AltTesterRobotFrameworkLexer(RobotFrameworkLexer):
     name = 'Robot'
     aliases = ['robot']
     mimetypes = ['text/x-robotframework']
+
 
 def setup(app):
     app.add_transform(AutoStructify)
