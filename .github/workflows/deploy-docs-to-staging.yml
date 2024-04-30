@@ -41,7 +41,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: DocumentationHTML
-          path: Docs/build/
+          path: Docs/build/html
       - uses: ravsamhq/notify-slack-action@2.3.0
         if: ${{ always() && github.ref_name == 'development' }}
         with:
@@ -84,7 +84,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: DocumentationHTML
-          remote: ${{ secrets.DOCUMENTATION_PATH }}
+          remote: ${{ secrets.DOCS_PATH_NOT_VERSIONED }}
           host: ${{ secrets.HOST_IP_ALTTESTER }}
           port: ${{ secrets.PORT_DEV_ALTTESTER }}
           username: ${{ secrets.USERNAME_ALTTESTER }}
