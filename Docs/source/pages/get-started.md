@@ -144,6 +144,10 @@ Steps:
 
     When running the WebGL build of your app in browser, even with the Run in background setting enabled, you still might experience slow performance if the tab with your content is not on focus. Make sure that the tab with your app is visible, otherwise your content will only update once per second in most browsers.
 
+.. note::
+
+    If you are building your instrumented app using the `IL2CPP` Scripting Backend configuration, you may also want to set the Managed Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization. Otherwise, AltTester® Desktop will throw an exception and will not be able to connect to the game.
+
 ```
 
 ## Start the AltTester® Server Module
@@ -352,7 +356,23 @@ AltTester® package contains AltDriver class used to connect to the instrumented
         **Test Setup:**
             - You can use any IDE that works with Java, but for this setup tutorial, we will use `IntelliJ <https://www.jetbrains.com/idea/download/#section=windows>`_.
             - In order to have the structure already created for us and the possibility to install/update dependencies in an easy way, we can choose to create a `MAVEN project <https://www.jetbrains.com/idea/guide/tutorials/working-with-maven/creating-a-project/>`_.
-            - In the new ``pom.xml`` generated, you should add the following dependencies by searching these names in the manage dependencies window: ``AltTester-Driver``, ``JUnit`` (if it was not added by default).
+            - In the new ``pom.xml`` generated, you should add the ``alttester`` and ``junit`` dependencies (and make sure to use the latest AltTester® driver version):
+            .. code-block:: console
+
+                <dependency>
+                    <groupId>com.alttester</groupId>
+                    <artifactId>alttester</artifactId>
+                    <version>2.1.0</version>
+                </dependency>
+
+            .. code-block:: console
+
+                <dependency>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-engine</artifactId>
+                    <version>5.11.0-M1</version>
+                </dependency>
+
             - When you have these steps completed and you don’t have any errors, you are able to jump into the next section.
 
         **Writing tests:**

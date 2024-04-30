@@ -85,6 +85,14 @@ Finds the first object in the scene that respects the given criteria. Check [By]
         def test_find_object(self):
             altObject = self.altDriver.find_object(By.NAME, "Capsule")
             self.assertEqual(altObject.name, "Capsule")
+
+    .. code-tab:: robot
+
+        Test Find Object By Name
+            ${capsule}=         Find Object         NAME        Capsule
+            ${capsule_name}=    Get Object Name     ${capsule}
+            Should Be Equal     ${capsule_name}     Capsule
+
 ```
 
 #### FindObjects
@@ -149,6 +157,13 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
                 altObjects = self.altDriver.find_objects(By.LAYER,"Default")
                 self.assertEquals(8, len(altObjects))
 
+    .. code-tab:: robot
+
+        Test Find Objects By Name
+            ${alt_objects}=    Find Objects    NAME    Plane
+            ${appears}=    Get Length    ${alt_objects}
+            Should Be Equal As Integers    2    ${appears}
+
 ```
 
 #### FindObjectWhichContains
@@ -207,6 +222,13 @@ Finds the first object in the scene that respects the given criteria. Check [By]
         def test_find_object_which_contains(self):
             altObject = self.altDriver.find_object_which_contains(By.NAME, "Event");
             self.assertEqual("EventSystem", altObject.name)
+
+    .. code-tab:: robot
+
+        Test Find Object Which Contains
+            ${alt_object}=          Find Object Which Contains      NAME            Event
+            ${alt_object_name}=     Get Object Name                 ${alt_object}
+            Should Contain          ${alt_object_name}              EventSystem
 
 ```
 
@@ -281,6 +303,17 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
             stars = self.altDriver.find_objects_which_contain(By.NAME, "Star")
             self.assertEqual(3, len(stars))
 
+    .. code-tab:: robot
+        
+        Test Find Objects Which Contain By Name
+            ${alt_objects}=    Find Objects Which Contain    NAME    Capsule
+            ${appears}=    Get Length    ${alt_objects}
+            Should Be Equal As Integers    2    ${appears}
+            FOR    ${obj}    IN    @{alt_objects}
+                ${name}=    Get Object Name    ${obj}
+                Should Contain    ${name}    Capsule
+            END
+
 ```
 
 #### FindObjectAtCoordinates
@@ -335,6 +368,20 @@ Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses
 
             element = self.altdriver.find_object_at_coordinates([80 + counter_button.x, 15 + counter_button.y])
             assert "Text" == element.name
+
+    .. code-tab:: robot
+
+        Test Find Object By Coordinates
+            ${counter_button}=    Find Object    NAME    ButtonCounter
+            ${counter_button_x}=    Get Object X    ${counter_button}
+            ${counter_button_y}=    Get Object Y    ${counter_button}
+            ${coordinate_x}=    Evaluate    80+${counter_button_x}
+            ${coordinate_y}=    Evaluate    15+${counter_button_y}
+            ${coordinates}=    Create List    ${coordinate_x}    ${coordinate_y}
+            ${element}=    Find Object At Coordinates    ${coordinates}
+            ${element_name}=    Get Object Name    ${element}
+            Should Be Equal As Strings    ${element_name}    Text
+
 ```
 
 #### GetAllElements
@@ -381,6 +428,24 @@ Returns information about every objects loaded in the currently loaded scenes. T
         def test_get_all_elements(self):
             alt_elements = self.altDriver.get_all_elements(enabled=False)
             assert alt_elements
+
+    .. code-tab:: robot
+
+        Test Get All Elements
+            ${elements}=    Get All Elements    enabled=${False}
+            Should Not Be Empty    ${elements}
+            ${expected_names}=    Create List    EventSystem    Canvas    Panel Drag Area    Panel    Header    Text    Drag Zone    Resize Zone    Close Button    Debugging    SF Scene Elements    Main Camera    Background    Particle System
+            ${input_marks}=    Create List
+            ${names}=    Create List
+            FOR    ${element}    IN    @{elements}
+                ${name}=    Get Object Name    ${element}
+                Run Keyword If    '${name}'== 'InputMark(Clone)'    Append TransformId To List    ${element}    ${input_marks}
+                ${element_name}=    Get Object Name    ${element}
+                Append To List    ${names}    ${element_name}
+            END
+            FOR    ${name}    IN    @{expected_names}
+                Should Contain    ${names}    ${name}
+            END
 
 ```
 
@@ -455,6 +520,13 @@ Waits until it finds an object that respects the given criteria or until timeout
             alt_object = self.altDriver.wait_for_object(By.NAME, "Capsule")
             assert alt_object.name == "Capsule"
 
+    .. code-tab:: robot
+
+        Test Wait For Object By Name
+            ${capsule}=         Wait For Object    NAME         Capsule
+            ${capsule_name}=    Get Object Name    ${capsule}
+            Should Be Equal     ${capsule_name}    Capsule
+
 ```
 
 #### WaitForObjectWhichContains
@@ -521,6 +593,13 @@ Waits until it finds an object that respects the given criteria or time runs out
             alt_object = self.altDriver.wait_for_object_which_contains(By.NAME, "Main")
             assert alt_object.name == "Main Camera"
 
+    .. code-tab:: robot
+
+        Test Wait For Object Which Contains
+            ${alt_object}=    Wait For Object Which Contains    NAME    Main
+            ${alt_object_name}=    Get Object Name    ${alt_object}
+            Should Be Equal As Strings    ${alt_object_name}    Main Camera
+
 ```
 
 #### WaitForObjectNotBePresent
@@ -577,6 +656,14 @@ Waits until the object in the scene that respects the given criteria is no longe
         def test_wait_for_object_to_not_be_present(self):
             self.altDriver.wait_for_object_to_not_be_present(By.NAME, "Capsuule")
 
+    .. code-tab:: robot
+
+        Test Wait For Object Not Be Present By Camera
+            Wait For Object To Not Be Present    NAME    ObjectDestroyedIn5Secs    camera_by=NAME    camera_value=Main Camera
+            ${elements}=    Get All Elements
+            ${list}=    Convert To String    ${elements}
+            Should Not Contain    ${list}    'name': 'ObjectDestroyedIn5Secs'
+
 ```
 
 ### SetCommandResponseTimeout
@@ -610,6 +697,10 @@ Sets the value for the command response timeout.
 
         altDriver.set_command_response_timeout(command_timeout)
 
+    .. code-tab:: robot
+
+        Set Command Response Timeout    30
+
 ```
 
 
@@ -641,6 +732,10 @@ None
     .. code-tab:: py
 
         altDriver.get_delay_after_command()
+
+    .. code-tab:: robot
+
+        Get Delay After Command
 
 ```
 
@@ -674,6 +769,10 @@ Set the delay after a command.
     .. code-tab:: py
 
         altDriver.set_delay_after_command(5)
+
+    .. code-tab:: robot
+
+        Set Delay After Command     5
 
 ```
 
@@ -764,6 +863,22 @@ Simulates a key down.
             lastKeyUp = self.altDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
 
+    .. code-tab:: robot
+
+        Test Key Down And Key Up
+            Load Scene              ${scene5}
+            Key Down    A
+            ${last_key_down}=       Find Object     NAME            LastKeyDownValue
+            ${last_key_press}=      Find Object     NAME            LastKeyPressedValue
+            ${last_key_down_text}=      Get Text    ${last_key_down}
+            ${last_key_press_text}=     Get Text    ${last_key_press}
+            Should Be Equal As Numbers    ${last_key_down_text}     97
+            Should Be Equal As Numbers    ${last_key_press_text}    97
+            Key Up    A
+            ${last_key_up}=         Find Object     NAME            LastKeyUpValue
+            ${last_key_up_text}=    Get Text        ${last_key_up}
+            Should Be Equal As Numbers    ${last_key_up_text}       97
+
 ```
 
 #### KeyUp
@@ -850,6 +965,22 @@ Simulates a key up.
             lastKeyUp = self.altDriver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
 
+    .. code-tab:: robot
+
+        Test Key Down And Key Up
+            Load Scene              ${scene5}
+            Key Down    A
+            ${last_key_down}=       Find Object     NAME            LastKeyDownValue
+            ${last_key_press}=      Find Object     NAME            LastKeyPressedValue
+            ${last_key_down_text}=      Get Text    ${last_key_down}
+            ${last_key_press_text}=     Get Text    ${last_key_press}
+            Should Be Equal As Numbers    ${last_key_down_text}     97
+            Should Be Equal As Numbers    ${last_key_press_text}    97
+            Key Up    A
+            ${last_key_up}=         Find Object     NAME            LastKeyUpValue
+            ${last_key_up_text}=    Get Text        ${last_key_up}
+            Should Be Equal As Numbers    ${last_key_up_text}       97
+
 ```
 
 #### HoldButton
@@ -908,6 +1039,16 @@ Simulates holding left click button down for a specified amount of time at given
             capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
             text = capsule_info.get_text()
             assert text == "UIButton clicked to jump capsule!"
+
+    .. code-tab:: robot
+
+        Test Hold Button
+            ${button}=    Find Object    NAME    UIButton
+            ${button_position}=    Get Screen Position    ${button}
+            Hold Button    ${button_position}    duration=1
+            ${capsule_info}=    Find Object    NAME    CapsuleInfo
+            ${text}=    Get Text    ${capsule_info}
+            Should Be Equal As Strings    ${text}    UIButton clicked to jump capsule!
 
 ```
 
@@ -992,6 +1133,27 @@ Simulate mouse movement in your app.
             stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
             assert len(stars) == 3
 
+    .. code-tab:: robot
+
+        Test Creating Stars
+            ${stars}=    Find Objects Which Contain    NAME    Star    camera_by=NAME    camera_value=Player2
+            ${appears}=    Get Length    ${stars}
+            Should Be Equal As Integers    1    ${appears}
+            Find Objects Which Contain    NAME    Player    camera_by=NAME    camera_value=Player2
+            ${pressing_point_1}=    Find Object    NAME    PressingPoint1    camera_by=NAME    camera_value=Player2
+            ${pressing_point_1_coordinates}=    Get Screen Position    ${pressing_point_1}
+            Move Mouse    ${pressing_point_1_coordinates}    duration=0.1    wait=${False}
+            Sleep    0.1
+            Press Key    Mouse0    power=1    duration=0.1    wait=${False}
+            ${pressing_point_2}=    Find Object    NAME    PressingPoint2    camera_by=NAME    camera_value=Player2
+            ${pressing_point_2_coordinates}=    Get Screen Position    ${pressing_point_1}
+            Move Mouse    ${pressing_point_2_coordinates}    duration=0.1    wait=${False}
+            Press Key    Mouse0    power=1    duration=0.1    wait=${False}
+            Sleep    0.1
+            ${stars}=    Find Objects Which Contain    NAME    Star
+            ${appears}=    Get Length    ${stars}
+            Should Be Equal As Integers    3    ${appears}
+
 ```
 
 #### PressKey
@@ -1075,6 +1237,27 @@ Simulates key press action in your app.
             stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
             assert len(stars) == 3
 
+    .. code-tab:: robot
+
+        Test Creating Stars
+            ${stars}=    Find Objects Which Contain    NAME    Star    camera_by=NAME    camera_value=Player2
+            ${appears}=    Get Length    ${stars}
+            Should Be Equal As Integers    1    ${appears}
+            Find Objects Which Contain    NAME    Player    camera_by=NAME    camera_value=Player2
+            ${pressing_point_1}=    Find Object    NAME    PressingPoint1    camera_by=NAME    camera_value=Player2
+            ${pressing_point_1_coordinates}=    Get Screen Position    ${pressing_point_1}
+            Move Mouse    ${pressing_point_1_coordinates}    duration=0.1    wait=${False}
+            Sleep    0.1
+            Press Key    Mouse0    power=1    duration=0.1    wait=${False}
+            ${pressing_point_2}=    Find Object    NAME    PressingPoint2    camera_by=NAME    camera_value=Player2
+            ${pressing_point_2_coordinates}=    Get Screen Position    ${pressing_point_1}
+            Move Mouse    ${pressing_point_2_coordinates}    duration=0.1    wait=${False}
+            Press Key    Mouse0    power=1    duration=0.1    wait=${False}
+            Sleep    0.1
+            ${stars}=    Find Objects Which Contain    NAME    Star
+            ${appears}=    Get Length    ${stars}
+            Should Be Equal As Integers    3    ${appears}
+
 ```
 
 #### PressKeys
@@ -1145,6 +1328,15 @@ Simulates multiple key press action in your app.
             )
             assert property_value == "multiple keys pressed"
 
+    .. code-tab:: robot
+
+        Test Press Keys
+            ${keys}=    Create List    K    L
+            Press Keys    ${keys}
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${property_value}=    Get Component Property    ${alt_object}    AltExampleScriptCapsule    stringToSetFromTests    Assembly-CSharp
+            Should Be Equal As Strings    ${property_value}    multiple keys pressed
+
 ```
 
 #### Scroll
@@ -1210,6 +1402,21 @@ Simulate scroll action in your app.
             player2 = self.altdriver.find_object(By.NAME, "Player2")
             cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
             assert cube_initial_position != cubeFinalPosition
+
+    .. code-tab:: robot
+
+        Test Scroll
+            ${player2}=    Find Object    NAME    Player2
+            ${cube_initial_position_x}=    Get Object WorldX    ${player2}
+            ${cube_initial_position_y}=    Get Object WorldY    ${player2}
+            ${cube_initial_position}=    Create List    ${cube_initial_position_x}    ${cube_initial_position_y}    ${cube_initial_position_y}
+            Scroll    4    duration=1    wait=${False}
+            Sleep    1
+            ${player2}=    Find Object    NAME    Player2
+            ${cube_final_position_x}=    Get Object WorldX    ${player2}
+            ${cube_final_position_y}=    Get Object WorldY    ${player2}
+            ${cube_final_position}=    Create List    ${cube_final_position_x}    ${cube_final_position_y}    ${cube_final_position_y}
+            Should Not Be Equal    ${cube_initial_position}    ${cube_final_position}
 
 ```
 
@@ -1353,6 +1560,34 @@ Simulates a swipe action between two points.
                 By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
             assert image_source != image_source_drop_zone
 
+    .. code-tab:: robot
+
+        Test Multiple Swipes
+            ${drag_location}=    Find Object    NAME    Drag Image2
+            ${drop_location}=    Find Object    NAME    Drop Box2
+            ${drag_location_position}=    Get Screen Position    ${drag_location}
+            ${drop_location_position}=    Get Screen Position    ${drop_location}
+            Swipe    ${drag_location_position}    ${drop_location_position}    duration=1   wait=${False}
+
+            ${drag_location}=    Find Object    NAME    Drag Image2
+            ${drop_location}=    Find Object    NAME    Drop Box1
+            ${drag_location_position}=    Get Screen Position    ${drag_location}
+            ${drop_location_position}=    Get Screen Position    ${drop_location}
+            Swipe    ${drag_location_position}    ${drop_location_position}    duration=1    wait=${False}
+
+            ${drag_location}=    Find Object    NAME    Drag Image1
+            ${drop_location}=    Find Object    NAME    Drop Box1
+            ${drag_location_position}=    Get Screen Position    ${drag_location}
+            ${drop_location_position}=    Get Screen Position    ${drop_location}
+
+            Swipe    ${drag_location_position}    ${drop_location_position}    duration=2    wait=${False}
+
+            Wait For Object To Not Be Present    NAME    icon
+            ${image_source}    ${image_source_drop_zone}=    Get Sprite Name    Drag Image1    Drop Image
+            Should Be Equal    ${image_source}    ${image_source_drop_zone}
+            ${image_source}    ${image_source_drop_zone}=    Get Sprite Name    Drag Image2    Drop
+            Should Be Equal    ${image_source}    ${image_source_drop_zone}
+
 ```
 
 #### MultipointSwipe
@@ -1439,6 +1674,38 @@ Simulates a multipoint swipe action.
 
             assert position_init != position_final
 
+    .. code-tab:: robot
+
+        Test Resize Panel With Multipoint Swipe
+            ${alt_object}=    Find Object    NAME    Resize Zone
+            ${alt_object_x}=    Get Object X    ${alt_object}
+            ${alt_object_y}=    Get Object Y    ${alt_object}
+            ${position_init}=    Create List    ${alt_object_x}    ${alt_object_y}
+            ${screen_position}=    Get Screen Position    ${alt_object}
+            ${positions}=    Create List    ${screen_position}
+            ${new_x}=    Evaluate    ${alt_object_x}-200
+            ${new_y}=    Evaluate    ${alt_object_y}-200
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Append To List    ${positions}    ${new_screen_position}
+            ${new_x}=    Evaluate    ${alt_object_x}-300
+            ${new_y}=    Evaluate    ${alt_object_y}-100
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Append To List    ${positions}    ${new_screen_position}
+            ${new_x}=    Evaluate    ${alt_object_x}-50
+            ${new_y}=    Evaluate    ${alt_object_y}-100
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Append To List    ${positions}    ${new_screen_position}
+            ${new_x}=    Evaluate    ${alt_object_x}-100
+            ${new_y}=    Evaluate    ${alt_object_y}-100
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Append To List    ${positions}    ${new_screen_position}
+            Multipoint Swipe    ${positions}    duration=4
+            ${alt_object}=    Find Object    NAME    Resize Zone
+            ${alt_object_x}=    Get Object X    ${alt_object}
+            ${alt_object_y}=    Get Object Y    ${alt_object}
+            ${position_final}=    Create List    ${alt_object_x}    ${alt_object_y}
+            Should Not Be Equal    ${position_init}    ${position_final}
+
 ```
 
 #### BeginTouch
@@ -1504,6 +1771,23 @@ Simulates starting of a touch on the screen. To further interact with the touch 
             self.altDriver.end_touch(finger_id)
             draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
+
+    .. code-tab:: robot
+
+        Test New Touch Commands
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${initial_position}=    Get Screen Position    ${draggable_area}
+            ${finger_id}=    Begin Touch    ${initial_position}
+            ${draggable_area_x}=    Get Object X    ${draggable_area}
+            ${draggable_area_y}=    Get Object Y    ${draggable_area}
+            ${new_x}=    Evaluate    ${draggable_area_x}+10
+            ${new_y}=    Evaluate    ${draggable_area_y}+10
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Move Touch    ${finger_id}    ${new_screen_position}
+            End Touch    ${finger_id}
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${final_position}=    Get Screen Position    ${draggable_area}
+            Should Not Be Equal    ${initial_position}    ${final_position}
 
 ```
 
@@ -1572,6 +1856,23 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
             draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
 
+    .. code-tab:: robot
+
+        Test New Touch Commands
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${initial_position}=    Get Screen Position    ${draggable_area}
+            ${finger_id}=    Begin Touch    ${initial_position}
+            ${draggable_area_x}=    Get Object X    ${draggable_area}
+            ${draggable_area_y}=    Get Object Y    ${draggable_area}
+            ${new_x}=    Evaluate    ${draggable_area_x}+10
+            ${new_y}=    Evaluate    ${draggable_area_y}+10
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Move Touch    ${finger_id}    ${new_screen_position}
+            End Touch    ${finger_id}
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${final_position}=    Get Screen Position    ${draggable_area}
+            Should Not Be Equal    ${initial_position}    ${final_position}        
+
 ```
 
 #### EndTouch
@@ -1637,6 +1938,23 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
             draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
 
+    .. code-tab:: robot
+
+        Test New Touch Commands
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${initial_position}=    Get Screen Position    ${draggable_area}
+            ${finger_id}=    Begin Touch    ${initial_position}
+            ${draggable_area_x}=    Get Object X    ${draggable_area}
+            ${draggable_area_y}=    Get Object Y    ${draggable_area}
+            ${new_x}=    Evaluate    ${draggable_area_x}+10
+            ${new_y}=    Evaluate    ${draggable_area_y}+10
+            ${new_screen_position}=    Create List    ${new_x}    ${new_y}
+            Move Touch    ${finger_id}    ${new_screen_position}
+            End Touch    ${finger_id}
+            ${draggable_area}=    Find Object    NAME    Drag Zone
+            ${final_position}=    Get Screen Position    ${draggable_area}
+            Should Not Be Equal    ${initial_position}    ${final_position}
+
 ```
 
 #### Click
@@ -1697,6 +2015,14 @@ Click at screen coordinates.
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             self.altDriver.click(capsule_element.get_screen_position())
 
+    .. code-tab:: robot
+
+        Test Click Coordinates
+            ${capsule_element}=    Find Object    NAME    Capsule
+            ${capsule_element_positions}=    Get Screen Position    ${capsule_element}
+            Click    ${capsule_element_positions}
+            Wait For Object    PATH    //CapsuleInfo[@text=Capsule was clicked to jump!]    timeout=1
+
 ```
 
 #### Tap
@@ -1756,6 +2082,14 @@ Tap at screen coordinates.
         def test_tap_coordinates(self):
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             self.altDriver.tap(capsule_element.get_screen_position())
+
+    .. code-tab:: robot
+
+        Test Tap Coordinates
+            ${capsule_element}=    Find Object    NAME    Capsule
+            ${capsule_element_positions}=    Get Screen Position    ${capsule_element}
+            Tap    ${capsule_element_positions}
+            Wait For Object    PATH    //CapsuleInfo[@text=Capsule was clicked to jump!]    timeout=1
 
 ```
 
@@ -1820,6 +2154,17 @@ Simulates device rotation action in your app.
             capsule = self.altdriver.find_object(By.NAME, "Capsule")
             final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
             assert initial_position != final_position
+
+    .. code-tab:: robot
+
+        Test Tilt
+            ${cube}=    Find Object    NAME    Cube (1)
+            ${initial_position}=    Get World Position    ${cube}
+            ${acceleration}=    Create List    1000    10    10
+            Tilt    ${acceleration}    duration=1
+            ${final_position}=    Get World Position    ${cube}
+            ${is_moved}=    Get Component Property    ${cube}    AltCubeNIS    isMoved    Assembly-CSharp
+            Should Be True    ${is_moved}
 
 ```
 
@@ -1891,6 +2236,20 @@ None
                 "Input", "_keyCodesPressed.Count", "Assembly-CSharp")
             assert 0 == countKeyDown
 
+    .. code-tab:: robot
+
+        Test Reset Input
+            Key Down    P    power=1
+            ${object}=    Find Object    NAME    AltTesterPrefab
+            ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK
+            Should Be True    ${nis}
+            Reset Input
+            ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK
+            Should Not Be True    ${nis}
+            ${countKeyDown}=    Find Object    NAME    AltTesterPrefab
+            ${count}=    Get Component Property    ${countKeyDown}    Input    _keyCodesPressed.Count    AltTester.AltTesterUnitySDK
+            Should Be Equal As Integers    0    ${count}
+        
 ```
 
 ### Screenshot
@@ -1924,7 +2283,6 @@ Creates a screenshot of the current screen in png format.
             FileAssert.Exists(path);
         }
 
-
     .. code-tab:: java
 
         @Test
@@ -1935,14 +2293,19 @@ Creates a screenshot of the current screen in png format.
             assertTrue(new File(path).isFile());
         }
 
-
     .. code-tab:: py
 
         def test_screenshot(self):
             png_path = "testPython.png"
             self.altDriver.get_png_screenshot(png_path)
-
             assert path.exists(png_path)
+
+    .. code-tab:: robot
+
+        Test Screenshot
+            ${png_path}=    Set Variable    testPython.png
+            Get Png Screenshot    ${png_path}
+            File Should Exist    ${png_path}
 
 ```
 
@@ -2109,9 +2472,47 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
                 :language: py
                 :emphasize-lines: 6,10
 
+    .. tab:: Robot
+
+        **Get Player Pref Key**
+
+            Returns the value for a given key from PlayerPrefs
+
+            *Parameters*
+
+            +---------+---------+----------+---------------------+
+            |  Name   |  Type   | Required |     Description     |
+            +=========+=========+==========+=====================+
+            | keyname |  string |    Yes   | Key to be retrieved |
+            +---------+---------+----------+---------------------+
+
+            *Returns*
+
+            - string/float/int
+
+            .. code-block:: 
+
+                Test Set Player Pref Keys Int
+                    Delete Player Pref
+                    Set Player Pref Key    test    ${1}    Int
+                    ${actual_value}=    Get Player Pref Key    test    Int
+                    Should Be Equal As Integers    ${actual_value}    ${1}
+
+                Test Set Player Pref Keys Float
+                    Delete Player Pref
+                    Set Player Pref Key    test    ${1.3}    Float
+                    ${actual_value}=    Get Player Pref Key    test    Float
+                    Should Be Equal As Numbers    ${actual_value}    ${1.3}
+
+                Test Set Player Pref Keys String
+                    Delete Player Pref
+                    Set Player Pref Key    test    string value    String
+                    ${actual_value}=    Get Player Pref Key    test    String
+                    Should Be Equal As Strings    ${actual_value}    string value
+
 ```
 
-##### SettingPlayerPrefs
+#### SettingPlayerPrefs
 
 ```eval_rst
 .. tabs::
@@ -2127,9 +2528,9 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
             +------------+-----------------------+-----------+----------------------------------+
             |    Name    |          Type         |  Required |           Description            |
             +============+=======================+===========+==================================+
-            |   keyname  |         string        |     Yes   |        Key to be set             |
+            |   keyname  |         string        |    Yes    |        Key to be set             |
             +------------+-----------------------+-----------+----------------------------------+
-            |   value    |  integer/float/string |     Yes   |        Value to be set           |
+            |   value    |  integer/float/string |    Yes    |        Value to be set           |
             +------------+-----------------------+-----------+----------------------------------+
 
             *Returns*
@@ -2153,9 +2554,9 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
             +------------+-----------------------+-----------+----------------------------------+
             |    Name    |          Type         |  Required |           Description            |
             +============+=======================+===========+==================================+
-            |   keyname  |         string        |     Yes   |        Key to be set             |
+            |   keyname  |         string        |    Yes    |        Key to be set             |
             +------------+-----------------------+-----------+----------------------------------+
-            |   value    |  integer/float/string |     Yes   |        Value to be set           |
+            |   value    |  integer/float/string |    Yes    |        Value to be set           |
             +------------+-----------------------+-----------+----------------------------------+
 
             *Returns*
@@ -2179,9 +2580,9 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
             +------------+-----------------------+-----------+----------------------------------+
             |    Name    |          Type         |  Required |           Description            |
             +============+=======================+===========+==================================+
-            |   keyname  |         string        |     Yes   |        Key to be set             |
+            |   keyname  |         string        |    Yes    |        Key to be set             |
             +------------+-----------------------+-----------+----------------------------------+
-            |   value    |  integer/float/string |     Yes   |        Value to be set           |
+            |   value    |  integer/float/string |    Yes    |        Value to be set           |
             +------------+-----------------------+-----------+----------------------------------+
             |   option   |    PlayerPrefKeyType  |    Yes    |         Type of keyname          |
             +------------+-----------------------+-----------+----------------------------------+
@@ -2195,6 +2596,51 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
             .. literalinclude:: ../_static/examples~/commands/python-player-prefs.py
                 :language: py
                 :emphasize-lines: 4,5
+
+    .. tab:: Robot
+
+        **Set Player Pref Key**
+
+            Sets the value for a given key in PlayerPrefs
+
+            *Parameters*
+
+            +------------+-----------------------+-----------+----------------------------------+
+            |    Name    |          Type         |  Required |           Description            |
+            +============+=======================+===========+==================================+
+            |   keyname  |         string        |    Yes    |        Key to be set             |
+            +------------+-----------------------+-----------+----------------------------------+
+            |   value    |  integer/float/string |    Yes    |        Value to be set           |
+            +------------+-----------------------+-----------+----------------------------------+
+            |   option   |    PlayerPrefKeyType  |    Yes    |         Type of keyname          |
+            +------------+-----------------------+-----------+----------------------------------+
+
+            *Returns*
+
+            - Nothing
+
+            .. code-block:: 
+
+                Test Set Player Pref Keys Int
+                    Delete Player Pref
+                    Set Player Pref Key    test    ${1}    Int
+                    ${actual_value}=    Get Player Pref Key    test    Int
+                    Should Be Equal As Integers    ${actual_value}    ${1}
+
+
+                Test Set Player Pref Keys Float
+                    Delete Player Pref
+                    Set Player Pref Key    test    ${1.3}    Float
+                    ${actual_value}=    Get Player Pref Key    test    Float
+                    Should Be Equal As Numbers    ${actual_value}    ${1.3}
+
+
+                Test Set Player Pref Keys String
+                    Delete Player Pref
+                    Set Player Pref Key    test    string value    String
+                    ${actual_value}=    Get Player Pref Key    test    String
+                    Should Be Equal As Strings    ${actual_value}    string value
+                    
 ```
 
 #### DeleteKeyPlayerPref
@@ -2265,6 +2711,18 @@ Removes key and its corresponding value from PlayerPrefs.
             :language: py
             :emphasize-lines: 8
 
+    .. code-tab:: robot
+
+    Test Delete Player Pref Key
+        Delete Player Pref
+        Set Player Pref Key           test                  1       String
+        ${actual_value}=              Get Player Pref Key   test    String
+        Should Be Equal As Strings    ${actual_value}       1
+        Delete Player Pref Key        test
+
+        Run Keyword And Expect Error    NotFoundException: PlayerPrefs key test not found    
+        ...    Get Player Pref Key      test    String
+
 ```
 
 #### DeletePlayerPref
@@ -2314,6 +2772,15 @@ None
             self.altDriver.set_player_pref_key("test", "1", PlayerPrefKeyType.String)
             val = self.altDriver.get_player_pref_key("test", player_pref_key_type)
             self.assertEqual("1", str(val))
+
+    .. code-tab:: robot
+
+        Test Set Player Pref Keys Int
+            Delete Player Pref
+            Set Player Pref Key    test    ${1}    Int
+            ${actual_value}=    Get Player Pref Key    test    Int
+            Should Be Equal As Integers    ${actual_value}    ${1}
+
 ```
 
 #### GetCurrentScene
@@ -2353,8 +2820,17 @@ None
     .. code-tab:: py
 
         def test_get_current_scene(self):
-            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
+            self.altDriver.load_scene("Scene 1 AltDriverTestScene", True)
             self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
+
+    .. code-tab:: robot
+
+        Test Load And Wait For Scene
+            Load Scene                      ${scene1}           ${True}
+            Wait For Current Scene To Be    ${scene1}           timeout=1
+            ${current_scene}=               Get Current Scene
+            Should Be Equal                 ${current_scene}    ${scene1}
+
 ```
 
 #### LoadScene
@@ -2398,8 +2874,16 @@ Loads a scene.
     .. code-tab:: py
 
         def test_get_current_scene(self):
-            self.altDriver.load_scene("Scene 1 AltDriverTestScene",True)
+            self.altDriver.load_scene("Scene 1 AltDriverTestScene", True)
             self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
+
+    .. code-tab:: robot
+
+        Test Load And Wait For Scene
+            Load Scene                      ${scene1}           ${True}
+            Wait For Current Scene To Be    ${scene1}           timeout=1
+            ${current_scene}=               Get Current Scene
+            Should Be Equal                 ${current_scene}    ${scene1}
 
 ```
 
@@ -2457,6 +2941,22 @@ Unloads a scene.
             self.assertEqual(1, len(self.altDriver.get_all_loaded_scenes()))
             self.assertEqual("Scene 1 AltDriverTestScene",
                             self.altDriver.get_all_loaded_scenes()[0])
+    .. code-tab:: robot
+
+        Test Unload Scene
+            Load Scene    ${scene1}    load_single=${True}
+            Load Scene    ${scene2}    load_single=${False}
+            ${scenes}=    Get All Loaded Scenes
+            ${scenes_number}=    Get Length    ${scenes}
+            Should Be Equal As Integers    ${scenes_number}    2
+            Unload Scene    ${scene2}
+            ${scenes}=    Get All Loaded Scenes
+            ${scenes_number}=    Get Length    ${scenes}
+            Should Be Equal As Integers    ${scenes_number}    1
+            ${scenes}=    Get All Loaded Scenes
+            ${scene}=    Get From List    ${scenes}    0
+            Should Be Equal As Strings    ${scene}    ${scene1}
+
 ```
 
 #### GetAllLoadedScenes
@@ -2522,6 +3022,20 @@ None
             scenes_loaded = self.altDriver.get_all_loaded_scenes()
             self.assertEqual(len(scenes_loaded), 5)
 
+    .. code-tab:: robot
+
+        Test Load Additive Scenes
+            Load Scene    ${scene1}    load_single=${True}
+            ${initial_number_of_elements}=    Get All Elements
+            Load Scene    ${scene2}    load_single=${False}
+            ${final_number_of_elements}=    Get All Elements
+            ${initial_number_of_elements_length}=    Get Length    ${initial_number_of_elements}
+            ${final_number_of_elements_length}=    Get Length    ${final_number_of_elements}
+            Should Be True    ${final_number_of_elements_length}>${initial_number_of_elements_length}
+            ${all_loaded_scenes}=    Get All Loaded Scenes
+            ${number_of_scenes}=    Get Length    ${all_loaded_scenes}
+            Should Be Equal As Integers    ${number_of_scenes}    2
+
 ```
 
 #### WaitForCurrentSceneToBe
@@ -2564,16 +3078,16 @@ Waits for the scene to be loaded for a specified amount of time.
 
         @Test
         public void testWaitForCurrentSceneToBe() {
-        String name = "Scene 1 AltDriverTestScene";
-        long timeStart = System.currentTimeMillis();
-        AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
-        altDriver.waitForCurrentSceneToBe(params);
-        long timeEnd = System.currentTimeMillis();
-        long time = timeEnd - timeStart;
-        assertTrue(time / 1000 < 20);
+            String name = "Scene 1 AltDriverTestScene";
+            long timeStart = System.currentTimeMillis();
+            AltWaitForCurrentSceneToBeParams params = new AltWaitForCurrentSceneToBeParams.Builder(name).build();
+            altDriver.waitForCurrentSceneToBe(params);
+            long timeEnd = System.currentTimeMillis();
+            long time = timeEnd - timeStart;
+            assertTrue(time / 1000 < 20);
 
-        String currentScene = altDriver.getCurrentScene();
-        assertEquals(name, currentScene);
+            String currentScene = altDriver.getCurrentScene();
+            assertEquals(name, currentScene);
         }
 
     .. code-tab:: py
@@ -2585,6 +3099,14 @@ Waits for the scene to be loaded for a specified amount of time.
             self.altdriver.wait_for_current_scene_to_be(scene_name, timeout=1, interval=0.5)
 
             assert str(execinfo.value) == "Scene {} not loaded after 1 seconds".format(scene_name)
+
+    .. code-tab:: robot
+
+        Test Load And Wait For Scene
+            Load Scene                      ${scene1}           ${True}
+            Wait For Current Scene To Be    ${scene1}           timeout=1
+            ${current_scene}=               Get Current Scene
+            Should Be Equal                 ${current_scene}    ${scene1}
 
 ```
 
@@ -2643,6 +3165,13 @@ None
             assert 1920 == screensize[0]
             assert 1080 == screensize[1]
 
+    .. code-tab:: robot
+
+        Test Get Application Screen Size
+            ${screen_size}=    Get Application Screensize
+            Should Not Be Equal As Numbers    ${screen_size[0]}    0
+            Should Not Be Equal As Numbers    ${screen_size[1]}    0
+
 ```
 
 #### GetTimeScale
@@ -2689,6 +3218,14 @@ None
             time.sleep(1)
             time_scale = self.altDriver.get_time_scale()
             self.assertEqual(0.1, time_scale)
+
+    .. code-tab:: robot
+
+        Test Set And Get Time Scale
+            Set Time Scale    0.1
+            ${time_scale}=    Get Time Scale
+            Should Be Equal As Numbers    ${time_scale}    0.1
+            Set Time Scale    1
 
 ```
 
@@ -2738,6 +3275,14 @@ Sets the value of the time scale.
             time.sleep(1)
             time_scale = self.altDriver.get_time_scale()
             self.assertEqual(0.1, time_scale)
+
+    .. code-tab:: robot
+
+        Test Set And Get Time Scale
+            Set Time Scale    0.1
+            ${time_scale}=    Get Time Scale
+            Should Be Equal As Numbers    ${time_scale}    0.1
+            Set Time Scale    1
 
 ```
 
@@ -2792,6 +3337,15 @@ Invokes static methods from your app.
             self.altdriver.call_static_method("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", ["Test", "1"])
             a = int(self.altdriver.call_static_method("UnityEngine.PlayerPrefs", "GetInt", "UnityEngine.CoreModule", ["Test", "2"]))
             self.assertEqual(1, a)
+
+    .. code-tab:: robot
+
+        Test Call Static Method
+            ${list_to_set}=    Create List    Test    ${1}
+            ${list_to_get}=    Create List    Test    ${2}
+            Call Static Method    UnityEngine.PlayerPrefs    SetInt    UnityEngine.CoreModule    parameters=${list_to_set}
+            ${value}=    Call Static Method    UnityEngine.PlayerPrefs    GetInt    UnityEngine.CoreModule    parameters=${list_to_get}
+            Should Be Equal As Integers    ${value}    ${1}
 
 ```
 
@@ -2855,6 +3409,15 @@ Gets the value of the static field or property.
 
             assert int(width) == 1920
 
+    .. code-tab:: robot
+
+        Test Get Static Property
+            ${parameters}=    Create List    1920    1080    True
+            ${type_of_parameters}=    Create List    System.Int32    System.Int32    System.Boolean
+            Call Static Method    UnityEngine.Screen    SetResolution    UnityEngine.CoreModule    parameters=${parameters}    type_of_parameters=${type_of_parameters}
+            ${width}=    Get Static Property    UnityEngine.Screen    currentResolution.width    UnityEngine.CoreModule
+            Should Be Equal As Integers    ${width}    1920
+
 ```
 
 #### SetStaticProperty
@@ -2911,6 +3474,13 @@ Sets the value of the static field or property.
             value = self.altdriver.get_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
             assert expectedValue == value
 
+    .. code-tab:: robot
+
+        Test Set Static Property
+            Set Static Property    AltExampleScriptCapsule    privateStaticVariable    Assembly-CSharp    5
+            ${value}=    Get Static Property    AltExampleScriptCapsule    privateStaticVariable    Assembly-CSharp
+            Should Be Equal As Integers    5    ${value}
+
 ```
 
 ### Other
@@ -2949,6 +3519,21 @@ Sets the level of logging on AltTester® Unity SDK.
 
         altDriver.set_server_logging(AltLogger.File, AltLogLevel.Off);
         altDriver.set_server_logging(AltLogger.Unity, AltLogLevel.Info);
+
+    .. code-tab:: robot
+
+        Test Set Server Logging
+            ${param}=    Create List    AltServerFileRule
+            ${rule}=    Call Static Method    AltTester.AltTesterUnitySDK.Logging.ServerLogManager    Instance.Configuration.FindRuleByName    Assembly-CSharp    parameters=${param}
+            ${levels}=    Get From Dictionary    ${rule}    Levels
+            ${levels_number}=    Get Length    ${levels}
+            Should Be Equal As Integers    ${levels_number}    5
+            Set Server Logging    File    Off
+            ${rule}=    Call Static Method    AltTester.AltTesterUnitySDK.Logging.ServerLogManager    Instance.Configuration.FindRuleByName    Assembly-CSharp    parameters=${param}
+            ${levels}=    Get From Dictionary    ${rule}    Levels
+            ${levels_number}=    Get Length    ${levels}
+            Should Be Equal As Integers    ${levels_number}    0
+            Set Server Logging    File    Debug
 
 ```
 
@@ -3157,6 +3742,31 @@ Invokes a method from an existing component of the object.
             fontSize = altElement.call_component_method("UnityEngine.UI.Text", "get_fontSize", "UnityEngine.UI", parameters=[])
             assert fontSizeExpected == fontSize
 
+    .. code-tab:: robot
+
+        Test Call Component Method
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${parameters}=    Create List    setFromMethod
+            ${result}=    Call Component Method    ${alt_object}    AltExampleScriptCapsule    Jump    Assembly-CSharp    parameters=${parameters}
+            Should Be Equal    ${result}    ${None}
+            Wait For Object    PATH    //CapsuleInfo[@text=setFromMethod]    timeout=1
+            ${capsule_info}=    Find Object    NAME    CapsuleInfo
+            ${capsule_info_text}=    Get Text    ${capsule_info}
+            Should Be Equal    ${capsule_info_text}    setFromMethod
+
+        Test Call Component Method With No Parameters
+            ${result}=    Find Object    PATH    /Canvas/Button/Text
+            ${text}=    Call Component Method    ${result}    UnityEngine.UI.Text    get_text    UnityEngine.UI
+            Should Be Equal    ${text}    Change Camera Mode
+
+        Test Call Component Method With Parameters
+            ${alt_object}=    Find Object    PATH    /Canvas/UnityUIInputField/Text
+            ${params}=    Create List    ${16}
+            Call Component Method    ${alt_object}    UnityEngine.UI.Text    set_fontSize    UnityEngine.UI    ${params}
+            ${empty_list}=    Create List
+            ${font_size}=    Call Component Method    ${alt_object}    UnityEngine.UI.Text    get_fontSize    UnityEngine.UI    ${empty_list}
+            Should Be Equal As Integers    ${font_size}    16
+
 ```
 ### WaitForComponentProperty
 
@@ -3230,6 +3840,13 @@ Wait until a property has a specific value and returns the value of the given co
                 "Assembly-CSharp")
             assert result is True
 
+    .. code-tab:: robot
+
+       Test Wait For Component Property
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${result}=    Wait For Component Property    ${alt_object}    AltExampleScriptCapsule    TestBool    ${True}    Assembly-CSharp
+            Should Be Equal    ${result}    ${True} 
+
 ```
 
 ### GetComponentProperty
@@ -3288,6 +3905,14 @@ Returns the value of the given component property.
             self.altDriver.load_scene('Scene 1 AltDriverTestScene')
             result = self.altDriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
             self.assertEqual(result, [1,2,3])
+
+    .. code-tab:: robot
+
+        Test Get Component Property
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${result}=    Get Component Property    ${alt_object}    AltExampleScriptCapsule    arrayOfInts    Assembly-CSharp
+            ${list}=    Create List    ${1}    ${2}    ${3}
+            Should Be Equal    ${result}    ${list}
 
 ```
 
@@ -3355,6 +3980,16 @@ Sets value of the given component property.
             propertyValue = altObject.get_component_property(componentName, propertyName)
             self.assertEqual("2", propertyValue)
 
+    .. code-tab:: robot
+
+        Test Set Component Property
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${list}=    Create List    ${2}    ${3}    ${4}
+            Set Component Property    ${alt_object}    AltExampleScriptCapsule    arrayOfInts    Assembly-CSharp    ${list}
+            ${alt_object}=    Find Object    NAME    Capsule
+            ${result}=    Get Component Property    ${alt_object}    AltExampleScriptCapsule    arrayOfInts    Assembly-CSharp
+            Should Be Equal    ${result}    ${list}
+
 ```
 
 ### GetText
@@ -3411,6 +4046,16 @@ None
             text = self.altdriver.find_object(By.NAME, "CapsuleInfo").get_text()
             element = self.altdriver.find_object(By.TEXT, text)
             assert element.get_text() == text
+
+    .. code-tab:: robot
+
+        Test Find Object By Text
+            ${alt_object}=    Find Object    NAME    CapsuleInfo
+            ${text}=    Get Text    ${alt_object}
+            ${element}=    Find Object    TEXT    ${text}
+            ${element_text}=    Get Text    ${element}
+            Should Be Equal    ${element_text}    ${text}
+
 ```
 
 ### SetText
@@ -3469,6 +4114,16 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
             input = self.altDriver.find_object(By.NAME, name).set_text(text, submit=True)
             self.assertNotEqual(input, None)
             self.assertEqual(input.get_text(), text)
+
+    .. code-tab:: robot
+
+        Test Set Text
+            ${text_object}=    Find Object    NAME    NonEnglishText
+            ${original_text}=    Get Text    ${text_object}
+            Set Text    ${text_object}    ModifiedText
+            ${after_text}=    Get Text    ${text_object}
+            Should Not Be Equal As Strings    ${original_text}    ${after_text}
+            Should Be Equal As Strings    ${after_text}    ModifiedText
 
 ```
 
@@ -3529,6 +4184,15 @@ Tap current object.
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             capsule_element.tap()
 
+    .. code-tab:: robot
+
+        Test Tap Object
+            ${object}=    Find Object    NAME    Capsule
+            Tap Object    ${object}
+            ${capsule_info}=    Wait For Object    PATH    //CapsuleInfo[@text=Capsule was clicked to jump!]    timeout=1
+            ${text}=    Get Text    ${capsule_info}
+            Should Be Equal    ${text}    Capsule was clicked to jump!
+
 ```
 
 ### Click
@@ -3588,6 +4252,13 @@ Click current object.
             capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
             capsule_element.click()
 
+    .. code-tab:: robot
+
+        Test Click Element
+            ${capsule_element}=    Find Object    NAME    Capsule
+            Click Object    ${capsule_element}
+            Wait For Object    PATH    //CapsuleInfo[@text=Capsule was clicked to jump!]    timeout=1
+
 ```
 
 ### PointerDown
@@ -3644,6 +4315,15 @@ None
             time.sleep(1)
             color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
             self.assertNotEquals(color1, color2)
+
+    .. code-tab:: robot
+
+        Test Pointer Down From Object
+            ${panel}=    Find Object    NAME    Panel
+            ${color1}=    Get Component Property    ${panel}    AltExampleScriptPanel    normalColor    Assembly-CSharp
+            Pointer Down    ${panel}
+            ${color2}=    Get Component Property    ${panel}    AltExampleScriptPanel    highlightColor    Assembly-CSharp
+            Should Not Be Equal    ${color1}    ${color2}
 
 ```
 
@@ -3706,6 +4386,16 @@ None
             p_panel.pointer_up_from_object()
             color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
             self.assertEquals(color1, color2)
+
+    .. code-tab:: robot
+
+        Test Pointer Up From Object
+            ${panel}=    Find Object    NAME    Panel
+            ${color1}=    Get Component Property    ${panel}    AltExampleScriptPanel    normalColor    Assembly-CSharp
+            Pointer Down    ${panel}
+            Pointer Up    ${panel}
+            ${color2}=    Get Component Property    ${panel}    AltExampleScriptPanel    highlightColor    Assembly-CSharp
+            Should Be Equal    ${color1}    ${color2}
 
 ```
 
@@ -3775,6 +4465,31 @@ None
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
 
+    .. code-tab:: robot
+
+        Test Pointer Enter And Exit
+            ${alt_object}=    Find Object    NAME    Drop Image
+            ${color1}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            Pointer Enter    ${alt_object}
+            ${color2}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            ${color1_r}=    Get Percent From Specific Color    ${color1}    r
+            ${color1_g}=    Get Percent From Specific Color    ${color1}    g
+            ${color1_b}=    Get Percent From Specific Color    ${color1}    b
+            ${color1_a}=    Get Percent From Specific Color    ${color1}    a
+            ${color2_r}=    Get Percent From Specific Color    ${color2}    r
+            ${color2_g}=    Get Percent From Specific Color    ${color2}    g
+            ${color2_b}=    Get Percent From Specific Color    ${color2}    b
+            ${color2_a}=    Get Percent From Specific Color    ${color2}    a
+            Evaluate    ${color1_r}!=${color2_r} or ${color1_g}!=${color2_g} or ${color1_b}!=${color2_b} or ${color1_a}!=${color2_a}
+            Pointer Exit    ${alt_object}
+            ${color3}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            ${color3_r}=    Get Percent From Specific Color    ${color3}    r
+            ${color3_g}=    Get Percent From Specific Color    ${color3}    g
+            ${color3_b}=    Get Percent From Specific Color    ${color3}    b
+            ${color3_a}=    Get Percent From Specific Color    ${color3}    a
+            Evaluate    ${color3_r}!=${color2_r} or ${color3_g}!=${color2_g} or ${color3_b}!=${color2_b} or ${color3_a}!=${color2_a}
+            Evaluate    ${color1_r}!=${color3_r} or ${color1_g}!=${color3_g} or ${color1_b}!=${color3_b} or ${color1_a}!=${color3_a}
+
 ```
 
 ### PointerExit
@@ -3843,6 +4558,32 @@ None
             color3 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
             self.assertNotEqual(color3, color2)
             self.assertEqual(color1, color3)
+
+    .. code-tab:: robot
+
+        Test Pointer Enter And Exit
+            ${alt_object}=    Find Object    NAME    Drop Image
+            ${color1}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            Pointer Enter    ${alt_object}
+            ${color2}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            ${color1_r}=    Get Percent From Specific Color    ${color1}    r
+            ${color1_g}=    Get Percent From Specific Color    ${color1}    g
+            ${color1_b}=    Get Percent From Specific Color    ${color1}    b
+            ${color1_a}=    Get Percent From Specific Color    ${color1}    a
+            ${color2_r}=    Get Percent From Specific Color    ${color2}    r
+            ${color2_g}=    Get Percent From Specific Color    ${color2}    g
+            ${color2_b}=    Get Percent From Specific Color    ${color2}    b
+            ${color2_a}=    Get Percent From Specific Color    ${color2}    a
+            Evaluate    ${color1_r}!=${color2_r} or ${color1_g}!=${color2_g} or ${color1_b}!=${color2_b} or ${color1_a}!=${color2_a}
+            Pointer Exit    ${alt_object}
+            ${color3}=    Get Component Property    ${alt_object}    AltExampleScriptDropMe    highlightColor    Assembly-CSharp
+            ${color3_r}=    Get Percent From Specific Color    ${color3}    r
+            ${color3_g}=    Get Percent From Specific Color    ${color3}    g
+            ${color3_b}=    Get Percent From Specific Color    ${color3}    b
+            ${color3_a}=    Get Percent From Specific Color    ${color3}    a
+            Evaluate    ${color3_r}!=${color2_r} or ${color3_g}!=${color2_g} or ${color3_b}!=${color2_b} or ${color3_a}!=${color2_a}
+            Evaluate    ${color1_r}!=${color3_r} or ${color1_g}!=${color3_g} or ${color1_b}!=${color3_b} or ${color1_a}!=${color3_a}
+
 ```
 ### UpdateObject
 
@@ -3900,6 +4641,16 @@ None
 
             assert initial_position_z != cube.update_object().worldZ
 
+    .. code-tab:: robot
+
+        Test Update AltObject
+            ${cube}=    Find Object    NAME    Player1
+            ${initial_position_z}=    Get Object WorldZ    ${cube}
+            Press Key    W    power=1    duration=0.1    wait=${False}
+            Sleep    5
+            ${cube_updated}=    Update Object    ${cube}
+            ${final_position_z}=    Get Object WorldZ    ${cube_updated}
+            Should Not Be Equal    ${initial_position_z}    ${final_position_z}
 
 ```
 
@@ -3948,6 +4699,14 @@ None
             element = self.altDriver.find_object(By.NAME, 'Canvas/CapsuleInfo')
             elementParent = element.get_parent()
             self.assertEqual('Canvas', elementParent.name)
+
+    .. code-tab:: robot
+
+        Test Get Parent
+            ${element}=    Find Object    NAME    Canvas/CapsuleInfo
+            ${element_parent}=    Get Parent    ${element}
+            ${element_parent_name}=    Get Object Name    ${element_parent}
+            Should Be Equal As Strings    ${element_parent_name}    Canvas
 
 ```
 ### GetScreenPosition
@@ -4003,6 +4762,16 @@ None
             capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
             text = capsule_info.get_text()
             assert text == "UIButton clicked to jump capsule!"
+
+    .. code-tab:: robot
+
+        Test Hold Button
+            ${button}=    Find Object    NAME    UIButton
+            ${button_position}=    Get Screen Position    ${button}
+            Hold Button    ${button_position}    duration=1
+            ${capsule_info}=    Find Object    NAME    CapsuleInfo
+            ${text}=    Get Text    ${capsule_info}
+            Should Be Equal As Strings    ${text}    UIButton clicked to jump capsule!
 
 ```
 ### GetWorldPosition
@@ -4062,6 +4831,16 @@ None
             capsule = self.altdriver.find_object(By.NAME, "Capsule")
             final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
             assert initial_position != final_position
+
+    .. code-tab:: robot
+
+        Test Camera Movement
+            ${cube}=    Find Object    NAME    Player1
+            ${initial_position}=    Get World Position    ${cube}
+            Press Key    W    power=1    duration=0.1    wait=${False}
+            ${cube}=    Find Object    NAME    Player1
+            ${final_position}=    Get World Position    ${cube}
+            Should Not Be Equal    ${initial_position}    ${final_position}
 
 ```
 
@@ -4318,6 +5097,12 @@ This method calls `adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}`
             AltReversePortForwarding.reverse_port_forwarding_android()
             cls.altDriver = AltDriver()
 
+    .. code-tab:: robot
+
+        SetUp Tests
+            Reverse Port Forwarding Android
+            Initialize Altdriver
+
 ```
 **Note:** Sometimes, the execution of reverse port forwarding method is too slow so the tests fail because the port is not actually forwarded when trying to establish the connection. In order to fix this problem, a `sleep()` method should be called after calling the ReversePortForwardingAndroid() method.
 ### RemoveReversePortForwardingAndroid
@@ -4365,6 +5150,12 @@ Nothing
             cls.altDriver.stop()
             AltReversePortForwarding.remove_reverse_port_forwarding_android()
 
+    .. code-tab:: robot
+
+        TearDown Tests
+            Stop Altdriver
+            Remove Reverse Port Forwarding Android
+
 ```
 
 ### RemoveAllReversePortForwardingsAndroid
@@ -4410,5 +5201,9 @@ Nothing
             cls.altDriver.stop()
             AltReversePortForwarding.remove_all__reverse_port_forwardings_android()
 
+    .. code-tab:: robot
 
+        TearDown Tests
+            Stop Altdriver
+            Remove All Reverse Port Forwarding Android
 ```
