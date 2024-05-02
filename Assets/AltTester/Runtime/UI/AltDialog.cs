@@ -379,7 +379,9 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             switchServerTab();
             LocalServerTab.onClick.AddListener(onServerTabChanged);
-            CloudServerTab.onClick.AddListener(onServerTabChanged);
+
+            // Lock Cloud Server Tab
+            // CloudServerTab.onClick.AddListener(onServerTabChanged);
         }
 
         private void onValueChanged(string _ = "")
