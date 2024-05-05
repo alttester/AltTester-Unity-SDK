@@ -101,7 +101,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         }
         protected void Start()
         {
-            Dialog.SetActive(InstrumentationSettings.ShowPopUp);
             resetConnectionDataBasedOnUID();
             setTitle("AltTester® v." + AltRunner.VERSION);
             setUpCloseButton();

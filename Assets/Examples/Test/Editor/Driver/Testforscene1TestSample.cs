@@ -300,7 +300,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void TestGetComponentPropertyInvalidDeserialization()
         {
             const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
-            const string propertyName = "InstrumentationSettings.ShowPopUp";
+            const string propertyName = "InstrumentationSettings.ResetConnectionData";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             try
             {
