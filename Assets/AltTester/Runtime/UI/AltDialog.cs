@@ -86,22 +86,10 @@ namespace AltTester.AltTesterUnitySDK.UI
         public UnityEngine.UI.InputField AppNameInputField = null;
 
         [SerializeField]
-        public UnityEngine.UI.InputField LicenseKeyInputField = null;
-
-        [SerializeField]
-        public UnityEngine.UI.Button ShowHideButton = null;
-
-        [SerializeField]
         public UnityEngine.UI.Button RestartButton = null;
 
         [SerializeField]
         public UnityEngine.UI.Toggle CustomInputToggle = null;
-
-        [SerializeField]
-        public Sprite ShowEyeIcon = null;
-
-        [SerializeField]
-        public Sprite HideEyeIcon = null;
 
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
@@ -119,7 +107,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         private bool beginCommunicationCalled = false;
         private bool isEditing = false;
         private bool isCloudServer = false;
-        private bool licenseKeyIsShown = false;
         private bool isCommunicationConnected;
         private bool isLiveUpdateConnected;
         private bool isDriverConnected;
@@ -129,7 +116,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         private UnityEngine.UI.Image localServerTab;
         private UnityEngine.UI.Image cloudServerTab;
         private UnityEngine.UI.Image restartButton;
-        private UnityEngine.UI.Image showHideButton;
 
         protected void Awake()
         {
@@ -138,7 +124,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             localServerTab = LocalServerTab.GetComponent<UnityEngine.UI.Image>();
             cloudServerTab = CloudServerTab.GetComponent<UnityEngine.UI.Image>();
             restartButton = RestartButton.GetComponent<UnityEngine.UI.Image>();
-            showHideButton = ShowHideButton.GetComponent<UnityEngine.UI.Image>();
         }
 
         protected void Start()
@@ -153,8 +138,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             setUpAppNameInputField();
             setUpHostInputField();
             setUpPortInputField();
-            setUpLicenseKeyInputField();
-            setUpShowHideButton();
             setUpServerTab();
 
             resetConnectionDataBasedOnUID();
@@ -273,7 +256,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             Dialog.SetActive(visible);
             dialogImage.color = primaryColor;
             restartButton.color = secondaryColor;
-            MessageText.text = message;
+            MessageText.text = isCloudServer ? "<b>Coming Soon</b>" : message;
 
             infoArea.color = secondaryColor;
             if (isCloudServer)
@@ -297,27 +280,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void setUpCloseButton() => CloseButton.onClick.AddListener(toggleDialog);
 
         private void setUpIcon() => Icon.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(toggleDialog);
-
-        private void toggleLicenseKeyInputField()
-        {
-            licenseKeyIsShown = !licenseKeyIsShown;
-            if (licenseKeyIsShown)
-            {
-                showHideButton.sprite = HideEyeIcon;
-                LicenseKeyInputField.contentType = UnityEngine.UI.InputField.ContentType.Standard;
-                LicenseKeyInputField.inputType = UnityEngine.UI.InputField.InputType.Standard;
-            }
-            else
-            {
-                showHideButton.sprite = ShowEyeIcon;
-                LicenseKeyInputField.contentType = UnityEngine.UI.InputField.ContentType.Password;
-                LicenseKeyInputField.inputType = UnityEngine.UI.InputField.InputType.Password;
-            }
-
-            LicenseKeyInputField.ForceLabelUpdate();
-        }
-
-        private void setUpShowHideButton() => ShowHideButton.onClick.AddListener(toggleLicenseKeyInputField);
 
         private void onPortInputFieldValueChange(string value)
         {
@@ -368,20 +330,11 @@ namespace AltTester.AltTesterUnitySDK.UI
             AppNameInputField.onValueChanged.AddListener(onValueChanged);
         }
 
-        private void setUpLicenseKeyInputField()
-        {
-            LicenseKeyInputField.asteriskChar = '•';
-            LicenseKeyInputField.text = string.Empty;
-            LicenseKeyInputField.onValueChanged.AddListener(onValueChanged);
-        }
-
         private void setUpServerTab()
         {
             switchServerTab();
             LocalServerTab.onClick.AddListener(onServerTabChanged);
-
-            // Lock Cloud Server Tab
-            // CloudServerTab.onClick.AddListener(onServerTabChanged);
+            CloudServerTab.onClick.AddListener(onServerTabChanged);
         }
 
         private void onValueChanged(string _ = "")
@@ -406,7 +359,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 LocalServerTab.interactable = true;
                 CloudServerTab.interactable = false;
 
-                LicenseKeyInputField.gameObject.SetActive(true);
+                AppNameInputField.gameObject.SetActive(false);
                 HostInputField.gameObject.SetActive(false);
                 PortInputField.gameObject.SetActive(false);
             }
@@ -417,7 +370,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 CloudServerTab.interactable = true;
                 LocalServerTab.interactable = false;
 
-                LicenseKeyInputField.gameObject.SetActive(false);
+                AppNameInputField.gameObject.SetActive(true);
                 HostInputField.gameObject.SetActive(true);
                 PortInputField.gameObject.SetActive(true);
             }
@@ -645,13 +598,12 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             if (isEditing)
             {
-                var aux = isCloudServer ? $"Editing app name or license key." : $"Editing app name, host or port.";
+                var aux = $"Editing app name, host or port.";
                 return aux + $"{Environment.NewLine}Press the <b>Restart button</b> to start connection with the new values.";
             }
 
             string message = wasConnected ? "Connected to " : "Waiting to connect to ";
-            message += isCloudServer ? $"{Environment.NewLine} <b>AltTester® Cloud Server</b> with: {Environment.NewLine}"
-                        : $"<b>AltTester® Server</b> on <b>{currentHost}:{currentPort}</b> with: {Environment.NewLine}";
+            message += $"<b>AltTester® Server</b> on <b>{currentHost}:{currentPort}</b> with: {Environment.NewLine}";
 
             message += $"{Environment.NewLine}<b>App Name</b>{Environment.NewLine}{currentName}" +
                        $"{Environment.NewLine}<b>Platform</b>{Environment.NewLine}{platform}" +
@@ -681,7 +633,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             wasConnected = true;
             if (!isDriverConnected)
             {
-
                 string message = createMessage();
                 setMessage(message, color: errorColor, visible: true);
             }
