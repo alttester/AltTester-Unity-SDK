@@ -124,6 +124,8 @@ namespace AltTester.AltTesterUnitySDK
         {
             foreach (var device in InputSystem.devices)
             {
+                if(device==null)
+                return;
                 if (device.name.Contains("Alt"))
                 {
                     InputSystem.EnableDevice(device);
@@ -140,6 +142,8 @@ namespace AltTester.AltTesterUnitySDK
         {
             foreach (var device in InputSystem.devices)
             {
+                if(device==null)
+                return;
                 if (device.name.Contains("Alt"))
                 {
                     InputSystem.DisableDevice(device);
