@@ -58,7 +58,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
                 Assert.AreNotEqual(-1, button.x);
                 Assert.AreNotEqual(-1, button.y);
             }
-            Assert.AreEqual(2, altObjects.Count);
+            Assert.AreEqual(5, altObjects.Count);
         }
     }
 }
