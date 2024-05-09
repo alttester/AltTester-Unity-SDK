@@ -59,9 +59,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         public UnityEngine.UI.Button LocalServerTab = null;
 
         [SerializeField]
-        public UnityEngine.UI.Button CloudServerTab = null;
-
-        [SerializeField]
         public GameObject InfoArea = null;
 
         [SerializeField]
@@ -106,7 +103,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         private bool stopClientsCalled = false;
         private bool beginCommunicationCalled = false;
         private bool isEditing = false;
-        private bool isCloudServer = false;
         private bool isCommunicationConnected;
         private bool isLiveUpdateConnected;
         private bool isDriverConnected;
@@ -114,7 +110,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         private UnityEngine.UI.Image dialogImage;
         private UnityEngine.UI.Image infoArea;
         private UnityEngine.UI.Image localServerTab;
-        private UnityEngine.UI.Image cloudServerTab;
         private UnityEngine.UI.Image restartButton;
 
         protected void Awake()
@@ -122,7 +117,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             dialogImage = Dialog.GetComponent<UnityEngine.UI.Image>();
             infoArea = InfoArea.GetComponent<UnityEngine.UI.Image>();
             localServerTab = LocalServerTab.GetComponent<UnityEngine.UI.Image>();
-            cloudServerTab = CloudServerTab.GetComponent<UnityEngine.UI.Image>();
             restartButton = RestartButton.GetComponent<UnityEngine.UI.Image>();
         }
 
@@ -138,7 +132,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             setUpAppNameInputField();
             setUpHostInputField();
             setUpPortInputField();
-            setUpServerTab();
 
             resetConnectionDataBasedOnUID();
             setUpRestartButton();
@@ -256,19 +249,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             Dialog.SetActive(visible);
             dialogImage.color = primaryColor;
             restartButton.color = secondaryColor;
-            MessageText.text = isCloudServer ? "<b>Coming Soon</b>" : message;
-
+            MessageText.text = message;
             infoArea.color = secondaryColor;
-            if (isCloudServer)
-            {
-                localServerTab.color = primaryColor;
-                cloudServerTab.color = secondaryColor;
-            }
-            else
-            {
-                localServerTab.color = secondaryColor;
-                cloudServerTab.color = primaryColor;
-            }
+            localServerTab.color = secondaryColor;
         }
 
         private void setTitle(string title) => TitleText.text = title;
@@ -330,51 +313,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             AppNameInputField.onValueChanged.AddListener(onValueChanged);
         }
 
-        private void setUpServerTab()
-        {
-            switchServerTab();
-            LocalServerTab.onClick.AddListener(onServerTabChanged);
-            CloudServerTab.onClick.AddListener(onServerTabChanged);
-        }
-
         private void onValueChanged(string _ = "")
         {
             isEditing = true;
-            string message = createMessage();
-            setMessage(message, color: successColor, visible: Dialog.activeSelf);
-        }
-
-        private void onServerTabChanged()
-        {
-            isCloudServer = !isCloudServer;
-            switchServerTab();
-        }
-
-        private void switchServerTab()
-        {
-            if (isCloudServer)
-            {
-                localServerTab.color = primarySuccessColor;
-                cloudServerTab.color = secondarySuccessColor;
-                LocalServerTab.interactable = true;
-                CloudServerTab.interactable = false;
-
-                AppNameInputField.gameObject.SetActive(false);
-                HostInputField.gameObject.SetActive(false);
-                PortInputField.gameObject.SetActive(false);
-            }
-            else
-            {
-                cloudServerTab.color = primarySuccessColor;
-                localServerTab.color = secondarySuccessColor;
-                CloudServerTab.interactable = true;
-                LocalServerTab.interactable = false;
-
-                AppNameInputField.gameObject.SetActive(true);
-                HostInputField.gameObject.SetActive(true);
-                PortInputField.gameObject.SetActive(true);
-            }
-
             string message = createMessage();
             setMessage(message, color: successColor, visible: Dialog.activeSelf);
         }
@@ -634,7 +575,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (!isDriverConnected)
             {
                 string message = createMessage();
-                setMessage(message, color: errorColor, visible: true);
+                setMessage(message, color: successColor, visible: true);
             }
         }
 
