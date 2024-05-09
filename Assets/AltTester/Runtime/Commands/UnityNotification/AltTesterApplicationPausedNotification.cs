@@ -29,6 +29,7 @@ namespace AltTester.AltTesterUnitySDK.Notification
 
         public static void OnPause(bool pauseStatus)
         {
+            UnityEngine.Debug.Log("OnPausecalled");
             if (send)
                 SendNotification(pauseStatus, "applicationPausedNotification");
         }
