@@ -194,6 +194,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void initLiveUpdateClient()
         {
+            UnityEngine.Debug.Log("initLiveUpdateClient");
             liveUpdateClient = new LiveUpdateCommunicationHandler(currentHost, int.Parse(currentPort), currentName, platform, platformVersion, deviceInstanceId, appId);
             liveUpdateClient.OnDisconnect += onDisconnect;
             liveUpdateClient.OnError += onError;
@@ -204,6 +205,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void beginCommunication()
         {
+            UnityEngine.Debug.Log("BeginCommunication");
             if (beginCommunicationCalled)
             {
                 return;
@@ -418,6 +420,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void startClient(BaseCommunicationHandler communicationHandler)
         {
+            UnityEngine.Debug.Log("Start Client");
+
             try
             {
                 communicationHandler.waitingToConnect = true;
@@ -450,6 +454,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void stopClients()
         {
+            UnityEngine.Debug.Log("Stop Client");
             if (stopClientsCalled)//Stop clients was already called
                 return;
             stopClientsCalled = true;
@@ -491,12 +496,14 @@ namespace AltTester.AltTesterUnitySDK.UI
         }
         private void stopCommunicationClient()
         {
+            UnityEngine.Debug.Log("stopCommunicationClient");
             stopClient(communicationClient);
             communicationClient = null;
 
         }
         private void stopLiveUpdateClient()
         {
+            UnityEngine.Debug.Log("stopLiveUpdateClient");
             stopClient(liveUpdateClient);
             liveUpdateClient = null;
 
@@ -520,6 +527,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onDisconnect(int code, string reason)
         {
+            UnityEngine.Debug.Log("code: " + code);
             responseCode = code;
             if (code >= 4000 && code < 5000)
                 updateQueue.ScheduleResponse(() => setMessage(reason, ERROR_COLOR, true));
@@ -533,11 +541,13 @@ namespace AltTester.AltTesterUnitySDK.UI
         }
         private void onCommunicationConnected()
         {
+            UnityEngine.Debug.Log("onCommunicationConnected: ");
             isCommunicationConnected = true;
         }
         private void onLiveUpdateConnected()
         {
 
+            UnityEngine.Debug.Log("onLiveUpdateConnected: ");
             isLiveUpdateConnected = true;
             updateQueue.ScheduleResponse(() => onConnect());
         }
