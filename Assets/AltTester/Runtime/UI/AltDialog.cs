@@ -429,7 +429,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             catch (InvalidOperationException e)
             {
-                Debug.LogError(e.Message);
+                // Debug.LogError(e.Message);
                 stopClient(communicationHandler);
                 communicationHandler.waitingToConnect = false;
                 if (communicationHandler.GetType().Equals(typeof(RuntimeCommunicationHandler)))
@@ -446,7 +446,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
 
                 setMessage("An unexpected error occurred while starting the AltTester® client.", ERROR_COLOR, true);
-                logger.Error(ex, "An unexpected error occurred while starting the AltTester® client.");
+                // logger.Error(ex, "An unexpected error occurred while starting the AltTester® client.");
                 stopClient(communicationHandler);
                 communicationHandler.waitingToConnect = false;
             }
