@@ -56,9 +56,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         public UnityEngine.UI.Text SubtitleText = null;
 
         [SerializeField]
-        public UnityEngine.UI.Button LocalServerTab = null;
-
-        [SerializeField]
         public GameObject InfoArea = null;
 
         [SerializeField]
@@ -109,14 +106,12 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private UnityEngine.UI.Image dialogImage;
         private UnityEngine.UI.Image infoArea;
-        private UnityEngine.UI.Image localServerTab;
         private UnityEngine.UI.Image restartButton;
 
         protected void Awake()
         {
             dialogImage = Dialog.GetComponent<UnityEngine.UI.Image>();
             infoArea = InfoArea.GetComponent<UnityEngine.UI.Image>();
-            localServerTab = LocalServerTab.GetComponent<UnityEngine.UI.Image>();
             restartButton = RestartButton.GetComponent<UnityEngine.UI.Image>();
         }
 
@@ -251,7 +246,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             restartButton.color = secondaryColor;
             MessageText.text = message;
             infoArea.color = secondaryColor;
-            localServerTab.color = secondaryColor;
         }
 
         private void setTitle(string title) => TitleText.text = title;
