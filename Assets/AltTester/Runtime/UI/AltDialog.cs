@@ -244,8 +244,8 @@ namespace AltTester.AltTesterUnitySDK.UI
             Dialog.SetActive(visible);
             dialogImage.color = primaryColor;
             restartButton.color = secondaryColor;
-            MessageText.text = message;
             infoArea.color = secondaryColor;
+            MessageText.text = message;
         }
 
         private void setTitle(string title) => TitleText.text = title;
