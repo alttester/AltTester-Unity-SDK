@@ -534,7 +534,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (isEditing)
             {
                 var aux = $"Editing app name, host or port.";
-                return aux + $"{Environment.NewLine}Press the <b>Restart button</b> to start connection with the new values.";
+                return aux + $"{Environment.NewLine}Press the <b>Restart</b> button to start connection with the new values.";
             }
 
             string message = wasConnected ? "Connected to " : "Waiting to connect to ";

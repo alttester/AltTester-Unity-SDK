@@ -913,7 +913,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: To make modifications, enter a new value and press the <b>Restart button</b>.
+  m_Text: To make modifications, enter a new value and press the <b>Restart</b> button.
 --- !u!1 &3688353962385664389
 GameObject:
   m_ObjectHideFlags: 0
@@ -1754,7 +1754,6 @@ MonoBehaviour:
   Dialog: {fileID: 5945154137502085648}
   TitleText: {fileID: 5758691439195772901}
   SubtitleText: {fileID: 8813710228757500520}
-  LocalServerTab: {fileID: 0}
   InfoArea: {fileID: 4208079212062062388}
   MessageText: {fileID: 2274660835742665797}
   CloseButton: {fileID: 2888197297633028497}
