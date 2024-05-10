@@ -446,8 +446,9 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void stopClients()
         {
-            if (stopClientsCalled) //Stop clients was already called
+            if (stopClientsCalled) // Stop clients was already called
                 return;
+                
             stopClientsCalled = true;
             try
             {
@@ -457,6 +458,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                     stopCommunicationClient();
                     isCommunicationConnected = false;
                 }
+
                 if (isLiveUpdateConnected)
                 {
                     stopLiveUpdateClient();
@@ -470,6 +472,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                     stopClientsCalled = false;
                     return;
                 }
+
                 if (!isEditing && isDataValid) //If is not editing the input field try reconnecting
                 {
                     updateQueue.Clear();
@@ -481,9 +484,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 updateQueue.ScheduleResponse(() => Debug.LogError(e));
             }
+            
             isDriverConnected = false;
             stopClientsCalled = false;
-
         }
 
         private void stopCommunicationClient()
@@ -546,7 +549,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                        $"{Environment.NewLine}<b>App ID</b>{Environment.NewLine}{(string.IsNullOrEmpty(appId) ? "unknown" : appId)}";
 
             if (wasConnected)
-                message += isDriverConnected ? $"{Environment.NewLine}Driver connected." : $"{Environment.NewLine}{Environment.NewLine}Waiting for Driver to connect.";
+                message += isDriverConnected ? $"{Environment.NewLine}{Environment.NewLine}Driver connected." : $"{Environment.NewLine}{Environment.NewLine}Waiting for Driver to connect.";
 
             return message;
         }
@@ -610,11 +613,12 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onDriverDisconnect(string driverId)
         {
-            string message = createMessage();
-
             connectedDrivers--;
             if (connectedDrivers == 0)
             {
+                isDriverConnected = false;
+                string message = createMessage();
+                
                 updateQueue.ScheduleResponse(() =>
                 {
                     ToggleCustomInput(false);
