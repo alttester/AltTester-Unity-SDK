@@ -535,6 +535,7 @@ public class Input : MonoBehaviour
         _instance.StartCoroutine(setMouse0KeyCodePressedDown());
 
 
+
         return touch.fingerId;
     }
 
@@ -559,13 +560,13 @@ public class Input : MonoBehaviour
     public static IEnumerator EndTouch(int fingerId)
     {
 #if UNITY_EDITOR
-            if (Application.isBatchMode)
-            {
-                yield return null;
-            }
-            else
+        if (Application.isBatchMode)
+        {
+            yield return null;
+        }
+        else
 #endif
-                yield return new UnityEngine.WaitForEndOfFrame();
+            yield return new UnityEngine.WaitForEndOfFrame();
 
         var touch = findTouch(fingerId);
         var previousPointerEventData = _pointerEventsDataDictionary[touch.fingerId];
@@ -596,13 +597,13 @@ public class Input : MonoBehaviour
         }
         var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
 #if UNITY_EDITOR
-            if (Application.isBatchMode)
-            {
-                yield return null;
-            }
-            else
+        if (Application.isBatchMode)
+        {
+            yield return null;
+        }
+        else
 #endif
-                yield return new UnityEngine.WaitForEndOfFrame();
+            yield return new UnityEngine.WaitForEndOfFrame();
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
 
@@ -782,13 +783,13 @@ public class Input : MonoBehaviour
     {
         var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
 #if UNITY_EDITOR
-            if (Application.isBatchMode)
-            {
-                yield return null;
-            }
-            else
+        if (Application.isBatchMode)
+        {
+            yield return null;
+        }
+        else
 #endif
-                yield return new UnityEngine.WaitForEndOfFrame();
+            yield return new UnityEngine.WaitForEndOfFrame();
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
 
@@ -849,13 +850,13 @@ public class Input : MonoBehaviour
         var monoBehaviourTarget = FindObjectViaRayCast.FindMonoBehaviourObject(screenPosition);
 
 #if UNITY_EDITOR
-            if (Application.isBatchMode)
-            {
-                yield return null;
-            }
-            else
+        if (Application.isBatchMode)
+        {
+            yield return null;
+        }
+        else
 #endif
-                yield return new UnityEngine.WaitForEndOfFrame();//run after Update
+            yield return new UnityEngine.WaitForEndOfFrame();//run after Update
 
         mousePosition = screenPosition;
         pointerEventData.pointerEnter = eventSystemTarget;
@@ -944,13 +945,13 @@ public class Input : MonoBehaviour
         UnityEngine.Vector3 screenPosition;
         AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
 #if UNITY_EDITOR
-            if (Application.isBatchMode)
-            {
-                yield return null;
-            }
-            else
+        if (Application.isBatchMode)
+        {
+            yield return null;
+        }
+        else
 #endif
-                yield return new UnityEngine.WaitForEndOfFrame();//run after Update
+            yield return new UnityEngine.WaitForEndOfFrame();//run after Update
 
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
         {
