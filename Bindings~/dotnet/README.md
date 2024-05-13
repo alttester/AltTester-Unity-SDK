@@ -18,8 +18,6 @@ Check out the full contributing guide [here](https://alttester.com/docs/sdk/late
 
 ## Support
 
-Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/g/alttesterforum
-
 Join our Discord Server to chat with other members of the community: https://discord.gg/Ag9RSuS
 
 ## License

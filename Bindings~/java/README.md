@@ -18,8 +18,6 @@ Check out the full contributing guide [contributing](https://alttester.com/docs/
 
 ## Support
 
-Join our Google Group for questions and discussions: https://groups.google.com/a/altom.com/g/alttesterforum
-
 Join our Discord Server to chat with other members of the community: https://discord.gg/Ag9RSuS
 
 ## License
