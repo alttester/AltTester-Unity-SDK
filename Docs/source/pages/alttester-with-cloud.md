@@ -763,7 +763,7 @@ You can download our example project from [here](https://github.com/alttester-te
 #### **Preparation steps**
 
 **1. Prepare the application**
-- instrument the TrashCat application using AltTester® Unity SDK `v2.1.0`- For additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x).
+- instrument the TrashCat application using AltTester® Unity SDK `v2.1.1`- For additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x).
 - Based on your option to connect to AltTester® Desktop you need to set AltTester® Server Host of the instrumented app to:
     - localhost (`127.0.0.1`) - for local connection 
     - IP/URL provided by the AWS Instance where AltTester® Desktop is running - for remote connection
@@ -783,7 +783,7 @@ You can download our example project from [here](https://github.com/alttester-te
 
 **2. Prepare test code and dependencies**
 - **for local connection** - from the cloned repository, create a **.zip** file containing:
-    - a `license.txt` file which will store your AltTester® Desktop PRO license, needed to run batch mode commands - if you only have 1 seat per license please remove the activation in other places before using it here
+    - a `license.txt` file which will store your AltTester® Desktop PRO license, needed to run batch mode commands
     - the `requirements.txt` file
     - the `tests` folder (which contains also the `pages` folder)
 
@@ -807,8 +807,8 @@ Keep in mind that the setup is different for Android and iOS.
         - wget https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip
         - unzip AltTesterDesktopLinuxBatchmode.zip
         - cd AltTesterDesktopLinux
-        - chmod +x AltTesterDesktop.x86_64
-        - ./AltTesterDesktop.x86_64 -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
+        - chmod +x "AltTester(R) Desktop.x86_64"
+        - ./"AltTester(R) Desktop.x86_64" -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
         ```
         The `&` symbol is used to make the application run in the background. Failure to add the symbol will cause the commands following it to not be triggered. 
     
@@ -818,16 +818,15 @@ Keep in mind that the setup is different for Android and iOS.
             We recommend using ``wget`` in order to install the `batchmode Linux build for AltTester® Desktop <https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and not put it in the archive because that increases the running time for the entire flow.
         ```
 
-    - You also need to add port reverse forwarding when running on Android after Appium is started: 
+    - You also need to add reverse port forwarding when running on Android after Appium is started: 
         ```
         - adb reverse -- remove-all
         - adb reverse tcp:13000 tcp:13000
         ```
-    - Don`t forget to remove the license activation after each run! 
+    - kill the AltTester® Desktop process 
         ```
         - cd AltTesterDesktopLinux
-        - kill -2 `ps -ef | awk '/AltTesterDesktop.x86_64/{print $2}'`
-        - ./AltTesterDesktop.x86_64 -batchmode -nographics -removeActivation
+        - kill -2 $(ps -ef | awk '/AltTester\(R\) Desktop.x86_64/{print $2}')
         ```
 - **for remote connection** - a way to connect to AltTester® Server, within the AltTester® Desktop application is by installing AltTester® Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
     - create a [Windows instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2Win_Infrastructure.html) 
@@ -842,7 +841,7 @@ Keep in mind that the setup is different for Android and iOS.
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-connect-to-instance.png
     ```  
-    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop__v2.1.0.exe) and install it on the Instance  
+    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTester(R)%20Desktop__v2.1.1.exe) and install it on the Instance  
     - [Associate an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating), so that the IP remains constant after each opening of the instance
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
@@ -855,7 +854,7 @@ Keep in mind that the setup is different for Android and iOS.
 
 #### **Steps for running tests on Android using the remote connection**
 
-The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.1.0 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection).
+The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.1.1 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection).
 
 ```eval_rst
 
@@ -979,7 +978,7 @@ Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws
     ```
 - prepare the `.zip` folder containing tests and necessities
     - **for local connection** - from the cloned repository, create a **.zip** file containing:
-        - a `license.txt` file which will store your AltTester® Desktop PRO license, needed to run batch mode commands - if you only have 1 seat per license please remove the activation in other places before using it here
+        - a `license.txt` file which will store your AltTester® Desktop PRO license, needed to run batch mode commands
         - the `tests` and `pages` folders
         - other dependencies (`.csproj`, etc.)
 
@@ -1023,8 +1022,8 @@ Keep in mind that the setup is different for Android and iOS.
         - wget https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip
         - unzip AltTesterDesktopLinuxBatchmode.zip
         - cd AltTesterDesktopLinux
-        - chmod +x AltTesterDesktop.x86_64
-        - ./AltTesterDesktop.x86_64 -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
+        - chmod +x "AltTester(R) Desktop.x86_64"
+        - ./A"AltTester(R) Desktop.x86_64" -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
         ```
         The `&` symbol is used to make the application run in the background. Failure to add the symbol will cause the commands following it to not be triggered. 
     
@@ -1039,11 +1038,10 @@ Keep in mind that the setup is different for Android and iOS.
         - adb reverse -- remove-all
         - adb reverse tcp:13000 tcp:13000
         ```
-    - Don`t forget to remove the license activation after each run! 
+    - kill the AltTester® Desktop process: 
         ```
         - cd AltTesterDesktopLinux
-        - kill -2 `ps -ef | awk '/AltTesterDesktop.x86_64/{print $2}'`
-        - ./AltTesterDesktop.x86_64 -batchmode -nographics -removeActivation
+        - kill -2 $(ps -ef | awk '/AltTester\(R\) Desktop.x86_64/{print $2}')
         ```
 
 - **for remote connection** - a way to connect to AltTester® Server, within the AltTester® Desktop application is by installing AltTester® Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
@@ -1059,7 +1057,7 @@ Keep in mind that the setup is different for Android and iOS.
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-connect-to-instance.png
     ```  
-    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop__v2.1.0.exe) and install it on the Instance  
+    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTester(R)%20Desktop__v2.1.1.exe) and install it on the Instance  
     - [Associate an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating), so that the IP remains constant after each opening of the instance
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
@@ -1122,11 +1120,11 @@ In this dashboard you can have an overview of the setup combinations we tried an
 ```
 *because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build cannot connect to AltTester® Server on localhost.
 
-As in the case of running [Client-Side Appium testing](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/), we need to deal with the connectivity between: the test script (where we instantiate [AltDriver](https://alttester.com/docs/sdk/2.1.0/pages/commands.html#altdriver)), AltTester® Desktop and the instrumented application installed on a device in the cloud.
+As in the case of running [Client-Side Appium testing](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/), we need to deal with the connectivity between: the test script (where we instantiate [AltDriver](https://alttester.com/docs/sdk/2.1.1/pages/commands.html#altdriver)), AltTester® Desktop and the instrumented application installed on a device in the cloud.
 
-In a local environment, setting up is relatively simple since all three components are co-located and can interact with each other on the localhost at port 13000. For communication with a USB-connected device on **Android**, [reverse port forwarding](https://alttester.com/docs/sdk/2.1.0/pages/commands.html#altreverseportforwarding) is employed to establish connectivity.
+In a local environment, setting up is relatively simple since all three components are co-located and can interact with each other on the localhost at port 13000. For communication with a USB-connected device on **Android**, [reverse port forwarding](https://alttester.com/docs/sdk/2.1.1/pages/commands.html#altreverseportforwarding) is employed to establish connectivity.
 
-For **iOS** devices, things are not so straightforward because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build does not connect to AltTester® Server - please [consult a workaround from the documentation for further details](https://alttester.com/docs/sdk/2.1.0/pages/advanced-usage.html#in-case-of-ios). 
+For **iOS** devices, things are not so straightforward because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build does not connect to AltTester® Server - please [consult a workaround from the documentation for further details](https://alttester.com/docs/sdk/2.1.1/pages/advanced-usage.html#in-case-of-ios). 
 
 Because we used BitBar’s free plan, we got a machine and we do not have control over what IP it has on each test session. If you are considering doing the same, we strongly recommend having **AltTester® Desktop** installed and launched on a machine which is in your control.
 
@@ -1138,7 +1136,7 @@ When starting a server-side running test session with **Android devices**, BitBa
     In order to start the **AltTester® Desktop in batchmode**, it is required you have an **AltTester® Pro license**.
 ```
 
-For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltTester® Server can not be made, so please setup a machine of your choice and install AltTester® Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.1.0.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.1.0.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
+For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltTester® Server can not be made, so please setup a machine of your choice and install AltTester® Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.1.1.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.1.1.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
 
 ### BitBar C# project example running server-side
 
@@ -1185,7 +1183,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
         
         - run command:
         ```
-        AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
+        "AltTester(R) Desktop.exe" -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
         ```
 
     We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
@@ -1203,15 +1201,13 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
     wget https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip
     unzip AltTesterDesktopLinuxBatchmode.zip
     cd AltTesterDesktopLinux
-    chmod +x ./AltTesterDesktop.x86_64
-    ./AltTesterDesktop.x86_64 -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
+    chmod +x ./"AltTester(R) Desktop.x86_64"
+    ./"AltTester(R) Desktop.x86_64" -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
     ```
 
-    Once you activated your license in a script running on an external machine, you should definitely want to remove that activation, here is how it works:
+    Kill the AltTester® Desktop process:
     ```
-    kill -2 `ps -ef | awk '/AltTesterDesktop.x86_64/{print $2}'`
-    sleep 5
-    ./AltTesterDesktop.x86_64 -batchmode -nographics -removeActivation
+    kill -2 $(ps -ef | awk '/AltTester\(R\) Desktop.x86_64/{print $2}')
     ```
 
 #### **Preparation steps**
@@ -1437,7 +1433,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
     
     - run command:
     ```
-    AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
+    "AltTester(R) Desktop.exe" -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
      ```
 
 We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
@@ -1447,7 +1443,7 @@ We have now a VM where AltTester® Server is listening for connections. Further 
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
-[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.0`.
+[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.1`.
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
@@ -1459,7 +1455,7 @@ After you finish setting up the build, you need to use the **Archive** option to
     - in case you have not done it so far, add the AltTester-Driver package as well
     ```c#
     dotnet add package Appium.WebDriver --version 4.3.1
-    dotnet add package AltTester-Driver --version 2.1.0
+    dotnet add package AltTester-Driver --version 2.1.1
     ```
     - after installing the packages, you can see them in `.csproj` (check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/client-side-ios/TestAlttrashCSharp.csproj))
 
@@ -1647,7 +1643,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
         
         - run command:
         ```
-        AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
+        "AltTester(R) Desktop.exe" -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
         ```
 
     We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
@@ -1665,15 +1661,13 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
     wget https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip
     unzip AltTesterDesktopLinuxBatchmode.zip
     cd AltTesterDesktopLinux
-    chmod +x ./AltTesterDesktop.x86_64
-    ./AltTesterDesktop.x86_64 -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
+    chmod +x ./"AltTester(R) Desktop.x86_64"
+    ./"AltTester(R) Desktop.x86_64" -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
     ```
 
-    Once you activated your license in a script running on an external machine, you should definitely want to remove that activation, here is how it works:
+    Kill the AltTester® Desktop process:
     ```
-    kill -2 `ps -ef | awk '/AltTesterDesktop.x86_64/{print $2}'`
-    sleep 5
-    ./AltTesterDesktop.x86_64 -batchmode -nographics -removeActivation
+    kill -2 $(ps -ef | awk '/AltTester\(R\) Desktop.x86_64/{print $2}')
     ```
 
 #### **Preparation steps**
@@ -1681,7 +1675,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
-[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.0`.
+[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.1`.
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
@@ -1792,7 +1786,7 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
 
 - **for local connection**
     - here is what the archived package contains to be able to execute tests server-side when AltTester® Server is running on a separate machine, not on the one offered by BitBar:
-        - a `license.txt` file which will store your AltTester® Desktop PRO license, needed to run batch mode commands - if you only have 1 seat per license please remove the activation in other places before using it here
+        - a `license.txt` file which will store your AltTester® Desktop PRO license, needed to run batch mode commands 
         - the `requirements.txt` file
         - the `tests` folder (which contains also the `pages` folder)
     
@@ -1886,7 +1880,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
     
     - run command:
     ```
-    AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
+    "AltTester(R) Desktop.exe" -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
      ```
 
 We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
@@ -1896,7 +1890,7 @@ We have now a VM where AltTester® Server is listening for connections. Further 
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
-[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.0`.
+[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.1`.
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.

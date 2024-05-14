@@ -589,7 +589,7 @@ Then you can set the environment variables and run from the command line the `py
 
 ## Using AltTester® Unity SDK in Release mode
 
-By default AltTester® Unity SDK does not run in release mode. We recommended that you do not instrument your Unity application in release mode with AltTester® Unity SDK. That being said, if you do want to instrument your application in release mode, you need to uncheck `RunOnlyInDebugMode` flag on AltRunnerPrefab inside AltTester® Unity SDK asset folder `AltTester/Prefab/AltRunnerPrefab.prefab`
+By default AltTester® Unity SDK does not run in release mode. We recommended that you do not instrument your Unity application in release mode with AltTester® Unity SDK. That being said, if you do want to instrument your application in release mode, you need to uncheck `RunOnlyInDebugMode` flag on the AltRunner script inside AltTester® Unity SDK asset folder `AltTester/Runtime/Prefab/AltTesterPrefab.prefab`
 
 ## Logging
 
@@ -898,7 +898,7 @@ More details related to Allure can be found at the official [Allure documentatio
             <dependency>
                 <groupId>com.alttester</groupId>
                 <artifactId>alttester</artifactId>
-                <version>2.1.0</version>
+                <version>2.1.1</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

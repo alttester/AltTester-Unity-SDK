@@ -49,7 +49,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 - *Show Popup*
 
     If this option is checked, it will display the *"AltTester"* popup in
-    app containing the text *"Waiting for connection on port 13000"*. That
+    app containing the text *"Waiting to connect to AltTester® Server on 127.0.0.1:13000"*. That
     means the build contains the AltTester® Unity SDK. Popup will disappear once the
     tests are started.
     In case you modified the connection data inside the popup, you can use the *LeftCtrl+LeftShift+D+L* key combination to reset your connection data to the default values, a.k.a the values specified in the *Build Settings*.

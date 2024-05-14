@@ -41,7 +41,7 @@ Documentation
    :hidden:
 
    home
-   AltTester® Desktop <https://alttester.com/docs/desktop/v.2.1.0/home.html>
+   AltTester® Desktop <https://alttester.com/docs/desktop/v.2.1.1/home.html>
 
 
 .. toctree::
@@ -49,7 +49,6 @@ Documentation
    :hidden:
 
    Discord <https://discord.gg/Ag9RSuS>
-   Google Group <https://groups.google.com/a/altom.com/g/alttesterforum>
 
 
 .. toctree::
