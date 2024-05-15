@@ -156,12 +156,26 @@ public class AltObject {
      * @param altWaitForComponentPropertyParams -AltGetComponentPropertyParams
      *                                          altGetComponentPropertyParams* ,
      *                                          double timeout , double interval , T
-     *                                          propertyValue* , Altoject obj*.
+     *                                          propertyValue* , AltObject obj*.
      * @param propertyValue                     - The value of the property expected
      * @param returnType                        - The type of the property
      * @return - The value of the given component property
      */
+    @Deprecated
     public <T> T WaitForComponentProperty(AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams,
+            T propertyValue,
+            Class<T> returnType) {
+
+        altWaitForComponentPropertyParams.setAltObject(this);
+        T response = new AltWaitForComponentProperty<T>(messageHandler,
+                altWaitForComponentPropertyParams,
+                propertyValue, this)
+                .Execute(returnType);
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
+    }
+
+    public <T> T waitForComponentProperty(AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams,
             T propertyValue,
             Class<T> returnType) {
 
