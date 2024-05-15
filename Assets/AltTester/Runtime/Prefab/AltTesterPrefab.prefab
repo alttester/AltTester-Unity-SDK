@@ -2149,7 +2149,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "AltTester\xAE v.2.1.0"
+  m_Text: "AltTester\xAE v.2.1.1"
 --- !u!1 &8362528721842027854
 GameObject:
   m_ObjectHideFlags: 0
