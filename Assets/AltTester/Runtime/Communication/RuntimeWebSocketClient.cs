@@ -105,7 +105,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             }
             catch (Exception ex)
             {
-                throw new RuntimeWebSocketClientException("An error occurred while starting the AltTester® client.", ex);
+                throw new RuntimeWebSocketClientException("An error occurred while starting the AltTester(R) client.", ex);
             }
         }
 
@@ -201,7 +201,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             }
             catch (Exception ex)
             {
-                throw new RuntimeWebSocketClientException("An error occurred while starting the AltTester® client.", ex);
+                throw new RuntimeWebSocketClientException("An error occurred while starting the AltTester(R) client.", ex);
             }
         }
 

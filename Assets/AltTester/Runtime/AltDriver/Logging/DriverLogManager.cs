@@ -43,7 +43,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Logging
             Instance.GetCurrentClassLogger().Info(AltLogLevel.Info.ToNLogLevel());
             AltLogLevel level;
             if (minLogLevels.TryGetValue(AltLogger.File, out level) && level != AltLogLevel.Off)
-                Instance.GetCurrentClassLogger().Info("AltTester® logs are saved at: " + Path.Combine(System.Environment.CurrentDirectory, LOGSFILEPATH));
+                Instance.GetCurrentClassLogger().Info("AltTester(R) logs are saved at: " + Path.Combine(System.Environment.CurrentDirectory, LOGSFILEPATH));
         }
 
         /// <summary>

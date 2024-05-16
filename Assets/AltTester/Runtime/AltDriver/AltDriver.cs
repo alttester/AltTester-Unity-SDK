@@ -65,7 +65,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
                 }
 
                 logger.Debug(
-                    "Connecting to AltTester® on host: '{0}', port: '{1}', appName: '{2}', platform: '{3}', platformVersion: '{4}', deviceInstanceId: '{5}' and driverType: '{6}'.",
+                    "Connecting to AltTester(R) on host: '{0}', port: '{1}', appName: '{2}', platform: '{3}', platformVersion: '{4}', deviceInstanceId: '{5}' and driverType: '{6}'.",
                     host,
                     port,
                     appName,
@@ -102,7 +102,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
             if (majorServer != majorDriver || minorServer != minorDriver)
             {
-                string message = "Version mismatch. AltDriver version is " + VERSION + ". AltTester® version is " + serverVersion + ".";
+                string message = "Version mismatch. AltDriver version is " + VERSION + ". AltTester(R) version is " + serverVersion + ".";
                 logger.Warn(message);
             }
         }

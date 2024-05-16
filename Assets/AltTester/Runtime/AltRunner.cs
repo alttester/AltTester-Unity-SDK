@@ -60,7 +60,7 @@ namespace AltTester.AltTesterUnitySDK
 
             if (RunOnlyInDebugMode && !UnityEngine.Debug.isDebugBuild)
             {
-                logger.Error("AltTester® runs only on Debug build");
+                logger.Error("AltTester(R) runs only on Debug build");
                 Destroy(this.gameObject);
                 return;
             }

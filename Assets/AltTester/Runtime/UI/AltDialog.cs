@@ -437,8 +437,8 @@ namespace AltTester.AltTesterUnitySDK.UI
             catch (Exception ex)
             {
 
-                setMessage("An unexpected error occurred while starting the AltTester® client.", color: errorColor, true);
-                logger.Error(ex, "An unexpected error occurred while starting the AltTester® client.");
+                setMessage("An unexpected error occurred while starting the AltTester(R) client.", color: errorColor, true);
+                logger.Error(ex, "An unexpected error occurred while starting the AltTester(R) client.");
                 stopClient(communicationHandler);
                 communicationHandler.waitingToConnect = false;
             }
@@ -448,7 +448,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             if (stopClientsCalled) // Stop clients was already called
                 return;
-                
+
             stopClientsCalled = true;
             try
             {
@@ -484,7 +484,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 updateQueue.ScheduleResponse(() => Debug.LogError(e));
             }
-            
+
             isDriverConnected = false;
             stopClientsCalled = false;
         }
@@ -618,7 +618,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 isDriverConnected = false;
                 string message = createMessage();
-                
+
                 updateQueue.ScheduleResponse(() =>
                 {
                     ToggleCustomInput(false);
