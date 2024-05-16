@@ -9,7 +9,6 @@ on:
 jobs:
   build-docs:
     runs-on: ubuntu-latest
-    if: needs.paths-filter.outputs.docs == 'true'
     steps:
       - uses: actions/checkout@v3
         with:
