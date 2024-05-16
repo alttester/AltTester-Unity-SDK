@@ -94,7 +94,7 @@ public class AltDriver {
             throw new InvalidParameterException("Provided host address is null or empty.");
         }
 
-        logger.debug("Connecting to AltTester® on host: '{}', port: '{}' and appName: '{}'.", host, port, appName);
+        logger.debug("Connecting to AltTester(R) on host: '{}', port: '{}' and appName: '{}'.", host, port, appName);
         this.connection = new WebsocketConnection(host, port, appName, connectTimeout, platform, platformVersion,
                 deviceInstanceId, appId);
         this.connection.connect();

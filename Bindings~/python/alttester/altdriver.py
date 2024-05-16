@@ -73,7 +73,7 @@ class AltDriver:
         self._config_logging(self.enable_logging)
 
         logger.debug(
-            "Connecting to AltTester® on host: '{}', port: '{}' and app name: '{}'.",
+            "Connecting to AltTester(R) on host: '{}', port: '{}' and app name: '{}'.",
             self.host,
             self.port,
             self.app_name
