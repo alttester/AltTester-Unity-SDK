@@ -102,7 +102,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
             if (majorServer != majorDriver || minorServer != minorDriver)
             {
-                string message = "Version mismatch. AltDriver version is " + VERSION + ". AltTester® version is " + serverVersion + ".";
+                string message = "Version mismatch. AltDriver version is " + VERSION + ". AltTester(R) version is " + serverVersion + ".";
                 logger.Warn(message);
             }
         }

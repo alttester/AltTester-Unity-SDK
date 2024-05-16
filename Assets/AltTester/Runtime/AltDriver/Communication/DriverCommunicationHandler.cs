@@ -168,7 +168,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         public void Close()
         {
 
-            logger.Info(string.Format("Closing connection to AltTester® on: {0}", this.wsClient.URI));
+            logger.Info(string.Format("Closing connection to AltTester(R) on: {0}", this.wsClient.URI));
             websocketClosedCalled = true;
             this.wsClient.Close();
         }

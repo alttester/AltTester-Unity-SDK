@@ -131,7 +131,7 @@ public class WebsocketConnection {
                 throw new MultipleDriversTryingToConnectException(reason);
             }
             throw new ConnectionException(
-                    String.format("Connection closed by AltTester® Server with reason: %s.", reason));
+                    String.format("Connection closed by AltTester(R) Server with reason: %s.", reason));
         }
     }
 
@@ -209,19 +209,19 @@ public class WebsocketConnection {
 
         if (this.session == null || (!this.session.isOpen() && finish - start >= timeout)) {
             throw new ConnectionTimeoutException(
-                    String.format("Failed to connect to AltTester® on host: %s port: %s.", host, port),
+                    String.format("Failed to connect to AltTester(R) on host: %s port: %s.", host, port),
                     connectionError);
         }
 
         if (!this.session.isOpen()) {
             throw new ConnectionException(
-                    String.format("Failed to connect to AltTester® on host: %s port: %s.", host, port),
+                    String.format("Failed to connect to AltTester(R) on host: %s port: %s.", host, port),
                     connectionError);
         }
     }
 
     public void close() {
-        logger.info("Closing connection to AltTester® on host: {} port: {}.", host, port);
+        logger.info("Closing connection to AltTester(R) on host: {} port: {}.", host, port);
 
         if (this.session != null) {
             try {
@@ -267,7 +267,7 @@ public class WebsocketConnection {
 
     @OnClose
     public void onClose(Session session, CloseReason reason) {
-        logger.debug("Connection to AltTester® closed: {}.", reason.toString());
+        logger.debug("Connection to AltTester(R) closed: {}.", reason.toString());
 
         this.closeReason = reason;
     }

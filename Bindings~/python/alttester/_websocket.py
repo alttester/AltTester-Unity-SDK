@@ -222,7 +222,7 @@ class WebsocketConnection:
                     reason)
 
             raise exceptions.ConnectionError(
-                "Connection closed by AltTester® Server with reason: {}.".format(reason))
+                "Connection closed by AltTester(R) Server with reason: {}.".format(reason))
 
     def _check_errors(self):
         if self._errors:
@@ -263,7 +263,7 @@ class WebsocketConnection:
         """A callback which is called when the connection is closed."""
 
         logger.debug(
-            "Connection to AltTester® Server closed with status code: {} and message: '{}'.",
+            "Connection to AltTester(R) Server closed with status code: {} and message: '{}'.",
             close_status_code,
             close_msg
         )
@@ -314,7 +314,7 @@ class WebsocketConnection:
         self._check_close_message(last_close_message)
         self._check_errors()
         raise exceptions.ConnectionTimeoutError(
-            "Failed to connect to AltTester® Server host: {} port: {}.".format(
+            "Failed to connect to AltTester(R) Server host: {} port: {}.".format(
                 self.host, self.port)
         )
 
@@ -345,7 +345,7 @@ class WebsocketConnection:
 
     def close(self):
         logger.info(
-            "Closing connection to AltTester® Server on host: {} port: {}", self.host, self.port)
+            "Closing connection to AltTester(R) Server on host: {} port: {}", self.host, self.port)
 
         if self._websocket:
             self._websocket.close()

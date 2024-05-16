@@ -138,7 +138,7 @@ public class AltDriver {
 
         if (!majorServer.equals(majorDriver) || !minorServer.equals(minorDriver)) {
             String message = String.format(
-                    "Version mismatch. AltDriver version is %s. AltTester® version is %s.",
+                    "Version mismatch. AltDriver version is %s. AltTester(R) version is %s.",
                     AltDriver.VERSION, serverVersion);
             logger.warn(message);
             System.out.println(message);
