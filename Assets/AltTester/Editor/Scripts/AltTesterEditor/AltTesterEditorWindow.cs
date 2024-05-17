@@ -24,6 +24,7 @@ using System.Threading;
 using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
+using AltTester.AltTesterUnitySDK.Editor.Platform;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -685,26 +686,10 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
             void BuildGameFromUI(bool autoRun)
             {
-                if (EditorConfiguration.platform == AltPlatform.Android)
-                {
-                    AltBuilder.BuildGameFromUI(BuildTarget.Android, BuildTargetGroup.Android, autoRun);
-                }
-                else if (EditorConfiguration.platform == AltPlatform.iOS)
-                {
-                    AltBuilder.BuildGameFromUI(BuildTarget.iOS, BuildTargetGroup.iOS, autoRun);
-                }
-                else if (EditorConfiguration.platform == AltPlatform.Standalone)
-                {
-                    AltBuilder.BuildGameFromUI(EditorConfiguration.StandaloneTarget, BuildTargetGroup.Standalone, autoRun);
-                }
-                else if (EditorConfiguration.platform == AltPlatform.WebGL)
-                {
-                    AltBuilder.BuildGameFromUI(BuildTarget.WebGL, BuildTargetGroup.WebGL, autoRun);
-                }
+                if (EditorConfiguration.platform != AltPlatform.Editor)
+                    AltBuilder.BuildGameFromUI(AltPlatformExtensions.GetBuildTargetFromAltPlatform(EditorConfiguration.platform, EditorConfiguration.StandaloneTarget), AltPlatformExtensions.GetBuildTargetGroupFromAltPlatform(EditorConfiguration.platform), autoRun);
                 else
-                {
                     runInEditor();
-                }
                 UnityEngine.GUIUtility.ExitGUI();
             }
         }
