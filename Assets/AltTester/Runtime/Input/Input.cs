@@ -1415,7 +1415,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 #else
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK.InputModule
+namespace AltTester.AltTesterUnitySDK.InputModuletest
 {
 
     public class Input : MonoBehaviour

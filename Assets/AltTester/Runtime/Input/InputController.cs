@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using AltTester.AltTesterUnitySDK.Driver;
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK
+namespace AltTester.AltTesterUnitySDK.InputModule
 {
     public static class InputController
     {

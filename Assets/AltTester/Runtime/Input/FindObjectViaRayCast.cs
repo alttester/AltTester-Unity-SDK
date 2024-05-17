@@ -19,9 +19,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
-namespace AltTester.AltTesterUnitySDK
+namespace AltTester.AltTesterUnitySDK.InputModule
 {
     public class FindObjectViaRayCast
     {
