@@ -19,7 +19,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Driver.Communication;
