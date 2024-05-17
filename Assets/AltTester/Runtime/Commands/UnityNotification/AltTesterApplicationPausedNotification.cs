@@ -15,7 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Notification
 {

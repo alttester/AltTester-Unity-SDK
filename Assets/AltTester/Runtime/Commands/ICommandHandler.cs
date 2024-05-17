@@ -15,7 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace AltTester.AltTesterUnitySDK.Communication
+namespace AltTester.AltTesterUnitySDK.Commands
 {
     public delegate void SendMessageHandler(string message);
     public delegate void NotificationHandler(string driverId);

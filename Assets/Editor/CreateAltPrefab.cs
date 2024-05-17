@@ -20,6 +20,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AltTester.AltTesterUnitySDK;
+using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.InputModule;
 using AltTester.AltTesterUnitySDK.UI;
 using UnityEditor;

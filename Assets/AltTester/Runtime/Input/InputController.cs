@@ -38,7 +38,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 for (int i = 0; i < enumerators.Count; i++)
                 {
-                    CoroutineList.Add(AltRunner._altRunner.StartCoroutine(enumerators[i]));
+                    CoroutineList.Add(CoroutineManager.Instance.StartCoroutine(enumerators[i]));
                 }
             }
             catch (Exception e)

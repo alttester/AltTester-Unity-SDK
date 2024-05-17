@@ -370,7 +370,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 }
             }
             endTouchScreenPos = positions[positions.Length - 1];
-            yield return AltRunner._altRunner.StartCoroutine(EndTouch(touchId));
+            yield return CoroutineManager.Instance.StartCoroutine(EndTouch(touchId));
 
         }
         internal static int BeginTouch(Vector3 screenPosition)

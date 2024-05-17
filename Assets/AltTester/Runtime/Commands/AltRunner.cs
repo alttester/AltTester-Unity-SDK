@@ -25,7 +25,7 @@ using AltTester.AltTesterUnitySDK.Logging;
 using AltTester.AltTesterUnitySDK.Notification;
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK
+namespace AltTester.AltTesterUnitySDK.Commands
 {
     public class AltRunner : UnityEngine.MonoBehaviour
     {
