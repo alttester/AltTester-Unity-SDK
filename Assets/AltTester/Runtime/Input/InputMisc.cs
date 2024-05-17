@@ -63,6 +63,15 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             }
             return false;
         }
+        public static Vector3 GetMousePosition()
+        {
+#if ENABLE_LEGACY_INPUT_MANAGER
+            return Input.mousePosition;
+#else
+                return UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+#endif
+
+        }
     }
 
 }

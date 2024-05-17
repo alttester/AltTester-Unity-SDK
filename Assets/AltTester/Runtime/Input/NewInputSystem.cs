@@ -213,7 +213,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             var touchId = getFreeTouch(touches);
             touches[touchId] = false;
             UnityEngine.Vector3 screenPosition;
-            AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
+            FindObjectViaRayCast.FindCameraThatSeesObject(target, out screenPosition);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
@@ -257,7 +257,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         {
             Mouse.MakeCurrent();
             UnityEngine.Vector3 screenPosition;
-            AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
+            FindObjectViaRayCast.FindCameraThatSeesObject(target, out screenPosition);
             InputTestFixture.Set(Mouse.position, screenPosition, queueEventOnly: true);
             for (int i = 0; i < count; i++)
             {
