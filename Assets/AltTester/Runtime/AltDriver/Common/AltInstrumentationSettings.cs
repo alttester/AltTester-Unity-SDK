@@ -17,7 +17,7 @@
 
 using System;
 
-namespace AltTester.AltTesterUnitySDK
+namespace AltTester.AltTesterUnitySDK.Driver
 {
     /// <summary>
     /// Settings for AltTester® Unity App instrumentation.

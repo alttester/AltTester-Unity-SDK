@@ -17,6 +17,7 @@
 
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Driver;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {

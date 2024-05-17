@@ -18,6 +18,7 @@
 using System;
 using System.Collections;
 using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Logging;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM

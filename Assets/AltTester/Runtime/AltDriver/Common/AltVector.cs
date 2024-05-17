@@ -15,9 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using AltTester.AltTesterUnitySDK.Driver;
-
-namespace AltTester.AltTesterUnitySDK
+namespace AltTester.AltTesterUnitySDK.Driver
 {
     public static class AltVectorExtensions
     {

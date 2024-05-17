@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using AltTester.AltTesterUnitySDK;
 using UnityEngine;
 using System;
+using AltTester.AltTesterUnitySDK.Driver;
 
 namespace AltTester.AltTesterUnitySDK.Editor
 {
