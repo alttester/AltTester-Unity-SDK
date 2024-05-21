@@ -345,7 +345,7 @@ public class TestsSampleScene1 extends BaseTest {
                 componentName, propertyName, "").build();
         AltWaitForComponentPropertyParams<String> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<String>(
                 altGetComponentPropertyParams).build();
-        String propertyValue = altElement.WaitForComponentProperty(
+        String propertyValue = altElement.waitForComponentProperty(
                 altWaitForComponentPropertyParams,
                 "__default__",
                 String.class);
@@ -369,7 +369,7 @@ public class TestsSampleScene1 extends BaseTest {
                 altGetComponentPropertyParams).build();
         assertThrows(ComponentNotFoundException.class,
                 () -> {
-                    Boolean propertyValue = altElement.WaitForComponentProperty(
+                    Boolean propertyValue = altElement.waitForComponentProperty(
                             altWaitForComponentPropertyParams,
                             false,
                             Boolean.class);
@@ -394,7 +394,7 @@ public class TestsSampleScene1 extends BaseTest {
                 altGetComponentPropertyParams).build();
         assertThrows(PropertyNotFoundException.class,
                 () -> {
-                    Boolean propertyValue = altElement.WaitForComponentProperty(
+                    Boolean propertyValue = altElement.waitForComponentProperty(
                             altWaitForComponentPropertyParams,
                             false,
                             Boolean.class);
@@ -418,7 +418,7 @@ public class TestsSampleScene1 extends BaseTest {
                 altGetComponentPropertyParams).withTimeout(2).build();
         assertThrows(WaitTimeOutException.class,
                 () -> {
-                    altElement.WaitForComponentProperty(
+                    altElement.waitForComponentProperty(
                             altWaitForComponentPropertyParams,
                             "Test",
                             String.class);
@@ -443,7 +443,7 @@ public class TestsSampleScene1 extends BaseTest {
                 altGetComponentPropertyParams).build();
         assertThrows(AssemblyNotFoundException.class,
                 () -> {
-                    altElement.WaitForComponentProperty(
+                    altElement.waitForComponentProperty(
                             altWaitForComponentPropertyParams,
                             false,
                             Boolean.class);

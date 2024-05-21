@@ -807,8 +807,8 @@ Keep in mind that the setup is different for Android and iOS.
         - wget https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip
         - unzip AltTesterDesktopLinuxBatchmode.zip
         - cd AltTesterDesktopLinux
-        - chmod +x "AltTester(R) Desktop.x86_64"
-        - ./"AltTester(R) Desktop.x86_64" -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
+        - chmod +x AltTester Desktop.x86_64
+        - ./AltTesterDesktop.x86_64 -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
         ```
         The `&` symbol is used to make the application run in the background. Failure to add the symbol will cause the commands following it to not be triggered. 
     
@@ -826,7 +826,7 @@ Keep in mind that the setup is different for Android and iOS.
     - kill the AltTester® Desktop process 
         ```
         - cd AltTesterDesktopLinux
-        - kill -2 $(ps -ef | awk '/AltTester\(R\) Desktop.x86_64/{print $2}')
+        - kill -2 `ps -ef | awk '/AltTesterDesktop.x86_64/{print $2}'`
         ```
 - **for remote connection** - a way to connect to AltTester® Server, within the AltTester® Desktop application is by installing AltTester® Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
     - create a [Windows instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2Win_Infrastructure.html) 
@@ -841,7 +841,7 @@ Keep in mind that the setup is different for Android and iOS.
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-connect-to-instance.png
     ```  
-    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTester(R)%20Desktop__v2.1.1.exe) and install it on the Instance  
+    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop__v2.1.1.exe) and install it on the Instance  
     - [Associate an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating), so that the IP remains constant after each opening of the instance
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
@@ -1022,8 +1022,8 @@ Keep in mind that the setup is different for Android and iOS.
         - wget https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip
         - unzip AltTesterDesktopLinuxBatchmode.zip
         - cd AltTesterDesktopLinux
-        - chmod +x "AltTester(R) Desktop.x86_64"
-        - ./A"AltTester(R) Desktop.x86_64" -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
+        - chmod +x AltTesterDesktop.x86_64
+        - ./AltTesterDesktop.x86_64 -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
         ```
         The `&` symbol is used to make the application run in the background. Failure to add the symbol will cause the commands following it to not be triggered. 
     
@@ -1041,7 +1041,7 @@ Keep in mind that the setup is different for Android and iOS.
     - kill the AltTester® Desktop process: 
         ```
         - cd AltTesterDesktopLinux
-        - kill -2 $(ps -ef | awk '/AltTester\(R\) Desktop.x86_64/{print $2}')
+        - kill -2 `ps -ef | awk '/AltTesterDesktop.x86_64/{print $2}'`
         ```
 
 - **for remote connection** - a way to connect to AltTester® Server, within the AltTester® Desktop application is by installing AltTester® Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
@@ -1057,7 +1057,7 @@ Keep in mind that the setup is different for Android and iOS.
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-connect-to-instance.png
     ```  
-    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTester(R)%20Desktop__v2.1.1.exe) and install it on the Instance  
+    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop__v2.1.1.exe) and install it on the Instance  
     - [Associate an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating), so that the IP remains constant after each opening of the instance
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
@@ -1183,7 +1183,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
         
         - run command:
         ```
-        "AltTester(R) Desktop.exe" -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
+        AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
         ```
 
     We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
@@ -1201,13 +1201,13 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
     wget https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip
     unzip AltTesterDesktopLinuxBatchmode.zip
     cd AltTesterDesktopLinux
-    chmod +x ./"AltTester(R) Desktop.x86_64"
-    ./"AltTester(R) Desktop.x86_64" -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
+    chmod +x ./AltTesterDesktop.x86_64
+    ./AltTesterDesktop.x86_64 -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
     ```
 
     Kill the AltTester® Desktop process:
     ```
-    kill -2 $(ps -ef | awk '/AltTester\(R\) Desktop.x86_64/{print $2}')
+    kill -2 `ps -ef | awk '/AltTesterDesktop.x86_64/{print $2}'`
     ```
 
 #### **Preparation steps**
@@ -1433,7 +1433,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
     
     - run command:
     ```
-    "AltTester(R) Desktop.exe" -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
+    AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
      ```
 
 We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
@@ -1643,7 +1643,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
         
         - run command:
         ```
-        "AltTester(R) Desktop.exe" -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
+        AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
         ```
 
     We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
@@ -1661,13 +1661,13 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
     wget https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip
     unzip AltTesterDesktopLinuxBatchmode.zip
     cd AltTesterDesktopLinux
-    chmod +x ./"AltTester(R) Desktop.x86_64"
-    ./"AltTester(R) Desktop.x86_64" -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
+    chmod +x ./AltTesterDesktop.x86_64
+    ./AltTesterDesktop.x86_64 -batchmode -port 13000 -license $LICENSE_KEY -nographics -termsAndConditionsAccepted &
     ```
 
     Kill the AltTester® Desktop process:
     ```
-    kill -2 $(ps -ef | awk '/AltTester\(R\) Desktop.x86_64/{print $2}')
+    kill -2 `ps -ef | awk '/AltTesterDesktop.x86_64/{print $2}'`
     ```
 
 #### **Preparation steps**
@@ -1880,7 +1880,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
     
     - run command:
     ```
-    "AltTester(R) Desktop.exe" -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
+    AltTesterDesktop.exe -batchmode -port 13000 -license <your_license_key> -nographics -logfile LOGFILE.txt
      ```
 
 We have now a VM where AltTester® Server is listening for connections. Further on we will use the IP of this machine to have the communication between the main actors.
