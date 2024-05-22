@@ -47,7 +47,7 @@ class KeysDown(BaseCommand):
     def _parameters(self):
         parameters = super()._parameters
         parameters.update(**{
-            "keyCodes": [str(key_code) for key_code in self.key_codes],
+            "keyCodes": [str(key_code.value) for key_code in self.key_codes],
             "power": self.power
         })
 
