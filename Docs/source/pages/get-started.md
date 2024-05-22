@@ -509,7 +509,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
             - In the ``Settings`` section:
                 - Import the ``AltTesterLibrary``
                 - Next create the ``Setup`` and ``Teardown`` suites for your tests
-                    - In the ``Setup`` suite you need to include the initialization of the AltDriver
+                    - In the ``Setup`` suite you need to include the initialization of the AltDriver - make sure to also add the ip, host and app name as parameters if the connection data for the connected instrumented app is not the default one
                     - In the ``Teardown`` suite the AltDriver needs to be stopped                
             .. code-block:: robot
 
