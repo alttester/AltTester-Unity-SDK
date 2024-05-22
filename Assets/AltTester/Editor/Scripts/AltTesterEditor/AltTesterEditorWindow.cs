@@ -140,18 +140,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
             var templatePath = UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("DefaultTestExample")[0]);
             string folderPath = getPathForSelectedItem();
             string newFilePath = System.IO.Path.Combine(folderPath, "NewAltTest.cs");
-#if UNITY_2019_1_OR_NEWER
             UnityEditor.ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath, newFilePath);
-#else
-            System.Reflection.MethodInfo method = typeof(UnityEditor.ProjectWindowUtil).GetMethod("CreateScriptAsset", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
-            if (method == null)
-                throw new AltTester.AltTesterUnitySDK.Driver.NotFoundException("Method to create Script file was not found");
-            method.Invoke((object)null, new object[2]
-            {
-                (object) templatePath,
-                (object) newFilePath
-            });
-#endif
+
         }
 
         [UnityEditor.MenuItem("AltTester®/Create AltTester® Package", false, 800)]
@@ -701,62 +691,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
             UnityEditor.EditorGUI.EndDisabledGroup();
         }
 
-        private BuildTargetGroup getBuildTargetGroupFromAltPlatform(AltPlatform altPlatform)
-        {
-            switch (altPlatform)
-            {
-                case AltPlatform.Android:
-                    return BuildTargetGroup.Android;
-                case AltPlatform.Standalone:
-                    return BuildTargetGroup.Standalone;
-                case AltPlatform.iOS:
-                    return BuildTargetGroup.iOS;
-                case AltPlatform.WebGL:
-                    return BuildTargetGroup.WebGL;
-                default:
-                    throw new NotImplementedException();
-
-
-            }
-        }
-        private static AltPlatform getAltPlatformFromBuildTargetGroup(BuildTargetGroup targetGroup)
-        {
-            switch (targetGroup)
-            {
-                case BuildTargetGroup.Standalone:
-                    return AltPlatform.Standalone;
-                case BuildTargetGroup.Android:
-                    return AltPlatform.Android;
-                case BuildTargetGroup.WebGL:
-                    return AltPlatform.WebGL;
-                case BuildTargetGroup.iOS:
-                    return AltPlatform.iOS;
-                default:
-                    return AltPlatform.Editor;
-            };
-
-
-
-        }
-        private BuildTarget[] getBuildTargetFromAltPlatform(AltPlatform altPlatform)
-        {
-            switch (altPlatform)
-            {
-                case AltPlatform.Android:
-                    return new BuildTarget[] { BuildTarget.Android };
-                case AltPlatform.Standalone:
-                    return new BuildTarget[] { BuildTarget.StandaloneWindows, BuildTarget.StandaloneWindows64, BuildTarget.StandaloneOSX, BuildTarget.StandaloneLinux64 };
-                case AltPlatform.iOS:
-                    return new BuildTarget[] { BuildTarget.iOS };
-                case AltPlatform.WebGL:
-                    return new BuildTarget[] { BuildTarget.WebGL };
-                default:
-                    throw new NotImplementedException();
-
-
-            }
-        }
-
         private void displayPlatformAndPlatformSettings(float size)
         {
             UnityEditor.EditorGUILayout.LabelField("Platform", UnityEditor.EditorStyles.boldLabel);
@@ -775,8 +709,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     availableTargetDictionary.Add(BuildTarget.NoTarget, "Editor");
                     continue;
                 }
-                var targetGroup = getBuildTargetGroupFromAltPlatform(platform);
-                var targets = getBuildTargetFromAltPlatform(platform);
+                var targetGroup = AltPlatformExtensions.GetBuildTargetGroupFromAltPlatform(platform);
+                var targets = AltPlatformExtensions.GetBuildTargetFromAltPlatform(platform);
                 foreach (var target in targets)
                     if (BuildPipeline.IsBuildTargetSupported(targetGroup, target))
                     {
@@ -812,12 +746,10 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, EditorConfiguration.StandaloneTarget);
                     browseBuildLocation();
                     break;
-#if UNITY_EDITOR_OSX
                 case AltPlatform.iOS:
                     EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
                     showSettings(UnityEditor.BuildTargetGroup.iOS, AltPlatform.iOS);
                     break;
-#endif
                 case AltPlatform.WebGL:
                     EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
                     showSettings(UnityEditor.BuildTargetGroup.WebGL, AltPlatform.WebGL);
@@ -835,11 +767,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
             if (UnityEngine.GUILayout.Button(platform.ToString() + " player settings"))
             {
-#if UNITY_2018_3_OR_NEWER
                 UnityEditor.SettingsService.OpenProjectSettings("Project/Player");
-#else
-                UnityEditor.EditorApplication.ExecuteMenuItem("Edit/Project Settings/Player");
-#endif
                 UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup = targetGroup;
             }
         }
@@ -862,7 +790,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 }
                 EditorConfiguration = CreateInstance<AltEditorConfiguration>();
                 EditorConfiguration.MyTests = null;
-                EditorConfiguration.platform = getAltPlatformFromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+                EditorConfiguration.platform = AltPlatformExtensions.GetAltPlatformFromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
                 UnityEditor.AssetDatabase.CreateAsset(EditorConfiguration, "Assets/Plugins/AltTester/AltTesterEditorSettings.asset");
                 UnityEditor.AssetDatabase.SaveAssets();
             }
@@ -1060,7 +988,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     break;
                 case AltPlatform.Standalone:
                     break;
-#if UNITY_EDITOR_OSX
                 case AltPlatform.iOS:
                     foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "iOS Settings");
                     if (foldOutIosSettings)
@@ -1081,7 +1008,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                         UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning = appleEnableAutomaticsSigning;
                     }
                     break;
-#endif
             }
         }
 
@@ -1564,11 +1490,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                         {
                             if (test.Path == null)
                                 throw new AltPathNotFoundException("The path to your test is invalid. Please make sure you have matching class and file names.");
-#if UNITY_2019_1_OR_NEWER
                             UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.Path, findLine(test.Path, testName), 0);
-#else
-                            UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(test.Path, findLine(test.Path, testName));
-#endif
                         }
                     }
                     else
