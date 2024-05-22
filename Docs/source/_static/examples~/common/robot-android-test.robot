@@ -1,7 +1,7 @@
 *** Settings***
 Library    AltTesterLibrary
 Suite Setup    Reverse Port Forwarding Android        
-Suite Teardown    Stop Altdriver    
+Suite Teardown    Remove Reverse Port Forwarding Android    
 
 *** Test Cases ***
 Test Resize Panel
@@ -21,4 +21,4 @@ Test Resize Panel
     ${alt_object_y}=    Get Object Y    ${alt_object}
     ${position_final}=    Create List    ${alt_object_x}    ${alt_object_y}
     Should Not Be Equal    ${position_init}    ${position_final}
-    Remove Reverse Port Forwarding Android
+    Stop Altdriver
