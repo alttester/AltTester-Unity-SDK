@@ -18,6 +18,8 @@
 using System;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
+using Microsoft.SqlServer.Server;
+using Newtonsoft.Json.Linq;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Commands
 {
@@ -29,16 +31,18 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         string propertyName;
         T propertyValue;
         string assembly;
+        bool getPropertyAsString;
         double timeout;
         double interval;
 
-        public AltWaitForComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, T propertyValue, string assemblyName, double timeout, double interval, AltObject altObject) : base(commHandler)
+        public AltWaitForComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, T propertyValue, string assemblyName, bool getPropertyAsString, double timeout, double interval, AltObject altObject) : base(commHandler)
         {
             this.altObject = altObject;
             this.componentName = componentName;
             this.propertyName = propertyName;
             this.propertyValue = propertyValue;
             this.assembly = assemblyName;
+            this.getPropertyAsString = getPropertyAsString;
             this.timeout = timeout;
             this.interval = interval;
             if (timeout <= 0) throw new ArgumentOutOfRangeException("timeout");
@@ -47,19 +51,23 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         public T Execute()
         {
             double time = 0;
+            T propertyFound = altObject.GetComponentProperty<T>(componentName, propertyName, assembly);
             while (time < timeout)
             {
                 logger.Debug($"Waiting for property {propertyName} to be {propertyValue}.");
-                T propertyFound = altObject.GetComponentProperty<T>(componentName, propertyName, assembly);
+                propertyFound = altObject.GetComponentProperty<T>(componentName, propertyName, assembly);
                 if (propertyFound == null && propertyValue == null) //avoid null reference exception
                     return propertyFound;
-                if (propertyFound.Equals(propertyValue))
+                if (!getPropertyAsString && propertyFound.Equals(propertyValue))
+                    return propertyFound;
+                var jTokenPropertyFound = propertyFound as JToken;
+                if (getPropertyAsString && jTokenPropertyFound.ToString().Equals(propertyValue.ToString()))
                     return propertyFound;
 
                 Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
             }
-            throw new WaitTimeOutException($"Property {propertyName} was not {propertyValue} after {timeout} seconds");
+            throw new WaitTimeOutException($"Property {propertyName} was {propertyFound} and was not {propertyValue} after {timeout} seconds");
         }
     }
 }

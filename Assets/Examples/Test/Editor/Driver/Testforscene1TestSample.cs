@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
@@ -237,7 +238,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
-            Assert.Throws<WaitTimeOutException>(() => altElement.WaitForComponentProperty(componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK", 2));
+            Assert.Throws<WaitTimeOutException>(() => altElement.WaitForComponentProperty(componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK", timeout: 2));
         }
 
         [Category("WebGLUnsupported")] // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
@@ -2060,6 +2061,27 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
             Assert.AreEqual(0, countKeyDown);
         }
+        [Test]
+        public void Test()
+        {
+            var Canvas = altDriver.WaitForObject(By.PATH, "/Canvas");
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.x", JToken.Parse("-960.0"), "UnityEngine.CoreModule", true);
+
+            // Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.center.x", 0.0, "UnityEngine.CoreModule", 1);
+
+            // Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "parentInternal", null, "UnityEngine.CoreModule", 1);
+
+            // Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hasChanged", true, "UnityEngine.CoreModule", 1);
+
+            // // Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "tag", Untagged, "UnityEngine.CoreModule", 1).ToString();
+
+            // Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hideFlags", 0, "UnityEngine.CoreModule", 1);
+
+            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]]]"), "UnityEngine.UIModule", true, timeout: 1);
+
+        }
+
+
 
         [Test]
         public void TestSetStaticProperty()

@@ -22,6 +22,8 @@ import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.IMessageHandler;
 import com.alttester.AltObject;
 import com.alttester.altTesterExceptions.WaitTimeOutException;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 
 /**
  * Wait until there are no longer any objects that respect the given criteria or
@@ -29,15 +31,18 @@ import com.alttester.altTesterExceptions.WaitTimeOutException;
  */
 public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
     /**
-     * @param waitParams the properties parameter for waiting
-     *                   the
-     *                   object
-     * @param altObject  the AltObject element
-     * @param property   the wanted value of the property
+     * @param waitParams          the properties parameter for waiting
+     *                            the
+     *                            object
+     * @param altObject           the AltObject element
+     * @param property            the wanted value of the property
+     * @param getPropertyAsString if true compares the property's value and the
+     *                            actual value as strings
      */
     private AltObject altObject;
     private AltWaitForComponentPropertyParams<T> waitParams;
     private T property;
+    private Boolean getPropertyAsString = false;
 
     /**
      * @param messageHandler
@@ -51,25 +56,42 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
         this.altObject = altObject;
     }
 
+    public AltWaitForComponentProperty(IMessageHandler messageHandler,
+            AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams, T property,
+            Boolean getPropertyAsString, AltObject altObject) {
+        super(messageHandler);
+        this.waitParams = altWaitForComponentPropertyParams;
+        this.property = property;
+        this.getPropertyAsString = getPropertyAsString;
+        this.altObject = altObject;
+    }
+
     public T Execute(Class<T> returnType) {
-        T propertyFound;
         double time = 0;
         AltGetComponentPropertyParams getComponentPropertyParams = waitParams.getAltGetComponentPropertyParams();
+        T propertyFound = altObject.getComponentProperty(
+                getComponentPropertyParams,
+                returnType);
         while (time < waitParams.getTimeout()) {
             logger.debug("Waiting for element where name contains "
                     + getComponentPropertyParams.getPropertyName() + "....");
-                propertyFound = altObject.getComponentProperty(
-                        getComponentPropertyParams,
-                        returnType);
+            propertyFound = altObject.getComponentProperty(
+                    getComponentPropertyParams,
+                    returnType);
 
-                if (propertyFound.equals(property))
-                    return propertyFound;
+            if (!getPropertyAsString && propertyFound.equals(property))
+                return propertyFound;
+            Gson gson = new Gson();
+            JsonElement jTokenPropertyFound = gson.toJsonTree(propertyFound);
+            if (getPropertyAsString && jTokenPropertyFound.toString().equals(property.toString()))
+                return propertyFound;
 
             Utils.sleepFor(waitParams.getInterval());
             time += waitParams.getInterval();
         }
         throw new WaitTimeOutException(
                 "Property " + getComponentPropertyParams.getPropertyName()
-                        + " still not found after " + waitParams.getTimeout() + " seconds");
+                        + " was " + propertyFound + " and was not " + property + " after " + waitParams.getTimeout()
+                        + " seconds");
     }
 }
