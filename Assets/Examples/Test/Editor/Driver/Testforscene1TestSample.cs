@@ -2065,17 +2065,17 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void Test()
         {
             var Canvas = altDriver.WaitForObject(By.PATH, "/Canvas");
-            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.x", JToken.Parse("-960.0"), "UnityEngine.CoreModule", true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.x", JToken.Parse("-960.0"), "UnityEngine.CoreModule", true, 1);
 
-            // Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.center.x", 0.0, "UnityEngine.CoreModule", 1);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.center.x", JToken.Parse("0.0"), "UnityEngine.CoreModule", true, 1);
 
-            // Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "parentInternal", null, "UnityEngine.CoreModule", 1);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "parentInternal", JToken.Parse("null"), "UnityEngine.CoreModule", true, 1);
 
-            // Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hasChanged", true, "UnityEngine.CoreModule", 1);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hasChanged", JToken.Parse("true"), "UnityEngine.CoreModule", true, 1);
 
-            // // Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "tag", Untagged, "UnityEngine.CoreModule", 1).ToString();
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "name", JToken.Parse("\"Canvas\""), "UnityEngine.CoreModule", true, 1).ToString();
 
-            // Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hideFlags", 0, "UnityEngine.CoreModule", 1);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hideFlags", JToken.Parse("0"), "UnityEngine.CoreModule", true, 1);
 
             Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]]]"), "UnityEngine.UIModule", true, timeout: 1);
 
