@@ -179,6 +179,12 @@ commands:
 
             pytest  <name_of_your_test_file.py>
 
+    .. tab:: robot
+
+        .. code-block:: bash
+
+            robot <name_of_your_test_file.robot>
+
 ```
 
 ## Run tests on a Continuous Integration Server
