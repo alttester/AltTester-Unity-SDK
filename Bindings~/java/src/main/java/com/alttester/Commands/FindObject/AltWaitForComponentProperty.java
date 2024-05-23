@@ -68,22 +68,20 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
 
     public T Execute(Class<T> returnType) {
         double time = 0;
+        String jsonElementToString = "";
         AltGetComponentPropertyParams getComponentPropertyParams = waitParams.getAltGetComponentPropertyParams();
-        T propertyFound = altObject.getComponentProperty(
-                getComponentPropertyParams,
-                returnType);
         while (time < waitParams.getTimeout()) {
             logger.debug("Waiting for element where name contains "
                     + getComponentPropertyParams.getPropertyName() + "....");
-            propertyFound = altObject.getComponentProperty(
+            T propertyFound = altObject.getComponentProperty(
                     getComponentPropertyParams,
                     returnType);
 
             if (!getPropertyAsString && propertyFound.equals(property))
                 return propertyFound;
-            Gson gson = new Gson();
-            JsonElement jTokenPropertyFound = gson.toJsonTree(propertyFound);
-            if (getPropertyAsString && jTokenPropertyFound.toString().equals(property.toString()))
+            String str = new Gson().toJsonTree(propertyFound).toString();
+            jsonElementToString = str.contains("\"") ? str : "\"" + str + "\"";
+            if (getPropertyAsString && jsonElementToString.equals(property.toString()))
                 return propertyFound;
 
             Utils.sleepFor(waitParams.getInterval());
@@ -91,7 +89,8 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
         }
         throw new WaitTimeOutException(
                 "Property " + getComponentPropertyParams.getPropertyName()
-                        + " was " + propertyFound + " and was not " + property + " after " + waitParams.getTimeout()
+                        + " was " + jsonElementToString + " and was not " + property + " after "
+                        + waitParams.getTimeout()
                         + " seconds");
     }
 }

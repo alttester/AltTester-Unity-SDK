@@ -63,6 +63,8 @@ import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -378,6 +380,50 @@ public class TestsSampleScene1 extends BaseTest {
     }
 
     @Test
+    public void TestWaitForComponentPropertyMultipleTypes() throws InterruptedException {
+        AltObject Canvas = altDriver.waitForObject(new AltWaitForObjectsParams.Builder(
+                new AltFindObjectsParams.Builder(AltDriver.By.PATH, "/Canvas").build()).build());
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(new AltGetComponentPropertyParams.Builder(
+                        "UnityEngine.RectTransform", "rect.x",
+                        "UnityEngine.CoreModule").build()).build(),
+                new Gson().toJsonTree("-960.0"), true, JsonElement.class);
+
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(new AltGetComponentPropertyParams.Builder(
+                        "UnityEngine.RectTransform", "hasChanged",
+                        "UnityEngine.CoreModule").build()).build(),
+                new Gson().toJsonTree("true"), true, JsonElement.class);
+
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(new AltGetComponentPropertyParams.Builder(
+                        "UnityEngine.RectTransform", "tag",
+                        "UnityEngine.CoreModule").build()).build(),
+                new Gson().toJsonTree("Untagged"), true, JsonElement.class);
+
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(new AltGetComponentPropertyParams.Builder(
+                        "UnityEngine.RectTransform", "hideFlags",
+                        "UnityEngine.CoreModule").build()).build(),
+                new Gson().toJsonTree("0"), true, JsonElement.class);
+
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(
+                        new AltGetComponentPropertyParams.Builder("UnityEngine.RectTransform",
+                                "reapplyDrivenProperties.Target", "UnityEngine.CoreModule").build())
+                        .build(),
+                new Gson().toJsonTree("null"), true, JsonElement.class);
+
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(new AltGetComponentPropertyParams.Builder(
+                        "UnityEngine.UI.CanvasScaler", "transform",
+                        "UnityEngine.UI").build()).build(),
+                new Gson().toJsonTree("[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]"),
+                true,
+                JsonElement.class);
+    }
+
+    @Test
     public void TestWaitForComponentPropertyNotFound() throws InterruptedException {
         Thread.sleep(1000);
         String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
@@ -425,7 +471,8 @@ public class TestsSampleScene1 extends BaseTest {
                 });
     }
 
-    @Tag("WebGLUnsupported") // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
+    @Tag("WebGLUnsupported") // Fails on WebGL in pipeline, skip until issue #1465 is fixed:
+                             // https://github.com/alttester/AltTester-Unity-SDK/issues/1465
     @Test
     public void TestWaitForComponentPropertyAssemblyNotFound() throws InterruptedException {
         Thread.sleep(1000);
