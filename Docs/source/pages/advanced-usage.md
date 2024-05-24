@@ -358,7 +358,7 @@ In the routing table, the personal hotspot network would be secondary, therefore
                     - **Reverse Port Forwarding Android**
                         .. code-block:: robot
 
-                            Reverse Port Forwarding Android    device_port=13000    local_port=13000
+                            Reverse Port Forwarding Android    device_port=13000    local_port=13000    device_id= 
                     
                     - **Remove Reverse Port Forwarding Android**
                         .. code-block:: robot
