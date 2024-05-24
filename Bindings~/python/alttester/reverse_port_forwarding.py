@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,11 +35,13 @@ class AltReversePortForwarding:
 
     @staticmethod
     def reverse_port_forwarding_android(device_port=13000, local_port=13000):
-        subprocess.Popen(['adb', 'reverse', 'tcp:' + str(device_port), 'tcp:' + str(local_port)]).wait()
+        subprocess.Popen(['adb', 'reverse', 'tcp:' +
+                         str(device_port), 'tcp:' + str(local_port)]).wait()
 
     @staticmethod
     def remove_reverse_port_forwarding_android(device_port=13000):
-        subprocess.Popen(['adb', 'reverse', '--remove', 'tcp:' + str(device_port)]).wait()
+        subprocess.Popen(['adb', 'reverse', '--remove',
+                         'tcp:' + str(device_port)]).wait()
 
     @staticmethod
     def remove_all_reverse_port_forwardings_android():
