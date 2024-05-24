@@ -29,17 +29,17 @@ class WaitForComponentProperty(Command):
         property_value,
         assembly,
         altObject,
-        get_property_as_string=False,
         timeout=20,
         interval=0.5,
+        get_property_as_string=False
     ):
         self.component_name = component_name
         self.property_name = property_name
         self.property_value = property_value
         self.assembly = assembly
-        self.get_property_as_string = get_property_as_string
         self.timeout = timeout
         self.interval = interval
+        self.get_property_as_string = get_property_as_string
         self.altObject = altObject
 
     def execute(self):
