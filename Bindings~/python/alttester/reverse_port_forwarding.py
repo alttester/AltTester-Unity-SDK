@@ -34,12 +34,26 @@ class AltReversePortForwarding:
             return cls._client.device(device_id)
 
     @staticmethod
-    def reverse_port_forwarding_android(device_port=13000, local_port=13000):
-        subprocess.Popen(['adb', 'reverse', 'tcp:' + str(device_port), 'tcp:' + str(local_port)]).wait()
+    def reverse_port_forwarding_android(device_port=13000, local_port=13000, device_Id=""):
+        command = ['adb']
+
+        if device_Id:
+            command.extend(['-s', device_Id])
+
+        command.extend(['reverse', f'tcp:{device_port}', f'tcp:{local_port}'])
+
+        subprocess.Popen(command).wait()
 
     @staticmethod
-    def remove_reverse_port_forwarding_android(device_port=13000):
-        subprocess.Popen(['adb', 'reverse', '--remove', 'tcp:' + str(device_port)]).wait()
+    def remove_reverse_port_forwarding_android(device_port=13000, device_Id=""):
+        command = ['adb']
+
+        if device_Id:
+            command.extend(['-s', device_Id])
+
+        command.extend(['reverse', '--remove', f'tcp:{device_port}'])
+
+        subprocess.Popen(command).wait()
 
     @staticmethod
     def remove_all_reverse_port_forwardings_android():
