@@ -48,13 +48,13 @@ class AltTesterKeywords(object):
         `enable_logging` : If set to ``True`` will turn on logging, by default logging is disabled.
 
         `timeout` : The connect timeout in seconds. The default value is 60.
-        
+
         `platform` : The platform of the device. The default value is ``unknown``.
-        
+
         `platform_version` : The version of the platform. The default value is ``unknown``.
-        
+
         `device_instance_id` : The id of the device. The default value is ``unknown``.
-        
+
         `app_id` : The id of the application. The default value is ``unknown``.
 
         Example:
@@ -62,7 +62,7 @@ class AltTesterKeywords(object):
         | ${altDriver}= | Initialize AltDriver  | 127.0.0.1  |  15001
 
         | ${altDriver}= | Initialize AltDriver  | platform="Android"
-        
+
         """
         self._driver = AltDriver(
             host=host,
@@ -103,43 +103,47 @@ class AltTesterKeywords(object):
         Example:
 
         Set Command Response Timeout to 30 seconds.
-        
+
         Set Command Response Timeout | 30
         """
         self._driver.set_command_response_timeout(timeout)
 
-    def reverse_port_forwarding_android(self, device_port=13000, local_port=13000):
+    def reverse_port_forwarding_android(self, device_port=13000, local_port=13000, device_id=""):
         """This method calls adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}.
 
-        device_port : The id of the device. The default value is ``1300``.
+        device_port : The port of the device to do reverse port forwarding to. The default value is ``13000``.
 
-        local_port : The local port to do reverse port forwarding to. The default value is ``1300``.
+        local_port : The local port to do reverse port forwarding to. The default value is ``13000``.
+
+        device_id : The id of the device.
 
         Example:
 
         Reverse Port Forwarding Android     device_port=15500
         """
         AltReversePortForwarding.reverse_port_forwarding_android(
-            device_port, local_port)
+            device_port, local_port, device_id)
 
-    def remove_reverse_port_forwarding_android(device_port=13000):
+    def remove_reverse_port_forwarding_android(self, device_port=13000, device_id=""):
         """This method calls adb reverse --remove [-s {deviceId}] tcp:{devicePort} or adb reverse --remove-all if no port is provided.
 
-        device_port : The device port to be removed. The default value is ``1300``.
+        device_port : The device port to be removed. The default value is ``13000``.
+
+        device_id : The id of the device.
 
         Example:
 
         Remove Reverse Port Forwarding Android     device_port=15500
         """
         AltReversePortForwarding.remove_reverse_port_forwarding_android(
-            device_port)
+            device_port, device_id)
 
-    def remove_all_reverse_port_forwardings_android():
+    def remove_all_reverse_port_forwardings_android(self):
         """This method calls adb reverse --remove-all.
 
         Example:
 
-        Remove All Reverse Port Forwarding Android
+        Remove All Reverse Port Forwardings Android
         """
         AltReversePortForwarding.remove_all_reverse_port_forwardings_android()
 
