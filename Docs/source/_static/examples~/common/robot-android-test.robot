@@ -1,11 +1,10 @@
 *** Settings***
 Library    AltTesterLibrary
-Suite Setup    Reverse Port Forwarding Android        
-Suite Teardown    Remove Reverse Port Forwarding Android    
+Suite Setup    SetUp Tests   
+Suite Teardown    Teardown Tests    
 
 *** Test Cases ***
 Test Resize Panel
-    Initialize Altdriver
     Load Scene    Scene 2 Draggable Panel
     ${alt_object}=    Find Object    NAME    Resize Zone
     ${alt_object_x}=    Get Object X    ${alt_object}
@@ -21,4 +20,12 @@ Test Resize Panel
     ${alt_object_y}=    Get Object Y    ${alt_object}
     ${position_final}=    Create List    ${alt_object_x}    ${alt_object_y}
     Should Not Be Equal    ${position_init}    ${position_final}
+    
+*** Keywords ***
+SetUp Tests
+    Reverse Port Forwarding Android
+    Initialize Altdriver
+
+Teardown Tests
     Stop Altdriver
+    Remove Reverse Port Forwarding Android

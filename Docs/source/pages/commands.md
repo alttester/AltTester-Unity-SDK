@@ -2472,7 +2472,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
                 :language: py
                 :emphasize-lines: 6,10
 
-    .. tab:: Robot
+    .. tab:: robot
 
         **Get Player Pref Key**
 
@@ -2597,7 +2597,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
                 :language: py
                 :emphasize-lines: 4,5
 
-    .. tab:: Robot
+    .. tab:: robot
 
         **Set Player Pref Key**
 

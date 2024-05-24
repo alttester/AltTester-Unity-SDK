@@ -552,7 +552,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
                 .. literalinclude:: ../_static/examples~/common/robot-android-test.robot
                     :language: robot
-                    :emphasize-lines: 3, 24
+                    :emphasize-lines: 26, 31
 
             .. tab:: iOS
 
