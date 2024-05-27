@@ -177,7 +177,8 @@ class AltObject:
             timeout (:obj:`int`, optional): The number of seconds that it will wait for property.
             interval (:obj:`float`, optional): The number of seconds after which it will try to find the object again.
                 The interval should be smaller than timeout.
-            get_property_as_string (:obj:`bool`, optional): A boolean value that compares the property_value as a string with the property from the instrumented app.
+            get_property_as_string (:obj:`bool`, optional): A boolean value that compares the property_value
+            as a string with the property from the instrumented app.
 
         Returns:
             str: The property value is serialized to a JSON string.

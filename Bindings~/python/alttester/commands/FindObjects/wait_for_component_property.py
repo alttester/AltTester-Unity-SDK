@@ -53,7 +53,8 @@ class WaitForComponentProperty(Command):
                 )
                 if not self.get_property_as_string and property_found == self.property_value:
                     return property_found
-                if self.get_property_as_string and str(property_found).replace(" ", "") == str(self.property_value).replace(" ", ""):
+                if self.get_property_as_string and \
+                   str(property_found).replace(" ", "") == str(self.property_value).replace(" ", ""):
                     return property_found
             except Exception as ex:
                 exception = ex
