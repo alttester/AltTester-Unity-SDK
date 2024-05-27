@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,13 +48,13 @@ class AltTesterKeywords(object):
         `enable_logging` : If set to ``True`` will turn on logging, by default logging is disabled.
 
         `timeout` : The connect timeout in seconds. The default value is 60.
-        
+
         `platform` : The platform of the device. The default value is ``unknown``.
-        
+
         `platform_version` : The version of the platform. The default value is ``unknown``.
-        
+
         `device_instance_id` : The id of the device. The default value is ``unknown``.
-        
+
         `app_id` : The id of the application. The default value is ``unknown``.
 
         Example:
@@ -62,7 +62,7 @@ class AltTesterKeywords(object):
         | ${altDriver}= | Initialize AltDriver  | 127.0.0.1  |  15001
 
         | ${altDriver}= | Initialize AltDriver  | platform="Android"
-        
+
         """
         self._driver = AltDriver(
             host=host,
@@ -103,7 +103,7 @@ class AltTesterKeywords(object):
         Example:
 
         Set Command Response Timeout to 30 seconds.
-        
+
         Set Command Response Timeout | 30
         """
         self._driver.set_command_response_timeout(timeout)

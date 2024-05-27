@@ -1,5 +1,5 @@
 ﻿"""
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -295,7 +295,8 @@ class TestScene01Part1:
             )
         assert str(execinfo.value) == (
             "After 2 seconds, exception was: Property AltServerPortTest not found "
-            "for component: {} and property {}".format(componentName, propertyName)
+            "for component: {} and property {}".format(
+                componentName, propertyName)
         )
 
     def test_wait_for_component_property_timeout(self):

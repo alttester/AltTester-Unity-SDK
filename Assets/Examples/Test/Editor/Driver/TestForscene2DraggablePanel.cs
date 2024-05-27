@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -90,7 +90,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             altElement.Click();
             Assert.IsTrue(altDriver.FindObject(By.NAME, "Panel").enabled);
         }
-        
+
         [Test]
         public void TestGetAllEnabledElements()
         {
@@ -176,13 +176,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var color2 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "highlightColor", "Assembly-CSharp");
             Assert.AreEqual(color1, color2);
         }
-        [TestCase("Main Camera","SF Scene Elements")]
-        [TestCase("Background","SF Scene Elements")]
-        [TestCase("Particle System","SF Scene Elements")]
-        [TestCase("Panel Drag Area","Canvas")]
-        [TestCase("Panel","Panel Drag Area")]
-        [TestCase("Drag Zone","Panel")]
-        [TestCase("Close Button/Text","Close Button")]
+        [TestCase("Main Camera", "SF Scene Elements")]
+        [TestCase("Background", "SF Scene Elements")]
+        [TestCase("Particle System", "SF Scene Elements")]
+        [TestCase("Panel Drag Area", "Canvas")]
+        [TestCase("Panel", "Panel Drag Area")]
+        [TestCase("Drag Zone", "Panel")]
+        [TestCase("Close Button/Text", "Close Button")]
         [TestCase("Button/Text", "Button")]
         [TestCase("Debugging", "Canvas")]
         [Test]
@@ -192,7 +192,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var altElementParent = altElement.GetParent();
             Assert.AreEqual(ParentValue, altElementParent.name);
         }
-        
+
         [TestCase("EventSystem")]
         [TestCase("Canvas")]
         [TestCase("SF Scene Elements")]
