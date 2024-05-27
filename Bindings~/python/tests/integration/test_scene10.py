@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,64 +47,76 @@ class TestScene10:
 
     def test_key_down_and_key_up_NIS(self):
         player = self.altdriver.find_object(By.NAME, "Player")
-        initial_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        initial_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
 
         self.altdriver.key_down(AltKeyCode.A)
         self.altdriver.key_up(AltKeyCode.A)
-        lef_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        lef_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
 
         assert lef_position != initial_position
 
         self.altdriver.key_down(AltKeyCode.D)
         self.altdriver.key_up(AltKeyCode.D)
-        right_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        right_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
 
         assert right_position != lef_position
 
         self.altdriver.key_down(AltKeyCode.W)
         self.altdriver.key_up(AltKeyCode.W)
-        up_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        up_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
 
         assert up_position != right_position
 
         self.altdriver.key_down(AltKeyCode.S)
         self.altdriver.key_up(AltKeyCode.S)
-        down_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        down_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
 
         assert down_position != up_position
 
     def test_press_key_NIS(self):
         player = self.altdriver.find_object(By.NAME, "Player")
-        initial_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        initial_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
 
         self.altdriver.press_key(AltKeyCode.A)
-        left_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        left_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
 
         assert left_position != initial_position
 
         self.altdriver.press_key(AltKeyCode.D)
-        right_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        right_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
 
         assert right_position != left_position
 
         self.altdriver.press_key(AltKeyCode.W)
-        up_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        up_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
 
         assert up_position != right_position
 
         self.altdriver.press_key(AltKeyCode.S)
-        down_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        down_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
 
         assert down_position != up_position
 
     def test_press_keys_NIS(self):
         player = self.altdriver.find_object(By.NAME, "Player")
-        initial_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        initial_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
 
         keys = [AltKeyCode.W, AltKeyCode.Mouse0]
         self.altdriver.press_keys(keys)
 
-        final_position = player.get_component_property("UnityEngine.Transform", "position", "UnityEngine.CoreModule")
+        final_position = player.get_component_property(
+            "UnityEngine.Transform", "position", "UnityEngine.CoreModule")
         assert initial_position != final_position
 
         self.altdriver.wait_for_object(By.NAME, "SimpleProjectile(Clone)")

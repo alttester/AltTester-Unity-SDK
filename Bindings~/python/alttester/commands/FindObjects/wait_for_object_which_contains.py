@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -65,7 +65,8 @@ class WaitForObjectWhichContains(Command):
 
                 break
             except NotFoundException:
-                logger.debug("Waiting for element where name contains {}...", self.value)
+                logger.debug(
+                    "Waiting for element where name contains {}...", self.value)
                 time.sleep(self.interval)
                 t += self.interval
 
