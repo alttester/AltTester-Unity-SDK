@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,7 +23,8 @@ from alttester.altobject import AltObject
 class TestAltObject:
 
     def test_repr(self):
-        element = AltObject(None, {"name": "ElementName", "id": "1", "transformId": "100"})
+        element = AltObject(
+            None, {"name": "ElementName", "id": "1", "transformId": "100"})
         reconstructed = eval(repr(element), globals(), {"altdriver": None})
 
         assert element._altdriver == reconstructed._altdriver
