@@ -190,3 +190,16 @@ You get this error because you don't have the Input System (New) package. If you
 
 </details>
 <br>
+
+<details>
+<summary> <strong>Lean Touch:</strong> AltTester® is not working in my application that uses Old Input System and Lean Touch </strong></summary>
+<br>
+There are two steps to make AltTester work with Lean Touch:
+
+1. Add `AltTesterUnitySDK` as an assembly definition reference in `CW.Common` asmdef that can be found usually at `Plugin->CW->Shared->Common`. 
+2. In the `CwInput.cs` file replace every occurrence of `UnityEngine.Input.` with `Input.`
+
+<br>
+
+</details>
+
