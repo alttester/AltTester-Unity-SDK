@@ -166,28 +166,52 @@ namespace AltTester.AltTesterUnitySDK.Driver
             return altObject;
         }
 
+        [Obsolete("PointerUpFromObject is deprecated, please use PointerUp instead.")]
         public AltObject PointerUpFromObject()
+        {
+            return PointerUp();
+        }
+
+        public AltObject PointerUp()
         {
             var altObject = new AltPointerUpFromObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
 
+        [Obsolete("PointerDownFromObject is deprecated, please use PointerDown instead.")]
         public AltObject PointerDownFromObject()
+        {
+            return PointerDown();
+        }
+
+        public AltObject PointerDown()
         {
             var altObject = new AltPointerDownFromObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
 
+        [Obsolete("PointerEnterObject is deprecated, please use PointerEnter instead.")]
         public AltObject PointerEnterObject()
+        {
+            return PointerEnter();
+        }
+
+        public AltObject PointerEnter()
         {
             var altObject = new AltPointerEnterObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
 
+        [Obsolete("PointerExitObject is deprecated, please use PointerExit instead.")]
         public AltObject PointerExitObject()
+        {
+            return PointerExit();
+        }
+        
+        public AltObject PointerExit()
         {
             var altObject = new AltPointerExitObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
