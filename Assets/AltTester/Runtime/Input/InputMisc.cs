@@ -54,7 +54,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.L))
 #else
 #if ENABLE_INPUT_SYSTEM
-            if (Keyboard.current.leftCtrlKey.isPressed && Keyboard.current.leftShiftKey.isPressed && Keyboard.current.dKey.isPressed && Keyboard.current.lKey.isPressed)
+                if (Keyboard.current != null && Keyboard.current.leftCtrlKey.isPressed && Keyboard.current.leftShiftKey.isPressed && Keyboard.current.dKey.isPressed && Keyboard.current.lKey.isPressed)
 #else
 #endif
 #endif
@@ -68,7 +68,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 #if ENABLE_LEGACY_INPUT_MANAGER
             return Input.mousePosition;
 #else
-                return UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+            return UnityEngine.InputSystem.Mouse.current.position.ReadValue();
 #endif
 
         }
