@@ -221,7 +221,8 @@ public class MessageHandler implements IMessageHandler {
             case AltErrors.errorInvalidPath:
                 throw new InvalidPathException(error.message);
             case AltErrors.errorInvalidCommand:
-                throw new InvalidCommandException(error.message);
+                throw new InvalidCommandException(
+                        "Invalid command exception. You may want to set the Managed Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization.");
             case AltErrors.errorInputModule:
                 throw new AltInputModuleException(error.message);
             case AltErrors.errorCameraNotFound:
