@@ -265,7 +265,7 @@ class TestScene01Part1:
 
     def test_wait_for_component_property_get_property_as_string(self):
         Canvas = self.altdriver.wait_for_object(By.PATH, "/Canvas")
-        Canvas.wait_for_component_property("UnityEngine.RectTransform", "rect.x", "-960.0",
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "pivot.x", "0.5",
                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
 
         Canvas.wait_for_component_property("UnityEngine.RectTransform", "hasChanged", True,
