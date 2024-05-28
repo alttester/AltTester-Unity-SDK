@@ -15,6 +15,9 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
+using UnityEngine;
+
 namespace AltTester.AltTesterUnitySDK.Driver
 {
     public struct AltVector2
@@ -65,6 +68,11 @@ namespace AltTester.AltTesterUnitySDK.Driver
         public override string ToString()
         {
             return $"AltVector2{{ x : {x}, y : {y} }}";
+        }
+
+        public Vector2 ToUnity()
+        {
+            throw new NotImplementedException();
         }
     }
     public struct AltVector3

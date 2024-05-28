@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Xml;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
+using AltTester.AltTesterUnitySDK.Editor.Platform;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NUnit.Framework.Interfaces;

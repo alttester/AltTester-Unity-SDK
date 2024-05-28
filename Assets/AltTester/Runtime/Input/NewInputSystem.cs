@@ -28,7 +28,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace AltTester.AltTesterUnitySDK
+namespace AltTester.AltTesterUnitySDK.InputModule
 {
     public class NewInputSystem : MonoBehaviour
     {
@@ -213,7 +213,7 @@ namespace AltTester.AltTesterUnitySDK
             var touchId = getFreeTouch(touches);
             touches[touchId] = false;
             UnityEngine.Vector3 screenPosition;
-            AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
+            FindObjectViaRayCast.FindCameraThatSeesObject(target, out screenPosition);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
@@ -257,7 +257,7 @@ namespace AltTester.AltTesterUnitySDK
         {
             Mouse.MakeCurrent();
             UnityEngine.Vector3 screenPosition;
-            AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
+            FindObjectViaRayCast.FindCameraThatSeesObject(target, out screenPosition);
             InputTestFixture.Set(Mouse.position, screenPosition, queueEventOnly: true);
             for (int i = 0; i < count; i++)
             {
@@ -370,7 +370,7 @@ namespace AltTester.AltTesterUnitySDK
                 }
             }
             endTouchScreenPos = positions[positions.Length - 1];
-            yield return AltRunner._altRunner.StartCoroutine(EndTouch(touchId));
+            yield return CoroutineManager.Instance.StartCoroutine(EndTouch(touchId));
 
         }
         internal static int BeginTouch(Vector3 screenPosition)

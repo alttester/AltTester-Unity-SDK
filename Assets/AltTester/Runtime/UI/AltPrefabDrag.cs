@@ -17,6 +17,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using AltTester.AltTesterUnitySDK.InputModule;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -40,11 +41,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             if (eventData.pointerDrag != null)
             {
-#if ENABLE_LEGACY_INPUT_MANAGER
-                eventData.pointerDrag.transform.position = Input.mousePosition;
-#else
-                eventData.pointerDrag.gameObject.transform.position = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
-#endif
+                eventData.pointerDrag.transform.position = InputMisc.GetMousePosition();
                 var objectTranform = (RectTransform)eventData.pointerDrag.transform;
                 if (objectTranform.position.x < objectTranform.rect.width)
                 {

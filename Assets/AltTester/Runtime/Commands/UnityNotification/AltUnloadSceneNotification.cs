@@ -15,9 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System.Reflection;
-using AltTester.AltTesterUnitySDK.Driver.Notifications;
-using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Commands;
 using UnityEngine.SceneManagement;
 
 namespace AltTester.AltTesterUnitySDK.Notification

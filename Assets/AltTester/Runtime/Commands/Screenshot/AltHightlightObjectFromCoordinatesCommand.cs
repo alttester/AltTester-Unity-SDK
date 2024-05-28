@@ -16,9 +16,9 @@
 */
 
 using System.Collections.Generic;
-using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.InputModule;
 using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands

@@ -87,7 +87,7 @@ public class Input : MonoBehaviour
         _acceleration = Vector3.zero;
         _accelerationEvents = new AccelerationEvent[0];
         _pointerEventsDataDictionary.Clear();
-        AltRunner._altRunner.StopAllCoroutines();
+        CoroutineManager.Instance.StopAllCoroutines();
     }
 
     public static AltMockUpPointerInputModule AltMockUpPointerInputModule
@@ -943,7 +943,7 @@ public class Input : MonoBehaviour
     internal static IEnumerator tapClickElementLifeCycle(UnityEngine.GameObject target, int count, float interval, bool tap)
     {
         UnityEngine.Vector3 screenPosition;
-        AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
+        FindObjectViaRayCast.FindCameraThatSeesObject(target, out screenPosition);
 #if UNITY_EDITOR
         if (Application.isBatchMode)
         {
@@ -1415,7 +1415,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 #else
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK.InputModule
+namespace AltTester.AltTesterUnitySDK.InputModuletest
 {
 
     public class Input : MonoBehaviour
