@@ -18,6 +18,7 @@
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using UnityEngine;
 using AltTester.AltTesterUnitySDK.InputModule;
+using AltTester.AltTesterUnitySDK.Driver;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
