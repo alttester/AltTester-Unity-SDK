@@ -108,38 +108,42 @@ class AltTesterKeywords(object):
         """
         self._driver.set_command_response_timeout(timeout)
 
-    def reverse_port_forwarding_android(self, device_port=13000, local_port=13000):
+    def reverse_port_forwarding_android(self, device_port=13000, local_port=13000, device_id=""):
         """This method calls adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}.
 
-        device_port : The id of the device. The default value is ``1300``.
+        device_port : The port of the device to do reverse port forwarding to. The default value is ``13000``.
 
-        local_port : The local port to do reverse port forwarding to. The default value is ``1300``.
+        local_port : The local port to do reverse port forwarding to. The default value is ``13000``.
+
+        device_id : The id of the device.
 
         Example:
 
         Reverse Port Forwarding Android     device_port=15500
         """
         AltReversePortForwarding.reverse_port_forwarding_android(
-            device_port, local_port)
+            device_port, local_port, device_id)
 
-    def remove_reverse_port_forwarding_android(device_port=13000):
+    def remove_reverse_port_forwarding_android(self, device_port=13000, device_id=""):
         """This method calls adb reverse --remove [-s {deviceId}] tcp:{devicePort} or adb reverse --remove-all if no port is provided.
 
-        device_port : The device port to be removed. The default value is ``1300``.
+        device_port : The device port to be removed. The default value is ``13000``.
+
+        device_id : The id of the device.
 
         Example:
 
         Remove Reverse Port Forwarding Android     device_port=15500
         """
         AltReversePortForwarding.remove_reverse_port_forwarding_android(
-            device_port)
+            device_port, device_id)
 
-    def remove_all_reverse_port_forwardings_android():
+    def remove_all_reverse_port_forwardings_android(self):
         """This method calls adb reverse --remove-all.
 
         Example:
 
-        Remove All Reverse Port Forwarding Android
+        Remove All Reverse Port Forwardings Android
         """
         AltReversePortForwarding.remove_all_reverse_port_forwardings_android()
 
