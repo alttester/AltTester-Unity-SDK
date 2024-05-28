@@ -202,8 +202,9 @@ class BaseCommand(Command):
         }
 
         exception = error_map.get(error.get("type"), exceptions.UnknownErrorException)
-        if exception ==  exceptions.InvalidCommandException:
-            raise exception("Invalid command exception. You may want to set the Managed Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization.")
+        if exception == exceptions.InvalidCommandException:
+            raise exception("Invalid command exception. You may want to set the Managed\
+                            Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization.")
         raise exception(error.get("message"))
 
     def validate_response(self, expected, received):
