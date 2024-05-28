@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,9 +35,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             sceneName = "Scene 5 Keyboard Input";
         }
 
-        public  AltObject PressKeyAndReturnPlayer1 (AltKeyCode keyCode){
+        public AltObject PressKeyAndReturnPlayer1(AltKeyCode keyCode)
+        {
             altDriver.PressKey(keyCode, 1, 2);
-            return altDriver.FindObject(By.NAME,"Player1");
+            return altDriver.FindObject(By.NAME, "Player1");
         }
 
         [Test]

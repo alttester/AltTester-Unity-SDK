@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -58,12 +58,12 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
         while (time < waitParams.getTimeout()) {
             logger.debug("Waiting for element where name contains "
                     + getComponentPropertyParams.getPropertyName() + "....");
-                propertyFound = altObject.getComponentProperty(
-                        getComponentPropertyParams,
-                        returnType);
+            propertyFound = altObject.getComponentProperty(
+                    getComponentPropertyParams,
+                    returnType);
 
-                if (propertyFound.equals(property))
-                    return propertyFound;
+            if (propertyFound.equals(property))
+                return propertyFound;
 
             Utils.sleepFor(waitParams.getInterval());
             time += waitParams.getInterval();

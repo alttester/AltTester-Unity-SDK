@@ -21,11 +21,11 @@ Test Init Driver With Correct Host, Port, App Name And Platform
 Test Init Driver With Incorrect Host
     ${host} =  Get Environment Variable  ALTSERVER_HOST
     ${port} =  Get Environment Variable  ALTSERVER_PORT
-    Run Keyword And Expect Error    ConnectionError: Connection closed by AltTester® Server with reason: None.    Initialize AltDriver    host=somehost    timeout=1
+    Run Keyword And Expect Error    ConnectionError: Connection closed by AltTester(R) Server with reason: None.    Initialize AltDriver    host=somehost    timeout=1
     [Teardown]    Run Keyword And Ignore Error    Stop AltDriver
 
 Test Init Driver With Incorrect Port
     ${host} =  Get Environment Variable  ALTSERVER_HOST
     ${port} =  Get Environment Variable  ALTSERVER_PORT
-    Run Keyword And Expect Error    ConnectionError: Connection closed by AltTester® Server with reason: None.    Initialize AltDriver    port=12345    timeout=1
+    Run Keyword And Expect Error    ConnectionError: Connection closed by AltTester(R) Server with reason: None.    Initialize AltDriver    port=12345    timeout=1
     [Teardown]    Run Keyword And Ignore Error    Stop AltDriver
