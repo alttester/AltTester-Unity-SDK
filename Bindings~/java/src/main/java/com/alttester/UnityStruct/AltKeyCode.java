@@ -345,4 +345,8 @@ public enum AltKeyCode {
     AltKeyCode(int val) {
         this.val = val;
     }
+
+    public int getValue() {
+        return val;
+    }
 }
