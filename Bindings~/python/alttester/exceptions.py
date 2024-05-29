@@ -149,6 +149,10 @@ class InvalidPathException(AltException):
     """Raised when a command receives an invalid path."""
 
 
+class InvalidCommandException(AltException):
+    """Raised when a command is invalid."""
+
+
 class AltTesterInputModuleException(AltException):
     pass
 
