@@ -461,7 +461,7 @@ jobs:
           pkill -f BrowserStackLocal || true
           /usr/local/bin/BrowserStackLocal --key $BROWSERSTACK_KEY --force > bs_local.log &
           sleep 5
-          pytest -s -v -n 3 ./ --alluredir=allure-report/ --reruns 3 --reruns-delay 10 --dist=loadfile
+          pytest -s -v -n 3 ./ --alluredir=allure-report/ --reruns 3 --reruns-delay 10 --dist=loadfile -m "not iOSUnsupported"
           pkill -f BrowserStackLocal || true
 
       - name: Generate Allure report

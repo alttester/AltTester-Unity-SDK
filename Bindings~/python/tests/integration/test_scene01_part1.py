@@ -263,9 +263,10 @@ class TestScene01Part1:
 
         assert result is True
 
+    @pytest.mark.iOSUnsupported
     def test_wait_for_component_property_get_property_as_string(self):
         Canvas = self.altdriver.wait_for_object(By.PATH, "/Canvas")
-        Canvas.wait_for_component_property("UnityEngine.RectTransform", "pivot.x", "0.5",
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "rect.x", "-960.0",
                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
 
         Canvas.wait_for_component_property("UnityEngine.RectTransform", "hasChanged", True,
@@ -274,7 +275,7 @@ class TestScene01Part1:
         Canvas.wait_for_component_property("UnityEngine.RectTransform", "constrainProportionsScale", False,
                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
 
-        Canvas.wait_for_component_property("UnityEngine.RectTransform", "root",
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "transform",
                                            "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]",
                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
 
