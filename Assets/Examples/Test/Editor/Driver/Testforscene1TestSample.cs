@@ -238,7 +238,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
-            Assert.Throws<WaitTimeOutException>(() => altElement.WaitForComponentProperty(componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK", timeout: 2));
+            Assert.Throws<WaitTimeOutException>(() => altElement.WaitForComponentProperty(componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK", 2));
         }
 
         [Category("WebGLUnsupported")] // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
@@ -2062,26 +2062,17 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.AreEqual(0, countKeyDown);
         }
         [Test]
-        public void Test()
+        public void TestWaitForComponentPropertyMultipleTypes()
         {
             var Canvas = altDriver.WaitForObject(By.PATH, "/Canvas");
-            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.x", JToken.Parse("-960.0"), "UnityEngine.CoreModule", true, 1);
-
-            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.center.x", JToken.Parse("0.0"), "UnityEngine.CoreModule", true, 1);
-
-            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "parentInternal", JToken.Parse("null"), "UnityEngine.CoreModule", true, 1);
-
-            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hasChanged", JToken.Parse("true"), "UnityEngine.CoreModule", true, 1);
-
-            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "name", JToken.Parse("\"Canvas\""), "UnityEngine.CoreModule", true, 1).ToString();
-
-            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hideFlags", JToken.Parse("0"), "UnityEngine.CoreModule", true, 1);
-
-            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]]]"), "UnityEngine.UIModule", true, timeout: 1);
-
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.x", JToken.Parse("-960.0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.center.x", JToken.Parse("0.0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "parentInternal", JToken.Parse("null"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hasChanged", JToken.Parse("true"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "name", JToken.Parse("\"Canvas\""), "UnityEngine.CoreModule", 1, getPropertyAsString: true).ToString();
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hideFlags", JToken.Parse("0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]]]"), "UnityEngine.UIModule", 1, getPropertyAsString: true);
         }
-
-
 
         [Test]
         public void TestSetStaticProperty()

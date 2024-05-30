@@ -35,16 +35,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         double timeout;
         double interval;
 
-        public AltWaitForComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, T propertyValue, string assemblyName, bool getPropertyAsString, double timeout, double interval, AltObject altObject) : base(commHandler)
+        public AltWaitForComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, T propertyValue, string assemblyName, double timeout, double interval, bool getPropertyAsString, AltObject altObject) : base(commHandler)
         {
             this.altObject = altObject;
             this.componentName = componentName;
             this.propertyName = propertyName;
             this.propertyValue = propertyValue;
             this.assembly = assemblyName;
-            this.getPropertyAsString = getPropertyAsString;
             this.timeout = timeout;
             this.interval = interval;
+            this.getPropertyAsString = getPropertyAsString;
             if (timeout <= 0) throw new ArgumentOutOfRangeException("timeout");
             if (interval <= 0) throw new ArgumentOutOfRangeException("interval");
         }
