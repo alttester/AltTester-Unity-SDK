@@ -3782,7 +3782,7 @@ Wait until a property has a specific value and returns the value of the given co
 | assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                           
 | timeout     | double             | No       | The number of seconds that it will wait for the property. The default value is 20 seconds.                                                                                                                            
 | interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.                                                                                                                                         | 
-| getPropertyAsString    | bool             | No       | If true, it will treat the propertyValue as a string; if false it will consider the original type of the propertyValue. This is especially useful when you want to pass for example `[[], []]` as a propertyValue, which you can do by setting getPropertyAsString to `true` and propertyValue to `JToken.Parse("[[], []]")` (in C#).
+| getPropertyAsString    | bool             | No       | If `true`, it will treat the propertyValue as a string; if `false` it will consider the original type of the propertyValue. This is especially useful when you want to pass for example `[[], []]` as a propertyValue, which you can do by setting getPropertyAsString to `true` and propertyValue to `JToken.Parse("[[], []]")` (in C#).
 
 
 **_Returns_**
@@ -3840,8 +3840,8 @@ Wait until a property has a specific value and returns the value of the given co
             assertEquals(Boolean.FALSE, propertyValue);
         }
 
-         @Test
-        public void TestWaitForComponentPropertyMultipleTypes() throws InterruptedException {
+        @Test
+        public void TestWaitForComponentPropertyGetPropertyAsString() throws InterruptedException {
             AltObject Canvas = altDriver.waitForObject(new AltWaitForObjectsParams.Builder(
             new AltFindObjectsParams.Builder(AltDriver.By.PATH, "/Canvas").build()).build());
             Canvas.waitForComponentProperty(
@@ -3851,7 +3851,7 @@ Wait until a property has a specific value and returns the value of the given co
                 new Gson().toJsonTree("[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]"),
                 true,
                 JsonElement.class);
-    }
+        }
 
     .. code-tab:: py
 
@@ -3862,12 +3862,34 @@ Wait until a property has a specific value and returns the value of the given co
                 "Assembly-CSharp")
             assert result is True
 
+        def test_wait_for_component_property_get_property_as_string(self):
+            Canvas = self.altdriver.wait_for_object(By.PATH, "/Canvas")
+            Canvas.wait_for_component_property("UnityEngine.RectTransform", "rect.x", "-960.0",
+                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+            Canvas.wait_for_component_property("UnityEngine.RectTransform", "hasChanged", True,
+                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+            Canvas.wait_for_component_property("UnityEngine.RectTransform", "constrainProportionsScale", False,
+                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+            Canvas.wait_for_component_property("UnityEngine.RectTransform", "transform",
+                                            "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]",
+                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+            Canvas.wait_for_component_property("UnityEngine.RectTransform", "name", "Canvas",
+                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
     .. code-tab:: robot
 
-       Test Wait For Component Property
+        Test Wait For Component Property
             ${alt_object}=    Find Object    NAME    Capsule
             ${result}=    Wait For Component Property    ${alt_object}    AltExampleScriptCapsule    TestBool    ${True}    Assembly-CSharp
             Should Be Equal    ${result}    ${True} 
+
+        Test Wait For Component Property Get Property As String
+            ${Canvas} =    Wait For Object    PATH    /Canvas
+            Wait For Component Property    ${Canvas}    UnityEngine.RectTransform    name    Canvas    UnityEngine.CoreModule    1    get_property_as_string=${True}
 
 ```
 
