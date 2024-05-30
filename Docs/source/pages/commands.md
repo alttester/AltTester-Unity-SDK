@@ -3864,20 +3864,8 @@ Wait until a property has a specific value and returns the value of the given co
 
         def test_wait_for_component_property_get_property_as_string(self):
             Canvas = self.altdriver.wait_for_object(By.PATH, "/Canvas")
-            Canvas.wait_for_component_property("UnityEngine.RectTransform", "rect.x", "-960.0",
-                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
-
-            Canvas.wait_for_component_property("UnityEngine.RectTransform", "hasChanged", True,
-                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
-
-            Canvas.wait_for_component_property("UnityEngine.RectTransform", "constrainProportionsScale", False,
-                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
-
             Canvas.wait_for_component_property("UnityEngine.RectTransform", "transform",
                                             "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]",
-                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
-
-            Canvas.wait_for_component_property("UnityEngine.RectTransform", "name", "Canvas",
                                             "UnityEngine.CoreModule", 1, get_property_as_string=True)
 
     .. code-tab:: robot
