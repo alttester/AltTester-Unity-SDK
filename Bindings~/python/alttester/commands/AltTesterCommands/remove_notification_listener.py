@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,7 +43,8 @@ class RemoveNotificationListener(BaseCommand):
         return parameters
 
     def execute(self):
-        self.connection._notification_handler.remove_notification_listener(self.notification_type)
+        self.connection._notification_handler.remove_notification_listener(
+            self.notification_type)
         data = self.send()
         self.validate_response("Ok", data)
 

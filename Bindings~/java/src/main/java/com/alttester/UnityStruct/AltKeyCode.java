@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -344,5 +344,9 @@ public enum AltKeyCode {
 
     AltKeyCode(int val) {
         this.val = val;
+    }
+
+    public int getValue() {
+        return val;
     }
 }

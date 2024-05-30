@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -290,7 +290,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 case AltErrors.errorInvalidPath:
                     throw new InvalidPathException(error.message);
                 case AltErrors.errorInvalidCommand:
-                    throw new InvalidCommandException(error.message);
+                    throw new InvalidCommandException("Invalid command exception. You may want to set the Managed Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization.");
                 case AltErrors.errorInputModule:
                     throw new AltInputModuleException(error.message);
                 case AltErrors.errorCameraNotFound:

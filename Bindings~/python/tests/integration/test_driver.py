@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -50,9 +50,11 @@ class TestDriver:
         scene_name = "Scene 0"
 
         with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
-            self.altdriver.wait_for_current_scene_to_be(scene_name, timeout=1, interval=0.5)
+            self.altdriver.wait_for_current_scene_to_be(
+                scene_name, timeout=1, interval=0.5)
 
-        assert str(execinfo.value) == "Scene {} not loaded after 1 seconds".format(scene_name)
+        assert str(execinfo.value) == "Scene {} not loaded after 1 seconds".format(
+            scene_name)
 
     def test_set_and_get_time_scale(self):
         self.altdriver.set_time_scale(0.1)
@@ -131,7 +133,8 @@ class TestDriver:
         self.altdriver.set_server_logging(AltLogger.File, AltLogLevel.Debug)
 
     @pytest.mark.parametrize(
-        "path", ["//[1]", "CapsuleInfo[@tag=UI]", "//CapsuleInfo[@tag=UI/Text", "//CapsuleInfo[0/Text"]
+        "path", ["//[1]", "CapsuleInfo[@tag=UI]",
+                 "//CapsuleInfo[@tag=UI/Text", "//CapsuleInfo[0/Text"]
     )
     def test_invalid_paths(self, path):
         with pytest.raises(exceptions.InvalidPathException):

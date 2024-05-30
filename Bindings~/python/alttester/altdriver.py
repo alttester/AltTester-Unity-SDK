@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,8 @@ from alttester.altobject import AltObject
 from alttester.by import By
 
 
-warnings.filterwarnings("default", category=DeprecationWarning, module=__name__)
+warnings.filterwarnings(
+    "default", category=DeprecationWarning, module=__name__)
 
 
 class AltDriver:
@@ -116,7 +117,8 @@ class AltDriver:
             logger.configure(
                 handlers=[
                     dict(sink=sys.stdout, diagnose=False),
-                    dict(sink="./AltTester.log", enqueue=False, serialize=True, mode="w", diagnose=False),
+                    dict(sink="./AltTester.log", enqueue=False,
+                         serialize=True, mode="w", diagnose=False),
                 ],
                 levels=[dict(name="DEBUG")],
                 activation=[("alttester", True)],
@@ -131,7 +133,8 @@ class AltDriver:
 
     def _check_server_version(self):
         server_version = commands.GetServerVersion.run(self._connection)
-        logger.info("Connection established with instrumented Unity app. AltTester(R) Version: {}", server_version)
+        logger.info(
+            "Connection established with instrumented Unity app. AltTester(R) Version: {}", server_version)
 
         major_server, minor_server = self._split_version(server_version)
         major_driver, minor_driver = self._split_version(VERSION)
@@ -640,7 +643,8 @@ class AltDriver:
 
         """
 
-        commands.ClickCoordinates.run(self._connection, coordinates, count, interval, wait)
+        commands.ClickCoordinates.run(
+            self._connection, coordinates, count, interval, wait)
 
     def key_down(self, key_code, power=1):
         """Simulates that a specific key was pressed without taking into consideration the duration of the press.
@@ -712,7 +716,8 @@ class AltDriver:
 
         """
 
-        commands.PressKeys.run(self._connection, key_codes, power, duration, wait)
+        commands.PressKeys.run(
+            self._connection, key_codes, power, duration, wait)
 
     def begin_touch(self, coordinates):
         """Simulates starting of a touch on the screen.
@@ -778,7 +783,8 @@ class AltDriver:
 
         """
 
-        commands.MultipointSwipe.run(self._connection, positions, duration, wait)
+        commands.MultipointSwipe.run(
+            self._connection, positions, duration, wait)
 
     def tap(self, coordinates, count=1, interval=0.1, wait=True):
         """Tap at screen coordinates.
@@ -791,7 +797,8 @@ class AltDriver:
 
         """
 
-        commands.TapCoordinates.run(self._connection, coordinates, count, interval, wait)
+        commands.TapCoordinates.run(
+            self._connection, coordinates, count, interval, wait)
 
     def tilt(self, acceleration, duration=0.1, wait=True):
         """Simulates device rotation action in your application.
@@ -891,7 +898,8 @@ class AltDriver:
 
         """
 
-        data = commands.FindObjectAtCoordinates.run(self._connection, coordinates)
+        data = commands.FindObjectAtCoordinates.run(
+            self._connection, coordinates)
         return self._get_alt_object(data)
 
     def add_notification_listener(self, notification_type, notification_callback, overwrite=True):
@@ -905,7 +913,8 @@ class AltDriver:
 
         """
 
-        commands.AddNotificationListener.run(self._connection, notification_type, notification_callback, overwrite)
+        commands.AddNotificationListener.run(
+            self._connection, notification_type, notification_callback, overwrite)
 
     def remove_notification_listener(self, notification_type):
         """Clear list of callback for the notification type and turn off the notification in tester.
@@ -915,7 +924,8 @@ class AltDriver:
 
         """
 
-        commands.RemoveNotificationListener.run(self._connection, notification_type)
+        commands.RemoveNotificationListener.run(
+            self._connection, notification_type)
 
     def reset_input(self):
         """Clear all active input actions simulated by AltTester."""

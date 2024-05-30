@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -78,9 +78,11 @@ class TestScene07A:
         cube = self.altdriver.find_object(By.NAME, "Cube (1)")
         initial_position = cube.get_world_position()
         self.altdriver.tilt([1000, 10, 10], duration=1)
-        assert initial_position != self.altdriver.find_object(By.NAME, "Cube (1)").get_world_position()
+        assert initial_position != self.altdriver.find_object(
+            By.NAME, "Cube (1)").get_world_position()
 
-        is_moved = cube.get_component_property("AltCubeNIS", "isMoved", "Assembly-CSharp")
+        is_moved = cube.get_component_property(
+            "AltCubeNIS", "isMoved", "Assembly-CSharp")
         assert is_moved
 
 
@@ -105,14 +107,19 @@ class TestScene07B:
             alt_object = self.altdriver.find_object(By.NAME, name)
             positions.append(alt_object.get_screen_position())
 
-        self.altdriver.multipoint_swipe(positions, duration=duration, wait=wait)
+        self.altdriver.multipoint_swipe(
+            positions, duration=duration, wait=wait)
 
     def test_multipoint_swipe_NIS(self):
-        self.drop_image_with_multipoint_swipe(["Drag Image1", "Drop Box1"], 1, False)
-        self.drop_image_with_multipoint_swipe(["Drag Image2", "Drop Box1", "Drop Box2"], 1, False)
+        self.drop_image_with_multipoint_swipe(
+            ["Drag Image1", "Drop Box1"], 1, False)
+        self.drop_image_with_multipoint_swipe(
+            ["Drag Image2", "Drop Box1", "Drop Box2"], 1, False)
 
-        image_source, image_source_drop_zone = self.get_sprite_name("Drag Image1", "Drop Image")
+        image_source, image_source_drop_zone = self.get_sprite_name(
+            "Drag Image1", "Drop Image")
         assert image_source == image_source_drop_zone
 
-        image_source, image_source_drop_zone = self.get_sprite_name("Drag Image2", "Drop")
+        image_source, image_source_drop_zone = self.get_sprite_name(
+            "Drag Image2", "Drop")
         assert image_source == image_source_drop_zone

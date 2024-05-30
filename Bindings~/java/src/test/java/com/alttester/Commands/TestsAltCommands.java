@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,38 +32,40 @@ import com.alttester.Logging.AltLogger;
 
 public class TestsAltCommands {
 
-    class Rule {
-        public List<String> Levels;
-    }
+        class Rule {
+                public List<String> Levels;
+        }
 
-    @Test
-    @Tag("WebGLUnsupported")
-    public void testSetServerLogging() {
-        AltDriver altDriver = TestsHelper.getAltDriver();
-        altDriver.setServerLogging(
-                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
-        Rule rule = altDriver.callStaticMethod(
-                new AltCallStaticMethodParams.Builder("Altom.AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
-                        "Instance.Configuration.FindRuleByName", "Assembly-CSharp",
-                        new Object[] { "AltServerFileRule" })
-                        .build(),
-                Rule.class);
+        @Test
+        @Tag("WebGLUnsupported")
+        public void testSetServerLogging() {
+                AltDriver altDriver = TestsHelper.getAltDriver();
+                altDriver.setServerLogging(
+                                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
+                Rule rule = altDriver.callStaticMethod(
+                                new AltCallStaticMethodParams.Builder(
+                                                "Altom.AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
+                                                "Instance.Configuration.FindRuleByName", "Assembly-CSharp",
+                                                new Object[] { "AltServerFileRule" })
+                                                .build(),
+                                Rule.class);
 
-        assertEquals(5, rule.Levels.size());
+                assertEquals(5, rule.Levels.size());
 
-        altDriver.setServerLogging(
-                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Off).build());
-        rule = altDriver.callStaticMethod(
-                new AltCallStaticMethodParams.Builder("Altom.AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
-                        "Instance.Configuration.FindRuleByName", "Assembly-CSharp",
-                        new Object[] { "AltServerFileRule" })
-                        .build(),
-                Rule.class);
+                altDriver.setServerLogging(
+                                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Off).build());
+                rule = altDriver.callStaticMethod(
+                                new AltCallStaticMethodParams.Builder(
+                                                "Altom.AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
+                                                "Instance.Configuration.FindRuleByName", "Assembly-CSharp",
+                                                new Object[] { "AltServerFileRule" })
+                                                .build(),
+                                Rule.class);
 
-        assertEquals(0, rule.Levels.size());
+                assertEquals(0, rule.Levels.size());
 
-        // Reset logging level
-        altDriver.setServerLogging(
-                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
-    }
+                // Reset logging level
+                altDriver.setServerLogging(
+                                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
+        }
 }
