@@ -233,7 +233,7 @@ Test Wait For Component Property
 
 Test Wait For Component Property Get Property As String
     ${Canvas} =    Wait For Object    PATH    /Canvas
-    Wait For Component Property    ${Canvas}    UnityEngine.RectTransform    name    Canvas   UnityEngine.CoreModule    1    get_property_as_string=${True}
+    Wait For Component Property    ${Canvas}    UnityEngine.RectTransform    name    Canvas    UnityEngine.CoreModule    1    get_property_as_string=${True}
 
 Test Get Component Property
     ${alt_object}=    Find Object    NAME    Capsule
