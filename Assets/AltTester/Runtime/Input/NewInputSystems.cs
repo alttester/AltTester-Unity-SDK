@@ -479,7 +479,7 @@ using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK
 {
-    public class NewInputSystem : MonoBehaviour
+    public class NewInputSystems : MonoBehaviour
     {
 
     }
