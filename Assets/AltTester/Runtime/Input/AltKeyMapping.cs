@@ -337,35 +337,35 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         {
             joystickKeyCodeToGamepad = new Dictionary<KeyCode, ButtonControl>()
         {
-            {KeyCode.JoystickButton0, NewInputSystem.Gamepad.aButton},
-            {KeyCode.JoystickButton1, NewInputSystem.Gamepad.bButton},
-            {KeyCode.JoystickButton2, NewInputSystem.Gamepad.xButton},
-            {KeyCode.JoystickButton3, NewInputSystem.Gamepad.yButton},
-            {KeyCode.JoystickButton4, NewInputSystem.Gamepad.leftShoulder},
-            {KeyCode.JoystickButton5, NewInputSystem.Gamepad.rightShoulder},
-            {KeyCode.JoystickButton6, NewInputSystem.Gamepad.leftTrigger},
-            {KeyCode.JoystickButton7, NewInputSystem.Gamepad.rightTrigger},
-            {KeyCode.JoystickButton8, NewInputSystem.Gamepad.selectButton},
-            {KeyCode.JoystickButton9, NewInputSystem.Gamepad.startButton},
-            {KeyCode.JoystickButton10, NewInputSystem.Gamepad.leftStickButton},
-            {KeyCode.JoystickButton11, NewInputSystem.Gamepad.rightStickButton},
-            {KeyCode.JoystickButton12, NewInputSystem.Gamepad.dpad.up},
-            {KeyCode.JoystickButton13, NewInputSystem.Gamepad.dpad.down},
-            {KeyCode.JoystickButton14, NewInputSystem.Gamepad.dpad.left},
-            {KeyCode.JoystickButton15, NewInputSystem.Gamepad.dpad.right},
-            {KeyCode.JoystickButton16, power > 0 ? NewInputSystem.Gamepad.leftStick.right : NewInputSystem.Gamepad.leftStick.left},
-            {KeyCode.JoystickButton17, power > 0 ? NewInputSystem.Gamepad.leftStick.up : NewInputSystem.Gamepad.leftStick.down},
-            {KeyCode.JoystickButton18, power > 0 ? NewInputSystem.Gamepad.rightStick.right: NewInputSystem.Gamepad.rightStick.left},
-            {KeyCode.JoystickButton19, power > 0 ? NewInputSystem.Gamepad.rightStick.up : NewInputSystem.Gamepad.rightStick.down}
+            {KeyCode.JoystickButton0, NewInputSystems.Gamepad.aButton},
+            {KeyCode.JoystickButton1, NewInputSystems.Gamepad.bButton},
+            {KeyCode.JoystickButton2, NewInputSystems.Gamepad.xButton},
+            {KeyCode.JoystickButton3, NewInputSystems.Gamepad.yButton},
+            {KeyCode.JoystickButton4, NewInputSystems.Gamepad.leftShoulder},
+            {KeyCode.JoystickButton5, NewInputSystems.Gamepad.rightShoulder},
+            {KeyCode.JoystickButton6, NewInputSystems.Gamepad.leftTrigger},
+            {KeyCode.JoystickButton7, NewInputSystems.Gamepad.rightTrigger},
+            {KeyCode.JoystickButton8, NewInputSystems.Gamepad.selectButton},
+            {KeyCode.JoystickButton9, NewInputSystems.Gamepad.startButton},
+            {KeyCode.JoystickButton10, NewInputSystems.Gamepad.leftStickButton},
+            {KeyCode.JoystickButton11, NewInputSystems.Gamepad.rightStickButton},
+            {KeyCode.JoystickButton12, NewInputSystems.Gamepad.dpad.up},
+            {KeyCode.JoystickButton13, NewInputSystems.Gamepad.dpad.down},
+            {KeyCode.JoystickButton14, NewInputSystems.Gamepad.dpad.left},
+            {KeyCode.JoystickButton15, NewInputSystems.Gamepad.dpad.right},
+            {KeyCode.JoystickButton16, power > 0 ? NewInputSystems.Gamepad.leftStick.right : NewInputSystems.Gamepad.leftStick.left},
+            {KeyCode.JoystickButton17, power > 0 ? NewInputSystems.Gamepad.leftStick.up : NewInputSystems.Gamepad.leftStick.down},
+            {KeyCode.JoystickButton18, power > 0 ? NewInputSystems.Gamepad.rightStick.right: NewInputSystems.Gamepad.rightStick.left},
+            {KeyCode.JoystickButton19, power > 0 ? NewInputSystems.Gamepad.rightStick.up : NewInputSystems.Gamepad.rightStick.down}
         };
             mouseKeyCodeToButtonControl = new Dictionary<KeyCode, ButtonControl>()
         {
             // in Mouse class there are only 5 buttons thus KeyCode.Mouse5, KeyCode.Mouse6 are not mapped
-            {KeyCode.Mouse0, NewInputSystem.Mouse.leftButton},
-            {KeyCode.Mouse1, NewInputSystem.Mouse.rightButton},
-            {KeyCode.Mouse2, NewInputSystem.Mouse.middleButton},
-            {KeyCode.Mouse3, NewInputSystem.Mouse.forwardButton},
-            {KeyCode.Mouse4, NewInputSystem.Mouse.backButton}
+            {KeyCode.Mouse0, NewInputSystems.Mouse.leftButton},
+            {KeyCode.Mouse1, NewInputSystems.Mouse.rightButton},
+            {KeyCode.Mouse2, NewInputSystems.Mouse.middleButton},
+            {KeyCode.Mouse3, NewInputSystems.Mouse.forwardButton},
+            {KeyCode.Mouse4, NewInputSystems.Mouse.backButton}
         };
         }
     }

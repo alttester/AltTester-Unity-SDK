@@ -30,13 +30,13 @@ using UnityEngine.InputSystem.Controls;
 
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
-    public class NewInputSystem : MonoBehaviour
+    public class NewInputSystems : MonoBehaviour
     {
         private static Vector2 endTouchScreenPos;
         private static float keyDownPower;
 
         public static InputTestFixture InputTestFixture = new InputTestFixture();
-        public static NewInputSystem Instance;
+        public static NewInputSystems Instance;
         public static Keyboard Keyboard;
         public static Mouse Mouse;
         public static Gamepad Gamepad;
@@ -462,16 +462,17 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         #endregion
     }
 
-}
 #if USE_INPUT_SYSTEM_1_3
-public class TestExample
-{
-    [Test]
-    public void Test()
+    public class TestExample
     {
+        [Test]
+        public void Test()
+        {
 
+        }
     }
 }
+
 #endif
 #else
 using UnityEngine;

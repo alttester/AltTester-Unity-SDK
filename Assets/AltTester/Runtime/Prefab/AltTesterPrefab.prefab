@@ -1321,8 +1321,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3563188778420322651}
   - component: {fileID: 4518055268526636802}
-  - component: {fileID: 1919199386966240186}
-  - component: {fileID: 3821492564120696369}
+  - component: {fileID: 7514893897920472117}
+  - component: {fileID: 2005503483207836140}
+  - component: {fileID: 5881700796312085744}
   m_Layer: 0
   m_Name: AltTesterPrefab
   m_TagString: Untagged
@@ -1368,7 +1369,7 @@ MonoBehaviour:
   outlineShader: {fileID: 4800000, guid: 37d07aac6f4b1dc48924e98e1e398261, type: 3}
   panelHightlightPrefab: {fileID: 1422609480502334, guid: c2c3ede7bbf3b184c9c6d7cc4cf5cad3,
     type: 3}
---- !u!114 &1919199386966240186
+--- !u!114 &7514893897920472117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1377,10 +1378,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5695254695310732894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01ab5129be68c7b4f8774c2eb52caea4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6813daf4747c35e43b4754475126e192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3821492564120696369
+--- !u!114 &2005503483207836140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5695254695310732894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a843d76bd886b488a2b09622f6d0c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5881700796312085744
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -38,11 +38,11 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 #if ENABLE_INPUT_SYSTEM
             if (value)
             {
-                NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
+                NewInputSystems.DisableDefaultDevicesAndEnableAltDevices();
             }
             else
             {
-                NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
+                NewInputSystems.EnableDefaultDevicesAndDisableAltDevices();
             }
 #endif
 #endif
