@@ -536,7 +536,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
                 robot path/to/my_tests/
 
-            - After running the test the Robot will generate 3 files - the ``report.html`` and ``log.html`` files can be opened in the browser and for every test in ``log.html`` there will be a status highlight, the keywords used, as well as a potential error that might have occured during the test
+            - After running the test the Robot will generate 3 files: ``report.html``, ``log.html`` and ``output.xml`` - the  html files can be opened in the browser and for every test in ``log.html`` there will be a status highlight, the keywords used, as well as a potential error that might have occured during the test
 
 
         Example test file:
