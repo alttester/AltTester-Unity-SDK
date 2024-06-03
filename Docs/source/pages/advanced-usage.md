@@ -720,7 +720,7 @@ Logging inside the instrumented app can be configured from the driver using the 
 
     .. code-tab:: robot
 
-        Set Server Logging    File    Off
+        Set Server Logging    File     Off
         Set Server Logging    Unity    Info
 
 ```
