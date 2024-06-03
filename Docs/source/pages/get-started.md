@@ -505,7 +505,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
             - You can use any IDE you want. As a suggestion, we prefer `Visual Studio Code <https://code.visualstudio.com/>`_  and `PyCharm <https://www.jetbrains.com/pycharm/download/>`_.
 
         **Writing tests:**
-            - First you need to create a new project with th Robot class under it, which can store your tests
+            - First you need to create a new project with a Robot class under it, which can store your tests
             - In the ``Settings`` section:
                 - Import the ``AltTesterLibrary``
                 - Next create the ``Setup`` and ``Teardown`` suites for your tests
@@ -517,7 +517,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
                 Library    AltTesterLibrary
                 Suite Setup    Initialize Altdriver
                 Suite Teardown    Stop Altdriver 
-            - The ``Test Cases`` section stores all your tests who should have a specific and relevant name             
+            - The ``Test Cases`` section stores all your tests which should have a specific and relevant name             
             .. code-block:: robot
 
                 *** Test Cases ***
