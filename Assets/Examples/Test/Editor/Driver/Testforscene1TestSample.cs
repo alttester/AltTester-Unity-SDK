@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
@@ -2059,6 +2060,18 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
             int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
             Assert.AreEqual(0, countKeyDown);
+        }
+        [Test]
+        public void TestWaitForComponentPropertyMultipleTypes()
+        {
+            var Canvas = altDriver.WaitForObject(By.PATH, "/Canvas");
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.x", JToken.Parse("-960.0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.center.x", JToken.Parse("0.0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "parentInternal", JToken.Parse("null"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hasChanged", JToken.Parse("true"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "name", JToken.Parse("\"Canvas\""), "UnityEngine.CoreModule", 1, getPropertyAsString: true).ToString();
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hideFlags", JToken.Parse("0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]]]"), "UnityEngine.UIModule", 1, getPropertyAsString: true);
         }
 
         [Test]

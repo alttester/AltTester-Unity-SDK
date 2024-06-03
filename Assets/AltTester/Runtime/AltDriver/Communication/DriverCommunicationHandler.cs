@@ -37,7 +37,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         {
             ContractResolver = new DefaultContractResolver(),
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            Culture = CultureInfo.InvariantCulture
+            Culture = CultureInfo.InvariantCulture,
+            Formatting = Formatting.None
         };
 
         private DriverWebSocketClient wsClient = null;
