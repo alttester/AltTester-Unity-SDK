@@ -2061,6 +2061,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
             Assert.AreEqual(0, countKeyDown);
         }
+        [Category("WebGLUnsupported")]
         [Test]
         public void TestWaitForComponentPropertyMultipleTypes()
         {

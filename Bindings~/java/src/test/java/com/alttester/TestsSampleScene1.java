@@ -379,6 +379,7 @@ public class TestsSampleScene1 extends BaseTest {
 
         }
 
+        @Tag("WebGLUnsupported")
         @Test
         public void TestWaitForComponentPropertyMultipleTypes() throws InterruptedException {
             AltObject Canvas = altDriver.waitForObject(new AltWaitForObjectsParams.Builder(
