@@ -56,19 +56,15 @@ nav.wy-nav-side {
   overflow-y: auto;
 }
 
-a.return-to-website-button {
-  margin-left: 15px;
-}
-
 a.return-to-website-button:before {
   background-image: url(../img/common/goBackArrow.png);
-  background-size: 20px 20px;
+  background-size: 17px 17px;
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
   content: "";
   margin-right: 3px;
-  margin-bottom: -4px;
+  vertical-align: top;
 }
 
 ul.wy-breadcrumbs li {
