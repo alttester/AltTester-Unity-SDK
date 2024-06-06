@@ -1,5 +1,5 @@
 ﻿"""
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -263,6 +263,27 @@ class TestScene01Part1:
 
         assert result is True
 
+    @pytest.mark.iOSUnsupported
+    @pytest.mark.WebGLUnsupported
+    @pytest.mark.AndroidUnsupported
+    def test_wait_for_component_property_get_property_as_string(self):
+        Canvas = self.altdriver.wait_for_object(By.PATH, "/Canvas")
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "rect.x", "-960.0",
+                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "hasChanged", True,
+                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "constrainProportionsScale", False,
+                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "transform",
+                                           "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]",
+                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "name", "Canvas",
+                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
     def test_wait_for_component_property_component_not_found(self):
         componentName = "AltTester.AltTesterUnitySDK.AltRunnerTest"
         propertyName = "InstrumentationSettings.AltServerPort"
@@ -295,7 +316,8 @@ class TestScene01Part1:
             )
         assert str(execinfo.value) == (
             "After 2 seconds, exception was: Property AltServerPortTest not found "
-            "for component: {} and property {}".format(componentName, propertyName)
+            "for component: {} and property {}".format(
+                componentName, propertyName)
         )
 
     def test_wait_for_component_property_timeout(self):

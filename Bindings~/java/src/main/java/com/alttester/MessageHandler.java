@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ import java.util.Queue;
 import java.lang.Thread;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,6 +34,7 @@ import com.alttester.Commands.AltCommands.NotificationType;
 import com.alttester.Notifications.AltLoadSceneNotificationResultParams;
 import com.alttester.Notifications.AltLogNotificationResultParams;
 import com.alttester.Notifications.INotificationCallbacks;
+import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.altTesterExceptions.AltErrors;
 import com.alttester.altTesterExceptions.AltException;
 import com.alttester.altTesterExceptions.AltInputModuleException;
@@ -73,9 +75,13 @@ public class MessageHandler implements IMessageHandler {
 
     private double commandTimeout = 60;
     private double delayAfterCommand = 0;
+    private Gson gson;
 
     public MessageHandler(WebsocketConnection connection) {
         this.connection = connection;
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(AltKeyCode.class, new StatusSerializer());
+        gson = gsonBuilder.create();
     }
 
     public double getDelayAfterCommand() {
@@ -132,7 +138,7 @@ public class MessageHandler implements IMessageHandler {
     }
 
     public void send(AltMessage altMessage) {
-        String message = new Gson().toJson(altMessage);
+        String message = gson.toJson(altMessage);
         connection.send(message);
         logger.debug("command sent: {}", trimLogData(message));
     }
@@ -221,7 +227,8 @@ public class MessageHandler implements IMessageHandler {
             case AltErrors.errorInvalidPath:
                 throw new InvalidPathException(error.message);
             case AltErrors.errorInvalidCommand:
-                throw new InvalidCommandException(error.message);
+                throw new InvalidCommandException(
+                        "Invalid command exception. You may want to set the Managed Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization.");
             case AltErrors.errorInputModule:
                 throw new AltInputModuleException(error.message);
             case AltErrors.errorCameraNotFound:

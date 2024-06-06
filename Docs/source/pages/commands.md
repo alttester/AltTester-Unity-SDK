@@ -3778,10 +3778,12 @@ Wait until a property has a specific value and returns the value of the given co
 | ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |
 | componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                    |
 | propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                           |                                                                                                                                   
-| propertyValue  | T | Yes       | The value that property shoud have.                             
+| propertyValue  | T | Yes       | The value that property should have.                             
 | assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                           
 | timeout     | double             | No       | The number of seconds that it will wait for the property. The default value is 20 seconds.                                                                                                                            
-| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.                                                                                                                                                                                                                                                                                       |
+| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.                                                                                                                                         | 
+| getPropertyAsString    | bool             | No       | If `true`, it will treat the propertyValue as a string; if `false` it will consider the original type of the propertyValue. This is especially useful when you want to pass for example `[[], []]` as a propertyValue, which you can do by setting getPropertyAsString to `true` and propertyValue to `JToken.Parse("[[], []]")` (in C#).
+
 
 **_Returns_**
 
@@ -3808,6 +3810,13 @@ Wait until a property has a specific value and returns the value of the given co
             Assert.AreEqual(port, propertyValue);
         }
 
+        [Test]
+        public void TestWaitForComponentPropertyAsString()
+        {
+            var Canvas = altDriver.WaitForObject(By.PATH, "/Canvas");
+            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]]]"), "UnityEngine.UIModule", 1, getPropertyAsString: true);
+        }
+
 
     .. code-tab:: java
 
@@ -3831,6 +3840,19 @@ Wait until a property has a specific value and returns the value of the given co
             assertEquals(Boolean.FALSE, propertyValue);
         }
 
+        @Test
+        public void TestWaitForComponentPropertyGetPropertyAsString() throws InterruptedException {
+            AltObject Canvas = altDriver.waitForObject(new AltWaitForObjectsParams.Builder(
+            new AltFindObjectsParams.Builder(AltDriver.By.PATH, "/Canvas").build()).build());
+            Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(new AltGetComponentPropertyParams.Builder(
+                "UnityEngine.UI.CanvasScaler", "transform",
+                "UnityEngine.UI").build()).build(),
+                new Gson().toJsonTree("[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]"),
+                true,
+                JsonElement.class);
+        }
+
     .. code-tab:: py
 
         def test_wait_for_component_property(self):
@@ -3840,12 +3862,22 @@ Wait until a property has a specific value and returns the value of the given co
                 "Assembly-CSharp")
             assert result is True
 
+        def test_wait_for_component_property_get_property_as_string(self):
+            Canvas = self.altdriver.wait_for_object(By.PATH, "/Canvas")
+            Canvas.wait_for_component_property("UnityEngine.RectTransform", "transform",
+                                            "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]",
+                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
     .. code-tab:: robot
 
-       Test Wait For Component Property
+        Test Wait For Component Property
             ${alt_object}=    Find Object    NAME    Capsule
             ${result}=    Wait For Component Property    ${alt_object}    AltExampleScriptCapsule    TestBool    ${True}    Assembly-CSharp
             Should Be Equal    ${result}    ${True} 
+
+        Test Wait For Component Property Get Property As String
+            ${Canvas} =    Wait For Object    PATH    /Canvas
+            Wait For Component Property    ${Canvas}    UnityEngine.RectTransform    name    Canvas    UnityEngine.CoreModule    1    get_property_as_string=${True}
 
 ```
 
@@ -4285,7 +4317,7 @@ None
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
             var color1 = panel.GetComponentProperty("PanelScript", "normalColor", "Assembly-CSharp");
-            panel.PointerDownFromObject();
+            panel.PointerDown();
             Thread.Sleep(1000);
             var color2 = panel.GetComponentProperty("PanelScript", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1, color2);
@@ -4298,7 +4330,7 @@ None
         {
             AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
             String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "normalColor", "Assembly-CSharp").build(), String.class);
-            panel.pointerDownFromObject();
+            panel.pointerDown();
             Thread.sleep(1000);
             String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "PanelScript", "highlightColor", "Assembly-CSharp").build(), String.class);
             assertTrue(color1 != color2);
@@ -4311,7 +4343,7 @@ None
             time.sleep(1)
             p_panel = self.altDriver.find_object(By.NAME, 'Panel')
             color1 = p_panel.get_component_property('PanelScript', 'normalColor', 'Assembly-CSharp')
-            p_panel.pointer_down_from_object()
+            p_panel.pointer_down()
             time.sleep(1)
             color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
             self.assertNotEquals(color1, color2)
@@ -4351,9 +4383,9 @@ None
         {
             var panel = altDriver.FindObject(By.NAME, "Panel");
             var color1 = panel.GetComponentProperty("PanelScript", "normalColor", "Assembly-CSharp");
-            panel.PointerDownFromObject();
+            panel.PointerDown();
             Thread.Sleep(1000);
-            panel.PointerUpFromObject();
+            panel.PointerUp();
             var color2 = panel.GetComponentProperty("PanelScript", "highlightColor", "Assembly-CSharp");
             Assert.AreEqual(color1, color2);
         }
@@ -4366,9 +4398,9 @@ None
             AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
             String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "normalColor", "Assembly-CSharp").build(), String.class);
 
-            panel.pointerDownFromObject();
+            panel.pointerDown();
             Thread.sleep(1000);
-            panel.pointerUpFromObject();
+            panel.pointerUp();
             String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "highlightColor", "Assembly-CSharp").build(), String.class);
 
             assertEquals(color1, color2);
@@ -4381,9 +4413,9 @@ None
             time.sleep(1)
             p_panel = self.altDriver.find_object(By.NAME, 'Panel')
             color1 = p_panel.get_component_property('PanelScript', 'normalColor', 'Assembly-CSharp')
-            p_panel.pointer_down_from_object()
+            p_panel.pointer_down()
             time.sleep(1)
-            p_panel.pointer_up_from_object()
+            p_panel.pointer_up()
             color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
             self.assertEquals(color1, color2)
 
@@ -4423,10 +4455,10 @@ None
         {
             var altObject = altDriver.FindObject(By.NAME,"Drop Image");
             var color1 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
-            altDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
+            altDriver.FindObject(By.NAME,"Drop Image").PointerEnter();
             var color2 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1,color2);
-            altDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
+            altDriver.FindObject(By.NAME,"Drop Image").PointerExit();
             var color3 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1,color3);
@@ -4516,10 +4548,10 @@ None
         {
             var altObject = altDriver.FindObject(By.NAME,"Drop Image");
             var color1 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
-            altDriver.FindObject(By.NAME,"Drop Image").PointerEnterObject();
+            altDriver.FindObject(By.NAME,"Drop Image").PointerEnter();
             var color2 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
             Assert.AreNotEqual(color1,color2);
-            altDriver.FindObject(By.NAME,"Drop Image").PointerExitObject();
+            altDriver.FindObject(By.NAME,"Drop Image").PointerExit();
             var color3 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1,color3);

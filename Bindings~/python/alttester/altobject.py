@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -163,7 +163,7 @@ class AltObject:
         return commands.GetAllComponents.run(self._connection, self)
 
     def wait_for_component_property(self, component_name, property_name,
-                                    property_value, assembly,  timeout=20, interval=0.5):
+                                    property_value, assembly,  timeout=20, interval=0.5, get_property_as_string=False):
         """Wait until a property has a specific value and returns the value of the given component property.
 
         Args:
@@ -177,6 +177,8 @@ class AltObject:
             timeout (:obj:`int`, optional): The number of seconds that it will wait for property.
             interval (:obj:`float`, optional): The number of seconds after which it will try to find the object again.
                 The interval should be smaller than timeout.
+            get_property_as_string (:obj:`bool`, optional): A boolean value that makes the property_value
+            to be compared as a string with the property from the instrumented app.
 
         Returns:
             str: The property value is serialized to a JSON string.
@@ -184,7 +186,7 @@ class AltObject:
         """
         return commands.WaitForComponentProperty.run(
             component_name, property_name, property_value,
-            assembly, self, timeout, interval
+            assembly, self, timeout, interval, get_property_as_string
         )
 
     def get_component_property(self, component_name, property_name, assembly, max_depth=2):

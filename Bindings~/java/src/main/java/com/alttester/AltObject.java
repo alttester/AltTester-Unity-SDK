@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -177,6 +177,19 @@ public class AltObject {
         T response = new AltWaitForComponentProperty<T>(messageHandler,
                 altWaitForComponentPropertyParams,
                 propertyValue, this)
+                .Execute(returnType);
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
+    }
+
+    public <T> T waitForComponentProperty(AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams,
+            T propertyValue, Boolean getPropertyAsString,
+            Class<T> returnType) {
+
+        altWaitForComponentPropertyParams.setAltObject(this);
+        T response = new AltWaitForComponentProperty<T>(messageHandler,
+                altWaitForComponentPropertyParams,
+                propertyValue, getPropertyAsString, this)
                 .Execute(returnType);
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
         return response;

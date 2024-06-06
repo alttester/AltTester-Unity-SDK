@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,13 +48,13 @@ class AltTesterKeywords(object):
         `enable_logging` : If set to ``True`` will turn on logging, by default logging is disabled.
 
         `timeout` : The connect timeout in seconds. The default value is 60.
-        
+
         `platform` : The platform of the device. The default value is ``unknown``.
-        
+
         `platform_version` : The version of the platform. The default value is ``unknown``.
-        
+
         `device_instance_id` : The id of the device. The default value is ``unknown``.
-        
+
         `app_id` : The id of the application. The default value is ``unknown``.
 
         Example:
@@ -62,7 +62,7 @@ class AltTesterKeywords(object):
         | ${altDriver}= | Initialize AltDriver  | 127.0.0.1  |  15001
 
         | ${altDriver}= | Initialize AltDriver  | platform="Android"
-        
+
         """
         self._driver = AltDriver(
             host=host,
@@ -103,43 +103,47 @@ class AltTesterKeywords(object):
         Example:
 
         Set Command Response Timeout to 30 seconds.
-        
+
         Set Command Response Timeout | 30
         """
         self._driver.set_command_response_timeout(timeout)
 
-    def reverse_port_forwarding_android(self, device_port=13000, local_port=13000):
+    def reverse_port_forwarding_android(self, device_port=13000, local_port=13000, device_id=""):
         """This method calls adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}.
 
-        device_port : The id of the device. The default value is ``1300``.
+        device_port : The port of the device to do reverse port forwarding to. The default value is ``13000``.
 
-        local_port : The local port to do reverse port forwarding to. The default value is ``1300``.
+        local_port : The local port to do reverse port forwarding to. The default value is ``13000``.
+
+        device_id : The id of the device.
 
         Example:
 
         Reverse Port Forwarding Android     device_port=15500
         """
         AltReversePortForwarding.reverse_port_forwarding_android(
-            device_port, local_port)
+            device_port, local_port, device_id)
 
-    def remove_reverse_port_forwarding_android(device_port=13000):
+    def remove_reverse_port_forwarding_android(self, device_port=13000, device_id=""):
         """This method calls adb reverse --remove [-s {deviceId}] tcp:{devicePort} or adb reverse --remove-all if no port is provided.
 
-        device_port : The device port to be removed. The default value is ``1300``.
+        device_port : The device port to be removed. The default value is ``13000``.
+
+        device_id : The id of the device.
 
         Example:
 
         Remove Reverse Port Forwarding Android     device_port=15500
         """
         AltReversePortForwarding.remove_reverse_port_forwarding_android(
-            device_port)
+            device_port, device_id)
 
-    def remove_all_reverse_port_forwardings_android():
+    def remove_all_reverse_port_forwardings_android(self):
         """This method calls adb reverse --remove-all.
 
         Example:
 
-        Remove All Reverse Port Forwarding Android
+        Remove All Reverse Port Forwardings Android
         """
         AltReversePortForwarding.remove_all_reverse_port_forwardings_android()
 
@@ -1112,7 +1116,7 @@ class AltTesterKeywords(object):
         return alt_object.get_all_components()
 
     def wait_for_component_property(self, alt_object: AltObject, component_name, property_name,
-                                    property_value, assembly,  timeout=20, interval=0.5):
+                                    property_value, assembly, timeout=20, interval=0.5, get_property_as_string=False):
         """Wait until a property has a specific value and returns the value of the given component property.
 
             alt_object : The AltObject for which we want to wait for property.
@@ -1131,6 +1135,8 @@ class AltTesterKeywords(object):
             timeout : The number of seconds that it will wait for property. Default value is 20 seconds.
 
             interval : The number of seconds after which it will try to find the object again. The interval should be smaller than timeout. Default value is 0.5.
+            
+            get_property_as_string: A boolean value that compares the property_value as a string with the property from the instrumented app.
 
         Example:
 
@@ -1140,7 +1146,7 @@ class AltTesterKeywords(object):
 
         | ${result} =    | Wait For Component Property | ${object} | AltExampleScriptCapsule | TestBool | ${True} | Assembly-CSharp
         """
-        return alt_object.wait_for_component_property(component_name, property_name, property_value, assembly, timeout=timeout, interval=interval)
+        return alt_object.wait_for_component_property(component_name, property_name, property_value, assembly,timeout=timeout, interval=interval, get_property_as_string=get_property_as_string)
 
     def get_component_property(self, alt_object: AltObject, component_name, property_name, assembly, max_depth=2):
         """Returns the value of the given component property.
