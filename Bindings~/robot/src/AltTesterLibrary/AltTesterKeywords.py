@@ -17,7 +17,7 @@
 
 from alttester import AltDriver, AltObject, AltReversePortForwarding
 from alttester import By, AltKeyCode, PlayerPrefKeyType, AltLogger, AltLogLevel
-
+from loguru import logger
 
 class AltTesterKeywords(object):
     DEFAULT_WAIT = 20
@@ -107,6 +107,28 @@ class AltTesterKeywords(object):
         Set Command Response Timeout | 30
         """
         self._driver.set_command_response_timeout(timeout)
+
+    def enable_loguru_logger(self, logger_name):
+        """Enable the specified Loguru logger.
+        
+        logger_name: The name of the logger.
+
+        Example:
+        
+        Enable Loguru Logger alttester
+        """
+        logger.enable(logger_name)
+
+    def disable_loguru_logger(self, logger_name):
+        """Disable the specified Loguru logger.
+        
+        logger_name: The name of the logger.
+
+        Example:
+       
+        Disable Loguru Logger alttester
+        """
+        logger.disable(logger_name)
 
     def reverse_port_forwarding_android(self, device_port=13000, local_port=13000, device_id=""):
         """This method calls adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}.
