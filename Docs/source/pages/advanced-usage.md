@@ -746,11 +746,11 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         .. code-block:: c#
 
+            /* start AltDriver with logging enabled */
+            var altDriver = new AltDriver (enableLogging: true);
+
             /* start AltDriver with logging disabled */
             var altDriver = new AltDriver (enableLogging: false);
-
-            /* start AltDriver with logging enabled for Debug.Level; this is the default behaviour*/
-            var altDriver = new AltDriver (enableLogging: true);
 
             /* disable AltDriver logging */
             altDriver.SetLogging(enableLogging: false);
@@ -760,7 +760,6 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
             /* set logging level to Info for File target */
             AltTester.AltTesterUnitySDK.Driver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info);
-
 
 
     .. tab:: Java
@@ -774,6 +773,9 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
             /* start AltDriver with logging enabled */
             altDriver = new AltDriver("127.0.0.1", 13000, true);
 
+            /* start AltDriver with logging disabled */
+            altDriver = new AltDriver("127.0.0.1", 13000, false);
+
             /* disable logging for com.AltTester® logger */
             final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
             final Configuration config = ctx.getConfiguration();
@@ -786,16 +788,42 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         Logging is handled via loguru.
 
-        Setting the `enable_logging` to `False` in AltDriver, all logs from `alttester` package are disabled.
+        Setting the `enable_logging` to `True` in AltDriver, all logs from `alttester` package are enabled.
 
         .. code-block:: python
 
-            # enable logging in driver:
+            /* start AltDriver with logging enabled */
+            altDriver = AltDriver(enable_logging= True)
+            
+            /* start AltDriver with logging disabled */
+            altDriver = AltDriver(enable_logging= False)            
+            
+            /* enable logging in driver /*
             loguru.logger.enable("alttester")
 
-            # disable logging in driver:
+            /* disable logging in driver /*
             loguru.logger.disable("alttester")   
 
+
+    .. tab:: robot
+
+        Logging is handled via loguru.
+
+        Setting the `enable_logging` to `True` in AltDriver, all logs from `alttester` package are enabled.
+
+        .. code-block:: robot
+
+            /* start AltDriver with logging enabled */
+            Initialize AltDriver    enable_logging=True
+            
+            /* start AltDriver with logging disabled */
+            Initialize AltDriver    enable_logging=False            
+
+            /* enable logging in driver /*
+            Enable Loguru Logger alttester
+
+            /* disable logging in driver /*
+            Disable Loguru Logger alttester
 ```
 
 ## Logging in WebGL
