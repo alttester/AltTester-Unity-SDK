@@ -23,7 +23,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltGetAllLoadedScenesAndObjectsCommand : AltBaseClassFindObjectsCommand<List<AltObjectLight>>
     {
-        public AltGetAllLoadedScenesAndObjectsCommand(BaseFindObjectsParams cmdParams) : base(cmdParams) { }
+        public AltGetAllLoadedScenesAndObjectsCommand(BaseGameFindObjectParams cmdParams) : base(cmdParams) { }
 
         public override List<AltObjectLight> Execute()
         {

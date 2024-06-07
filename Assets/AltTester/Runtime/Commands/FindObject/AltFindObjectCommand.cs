@@ -18,29 +18,31 @@
 using System.Linq;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltFindObjectCommand : AltBaseClassFindObjectsCommand<AltObject>
     {
-        public AltFindObjectCommand(BaseFindObjectsParams cmdParam) : base(cmdParam) { }
+        public AltFindObjectCommand(BaseGameFindObjectParams cmdParam) : base(cmdParam) { }
 
         public override AltObject Execute()
         {
-            var path = new PathSelector(CommandParams.path);
-            var foundGameObject = FindObjects(null, path.FirstBound, true, CommandParams.enabled);
-            UnityEngine.Camera camera = null;
-            if (!CommandParams.cameraPath.Equals("//"))
-            {
-                camera = GetCamera(CommandParams.cameraBy, CommandParams.cameraPath);
-                if (camera == null) throw new CameraNotFoundException();
-            }
+
+            var foundGameObject = FindObjects(null, CommandParams.objectConditions, 0, true, CommandParams.enabled);
+            UnityEngine.Camera camera = Camera.main;//TODO
+            // UnityEngine.Camera camera = null;
+            // if (!CommandParams.cameraPath.Equals("//"))
+            // {
+            //     camera = GetCamera(CommandParams.cameraBy, CommandParams.cameraPath);
+            //     if (camera == null) throw new CameraNotFoundException();
+            // }
             if (foundGameObject.Count() >= 1)
             {
                 return
                     AltRunner._altRunner.GameObjectToAltObject(foundGameObject[0], camera);
             }
-            throw new NotFoundException(string.Format("Object {0} not found", CommandParams.path));
+            throw new NotFoundException(string.Format("Object not found"));
         }
     }
 }

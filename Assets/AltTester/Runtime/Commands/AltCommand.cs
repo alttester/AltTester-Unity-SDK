@@ -156,6 +156,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
 
             var cmdResponse = new CommandResponse();
+            if (CommandParams.commandName.Equals("gameFindObject"))
+            {
+                CommandParams.commandName = "findObject";
+            }
             cmdResponse.commandName = CommandParams.commandName;
             cmdResponse.messageId = CommandParams.messageId;
             cmdResponse.driverId = CommandParams.driverId;
