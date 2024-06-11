@@ -3629,11 +3629,11 @@ Invokes a method from an existing component of the object.
         public void TestCallMethodWithAssembly()
         {
             AltObject capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
-            capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", "UnityEngine.CoreModule", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" });
+            var initialRotation = capsule.GetComponentProperty<dynamic>("UnityEngine.Transform", "rotation", "UnityEngine.CoreModule");
+            capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", "UnityEngine.CoreModule", new object[3] { 10, 10, 10 }, new[] { "System.Single", "System.Single", "System.Single" });
             AltObject capsuleAfterRotation = altDriver.FindObject(By.NAME, "Capsule");
-            var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
-            Assert.AreNotEqual(initialRotation, finalRotation);
+            var finalRotation = capsuleAfterRotation.GetComponentProperty<dynamic>("UnityEngine.Transform", "rotation", "UnityEngine.CoreModule");
+            Assert.IsTrue(initialRotation["x"] != finalRotation["x"] || initialRotation["y"] != finalRotation["y"] || initialRotation["z"] != finalRotation["z"] || initialRotation["w"] != finalRotation["w"]);
         }
 
         [Test]
