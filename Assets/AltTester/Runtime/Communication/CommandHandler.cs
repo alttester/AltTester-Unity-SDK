@@ -297,10 +297,10 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 return new AltGetAllLoadedScenesCommand(cmdParams as AltGetAllLoadedScenesParams).ExecuteAndSerialize;
             }
-            // if (cmdParams is AltGetAllLoadedScenesAndObjectsParams)
-            // {
-            //     return new AltGetAllLoadedScenesAndObjectsCommand(cmdParams as AltGetAllLoadedScenesAndObjectsParams).ExecuteAndSerialize;
-            // }
+            if (cmdParams is AltGetAllLoadedScenesAndObjectsParams)
+            {
+                return new AltGetAllLoadedScenesAndObjectsCommand(cmdParams as AltGameGetAllLoadedScenesAndObjectsParams).ExecuteAndSerialize;
+            }
             if (cmdParams is AltGetScreenshotParams)
             {
                 return new AltGetScreenshotCommand(this, cmdParams as AltGetScreenshotParams).ExecuteAndSerialize;
@@ -333,10 +333,10 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 return new AltFindObjectsCommand(cmdParams as AltGameFindObjectParams).ExecuteAndSerialize;
             }
-            // if (cmdParams is AltFindObjectsLightParams)
-            // {
-            //     return new AltFindObjectsLightCommand(cmdParams as AltFindObjectsLightParams).ExecuteAndSerialize;
-            // }
+            if (cmdParams is AltFindObjectsLightParams)
+            {
+                return new AltFindObjectsLightCommand(cmdParams as AltGameFindObjectsLightParams).ExecuteAndSerialize;
+            }
             if (cmdParams is AltGetTextParams)
             {
                 return new AltGetTextCommand(cmdParams as AltGetTextParams).ExecuteAndSerialize;
@@ -377,6 +377,18 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 return new AltFindObjectCommand(cmdParams as AltGameFindObjectParams).ExecuteAndSerialize;
             }
+            if (cmdParams is AltGameFindObjectsParams)
+            {
+                return new AltFindObjectsCommand(cmdParams as AltGameFindObjectsParams).ExecuteAndSerialize;
+            }
+            if (cmdParams is AltGameFindObjectsLightParams)
+            {
+                return new AltFindObjectsLightCommand(cmdParams as AltGameFindObjectsLightParams).ExecuteAndSerialize;
+            }
+            if (cmdParams is AltGameGetAllLoadedScenesAndObjectsParams)
+            {
+                return new AltGetAllLoadedScenesAndObjectsCommand(cmdParams as AltGameGetAllLoadedScenesAndObjectsParams).ExecuteAndSerialize;
+            }
 
             return new AltInvalidCommand(cmdParams, new CommandNotFoundException(string.Format("Command {0} not handled", cmdParams.commandName))).ExecuteAndSerialize;
         }
@@ -385,7 +397,19 @@ namespace AltTester.AltTesterUnitySDK.Communication
         {
             if (commandName.Equals("gameFindObject"))
             {
-                return typeof(AltGameFindObjectParams);//TODO
+                return typeof(AltGameFindObjectParams);
+            }
+            if (commandName.Equals("gameFindObjects"))
+            {
+                return typeof(AltGameFindObjectsParams);
+            }
+            if (commandName.Equals("gameFindObjectsLight"))
+            {
+                return typeof(AltGameFindObjectsLightParams);
+            }
+            if (commandName.Equals("gameGetAllLoadedScenesAndObjects"))
+            {
+                return typeof(AltGameGetAllLoadedScenesAndObjectsParams);
             }
             var assembly = Assembly.GetAssembly(typeof(CommandParams));
 

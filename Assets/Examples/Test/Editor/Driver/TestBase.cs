@@ -44,7 +44,7 @@ public class TestBase
     {
         altDriver.ResetInput();
 
-        altDriver.SetCommandResponseTimeout(60);
+        altDriver.SetCommandResponseTimeout(5);
         altDriver.LoadScene(this.sceneName, true);
     }
 }

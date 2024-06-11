@@ -30,13 +30,12 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
 
             var foundGameObject = FindObjects(null, CommandParams.objectConditions, 0, true, CommandParams.enabled);
-            UnityEngine.Camera camera = Camera.main;//TODO
-            // UnityEngine.Camera camera = null;
-            // if (!CommandParams.cameraPath.Equals("//"))
-            // {
-            //     camera = GetCamera(CommandParams.cameraBy, CommandParams.cameraPath);
-            //     if (camera == null) throw new CameraNotFoundException();
-            // }
+            UnityEngine.Camera camera = null;
+            if (!(CommandParams.cameraConditions.Count == 1 && CommandParams.cameraConditions[0].Selector == "//" && CommandParams.cameraConditions[0].Selectors.Count == 1 && CommandParams.cameraConditions[0].Selectors[0].Selector == "*"))
+            {
+                camera = GetCamera(CommandParams.cameraConditions);
+                if (camera == null) throw new CameraNotFoundException();
+            }
             if (foundGameObject.Count() >= 1)
             {
                 return

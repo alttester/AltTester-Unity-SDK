@@ -25,7 +25,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         private AltGetAllLoadedScenesAndObjectsParams cmdParams;
         public AltGetAllLoadedScenesAndObjects(IDriverCommunication commHandler, bool enabled) : base(commHandler)
         {
-            cmdParams = new AltGetAllLoadedScenesAndObjectsParams("//*", By.NAME, "", enabled);
+            cmdParams = new AltGetAllLoadedScenesAndObjectsParams("//*", By.NAME, "//*", enabled);
         }
         public List<AltObjectLight> Execute()
         {

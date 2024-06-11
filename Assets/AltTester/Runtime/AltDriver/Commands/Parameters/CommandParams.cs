@@ -112,6 +112,30 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             commandName = "findObject";
         }
     }
+    [Command("findObjects")]
+    public class AltGameFindObjectsParams : BaseGameFindObjectParams
+    {
+        public AltGameFindObjectsParams(List<BoundCondition> objectConditions, List<BoundCondition> cameraConditions, bool enabled) : base(objectConditions, cameraConditions, enabled)
+        {
+            commandName = "findObjects";
+        }
+    }
+    [Command("getAllLoadedScenesAndObjects")]
+    public class AltGameGetAllLoadedScenesAndObjectsParams : BaseGameFindObjectParams
+    {
+        public AltGameGetAllLoadedScenesAndObjectsParams(List<BoundCondition> objectConditions, List<BoundCondition> cameraConditions, bool enabled) : base(objectConditions, cameraConditions, enabled)
+        {
+            commandName = "findObjects";
+        }
+    }
+    [Command("findObjectsLight")]
+    public class AltGameFindObjectsLightParams : BaseGameFindObjectParams
+    {
+        public AltGameFindObjectsLightParams(List<BoundCondition> objectConditions, List<BoundCondition> cameraConditions, bool enabled) : base(objectConditions, cameraConditions, enabled)
+        {
+            commandName = "findObjects";
+        }
+    }
 
     [Command("findObjects")]
     public class AltFindObjectsParams : BaseFindObjectsParams

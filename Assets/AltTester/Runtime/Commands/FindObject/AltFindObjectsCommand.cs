@@ -27,21 +27,19 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override List<AltObject> Execute()
         {
-            return null;
-            // UnityEngine.Camera camera = null;
-            // if (!CommandParams.cameraPath.Equals("//"))
-            // {
-            //     camera = GetCamera(CommandParams.cameraBy, CommandParams.cameraPath);
-            //     if (camera == null) throw new CameraNotFoundException();
-            // }
-            // var path = new PathSelector(CommandParams.path);
-            // var foundObjects = new List<AltObject>();
-            // foreach (UnityEngine.GameObject testableObject in FindObjects(null, path.FirstBound, false, CommandParams.enabled))
-            // {
-            //     foundObjects.Add(AltRunner._altRunner.GameObjectToAltObject(testableObject, camera));
-            // }
+            UnityEngine.Camera camera = null;
+            if (!(CommandParams.cameraConditions.Count == 1 && CommandParams.cameraConditions[0].Selector == "//" && CommandParams.cameraConditions[0].Selectors.Count == 1 && CommandParams.cameraConditions[0].Selectors[0].Selector == "*"))
+            {
+                camera = GetCamera(CommandParams.cameraConditions);
+                if (camera == null) throw new CameraNotFoundException();
+            }
+            var foundObjects = new List<AltObject>();
+            foreach (UnityEngine.GameObject testableObject in FindObjects(null, CommandParams.objectConditions, 0, false, CommandParams.enabled))
+            {
+                foundObjects.Add(AltRunner._altRunner.GameObjectToAltObject(testableObject, camera));
+            }
 
-            // return foundObjects;
+            return foundObjects;
         }
     }
 

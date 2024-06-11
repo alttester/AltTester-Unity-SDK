@@ -16,6 +16,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace AltTester.AltTesterUnitySDK.Driver
@@ -57,7 +58,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
         public string Selector { get; set; }
         public BoundType Type { get; protected set; }
         public IndexerCondition Indexer { get; set; }
-        public SelectorCondition FirstSelector { get; set; }
+        public List<SelectorCondition> Selectors { get; set; }
     }
 
     public class SelectorCondition
