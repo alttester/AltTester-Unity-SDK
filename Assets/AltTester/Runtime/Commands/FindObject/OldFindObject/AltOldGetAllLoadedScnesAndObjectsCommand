@@ -21,9 +21,10 @@ using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltGetAllLoadedScenesAndObjectsCommand : AltBaseFindObjectsCommand<List<AltObjectLight>>
+    //TODO remove this class after OldFindObject is no longer supported
+    class AltGetAllLoadedScenesAndObjectsCommand : AltBaseClassFindObjectsCommand<List<AltObjectLight>>
     {
-        public AltGetAllLoadedScenesAndObjectsCommand(BaseGameFindObjectParams cmdParams) : base(cmdParams) { }
+        public AltGetAllLoadedScenesAndObjectsCommand(BaseFindObjectsParams cmdParams) : base(cmdParams) { }
 
         public override List<AltObjectLight> Execute()
         {

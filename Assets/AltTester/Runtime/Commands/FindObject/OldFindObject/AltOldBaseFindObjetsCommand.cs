@@ -23,11 +23,12 @@ using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltBaseClassFindObjectsCommand<T> : AltCommand<BaseGameFindObjectParams, T>
+    //TODO remove this class after OldFindObject is no longer supported
+    class AltOldBaseFindObjetsCommand<T> : AltCommand<BaseFindObjectsParams, T>
     {
-        protected readonly BaseGameFindObjectParams FindObjectsParams;
+        protected readonly BaseFindObjectsParams FindObjectsParams;
 
-        protected AltBaseClassFindObjectsCommand(BaseGameFindObjectParams cmdParams) : base(cmdParams)
+        protected AltOldBaseFindObjetsCommand(BaseFindObjectsParams cmdParams) : base(cmdParams)
         {
             this.FindObjectsParams = cmdParams;
         }
@@ -35,10 +36,9 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             throw new System.NotImplementedException();
         }
-        public List<UnityEngine.GameObject> FindObjects(UnityEngine.GameObject gameObject, List<BoundCondition> boundConditions, int index, bool singleObject, bool enabled)
+        public List<UnityEngine.GameObject> FindObjects(UnityEngine.GameObject gameObject, OldBoundCondition boundCondition, bool singleObject, bool enabled)
         {
-            //Stop condition
-            if (index == boundConditions.Count)
+            if (boundCondition == null)
             {
                 if (gameObject == null)
                     return new List<GameObject>();
@@ -46,7 +46,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     return new List<GameObject>() { gameObject };
             }
 
-            if (boundConditions[index].Type == BoundType.Parent)
+            if (boundCondition.Type == OldBoundType.Parent)
             {
                 //   /name/../../name
                 if (gameObject == null)
@@ -54,8 +54,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     throw new InvalidPathException("Cannot select a parent of root object");
                 }
                 var parent = gameObject.transform.parent != null ? gameObject.transform.parent.gameObject : null;
-                var newIndex = index + 1;
-                return FindObjects(parent, boundConditions, newIndex, singleObject, enabled);
+                return FindObjects(parent, boundCondition.NextBound, singleObject, enabled);
             }
 
             List<UnityEngine.GameObject> objectsToCheck = getGameObjectsToCheck(gameObject);
@@ -63,11 +62,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
             List<UnityEngine.GameObject> objectsMatched = new List<UnityEngine.GameObject>();
             foreach (var objectToCheck in objectsToCheck)
             {
-
                 GameObject nextObjectToCheck;
                 if (checkValidVisibility(objectToCheck, enabled))
                 {
-                    nextObjectToCheck = objectMatchesConditions(objectToCheck, boundConditions[index], enabled);
+                    nextObjectToCheck = objectMatchesConditions(objectToCheck, boundCondition, enabled);
                     if (nextObjectToCheck != null)
                     {
                         objectsMatched.Add(objectToCheck);
@@ -75,12 +73,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 }
 
             }
-            if (boundConditions[index].Indexer != null)
+            if (boundCondition.Indexer != null)
             {
                 try
                 {
-                    int newIndex = index + 1;
-                    objectsFound.AddRange(FindObjects(objectsMatched[(boundConditions[index].Indexer.Index < 0 ? objectsMatched.Count : 0) + boundConditions[index].Indexer.Index], boundConditions, newIndex, singleObject, enabled));
+                    objectsFound.AddRange(FindObjects(objectsMatched[(boundCondition.Indexer.Index < 0 ? objectsMatched.Count : 0) + boundCondition.Indexer.Index], boundCondition.NextBound, singleObject, enabled));
                 }
                 catch (System.Exception)
                 {
@@ -91,18 +88,18 @@ namespace AltTester.AltTesterUnitySDK.Commands
             {
                 foreach (var matched in objectsMatched)
                 {
-                    int newIndex = index + 1;
-                    objectsFound.AddRange(FindObjects(matched, boundConditions, newIndex, singleObject, enabled));
+                    objectsFound.AddRange(FindObjects(matched, boundCondition.NextBound, singleObject, enabled));
                 }
             }
             if (singleObject && objectsFound.Count > 0)
             {
                 return objectsFound;
             }
-            if (boundConditions[index].Type != BoundType.DirectChildren)
+            if (boundCondition.Type != OldBoundType.DirectChildren)
                 foreach (var objectToCheck in objectsToCheck)
                 {
-                    objectsFound.AddRange(FindObjects(objectToCheck, boundConditions, index, singleObject, enabled));
+
+                    objectsFound.AddRange(FindObjects(objectToCheck, boundCondition, singleObject, enabled));
                     if (singleObject && objectsFound.Count > 0)
                     {
                         return objectsFound;
@@ -111,29 +108,43 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
             return objectsFound;
         }
-        protected UnityEngine.Camera GetCamera(List<BoundCondition> cameraConditons)
+        protected UnityEngine.Camera GetCamera(By cameraBy, string cameraValue)
         {
-            var gameObjectsCameraFound = FindObjects(null, cameraConditons, 0, false, true);
-            return UnityEngine.Camera.allCameras.ToList().Find(c => gameObjectsCameraFound.Find(d => c.gameObject.GetInstanceID() == d.GetInstanceID()));
+
+            if (cameraBy == By.NAME)
+            {
+                var cameraValueSplit = cameraValue.Split('/');
+                var cameraName = cameraValueSplit[cameraValueSplit.Length - 1];
+                return UnityEngine.Camera.allCameras.ToList().Find(c => c.name.Equals(cameraName));
+
+            }
+            else
+            {
+                var cameraValueProcessed = new OldPathSelector(cameraValue);
+                var gameObjectsCameraFound = FindObjects(null, cameraValueProcessed.FirstBound, false, true);
+                return UnityEngine.Camera.allCameras.ToList().Find(c => gameObjectsCameraFound.Find(d => c.gameObject.GetInstanceID() == d.GetInstanceID()));
+            }
 
         }
         private bool checkValidVisibility(GameObject objectToCheck, bool enabled)
         {
             return !enabled || (enabled && objectToCheck.activeInHierarchy);
         }
-        private GameObject objectMatchesConditions(GameObject objectToCheck, BoundCondition boundCondition, bool enabled)
+        private GameObject objectMatchesConditions(GameObject objectToCheck, OldBoundCondition boundCondition, bool enabled)
         {
+            var currentCondition = boundCondition.FirstSelector;
             GameObject objectMatched = null;
-            foreach (var selector in boundCondition.Selectors)
+            while (currentCondition != null)
             {
-                objectMatched = SelectorConditionController.MatchCondition(selector, objectToCheck, enabled);
+
+                objectMatched = currentCondition.MatchCondition(objectToCheck, enabled);
                 if (objectMatched == null)
                 {
                     return null;
                 }
+                currentCondition = currentCondition.NextSelector;
             }
             return objectMatched;
-
         }
 
 
@@ -168,16 +179,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
             }
             return objectsToCheck;
-        }
-
-        /// <summary>
-        /// Checks if the camera condition is //*
-        /// </summary>
-        /// <param name="cameraConditions"></param>
-        /// <returns>True if camera condition is different that //* otherwise returns false</returns>
-        protected bool IsCameraSpecified(List<BoundCondition> cameraConditions)
-        {
-            return !(cameraConditions.Count == 1 && cameraConditions[0].Selector == "//" && cameraConditions[0].Selectors.Count == 1 && cameraConditions[0].Selectors[0].Selector == "*");
         }
 
 

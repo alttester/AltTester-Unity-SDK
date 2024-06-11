@@ -22,7 +22,7 @@ using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltFindObjectCommand : AltBaseClassFindObjectsCommand<AltObject>
+    class AltFindObjectCommand : AltBaseFindObjectsCommand<AltObject>
     {
         public AltFindObjectCommand(BaseGameFindObjectParams cmdParam) : base(cmdParam) { }
 

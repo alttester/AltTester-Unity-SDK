@@ -325,17 +325,20 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 return new AltScrollCommand(this, cmdParams as AltScrollParams).ExecuteAndSerialize;
             }
+            //TODO remove this if when we will no longer support oldFindObject
             if (cmdParams is AltFindObjectParams)
             {
-                return new AltFindObjectCommand(cmdParams as AltGameFindObjectParams).ExecuteAndSerialize;
+                return new AltOldFindObjectCommand(cmdParams as AltFindObjectParams).ExecuteAndSerialize;
             }
+            //TODO remove this if when we will no longer support oldFindObject
             if (cmdParams is AltFindObjectsParams)
             {
-                return new AltFindObjectsCommand(cmdParams as AltGameFindObjectParams).ExecuteAndSerialize;
+                return new AltOldFindObjectsCommand(cmdParams as AltFindObjectsParams).ExecuteAndSerialize;
             }
+            //TODO remove this if when we will no longer support oldFindObject
             if (cmdParams is AltFindObjectsLightParams)
             {
-                return new AltFindObjectsLightCommand(cmdParams as AltGameFindObjectsLightParams).ExecuteAndSerialize;
+                return new AltOldFindObjectsLightCommand(cmdParams as AltFindObjectsLightParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltGetTextParams)
             {
@@ -395,6 +398,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         private Type getCommandType(string commandName)
         {
+            //TODO Once we no longer suport the oldFindObject we will no longer need this if's
             if (commandName.Equals("gameFindObject"))
             {
                 return typeof(AltGameFindObjectParams);
@@ -411,6 +415,24 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 return typeof(AltGameGetAllLoadedScenesAndObjectsParams);
             }
+            if (commandName.Equals("findObject"))
+            {
+                return typeof(AltFindObjectParams);
+            }
+            if (commandName.Equals("findObjects"))
+            {
+                return typeof(AltFindObjectsParams);
+            }
+            if (commandName.Equals("findObjectsLight"))
+            {
+                return typeof(AltFindObjectsLightParams);
+            }
+            if (commandName.Equals("getAllLoadedScenesAndObjects"))
+            {
+                return typeof(AltGetAllLoadedScenesAndObjectsParams);
+            }
+
+
             var assembly = Assembly.GetAssembly(typeof(CommandParams));
 
             var derivedType = typeof(CommandParams);
