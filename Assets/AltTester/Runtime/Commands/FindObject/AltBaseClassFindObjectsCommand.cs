@@ -37,6 +37,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
         public List<UnityEngine.GameObject> FindObjects(UnityEngine.GameObject gameObject, List<BoundCondition> boundConditions, int index, bool singleObject, bool enabled)
         {
+            //Stop condition
             if (index == boundConditions.Count)
             {
                 if (gameObject == null)
@@ -167,6 +168,16 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
             }
             return objectsToCheck;
+        }
+
+        /// <summary>
+        /// Checks if the camera condition is //*
+        /// </summary>
+        /// <param name="cameraConditions"></param>
+        /// <returns>True if camera condition is different that //* otherwise returns false</returns>
+        protected bool IsCameraSpecified(List<BoundCondition> cameraConditions)
+        {
+            return !(cameraConditions.Count == 1 && cameraConditions[0].Selector == "//" && cameraConditions[0].Selectors.Count == 1 && cameraConditions[0].Selectors[0].Selector == "*");
         }
 
 

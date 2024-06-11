@@ -28,7 +28,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         public override List<AltObject> Execute()
         {
             UnityEngine.Camera camera = null;
-            if (!(CommandParams.cameraConditions.Count == 1 && CommandParams.cameraConditions[0].Selector == "//" && CommandParams.cameraConditions[0].Selectors.Count == 1 && CommandParams.cameraConditions[0].Selectors[0].Selector == "*"))
+            if (IsCameraSpecified(CommandParams.cameraConditions))
             {
                 camera = GetCamera(CommandParams.cameraConditions);
                 if (camera == null) throw new CameraNotFoundException();
