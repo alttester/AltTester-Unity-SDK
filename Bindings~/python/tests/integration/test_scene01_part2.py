@@ -384,8 +384,8 @@ class TestScene01Part2:
     def test_set_static_property2(self):
         newValue = 5
         expectedArray = [1, 5, 3]
-        self.altdriver.set_static_property("AltExampleScriptCapsule",
-                                           "staticArrayOfInts[1]", "Assembly-CSharp", newValue)
+        self.altdriver.set_static_property(
+            "AltExampleScriptCapsule", "staticArrayOfInts[1]", "Assembly-CSharp", newValue)
         value = self.altdriver.get_static_property(
             "AltExampleScriptCapsule", "staticArrayOfInts", "Assembly-CSharp")
         assert expectedArray == value
