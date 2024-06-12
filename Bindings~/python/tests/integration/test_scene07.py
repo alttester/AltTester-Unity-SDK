@@ -89,8 +89,8 @@ class TestScene07A:
 class TestScene07B:
 
     @pytest.fixture(autouse=True)
-    def setup(self, altdriver):
-        self.alt_driver = altdriver
+    def setup(self, alt_driver):
+        self.alt_driver = alt_driver
         self.alt_driver.load_scene(Scenes.Scene07B)
 
     def get_sprite_name(self, source_image_name, image_source_drop_zone_name):
