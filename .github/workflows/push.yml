@@ -49,6 +49,7 @@ jobs:
         dotnet-version: '5.0.x'
     - name: Restore dependencies
       run: dotnet restore
+      working-directory: Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj
     - name: Run code analysis
       run: dotnet build --no-restore /warnaserror
 
