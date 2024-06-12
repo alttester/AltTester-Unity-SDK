@@ -18,7 +18,6 @@
 using System;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
-using Microsoft.SqlServer.Server;
 using Newtonsoft.Json.Linq;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Commands
