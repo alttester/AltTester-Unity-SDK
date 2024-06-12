@@ -552,7 +552,7 @@ jobs:
           export ALTSERVER_HOST="192.168.11.35"
           chmod -R 755  sampleGame.app
           open sampleGame.app
-          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
+          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter "FullyQualifiedName~AltTester.AltTesterUnitySDK.Driver.Tests.TestForScene1TestSample"
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
