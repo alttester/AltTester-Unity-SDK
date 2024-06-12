@@ -125,7 +125,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
         }
     }
 
-#if UNITY_WEBGL
     public class WebGLRuntimeWebSocketClient : IRuntimeWebSocketClient
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
@@ -227,5 +226,4 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.wsClient.Send(message).ConfigureAwait(false).GetAwaiter().GetResult();
         }
     }
-#endif
 }

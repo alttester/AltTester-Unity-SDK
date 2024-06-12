@@ -24,7 +24,6 @@ using AOT;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
-#if UNITY_WEBGL
     public enum WebSocketCloseCode
     {
         /* Do NOT use NotSet - it's only purpose is to indicate that the close code cannot be parsed. */
@@ -367,5 +366,4 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public WebSocketInvalidStateException(string message) : base(message) { }
         public WebSocketInvalidStateException(string message, Exception inner) : base(message, inner) { }
     }
-#endif
 }

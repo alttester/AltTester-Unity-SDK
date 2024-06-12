@@ -28,15 +28,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace AltTester.AltTesterUnitySDK
+namespace AltTester.AltTesterUnitySDK.InputModule
 {
-    public class NewInputSystem : MonoBehaviour
+    public class NewInputSystems : MonoBehaviour
     {
         private static Vector2 endTouchScreenPos;
         private static float keyDownPower;
 
         public static InputTestFixture InputTestFixture = new InputTestFixture();
-        public static NewInputSystem Instance;
+        public static NewInputSystems Instance;
         public static Keyboard Keyboard;
         public static Mouse Mouse;
         public static Gamepad Gamepad;
@@ -213,7 +213,7 @@ namespace AltTester.AltTesterUnitySDK
             var touchId = getFreeTouch(touches);
             touches[touchId] = false;
             UnityEngine.Vector3 screenPosition;
-            AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
+            FindObjectViaRayCast.FindCameraThatSeesObject(target, out screenPosition);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
@@ -257,7 +257,7 @@ namespace AltTester.AltTesterUnitySDK
         {
             Mouse.MakeCurrent();
             UnityEngine.Vector3 screenPosition;
-            AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
+            FindObjectViaRayCast.FindCameraThatSeesObject(target, out screenPosition);
             InputTestFixture.Set(Mouse.position, screenPosition, queueEventOnly: true);
             for (int i = 0; i < count; i++)
             {
@@ -370,7 +370,7 @@ namespace AltTester.AltTesterUnitySDK
                 }
             }
             endTouchScreenPos = positions[positions.Length - 1];
-            yield return AltRunner._altRunner.StartCoroutine(EndTouch(touchId));
+            yield return CoroutineManager.Instance.StartCoroutine(EndTouch(touchId));
 
         }
         internal static int BeginTouch(Vector3 screenPosition)
@@ -462,23 +462,24 @@ namespace AltTester.AltTesterUnitySDK
         #endregion
     }
 
-}
 #if USE_INPUT_SYSTEM_1_3
-public class TestExample
-{
-    [Test]
-    public void Test()
+    public class TestExample
     {
+        [Test]
+        public void Test()
+        {
 
+        }
     }
 }
+
 #endif
 #else
 using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK
 {
-    public class NewInputSystem : MonoBehaviour
+    public class NewInputSystems : MonoBehaviour
     {
 
     }

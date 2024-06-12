@@ -18,6 +18,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using AltTester.AltTesterUnitySDK;
+using AltTester.AltTesterUnitySDK.InputModule;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
