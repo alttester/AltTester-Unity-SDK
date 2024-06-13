@@ -161,7 +161,7 @@ jobs:
       - run: |
           export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="192.168.11.35"
-          # $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile - -quit
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile - -quit
       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
@@ -205,7 +205,7 @@ jobs:
           export ALTSERVER_HOST="192.168.11.35"
           chmod -R 755  sampleGame.app
           open sampleGame.app
-          # dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
+          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
@@ -557,7 +557,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
         with:
-          name: TestCSharpArtifact
+          name: TestCSharpServerPathValidationArtifact
           path: "**/*.log"
 
       - uses: ravsamhq/notify-slack-action@2.3.0
