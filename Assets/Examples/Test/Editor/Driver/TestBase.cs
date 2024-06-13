@@ -48,9 +48,4 @@ public class TestBase
         altDriver.SetCommandResponseTimeout(defaultCommandResponseTimeout);
         altDriver.LoadScene(this.sceneName, true);
     }
-
-    public void ResetCommandResponseTimeout() 
-    {
-        altDriver.SetCommandResponseTimeout(defaultCommandResponseTimeout);    
-    }
 }

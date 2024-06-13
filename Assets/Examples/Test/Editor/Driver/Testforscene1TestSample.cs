@@ -1648,7 +1648,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestGetAllScenesAndObjectDisableEnableOption()
         {
-            altDriver.SetCommandResponseTimeout(60);
             var allEnableObjects = altDriver.GetAllLoadedScenesAndObjects(true);
             foreach (var enabledObject in allEnableObjects)
             {
@@ -1657,8 +1656,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var allObjects = altDriver.GetAllLoadedScenesAndObjects(false);
             Assert.IsTrue(allEnableObjects.Count < allObjects.Count);
             Assert.IsTrue(allObjects.Exists(AltObject => AltObject.name.Equals("Cube") && !AltObject.enabled));
-            
-            ResetCommandResponseTimeout();
         }
 
         [Test]

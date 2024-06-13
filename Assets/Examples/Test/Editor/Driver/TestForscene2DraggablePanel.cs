@@ -205,13 +205,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestGetAllScenesAndElements()
         {
-            altDriver.SetCommandResponseTimeout(60);
             var altElements = altDriver.GetAllLoadedScenesAndObjects();
 
             Assert.AreEqual(20, altElements.FindIndex(e => e.name == "DontDestroyOnLoad"));
             altElements = altDriver.GetAllLoadedScenesAndObjects(false);
             Assert.AreEqual(20, altElements.FindIndex(e => e.name == "DontDestroyOnLoad"));
-            ResetCommandResponseTimeout();
         }
         [Test]
         public void TestNewTouchCommands()

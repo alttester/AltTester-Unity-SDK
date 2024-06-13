@@ -297,7 +297,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             {
                 return new AltGetAllLoadedScenesCommand(cmdParams as AltGetAllLoadedScenesParams).ExecuteAndSerialize;
             }
-            if (cmdParams is AltGetAllLoadedScenesAndObjectsParams)
+            if (cmdParams is AltGameGetAllLoadedScenesAndObjectsParams)
             {
                 return new AltGetAllLoadedScenesAndObjectsCommand(cmdParams as AltGameGetAllLoadedScenesAndObjectsParams).ExecuteAndSerialize;
             }
@@ -339,6 +339,11 @@ namespace AltTester.AltTesterUnitySDK.Communication
             if (cmdParams is AltFindObjectsLightParams)
             {
                 return new AltOldFindObjectsLightCommand(cmdParams as AltFindObjectsLightParams).ExecuteAndSerialize;
+            }
+            //TODO remove this if when we will no longer support oldFindObject
+            if (cmdParams is AltGetAllLoadedScenesAndObjectsParams)
+            {
+                return new AltOldGetAllLoadedScenesAndObjectsCommand(cmdParams as AltGetAllLoadedScenesAndObjectsParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltGetTextParams)
             {
