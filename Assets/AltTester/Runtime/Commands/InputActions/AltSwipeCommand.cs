@@ -29,7 +29,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         public override string Execute()
         {
 
-            UnityEngine.Vector2[] positions = { CommandParams.start.ToUnity(), CommandParams.end.ToUnity() };
+            UnityEngine.Vector2[] positions = { new UnityEngine.Vector2(CommandParams.start.x, CommandParams.start.y), new UnityEngine.Vector2(CommandParams.end.x, CommandParams.end.y) };
             InputController.SetMultipointSwipe(positions, CommandParams.duration, onFinish);
             return "Ok";
         }

@@ -28,7 +28,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
         public override string Execute()
         {
-            InputController.MoveTouch(CommandParams.fingerId, CommandParams.coordinates.ToUnity());
+            InputController.MoveTouch(CommandParams.fingerId, new UnityEngine.Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y));
             return "Ok";
 
         }

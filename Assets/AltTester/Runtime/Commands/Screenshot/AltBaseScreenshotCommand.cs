@@ -39,26 +39,22 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         protected System.Collections.IEnumerator SendTexturedScreenshotCoroutine(UnityEngine.Vector2 size, int quality)
         {
-#if UNITY_EDITOR
             if (Application.isBatchMode)
             {
                 yield return null;
             }
             else
-#endif
                 yield return new UnityEngine.WaitForEndOfFrame();
             sendTexturedScreenshotResponse(size, quality);
         }
 
         protected System.Collections.IEnumerator SendPNGScreenshotCoroutine()
         {
-#if UNITY_EDITOR
             if (Application.isBatchMode)
             {
                 yield return null;
             }
             else
-#endif
                 yield return new UnityEngine.WaitForEndOfFrame();
             var response = ExecuteAndSerialize(getPNGScreenshot);
             Handler.Send(response);
@@ -78,13 +74,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     renderer.materials[i].SetColor("_OutlineColor", color);
                     renderer.materials[i].SetFloat("_OutlineWidth", width);
                 }
-#if UNITY_EDITOR
                 if (Application.isBatchMode)
                 {
                     yield return null;
                 }
                 else
-#endif
                     yield return new UnityEngine.WaitForEndOfFrame();
                 sendTexturedScreenshotResponse(size, quality);
 
@@ -98,13 +92,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     var panelHighlight = UnityEngine.Object.Instantiate(AltRunner._altRunner.panelHightlightPrefab, rectTransform);
                     panelHighlight.GetComponent<UnityEngine.UI.Image>().color = color;
 
-#if UNITY_EDITOR
                     if (Application.isBatchMode)
                     {
                         yield return null;
                     }
                     else
-#endif
                         yield return new UnityEngine.WaitForEndOfFrame();
                     sendTexturedScreenshotResponse(size, quality);
 
@@ -112,13 +104,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 }
                 else
                 {
-#if UNITY_EDITOR
                     if (Application.isBatchMode)
                     {
                         yield return null;
                     }
                     else
-#endif
                         yield return new UnityEngine.WaitForEndOfFrame();
                     sendTexturedScreenshotResponse(size, quality);
                 }

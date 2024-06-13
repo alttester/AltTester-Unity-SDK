@@ -30,7 +30,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override string Execute()
         {
-            InputController.SetMultipointSwipe(CommandParams.positions.Select(p => p.ToUnity()).ToArray(), CommandParams.duration, onFinish);
+            InputController.SetMultipointSwipe(CommandParams.positions.Select(p => new UnityEngine.Vector2(p.x, p.y)).ToArray(), CommandParams.duration, onFinish);
             return "Ok";
         }
     }

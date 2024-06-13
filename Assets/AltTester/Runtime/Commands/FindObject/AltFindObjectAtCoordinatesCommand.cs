@@ -27,7 +27,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override AltObject Execute()
         {
-            UnityEngine.GameObject gameObject = FindObjectViaRayCast.FindObjectAtCoordinates(CommandParams.coordinates.ToUnity());
+            UnityEngine.GameObject gameObject = FindObjectViaRayCast.FindObjectAtCoordinates(new UnityEngine.Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y));
 
             if (gameObject == null) return null;
 

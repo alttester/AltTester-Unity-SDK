@@ -29,7 +29,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override string Execute()
         {
-            InputController.Tilt(CommandParams.acceleration.ToUnity(), CommandParams.duration, onFinish);
+            InputController.Tilt(new UnityEngine.Vector2(CommandParams.acceleration.x, CommandParams.acceleration.y), CommandParams.duration, onFinish);
             return "Ok";
         }
 
