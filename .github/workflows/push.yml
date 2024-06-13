@@ -50,7 +50,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj
     - name: Run code analysis
-      run: dotnet build --no-restore /warnaserror
+      run: dotnet build Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --no-restore /warnaserror
 
   build-macOS:
     runs-on: [self-hosted, macOS]
