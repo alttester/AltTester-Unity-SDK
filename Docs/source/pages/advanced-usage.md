@@ -413,7 +413,7 @@ There are multiple scenarios:
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
+            cls.alt_driver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
 
     .. code-tab:: robot
 
@@ -443,7 +443,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
+            cls.alt_driver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
 
     .. code-tab:: robot
 
@@ -471,7 +471,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
+            cls.alt_driver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
 
     .. code-tab:: robot
 
@@ -504,8 +504,8 @@ In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when
 
     .. code-tab:: py
 
-            cls.altDriver1 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp1")
-            cls.altDriver2 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp2")
+            cls.alt_driver1 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp1")
+            cls.alt_driver2 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp2")
 
     .. code-tab:: robot
 
@@ -548,8 +548,8 @@ Ex. with 2 Android devices:
 
     .. code-tab:: py
 
-            cls.altDriver1 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp1")
-            cls.altDriver2 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp2")
+            cls.alt_driver1 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp1")
+            cls.alt_driver2 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp2")
 
     .. code-tab:: robot
 
@@ -599,7 +599,7 @@ Ex1. Let's say we want to run a set of tests on all apps started on Windows 11 (
 
     .. code-tab:: py
 
-            altDriver = AltDriver(host="127.0.0.1", port=13000, platform_version="Windows 11  (10.0.22621) 64bit")
+            alt_driver = AltDriver(host="127.0.0.1", port=13000, platform_version="Windows 11  (10.0.22621) 64bit")
 
     .. code-tab:: robot
 
@@ -613,7 +613,7 @@ In your test file:
     .. code-block:: py
 
         def test(platform):
-            altDriver = AltDriver(host="127.0.0.1", port=13000, platform=platform)
+            alt_driver = AltDriver(host="127.0.0.1", port=13000, platform=platform)
 ```
 
 In your conftest.py file:
@@ -646,7 +646,7 @@ In your test file:
     .. code-block:: py
 
         def test():
-            altDriver = AltDriver(host="127.0.0.1", port=13000, platform=get_platform())
+            alt_driver = AltDriver(host="127.0.0.1", port=13000, platform=get_platform())
 ```
 
 In your conftest.py file:
@@ -715,8 +715,8 @@ Logging inside the instrumented app can be configured from the driver using the 
 
     .. code-tab:: py
 
-        altDriver.set_server_logging(AltLogger.File, AltLogLevel.Off)
-        altDriver.set_server_logging(AltLogger.Unity, AltLogLevel.Info)
+        alt_driver.set_server_logging(AltLogger.File, AltLogLevel.Off)
+        alt_driver.set_server_logging(AltLogger.Unity, AltLogLevel.Info)
 
     .. code-tab:: robot
 
@@ -793,10 +793,10 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
         .. code-block:: python
 
             /* start AltDriver with logging enabled */
-            altDriver = AltDriver(enable_logging= True)
+            alt_driver = AltDriver(enable_logging= True)
             
             /* start AltDriver with logging disabled */
-            altDriver = AltDriver(enable_logging= False)            
+            alt_driver = AltDriver(enable_logging= False)            
             
             /* enable logging in driver /*
             loguru.logger.enable("alttester")
