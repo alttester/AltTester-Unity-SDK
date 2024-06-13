@@ -9,7 +9,7 @@ class MyFirstTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.alt_driver = alt_driver()
+        cls.alt_driver = AltDriver()
 
     @classmethod
     def tearDownClass(cls):
