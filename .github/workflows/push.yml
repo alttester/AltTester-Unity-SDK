@@ -500,7 +500,7 @@ jobs:
 
   build-macOS-for-Server-PathValidation:
     runs-on: [self-hosted, macOS]
-    needs: [test-CSharp-Editor, test-DotNet, test-Python, test-Robot, test-Java, test-Python-Browserstack-ios-android]
+    needs: [test-CSharp-Editor, test-DotNet]
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
       - uses: actions/checkout@v3
