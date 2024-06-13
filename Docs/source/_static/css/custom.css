@@ -55,3 +55,22 @@ nav.wy-nav-side {
 .rst-versions.shift-up {
   overflow-y: auto;
 }
+
+a.return-to-website-button:before {
+  background-image: url(../img/common/goBackArrow.png);
+  background-size: 17px 17px;
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  content: "";
+  margin-right: 3px;
+  vertical-align: top;
+}
+
+ul.wy-breadcrumbs li {
+  margin-bottom: 24px;
+}
+
+div.rst-content div hr {
+  margin-top: 0;
+}

@@ -263,6 +263,27 @@ class TestScene01Part1:
 
         assert result is True
 
+    @pytest.mark.iOSUnsupported
+    @pytest.mark.WebGLUnsupported
+    @pytest.mark.AndroidUnsupported
+    def test_wait_for_component_property_get_property_as_string(self):
+        Canvas = self.altdriver.wait_for_object(By.PATH, "/Canvas")
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "rect.x", "-960.0",
+                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "hasChanged", True,
+                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "constrainProportionsScale", False,
+                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "transform",
+                                           "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]",
+                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "name", "Canvas",
+                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
     def test_wait_for_component_property_component_not_found(self):
         componentName = "AltTester.AltTesterUnitySDK.AltRunnerTest"
         propertyName = "InstrumentationSettings.AltServerPort"

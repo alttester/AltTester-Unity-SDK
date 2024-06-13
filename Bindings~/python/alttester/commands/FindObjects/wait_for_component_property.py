@@ -31,6 +31,7 @@ class WaitForComponentProperty(Command):
         altObject,
         timeout=20,
         interval=0.5,
+        get_property_as_string=False
     ):
         self.component_name = component_name
         self.property_name = property_name
@@ -38,6 +39,7 @@ class WaitForComponentProperty(Command):
         self.assembly = assembly
         self.timeout = timeout
         self.interval = interval
+        self.get_property_as_string = get_property_as_string
         self.altObject = altObject
 
     def execute(self):
@@ -49,7 +51,10 @@ class WaitForComponentProperty(Command):
                 property_found = self.altObject.get_component_property(
                     self.component_name, self.property_name, self.assembly
                 )
-                if property_found == self.property_value:
+                if not self.get_property_as_string and property_found == self.property_value:
+                    return property_found
+                if self.get_property_as_string and \
+                   str(property_found).replace(" ", "") == str(self.property_value).replace(" ", ""):
                     return property_found
             except Exception as ex:
                 exception = ex

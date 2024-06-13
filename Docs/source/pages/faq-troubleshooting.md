@@ -199,7 +199,14 @@ There are two steps to make AltTester work with Lean Touch:
 1. Add `AltTesterUnitySDK` as an assembly definition reference in `CW.Common` asmdef that can be found usually at `Plugin->CW->Shared->Common`. 
 2. In the `CwInput.cs` file replace every occurrence of `UnityEngine.Input.` with `Input.`
 
+</details>
 <br>
 
+<details>
+<summary>When I try to run tests in C#/ Python I get the error: <strong>System.PlatformNotSupportedException : Operation is not supported on this platform.</strong>(C#) / <strong>Error: the JSON object must be str, bytes or bytearray, not NoneType</strong> and <strong>Connection to AltServer closed with status code: None and message: 'None'.</strong> (Python)</summary>
+<br>
+
+You get this error because you are using an older binding. (Eg: You use the AltTester Unity SDK v 2.1.x and a binding with v 2.0.3). You should update it to the latest version.
 </details>
+<br>
 

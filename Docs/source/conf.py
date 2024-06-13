@@ -119,7 +119,8 @@ html_css_files = [
     'css/custom.css',
 ]
 html_js_files = [
-    'js/custom.js'
+    'js/custom.js',
+    ('https://cdn.usefathom.com/script.js', {'defer': 'defer', 'data-site': 'RTZVKYOQ'})
 ]
 html_theme_options = {
     'collapse_navigation': False,

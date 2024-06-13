@@ -182,6 +182,19 @@ public class AltObject {
         return response;
     }
 
+    public <T> T waitForComponentProperty(AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams,
+            T propertyValue, Boolean getPropertyAsString,
+            Class<T> returnType) {
+
+        altWaitForComponentPropertyParams.setAltObject(this);
+        T response = new AltWaitForComponentProperty<T>(messageHandler,
+                altWaitForComponentPropertyParams,
+                propertyValue, getPropertyAsString, this)
+                .Execute(returnType);
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
+    }
+
     /**
      * Sets value of the given component property.
      *

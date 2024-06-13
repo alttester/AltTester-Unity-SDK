@@ -2472,7 +2472,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
                 :language: py
                 :emphasize-lines: 6,10
 
-    .. tab:: Robot
+    .. tab:: robot
 
         **Get Player Pref Key**
 
@@ -2597,7 +2597,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
                 :language: py
                 :emphasize-lines: 4,5
 
-    .. tab:: Robot
+    .. tab:: robot
 
         **Set Player Pref Key**
 
@@ -3629,11 +3629,11 @@ Invokes a method from an existing component of the object.
         public void TestCallMethodWithAssembly()
         {
             AltObject capsule = altDriver.FindObject(By.NAME, "Capsule");
-            var initialRotation = capsule.GetComponentProperty("UnityEngine.Transform", "rotation");
-            capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", "UnityEngine.CoreModule", new[] { "10", "10", "10" }, new[] { "System.Single", "System.Single", "System.Single" });
+            var initialRotation = capsule.GetComponentProperty<dynamic>("UnityEngine.Transform", "rotation", "UnityEngine.CoreModule");
+            capsule.CallComponentMethod<string>("UnityEngine.Transform", "Rotate", "UnityEngine.CoreModule", new object[3] { 10, 10, 10 }, new[] { "System.Single", "System.Single", "System.Single" });
             AltObject capsuleAfterRotation = altDriver.FindObject(By.NAME, "Capsule");
-            var finalRotation = capsuleAfterRotation.GetComponentProperty("UnityEngine.Transform", "rotation");
-            Assert.AreNotEqual(initialRotation, finalRotation);
+            var finalRotation = capsuleAfterRotation.GetComponentProperty<dynamic>("UnityEngine.Transform", "rotation", "UnityEngine.CoreModule");
+            Assert.IsTrue(initialRotation["x"] != finalRotation["x"] || initialRotation["y"] != finalRotation["y"] || initialRotation["z"] != finalRotation["z"] || initialRotation["w"] != finalRotation["w"]);
         }
 
         [Test]
@@ -3778,10 +3778,12 @@ Wait until a property has a specific value and returns the value of the given co
 | ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |
 | componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                    |
 | propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                           |                                                                                                                                   
-| propertyValue  | T | Yes       | The value that property shoud have.                             
+| propertyValue  | T | Yes       | The value that property should have.                             
 | assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                           
 | timeout     | double             | No       | The number of seconds that it will wait for the property. The default value is 20 seconds.                                                                                                                            
-| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.                                                                                                                                                                                                                                                                                       |
+| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.                                                                                                                                         | 
+| getPropertyAsString    | bool             | No       | If `true`, it will treat the propertyValue as a string; if `false` it will consider the original type of the propertyValue. This is especially useful when you want to pass for example `[[], []]` as a propertyValue, which you can do by setting getPropertyAsString to `true` and propertyValue to `JToken.Parse("[[], []]")` (in C#).
+
 
 **_Returns_**
 
@@ -3808,6 +3810,13 @@ Wait until a property has a specific value and returns the value of the given co
             Assert.AreEqual(port, propertyValue);
         }
 
+        [Test]
+        public void TestWaitForComponentPropertyAsString()
+        {
+            var Canvas = altDriver.WaitForObject(By.PATH, "/Canvas");
+            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]]]"), "UnityEngine.UIModule", 1, getPropertyAsString: true);
+        }
+
 
     .. code-tab:: java
 
@@ -3831,6 +3840,19 @@ Wait until a property has a specific value and returns the value of the given co
             assertEquals(Boolean.FALSE, propertyValue);
         }
 
+        @Test
+        public void TestWaitForComponentPropertyGetPropertyAsString() throws InterruptedException {
+            AltObject Canvas = altDriver.waitForObject(new AltWaitForObjectsParams.Builder(
+            new AltFindObjectsParams.Builder(AltDriver.By.PATH, "/Canvas").build()).build());
+            Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(new AltGetComponentPropertyParams.Builder(
+                "UnityEngine.UI.CanvasScaler", "transform",
+                "UnityEngine.UI").build()).build(),
+                new Gson().toJsonTree("[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]"),
+                true,
+                JsonElement.class);
+        }
+
     .. code-tab:: py
 
         def test_wait_for_component_property(self):
@@ -3840,12 +3862,22 @@ Wait until a property has a specific value and returns the value of the given co
                 "Assembly-CSharp")
             assert result is True
 
+        def test_wait_for_component_property_get_property_as_string(self):
+            Canvas = self.altdriver.wait_for_object(By.PATH, "/Canvas")
+            Canvas.wait_for_component_property("UnityEngine.RectTransform", "transform",
+                                            "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]",
+                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
+
     .. code-tab:: robot
 
-       Test Wait For Component Property
+        Test Wait For Component Property
             ${alt_object}=    Find Object    NAME    Capsule
             ${result}=    Wait For Component Property    ${alt_object}    AltExampleScriptCapsule    TestBool    ${True}    Assembly-CSharp
             Should Be Equal    ${result}    ${True} 
+
+        Test Wait For Component Property Get Property As String
+            ${Canvas} =    Wait For Object    PATH    /Canvas
+            Wait For Component Property    ${Canvas}    UnityEngine.RectTransform    name    Canvas    UnityEngine.CoreModule    1    get_property_as_string=${True}
 
 ```
 
@@ -3876,35 +3908,42 @@ Returns the value of the given component property.
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "AltTester.AltRunner";
-            const string propertyName = "InstrumentationSettings.AltTesterPort";
-            var altObject = altDriver.FindObject(By.NAME,"AltRunnerPrefab");
-            Assert.NotNull(altObject);
-            var propertyValue = altObject.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
-            Assert.AreEqual(propertyValue, 13000);
+            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string propertyName = "InstrumentationSettings.AppName";
+            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+            Assert.NotNull(altElement);
+            var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName, "AltTester.AltTesterUnitySDK");
+
+            Assert.AreEqual("__default__", propertyValue);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testGetComponentProperty() throws Exception
+        public void testGetComponentProperty() throws InterruptedException
         {
-            String componentName = "AltTester.AltRunner";
-            String propertyName = "InstrumentationSettings.AltTesterPort";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "AltRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
-            AltObject altObject = altDriver.findObject(altFindObjectsParams);
-            assertNotNull(altObject);
-            AltGetComponentPropertyParams altGetComponentPropertyParameters=new AltGetComponentPropertyParams.Builder(componentName, propertyName, "Assembly-CSharp").build();
-            int propertyValue = altObject.getComponentProperty(altGetComponentPropertyParams,Integer.class);
-            assertEquals(propertyValue, 13000);
+            Thread.sleep(1000);
+            String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            String propertyName = "InstrumentationSettings.ResetConnectionData";
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                    "AltTesterPrefab").build();
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
+            assertNotNull(altElement);
+
+            Boolean propertyValue = altElement.getComponentProperty(
+                    new AltGetComponentPropertyParams.Builder(componentName,
+                            propertyName, "AltTester.AltTesterUnitySDK").build(),
+                    Boolean.class);
+            assertTrue(propertyValue);
         }
 
     .. code-tab:: py
 
         def test_get_component_property(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
-            result = self.altDriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
-            self.assertEqual(result, [1,2,3])
+            self.altdriver.load_scene('Scene 1 AltDriverTestScene')
+            alt_object = self.altdriver.find_object(By.NAME, "Capsule")
+            result = alt_object.get_component_property(
+                "AltExampleScriptCapsule", "arrayOfInts", "Assembly-CSharp")
 
     .. code-tab:: robot
 
@@ -3943,13 +3982,13 @@ Sets value of the given component property.
         [Test]
         public void TestSetComponentProperty()
         {
-            const string componentName = "Capsule";
+            const string componentName = "AltExampleScriptCapsule";
             const string propertyName = "stringToSetFromTests";
-            var altObject = altDriver.FindObject(By.NAME, "Capsule");
-            Assert.NotNull(altObject);
-            altObject.SetComponentProperty(componentName, propertyName, "2", "Assembly-CSharp");
+            var altElement = altDriver.FindObject(By.NAME, "Capsule");
+            Assert.NotNull(altElement);
+            altElement.SetComponentProperty(componentName, propertyName, "2", "Assembly-CSharp");
 
-            var propertyValue = altObject.GetComponentProperty<string>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual("2", propertyValue);
         }
 
@@ -3958,27 +3997,35 @@ Sets value of the given component property.
         @Test
         public void testSetComponentProperty()
         {
-            String componentName = "Capsule";
+            String componentName = "AltExampleScriptCapsule";
             String propertyName = "stringToSetFromTests";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
-            AltObject altObject = altDriver.findObject(altFindObjectsParams);
-            assertNotNull(altObject);
-            altElement.setComponentProperty(new AltSetComponentPropertyParams.Builder(componentName, propertyName, "2", "Assembly-CSharp").build());
-            String propertyValue = altElement.getComponentProperty(new AltGetComponentPropertyParams.Builder(componentName,propertyName).build(), String.class);
-            assertEquals("2", propertyValue);
+            String assembly = "Assembly-CSharp";
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                    "Capsule").build();
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
+            assertNotNull(altElement);
+            altElement.setComponentProperty(
+                    new AltSetComponentPropertyParams.Builder(componentName, propertyName,
+                            assembly, "2").build());
+            int propertyValue = altElement.getComponentProperty(
+                    new AltGetComponentPropertyParams.Builder(componentName,
+                            propertyName,
+                            assembly).build(),
+                    int.class);
+            assertEquals(2, propertyValue);
         }
 
     .. code-tab:: py
 
         def test_set_component_property(self):
             self.altDriver.load_scene("Scene 1 AltDriverTestScene")
-            componentName = "Capsule"
-            propertyName = "stringToSetFromTests"
-            altObject = self.altDriver.find_object(By.NAME, componentName)
-            self.assertNotEqual(altObject, None)
-            altObject.set_component_property(componentName, propertyName, "2", "Assembly-CSharp")
-            propertyValue = altObject.get_component_property(componentName, propertyName)
-            self.assertEqual("2", propertyValue)
+            alt_object = self.altdriver.find_object(By.NAME, "Capsule")
+            alt_object.set_component_property(
+                "AltExampleScriptCapsule", "arrayOfInts", "Assembly-CSharp", [2, 3, 4])
+
+            alt_object = self.altdriver.find_object(By.NAME, "Capsule")
+            result = alt_object.get_component_property(
+                "AltExampleScriptCapsule", "arrayOfInts", "Assembly-CSharp")
 
     .. code-tab:: robot
 
@@ -4038,7 +4085,7 @@ None
             AltObject altElement = altDriver.findObject(altFindObjectsParams);
             assertNotNull(altElement);
             assertEquals(altElement.getText(), text);
-          }
+        }
 
     .. code-tab:: py
 
@@ -4080,40 +4127,41 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
     .. code-tab:: c#
 
-        [Test]
-        public void TestSetTextForElement()
+        [TestCase("UnityUIInputField")] // UI input field
+        [TestCase("TextMeshInputField")] // text mesh input field
+        public void TestSetTextForUnityUIInputField(string fieldName)
         {
-            const string name = "InputField";
-            const string text = "InputFieldTest";
-            var input = altDriver.FindObject(By.NAME, name).SetText(text, true);
-            Assert.NotNull(input);
-            Assert.AreEqual(input.GetText(), text);
+            var inputField = altDriver.FindObject(By.NAME, fieldName).SetText("exampleUnityUIInputField", true);
+            Assert.AreEqual("exampleUnityUIInputField", inputField.GetText());
+            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onValueChangedInvoked", "Assembly-CSharp"), "onValueChangedInvoked was false");
+            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp"), "onSubmitInvoked was false");
+            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onEndEditInvoked", "Assembly-CSharp"), "onEndEditInvoked was false");
         }
 
     .. code-tab:: java
 
         @Test
-        public void testSetTextForElement()
-        {
-            String name = "InputField";
-            String text = "InputFieldTest";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltObject altObject = altDriver.findObject(altFindObjectsParams);
+        public void TestSetTextWithSubmit() {
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                    AltDriver.By.NAME, "NonEnglishText").build();
+            AltObject textObject = altDriver.findObject(altFindObjectsParameters1);
+            String originalText = textObject.getText();
+            String text = "ModifiedText";
             AltSetTextParams setTextParams = new AltSetTextParams.Builder(text).withSubmit(true).build();
-            altObject.setText(setTextParams);
-            assertNotNull(altObject);
-            assertEquals(altObject.getText(), text);
+            String afterText = textObject.setText(setTextParams).getText();
+            assertNotEquals(originalText, afterText);
+            assertEquals(text, afterText);
         }
 
     .. code-tab:: py
 
-        def test_set_text_for_element(self):
-            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
-            name = "InputField"
-            text = "InputFieldTest"
-            input = self.altDriver.find_object(By.NAME, name).set_text(text, submit=True)
-            self.assertNotEqual(input, None)
-            self.assertEqual(input.get_text(), text)
+        def test_set_text(self):
+            text_object = self.altdriver.find_object(By.NAME, "NonEnglishText")
+            original_text = text_object.get_text()
+            after_text = text_object.set_text("ModifiedText").get_text()
+
+            assert original_text != after_text
+            assert after_text == "ModifiedText"
 
     .. code-tab:: robot
 
@@ -4281,40 +4329,61 @@ None
     .. code-tab:: c#
 
         [Test]
-        public void TestPointerDownCommand()
+        public void TestPointerDown()
         {
+            altDriver.LoadScene("Scene 2 Draggable Panel");
             var panel = altDriver.FindObject(By.NAME, "Panel");
-            var color1 = panel.GetComponentProperty("PanelScript", "normalColor", "Assembly-CSharp");
+            var color1 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "normalColor", "Assembly-CSharp");
             panel.PointerDown();
             Thread.Sleep(1000);
-            var color2 = panel.GetComponentProperty("PanelScript", "highlightColor", "Assembly-CSharp");
+            var color2 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1, color2);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testPointerDownCommand() throws InterruptedException
-        {
-            AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "normalColor", "Assembly-CSharp").build(), String.class);
+        public void testPointerDownFromObject() throws InterruptedException {
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build());
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                            AltDriver.By.NAME, "Panel").build();
+            AltObject panel = altDriver.findObject(altFindObjectsParameters1);
+
+            AltColor color1 = panel.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor",
+                                            "Assembly-CSharp")
+                                            .build(),
+                            AltColor.class);
             panel.pointerDown();
             Thread.sleep(1000);
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "PanelScript", "highlightColor", "Assembly-CSharp").build(), String.class);
-            assertTrue(color1 != color2);
+            AltColor color2 = panel.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor",
+                                            "Assembly-CSharp")
+                                            .build(),
+                            AltColor.class);
+            assertTrue(color1.r != color2.r || color1.g != color2.g || color1.b != color2.b
+                            || color1.a != color2.a);
         }
 
     .. code-tab:: py
 
-        def test_pointer_down_command():
-            self.altDriver.load_scene('Scene 2 Draggable Panel')
-            time.sleep(1)
-            p_panel = self.altDriver.find_object(By.NAME, 'Panel')
-            color1 = p_panel.get_component_property('PanelScript', 'normalColor', 'Assembly-CSharp')
-            p_panel.pointer_down()
-            time.sleep(1)
-            color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
-            self.assertNotEquals(color1, color2)
+        def test_pointer_down_from_object(self):
+            self.altdriver.load_scene('Scene 2 Draggable Panel')
+            panel = self.altdriver.find_object(By.NAME, "Panel")
+            color1 = panel.get_component_property(
+                "AltExampleScriptPanel",
+                "normalColor",
+                "Assembly-CSharp"
+            )
+            panel.pointer_down()
+
+            color2 = panel.get_component_property(
+                "AltExampleScriptPanel",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color1 != color2
 
     .. code-tab:: robot
 
@@ -4347,45 +4416,63 @@ None
     .. code-tab:: c#
 
         [Test]
-        public void TestPointerUpCommand()
+        public void TestPointerUp()
         {
+            altDriver.LoadScene("Scene 2 Draggable Panel");
             var panel = altDriver.FindObject(By.NAME, "Panel");
-            var color1 = panel.GetComponentProperty("PanelScript", "normalColor", "Assembly-CSharp");
+            var color1 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "normalColor", "Assembly-CSharp");
             panel.PointerDown();
             Thread.Sleep(1000);
             panel.PointerUp();
-            var color2 = panel.GetComponentProperty("PanelScript", "highlightColor", "Assembly-CSharp");
+            var color2 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "highlightColor", "Assembly-CSharp");
             Assert.AreEqual(color1, color2);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testPointerUpCommand() throws InterruptedException
-        {
-            AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "normalColor", "Assembly-CSharp").build(), String.class);
-
+        public void testPointerUpFromObject() throws InterruptedException {
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build());
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                            AltDriver.By.NAME, "Panel").build();
+            AltObject panel = altDriver.findObject(altFindObjectsParameters1);
+            AltColor color1 = panel.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor",
+                                            "Assembly-CSharp")
+                                            .build(),
+                            AltColor.class);
             panel.pointerDown();
             Thread.sleep(1000);
             panel.pointerUp();
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "highlightColor", "Assembly-CSharp").build(), String.class);
-
-            assertEquals(color1, color2);
+            AltColor color2 = panel.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor",
+                                            "Assembly-CSharp")
+                                            .build(),
+                            AltColor.class);
+            assertTrue(color1.r == color2.r && color1.g == color2.g && color1.b == color2.b
+                            && color1.a == color2.a);
         }
 
     .. code-tab:: py
 
-        def test_pointer_up_command():
-            self.altDriver.load_scene('Scene 2 Draggable Panel')
-            time.sleep(1)
-            p_panel = self.altDriver.find_object(By.NAME, 'Panel')
-            color1 = p_panel.get_component_property('PanelScript', 'normalColor', 'Assembly-CSharp')
-            p_panel.pointer_down()
-            time.sleep(1)
-            p_panel.pointer_up()
-            color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
-            self.assertEquals(color1, color2)
+        def test_pointer_up_from_object(self):
+            self.altdriver.load_scene('Scene 2 Draggable Panel')
+            panel = self.altdriver.find_object(By.NAME, "Panel")
+            color1 = panel.get_component_property(
+                "AltExampleScriptPanel",
+                "normalColor",
+                "Assembly-CSharp"
+            )
+            panel.pointer_down()
+
+            panel.pointer_up()
+            color2 = panel.get_component_property(
+                "AltExampleScriptPanel",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color1 == color2            
 
     .. code-tab:: robot
 
@@ -4421,49 +4508,82 @@ None
         [Test]
         public void TestPointerEnterAndExit()
         {
-            var altObject = altDriver.FindObject(By.NAME,"Drop Image");
-            var color1 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
-            altDriver.FindObject(By.NAME,"Drop Image").PointerEnter();
-            var color2 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
-            Assert.AreNotEqual(color1,color2);
-            altDriver.FindObject(By.NAME,"Drop Image").PointerExit();
-            var color3 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
+            altDriver.LoadScene("Scene 3 Drag And Drop");
+            var altElement = altDriver.FindObject(By.NAME, "Drop Image");
+            var color1 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
+            altDriver.FindObject(By.NAME, "Drop Image").PointerEnter();
+            var color2 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
+            Assert.AreNotEqual(color1, color2);
+            altDriver.FindObject(By.NAME, "Drop Image").PointerExit();
+            var color3 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color3, color2);
-            Assert.AreEqual(color1,color3);
+            Assert.AreEqual(color1, color3);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testPointerEnterAndExit()
-        {
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
-            AltObject altObject = altDriver.findObject(altFindObjectsParams);
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
+        public void testTestPointerEnterAndExit() throws Exception {
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").build());
+            AltObject altElement = FindObject(By.NAME, "Drop Image");
+            AltColor color1 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
+            FindObject(By.NAME, "Drop Image").pointerEnter();
+            AltColor color2 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
+            assertNotEquals(color1, color2);
+            FindObject(By.NAME, "Drop Image").pointerEnter();
+            AltColor color3 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
 
-            altDriver.findObject(altFindObjectsParams).pointerEnter();
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
-            assertNotEquals(color1,color2);
-
-            altDriver.findObject(altFindObjectsParams).pointerExit();
-            String color3 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
             assertNotEquals(color3, color2);
-            assertEquals(color1,color3);
+            assertNotEquals(color1, color3);        
         }
 
     .. code-tab:: py
 
         def test_pointer_enter_and_exit(self):
-            self.altDriver.load_scene("Scene 3 Drag And Drop")
-            alt_unity_object = self.altDriver.find_object(By.NAME,"Drop Image")
-            color1 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.altDriver.find_object(By.NAME,"Drop Image").pointer_enter()
-            color2 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.assertNotEqual(color1, color2)
-            self.altDriver.find_object(By.NAME,"Drop Image").pointer_exit()
-            color3 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.assertNotEqual(color3, color2)
-            self.assertEqual(color1, color3)
+            self.altdriver.load_scene("Scene 3 Drag And Drop")
+            alt_object = self.altdriver.find_object(By.NAME, "Drop Image")
+            color1 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+            alt_object.pointer_enter()
+            color2 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color1["r"] != color2["r"] or \
+                color1["g"] != color2["g"] or \
+                color1["b"] != color2["b"] or \
+                color1["a"] != color2["a"]
+
+            alt_object.pointer_exit()
+            color3 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color3["r"] != color2["r"] or \
+                color3["g"] != color2["g"] or \
+                color3["b"] != color2["b"] or \
+                color3["a"] != color2["a"]
+
+            assert color3["r"] == color1["r"] and \
+                color3["g"] == color1["g"] and \
+                color3["b"] == color1["b"] and \
+                color3["a"] == color1["a"]
 
     .. code-tab:: robot
 
@@ -4514,50 +4634,82 @@ None
         [Test]
         public void TestPointerEnterAndExit()
         {
-            var altObject = altDriver.FindObject(By.NAME,"Drop Image");
-            var color1 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
-            altDriver.FindObject(By.NAME,"Drop Image").PointerEnter();
-            var color2 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
-            Assert.AreNotEqual(color1,color2);
-            altDriver.FindObject(By.NAME,"Drop Image").PointerExit();
-            var color3 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
+            altDriver.LoadScene("Scene 3 Drag And Drop");
+            var altElement = altDriver.FindObject(By.NAME, "Drop Image");
+            var color1 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
+            altDriver.FindObject(By.NAME, "Drop Image").PointerEnter();
+            var color2 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
+            Assert.AreNotEqual(color1, color2);
+            altDriver.FindObject(By.NAME, "Drop Image").PointerExit();
+            var color3 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color3, color2);
-            Assert.AreEqual(color1,color3);
+            Assert.AreEqual(color1, color3);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testPointerEnterAndExit()
-        {
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
-            AltObject altObject = altDriver.findObject(altFindObjectsParams);
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
+        public void testTestPointerEnterAndExit() throws Exception {
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").build());
+            AltObject altElement = FindObject(By.NAME, "Drop Image");
+            AltColor color1 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
+            FindObject(By.NAME, "Drop Image").pointerEnter();
+            AltColor color2 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
+            assertNotEquals(color1, color2);
+            FindObject(By.NAME, "Drop Image").pointerEnter();
+            AltColor color3 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
 
-
-            altDriver.findObject(altFindObjectsParams).pointerEnter();
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
-            assertNotEquals(color1,color2);
-
-            altDriver.findObject(altFindObjectsParams).pointerExit();
-            String color3 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
             assertNotEquals(color3, color2);
-            assertEquals(color1,color3);
+            assertNotEquals(color1, color3);        
         }
 
     .. code-tab:: py
 
         def test_pointer_enter_and_exit(self):
-            self.altDriver.load_scene("Scene 3 Drag And Drop")
-            alt_unity_object = self.altDriver.find_object(By.NAME,"Drop Image")
-            color1 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.altDriver.find_object(By.NAME,"Drop Image").pointer_enter()
-            color2 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.assertNotEqual(color1, color2)
-            self.altDriver.find_object(By.NAME,"Drop Image").pointer_exit()
-            color3 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.assertNotEqual(color3, color2)
-            self.assertEqual(color1, color3)
+            self.altdriver.load_scene("Scene 3 Drag And Drop")
+            alt_object = self.altdriver.find_object(By.NAME, "Drop Image")
+            color1 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+            alt_object.pointer_enter()
+            color2 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color1["r"] != color2["r"] or \
+                color1["g"] != color2["g"] or \
+                color1["b"] != color2["b"] or \
+                color1["a"] != color2["a"]
+
+            alt_object.pointer_exit()
+            color3 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color3["r"] != color2["r"] or \
+                color3["g"] != color2["g"] or \
+                color3["b"] != color2["b"] or \
+                color3["a"] != color2["a"]
+
+            assert color3["r"] == color1["r"] and \
+                color3["g"] == color1["g"] and \
+                color3["b"] == color1["b"] and \
+                color3["a"] == color1["a"]
 
     .. code-tab:: robot
 

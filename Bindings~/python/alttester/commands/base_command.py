@@ -195,13 +195,16 @@ class BaseCommand(Command):
             "failedToParseMethodArguments": exceptions.FailedToParseArgumentsException,
             "formatException": exceptions.FormatException,
             "invalidParameterType": exceptions.InvalidParameterTypeException,
+            "invalidCommand": exceptions.InvalidCommandException,
             "invalidPath": exceptions.InvalidPathException,
             "nullReferenceException": exceptions.NotFoundException,
             "unknownError": exceptions.UnknownErrorException
         }
 
-        exception = error_map.get(
-            error.get("type"), exceptions.UnknownErrorException)
+        exception = error_map.get(error.get("type"), exceptions.UnknownErrorException)
+        if exception == exceptions.InvalidCommandException:
+            raise exception("Invalid command exception. You may want to set the Managed\
+                            Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization.")
         raise exception(error.get("message"))
 
     def validate_response(self, expected, received):

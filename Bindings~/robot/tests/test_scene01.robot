@@ -231,6 +231,10 @@ Test Wait For Component Property
     ${result}=    Wait For Component Property    ${alt_object}    AltExampleScriptCapsule    TestBool    ${True}    Assembly-CSharp
     Should Be Equal    ${result}    ${True}
 
+Test Wait For Component Property Get Property As String
+    ${Canvas} =    Wait For Object    PATH    /Canvas
+    Wait For Component Property    ${Canvas}    UnityEngine.RectTransform    name    Canvas    UnityEngine.CoreModule    1    get_property_as_string=${True}
+
 Test Get Component Property
     ${alt_object}=    Find Object    NAME    Capsule
     ${result}=    Get Component Property    ${alt_object}    AltExampleScriptCapsule    arrayOfInts    Assembly-CSharp
