@@ -49,7 +49,7 @@ jobs:
         run: |
           export ALTSERVER_PORT=13005
           export ALTSERVER_HOST="192.168.11.35"
-          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
+          # $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
       - uses: actions/upload-artifact@v3
         if: always() # run this step even if one of the previous step failed
@@ -500,8 +500,8 @@ jobs:
 
   build-macOS-for-Server-PathValidation:
     runs-on: [self-hosted, macOS]
-    needs: [test-CSharp-Editor, test-DotNet]
-    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    needs: [test-CSharp-Editor, test-DotNet, test-Python, test-Robot, test-Java, test-Python-Browserstack-ios-android]
+    if: (needs.test-CSharp-Editor.result == 'success' || needs.test-CSharp-Editor.result == 'skipped') && (needs.test-DotNet.result == 'success' || needs.test-DotNet.result == 'skipped') && (needs.test-Python.result == 'success' || needs.test-Python.result == 'skipped') && (needs.test-Robot.result == 'success' || needs.test-Robot.result == 'skipped') && (needs.test-Java.result == 'success' || needs.test-Java.result == 'skipped') && (needs.test-Python-Browserstack-ios-android.result == 'success' || needs.test-Python-Browserstack-ios-android.result == 'skipped')
     steps:
       - uses: actions/checkout@v3
 
