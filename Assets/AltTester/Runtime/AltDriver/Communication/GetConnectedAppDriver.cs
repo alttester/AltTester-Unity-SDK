@@ -17,14 +17,14 @@
 
 namespace AltTester.AltTesterUnitySDK.Driver.Communication
 {
-    public class GetConnectedAppDriver :   BaseDriver
+    public class GetConnectedAppDriver : BaseDriver
     {
-          public  GetConnectedAppDriver(string path) : base(path)
+        public GetConnectedAppDriver(string path) : base(path)
         {
         }
-        public void   Send ()
+        public void Send()
         {
-               WsClient.Send("GetApps");
+            WsClient.Send("GetApps");
         }
     }
 }
