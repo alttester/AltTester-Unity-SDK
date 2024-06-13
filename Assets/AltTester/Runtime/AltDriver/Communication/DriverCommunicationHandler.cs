@@ -56,7 +56,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
         private bool websocketClosedCalled = false;
-        private bool driverRegisteredCalled = false;
 
         private List<string> messageIdTimeouts = new List<string>();
 
