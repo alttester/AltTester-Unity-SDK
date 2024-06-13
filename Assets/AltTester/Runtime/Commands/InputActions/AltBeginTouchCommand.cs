@@ -28,7 +28,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
         public override int Execute()
         {
-            return InputController.BeginTouch(new UnityEngine.Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y);
+            return InputController.BeginTouch(new UnityEngine.Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y));
         }
     }
 }
