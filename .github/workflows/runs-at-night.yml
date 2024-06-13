@@ -4,15 +4,16 @@ on:
   workflow_dispatch:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron: '0 0 * * *' # run at the end of every day
+    - cron: "0 0 * * *" # run at the end of every day
 
 env:
   ALTSERVER_PORT: 13005
   ALTSERVER_HOST: 192.168.11.35
-  PYTHON_VERSION: '3.10'
+  PYTHON_VERSION: "3.10"
 
 jobs:
   build-webgl:
+    timeout-minutes: 60
     runs-on: [self-hosted, macOS]
 
     steps:
@@ -52,6 +53,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   build-ios:
+    timeout-minutes: 60
     runs-on: [self-hosted, macOS]
 
     steps:
@@ -94,6 +96,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   build-android:
+    timeout-minutes: 60
     runs-on: [self-hosted, macOS]
 
     steps:
@@ -133,6 +136,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-webgl-dotnet:
+    timeout-minutes: 60 # Set job timeout to 1 hour
     needs: build-webgl
 
     runs-on: [self-hosted, macOS]
@@ -152,16 +156,26 @@ jobs:
         run: |
           cd webgl
           python3 -m http.server --cgi 8360 &
-          osascript -e 'quit app "Chrome"'
-          open http://localhost:8360/index.html
+          echo $! > server.pid  # Store server PID
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5
+          open -a "Google Chrome" http://localhost:8360/index.html
+          sleep 10  # Give some time for Chrome to open and load the page
 
       - name: Run tests
         run: |
           dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
 
-      - name: Close Chrome
+      - name: Close Chrome and stop server
         if: always()
-        run: osascript -e 'quit app "Chrome"'
+        run: |
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5  # Ensure there's a delay to give Chrome time to close
+          pkill -x "Google Chrome" || true  # Forcefully kill any remaining Chrome processes
+          if [ -f server.pid ]; then
+            kill $(cat server.pid)  # Stop the Python server
+            rm server.pid
+          fi
 
       - name: Upload logs
         uses: actions/upload-artifact@v4
@@ -186,6 +200,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-webgl-python:
+    timeout-minutes: 60 # Set job timeout to 1 hour
     needs: build-webgl
 
     runs-on: [self-hosted, macOS]
@@ -206,8 +221,11 @@ jobs:
         run: |
           cd webgl
           python3 -m http.server --cgi 8360 &
-          osascript -e 'quit app "Chrome"'
-          open http://localhost:8360/index.html
+          echo $! > server.pid  # Store server PID
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5
+          open -a "Google Chrome" http://localhost:8360/index.html
+          sleep 10  # Give some time for Chrome to open and load the page
 
       - name: Install dependencies
         run: |
@@ -221,9 +239,16 @@ jobs:
         run: |
           pytest Bindings~/python/tests/integration -m "not WebGLUnsupported"
 
-      - name: Close Chrome
+      - name: Close Chrome and stop server
         if: always()
-        run: osascript -e 'quit app "Chrome"'
+        run: |
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5  # Ensure there's a delay to give Chrome time to close
+          pkill -x "Google Chrome" || true  # Forcefully kill any remaining Chrome processes
+          if [ -f server.pid ]; then
+            kill $(cat server.pid)  # Stop the Python server
+            rm server.pid
+          fi
 
       - name: Upload logs
         uses: actions/upload-artifact@v4
@@ -247,6 +272,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-webgl-java:
+    timeout-minutes: 60 # Set job timeout to 1 hour
     needs: build-webgl
 
     runs-on: [self-hosted, macOS]
@@ -272,8 +298,11 @@ jobs:
         run: |
           cd webgl
           python3 -m http.server --cgi 8360 &
-          osascript -e 'quit app "Chrome"'
-          open http://localhost:8360/index.html
+          echo $! > server.pid  # Store server PID
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5
+          open -a "Google Chrome" http://localhost:8360/index.html
+          sleep 10  # Give some time for Chrome to open and load the page
 
       - name: Run tests
         run: |
@@ -282,7 +311,10 @@ jobs:
 
       - name: Close Chrome
         if: always()
-        run: osascript -e 'quit app "Chrome"'
+        run: |
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5  # Ensure there's a delay to give Chrome time to close
+          pkill -x "Google Chrome" || true  # Forcefully kill any remaining Chrome processes
 
       - name: Upload logs
         uses: actions/upload-artifact@v4
@@ -308,7 +340,7 @@ jobs:
 
   test-ios-browserstack-python:
     needs: build-ios
-
+    timeout-minutes: 60 # Set job timeout to 1 hour
     runs-on: [self-hosted, macOS]
 
     env:
@@ -357,7 +389,6 @@ jobs:
           pytest -s -v -n 3 ./ --alluredir=allure-report/ --reruns 3 --reruns-delay 10 --dist=loadfile -m "not iOSUnsupported and not AndroidUnsupported and not WebGLUnsupported"
           pkill -f BrowserStackLocal || true
 
-
       - name: Generate Allure report
         if: always()
         run: |
@@ -371,8 +402,8 @@ jobs:
         with:
           name: ios-browserstack-python-artifacts
           path: |
-              **/*.log
-              ./allure-results-html/complete.html
+            **/*.log
+            ./allure-results-html/complete.html
 
       - name: Notify on Slack
         uses: ravsamhq/notify-slack-action@v2
@@ -390,7 +421,7 @@ jobs:
 
   test-android-browserstack-python:
     needs: build-android
-
+    timeout-minutes: 60 # Set job timeout to 1 hour
     runs-on: [self-hosted, macOS]
 
     env:
