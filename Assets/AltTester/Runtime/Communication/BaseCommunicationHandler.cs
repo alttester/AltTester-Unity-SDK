@@ -62,10 +62,11 @@ namespace AltTester.AltTesterUnitySDK.Communication
         }
         public void Init(string path, CommunicationDisconnectHandler OnDisconnect)
         {
-            if (Application.platform == RuntimePlatform.WebGLPlayer)
+#if UNITY_WEBGL
                 this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId, this.appId);
-            else
-                this.WsClient = new RuntimeWebSocketClient(this.Host, this.Port, path, this.AppName, this.Platform, this.PlatformVersion, this.DeviceInstanceId, this.AppId);
+#else
+            this.WsClient = new RuntimeWebSocketClient(this.Host, this.Port, path, this.AppName, this.Platform, this.PlatformVersion, this.DeviceInstanceId, this.AppId);
+#endif
 
             this.WsClient.OnConnect += () =>
             {
