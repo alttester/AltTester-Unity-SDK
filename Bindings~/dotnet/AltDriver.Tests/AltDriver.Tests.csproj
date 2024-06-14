@@ -14,6 +14,9 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
+    <PropertyGroup>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    </PropertyGroup>
 
     <ItemGroup>
         <Compile Include="../../../Assets/Examples/Test/Editor/Driver/**/*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
