@@ -326,11 +326,11 @@ namespace AltTesterTools
             var MessageRectTransform = MessageGameObject.GetComponent<RectTransform>();
             MessageRectTransform.SetParent(parent, false);
 
-            MessageRectTransform.localPosition = new Vector3(0, 93.25f, 0);
+            MessageRectTransform.localPosition = new Vector3(0, 50f, 0);
             MessageRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             MessageRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            MessageRectTransform.anchoredPosition = new Vector2(0, 93.25f);
-            MessageRectTransform.sizeDelta = new Vector2(400, 328.5f);
+            MessageRectTransform.anchoredPosition = new Vector2(0, 50f);
+            MessageRectTransform.sizeDelta = new Vector2(350, 356);
             MessageRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var MessageText = MessageGameObject.GetComponent<Text>();
@@ -764,7 +764,7 @@ namespace AltTesterTools
             AltDialog.Icon = CreateIcon(AltDialogTransform);
             AltDialog.TitleText = CreateTitle(DialogTransform);
             AltDialog.SubtitleText = CreateSubtitle(DialogTransform);
-            AltDialog.MessageText = CreateStatusMessage(DialogTransform);
+            AltDialog.MessageText = CreateStatusMessage(InfoAreaTransform);
             AltDialog.CloseButton = CreateCloseButton(DialogTransform);
             AltDialog.InfoLabel = CreateInfoLabel(DialogTransform);
             AltDialog.HostInputField = CreateHostInputField(InfoAreaTransform);
