@@ -156,6 +156,22 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
 
             var cmdResponse = new CommandResponse();
+            if (CommandParams.commandName.Equals("gameFindObject"))
+            {
+                CommandParams.commandName = "findObject";
+            }
+            if (CommandParams.commandName.Equals("gameFindObjects"))
+            {
+                CommandParams.commandName = "findObjects";
+            }
+            if (CommandParams.commandName.Equals("gameFindObjectsLight"))
+            {
+                CommandParams.commandName = "findObjectsLight";
+            }
+            if (CommandParams.commandName.Equals("gameGetAllLoadedScenesAndObjects"))
+            {
+                CommandParams.commandName = "getAllLoadedScenesAndObjects";
+            }
             cmdResponse.commandName = CommandParams.commandName;
             cmdResponse.messageId = CommandParams.messageId;
             cmdResponse.driverId = CommandParams.driverId;

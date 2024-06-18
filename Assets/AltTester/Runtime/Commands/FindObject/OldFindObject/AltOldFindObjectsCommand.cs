@@ -21,20 +21,23 @@ using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltFindObjectsCommand : AltBaseFindObjectsCommand<List<AltObject>>
+    //TODO remove this class after OldFindObject is no longer supported
+    class AltOldFindObjectsCommand : AltOldBaseFindObjetsCommand<List<AltObject>>
     {
-        public AltFindObjectsCommand(BaseGameFindObjectParams cmdParams) : base(cmdParams) { }
+        public AltOldFindObjectsCommand(BaseFindObjectsParams cmdParams) : base(cmdParams) { }
 
         public override List<AltObject> Execute()
         {
+            UnityEngine.Debug.Log("OlfFindObject " + CommandParams.path);
             UnityEngine.Camera camera = null;
-            if (IsCameraSpecified(CommandParams.cameraConditions))
+            if (!CommandParams.cameraPath.Equals("//"))
             {
-                camera = GetCamera(CommandParams.cameraConditions);
+                camera = GetCamera(CommandParams.cameraBy, CommandParams.cameraPath);
                 if (camera == null) throw new CameraNotFoundException();
             }
+            var path = new OldPathSelector(CommandParams.path);
             var foundObjects = new List<AltObject>();
-            foreach (UnityEngine.GameObject testableObject in FindObjects(null, CommandParams.objectConditions, 0, false, CommandParams.enabled))
+            foreach (UnityEngine.GameObject testableObject in FindObjects(null, path.FirstBound, false, CommandParams.enabled))
             {
                 foundObjects.Add(AltRunner._altRunner.GameObjectToAltObject(testableObject, camera));
             }
@@ -42,6 +45,4 @@ namespace AltTester.AltTesterUnitySDK.Commands
             return foundObjects;
         }
     }
-
-
 }
