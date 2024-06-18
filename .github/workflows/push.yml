@@ -39,14 +39,10 @@ jobs:
               - 'Bindings~/robot/**'
 
   Roslyn-Analyzer-dotnet:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS]
     needs: paths-filter
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '5.0.x'
     - name: Restore dependencies
       run: dotnet restore AltTester.csproj
     - name: Run code analysis
