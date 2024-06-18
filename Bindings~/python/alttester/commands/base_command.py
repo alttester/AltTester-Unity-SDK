@@ -26,7 +26,6 @@ import alttester.exceptions as exceptions
 from alttester.by import By
 
 
-# EPOCH = datetime.utcfromtimestamp(0)
 EPOCH = datetime.datetime.fromtimestamp(0, datetime.timezone.utc)
 
 def validate_coordinates_3(coordinates):
