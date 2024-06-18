@@ -43,6 +43,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private const string PORT = "AltTesterPort";
         private const string APP_NAME = "AltTesterAppName";
         private const string UID = "UID";
+        private const string Test="test";
 
         private int responseCode = 0;
 
