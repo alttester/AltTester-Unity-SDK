@@ -61,10 +61,6 @@ indent_size=4
 tab_width=4
 
 dotnet_diagnostic.CS0414.severity = none
-# dotnet_diagnostic.CS0618.severity = none
-# dotnet_diagnostic.CS0649.severity = none
-# dotnet_diagnostic.CS0219.severity = none
-# dotnet_diagnostic.UNT0006.severity = none
 
 [*.{cs,vb}]
 
