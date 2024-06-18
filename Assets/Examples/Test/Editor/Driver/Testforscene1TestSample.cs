@@ -205,7 +205,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AppName";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -225,7 +225,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestWaitForComponentPropertyNotFound()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPortTest";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -234,7 +234,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestWaitForComponentPropertyTimeOut()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -255,7 +255,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestWaitForComponentProperty()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AppName";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
 
@@ -271,7 +271,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Ignore("This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185")]
         public void TestWaitForNonExistingComponentProperty()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -280,7 +280,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
         [Category("WebGLUnsupported")] // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
         [TestCase("UNEXISTING", "InstrumentationSettings.AltServerPort", "AltTester.AltTesterUnitySDK", "Component not found")]
-        [TestCase("AltTester.AltTesterUnitySDK.AltRunner", "UNEXISTING", "AltTester.AltTesterUnitySDK", "Property UNEXISTING not found")]
+        [TestCase("AltTester.AltTesterUnitySDK.Commands.AltRunner", "UNEXISTING", "AltTester.AltTesterUnitySDK", "Property UNEXISTING not found")]
         // [TestCase( "AltTester.AltTesterUnitySDK.AltRunner","InstrumentationSettings.AltServerPort", "UNEXISTING", "Assembly UNEXISTING not found")] -> This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185. This test can be uncomment when the issue is fixed
         public void TestWaitForComponentPropertyNonExistingParameters(string componentName, string propertyName, string assemblyName, string message)
         {
@@ -300,7 +300,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestGetComponentPropertyInvalidDeserialization()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.ResetConnectionData";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             try
