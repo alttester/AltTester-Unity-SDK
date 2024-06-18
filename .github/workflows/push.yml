@@ -49,7 +49,7 @@ jobs:
        dotnet clean AltTester-Unity-SDK.sln
        dotnet restore AltTester-Unity-SDK.sln
     - name: Run code analysis
-      run: dotnet build AltTester-Unity-SDK.sln --no-restore /warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
+      run: dotnet build AltTester-Unity-SDK.sln --no-restore -warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
 
   build-macOS:
     runs-on: [self-hosted, macOS]
@@ -513,8 +513,7 @@ jobs:
 
   build-macOS-for-Server-PathValidation:
     runs-on: [self-hosted, macOS]
-    needs: [paths-filter]
-    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    needs: Roslyn-Analyzer-dotnet
     steps:
       - uses: actions/checkout@v3
 

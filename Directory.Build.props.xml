@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <!-- Globally set properties here -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Exclude the Library folder from analysis -->
+    <None Remove="Library\**" />
+    <Content Remove="Library\**" />
+    <Compile Remove="Library\**" />
+    <EmbeddedResource Remove="Library\**" />
+    <AdditionalFiles Remove="Library\**" />
+  </ItemGroup>
+</Project>
