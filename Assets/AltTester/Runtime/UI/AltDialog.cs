@@ -468,7 +468,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 wasConnected = false;
                 if (responseCode > 4000 && responseCode < 5000)
                 {
-                    isEditing = true;
+                    isEditing = false;
                     stopClientsCalled = false;
                     return;
                 }
