@@ -16,6 +16,7 @@
 */
 
 #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
+
 using System;
 using System.Collections;
 using System.Collections.Generic;

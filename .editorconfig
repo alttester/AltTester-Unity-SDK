@@ -60,6 +60,8 @@ indent_style=space
 indent_size=4
 tab_width=4
 
+dotnet_diagnostic.CS0649.severity = none
+
 [*.{cs,vb}]
 
 # Defining symbols groups
