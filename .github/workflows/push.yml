@@ -48,9 +48,9 @@ jobs:
       with:
         dotnet-version: '5.0.x'
     - name: Restore dependencies
-      run: dotnet restore Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj
+      run: dotnet restore AltTester.csproj
     - name: Run code analysis
-      run: dotnet build Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --no-restore /warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
+      run: dotnet build AltTester.csproj --no-restore /warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
 
   build-macOS:
     runs-on: [self-hosted, macOS]
