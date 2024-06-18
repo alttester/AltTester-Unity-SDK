@@ -192,13 +192,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public System.Collections.IEnumerator RunActionAfterEndOfFrame(Action action)
         {
-#if UNITY_EDITOR
             if (Application.isBatchMode)
             {
                 yield return null;
             }
             else
-#endif
                 yield return new UnityEngine.WaitForEndOfFrame();
             action();
         }

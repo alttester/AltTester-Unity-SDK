@@ -559,13 +559,11 @@ public class Input : MonoBehaviour
 
     public static IEnumerator EndTouch(int fingerId)
     {
-#if UNITY_EDITOR
         if (Application.isBatchMode)
         {
             yield return null;
         }
         else
-#endif
             yield return new UnityEngine.WaitForEndOfFrame();
 
         var touch = findTouch(fingerId);
@@ -596,13 +594,11 @@ public class Input : MonoBehaviour
             mouseDownPointerEventData = pointerEventData;
         }
         var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
-#if UNITY_EDITOR
         if (Application.isBatchMode)
         {
             yield return null;
         }
         else
-#endif
             yield return new UnityEngine.WaitForEndOfFrame();
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
@@ -782,13 +778,11 @@ public class Input : MonoBehaviour
     private static IEnumerator setMouse0KeyCodePressedDown()
     {
         var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
-#if UNITY_EDITOR
         if (Application.isBatchMode)
         {
             yield return null;
         }
         else
-#endif
             yield return new UnityEngine.WaitForEndOfFrame();
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
@@ -849,13 +843,11 @@ public class Input : MonoBehaviour
         var eventSystemTarget = findEventSystemObject(pointerEventData);
         var monoBehaviourTarget = FindObjectViaRayCast.FindMonoBehaviourObject(screenPosition);
 
-#if UNITY_EDITOR
         if (Application.isBatchMode)
         {
             yield return null;
         }
         else
-#endif
             yield return new UnityEngine.WaitForEndOfFrame();//run after Update
 
         mousePosition = screenPosition;
@@ -944,13 +936,11 @@ public class Input : MonoBehaviour
     {
         UnityEngine.Vector3 screenPosition;
         FindObjectViaRayCast.FindCameraThatSeesObject(target, out screenPosition);
-#if UNITY_EDITOR
         if (Application.isBatchMode)
         {
             yield return null;
         }
         else
-#endif
             yield return new UnityEngine.WaitForEndOfFrame();//run after Update
 
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)

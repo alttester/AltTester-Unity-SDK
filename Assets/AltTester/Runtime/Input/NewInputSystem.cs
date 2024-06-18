@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
-
 #if ALTTESTER && ENABLE_INPUT_SYSTEM
+
 using System.Collections;
 using System.Collections.Generic;
 using AltTester;
@@ -390,14 +390,12 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
         internal static IEnumerator EndTouch(int fingerId)
         {
-#if UNITY_EDITOR
             if (Application.isBatchMode)
             {
                 yield return null;
             }
             else
-#endif
-                yield return new UnityEngine.WaitForEndOfFrame();
+            yield return new UnityEngine.WaitForEndOfFrame();
 
 
             InputTestFixture.EndTouch(fingerId, endTouchScreenPos, screen: Touchscreen);
@@ -476,7 +474,7 @@ public class TestExample
 #else
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK
+namespace AltTester.AltTesterUnitySDK.InputModule
 {
     public class NewInputSystem : MonoBehaviour
     {
