@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
-#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
 
+#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
 using System;
 using System.Collections;
 using System.Collections.Generic;
