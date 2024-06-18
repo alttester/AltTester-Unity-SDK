@@ -44,9 +44,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Restore dependencies
-      run: dotnet restore AltTester.csproj
+      run: |
+       $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -logFile buildForDotnetClean.log -quit
+       dotnet clean AltTester-Unity-SDK.sln
+       dotnet restore AltTester-Unity-SDK.sln
     - name: Run code analysis
-      run: dotnet build AltTester.csproj --no-restore /warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
+      run: dotnet build AltTester-Unity-SDK.sln --no-restore /warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
 
   build-macOS:
     runs-on: [self-hosted, macOS]
