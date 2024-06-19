@@ -349,7 +349,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
             if (cmdParams is AltSetTextParams)
             {
-                UnityEngine.Debug.LogWarning("AltSetTextParams was recognized")//TODO delete when is ready for pr
+                UnityEngine.Debug.LogWarning("AltSetTextParams was recognized");//TODO delete when is ready for pr
                 return new AltSetTextCommand(cmdParams as AltSetTextParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltGetPNGScreenshotParams)
