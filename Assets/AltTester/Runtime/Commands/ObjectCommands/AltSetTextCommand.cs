@@ -43,7 +43,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
             var targetObject = AltRunner.GetGameObject(CommandParams.altObject.id);
             Exception exception = null;
-            UnityEngine.Debug.LogWarning(targetObject.Name); //TODO delete this when I do the PR
+            UnityEngine.Debug.LogWarning(targetObject.name); //TODO delete this when I do the PR
 
             foreach (var property in textProperties)
             {
