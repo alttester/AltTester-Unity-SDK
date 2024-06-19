@@ -311,7 +311,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                             for (int i = 0; i < list.Length; i++)
                             {
                                 UnityEngine.Debug.LogWarning("i : " + i);//TODO remove when PR ready
-                                if (list[i].GetType().Name.Contains(componentName))
+                                if (list[i] != null && list[i].GetType().Name.Contains(componentName))
                                 {
                                     UnityEngine.Debug.LogWarning("gameObjectToCheck : " + gameObjectToCheck.name);//TODO remove when PR ready
                                     return gameObjectToCheck;
