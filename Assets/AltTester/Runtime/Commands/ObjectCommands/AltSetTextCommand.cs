@@ -56,6 +56,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                         uiInputFieldComp.onValueChanged.Invoke(CommandParams.value);
                         checkSubmit(uiInputFieldComp.gameObject);
 #if UNITY_2021_1_OR_NEWER
+                        UnityEngine.Debug.LogWarning("On submit Called"); //TODO delete this when I do the PR
                         uiInputFieldComp.onSubmit.Invoke(CommandParams.value);
 #endif
                         uiInputFieldComp.onEndEdit.Invoke(CommandParams.value);
