@@ -24,6 +24,7 @@ public class TestBase
 {
     protected AltDriver altDriver;
     protected string sceneName;
+    private int defaultCommandResponseTimeout = 5;
 
     [OneTimeSetUp]
     public void SetUp()
@@ -44,7 +45,7 @@ public class TestBase
     {
         altDriver.ResetInput();
 
-        altDriver.SetCommandResponseTimeout(60);
+        altDriver.SetCommandResponseTimeout(defaultCommandResponseTimeout);
         altDriver.LoadScene(this.sceneName, true);
     }
 }

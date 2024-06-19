@@ -210,7 +210,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
         {
             return PointerExit();
         }
-        
+
         public AltObject PointerExit()
         {
             var altObject = new AltPointerExitObject(CommHandler, this).Execute();

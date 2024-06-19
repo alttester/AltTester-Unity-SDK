@@ -25,14 +25,15 @@ using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    public enum BoundType
+    //TODO remove this file after OldFindObject is no longer supported
+    public enum OldBoundType
     {
         DirectChildren,
         AnyChildren,
         Parent
     }
 
-    public enum SelectorType
+    public enum OldSelectorType
     {
         Any, // *
         Name,  // name
@@ -41,11 +42,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
         Indexer, // [n]
     }
 
-    public enum FunctionType
+    public enum OldFunctionType
     {
         contains
     }
-    public enum PropertyType
+    public enum OldPropertyType
     {
         id,
         name,
@@ -55,9 +56,9 @@ namespace AltTester.AltTesterUnitySDK.Commands
         text
     }
 
-    public class BoundCondition
+    public class OldBoundCondition
     {
-        public BoundCondition(string selector, BoundType type, BoundCondition previousBound)
+        public OldBoundCondition(string selector, OldBoundType type, OldBoundCondition previousBound)
         {
             PrevBound = previousBound;
             Type = type;
@@ -69,19 +70,19 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
         }
         public string Selector { get; set; }
-        public BoundType Type { get; protected set; }
-        public IndexerCondition Indexer { get; set; }
+        public OldBoundType Type { get; protected set; }
+        public OldIndexerCondition Indexer { get; set; }
 
 
-        public BoundCondition NextBound { get; private set; }
-        public BoundCondition PrevBound { get; private set; }
-        public SelectorCondition FirstSelector { get; set; }
+        public OldBoundCondition NextBound { get; private set; }
+        public OldBoundCondition PrevBound { get; private set; }
+        public OldSelectorCondition FirstSelector { get; set; }
 
     }
-    public abstract class SelectorCondition
+    public abstract class OldSelectorCondition
     {
 
-        public SelectorCondition(string selector, SelectorType type, SelectorCondition previousSelector)
+        public OldSelectorCondition(string selector, OldSelectorType type, OldSelectorCondition previousSelector)
         {
             Selector = selector;
             Type = type;
@@ -91,10 +92,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         }
         public string Selector { get; set; }
-        public SelectorType Type { get; protected set; }
+        public OldSelectorType Type { get; protected set; }
 
-        public SelectorCondition NextSelector { get; set; }
-        public SelectorCondition PrevSelector { get; set; }
+        public OldSelectorCondition NextSelector { get; set; }
+        public OldSelectorCondition PrevSelector { get; set; }
 
         public abstract GameObject MatchCondition(GameObject gameObjectToCheck, bool enabled);
 
@@ -147,9 +148,9 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
     }
 
-    public class AnyCondition : SelectorCondition
+    public class OldAnyCondition : OldSelectorCondition
     {
-        public AnyCondition(string selector, SelectorCondition previousSelector) : base(selector, SelectorType.Any, previousSelector)
+        public OldAnyCondition(string selector, OldSelectorCondition previousSelector) : base(selector, OldSelectorType.Any, previousSelector)
         {
         }
 
@@ -159,9 +160,9 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
     }
 
-    public class NameCondition : SelectorCondition
+    public class OldNameCondition : OldSelectorCondition
     {
-        public NameCondition(string selector, SelectorCondition previousSelector) : base(selector, SelectorType.Name, previousSelector)
+        public OldNameCondition(string selector, OldSelectorCondition previousSelector) : base(selector, OldSelectorType.Name, previousSelector)
         {
             this.Name = selector;
         }
@@ -173,14 +174,14 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
     }
 
-    public class PropertyEqualsCondition : SelectorCondition
+    public class OldPropertyEqualsCondition : OldSelectorCondition
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="selector">@propertyName=propertyvalue</param>
         /// <returns></returns>
-        public PropertyEqualsCondition(string selector, SelectorCondition previousSelector) : base(selector, SelectorType.PropertyEquals, previousSelector)
+        public OldPropertyEqualsCondition(string selector, OldSelectorCondition previousSelector) : base(selector, OldSelectorType.PropertyEquals, previousSelector)
         {
             var delimiterPos = selector.IndexOf("=");
             if (delimiterPos < 0) throw new InvalidPathException("Expected property selector format `@propertyName=propertyvalue` Got " + selector);
@@ -246,14 +247,14 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
     }
 
-    public class FunctionCondition : SelectorCondition
+    public class OldFunctionCondition : OldSelectorCondition
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="selector">functionName(@propertyName=propertyvalue)</param>
         /// <returns></returns>
-        public FunctionCondition(string selector, SelectorCondition previousSelector) : base(selector, SelectorType.Function, previousSelector)
+        public OldFunctionCondition(string selector, OldSelectorCondition previousSelector) : base(selector, OldSelectorType.Function, previousSelector)
         {
             var delimiterPos = selector.IndexOf(")");
             if (delimiterPos != selector.Length - 1) throw new InvalidPathException("Expected property selector format `function(@propertyName,propertyvalue)` Got " + selector);
@@ -323,9 +324,9 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
     }
 
-    public class IndexerCondition : SelectorCondition
+    public class OldIndexerCondition : OldSelectorCondition
     {
-        public IndexerCondition(string selector, SelectorCondition previousSelector) : base(selector, SelectorType.Indexer, previousSelector)
+        public OldIndexerCondition(string selector, OldSelectorCondition previousSelector) : base(selector, OldSelectorType.Indexer, previousSelector)
         {
             int index;
             if (!Regex.Match(selector, "([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)").Success || !int.TryParse(selector, out index))
@@ -341,23 +342,23 @@ namespace AltTester.AltTesterUnitySDK.Commands
             return CurrentIndexCountDown >= 0 ? null : gameObjectToCheck;
         }
     }
-    public class PathSelector
+    public class OldPathSelector
     {
-        public PathSelector(string path)
+        public OldPathSelector(string path)
         {
             this.FirstBound = processPath(path);
         }
 
-        public BoundCondition FirstBound { get; private set; }
+        public OldBoundCondition FirstBound { get; private set; }
 
-        private BoundCondition processPath(string path)
+        private OldBoundCondition processPath(string path)
         {
             List<char> escapedCharacters;
             path = eliminateEscapedCharacters(path, out escapedCharacters);
 
             var rawConditions = getRawConditions(path);
-            BoundCondition prevBoundCondition = null;
-            SelectorCondition prevSelectorCondition = null;
+            OldBoundCondition prevBoundCondition = null;
+            OldSelectorCondition prevSelectorCondition = null;
 
             var parsedConditions = rawConditions.Select(rawCondition =>
              {
@@ -366,10 +367,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
                  if (boundCondition == null)
                  {
                      var selector = processSelectorCondition(rawCondition, prevSelectorCondition);
-                     if (selector is IndexerCondition)
+                     if (selector is OldIndexerCondition)
                      {
                          selector.PrevSelector.NextSelector = null;
-                         prevBoundCondition.Indexer = (IndexerCondition)selector;
+                         prevBoundCondition.Indexer = (OldIndexerCondition)selector;
 
                      }
                      else
@@ -397,21 +398,21 @@ namespace AltTester.AltTesterUnitySDK.Commands
             return parsedConditions[0];
         }
 
-        private BoundCondition processBoundCondition(string rawCondition, BoundCondition prevBoundCondition)
+        private OldBoundCondition processBoundCondition(string rawCondition, OldBoundCondition prevBoundCondition)
         {
             switch (rawCondition)
             {
-                case "/": return new BoundCondition(rawCondition, BoundType.DirectChildren, prevBoundCondition);
-                case "//": return new BoundCondition(rawCondition, BoundType.AnyChildren, prevBoundCondition);
-                case "/..": return new BoundCondition(rawCondition, BoundType.Parent, prevBoundCondition);
+                case "/": return new OldBoundCondition(rawCondition, OldBoundType.DirectChildren, prevBoundCondition);
+                case "//": return new OldBoundCondition(rawCondition, OldBoundType.AnyChildren, prevBoundCondition);
+                case "/..": return new OldBoundCondition(rawCondition, OldBoundType.Parent, prevBoundCondition);
                 default: return null;
             }
         }
-        private SelectorCondition processSelectorCondition(string rawCondition, SelectorCondition prevSelectorCondition)
+        private OldSelectorCondition processSelectorCondition(string rawCondition, OldSelectorCondition prevSelectorCondition)
         {
             if (rawCondition == "*")
             {
-                return new AnyCondition(rawCondition, prevSelectorCondition);
+                return new OldAnyCondition(rawCondition, prevSelectorCondition);
             }
 
             if (rawCondition.StartsWith("["))
@@ -420,16 +421,16 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
                 if (rawCondition.StartsWith("@"))
                 {
-                    return new PropertyEqualsCondition(rawCondition, prevSelectorCondition);
+                    return new OldPropertyEqualsCondition(rawCondition, prevSelectorCondition);
                 }
 
                 if (Enum.GetNames(typeof(FunctionType)).Any(functionName => rawCondition.StartsWith(functionName)))
                 {
-                    return new FunctionCondition(rawCondition, prevSelectorCondition);
+                    return new OldFunctionCondition(rawCondition, prevSelectorCondition);
                 }
-                return new IndexerCondition(rawCondition, prevSelectorCondition);
+                return new OldIndexerCondition(rawCondition, prevSelectorCondition);
             }
-            return new NameCondition(rawCondition, prevSelectorCondition);
+            return new OldNameCondition(rawCondition, prevSelectorCondition);
         }
 
         private string eliminateEscapedCharacters(string text, out List<char> escapedCharacters)
@@ -502,7 +503,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             return rawConditions;
         }
 
-        private void addEscapedCharactersBack(List<BoundCondition> pathSetCorrectly, List<char> escapedCharacters)
+        private void addEscapedCharactersBack(List<OldBoundCondition> pathSetCorrectly, List<char> escapedCharacters)
         {
             int counter = 0;
             for (int i = 0; i < pathSetCorrectly.Count; i++)
@@ -510,23 +511,23 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 var SelectorCondition = pathSetCorrectly[i].FirstSelector;
                 while (SelectorCondition != null)
                 {
-                    if (SelectorCondition.Type == SelectorType.PropertyEquals)
+                    if (SelectorCondition.Type == OldSelectorType.PropertyEquals)
                     {
-                        var propValue = (SelectorCondition as PropertyEqualsCondition).PropertyValue;
+                        var propValue = (SelectorCondition as OldPropertyEqualsCondition).PropertyValue;
                         changeEscapedCharacterAndIncreaseCounter(escapedCharacters, counter, ref propValue);
-                        (SelectorCondition as PropertyEqualsCondition).PropertyValue = propValue;
+                        (SelectorCondition as OldPropertyEqualsCondition).PropertyValue = propValue;
                     }
-                    else if (SelectorCondition.Type == SelectorType.Function)
+                    else if (SelectorCondition.Type == OldSelectorType.Function)
                     {
-                        var propValue = (SelectorCondition as FunctionCondition).PropertyValue;
+                        var propValue = (SelectorCondition as OldFunctionCondition).PropertyValue;
                         changeEscapedCharacterAndIncreaseCounter(escapedCharacters, counter, ref propValue);
-                        (SelectorCondition as FunctionCondition).PropertyValue = propValue;
+                        (SelectorCondition as OldFunctionCondition).PropertyValue = propValue;
                     }
-                    else if (SelectorCondition.Type == SelectorType.Name)
+                    else if (SelectorCondition.Type == OldSelectorType.Name)
                     {
-                        var propValue = (SelectorCondition as NameCondition).Name;
+                        var propValue = (SelectorCondition as OldNameCondition).Name;
                         changeEscapedCharacterAndIncreaseCounter(escapedCharacters, counter, ref propValue);
-                        (SelectorCondition as NameCondition).Name = propValue;
+                        (SelectorCondition as OldNameCondition).Name = propValue;
                     }
 
                     var selector = SelectorCondition.Selector;

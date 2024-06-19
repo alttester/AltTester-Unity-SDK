@@ -23,11 +23,12 @@ using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltBaseClassFindObjectsCommand<T> : AltCommand<BaseFindObjectsParams, T>
+    //TODO remove this class after OldFindObject is no longer supported
+    class AltOldBaseFindObjetsCommand<T> : AltCommand<BaseFindObjectsParams, T>
     {
         protected readonly BaseFindObjectsParams FindObjectsParams;
 
-        protected AltBaseClassFindObjectsCommand(BaseFindObjectsParams cmdParams) : base(cmdParams)
+        protected AltOldBaseFindObjetsCommand(BaseFindObjectsParams cmdParams) : base(cmdParams)
         {
             this.FindObjectsParams = cmdParams;
         }
@@ -35,7 +36,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             throw new System.NotImplementedException();
         }
-        public List<UnityEngine.GameObject> FindObjects(UnityEngine.GameObject gameObject, BoundCondition boundCondition, bool singleObject, bool enabled)
+        public List<UnityEngine.GameObject> FindObjects(UnityEngine.GameObject gameObject, OldBoundCondition boundCondition, bool singleObject, bool enabled)
         {
             if (boundCondition == null)
             {
@@ -45,7 +46,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     return new List<GameObject>() { gameObject };
             }
 
-            if (boundCondition.Type == BoundType.Parent)
+            if (boundCondition.Type == OldBoundType.Parent)
             {
                 //   /name/../../name
                 if (gameObject == null)
@@ -94,7 +95,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             {
                 return objectsFound;
             }
-            if (boundCondition.Type != BoundType.DirectChildren)
+            if (boundCondition.Type != OldBoundType.DirectChildren)
                 foreach (var objectToCheck in objectsToCheck)
                 {
 
@@ -119,7 +120,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
             else
             {
-                var cameraValueProcessed = new PathSelector(cameraValue);
+                var cameraValueProcessed = new OldPathSelector(cameraValue);
                 var gameObjectsCameraFound = FindObjects(null, cameraValueProcessed.FirstBound, false, true);
                 return UnityEngine.Camera.allCameras.ToList().Find(c => gameObjectsCameraFound.Find(d => c.gameObject.GetInstanceID() == d.GetInstanceID()));
             }
@@ -129,7 +130,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             return !enabled || (enabled && objectToCheck.activeInHierarchy);
         }
-        private GameObject objectMatchesConditions(GameObject objectToCheck, BoundCondition boundCondition, bool enabled)
+        private GameObject objectMatchesConditions(GameObject objectToCheck, OldBoundCondition boundCondition, bool enabled)
         {
             var currentCondition = boundCondition.FirstSelector;
             GameObject objectMatched = null;

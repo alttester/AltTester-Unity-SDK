@@ -83,7 +83,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
     .. code-tab:: py
 
         def test_find_object(self):
-            altObject = self.altDriver.find_object(By.NAME, "Capsule")
+            altObject = self.alt_driver.find_object(By.NAME, "Capsule")
             self.assertEqual(altObject.name, "Capsule")
 
     .. code-tab:: robot
@@ -153,8 +153,8 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
     .. code-tab:: py
 
         def test_find_objects_by_layer(self):
-                self.altDriver.load_scene('Scene 1 AltDriverTestScene')
-                altObjects = self.altDriver.find_objects(By.LAYER,"Default")
+                self.alt_driver.load_scene('Scene 1 AltDriverTestScene')
+                altObjects = self.alt_driver.find_objects(By.LAYER,"Default")
                 self.assertEquals(8, len(altObjects))
 
     .. code-tab:: robot
@@ -220,7 +220,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
     .. code-tab:: py
 
         def test_find_object_which_contains(self):
-            altObject = self.altDriver.find_object_which_contains(By.NAME, "Event");
+            altObject = self.alt_driver.find_object_which_contains(By.NAME, "Event");
             self.assertEqual("EventSystem", altObject.name)
 
     .. code-tab:: robot
@@ -287,20 +287,20 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
     .. code-tab:: py
 
         def test_creating_stars(self):
-            self.altDriver.load_scene("Scene 5 Keyboard Input")
+            self.alt_driver.load_scene("Scene 5 Keyboard Input")
 
-            stars = self.altDriver.find_objects_which_contain(By.NAME, "Star", "Player2")
+            stars = self.alt_driver.find_objects_which_contain(By.NAME, "Star", "Player2")
             self.assertEqual(1, len(stars))
-            player = self.altDriver.find_objects_which_contain(By.NAME, "Player", "Player2")
+            player = self.alt_driver.find_objects_which_contain(By.NAME, "Player", "Player2")
 
-            self.altDriver.move_mouse(int(stars[0].x), int(player[0].y) + 500, 1)
+            self.alt_driver.move_mouse(int(stars[0].x), int(player[0].y) + 500, 1)
             time.sleep(1.5)
 
-            self.altDriver.press_key(AltKeyCode.Mouse0, 1,0)
-            self.altDriver.move_mouse_and_wait(int(stars[0].x), int(player[0].y) - 500, 1)
-            self.altDriver.press_key(AltKeyCode.Mouse0, 1,0)
+            self.alt_driver.press_key(AltKeyCode.Mouse0, 1,0)
+            self.alt_driver.move_mouse_and_wait(int(stars[0].x), int(player[0].y) - 500, 1)
+            self.alt_driver.press_key(AltKeyCode.Mouse0, 1,0)
 
-            stars = self.altDriver.find_objects_which_contain(By.NAME, "Star")
+            stars = self.alt_driver.find_objects_which_contain(By.NAME, "Star")
             self.assertEqual(3, len(stars))
 
     .. code-tab:: robot
@@ -363,10 +363,10 @@ Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses
     .. code-tab:: py
 
         def test_find_object_by_coordinates(self):
-            self.altdriver.load_scene("Scene 1 AltDriverTestScene")
-            counter_button = self.altdriver.find_object(By.NAME, "ButtonCounter")
+            self.alt_driver.load_scene("Scene 1 AltDriverTestScene")
+            counter_button = self.alt_driver.find_object(By.NAME, "ButtonCounter")
 
-            element = self.altdriver.find_object_at_coordinates([80 + counter_button.x, 15 + counter_button.y])
+            element = self.alt_driver.find_object_at_coordinates([80 + counter_button.x, 15 + counter_button.y])
             assert "Text" == element.name
 
     .. code-tab:: robot
@@ -426,7 +426,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
     .. code-tab:: py
 
         def test_get_all_elements(self):
-            alt_elements = self.altDriver.get_all_elements(enabled=False)
+            alt_elements = self.alt_driver.get_all_elements(enabled=False)
             assert alt_elements
 
     .. code-tab:: robot
@@ -517,7 +517,7 @@ Waits until it finds an object that respects the given criteria or until timeout
     .. code-tab:: py
 
         def test_wait_for_object(self):
-            alt_object = self.altDriver.wait_for_object(By.NAME, "Capsule")
+            alt_object = self.alt_driver.wait_for_object(By.NAME, "Capsule")
             assert alt_object.name == "Capsule"
 
     .. code-tab:: robot
@@ -590,7 +590,7 @@ Waits until it finds an object that respects the given criteria or time runs out
     .. code-tab:: py
 
         def test_wait_for_object_which_contains(self):
-            alt_object = self.altDriver.wait_for_object_which_contains(By.NAME, "Main")
+            alt_object = self.alt_driver.wait_for_object_which_contains(By.NAME, "Main")
             assert alt_object.name == "Main Camera"
 
     .. code-tab:: robot
@@ -654,7 +654,7 @@ Waits until the object in the scene that respects the given criteria is no longe
     .. code-tab:: py
 
         def test_wait_for_object_to_not_be_present(self):
-            self.altDriver.wait_for_object_to_not_be_present(By.NAME, "Capsuule")
+            self.alt_driver.wait_for_object_to_not_be_present(By.NAME, "Capsuule")
 
     .. code-tab:: robot
 
@@ -695,7 +695,7 @@ Sets the value for the command response timeout.
 
     .. code-tab:: py
 
-        altDriver.set_command_response_timeout(command_timeout)
+        alt_driver.set_command_response_timeout(command_timeout)
 
     .. code-tab:: robot
 
@@ -731,7 +731,7 @@ None
 
     .. code-tab:: py
 
-        altDriver.get_delay_after_command()
+        alt_driver.get_delay_after_command()
 
     .. code-tab:: robot
 
@@ -768,7 +768,7 @@ Set the delay after a command.
 
     .. code-tab:: py
 
-        altDriver.set_delay_after_command(5)
+        alt_driver.set_delay_after_command(5)
 
     .. code-tab:: robot
 
@@ -848,19 +848,19 @@ Simulates a key down.
     .. code-tab:: py
 
         def test_key_down_and_key_up(self):
-            self.altDriver.load_scene('Scene 5 Keyboard Input')
+            self.alt_driver.load_scene('Scene 5 Keyboard Input')
 
-            self.altDriver.key_down(AltKeyCode.A)
+            self.alt_driver.key_down(AltKeyCode.A)
             time.sleep(5)
-            lastKeyDown = self.altDriver.find_object(By.NAME, 'LastKeyDownValue')
-            lastKeyPress = self.altDriver.find_object(By.NAME, 'LastKeyPressedValue')
+            lastKeyDown = self.alt_driver.find_object(By.NAME, 'LastKeyDownValue')
+            lastKeyPress = self.alt_driver.find_object(By.NAME, 'LastKeyPressedValue')
 
             self.assertEqual("A", lastKeyDown.get_text())
             self.assertEqual("A", lastKeyPress.get_text())
 
-            self.altDriver.key_up(AltKeyCode.A)
+            self.alt_driver.key_up(AltKeyCode.A)
             time.sleep(5)
-            lastKeyUp = self.altDriver.find_object(By.NAME, 'LastKeyUpValue')
+            lastKeyUp = self.alt_driver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
 
     .. code-tab:: robot
@@ -950,19 +950,19 @@ Simulates a key up.
     .. code-tab:: py
 
         def test_key_down_and_key_up(self):
-            self.altDriver.load_scene('Scene 5 Keyboard Input')
+            self.alt_driver.load_scene('Scene 5 Keyboard Input')
 
-            self.altDriver.key_down(AltKeyCode.A)
+            self.alt_driver.key_down(AltKeyCode.A)
             time.sleep(5)
-            lastKeyDown = self.altDriver.find_object(By.NAME, 'LastKeyDownValue')
-            lastKeyPress = self.altDriver.find_object(By.NAME, 'LastKeyPressedValue')
+            lastKeyDown = self.alt_driver.find_object(By.NAME, 'LastKeyDownValue')
+            lastKeyPress = self.alt_driver.find_object(By.NAME, 'LastKeyPressedValue')
 
             self.assertEqual("A", lastKeyDown.get_text())
             self.assertEqual("A", lastKeyPress.get_text())
 
-            self.altDriver.key_up(AltKeyCode.A)
+            self.alt_driver.key_up(AltKeyCode.A)
             time.sleep(5)
-            lastKeyUp = self.altDriver.find_object(By.NAME, 'LastKeyUpValue')
+            lastKeyUp = self.alt_driver.find_object(By.NAME, 'LastKeyUpValue')
             self.assertEqual("A", lastKeyUp.get_text())
 
     .. code-tab:: robot
@@ -1032,11 +1032,11 @@ Simulates holding left click button down for a specified amount of time at given
     .. code-tab:: py
 
         def test_hold_button(self):
-            self.altdriver.load_scene("Scene 1 AltDriverTestScene")
-            button = self.altdriver.find_object(By.NAME, "UIButton")
-            self.altdriver.hold_button(button.get_screen_position(), 1)
+            self.alt_driver.load_scene("Scene 1 AltDriverTestScene")
+            button = self.alt_driver.find_object(By.NAME, "UIButton")
+            self.alt_driver.hold_button(button.get_screen_position(), 1)
 
-            capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
+            capsule_info = self.alt_driver.find_object(By.NAME, "CapsuleInfo")
             text = capsule_info.get_text()
             assert text == "UIButton clicked to jump capsule!"
 
@@ -1117,20 +1117,20 @@ Simulate mouse movement in your app.
     .. code-tab:: py
 
         def test_creating_stars(self):
-            self.altdriver.load_scene("Scene 5 Keyboard Input")
-            stars = self.altdriver.find_objects_which_contain(By.NAME, "Star", By.NAME, "Player2")
+            self.alt_driver.load_scene("Scene 5 Keyboard Input")
+            stars = self.alt_driver.find_objects_which_contain(By.NAME, "Star", By.NAME, "Player2")
             assert len(stars) == 1
 
-            self.altdriver.find_objects_which_contain(By.NAME, "Player", By.NAME, "Player2")
-            pressing_point_1 = self.altdriver.find_object(By.NAME, "PressingPoint1", By.NAME, "Player2")
+            self.alt_driver.find_objects_which_contain(By.NAME, "Player", By.NAME, "Player2")
+            pressing_point_1 = self.alt_driver.find_object(By.NAME, "PressingPoint1", By.NAME, "Player2")
 
-            self.altdriver.move_mouse(pressing_point_1.get_screen_position(), duration=1)
-            self.altdriver.press_key(AltKeyCode.Mouse0, 1, 1)
-            pressing_point_2 = self.altdriver.find_object(By.NAME, "PressingPoint2", By.NAME, "Player2")
-            self.altdriver.move_mouse(pressing_point_2.get_screen_position(), duration=1)
-            self.altdriver.press_key(AltKeyCode.Mouse0, power=1, duration=1)
+            self.alt_driver.move_mouse(pressing_point_1.get_screen_position(), duration=1)
+            self.alt_driver.press_key(AltKeyCode.Mouse0, 1, 1)
+            pressing_point_2 = self.alt_driver.find_object(By.NAME, "PressingPoint2", By.NAME, "Player2")
+            self.alt_driver.move_mouse(pressing_point_2.get_screen_position(), duration=1)
+            self.alt_driver.press_key(AltKeyCode.Mouse0, power=1, duration=1)
 
-            stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
+            stars = self.alt_driver.find_objects_which_contain(By.NAME, "Star")
             assert len(stars) == 3
 
     .. code-tab:: robot
@@ -1221,20 +1221,20 @@ Simulates key press action in your app.
     .. code-tab:: py
 
         def test_creating_stars(self):
-            self.altdriver.load_scene("Scene 5 Keyboard Input")
-            stars = self.altdriver.find_objects_which_contain(By.NAME, "Star", By.NAME, "Player2")
+            self.alt_driver.load_scene("Scene 5 Keyboard Input")
+            stars = self.alt_driver.find_objects_which_contain(By.NAME, "Star", By.NAME, "Player2")
             assert len(stars) == 1
 
-            self.altdriver.find_objects_which_contain(By.NAME, "Player", By.NAME, "Player2")
-            pressing_point_1 = self.altdriver.find_object(By.NAME, "PressingPoint1", By.NAME, "Player2")
+            self.alt_driver.find_objects_which_contain(By.NAME, "Player", By.NAME, "Player2")
+            pressing_point_1 = self.alt_driver.find_object(By.NAME, "PressingPoint1", By.NAME, "Player2")
 
-            self.altdriver.move_mouse(pressing_point_1.get_screen_position(), duration=1)
-            self.altdriver.press_key(AltKeyCode.Mouse0, 1, 1)
-            pressing_point_2 = self.altdriver.find_object(By.NAME, "PressingPoint2", By.NAME, "Player2")
-            self.altdriver.move_mouse(pressing_point_2.get_screen_position(), duration=1)
-            self.altdriver.press_key(AltKeyCode.Mouse0, power=1, duration=1)
+            self.alt_driver.move_mouse(pressing_point_1.get_screen_position(), duration=1)
+            self.alt_driver.press_key(AltKeyCode.Mouse0, 1, 1)
+            pressing_point_2 = self.alt_driver.find_object(By.NAME, "PressingPoint2", By.NAME, "Player2")
+            self.alt_driver.move_mouse(pressing_point_2.get_screen_position(), duration=1)
+            self.alt_driver.press_key(AltKeyCode.Mouse0, power=1, duration=1)
 
-            stars = self.altdriver.find_objects_which_contain(By.NAME, "Star")
+            stars = self.alt_driver.find_objects_which_contain(By.NAME, "Star")
             assert len(stars) == 3
 
     .. code-tab:: robot
@@ -1318,9 +1318,9 @@ Simulates multiple key press action in your app.
 
         def test_press_keys(self):
             keys = [AltKeyCode.K, AltKeyCode.L]
-            self.altdriver.press_keys(keys)
+            self.alt_driver.press_keys(keys)
 
-            alt_unity_object = self.altdriver.find_object(By.NAME, "Capsule")
+            alt_unity_object = self.alt_driver.find_object(By.NAME, "Capsule")
             property_value = alt_unity_object.get_component_property(
                 "AltExampleScriptCapsule",
                 "stringToSetFromTests",
@@ -1394,12 +1394,12 @@ Simulate scroll action in your app.
     .. code-tab:: py
 
         def test_scroll(self):
-            self.altdriver.load_scene("Scene 5 Keyboard Input")
-            player2 = self.altdriver.find_object(By.NAME, "Player2")
+            self.alt_driver.load_scene("Scene 5 Keyboard Input")
+            player2 = self.alt_driver.find_object(By.NAME, "Player2")
             cube_initial_position = [player2.worldX, player2.worldY, player2.worldY]
-            self.altdriver.scroll(4, 2)
+            self.alt_driver.scroll(4, 2)
 
-            player2 = self.altdriver.find_object(By.NAME, "Player2")
+            player2 = self.alt_driver.find_object(By.NAME, "Player2")
             cubeFinalPosition = [player2.worldX, player2.worldY, player2.worldY]
             assert cube_initial_position != cubeFinalPosition
 
@@ -1533,30 +1533,30 @@ Simulates a swipe action between two points.
     .. code-tab:: py
 
         def test_multiple_swipes(self):
-            self.altdriver.load_scene("Scene 3 Drag And Drop")
+            self.alt_driver.load_scene("Scene 3 Drag And Drop")
 
-            image2 = self.altdriver.find_object(By.NAME, "Drag Image2")
-            box2 = self.altdriver.find_object(By.NAME, "Drop Box2")
+            image2 = self.alt_driver.find_object(By.NAME, "Drag Image2")
+            box2 = self.alt_driver.find_object(By.NAME, "Drop Box2")
 
-            self.altdriver.swipe(image2.get_screen_position(), box2.get_screen_position(), 2)
+            self.alt_driver.swipe(image2.get_screen_position(), box2.get_screen_position(), 2)
 
-            image3 = self.altdriver.find_object(By.NAME, "Drag Image3")
-            box1 = self.altdriver.find_object(By.NAME, "Drop Box1")
+            image3 = self.alt_driver.find_object(By.NAME, "Drag Image3")
+            box1 = self.alt_driver.find_object(By.NAME, "Drop Box1")
 
-            self.altdriver.swipe(image3.get_screen_position(), box1.get_screen_position(), 1)
+            self.alt_driver.swipe(image3.get_screen_position(), box1.get_screen_position(), 1)
 
-            image1 = self.altdriver.find_object(By.NAME, "Drag Image1")
-            box1 = self.altdriver.find_object(By.NAME, "Drop Box1")
+            image1 = self.alt_driver.find_object(By.NAME, "Drag Image1")
+            box1 = self.alt_driver.find_object(By.NAME, "Drop Box1")
 
-            self.altdriver.swipe(image1.get_screen_position(), box1.get_screen_position(), 3)
+            self.alt_driver.swipe(image1.get_screen_position(), box1.get_screen_position(), 3)
 
             image_source = image1.get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
-            image_source_drop_zone = self.altdriver.find_object(
+            image_source_drop_zone = self.alt_driver.find_object(
                 By.NAME, "Drop Image").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
             assert image_source != image_source_drop_zone
 
             image_source = image2.get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
-            image_source_drop_zone = self.altdriver.find_object(
+            image_source_drop_zone = self.alt_driver.find_object(
                 By.NAME, "Drop").get_component_property("UnityEngine.UI.Image", "sprite", "UnityEngine.UI")
             assert image_source != image_source_drop_zone
 
@@ -1655,9 +1655,9 @@ Simulates a multipoint swipe action.
     .. code-tab:: py
 
         def test_resize_panel_with_multipoint_swipe(self):
-            self.altdriver.load_scene("Scene 2 Draggable Panel")
+            self.alt_driver.load_scene("Scene 2 Draggable Panel")
 
-            alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+            alt_unity_object = self.alt_driver.find_object(By.NAME, "Resize Zone")
             position_init = (alt_unity_object.x, alt_unity_object.y)
 
             positions = [
@@ -1667,9 +1667,9 @@ Simulates a multipoint swipe action.
                 [alt_unity_object.x - 50, alt_unity_object.y - 100],
                 [alt_unity_object.x - 100, alt_unity_object.y - 100]
             ]
-            self.altdriver.multipoint_swipe(positions, duration=4)
+            self.alt_driver.multipoint_swipe(positions, duration=4)
 
-            alt_unity_object = self.altdriver.find_object(By.NAME, "Resize Zone")
+            alt_unity_object = self.alt_driver.find_object(By.NAME, "Resize Zone")
             position_final = (alt_unity_object.x, alt_unity_object.y)
 
             assert position_init != position_final
@@ -1763,13 +1763,13 @@ Simulates starting of a touch on the screen. To further interact with the touch 
     .. code-tab:: py
 
         def test_new_touch_commands(self):
-            self.altDriver.load_scene('Scene 2 Draggable Panel')
-            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
+            self.alt_driver.load_scene('Scene 2 Draggable Panel')
+            draggable_area = self.alt_driver.find_object(By.NAME, 'Drag Zone')
             initial_position = draggable_area.get_screen_position()
-            finger_id = self.altDriver.begin_touch(draggable_area.get_screen_position())
-            self.altDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-            self.altDriver.end_touch(finger_id)
-            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
+            finger_id = self.alt_driver.begin_touch(draggable_area.get_screen_position())
+            self.alt_driver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+            self.alt_driver.end_touch(finger_id)
+            draggable_area = self.alt_driver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
 
     .. code-tab:: robot
@@ -1847,13 +1847,13 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
     .. code-tab:: py
 
         def test_new_touch_commands(self):
-            self.altDriver.load_scene('Scene 2 Draggable Panel')
-            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
+            self.alt_driver.load_scene('Scene 2 Draggable Panel')
+            draggable_area = self.alt_driver.find_object(By.NAME, 'Drag Zone')
             initial_position = draggable_area.get_screen_position()
-            finger_id = self.altDriver.begin_touch(draggable_area.get_screen_position())
-            self.altDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-            self.altDriver.end_touch(finger_id)
-            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
+            finger_id = self.alt_driver.begin_touch(draggable_area.get_screen_position())
+            self.alt_driver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+            self.alt_driver.end_touch(finger_id)
+            draggable_area = self.alt_driver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
 
     .. code-tab:: robot
@@ -1929,13 +1929,13 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
     .. code-tab:: py
 
         def test_new_touch_commands(self):
-            self.altDriver.load_scene('Scene 2 Draggable Panel')
-            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
+            self.alt_driver.load_scene('Scene 2 Draggable Panel')
+            draggable_area = self.alt_driver.find_object(By.NAME, 'Drag Zone')
             initial_position = draggable_area.get_screen_position()
-            finger_id = self.altDriver.begin_touch(draggable_area.get_screen_position())
-            self.altDriver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
-            self.altDriver.end_touch(finger_id)
-            draggable_area = self.altDriver.find_object(By.NAME, 'Drag Zone')
+            finger_id = self.alt_driver.begin_touch(draggable_area.get_screen_position())
+            self.alt_driver.move_touch(finger_id, [int(draggable_area.x) + 10, int(draggable_area.y) + 10])
+            self.alt_driver.end_touch(finger_id)
+            draggable_area = self.alt_driver.find_object(By.NAME, 'Drag Zone')
             self.assertNotEqual(initial_position, draggable_area)
 
     .. code-tab:: robot
@@ -2012,8 +2012,8 @@ Click at screen coordinates.
     .. code-tab:: py
 
         def test_tap_coordinates(self):
-            capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
-            self.altDriver.click(capsule_element.get_screen_position())
+            capsule_element = self.alt_driver.find_object(By.NAME, 'Capsule')
+            self.alt_driver.click(capsule_element.get_screen_position())
 
     .. code-tab:: robot
 
@@ -2080,8 +2080,8 @@ Tap at screen coordinates.
     .. code-tab:: py
 
         def test_tap_coordinates(self):
-            capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
-            self.altDriver.tap(capsule_element.get_screen_position())
+            capsule_element = self.alt_driver.find_object(By.NAME, 'Capsule')
+            self.alt_driver.tap(capsule_element.get_screen_position())
 
     .. code-tab:: robot
 
@@ -2146,12 +2146,12 @@ Simulates device rotation action in your app.
     .. code-tab:: py
 
         def test_acceleration(self):
-            self.altdriver.load_scene("Scene 1 AltDriverTestScene")
-            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            self.alt_driver.load_scene("Scene 1 AltDriverTestScene")
+            capsule = self.alt_driver.find_object(By.NAME, "Capsule")
             initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
-            self.altdriver.tilt([1, 1, 1], 1)
+            self.alt_driver.tilt([1, 1, 1], 1)
 
-            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            capsule = self.alt_driver.find_object(By.NAME, "Capsule")
             final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
             assert initial_position != final_position
 
@@ -2225,14 +2225,14 @@ None
     .. code-tab:: py
 
         def test_reset_input(self):
-            self.altdriver.key_down(AltKeyCode.P, 1)
-            assert True == self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+            self.alt_driver.key_down(AltKeyCode.P, 1)
+            assert True == self.alt_driver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
                 "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp")
-            self.altdriver.reset_input()
-            assert False == self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+            self.alt_driver.reset_input()
+            assert False == self.alt_driver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
                 "Altom.AltTester.NewInputSystem", "Keyboard.pKey.isPressed", "Assembly-CSharp")
 
-            countKeyDown = self.altdriver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
+            countKeyDown = self.alt_driver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
                 "Input", "_keyCodesPressed.Count", "Assembly-CSharp")
             assert 0 == countKeyDown
 
@@ -2297,7 +2297,7 @@ Creates a screenshot of the current screen in png format.
 
         def test_screenshot(self):
             png_path = "testPython.png"
-            self.altDriver.get_png_screenshot(png_path)
+            self.alt_driver.get_png_screenshot(png_path)
             assert path.exists(png_path)
 
     .. code-tab:: robot
@@ -2767,10 +2767,10 @@ None
     .. code-tab:: py
 
         def test_delete_key_player_pref(self):
-            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
-            self.altDriver.delete_player_prefs()
-            self.altDriver.set_player_pref_key("test", "1", PlayerPrefKeyType.String)
-            val = self.altDriver.get_player_pref_key("test", player_pref_key_type)
+            self.alt_driver.load_scene("Scene 1 AltDriverTestScene")
+            self.alt_driver.delete_player_prefs()
+            self.alt_driver.set_player_pref_key("test", "1", PlayerPrefKeyType.String)
+            val = self.alt_driver.get_player_pref_key("test", player_pref_key_type)
             self.assertEqual("1", str(val))
 
     .. code-tab:: robot
@@ -2820,8 +2820,8 @@ None
     .. code-tab:: py
 
         def test_get_current_scene(self):
-            self.altDriver.load_scene("Scene 1 AltDriverTestScene", True)
-            self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
+            self.alt_driver.load_scene("Scene 1 AltDriverTestScene", True)
+            self.assertEqual("Scene 1 AltDriverTestScene",self.alt_driver.get_current_scene())
 
     .. code-tab:: robot
 
@@ -2874,8 +2874,8 @@ Loads a scene.
     .. code-tab:: py
 
         def test_get_current_scene(self):
-            self.altDriver.load_scene("Scene 1 AltDriverTestScene", True)
-            self.assertEqual("Scene 1 AltDriverTestScene",self.altDriver.get_current_scene())
+            self.alt_driver.load_scene("Scene 1 AltDriverTestScene", True)
+            self.assertEqual("Scene 1 AltDriverTestScene",self.alt_driver.get_current_scene())
 
     .. code-tab:: robot
 
@@ -2934,13 +2934,13 @@ Unloads a scene.
     .. code-tab:: py
 
         def test_unload_scene(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene', True)
-            self.altDriver.load_scene('Scene 2 Draggable Panel', False)
-            self.assertEqual(2, len(self.altDriver.get_all_loaded_scenes()))
-            self.altDriver.unload_scene('Scene 2 Draggable Panel')
-            self.assertEqual(1, len(self.altDriver.get_all_loaded_scenes()))
+            self.alt_driver.load_scene('Scene 1 AltDriverTestScene', True)
+            self.alt_driver.load_scene('Scene 2 Draggable Panel', False)
+            self.assertEqual(2, len(self.alt_driver.get_all_loaded_scenes()))
+            self.alt_driver.unload_scene('Scene 2 Draggable Panel')
+            self.assertEqual(1, len(self.alt_driver.get_all_loaded_scenes()))
             self.assertEqual("Scene 1 AltDriverTestScene",
-                            self.altDriver.get_all_loaded_scenes()[0])
+                            self.alt_driver.get_all_loaded_scenes()[0])
     .. code-tab:: robot
 
         Test Unload Scene
@@ -3012,14 +3012,14 @@ None
     .. code-tab:: py
 
         def test_get_all_loaded_scenes(self):
-            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
-            scenes_loaded = self.altDriver.get_all_loaded_scenes()
+            self.alt_driver.load_scene("Scene 1 AltDriverTestScene")
+            scenes_loaded = self.alt_driver.get_all_loaded_scenes()
             self.assertEqual(len(scenes_loaded), 1)
-            self.altDriver.load_scene("Scene 2 Draggable Panel", False)
-            self.altDriver.load_scene("Scene 3 Drag And Drop", False)
-            self.altDriver.load_scene("Scene 4 No Cameras", False)
-            self.altDriver.load_scene("Scene 5 Keyboard Input", False)
-            scenes_loaded = self.altDriver.get_all_loaded_scenes()
+            self.alt_driver.load_scene("Scene 2 Draggable Panel", False)
+            self.alt_driver.load_scene("Scene 3 Drag And Drop", False)
+            self.alt_driver.load_scene("Scene 4 No Cameras", False)
+            self.alt_driver.load_scene("Scene 5 Keyboard Input", False)
+            scenes_loaded = self.alt_driver.get_all_loaded_scenes()
             self.assertEqual(len(scenes_loaded), 5)
 
     .. code-tab:: robot
@@ -3096,7 +3096,7 @@ Waits for the scene to be loaded for a specified amount of time.
             scene_name = "Scene 0"
 
             with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
-            self.altdriver.wait_for_current_scene_to_be(scene_name, timeout=1, interval=0.5)
+            self.alt_driver.wait_for_current_scene_to_be(scene_name, timeout=1, interval=0.5)
 
             assert str(execinfo.value) == "Scene {} not loaded after 1 seconds".format(scene_name)
 
@@ -3157,10 +3157,10 @@ None
     .. code-tab:: py
 
         def test_get_application_screen_size(self):
-            self.altdriver.call_static_method("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
+            self.alt_driver.call_static_method("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
             parameters=["1920", "1080", "True"],
             type_of_parameters=["System.Int32", "System.Int32", "System.Boolean"],)
-            screensize = self.altdriver.get_application_screensize()
+            screensize = self.alt_driver.get_application_screensize()
 
             assert 1920 == screensize[0]
             assert 1080 == screensize[1]
@@ -3214,9 +3214,9 @@ None
     .. code-tab:: py
 
         def test_time_scale(self):
-            self.altDriver.set_time_scale(0.1)
+            self.alt_driver.set_time_scale(0.1)
             time.sleep(1)
-            time_scale = self.altDriver.get_time_scale()
+            time_scale = self.alt_driver.get_time_scale()
             self.assertEqual(0.1, time_scale)
 
     .. code-tab:: robot
@@ -3271,9 +3271,9 @@ Sets the value of the time scale.
     .. code-tab:: py
 
         def test_time_scale(self):
-            self.altDriver.set_time_scale(0.1)
+            self.alt_driver.set_time_scale(0.1)
             time.sleep(1)
-            time_scale = self.altDriver.get_time_scale()
+            time_scale = self.alt_driver.get_time_scale()
             self.assertEqual(0.1, time_scale)
 
     .. code-tab:: robot
@@ -3334,8 +3334,8 @@ Invokes static methods from your app.
     .. code-tab:: py
 
         def test_call_static_method(self):
-            self.altdriver.call_static_method("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", ["Test", "1"])
-            a = int(self.altdriver.call_static_method("UnityEngine.PlayerPrefs", "GetInt", "UnityEngine.CoreModule", ["Test", "2"]))
+            self.alt_driver.call_static_method("UnityEngine.PlayerPrefs", "SetInt", "UnityEngine.CoreModule", ["Test", "1"])
+            a = int(self.alt_driver.call_static_method("UnityEngine.PlayerPrefs", "GetInt", "UnityEngine.CoreModule", ["Test", "2"]))
             self.assertEqual(1, a)
 
     .. code-tab:: robot
@@ -3396,13 +3396,13 @@ Gets the value of the static field or property.
 
         def test_get_static_property(self):
 
-            self.altdriver.call_static_method(
+            self.alt_driver.call_static_method(
                 "UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule",
                 parameters=["1920", "1080", "True"],
                 type_of_parameters=["System.Int32",
                                     "System.Int32", "System.Boolean"]
             )
-            width = self.altdriver.get_static_property(
+            width = self.alt_driver.get_static_property(
                 "UnityEngine.Screen", "currentResolution.width",
                 "UnityEngine.CoreModule"
             )
@@ -3470,8 +3470,8 @@ Sets the value of the static field or property.
 
         def test_set_static_property(self):
             expectedValue = 5
-            self.altdriver.set_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue)
-            value = self.altdriver.get_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
+            self.alt_driver.set_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp", expectedValue)
+            value = self.alt_driver.get_static_property("AltExampleScriptCapsule", "privateStaticVariable", "Assembly-CSharp")
             assert expectedValue == value
 
     .. code-tab:: robot
@@ -3517,8 +3517,8 @@ Sets the level of logging on AltTester® Unity SDK.
 
     .. code-tab:: py
 
-        altDriver.set_server_logging(AltLogger.File, AltLogLevel.Off);
-        altDriver.set_server_logging(AltLogger.Unity, AltLogLevel.Info);
+        alt_driver.set_server_logging(AltLogger.File, AltLogLevel.Off);
+        alt_driver.set_server_logging(AltLogger.Unity, AltLogLevel.Info);
 
     .. code-tab:: robot
 
@@ -3724,20 +3724,20 @@ Invokes a method from an existing component of the object.
     .. code-tab:: py
 
         def test_call_component_method(self):
-            result = self.altdriver.find_object(By.NAME, "Capsule").call_component_method(
+            result = self.alt_driver.find_object(By.NAME, "Capsule").call_component_method(
             "AltExampleScriptCapsule", "Jump", "Assembly-CSharp", ["setFromMethod"])
             self.assertEqual(result, None)
-            self.altdriver.wait_for_object(By.PATH, '//CapsuleInfo[@text=setFromMethod]', timeout=1)
-            self.assertEqual('setFromMethod', self.altdriver.find_object(By.NAME, 'CapsuleInfo').get_text())
+            self.alt_driver.wait_for_object(By.PATH, '//CapsuleInfo[@text=setFromMethod]', timeout=1)
+            self.assertEqual('setFromMethod', self.alt_driver.find_object(By.NAME, 'CapsuleInfo').get_text())
 
         def test_call_component_method_with_no_parameters(self):
-            result = self.altdriver.find_object(By.PATH, "/Canvas/Button/Text")
+            result = self.alt_driver.find_object(By.PATH, "/Canvas/Button/Text")
             text = result.call_component_method("UnityEngine.UI.Text", "get_text", "UnityEngine.UI")
             assert text == "Change Camera Mode"
 
         def test_call_component_method_with_parameters(self):
             fontSizeExpected =16
-            altElement = self.altdriver.find_object(By.PATH, "/Canvas/UnityUIInputField/Text")
+            altElement = self.alt_driver.find_object(By.PATH, "/Canvas/UnityUIInputField/Text")
             altElement.call_component_method("UnityEngine.UI.Text", "set_fontSize", "UnityEngine.UI", parameters=["16"])
             fontSize = altElement.call_component_method("UnityEngine.UI.Text", "get_fontSize", "UnityEngine.UI", parameters=[])
             assert fontSizeExpected == fontSize
@@ -3856,14 +3856,14 @@ Wait until a property has a specific value and returns the value of the given co
     .. code-tab:: py
 
         def test_wait_for_component_property(self):
-            alt_object = self.altdriver.find_object(By.NAME, "Capsule")
+            alt_object = self.alt_driver.find_object(By.NAME, "Capsule")
             result = alt_object.wait_for_component_property(
                 "AltExampleScriptCapsule", "TestBool", True,
                 "Assembly-CSharp")
             assert result is True
 
         def test_wait_for_component_property_get_property_as_string(self):
-            Canvas = self.altdriver.wait_for_object(By.PATH, "/Canvas")
+            Canvas = self.alt_driver.wait_for_object(By.PATH, "/Canvas")
             Canvas.wait_for_component_property("UnityEngine.RectTransform", "transform",
                                             "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]",
                                             "UnityEngine.CoreModule", 1, get_property_as_string=True)
@@ -3908,35 +3908,42 @@ Returns the value of the given component property.
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "AltTester.AltRunner";
-            const string propertyName = "InstrumentationSettings.AltTesterPort";
-            var altObject = altDriver.FindObject(By.NAME,"AltRunnerPrefab");
-            Assert.NotNull(altObject);
-            var propertyValue = altObject.GetComponentProperty<int>(componentName, propertyName, "Assembly-CSharp");
-            Assert.AreEqual(propertyValue, 13000);
+            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string propertyName = "InstrumentationSettings.AppName";
+            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+            Assert.NotNull(altElement);
+            var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName, "AltTester.AltTesterUnitySDK");
+
+            Assert.AreEqual("__default__", propertyValue);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testGetComponentProperty() throws Exception
+        public void testGetComponentProperty() throws InterruptedException
         {
-            String componentName = "AltTester.AltRunner";
-            String propertyName = "InstrumentationSettings.AltTesterPort";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "AltRunnerPrefab").isEnabled(true).withCamera("Main Camera").build();
-            AltObject altObject = altDriver.findObject(altFindObjectsParams);
-            assertNotNull(altObject);
-            AltGetComponentPropertyParams altGetComponentPropertyParameters=new AltGetComponentPropertyParams.Builder(componentName, propertyName, "Assembly-CSharp").build();
-            int propertyValue = altObject.getComponentProperty(altGetComponentPropertyParams,Integer.class);
-            assertEquals(propertyValue, 13000);
+            Thread.sleep(1000);
+            String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            String propertyName = "InstrumentationSettings.ResetConnectionData";
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                    "AltTesterPrefab").build();
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
+            assertNotNull(altElement);
+
+            Boolean propertyValue = altElement.getComponentProperty(
+                    new AltGetComponentPropertyParams.Builder(componentName,
+                            propertyName, "AltTester.AltTesterUnitySDK").build(),
+                    Boolean.class);
+            assertTrue(propertyValue);
         }
 
     .. code-tab:: py
 
         def test_get_component_property(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
-            result = self.altDriver.find_element("Capsule").get_component_property("Capsule", "arrayOfInts")
-            self.assertEqual(result, [1,2,3])
+            self.alt_driver.load_scene('Scene 1 AltDriverTestScene')
+            alt_object = self.alt_driver.find_object(By.NAME, "Capsule")
+            result = alt_object.get_component_property(
+                "AltExampleScriptCapsule", "arrayOfInts", "Assembly-CSharp")
 
     .. code-tab:: robot
 
@@ -3975,13 +3982,13 @@ Sets value of the given component property.
         [Test]
         public void TestSetComponentProperty()
         {
-            const string componentName = "Capsule";
+            const string componentName = "AltExampleScriptCapsule";
             const string propertyName = "stringToSetFromTests";
-            var altObject = altDriver.FindObject(By.NAME, "Capsule");
-            Assert.NotNull(altObject);
-            altObject.SetComponentProperty(componentName, propertyName, "2", "Assembly-CSharp");
+            var altElement = altDriver.FindObject(By.NAME, "Capsule");
+            Assert.NotNull(altElement);
+            altElement.SetComponentProperty(componentName, propertyName, "2", "Assembly-CSharp");
 
-            var propertyValue = altObject.GetComponentProperty<string>(componentName, propertyName);
+            var propertyValue = altElement.GetComponentProperty<string>(componentName, propertyName, "Assembly-CSharp");
             Assert.AreEqual("2", propertyValue);
         }
 
@@ -3990,27 +3997,35 @@ Sets value of the given component property.
         @Test
         public void testSetComponentProperty()
         {
-            String componentName = "Capsule";
+            String componentName = "AltExampleScriptCapsule";
             String propertyName = "stringToSetFromTests";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Capsule").isEnabled(true).withCamera("Main Camera").build();
-            AltObject altObject = altDriver.findObject(altFindObjectsParams);
-            assertNotNull(altObject);
-            altElement.setComponentProperty(new AltSetComponentPropertyParams.Builder(componentName, propertyName, "2", "Assembly-CSharp").build());
-            String propertyValue = altElement.getComponentProperty(new AltGetComponentPropertyParams.Builder(componentName,propertyName).build(), String.class);
-            assertEquals("2", propertyValue);
+            String assembly = "Assembly-CSharp";
+            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                    "Capsule").build();
+            AltObject altElement = altDriver.findObject(altFindObjectsParams);
+            assertNotNull(altElement);
+            altElement.setComponentProperty(
+                    new AltSetComponentPropertyParams.Builder(componentName, propertyName,
+                            assembly, "2").build());
+            int propertyValue = altElement.getComponentProperty(
+                    new AltGetComponentPropertyParams.Builder(componentName,
+                            propertyName,
+                            assembly).build(),
+                    int.class);
+            assertEquals(2, propertyValue);
         }
 
     .. code-tab:: py
 
         def test_set_component_property(self):
-            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
-            componentName = "Capsule"
-            propertyName = "stringToSetFromTests"
-            altObject = self.altDriver.find_object(By.NAME, componentName)
-            self.assertNotEqual(altObject, None)
-            altObject.set_component_property(componentName, propertyName, "2", "Assembly-CSharp")
-            propertyValue = altObject.get_component_property(componentName, propertyName)
-            self.assertEqual("2", propertyValue)
+            self.alt_driver.load_scene("Scene 1 AltDriverTestScene")
+            alt_object = self.alt_driver.find_object(By.NAME, "Capsule")
+            alt_object.set_component_property(
+                "AltExampleScriptCapsule", "arrayOfInts", "Assembly-CSharp", [2, 3, 4])
+
+            alt_object = self.alt_driver.find_object(By.NAME, "Capsule")
+            result = alt_object.get_component_property(
+                "AltExampleScriptCapsule", "arrayOfInts", "Assembly-CSharp")
 
     .. code-tab:: robot
 
@@ -4070,13 +4085,13 @@ None
             AltObject altElement = altDriver.findObject(altFindObjectsParams);
             assertNotNull(altElement);
             assertEquals(altElement.getText(), text);
-          }
+        }
 
     .. code-tab:: py
 
         def test_find_object_by_text(self):
-            text = self.altdriver.find_object(By.NAME, "CapsuleInfo").get_text()
-            element = self.altdriver.find_object(By.TEXT, text)
+            text = self.alt_driver.find_object(By.NAME, "CapsuleInfo").get_text()
+            element = self.alt_driver.find_object(By.TEXT, text)
             assert element.get_text() == text
 
     .. code-tab:: robot
@@ -4112,40 +4127,41 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
     .. code-tab:: c#
 
-        [Test]
-        public void TestSetTextForElement()
+        [TestCase("UnityUIInputField")] // UI input field
+        [TestCase("TextMeshInputField")] // text mesh input field
+        public void TestSetTextForUnityUIInputField(string fieldName)
         {
-            const string name = "InputField";
-            const string text = "InputFieldTest";
-            var input = altDriver.FindObject(By.NAME, name).SetText(text, true);
-            Assert.NotNull(input);
-            Assert.AreEqual(input.GetText(), text);
+            var inputField = altDriver.FindObject(By.NAME, fieldName).SetText("exampleUnityUIInputField", true);
+            Assert.AreEqual("exampleUnityUIInputField", inputField.GetText());
+            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onValueChangedInvoked", "Assembly-CSharp"), "onValueChangedInvoked was false");
+            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp"), "onSubmitInvoked was false");
+            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onEndEditInvoked", "Assembly-CSharp"), "onEndEditInvoked was false");
         }
 
     .. code-tab:: java
 
         @Test
-        public void testSetTextForElement()
-        {
-            String name = "InputField";
-            String text = "InputFieldTest";
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, name).isEnabled(true).withCamera("Main Camera").build();
-            AltObject altObject = altDriver.findObject(altFindObjectsParams);
+        public void TestSetTextWithSubmit() {
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                    AltDriver.By.NAME, "NonEnglishText").build();
+            AltObject textObject = altDriver.findObject(altFindObjectsParameters1);
+            String originalText = textObject.getText();
+            String text = "ModifiedText";
             AltSetTextParams setTextParams = new AltSetTextParams.Builder(text).withSubmit(true).build();
-            altObject.setText(setTextParams);
-            assertNotNull(altObject);
-            assertEquals(altObject.getText(), text);
+            String afterText = textObject.setText(setTextParams).getText();
+            assertNotEquals(originalText, afterText);
+            assertEquals(text, afterText);
         }
 
     .. code-tab:: py
 
-        def test_set_text_for_element(self):
-            self.altDriver.load_scene("Scene 1 AltDriverTestScene")
-            name = "InputField"
-            text = "InputFieldTest"
-            input = self.altDriver.find_object(By.NAME, name).set_text(text, submit=True)
-            self.assertNotEqual(input, None)
-            self.assertEqual(input.get_text(), text)
+        def test_set_text(self):
+            text_object = self.alt_driver.find_object(By.NAME, "NonEnglishText")
+            original_text = text_object.get_text()
+            after_text = text_object.set_text("ModifiedText").get_text()
+
+            assert original_text != after_text
+            assert after_text == "ModifiedText"
 
     .. code-tab:: robot
 
@@ -4212,8 +4228,8 @@ Tap current object.
     .. code-tab:: py
 
         def test_tap_element(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
-            capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
+            self.alt_driver.load_scene('Scene 1 AltDriverTestScene')
+            capsule_element = self.alt_driver.find_object(By.NAME, 'Capsule')
             capsule_element.tap()
 
     .. code-tab:: robot
@@ -4280,8 +4296,8 @@ Click current object.
     .. code-tab:: py
 
         def test_click_element(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene')
-            capsule_element = self.altDriver.find_object(By.NAME, 'Capsule')
+            self.alt_driver.load_scene('Scene 1 AltDriverTestScene')
+            capsule_element = self.alt_driver.find_object(By.NAME, 'Capsule')
             capsule_element.click()
 
     .. code-tab:: robot
@@ -4313,40 +4329,61 @@ None
     .. code-tab:: c#
 
         [Test]
-        public void TestPointerDownCommand()
+        public void TestPointerDown()
         {
+            altDriver.LoadScene("Scene 2 Draggable Panel");
             var panel = altDriver.FindObject(By.NAME, "Panel");
-            var color1 = panel.GetComponentProperty("PanelScript", "normalColor", "Assembly-CSharp");
+            var color1 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "normalColor", "Assembly-CSharp");
             panel.PointerDown();
             Thread.Sleep(1000);
-            var color2 = panel.GetComponentProperty("PanelScript", "highlightColor", "Assembly-CSharp");
+            var color2 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1, color2);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testPointerDownCommand() throws InterruptedException
-        {
-            AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "normalColor", "Assembly-CSharp").build(), String.class);
+        public void testPointerDownFromObject() throws InterruptedException {
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build());
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                            AltDriver.By.NAME, "Panel").build();
+            AltObject panel = altDriver.findObject(altFindObjectsParameters1);
+
+            AltColor color1 = panel.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor",
+                                            "Assembly-CSharp")
+                                            .build(),
+                            AltColor.class);
             panel.pointerDown();
             Thread.sleep(1000);
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder( "PanelScript", "highlightColor", "Assembly-CSharp").build(), String.class);
-            assertTrue(color1 != color2);
+            AltColor color2 = panel.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor",
+                                            "Assembly-CSharp")
+                                            .build(),
+                            AltColor.class);
+            assertTrue(color1.r != color2.r || color1.g != color2.g || color1.b != color2.b
+                            || color1.a != color2.a);
         }
 
     .. code-tab:: py
 
-        def test_pointer_down_command():
-            self.altDriver.load_scene('Scene 2 Draggable Panel')
-            time.sleep(1)
-            p_panel = self.altDriver.find_object(By.NAME, 'Panel')
-            color1 = p_panel.get_component_property('PanelScript', 'normalColor', 'Assembly-CSharp')
-            p_panel.pointer_down()
-            time.sleep(1)
-            color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
-            self.assertNotEquals(color1, color2)
+        def test_pointer_down_from_object(self):
+            self.alt_driver.load_scene('Scene 2 Draggable Panel')
+            panel = self.alt_driver.find_object(By.NAME, "Panel")
+            color1 = panel.get_component_property(
+                "AltExampleScriptPanel",
+                "normalColor",
+                "Assembly-CSharp"
+            )
+            panel.pointer_down()
+
+            color2 = panel.get_component_property(
+                "AltExampleScriptPanel",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color1 != color2
 
     .. code-tab:: robot
 
@@ -4379,45 +4416,63 @@ None
     .. code-tab:: c#
 
         [Test]
-        public void TestPointerUpCommand()
+        public void TestPointerUp()
         {
+            altDriver.LoadScene("Scene 2 Draggable Panel");
             var panel = altDriver.FindObject(By.NAME, "Panel");
-            var color1 = panel.GetComponentProperty("PanelScript", "normalColor", "Assembly-CSharp");
+            var color1 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "normalColor", "Assembly-CSharp");
             panel.PointerDown();
             Thread.Sleep(1000);
             panel.PointerUp();
-            var color2 = panel.GetComponentProperty("PanelScript", "highlightColor", "Assembly-CSharp");
+            var color2 = panel.GetComponentProperty<AltColor>("AltExampleScriptPanel", "highlightColor", "Assembly-CSharp");
             Assert.AreEqual(color1, color2);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testPointerUpCommand() throws InterruptedException
-        {
-            AltObject panel = altDriver.findObject(AltDriver.By.NAME, "Panel");
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "normalColor", "Assembly-CSharp").build(), String.class);
-
+        public void testPointerUpFromObject() throws InterruptedException {
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build());
+            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
+                            AltDriver.By.NAME, "Panel").build();
+            AltObject panel = altDriver.findObject(altFindObjectsParameters1);
+            AltColor color1 = panel.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "normalColor",
+                                            "Assembly-CSharp")
+                                            .build(),
+                            AltColor.class);
             panel.pointerDown();
             Thread.sleep(1000);
             panel.pointerUp();
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("PanelScript", "highlightColor", "Assembly-CSharp").build(), String.class);
-
-            assertEquals(color1, color2);
+            AltColor color2 = panel.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptPanel", "highlightColor",
+                                            "Assembly-CSharp")
+                                            .build(),
+                            AltColor.class);
+            assertTrue(color1.r == color2.r && color1.g == color2.g && color1.b == color2.b
+                            && color1.a == color2.a);
         }
 
     .. code-tab:: py
 
-        def test_pointer_up_command():
-            self.altDriver.load_scene('Scene 2 Draggable Panel')
-            time.sleep(1)
-            p_panel = self.altDriver.find_object(By.NAME, 'Panel')
-            color1 = p_panel.get_component_property('PanelScript', 'normalColor', 'Assembly-CSharp')
-            p_panel.pointer_down()
-            time.sleep(1)
-            p_panel.pointer_up()
-            color2 = p_panel.get_component_property('PanelScript', 'highlightColor', 'Assembly-CSharp')
-            self.assertEquals(color1, color2)
+        def test_pointer_up_from_object(self):
+            self.alt_driver.load_scene('Scene 2 Draggable Panel')
+            panel = self.alt_driver.find_object(By.NAME, "Panel")
+            color1 = panel.get_component_property(
+                "AltExampleScriptPanel",
+                "normalColor",
+                "Assembly-CSharp"
+            )
+            panel.pointer_down()
+
+            panel.pointer_up()
+            color2 = panel.get_component_property(
+                "AltExampleScriptPanel",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color1 == color2            
 
     .. code-tab:: robot
 
@@ -4453,49 +4508,82 @@ None
         [Test]
         public void TestPointerEnterAndExit()
         {
-            var altObject = altDriver.FindObject(By.NAME,"Drop Image");
-            var color1 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
-            altDriver.FindObject(By.NAME,"Drop Image").PointerEnter();
-            var color2 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
-            Assert.AreNotEqual(color1,color2);
-            altDriver.FindObject(By.NAME,"Drop Image").PointerExit();
-            var color3 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp");
+            altDriver.LoadScene("Scene 3 Drag And Drop");
+            var altElement = altDriver.FindObject(By.NAME, "Drop Image");
+            var color1 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
+            altDriver.FindObject(By.NAME, "Drop Image").PointerEnter();
+            var color2 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
+            Assert.AreNotEqual(color1, color2);
+            altDriver.FindObject(By.NAME, "Drop Image").PointerExit();
+            var color3 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color3, color2);
-            Assert.AreEqual(color1,color3);
+            Assert.AreEqual(color1, color3);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testPointerEnterAndExit()
-        {
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
-            AltObject altObject = altDriver.findObject(altFindObjectsParams);
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
+        public void testTestPointerEnterAndExit() throws Exception {
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").build());
+            AltObject altElement = FindObject(By.NAME, "Drop Image");
+            AltColor color1 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
+            FindObject(By.NAME, "Drop Image").pointerEnter();
+            AltColor color2 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
+            assertNotEquals(color1, color2);
+            FindObject(By.NAME, "Drop Image").pointerEnter();
+            AltColor color3 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
 
-            altDriver.findObject(altFindObjectsParams).pointerEnter();
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
-            assertNotEquals(color1,color2);
-
-            altDriver.findObject(altFindObjectsParams).pointerExit();
-            String color3 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
             assertNotEquals(color3, color2);
-            assertEquals(color1,color3);
+            assertNotEquals(color1, color3);        
         }
 
     .. code-tab:: py
 
         def test_pointer_enter_and_exit(self):
-            self.altDriver.load_scene("Scene 3 Drag And Drop")
-            alt_unity_object = self.altDriver.find_object(By.NAME,"Drop Image")
-            color1 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.altDriver.find_object(By.NAME,"Drop Image").pointer_enter()
-            color2 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.assertNotEqual(color1, color2)
-            self.altDriver.find_object(By.NAME,"Drop Image").pointer_exit()
-            color3 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.assertNotEqual(color3, color2)
-            self.assertEqual(color1, color3)
+            self.alt_driver.load_scene("Scene 3 Drag And Drop")
+            alt_object = self.alt_driver.find_object(By.NAME, "Drop Image")
+            color1 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+            alt_object.pointer_enter()
+            color2 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color1["r"] != color2["r"] or \
+                color1["g"] != color2["g"] or \
+                color1["b"] != color2["b"] or \
+                color1["a"] != color2["a"]
+
+            alt_object.pointer_exit()
+            color3 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color3["r"] != color2["r"] or \
+                color3["g"] != color2["g"] or \
+                color3["b"] != color2["b"] or \
+                color3["a"] != color2["a"]
+
+            assert color3["r"] == color1["r"] and \
+                color3["g"] == color1["g"] and \
+                color3["b"] == color1["b"] and \
+                color3["a"] == color1["a"]
 
     .. code-tab:: robot
 
@@ -4546,50 +4634,82 @@ None
         [Test]
         public void TestPointerEnterAndExit()
         {
-            var altObject = altDriver.FindObject(By.NAME,"Drop Image");
-            var color1 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
-            altDriver.FindObject(By.NAME,"Drop Image").PointerEnter();
-            var color2 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
-            Assert.AreNotEqual(color1,color2);
-            altDriver.FindObject(By.NAME,"Drop Image").PointerExit();
-            var color3 = altObject.GetComponentProperty("DropMe", "highlightColor", "Assembly-CSharp"));
+            altDriver.LoadScene("Scene 3 Drag And Drop");
+            var altElement = altDriver.FindObject(By.NAME, "Drop Image");
+            var color1 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
+            altDriver.FindObject(By.NAME, "Drop Image").PointerEnter();
+            var color2 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
+            Assert.AreNotEqual(color1, color2);
+            altDriver.FindObject(By.NAME, "Drop Image").PointerExit();
+            var color3 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color3, color2);
-            Assert.AreEqual(color1,color3);
+            Assert.AreEqual(color1, color3);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testPointerEnterAndExit()
-        {
-            AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Drop Image").isEnabled(true).withCamera("Main Camera").build();
-            AltObject altObject = altDriver.findObject(altFindObjectsParams);
-            String color1 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
+        public void testTestPointerEnterAndExit() throws Exception {
+            altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 3 Drag And Drop").build());
+            AltObject altElement = FindObject(By.NAME, "Drop Image");
+            AltColor color1 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
+            FindObject(By.NAME, "Drop Image").pointerEnter();
+            AltColor color2 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
+            assertNotEquals(color1, color2);
+            FindObject(By.NAME, "Drop Image").pointerEnter();
+            AltColor color3 = altElement.getComponentProperty(
+                            new AltGetComponentPropertyParams.Builder("AltExampleScriptDropMe", "highlightColor",
+                                            "Assembly-CSharp").build(),
+                            AltColor.class);
 
-
-            altDriver.findObject(altFindObjectsParams).pointerEnter();
-            String color2 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
-            assertNotEquals(color1,color2);
-
-            altDriver.findObject(altFindObjectsParams).pointerExit();
-            String color3 = panel.getComponentProperty(new AltGetComponentPropertyParams.Builder("DropMe", "highlightColor", "Assembly-CSharp").build(), String.class);
             assertNotEquals(color3, color2);
-            assertEquals(color1,color3);
+            assertNotEquals(color1, color3);        
         }
 
     .. code-tab:: py
 
         def test_pointer_enter_and_exit(self):
-            self.altDriver.load_scene("Scene 3 Drag And Drop")
-            alt_unity_object = self.altDriver.find_object(By.NAME,"Drop Image")
-            color1 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.altDriver.find_object(By.NAME,"Drop Image").pointer_enter()
-            color2 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.assertNotEqual(color1, color2)
-            self.altDriver.find_object(By.NAME,"Drop Image").pointer_exit()
-            color3 = alt_unity_object.get_component_property("DropMe", "highlightColor", "Assembly-CSharp")
-            self.assertNotEqual(color3, color2)
-            self.assertEqual(color1, color3)
+            self.alt_driver.load_scene("Scene 3 Drag And Drop")
+            alt_object = self.alt_driver.find_object(By.NAME, "Drop Image")
+            color1 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+            alt_object.pointer_enter()
+            color2 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color1["r"] != color2["r"] or \
+                color1["g"] != color2["g"] or \
+                color1["b"] != color2["b"] or \
+                color1["a"] != color2["a"]
+
+            alt_object.pointer_exit()
+            color3 = alt_object.get_component_property(
+                "AltExampleScriptDropMe",
+                "highlightColor",
+                "Assembly-CSharp"
+            )
+
+            assert color3["r"] != color2["r"] or \
+                color3["g"] != color2["g"] or \
+                color3["b"] != color2["b"] or \
+                color3["a"] != color2["a"]
+
+            assert color3["r"] == color1["r"] and \
+                color3["g"] == color1["g"] and \
+                color3["b"] == color1["b"] and \
+                color3["a"] == color1["a"]
 
     .. code-tab:: robot
 
@@ -4665,10 +4785,10 @@ None
     .. code-tab:: py
 
         def test_update_altObject(self):
-            cube = self.altdriver.find_object(By.NAME, "Player1")
+            cube = self.alt_driver.find_object(By.NAME, "Player1")
             initial_position_z = cube.worldZ
 
-            self.altdriver.press_key(AltKeyCode.W, power=1, duration=0.1, wait=False)
+            self.alt_driver.press_key(AltKeyCode.W, power=1, duration=0.1, wait=False)
             time.sleep(5)
 
             assert initial_position_z != cube.update_object().worldZ
@@ -4727,8 +4847,8 @@ None
     .. code-tab:: py
 
         def test_get_parent(self):
-            self.altDriver.load_scene('Scene 1 AltDriverTestScene', True)
-            element = self.altDriver.find_object(By.NAME, 'Canvas/CapsuleInfo')
+            self.alt_driver.load_scene('Scene 1 AltDriverTestScene', True)
+            element = self.alt_driver.find_object(By.NAME, 'Canvas/CapsuleInfo')
             elementParent = element.get_parent()
             self.assertEqual('Canvas', elementParent.name)
 
@@ -4789,9 +4909,9 @@ None
     .. code-tab:: py
 
         def test_hold_button(self):
-            button = self.altdriver.find_object(By.NAME, "UIButton")
-            self.altdriver.hold_button(button.get_screen_position(), duration=1)
-            capsule_info = self.altdriver.find_object(By.NAME, "CapsuleInfo")
+            button = self.alt_driver.find_object(By.NAME, "UIButton")
+            self.alt_driver.hold_button(button.get_screen_position(), duration=1)
+            capsule_info = self.alt_driver.find_object(By.NAME, "CapsuleInfo")
             text = capsule_info.get_text()
             assert text == "UIButton clicked to jump capsule!"
 
@@ -4855,12 +4975,12 @@ None
     .. code-tab:: py
 
         def test_acceleration(self):
-            self.altdriver.load_scene("Scene 1 AltDriverTestScene")
-            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            self.alt_driver.load_scene("Scene 1 AltDriverTestScene")
+            capsule = self.alt_driver.find_object(By.NAME, "Capsule")
             initial_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
-            self.altdriver.tilt([1, 1, 1], 1)
+            self.alt_driver.tilt([1, 1, 1], 1)
 
-            capsule = self.altdriver.find_object(By.NAME, "Capsule")
+            capsule = self.alt_driver.find_object(By.NAME, "Capsule")
             final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
             assert initial_position != final_position
 
@@ -5127,7 +5247,7 @@ This method calls `adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}`
         @classmethod
         def setUpClass(cls):
             AltReversePortForwarding.reverse_port_forwarding_android()
-            cls.altDriver = AltDriver()
+            cls.alt_driver = AltDriver()
 
     .. code-tab:: robot
 
@@ -5179,7 +5299,7 @@ Nothing
 
         @classmethod
         def tearDownClass(cls):
-            cls.altDriver.stop()
+            cls.alt_driver.stop()
             AltReversePortForwarding.remove_reverse_port_forwarding_android()
 
     .. code-tab:: robot
@@ -5230,7 +5350,7 @@ Nothing
 
         @classmethod
         def tearDownClass(cls):
-            cls.altDriver.stop()
+            cls.alt_driver.stop()
             AltReversePortForwarding.remove_all__reverse_port_forwardings_android()
 
     .. code-tab:: robot

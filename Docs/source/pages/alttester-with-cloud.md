@@ -1763,11 +1763,11 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
     - initialize AltDriver:
         - **for remote connection**: AltDriver needs to connect to another VM where is AltTester® Server
         ```python
-        cls.altdriver = AltDriver(host="INSERT_VM_IP")
+        cls.alt_driver = AltDriver(host="INSERT_VM_IP")
         ```    
         - **for local connection**: AltDriver and AltTester® Server are on same BitBar machine
         ```python
-        cls.altdriver = AltDriver()
+        cls.alt_driver = AltDriver()
         ```  
 
 **3. Prepare the `.zip` archive with tests and `run-tests.sh`**
@@ -2003,7 +2003,7 @@ After you finish setting up the build, you need to use the **Archive** option to
     ```
     - initialize AltDriver:
         ```python
-        cls.altdriver = AltDriver(host=HOST_ALT_SERVER)
+        cls.alt_driver = AltDriver(host=HOST_ALT_SERVER)
         ```
 
 Please see our `base_test.py` examples from the repository:
