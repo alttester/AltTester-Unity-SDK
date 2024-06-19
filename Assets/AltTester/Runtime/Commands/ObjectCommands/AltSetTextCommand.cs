@@ -39,6 +39,8 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override AltObject Execute()
         {
+            UnityEngine.Debug.LogWarning("AltSetText Execute is Called"); //TODO delete this when I do the PR
+
             var targetObject = AltRunner.GetGameObject(CommandParams.altObject.id);
             Exception exception = null;
 
