@@ -7,6 +7,9 @@ insert_final_newline=false
 indent_style=space
 indent_size=4
 
+[**/Library/**]
+dotnet_analyzer_diagnostic.severity = none
+
 # Microsoft .NET properties
 csharp_new_line_before_members_in_object_initializers=false
 csharp_preferred_modifier_order=public, private, protected, internal, new, abstract, virtual, sealed, override, static, readonly, extern, unsafe, volatile, async:suggestion
@@ -57,7 +60,7 @@ indent_style=space
 indent_size=4
 tab_width=4
 
-dotnet_diagnostic.IDE0055.severity = error  # Formatting
+dotnet_diagnostic.CS0414.severity = none
 
 [*.{cs,vb}]
 

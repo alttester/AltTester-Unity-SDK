@@ -14,7 +14,6 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,38 +22,38 @@ using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK
 {
-        public static class InputController
+    public static class InputController
+    {
+
+        private static IEnumerator runThrowingIterator(
+            List<IEnumerator> enumerators,
+            Action<Exception> done)
         {
+            Exception err = null;
 
-                private static IEnumerator runThrowingIterator(
-                   List<IEnumerator> enumerators,
-                   Action<Exception> done)
+            var CoroutineList = new List<Coroutine>();
+
+            try
+            {
+                for (int i = 0; i < enumerators.Count; i++)
                 {
-                        Exception err = null;
-
-                        var CoroutineList = new List<Coroutine>();
-
-                        try
-                        {
-                                for (int i = 0; i < enumerators.Count; i++)
-                                {
-                                        CoroutineList.Add(AltRunner._altRunner.StartCoroutine(enumerators[i]));
-                                }
-                        }
-                        catch (Exception e)
-                        {
-                                err = e;
-                        }
-                        for (int i = 0; i < enumerators.Count; i++)
-                        {
-                                yield return CoroutineList[i];
-                        }
-
-                        done.Invoke(err);
+                    CoroutineList.Add(AltRunner._altRunner.StartCoroutine(enumerators[i]));
                 }
+            }
+            catch (Exception e)
+            {
+                err = e;
+            }
+            for (int i = 0; i < enumerators.Count; i++)
+            {
+                yield return CoroutineList[i];
+            }
 
-                public static void Scroll(float speedVertical, float speedHorizontal, float duration, Action<Exception> onFinish)
-                {
+            done.Invoke(err);
+        }
+
+        public static void Scroll(float speedVertical, float speedHorizontal, float duration, Action<Exception> onFinish)
+        {
 #if ALTTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
@@ -65,12 +64,12 @@ namespace AltTester.AltTesterUnitySDK
 #endif
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
+        }
 
-                public static void MoveMouse(UnityEngine.Vector2 location, float duration, Action<Exception> onFinish)
-                {
+        public static void MoveMouse(UnityEngine.Vector2 location, float duration, Action<Exception> onFinish)
+        {
 #if ALTTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
@@ -81,11 +80,11 @@ namespace AltTester.AltTesterUnitySDK
 #endif
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
-                public static void TapElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
-                {
+        }
+        public static void TapElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
+        {
 #if ALTTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
@@ -96,12 +95,12 @@ namespace AltTester.AltTesterUnitySDK
 #endif
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
+        }
 
-                public static void TapCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action<Exception> onFinish)
-                {
+        public static void TapCoordinates(UnityEngine.Vector2 coordinates, int count, float interval, Action<Exception> onFinish)
+        {
 #if ALTTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
@@ -112,12 +111,12 @@ namespace AltTester.AltTesterUnitySDK
 #endif
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
+        }
 
-                public static void ClickElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
-                {
+        public static void ClickElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
+        {
 #if ALTTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
@@ -128,12 +127,12 @@ namespace AltTester.AltTesterUnitySDK
 #endif
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
+        }
 
-                public static void ClickCoordinates(UnityEngine.Vector2 screenPosition, int count, float interval, Action<Exception> onFinish)
-                {
+        public static void ClickCoordinates(UnityEngine.Vector2 screenPosition, int count, float interval, Action<Exception> onFinish)
+        {
 #if ALTTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
@@ -144,11 +143,11 @@ namespace AltTester.AltTesterUnitySDK
 #endif
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
-                public static void Tilt(Vector3 accelerationValue, float duration, Action<Exception> onFinish)
-                {
+        }
+        public static void Tilt(Vector3 accelerationValue, float duration, Action<Exception> onFinish)
+        {
 #if ALTTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
@@ -159,12 +158,12 @@ namespace AltTester.AltTesterUnitySDK
 #endif
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
+        }
 
-                public static void KeyDown(KeyCode keyCode, float power)
-                {
+        public static void KeyDown(KeyCode keyCode, float power)
+        {
 #if ALTTESTER
 #if ENABLE_INPUT_SYSTEM
             NewInputSystem.KeyDown(keyCode, power);
@@ -173,12 +172,12 @@ namespace AltTester.AltTesterUnitySDK
             AltRunner._altRunner.StartCoroutine(Input.KeyDownLifeCycle(keyCode, power));
 #endif
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
+        }
 
-                public static void KeyUp(KeyCode keyCode)
-                {
+        public static void KeyUp(KeyCode keyCode)
+        {
 #if ALTTESTER
 #if ENABLE_INPUT_SYSTEM
             NewInputSystem.KeyUp(keyCode);
@@ -187,12 +186,12 @@ namespace AltTester.AltTesterUnitySDK
             AltRunner._altRunner.StartCoroutine(Input.KeyUpLifeCycle(keyCode));
 #endif
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
+        }
 
-                public static void PressKey(KeyCode keyCode, float power, float duration, Action<Exception> onFinish)
-                {
+        public static void PressKey(KeyCode keyCode, float power, float duration, Action<Exception> onFinish)
+        {
 #if ALTTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
@@ -203,12 +202,12 @@ namespace AltTester.AltTesterUnitySDK
 #endif
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
+        }
 
-                public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
-                {
+        public static void SetMultipointSwipe(UnityEngine.Vector2[] positions, float duration, Action<Exception> onFinish)
+        {
 #if ALTTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
@@ -219,12 +218,12 @@ namespace AltTester.AltTesterUnitySDK
 #endif
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
+        }
 
-                public static int BeginTouch(Vector3 screenPosition)
-                {
+        public static int BeginTouch(Vector3 screenPosition)
+        {
 #if ALTTESTER
             int newFingerId = 0, oldFingerId = -1;
 #if ENABLE_INPUT_SYSTEM
@@ -241,12 +240,12 @@ namespace AltTester.AltTesterUnitySDK
                 return newFingerId;
             throw new Exception("FingerIds are not identical! OldInput fingerId: " + oldFingerId + " New Input fingerId: " + newFingerId);
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
+        }
 
-                public static void MoveTouch(int fingerId, Vector3 screenPosition)
-                {
+        public static void MoveTouch(int fingerId, Vector3 screenPosition)
+        {
 #if ALTTESTER
 #if ENABLE_INPUT_SYSTEM
             NewInputSystem.MoveTouch(fingerId, screenPosition);
@@ -255,12 +254,12 @@ namespace AltTester.AltTesterUnitySDK
             Input.MoveTouch(fingerId - 1, screenPosition);
 #endif
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
-                }
+        }
 
-                public static void EndTouch(int fingerId, Action<Exception> onFinish)
-                {
+        public static void EndTouch(int fingerId, Action<Exception> onFinish)
+        {
 #if ALTTESTER
             List<IEnumerator> coroutines = new List<IEnumerator>();
 #if ENABLE_INPUT_SYSTEM
@@ -271,12 +270,12 @@ namespace AltTester.AltTesterUnitySDK
 #endif
             AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-                        throw new AltInputModuleException(AltErrors.errorInputModule);
+            throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
 
-                }
-                public static void ResetInput()
-                {
+        }
+        public static void ResetInput()
+        {
 #if ALTTESTER
 #if ENABLE_INPUT_SYSTEM
             NewInputSystem.Instance.ResetInput();
@@ -286,6 +285,6 @@ namespace AltTester.AltTesterUnitySDK
 #endif
 #endif
 
-                }
         }
+    }
 }

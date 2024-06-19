@@ -42,7 +42,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         }
 
 
-        public new void Init()
+        public void Init()
         {
             base.Init(path, (code, reason) =>
             {
