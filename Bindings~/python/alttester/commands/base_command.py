@@ -18,7 +18,7 @@
 import abc
 import json
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 
 from loguru import logger
 
@@ -26,7 +26,7 @@ import alttester.exceptions as exceptions
 from alttester.by import By
 
 
-EPOCH = datetime.datetime.fromtimestamp(0, datetime.timezone.utc)
+EPOCH = datetime.fromtimestamp(0, timezone.utc)
 
 
 def validate_coordinates_3(coordinates):
@@ -153,7 +153,7 @@ class BaseCommand(Command):
     def __init__(self, connection, command_name):
         self.connection = connection
         self.command_name = command_name
-        self.message_id = str((datetime.datetime.now(datetime.timezone.utc) - EPOCH).total_seconds())
+        self.message_id = str((datetime.now(timezone.utc) - EPOCH).total_seconds())
 
     @property
     def _parameters(self):
