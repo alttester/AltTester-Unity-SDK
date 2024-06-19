@@ -305,11 +305,15 @@ namespace AltTester.AltTesterUnitySDK.Commands
                             return layerNm.Contains(PropertyValue) ? gameObjectToCheck : null;
                         case PropertyType.component:
                             var componentName = PropertyValue.Split(new string[] { "." }, System.StringSplitOptions.None).Last();
+                            UnityEngine.Debug.LogWarning("Component Name: " + componentName);//TODO remove when PR ready
                             var list = gameObjectToCheck.GetComponents(typeof(UnityEngine.Component));
+                            UnityEngine.Debug.LogWarning("List count: " + list.Length.ToString());//TODO remove when PR ready
                             for (int i = 0; i < list.Length; i++)
                             {
+                                UnityEngine.Debug.LogWarning("i : " + i);//TODO remove when PR ready
                                 if (list[i].GetType().Name.Contains(componentName))
                                 {
+                                    UnityEngine.Debug.LogWarning("gameObjectToCheck : " + gameObjectToCheck.name);//TODO remove when PR ready
                                     return gameObjectToCheck;
                                 }
                             }
