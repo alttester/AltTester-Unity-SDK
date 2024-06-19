@@ -295,9 +295,9 @@ namespace AltTester.AltTesterUnitySDK.Commands
             {
                 return new AltGetAllLoadedScenesCommand(cmdParams as AltGetAllLoadedScenesParams).ExecuteAndSerialize;
             }
-            if (cmdParams is AltGetAllLoadedScenesAndObjectsParams)
+            if (cmdParams is AltGameGetAllLoadedScenesAndObjectsParams)
             {
-                return new AltGetAllLoadedScenesAndObjectsCommand(cmdParams as AltGetAllLoadedScenesAndObjectsParams).ExecuteAndSerialize;
+                return new AltGetAllLoadedScenesAndObjectsCommand(cmdParams as AltGameGetAllLoadedScenesAndObjectsParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltGetScreenshotParams)
             {
@@ -323,17 +323,25 @@ namespace AltTester.AltTesterUnitySDK.Commands
             {
                 return new AltScrollCommand(this, cmdParams as AltScrollParams).ExecuteAndSerialize;
             }
+            //TODO remove this if when we will no longer support oldFindObject
             if (cmdParams is AltFindObjectParams)
             {
-                return new AltFindObjectCommand(cmdParams as AltFindObjectParams).ExecuteAndSerialize;
+                return new AltOldFindObjectCommand(cmdParams as AltFindObjectParams).ExecuteAndSerialize;
             }
+            //TODO remove this if when we will no longer support oldFindObject
             if (cmdParams is AltFindObjectsParams)
             {
-                return new AltFindObjectsCommand(cmdParams as AltFindObjectsParams).ExecuteAndSerialize;
+                return new AltOldFindObjectsCommand(cmdParams as AltFindObjectsParams).ExecuteAndSerialize;
             }
+            //TODO remove this if when we will no longer support oldFindObject
             if (cmdParams is AltFindObjectsLightParams)
             {
-                return new AltFindObjectsLightCommand(cmdParams as AltFindObjectsLightParams).ExecuteAndSerialize;
+                return new AltOldFindObjectsLightCommand(cmdParams as AltFindObjectsLightParams).ExecuteAndSerialize;
+            }
+            //TODO remove this if when we will no longer support oldFindObject
+            if (cmdParams is AltGetAllLoadedScenesAndObjectsParams)
+            {
+                return new AltOldGetAllLoadedScenesAndObjectsCommand(cmdParams as AltGetAllLoadedScenesAndObjectsParams).ExecuteAndSerialize;
             }
             if (cmdParams is AltGetTextParams)
             {
@@ -371,12 +379,63 @@ namespace AltTester.AltTesterUnitySDK.Commands
             {
                 return new AltResetInputCommand(cmdParams as AltResetInputParams).ExecuteAndSerialize;
             }
+            if (cmdParams is AltGameFindObjectParams)
+            {
+                return new AltFindObjectCommand(cmdParams as AltGameFindObjectParams).ExecuteAndSerialize;
+            }
+            if (cmdParams is AltGameFindObjectsParams)
+            {
+                return new AltFindObjectsCommand(cmdParams as AltGameFindObjectsParams).ExecuteAndSerialize;
+            }
+            if (cmdParams is AltGameFindObjectsLightParams)
+            {
+                return new AltFindObjectsLightCommand(cmdParams as AltGameFindObjectsLightParams).ExecuteAndSerialize;
+            }
+            if (cmdParams is AltGameGetAllLoadedScenesAndObjectsParams)
+            {
+                return new AltGetAllLoadedScenesAndObjectsCommand(cmdParams as AltGameGetAllLoadedScenesAndObjectsParams).ExecuteAndSerialize;
+            }
 
             return new AltInvalidCommand(cmdParams, new CommandNotFoundException(string.Format("Command {0} not handled", cmdParams.commandName))).ExecuteAndSerialize;
         }
 
         private Type getCommandType(string commandName)
         {
+            //TODO Once we no longer suport the oldFindObject we will no longer need this if's
+            if (commandName.Equals("gameFindObject"))
+            {
+                return typeof(AltGameFindObjectParams);
+            }
+            if (commandName.Equals("gameFindObjects"))
+            {
+                return typeof(AltGameFindObjectsParams);
+            }
+            if (commandName.Equals("gameFindObjectsLight"))
+            {
+                return typeof(AltGameFindObjectsLightParams);
+            }
+            if (commandName.Equals("gameGetAllLoadedScenesAndObjects"))
+            {
+                return typeof(AltGameGetAllLoadedScenesAndObjectsParams);
+            }
+            if (commandName.Equals("findObject"))
+            {
+                return typeof(AltFindObjectParams);
+            }
+            if (commandName.Equals("findObjects"))
+            {
+                return typeof(AltFindObjectsParams);
+            }
+            if (commandName.Equals("findObjectsLight"))
+            {
+                return typeof(AltFindObjectsLightParams);
+            }
+            if (commandName.Equals("getAllLoadedScenesAndObjects"))
+            {
+                return typeof(AltGetAllLoadedScenesAndObjectsParams);
+            }
+
+
             var assembly = Assembly.GetAssembly(typeof(CommandParams));
 
             var derivedType = typeof(CommandParams);

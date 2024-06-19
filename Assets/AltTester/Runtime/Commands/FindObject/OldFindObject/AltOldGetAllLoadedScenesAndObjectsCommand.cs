@@ -21,9 +21,9 @@ using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltGetAllLoadedScenesAndObjectsCommand : AltBaseFindObjectsCommand<List<AltObjectLight>>
+    class AltOldGetAllLoadedScenesAndObjectsCommand : AltOldBaseFindObjetsCommand<List<AltObjectLight>>
     {
-        public AltGetAllLoadedScenesAndObjectsCommand(BaseGameFindObjectParams cmdParams) : base(cmdParams) { }
+        public AltOldGetAllLoadedScenesAndObjectsCommand(BaseFindObjectsParams cmdParams) : base(cmdParams) { }
 
         public override List<AltObjectLight> Execute()
         {

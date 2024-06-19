@@ -63,7 +63,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             // wsClient.Log.Level = LogLevel.Trace;
             // wsClient.Log.Output = (logData, output) =>
             // {
-            //     UnityEngine.Debug.Log($"[{logData.Level}] {logData.Date.ToString("yyyy-MM-dd HH:mm:ss.ffff")} - {logData.Message}");
+            //    UnityEngine.Debug.Log($"[{logData.Level}] {logData.Date.ToString("yyyy-MM-dd HH:mm:ss.ffff")} - {logData.Message}");
             // };
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);

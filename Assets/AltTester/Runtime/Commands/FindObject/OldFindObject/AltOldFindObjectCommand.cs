@@ -15,33 +15,34 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System.Collections.Generic;
+using System.Linq;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltFindObjectsCommand : AltBaseFindObjectsCommand<List<AltObject>>
+    //TODO remove this class after OldFindObject is no longer supported
+    class AltOldFindObjectCommand : AltOldBaseFindObjetsCommand<AltObject>
     {
-        public AltFindObjectsCommand(BaseGameFindObjectParams cmdParams) : base(cmdParams) { }
+        public AltOldFindObjectCommand(BaseFindObjectsParams cmdParam) : base(cmdParam) { }
 
-        public override List<AltObject> Execute()
+        public override AltObject Execute()
         {
+            UnityEngine.Debug.Log("OlfFindObject " + CommandParams.path);
+            var path = new OldPathSelector(CommandParams.path);
+            var foundGameObject = FindObjects(null, path.FirstBound, true, CommandParams.enabled);
             UnityEngine.Camera camera = null;
-            if (IsCameraSpecified(CommandParams.cameraConditions))
+            if (!CommandParams.cameraPath.Equals("//"))
             {
-                camera = GetCamera(CommandParams.cameraConditions);
+                camera = GetCamera(CommandParams.cameraBy, CommandParams.cameraPath);
                 if (camera == null) throw new CameraNotFoundException();
             }
-            var foundObjects = new List<AltObject>();
-            foreach (UnityEngine.GameObject testableObject in FindObjects(null, CommandParams.objectConditions, 0, false, CommandParams.enabled))
+            if (foundGameObject.Count() >= 1)
             {
-                foundObjects.Add(AltRunner._altRunner.GameObjectToAltObject(testableObject, camera));
+                return
+                    AltRunner._altRunner.GameObjectToAltObject(foundGameObject[0], camera);
             }
-
-            return foundObjects;
+            throw new NotFoundException(string.Format("Object {0} not found", CommandParams.path));
         }
     }
-
-
 }

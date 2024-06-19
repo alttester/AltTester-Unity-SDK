@@ -21,16 +21,18 @@ using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltFindObjectsLightCommand : AltBaseFindObjectsCommand<List<AltObjectLight>>
+    //TODO remove this class after OldFindObject is no longer supported
+    class AltOldFindObjectsLightCommand : AltOldBaseFindObjetsCommand<List<AltObjectLight>>
     {
-        public AltFindObjectsLightCommand(BaseGameFindObjectParams cmdParams) : base(cmdParams)
+        public AltOldFindObjectsLightCommand(BaseFindObjectsParams cmdParams) : base(cmdParams)
         {
         }
 
         public override List<AltObjectLight> Execute()
         {
+            var path = new OldPathSelector(CommandParams.path);
             var foundObjects = new List<AltObjectLight>();
-            foreach (UnityEngine.GameObject testableObject in FindObjects(null, CommandParams.objectConditions, 0, false, CommandParams.enabled))
+            foreach (UnityEngine.GameObject testableObject in FindObjects(null, path.FirstBound, false, CommandParams.enabled))
             {
                 foundObjects.Add(AltRunner._altRunner.GameObjectToAltObjectLight(testableObject));
             }

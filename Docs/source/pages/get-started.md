@@ -443,7 +443,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
         **Writing tests:**
             - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into `pages` folders and `tests` folders.
-            - The AltDriver can be used in your code after you import it. Here is the import syntax: ``from alttester import AltDriver``, then you can instantiate an object of AltDriver type: ``altdriver = AltDriver()`` . By doing this, you are able to use all the methods that come from AltDriver().
+            - The AltDriver can be used in your code after you import it. Here is the import syntax: ``from alttester import AltDriver``, then you can instantiate an object of AltDriver type: ``alt_driver = AltDriver()`` . By doing this, you are able to use all the methods that come from AltDriver().
             - Considering that we are using ``pytest``, the names of the tests should start with ``test``.
         **Running the tests:**
             - Running tests using pytest can be easily done using the commands for cmd.

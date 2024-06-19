@@ -19,8 +19,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 {
     public class GetConnectedAppDriver : BaseDriver
     {
-        private new string path = "/altws/connected-app";
-
         public GetConnectedAppDriver(string path) : base(path)
         {
         }
