@@ -28,6 +28,7 @@ from alttester.by import By
 
 EPOCH = datetime.datetime.fromtimestamp(0, datetime.timezone.utc)
 
+
 def validate_coordinates_3(coordinates):
     if isinstance(coordinates, (list, tuple)):
         if len(coordinates) != 3:
