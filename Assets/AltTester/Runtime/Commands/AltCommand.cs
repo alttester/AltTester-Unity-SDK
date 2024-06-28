@@ -146,16 +146,15 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 exception = e;
                 errorType = AltErrors.errorUnknownError;
             }
-
             if (exception != null)
             {
                 error = new CommandError();
                 error.type = errorType;
                 error.message = exception.Message;
                 error.trace = exception.StackTrace;
-                UnityEngine.Debug.LogError(errorType);
-                UnityEngine.Debug.LogError(exception.Message);
-                UnityEngine.Debug.LogError(exception.StackTrace);
+                UnityEngine.Debug.LogError(errorType);//TODO remove this when ready for PR
+                UnityEngine.Debug.LogError(exception.Message);//TODO remove this when ready for PR
+                UnityEngine.Debug.LogError(exception.StackTrace);//TODO remove this when ready for PR
             }
 
             var cmdResponse = new CommandResponse();

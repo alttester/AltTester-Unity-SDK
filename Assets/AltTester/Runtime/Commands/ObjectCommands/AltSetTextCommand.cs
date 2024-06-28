@@ -35,6 +35,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public AltSetTextCommand(AltSetTextParams cmdParams) : base(cmdParams)
         {
+            UnityEngine.Debug.LogWarning("AltSetText Constructor is Called"); //TODO delete this when I do the PR
         }
 
         public override AltObject Execute()
