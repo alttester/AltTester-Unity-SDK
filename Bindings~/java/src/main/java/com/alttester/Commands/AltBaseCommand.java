@@ -38,8 +38,8 @@ public class AltBaseCommand {
         return messageHandler.receive(altMessage, type);
     }
 
-    protected void SendCommand(AltMessage altMessage) {
-        altMessage.setMessageId(Long.toString(System.currentTimeMillis()));
+    protected synchronized void SendCommand(AltMessage altMessage) {
+        altMessage.setMessageId(Long.toString(System.nanoTime()));
         messageHandler.send(altMessage);
     }
 
