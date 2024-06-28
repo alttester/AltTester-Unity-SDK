@@ -152,9 +152,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 error.type = errorType;
                 error.message = exception.Message;
                 error.trace = exception.StackTrace;
-                UnityEngine.Debug.LogError(errorType);//TODO remove this when ready for PR
-                UnityEngine.Debug.LogError(exception.Message);//TODO remove this when ready for PR
-                UnityEngine.Debug.LogError(exception.StackTrace);//TODO remove this when ready for PR
             }
 
             var cmdResponse = new CommandResponse();
