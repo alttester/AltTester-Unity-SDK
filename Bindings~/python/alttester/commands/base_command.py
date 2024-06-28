@@ -155,7 +155,8 @@ class BaseCommand(Command):
         self.connection = connection
         self.command_name = command_name
         with lock:
-            self.message_id = str((datetime.now() - EPOCH).microseconds())
+            self.message_id = str(
+                (datetime.now(timezone.utc) - EPOCH).microseconds)
 
     @property
     def _parameters(self):
