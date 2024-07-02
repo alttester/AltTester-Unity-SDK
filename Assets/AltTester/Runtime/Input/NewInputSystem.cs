@@ -126,8 +126,10 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 if (device.name.Contains("Alt"))
                 {
-                    InputSystem.EnableDevice(device);
-                    device.MakeCurrent();
+                    if(device!=null){
+                        InputSystem.EnableDevice(device);
+                        device.MakeCurrent();
+                    }
                 }
                 else
                 {
