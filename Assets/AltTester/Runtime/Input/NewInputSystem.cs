@@ -146,8 +146,10 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 }
                 else
                 {
-                    InputSystem.EnableDevice(device);
-                    device.MakeCurrent();
+                    if(device!=null){
+                        InputSystem.EnableDevice(device);
+                        device.MakeCurrent();
+                    }
 
                 }
             }
