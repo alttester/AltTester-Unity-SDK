@@ -14,7 +14,6 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,8 +26,8 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         {
 
                 private static IEnumerator runThrowingIterator(
-                   List<IEnumerator> enumerators,
-                   Action<Exception> done)
+                    List<IEnumerator> enumerators,
+                    Action<Exception> done)
                 {
                         Exception err = null;
 
@@ -38,7 +37,27 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                         {
                                 for (int i = 0; i < enumerators.Count; i++)
                                 {
-                                        CoroutineList.Add(CoroutineManager.Instance.StartCoroutine(enumerators[i]));
+                                        Exception err = null;
+
+                                        var CoroutineList = new List<Coroutine>();
+
+                                        try
+                                        {
+                                                for (int i = 0; i < enumerators.Count; i++)
+                                                {
+                                                        CoroutineList.Add(CoroutineManager.Instance.StartCoroutine(enumerators[i]));
+                                                }
+                                        }
+                                        catch (Exception e)
+                                        {
+                                                err = e;
+                                        }
+                                        for (int i = 0; i < enumerators.Count; i++)
+                                        {
+                                                yield return CoroutineList[i];
+                                        }
+
+                                        done.Invoke(err);
                                 }
                         }
                         catch (Exception e)

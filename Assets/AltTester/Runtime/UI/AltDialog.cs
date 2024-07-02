@@ -103,6 +103,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private bool stopClientsCalled = false;
         private bool beginCommunicationCalled = false;
         private bool isEditing = false;
+        private bool isError = false;
         private bool isCommunicationConnected;
         private bool isLiveUpdateConnected;
         private bool isDriverConnected;
@@ -311,6 +312,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             appId = null;
 
             responseCode = 0;
+            isError = false;
             validateFields();
             if (isDataValid)
                 isEditing = false;
@@ -499,7 +501,10 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             responseCode = code;
             if (code >= 4000 && code < 5000)
+            {
+                isError = true;
                 updateQueue.ScheduleResponse(() => setMessage(reason, errorColor, true));
+            }
             updateQueue.ScheduleResponse(() => stopClients());
         }
 
@@ -546,7 +551,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onConnect()
         {
             wasConnected = true;
-            if (!isDriverConnected)
+            if (!isDriverConnected && !isError)
             {
                 string message = createMessage();
                 setMessage(message, color: successColor, visible: true);

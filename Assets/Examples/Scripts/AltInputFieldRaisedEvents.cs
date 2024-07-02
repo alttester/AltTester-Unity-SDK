@@ -22,9 +22,11 @@ using UnityEngine.UI;
 
 public class AltInputFieldRaisedEvents : MonoBehaviour, ISubmitHandler
 {
+#pragma warning disable CS0414
     private bool onValueChangedInvoked = false;
     private bool onSubmitInvoked = false;
     private bool onEndEditInvoked = false;
+#pragma warning restore CS0414
     public void OnValueChanged()
     {
         onValueChangedInvoked = true;
