@@ -39,29 +39,23 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override AltObject Execute()
         {
-            UnityEngine.Debug.LogWarning("AltSetText Execute is Called"); //TODO delete this when I do the PR
 
             var targetObject = AltRunner.GetGameObject(CommandParams.altObject.id);
             Exception exception = null;
-            UnityEngine.Debug.LogWarning(targetObject.name); //TODO delete this when I do the PR
 
             foreach (var property in textProperties)
             {
                 try
                 {
                     System.Type type = GetType(property.Component, property.Assembly);
-                    UnityEngine.Debug.LogWarning("AltSetText is Called"); //TODO delete this when I do the PR
-
                     string valueText = Newtonsoft.Json.JsonConvert.SerializeObject(CommandParams.value);
                     SetValueForMember(CommandParams.altObject, property.Property.Split('.'), type, valueText);
                     var uiInputFieldComp = targetObject.GetComponent<UnityEngine.UI.InputField>();
                     if (uiInputFieldComp != null)
                     {
-                        UnityEngine.Debug.LogWarning("In UiINput if"); //TODO delete this when I do the PR
                         uiInputFieldComp.onValueChanged.Invoke(CommandParams.value);
                         checkSubmit(uiInputFieldComp.gameObject);
 #if UNITY_2021_1_OR_NEWER
-                        UnityEngine.Debug.LogWarning("On submit Called"); //TODO delete this when I do the PR
                         uiInputFieldComp.onSubmit.Invoke(CommandParams.value);
 #endif
                         uiInputFieldComp.onEndEdit.Invoke(CommandParams.value);
@@ -69,14 +63,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     else
                     {
                         var tMPInputFieldComp = targetObject.GetComponent<TMPro.TMP_InputField>();
-                        UnityEngine.Debug.LogWarning("In UIInput  else"); //TODO delete this when I do the PR
                         if (tMPInputFieldComp != null)
                         {
-                            UnityEngine.Debug.LogWarning("In tmpInputField if"); //TODO delete this when I do the PR
                             tMPInputFieldComp.onValueChanged.Invoke(CommandParams.value);
                             checkSubmit(tMPInputFieldComp.gameObject);
                             tMPInputFieldComp.onSubmit.Invoke(CommandParams.value);
-                            UnityEngine.Debug.LogWarning("On submit Called2"); //TODO delete this when I do the PR
                             tMPInputFieldComp.onEndEdit.Invoke(CommandParams.value);
                         }
                     }
