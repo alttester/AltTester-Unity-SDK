@@ -15,8 +15,8 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.InputModule;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -28,7 +28,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
         public override int Execute()
         {
-            return InputController.BeginTouch(CommandParams.coordinates.ToUnity());
+            return InputController.BeginTouch(new UnityEngine.Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y));
         }
     }
 }

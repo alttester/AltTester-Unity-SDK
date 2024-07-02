@@ -16,7 +16,7 @@
 */
 
 using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.InputModule;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -28,7 +28,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override string Execute()
         {
-            InputController.MoveMouse(CommandParams.coordinates.ToUnity(), CommandParams.duration, onFinish);
+            InputController.MoveMouse(new UnityEngine.Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y), CommandParams.duration, onFinish);
             return "Ok";
         }
     }

@@ -15,10 +15,9 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.InputModule;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -30,7 +29,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override string Execute()
         {
-            InputController.Tilt(CommandParams.acceleration.ToUnity(), CommandParams.duration, onFinish);
+            InputController.Tilt(new UnityEngine.Vector2(CommandParams.acceleration.x, CommandParams.acceleration.y), CommandParams.duration, onFinish);
             return "Ok";
         }
 

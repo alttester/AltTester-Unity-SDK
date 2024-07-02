@@ -15,9 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Communication;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -29,7 +27,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override string Execute()
         {
-            AltRunner._altRunner.StartCoroutine(SendTexturedScreenshotCoroutine(CommandParams.size.ToUnity(), CommandParams.quality));
+            AltRunner._altRunner.StartCoroutine(SendTexturedScreenshotCoroutine(new UnityEngine.Vector2(CommandParams.size.x, CommandParams.size.y), CommandParams.quality));
             return "Ok";
         }
     }

@@ -14,15 +14,31 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
-
-namespace AltTester.AltTesterUnitySDK.Editor
+using UnityEngine;
+using System.Collections;
+namespace AltTester.AltTesterUnitySDK.InputModule
 {
-    public enum AltPlatform
+
+    public class CoroutineManager : MonoBehaviour
     {
-        Android,
-        iOS,
-        Editor,
-        Standalone,
-        WebGL
+        private static CoroutineManager instance;
+
+        public static CoroutineManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GameObject("CoroutineManager").AddComponent<CoroutineManager>();
+                    DontDestroyOnLoad(instance.gameObject);
+                }
+                return instance;
+            }
+        }
+
+        public void StartCoroutineFromExternal(IEnumerator routine)
+        {
+            StartCoroutine(routine);
+        }
     }
 }

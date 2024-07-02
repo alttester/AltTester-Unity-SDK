@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using AltTester.AltTesterUnitySDK.Driver;
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK
+namespace AltTester.AltTesterUnitySDK.InputModule
 {
     public static class InputController
     {
@@ -37,7 +37,8 @@ namespace AltTester.AltTesterUnitySDK
             {
                 for (int i = 0; i < enumerators.Count; i++)
                 {
-                    CoroutineList.Add(AltRunner._altRunner.StartCoroutine(enumerators[i]));
+
+                    CoroutineList.Add(CoroutineManager.Instance.StartCoroutine(enumerators[i]));
                 }
             }
             catch (Exception e)
@@ -62,9 +63,9 @@ namespace AltTester.AltTesterUnitySDK
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.ScrollLifeCycle(speedVertical, speedHorizontal, duration));
 #endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
@@ -78,9 +79,9 @@ namespace AltTester.AltTesterUnitySDK
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.MoveMouseCycle(location, duration));
 #endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
         public static void TapElement(UnityEngine.GameObject target, int count, float interval, Action<Exception> onFinish)
@@ -93,9 +94,9 @@ namespace AltTester.AltTesterUnitySDK
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.tapClickElementLifeCycle(target, count, interval, true));
 #endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
@@ -109,9 +110,9 @@ namespace AltTester.AltTesterUnitySDK
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.tapClickCoordinatesLifeCycle(coordinates, count, interval, true));
 #endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
@@ -125,9 +126,9 @@ namespace AltTester.AltTesterUnitySDK
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.tapClickElementLifeCycle(target, count, interval, false));
 #endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
@@ -141,9 +142,9 @@ namespace AltTester.AltTesterUnitySDK
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.tapClickCoordinatesLifeCycle(screenPosition, count, interval, false));
 #endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
         public static void Tilt(Vector3 accelerationValue, float duration, Action<Exception> onFinish)
@@ -156,9 +157,9 @@ namespace AltTester.AltTesterUnitySDK
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.AccelerationLifeCycle(accelerationValue, duration));
 #endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
@@ -169,10 +170,10 @@ namespace AltTester.AltTesterUnitySDK
             NewInputSystem.KeyDown(keyCode, power);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            AltRunner._altRunner.StartCoroutine(Input.KeyDownLifeCycle(keyCode, power));
+            CoroutineManager.Instance.StartCoroutine(Input.KeyDownLifeCycle(keyCode, power));
 #endif
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
@@ -183,10 +184,10 @@ namespace AltTester.AltTesterUnitySDK
             NewInputSystem.KeyUp(keyCode);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            AltRunner._altRunner.StartCoroutine(Input.KeyUpLifeCycle(keyCode));
+            CoroutineManager.Instance.StartCoroutine(Input.KeyUpLifeCycle(keyCode));
 #endif
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
@@ -200,9 +201,9 @@ namespace AltTester.AltTesterUnitySDK
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.KeyPressLifeCycle(keyCode, power, duration));
 #endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
@@ -216,9 +217,9 @@ namespace AltTester.AltTesterUnitySDK
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.MultipointSwipeLifeCycle(positions, duration));
 #endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
@@ -240,7 +241,7 @@ namespace AltTester.AltTesterUnitySDK
                 return newFingerId;
             throw new Exception("FingerIds are not identical! OldInput fingerId: " + oldFingerId + " New Input fingerId: " + newFingerId);
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
@@ -254,7 +255,7 @@ namespace AltTester.AltTesterUnitySDK
             Input.MoveTouch(fingerId - 1, screenPosition);
 #endif
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
         }
 
@@ -268,9 +269,9 @@ namespace AltTester.AltTesterUnitySDK
 #if ENABLE_LEGACY_INPUT_MANAGER
             coroutines.Add(Input.EndTouch(fingerId - 1));
 #endif
-            AltRunner._altRunner.StartCoroutine(runThrowingIterator(coroutines, onFinish));
+            CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
-            throw new AltInputModuleException(AltErrors.errorInputModule);
+                        throw new AltInputModuleException(AltErrors.errorInputModule);
 #endif
 
         }

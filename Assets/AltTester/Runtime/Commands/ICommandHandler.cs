@@ -15,20 +15,20 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using AltTester.AltTesterUnitySDK.Driver;
-
-namespace AltTester.AltTesterUnitySDK
+namespace AltTester.AltTesterUnitySDK.Commands
 {
-    public static class AltVectorExtensions
-    {
-        public static UnityEngine.Vector2 ToUnity(this AltVector2 vector2)
-        {
-            return new UnityEngine.Vector2(vector2.x, vector2.y);
-        }
+    public delegate void SendMessageHandler(string message);
+    public delegate void NotificationHandler(string driverId);
 
-        public static UnityEngine.Vector3 ToUnity(this AltVector3 vector3)
-        {
-            return new UnityEngine.Vector3(vector3.x, vector3.y, vector3.z);
-        }
+    public interface ICommandHandler
+    {
+        SendMessageHandler OnSendMessage { get; set; }
+
+        NotificationHandler OnDriverConnect { get; set; }
+        NotificationHandler OnDriverDisconnect { get; set; }
+        NotificationHandler OnAppConnect { get; set; }
+
+        void Send(string data);
+        void OnMessage(string data);
     }
 }

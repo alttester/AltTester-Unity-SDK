@@ -15,25 +15,20 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using AltTester.AltTesterUnitySDK.Driver;
 
-public class AltScrollViewButtonController : MonoBehaviour
+namespace AltTester.AltTesterUnitySDK.Commands
 {
-    // Start is called before the first frame update
-    public static int Counter = 0;
-    void Start()
+    public static class AltVectorExtensions
     {
-        Counter = 0;
-        GetComponent<Button>().onClick.AddListener(OnClick);
-    }
+        public static UnityEngine.Vector2 ToUnity(this AltVector2 vector2)
+        {
+            return new UnityEngine.Vector2(vector2.x, vector2.y);
+        }
 
-    // Update is called once per frame
-    public void OnClick()
-    {
-        Counter++;
-        Debug.Log("Tapped:  " + name);
+        public static UnityEngine.Vector3 ToUnity(this AltVector3 vector3)
+        {
+            return new UnityEngine.Vector3(vector3.x, vector3.y, vector3.z);
+        }
     }
 }

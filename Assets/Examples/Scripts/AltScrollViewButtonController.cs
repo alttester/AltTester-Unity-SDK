@@ -15,20 +15,25 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace AltTester.AltTesterUnitySDK.Communication
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class AltScrollViewButtonController : MonoBehaviour
 {
-    public delegate void SendMessageHandler(string message);
-    public delegate void NotificationHandler(string driverId);
-
-    public interface ICommandHandler
+    // Start is called before the first frame update
+    public static int Counter = 0;
+    void Start()
     {
-        SendMessageHandler OnSendMessage { get; set; }
+        Counter = 0;
+        GetComponent<Button>().onClick.AddListener(OnClick);
+    }
 
-        NotificationHandler OnDriverConnect { get; set; }
-        NotificationHandler OnDriverDisconnect { get; set; }
-        NotificationHandler OnAppConnect { get; set; }
-
-        void Send(string data);
-        void OnMessage(string data);
+    // Update is called once per frame
+    public void OnClick()
+    {
+        Counter++;
+        Debug.Log("Tapped:  " + name);
     }
 }
