@@ -52,6 +52,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private readonly string deviceInstanceId;
         private readonly string appId;
         private readonly string driverType;
+        private static readonly object _lock = new object();
 
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
@@ -160,7 +161,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public void Send(CommandParams param)
         {
-            param.messageId = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+            lock (_lock)
+            {
+                param.messageId = DateTime.UtcNow.Ticks.ToString();
+            }
             string message = JsonConvert.SerializeObject(param, jsonSerializerSettings);
             this.wsClient.Send(message);
         }

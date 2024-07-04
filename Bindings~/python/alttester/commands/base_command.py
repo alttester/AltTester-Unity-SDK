@@ -18,15 +18,16 @@
 import abc
 import json
 import time
-from datetime import datetime
-
 from loguru import logger
 
 import alttester.exceptions as exceptions
 from alttester.by import By
+from datetime import datetime, timezone
+import threading
 
 
-EPOCH = datetime.utcfromtimestamp(0)
+EPOCH = datetime(1970, 1, 1, tzinfo=timezone.utc)
+lock = threading.Lock()
 
 
 def validate_coordinates_3(coordinates):
@@ -153,7 +154,9 @@ class BaseCommand(Command):
     def __init__(self, connection, command_name):
         self.connection = connection
         self.command_name = command_name
-        self.message_id = str((datetime.utcnow() - EPOCH).total_seconds())
+        with lock:
+            self.message_id = str(
+                (datetime.now(timezone.utc) - EPOCH).microseconds)
 
     @property
     def _parameters(self):
@@ -201,7 +204,8 @@ class BaseCommand(Command):
             "unknownError": exceptions.UnknownErrorException
         }
 
-        exception = error_map.get(error.get("type"), exceptions.UnknownErrorException)
+        exception = error_map.get(
+            error.get("type"), exceptions.UnknownErrorException)
         if exception == exceptions.InvalidCommandException:
             raise exception("Invalid command exception. You may want to set the Managed\
                             Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization.")
