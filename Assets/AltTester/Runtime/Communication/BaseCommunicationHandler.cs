@@ -16,6 +16,7 @@
 */
 
 using AltWebSocketSharp;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
@@ -62,7 +63,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public void Init(string path, CommunicationDisconnectHandler OnDisconnect)
         {
 #if UNITY_WEBGL
-            this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId, this.appId);
+                this.wsClient = new WebGLRuntimeWebSocketClient(this.host, this.port, path, this.appName, this.platform, this.platformVersion, this.deviceInstanceId, this.appId);
 #else
             this.WsClient = new RuntimeWebSocketClient(this.Host, this.Port, path, this.AppName, this.Platform, this.PlatformVersion, this.DeviceInstanceId, this.AppId);
 #endif

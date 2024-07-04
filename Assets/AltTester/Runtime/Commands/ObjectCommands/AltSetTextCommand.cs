@@ -39,6 +39,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override AltObject Execute()
         {
+
             var targetObject = AltRunner.GetGameObject(CommandParams.altObject.id);
             Exception exception = null;
 
@@ -47,7 +48,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 try
                 {
                     System.Type type = GetType(property.Component, property.Assembly);
-
                     string valueText = Newtonsoft.Json.JsonConvert.SerializeObject(CommandParams.value);
                     SetValueForMember(CommandParams.altObject, property.Property.Split('.'), type, valueText);
                     var uiInputFieldComp = targetObject.GetComponent<UnityEngine.UI.InputField>();

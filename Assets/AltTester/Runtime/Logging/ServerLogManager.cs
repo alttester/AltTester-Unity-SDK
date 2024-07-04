@@ -22,6 +22,7 @@ using NLog;
 using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Logging
 {
@@ -82,7 +83,8 @@ namespace AltTester.AltTesterUnitySDK.Logging
 
         private static void addFileLogger(LogLevel minLevel, LogLevel maxLevel)
         {
-#if !UNITY_WEBGL
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
+                return;
             logsFilePath = UnityEngine.Application.persistentDataPath + "/AltTester-Server.log";
             var logfile = new FileTarget("AltServerFileTarget")
             {
@@ -94,7 +96,6 @@ namespace AltTester.AltTesterUnitySDK.Logging
             };
             Instance.Configuration.AddRule(minLevel, maxLevel, logfile);
             Instance.Configuration.LoggingRules[Instance.Configuration.LoggingRules.Count - 1].RuleName = "AltServerFileRule";
-#endif
         }
 
         private static LogFactory buildLogFactory()

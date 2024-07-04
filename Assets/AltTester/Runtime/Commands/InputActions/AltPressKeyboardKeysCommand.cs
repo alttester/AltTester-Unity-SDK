@@ -15,11 +15,10 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Communication;
 using UnityEngine;
+using AltTester.AltTesterUnitySDK.InputModule;
+using AltTester.AltTesterUnitySDK.Driver;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
