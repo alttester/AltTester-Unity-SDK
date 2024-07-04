@@ -4,7 +4,7 @@ certifi>=2023.7.22
 charset-normalizer==2.1.0
 commonmark==0.9.1
 docutils==0.16
-idna==3.3
+idna==3.7
 imagesize==1.4.1
 importlib-metadata==4.12.0
 jinja2>=3.1.3
