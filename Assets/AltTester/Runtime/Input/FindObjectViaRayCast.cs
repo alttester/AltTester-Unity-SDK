@@ -24,36 +24,15 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 {
     public class FindObjectViaRayCast
     {
-        private static AltMockUpPointerInputModule _mockUpPointerInputModule;
-        public static AltMockUpPointerInputModule AltMockUpPointerInputModule
-        {
-            get
-            {
-                if (_mockUpPointerInputModule == null)
-                {
-                    if (EventSystem.current != null)
-                    {
-                        _mockUpPointerInputModule = EventSystem.current.gameObject.AddComponent<AltMockUpPointerInputModule>();
-                    }
-                    else
-                    {
-                        var newEventSystem = new GameObject("EventSystem");
-                        _mockUpPointerInputModule = newEventSystem.AddComponent<AltMockUpPointerInputModule>();
-                    }
-                }
-                return _mockUpPointerInputModule;
-            }
-
-        }
         /// <summary>
         /// Finds element at given pointerEventData for which we raise EventSystem input events
         /// </summary>
         /// <param name="pointerEventData"></param>
         /// <returns>the found gameObject</returns>
-        private static UnityEngine.GameObject findEventSystemObject(UnityEngine.EventSystems.PointerEventData pointerEventData)
+        private static GameObject findEventSystemObject(PointerEventData pointerEventData)
         {
-            List<UnityEngine.EventSystems.RaycastResult> firstRaycastResult;
-            AltMockUpPointerInputModule.GetAllRaycastResults(pointerEventData, out firstRaycastResult);
+            List<RaycastResult> firstRaycastResult;
+            GetAllRaycastResults(pointerEventData, out firstRaycastResult);
             foreach (var result in firstRaycastResult)
             {
                 if (ExecuteEvents.CanHandleEvent<IPointerClickHandler>(result.gameObject))
@@ -67,12 +46,12 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             }
             return null;
         }
-        public static UnityEngine.GameObject FindObjectAtCoordinates(UnityEngine.Vector2 screenPosition)
+        public static GameObject FindObjectAtCoordinates(Vector2 screenPosition)
         {
-            var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
+            var pointerEventData = new PointerEventData(EventSystem.current)
             {
                 position = screenPosition,
-                button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
+                button = PointerEventData.InputButton.Left,
                 eligibleForClick = true,
                 pressPosition = screenPosition
             };
@@ -86,36 +65,36 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         /// </summary>
         /// <param name="coordinates"></param>
         /// <returns>the found gameObject</returns>
-        public static UnityEngine.GameObject FindMonoBehaviourObject(UnityEngine.Vector2 coordinates)
+        public static GameObject FindMonoBehaviourObject(Vector2 coordinates)
         {
             var target = GetGameObjectHitMonoBehaviour(coordinates);
             if (target == null)
                 return null;
 
-            var rigidBody = target.GetComponentInParent<UnityEngine.Rigidbody>();
+            var rigidBody = target.GetComponentInParent<Rigidbody>();
             if (rigidBody != null)
                 return rigidBody.gameObject;
-            var rigidBody2D = target.GetComponentInParent<UnityEngine.Rigidbody2D>();
+            var rigidBody2D = target.GetComponentInParent<Rigidbody2D>();
             if (rigidBody2D != null)
                 return rigidBody2D.gameObject;
             return target;
         }
-        public static UnityEngine.GameObject GetGameObjectHitMonoBehaviour(UnityEngine.Vector2 coordinates)
+        public static GameObject GetGameObjectHitMonoBehaviour(Vector2 coordinates)
         {
-            foreach (var camera in UnityEngine.Camera.allCameras.OrderByDescending(c => c.depth))
+            foreach (var camera in Camera.allCameras.OrderByDescending(c => c.depth))
             {
-                UnityEngine.RaycastHit hit;
-                UnityEngine.Ray ray = camera.ScreenPointToRay(coordinates);
-                UnityEngine.GameObject gameObject3d = null;
-                UnityEngine.GameObject gameObject2d = null;
-                UnityEngine.Vector3 hitPosition3d = UnityEngine.Vector3.zero;
-                UnityEngine.Vector3 hitPosition2d = UnityEngine.Vector3.zero;
-                if (UnityEngine.Physics.Raycast(ray, out hit))
+                RaycastHit hit;
+                Ray ray = camera.ScreenPointToRay(coordinates);
+                GameObject gameObject3d = null;
+                GameObject gameObject2d = null;
+                Vector3 hitPosition3d = Vector3.zero;
+                Vector3 hitPosition2d = Vector3.zero;
+                if (Physics.Raycast(ray, out hit))
                 {
                     hitPosition3d = hit.point;
                     gameObject3d = hit.transform.gameObject;
                 }
-                UnityEngine.RaycastHit2D hit2d = UnityEngine.Physics2D.Raycast(coordinates, Vector2.zero);//If UI has colliders2D
+                RaycastHit2D hit2d = Physics2D.Raycast(coordinates, Vector2.zero);//If UI has colliders2D
                 if (hit2d.collider != null)
                 {
                     hitPosition2d = hit2d.point;
@@ -123,7 +102,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 }
                 else
                 {
-                    hit2d = UnityEngine.Physics2D.GetRayIntersection(camera.ScreenPointToRay(coordinates));//For 2D Objects in scenes
+                    hit2d = Physics2D.GetRayIntersection(camera.ScreenPointToRay(coordinates));//For 2D Objects in scenes
                     if (hit2d.collider != null)
                     {
                         hitPosition2d = hit2d.point;
@@ -136,7 +115,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
                 if (gameObject2d != null && gameObject3d != null)
                 {
-                    return UnityEngine.Vector3.Distance(camera.transform.position, hitPosition2d) < UnityEngine.Vector3.Distance(camera.transform.position, hitPosition3d)
+                    return Vector3.Distance(camera.transform.position, hitPosition2d) < Vector3.Distance(camera.transform.position, hitPosition3d)
                         ? gameObject2d
                         : gameObject3d;
                 }
@@ -156,29 +135,29 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         /// Iterate through all cameras until finds one that sees the object.
         /// If no camera sees the object return the position from the last camera
         ///</summary>
-        public static int FindCameraThatSeesObject(UnityEngine.GameObject gameObject, out UnityEngine.Vector3 position)
+        public static int FindCameraThatSeesObject(GameObject gameObject, out Vector3 position)
         {
-            position = UnityEngine.Vector3.one * -1;
+            position = Vector3.one * -1;
             int cameraId = -1;
-            if (UnityEngine.Camera.allCamerasCount == 0)
+            if (Camera.allCamerasCount == 0)
             {
-                var rectTransform = gameObject.GetComponent<UnityEngine.RectTransform>();
+                var rectTransform = gameObject.GetComponent<RectTransform>();
                 if (rectTransform != null)
                 {
-                    var canvas = rectTransform.GetComponentInParent<UnityEngine.Canvas>();
+                    var canvas = rectTransform.GetComponentInParent<Canvas>();
                     if (canvas != null)
-                        position = UnityEngine.RectTransformUtility.PixelAdjustPoint(rectTransform.position, rectTransform, canvas.rootCanvas);
+                        position = RectTransformUtility.PixelAdjustPoint(rectTransform.position, rectTransform, canvas.rootCanvas);
                 }
                 return cameraId;
             }
-            foreach (var camera1 in UnityEngine.Camera.allCameras)
+            foreach (var camera1 in Camera.allCameras)
             {
                 position = GetObjectScreenPosition(gameObject, camera1);
                 cameraId = camera1.GetInstanceID();
                 if (position.x > 0 &&
                     position.y > 0 &&
-                    position.x < UnityEngine.Screen.width &&
-                    position.y < UnityEngine.Screen.height &&
+                    position.x < Screen.width &&
+                    position.y < Screen.height &&
                     position.z >= 0)//Check if camera sees the object
                 {
                     break;
@@ -186,21 +165,21 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             }
             return cameraId;
         }
-        public static UnityEngine.Vector3 GetObjectScreenPosition(UnityEngine.GameObject gameObject, UnityEngine.Camera camera)
+        public static Vector3 GetObjectScreenPosition(GameObject gameObject, Camera camera)
         {
             var selectedCamera = camera;
             var position = gameObject.transform.position;
-            UnityEngine.Canvas canvas = gameObject.GetComponentInParent<UnityEngine.Canvas>();
+            Canvas canvas = gameObject.GetComponentInParent<Canvas>();
             if (canvas != null)
             {
-                if (gameObject.GetComponent<UnityEngine.RectTransform>() == null)
+                if (gameObject.GetComponent<RectTransform>() == null)
                     return camera.WorldToScreenPoint(gameObject.transform.position);
 
-                UnityEngine.Vector3[] vector3S = new UnityEngine.Vector3[4];
-                gameObject.GetComponent<UnityEngine.RectTransform>().GetWorldCorners(vector3S);
-                position = new UnityEngine.Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
+                Vector3[] vector3S = new Vector3[4];
+                gameObject.GetComponent<RectTransform>().GetWorldCorners(vector3S);
+                position = new Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
 
-                if (canvas.renderMode == UnityEngine.RenderMode.ScreenSpaceOverlay)
+                if (canvas.renderMode == RenderMode.ScreenSpaceOverlay)
                 {
                     return position;
                 }
@@ -212,7 +191,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
             }
 
-            var collider = gameObject.GetComponent<UnityEngine.Collider>();
+            var collider = gameObject.GetComponent<Collider>();
             if (collider != null)
             {
                 position = collider.bounds.center;
@@ -220,7 +199,16 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
             return camera.WorldToScreenPoint(position);
         }
+        public static void GetAllRaycastResults(PointerEventData pointerEventData, out List<RaycastResult> raycastResults)
+        {
+            raycastResults = new List<RaycastResult>();
+            if (EventSystem.current != null)
+            {
+                EventSystem.current.RaycastAll(pointerEventData, raycastResults);
+            }
+        }
 
     }
+
 
 }
