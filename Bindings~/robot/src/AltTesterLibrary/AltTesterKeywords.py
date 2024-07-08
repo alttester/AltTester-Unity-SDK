@@ -1138,7 +1138,7 @@ class AltTesterKeywords(object):
         return alt_object.get_all_components()
 
     def wait_for_component_property(self, alt_object: AltObject, component_name, property_name,
-                                    property_value, assembly, timeout=20, interval=0.5, get_property_as_string=False):
+                                    property_value, assembly, timeout=20, interval=0.5, get_property_as_string=False, max_depth=2):
         """Wait until a property has a specific value and returns the value of the given component property.
 
             alt_object : The AltObject for which we want to wait for property.
@@ -1160,6 +1160,8 @@ class AltTesterKeywords(object):
             
             get_property_as_string: A boolean value that compares the property_value as a string with the property from the instrumented app.
 
+            max_depth: An integer value that defines the maximum level from which to retrieve properties.
+
         Example:
 
         Wait for property TestBool from Capsule
@@ -1168,7 +1170,7 @@ class AltTesterKeywords(object):
 
         | ${result}= | Wait For Component Property | ${object} | AltExampleScriptCapsule | TestBool | ${True} | Assembly-CSharp
         """
-        return alt_object.wait_for_component_property(component_name, property_name, property_value, assembly,timeout=timeout, interval=interval, get_property_as_string=get_property_as_string)
+        return alt_object.wait_for_component_property(component_name, property_name, property_value, assembly,timeout=timeout, interval=interval, get_property_as_string=get_property_as_string, max_depth=max_depth)
 
     def get_component_property(self, alt_object: AltObject, component_name, property_name, assembly, max_depth=2):
         """Returns the value of the given component property.
