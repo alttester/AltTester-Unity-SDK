@@ -41,7 +41,7 @@ class WaitForComponentProperty(Command):
         self.timeout = timeout
         self.interval = interval
         self.get_property_as_string = get_property_as_string
-        self.max_depth=max_depth
+        self.max_depth = max_depth
         self.altObject = altObject
 
     def execute(self):
@@ -51,7 +51,7 @@ class WaitForComponentProperty(Command):
         while t <= self.timeout:
             try:
                 property_found = self.altObject.get_component_property(
-                    self.component_name, self.property_name, self.assembly, max_depth = self.max_depth
+                    self.component_name, self.property_name, self.assembly, max_depth=self.max_depth
                 )
                 if not self.get_property_as_string and property_found == self.property_value:
                     return property_found
