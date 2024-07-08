@@ -33,8 +33,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         bool getPropertyAsString;
         double timeout;
         double interval;
+        int maxDepth;
 
-        public AltWaitForComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, T propertyValue, string assemblyName, double timeout, double interval, bool getPropertyAsString, AltObject altObject) : base(commHandler)
+        public AltWaitForComponentProperty(IDriverCommunication commHandler, string componentName, string propertyName, T propertyValue, string assemblyName, double timeout, double interval, bool getPropertyAsString, int maxDepth, AltObject altObject) : base(commHandler)
         {
             this.altObject = altObject;
             this.componentName = componentName;
@@ -44,6 +45,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.timeout = timeout;
             this.interval = interval;
             this.getPropertyAsString = getPropertyAsString;
+            this.maxDepth = maxDepth;
             if (timeout <= 0) throw new ArgumentOutOfRangeException("timeout");
             if (interval <= 0) throw new ArgumentOutOfRangeException("interval");
         }
@@ -55,7 +57,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             while (time < timeout)
             {
                 logger.Debug($"Waiting for property {propertyName} to be {propertyValue}.");
-                T propertyFound = altObject.GetComponentProperty<T>(componentName, propertyName, assembly);
+                T propertyFound = altObject.GetComponentProperty<T>(componentName, propertyName, assembly, maxDepth);
                 if (propertyFound == null && propertyValue == null) //avoid null reference exception
                     return propertyFound;
                 if (!getPropertyAsString && propertyFound.Equals(propertyValue))
