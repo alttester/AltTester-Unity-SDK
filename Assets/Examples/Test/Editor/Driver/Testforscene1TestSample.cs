@@ -281,7 +281,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Category("WebGLUnsupported")] // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
         [TestCase("UNEXISTING", "InstrumentationSettings.AltServerPort", "AltTester.AltTesterUnitySDK", "Component not found")]
         [TestCase("AltTester.AltTesterUnitySDK.Commands.AltRunner", "UNEXISTING", "AltTester.AltTesterUnitySDK", "Property UNEXISTING not found")]
-        // [TestCase( "AltTester.AltTesterUnitySDK.AltRunner","InstrumentationSettings.AltServerPort", "UNEXISTING", "Assembly UNEXISTING not found")] -> This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185. This test can be uncomment when the issue is fixed
+        // [TestCase( "AltTester.AltTesterUnitySDK.Commands.AltRunner","InstrumentationSettings.AltServerPort", "UNEXISTING", "Assembly UNEXISTING not found")] -> This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185. This test can be uncomment when the issue is fixed
         public void TestWaitForComponentPropertyNonExistingParameters(string componentName, string propertyName, string assemblyName, string message)
         {
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");

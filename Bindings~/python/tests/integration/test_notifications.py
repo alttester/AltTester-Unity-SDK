@@ -60,7 +60,8 @@ class TestNotifications:
             NotificationType.LOADSCENE, test_notification_callbacks.scene_loaded_callback)
         self.alt_driver.load_scene(Scenes.Scene01)
         assert test_notification_callbacks.last_scene_loaded == Scenes.Scene01
-        self.alt_driver.remove_notification_listener(NotificationType.LOADSCENE)
+        self.alt_driver.remove_notification_listener(
+            NotificationType.LOADSCENE)
 
     def test_unload_scene_notification(self):
         test_notification_callbacks = MockNotificationCallbacks()
@@ -89,7 +90,7 @@ class TestNotifications:
         self.alt_driver.load_scene(Scenes.Scene01)
         alt_object = self.alt_driver.find_object(By.NAME, "AltTesterPrefab")
         alt_object.call_component_method(
-            "AltTester.AltTesterUnitySDK.AltRunner", "OnApplicationPause", "AltTester.AltTesterUnitySDK",
+            "AltTester.AltTesterUnitySDK.Commands.AltRunner", "OnApplicationPause", "AltTester.AltTesterUnitySDK",
             parameters=[True],
             type_of_parameters=["System.Boolean"]
         )
