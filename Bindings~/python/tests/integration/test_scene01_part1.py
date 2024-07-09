@@ -207,11 +207,13 @@ class TestScene01Part1:
             execinfo.value) == "Element Capsule still found after 1 seconds"
 
     def test_get_text_with_non_english_text(self):
-        text = self.alt_driver.find_object(By.NAME, "NonEnglishText").get_text()
+        text = self.alt_driver.find_object(
+            By.NAME, "NonEnglishText").get_text()
         assert text == "BJÖRN'S PASS"
 
     def test_get_text_with_chinese_letters(self):
-        text = self.alt_driver.find_object(By.NAME, "ChineseLetters").get_text()
+        text = self.alt_driver.find_object(
+            By.NAME, "ChineseLetters").get_text()
         assert text == "哦伊娜哦"
 
     def test_set_text(self):
@@ -285,7 +287,7 @@ class TestScene01Part1:
                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
 
     def test_wait_for_component_property_component_not_found(self):
-        componentName = "AltTester.AltTesterUnitySDK.AltRunnerTest"
+        componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunnerTest"
         propertyName = "InstrumentationSettings.AltServerPort"
         alt_object = self.alt_driver.find_object(By.NAME, "AltTesterPrefab")
         with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
@@ -303,7 +305,7 @@ class TestScene01Part1:
         )
 
     def test_wait_for_component_property_not_found(self):
-        componentName = "AltTester.AltTesterUnitySDK.AltRunner"
+        componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner"
         propertyName = "InstrumentationSettings.AltServerPortTest"
         alt_object = self.alt_driver.find_object(By.NAME, "AltTesterPrefab")
         with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
@@ -321,7 +323,7 @@ class TestScene01Part1:
         )
 
     def test_wait_for_component_property_timeout(self):
-        componentName = "AltTester.AltTesterUnitySDK.AltRunner"
+        componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner"
         propertyName = "InstrumentationSettings.AltServerPort"
         alt_object = self.alt_driver.find_object(By.NAME, "AltTesterPrefab")
         with pytest.raises(exceptions.WaitTimeOutException) as execinfo:
@@ -418,7 +420,8 @@ class TestScene01Part1:
                                 "System.Single", "System.Single"],
         )
 
-        capsule_after_rotation = self.alt_driver.find_object(By.NAME, "Capsule")
+        capsule_after_rotation = self.alt_driver.find_object(
+            By.NAME, "Capsule")
         final_rotation = capsule_after_rotation.get_component_property(
             "UnityEngine.Transform", "rotation", "UnityEngine.CoreModule",)
 

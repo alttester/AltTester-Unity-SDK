@@ -3908,7 +3908,7 @@ Returns the value of the given component property.
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AppName";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -3923,7 +3923,7 @@ Returns the value of the given component property.
         public void testGetComponentProperty() throws InterruptedException
         {
             Thread.sleep(1000);
-            String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            String componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             String propertyName = "InstrumentationSettings.ResetConnectionData";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                     "AltTesterPrefab").build();

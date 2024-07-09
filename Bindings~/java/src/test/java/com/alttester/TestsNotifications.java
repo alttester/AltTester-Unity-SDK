@@ -121,8 +121,10 @@ public class TestsNotifications {
                 "AltTesterPrefab").build();
         AltObject altElement = altDriver.findObject(altFindObjectsParameters);
 
-        altElement.callComponentMethod(new AltCallComponentMethodParams.Builder("AltTester.AltTesterUnitySDK.AltRunner",
-                "OnApplicationPause", "AltTester.AltTesterUnitySDK", new Object[] { true }).build(), Void.class);
+        altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder("AltTester.AltTesterUnitySDK.Commands.AltRunner",
+                        "OnApplicationPause", "AltTester.AltTesterUnitySDK", new Object[] { true }).build(),
+                Void.class);
     }
 
 }

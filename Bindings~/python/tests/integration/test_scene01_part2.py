@@ -339,7 +339,8 @@ class TestScene01Part2:
 
         self.alt_driver.key_down(AltKeyCode.Mouse0)
         self.alt_driver.key_up(AltKeyCode.Mouse0)
-        text = self.alt_driver.find_object(By.NAME, "ChineseLetters").get_text()
+        text = self.alt_driver.find_object(
+            By.NAME, "ChineseLetters").get_text()
         assert text != "????"
 
     def test_camera_not_found_exception(self):
@@ -463,13 +464,13 @@ class TestScene01Part2:
     def test_reset_input(self):
         self.alt_driver.key_down(AltKeyCode.P, 1)
         assert self.alt_driver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "AltTester.AltTesterUnitySDK.NewInputSystem",
-            "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK") is True
+            "AltTester.AltTesterUnitySDK.InputModule.NewInputSystem",
+            "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK.InputModule") is True
         self.alt_driver.reset_input()
         assert self.alt_driver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "AltTester.AltTesterUnitySDK.NewInputSystem",
-            "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK") is False
+            "AltTester.AltTesterUnitySDK.InputModule.NewInputSystem",
+            "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK.InputModule") is False
 
         countKeyDown = self.alt_driver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "Input", "_keyCodesPressed.Count", "AltTester.AltTesterUnitySDK")
+            "Input", "_keyCodesPressed.Count", "AltTester.AltTesterUnitySDK.InputModule")
         assert 0 == countKeyDown
