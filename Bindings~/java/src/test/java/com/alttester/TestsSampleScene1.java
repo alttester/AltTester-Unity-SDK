@@ -357,7 +357,7 @@ public class TestsSampleScene1 extends BaseTest {
     @Test
     public void testWaitForComponentPropertyComponentNotFound() throws InterruptedException {
         Thread.sleep(1000);
-        String componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunnerTest";
+        String componentName = "AltRunnerTest";
         String propertyName = "InstrumentationSettings.AltServerPort";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 "AltTesterPrefab").build();
