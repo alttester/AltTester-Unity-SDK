@@ -790,13 +790,13 @@ Test Call Private Method
 Test Reset Input
     Key Down    P    power=1
     ${object}=    Find Object    NAME    AltTesterPrefab
-    ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK
+    ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.InputModule.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK.InputModule
     Should Be True    ${nis}
     Reset Input
-    ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK
+    ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.InputModule.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK.InputModule
     Should Not Be True    ${nis}
     ${countKeyDown}=    Find Object    NAME    AltTesterPrefab
-    ${count}=    Get Component Property    ${countKeyDown}    Input    _keyCodesPressed.Count    AltTester.AltTesterUnitySDK
+    ${count}=    Get Component Property    ${countKeyDown}    Input    _keyCodesPressed.Count    AltTester.AltTesterUnitySDK.InputModule
     Should Be Equal As Integers    0    ${count}
 
 *** Keywords ***
