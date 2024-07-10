@@ -180,7 +180,8 @@ class AltObject:
                 The interval should be smaller than timeout.
             get_property_as_string (:obj:`bool`, optional): A boolean value that makes the property_value
             to be compared as a string with the property from the instrumented app.
-            max_depth (:obj:`int`, optional): An integer value that defines the maximum level from which to retrieve properties.
+            max_depth (:obj:`int`, optional): An integer value that defines the maximum level from which to retrieve
+            properties.
 
         Returns:
             str: The property value is serialized to a JSON string.
@@ -188,7 +189,7 @@ class AltObject:
         """
         return commands.WaitForComponentProperty.run(
             component_name, property_name, property_value,
-            assembly, self, timeout, interval, get_property_as_string,max_depth
+            assembly, self, timeout, interval, get_property_as_string, max_depth
         )
 
     def get_component_property(self, component_name, property_name, assembly, max_depth=2):
