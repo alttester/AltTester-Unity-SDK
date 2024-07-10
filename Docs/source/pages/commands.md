@@ -3783,7 +3783,7 @@ Wait until a property has a specific value and returns the value of the given co
 | timeout     | double             | No       | The number of seconds that it will wait for the property. The default value is 20 seconds.                                                                                                                            
 | interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.                                                                                                                                         | 
 | getPropertyAsString    | bool             | No       | If `true`, it will treat the propertyValue as a string; if `false` it will consider the original type of the propertyValue. This is especially useful when you want to pass for example `[[], []]` as a propertyValue, which you can do by setting getPropertyAsString to `true` and propertyValue to `JToken.Parse("[[], []]")` (in C#).
-| maxDepth    | int             | No       | The value that defines the maximum level from which to retrieve properties. By default is 2.
+| maxDepth    | int             | No       | The value that defines the maximum level from which to retrieve properties. By default it is 2.
 
 **_Returns_**
 
