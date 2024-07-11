@@ -3799,14 +3799,14 @@ Wait until a property has a specific value and returns the value of the given co
         [Test]
         public void TestWaitForComponentProperty()
         {
-            const string componentName = "AltTester.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
 
             string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
             int port = int.Parse(portStr);
-            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "Assembly-CSharp", maxDepth: 1);
+            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "AltTester.AltTesterUnitySDK", maxDepth: 1);
             Assert.AreEqual(port, propertyValue);
         }
 
@@ -3831,9 +3831,9 @@ Wait until a property has a specific value and returns the value of the given co
                 assertNotNull(altElement);
             AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
                 componentName, propertyName, "").withMaxDepth(1).build();
-            AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.       Builder<Boolean>(altGetComponentPropertyParams).build();
+            AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(altGetComponentPropertyParams).build();
 
-            Boolean propertyValue = altElement.WaitForComponentProperty(
+            Boolean propertyValue = altElement.waitForComponentProperty(
                 altWaitForComponentPropertyParams,
                 false,
                 Boolean.class);
