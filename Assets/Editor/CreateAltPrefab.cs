@@ -661,8 +661,8 @@ namespace AltTesterTools
             var LabelTransform = Label.GetComponent<RectTransform>();
             LabelTransform.SetParent(ToggleTransform, false);
 
-            LabelTransform.localPosition = new Vector3(13.25f, 0, 0);
-            LabelTransform.sizeDelta = new Vector2(130, 25);
+            LabelTransform.localPosition = new Vector3(15.25f, 0, 0);
+            LabelTransform.sizeDelta = new Vector2(150, 25);
             LabelTransform.anchorMin = new Vector2(0, 1);
             LabelTransform.anchorMax = new Vector2(0, 1);
             LabelTransform.pivot = new Vector2(0.5f, 0.5f);
