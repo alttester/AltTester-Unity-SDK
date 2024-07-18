@@ -64,6 +64,7 @@ import com.alttester.position.Vector3;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -430,8 +431,8 @@ public class TestsSampleScene1 extends BaseTest {
                                 "UnityEngine.UI.CanvasScaler", "transform",
                                 "UnityEngine.UI").build())
                         .build(),
-                new Gson().toJsonTree(
-                        "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]"),
+                new Gson().toJsonTree(JsonParser.parseString(
+                        "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]")),
                 true,
                 JsonElement.class);
     }
