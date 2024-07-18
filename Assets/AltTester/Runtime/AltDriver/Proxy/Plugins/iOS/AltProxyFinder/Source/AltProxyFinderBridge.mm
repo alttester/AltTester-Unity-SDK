@@ -1,5 +1,5 @@
 #import <UnityFramework/UnityFramework-Swift.h>
-
+#import "UnitySwift-Bridging-Header.h"
 extern "C"
 {
     char* cStringCopy(const char* string) {
