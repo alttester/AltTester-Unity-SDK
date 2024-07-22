@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -175,7 +175,7 @@ public class TestsForNIS extends BaseTest {
         AltFindObjectsParams altFindObjectsParamsScrollView = new AltFindObjectsParams.Builder(
                 AltDriver.By.NAME,
                 "Scroll View").build();
-                
+
         AltObject scrollView = altDriver.findObject(altFindObjectsParamsScrollView);
         AltMoveMouseParams altMoveMouseParams = new AltMoveMouseParams.Builder(
                 scrollView.getScreenPosition())
@@ -232,7 +232,7 @@ public class TestsForNIS extends BaseTest {
         AltObject capsule = altDriver.findObject(altFindObjectsParams);
         Vector3 initialPosition = capsule.getWorldPosition();
         altDriver.tilt(new AltTiltParams.Builder(new Vector3(1000, 10, 10)).withDuration(3f).build());
-        assertNotEquals(initialPosition, altDriver.findObject(altFindObjectsParams).getWorldPosition());
+        assertNotEquals(initialPosition.x, altDriver.findObject(altFindObjectsParams).x);
         Boolean isMoved = capsule.getComponentProperty(
                 new AltGetComponentPropertyParams.Builder("AltCubeNIS",
                         "isMoved", "Assembly-CSharp").build(),

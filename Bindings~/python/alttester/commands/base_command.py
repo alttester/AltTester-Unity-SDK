@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,21 +18,23 @@
 import abc
 import json
 import time
-from datetime import datetime
-
 from loguru import logger
 
 import alttester.exceptions as exceptions
 from alttester.by import By
+from datetime import datetime, timezone
+import threading
 
 
-EPOCH = datetime.utcfromtimestamp(0)
+EPOCH = datetime(1970, 1, 1, tzinfo=timezone.utc)
+lock = threading.Lock()
 
 
 def validate_coordinates_3(coordinates):
     if isinstance(coordinates, (list, tuple)):
         if len(coordinates) != 3:
-            raise exceptions.InvalidParameterValueException("ValueError: coordinates must have items for x,y and z.")
+            raise exceptions.InvalidParameterValueException(
+                "ValueError: coordinates must have items for x,y and z.")
 
         return {
             "x": coordinates[0],
@@ -41,7 +43,8 @@ def validate_coordinates_3(coordinates):
         }
     elif isinstance(coordinates, dict):
         if "x" not in coordinates or "y" not in coordinates or "z" not in coordinates:
-            raise exceptions.InvalidParameterValueException("ValueError: coordinates must have an x,y and z key.")
+            raise exceptions.InvalidParameterValueException(
+                "ValueError: coordinates must have an x,y and z key.")
 
         return coordinates
     else:
@@ -55,7 +58,8 @@ def validate_coordinates_3(coordinates):
 def validate_coordinates(coordinates):
     if isinstance(coordinates, (list, tuple)):
         if len(coordinates) != 2:
-            raise exceptions.InvalidParameterValueException("ValueError: coordinates must have two items for x and y.")
+            raise exceptions.InvalidParameterValueException(
+                "ValueError: coordinates must have two items for x and y.")
 
         return {
             "x": coordinates[0],
@@ -63,7 +67,8 @@ def validate_coordinates(coordinates):
         }
     elif isinstance(coordinates, dict):
         if "x" not in coordinates or "y" not in coordinates:
-            raise exceptions.InvalidParameterValueException("ValueError: coordinates must have an x and y key.")
+            raise exceptions.InvalidParameterValueException(
+                "ValueError: coordinates must have an x and y key.")
 
         return coordinates
     else:
@@ -149,7 +154,9 @@ class BaseCommand(Command):
     def __init__(self, connection, command_name):
         self.connection = connection
         self.command_name = command_name
-        self.message_id = str((datetime.utcnow() - EPOCH).total_seconds())
+        with lock:
+            self.message_id = str(
+                (datetime.now(timezone.utc) - EPOCH).microseconds)
 
     @property
     def _parameters(self):
@@ -164,7 +171,8 @@ class BaseCommand(Command):
         error = response.get("error")
 
         if error:
-            logger.error("Response error: {} - {}", error.get("type"), error.get("message"))
+            logger.error("Response error: {} - {}",
+                         error.get("type"), error.get("message"))
             logger.error("Trace: {}", error.get("trace"))
             self.handle_errors(error)
 
@@ -190,12 +198,17 @@ class BaseCommand(Command):
             "failedToParseMethodArguments": exceptions.FailedToParseArgumentsException,
             "formatException": exceptions.FormatException,
             "invalidParameterType": exceptions.InvalidParameterTypeException,
+            "invalidCommand": exceptions.InvalidCommandException,
             "invalidPath": exceptions.InvalidPathException,
             "nullReferenceException": exceptions.NotFoundException,
             "unknownError": exceptions.UnknownErrorException
         }
 
-        exception = error_map.get(error.get("type"), exceptions.UnknownErrorException)
+        exception = error_map.get(
+            error.get("type"), exceptions.UnknownErrorException)
+        if exception == exceptions.InvalidCommandException:
+            raise exception("Invalid command exception. You may want to set the Managed\
+                            Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization.")
         raise exception(error.get("message"))
 
     def validate_response(self, expected, received):

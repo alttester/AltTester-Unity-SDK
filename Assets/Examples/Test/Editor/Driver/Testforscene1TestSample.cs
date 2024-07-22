@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace AltTester.AltTesterUnitySDK.Driver.Tests
@@ -204,7 +205,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AppName";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -224,7 +225,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestWaitForComponentPropertyNotFound()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPortTest";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -233,7 +234,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestWaitForComponentPropertyTimeOut()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -254,7 +255,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestWaitForComponentProperty()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AppName";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
 
@@ -270,7 +271,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Ignore("This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185")]
         public void TestWaitForNonExistingComponentProperty()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -279,8 +280,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
         [Category("WebGLUnsupported")] // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
         [TestCase("UNEXISTING", "InstrumentationSettings.AltServerPort", "AltTester.AltTesterUnitySDK", "Component not found")]
-        [TestCase("AltTester.AltTesterUnitySDK.AltRunner", "UNEXISTING", "AltTester.AltTesterUnitySDK", "Property UNEXISTING not found")]
-        // [TestCase( "AltTester.AltTesterUnitySDK.AltRunner","InstrumentationSettings.AltServerPort", "UNEXISTING", "Assembly UNEXISTING not found")] -> This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185. This test can be uncomment when the issue is fixed
+        [TestCase("AltTester.AltTesterUnitySDK.Commands.AltRunner", "UNEXISTING", "AltTester.AltTesterUnitySDK", "Property UNEXISTING not found")]
+        // [TestCase( "AltTester.AltTesterUnitySDK.Commands.AltRunner","InstrumentationSettings.AltServerPort", "UNEXISTING", "Assembly UNEXISTING not found")] -> This test is failing because of https://github.com/alttester/AltTester-Unity-SDK/issues/1185. This test can be uncomment when the issue is fixed
         public void TestWaitForComponentPropertyNonExistingParameters(string componentName, string propertyName, string assemblyName, string message)
         {
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
@@ -299,7 +300,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         [Test]
         public void TestGetComponentPropertyInvalidDeserialization()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.ResetConnectionData";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             try
@@ -2059,6 +2060,19 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
 
             int countKeyDown = altDriver.FindObject(By.NAME, "AltTesterPrefab").GetComponentProperty<int>("Input", "_keyCodesPressed.Count", "Assembly-CSharp");
             Assert.AreEqual(0, countKeyDown);
+        }
+        [Category("WebGLUnsupported")]
+        [Test]
+        public void TestWaitForComponentPropertyMultipleTypes()
+        {
+            var Canvas = altDriver.WaitForObject(By.PATH, "/Canvas");
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.x", JToken.Parse("-960.0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.center.x", JToken.Parse("0.0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "parentInternal", JToken.Parse("null"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hasChanged", JToken.Parse("true"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "name", JToken.Parse("\"Canvas\""), "UnityEngine.CoreModule", 1, getPropertyAsString: true).ToString();
+            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hideFlags", JToken.Parse("0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]]]"), "UnityEngine.UIModule", 1, getPropertyAsString: true);
         }
 
         [Test]

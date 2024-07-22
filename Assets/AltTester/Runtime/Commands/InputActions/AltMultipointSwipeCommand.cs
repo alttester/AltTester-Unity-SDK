@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,9 +17,8 @@
 
 using System;
 using System.Linq;
-using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.InputModule;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -31,7 +30,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override string Execute()
         {
-            InputController.SetMultipointSwipe(CommandParams.positions.Select(p => p.ToUnity()).ToArray(), CommandParams.duration, onFinish);
+            InputController.SetMultipointSwipe(CommandParams.positions.Select(p => new UnityEngine.Vector2(p.x, p.y)).ToArray(), CommandParams.duration, onFinish);
             return "Ok";
         }
     }

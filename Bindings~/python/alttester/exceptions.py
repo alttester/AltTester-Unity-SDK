@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -147,6 +147,10 @@ class FormatException(AltException):
 
 class InvalidPathException(AltException):
     """Raised when a command receives an invalid path."""
+
+
+class InvalidCommandException(AltException):
+    """Raised when a command is invalid."""
 
 
 class AltTesterInputModuleException(AltException):

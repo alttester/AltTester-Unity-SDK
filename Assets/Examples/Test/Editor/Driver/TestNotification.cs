@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -104,7 +104,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         public void TestApplicationPaused()
         {
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
-            altElement.CallComponentMethod<string>("AltTester.AltTesterUnitySDK.AltRunner", "OnApplicationPause", "Assembly-CSharp", new object[] { true }, new string[] { "System.Boolean" });
+            altElement.CallComponentMethod<string>("AltTester.AltTesterUnitySDK.Commands.AltRunner", "OnApplicationPause", "Assembly-CSharp", new object[] { true }, new string[] { "System.Boolean" });
             Assert.IsTrue(MockNotificationCallBacks.ApplicationPaused);
         }
     }

@@ -52,7 +52,7 @@ instead.
 **Affects**: AltUnity Tester v1.7.1, v1.7.2, AltTester® Unity SDK v1.8.*, v2.0.x, v2.x
 
 Player Input is not working when connected to AltTester® Unity SDK/Desktop
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Problem**: Player Input is not working in the instrumented build when
 connected to the tests or to AltTester® Desktop.
@@ -62,7 +62,7 @@ objects. The New Input System actions for UI objects are not affected, as well
 as the Old Input System actions.
 
 AltTester® Editor
-----------------
+-----------------
 
 Playing in Editor throws ``EntryPointNotFoundException: WebSocketSetOnOpen assembly:<unknown assembly> type:<unknown type> member:(null)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -110,7 +110,7 @@ Networking & Connectivity
 -------------------------
 
 AltTester® does not support proxy configurations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Problem**: At the moment, AltTester® does not have built-in support for proxy configurations. When using AltTester®, the tool does not handle proxy settings, which can cause connectivity issues
 

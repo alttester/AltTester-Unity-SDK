@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -121,8 +121,10 @@ public class TestsNotifications {
                 "AltTesterPrefab").build();
         AltObject altElement = altDriver.findObject(altFindObjectsParameters);
 
-        altElement.callComponentMethod(new AltCallComponentMethodParams.Builder("AltTester.AltTesterUnitySDK.AltRunner",
-                "OnApplicationPause", "AltTester.AltTesterUnitySDK", new Object[] { true }).build(), Void.class);
+        altElement.callComponentMethod(
+                new AltCallComponentMethodParams.Builder("AltTester.AltTesterUnitySDK.Commands.AltRunner",
+                        "OnApplicationPause", "AltTester.AltTesterUnitySDK", new Object[] { true }).build(),
+                Void.class);
     }
 
 }

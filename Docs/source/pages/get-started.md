@@ -362,7 +362,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
                 <dependency>
                     <groupId>com.alttester</groupId>
                     <artifactId>alttester</artifactId>
-                    <version>2.1.1</version>
+                    <version>2.1.2</version>
                 </dependency>
 
             .. code-block:: console
@@ -443,7 +443,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
         **Writing tests:**
             - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into `pages` folders and `tests` folders.
-            - The AltDriver can be used in your code after you import it. Here is the import syntax: ``from alttester import AltDriver``, then you can instantiate an object of AltDriver type: ``altdriver = AltDriver()`` . By doing this, you are able to use all the methods that come from AltDriver().
+            - The AltDriver can be used in your code after you import it. Here is the import syntax: ``from alttester import AltDriver``, then you can instantiate an object of AltDriver type: ``alt_driver = AltDriver()`` . By doing this, you are able to use all the methods that come from AltDriver().
             - Considering that we are using ``pytest``, the names of the tests should start with ``test``.
         **Running the tests:**
             - Running tests using pytest can be easily done using the commands for cmd.
@@ -485,6 +485,76 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
                 .. literalinclude:: ../_static/examples~/common/python-ios-test.py
                     :language: py
+
+    .. tab:: robot
+
+        **Prerequisite:**
+            - `Robot Framework <https://robotframework.org/?tab=1#getting-started>`_ installed.
+            - Instrumented build.
+            - The AltTester® Desktop installed on your PC.
+
+        **Connection:**
+            Starting with version ``2.0.0``, the AltTester® Desktop must be running on your PC while the tests are running.
+
+            1. The AltTester® Desktop app is running.
+            2. The instrumented build is running.
+            3. Configure the IP of the build in order to match the IP of the machine (PC) the Desktop app is running on.
+            4. Then press the restart button in the AltTester® dialog and wait until the `Connected to AltTester® Server…` message is displayed in the dialog.
+
+        **Test Setup:**
+            - You can use any IDE you want. As a suggestion, we prefer `Visual Studio Code <https://code.visualstudio.com/>`_  and `PyCharm <https://www.jetbrains.com/pycharm/download/>`_.
+
+        **Writing tests:**
+            - First you need to create a new project with a Robot class under it, which can store your tests
+            - In the ``Settings`` section:
+                - Import the ``AltTesterLibrary``
+                - Next create the ``Setup`` and ``Teardown`` suites for your tests
+                    - In the ``Setup`` suite you need to include the initialization of the AltDriver - make sure to also add the ip, host and app name as parameters if the connection data for the connected instrumented app is not the default one
+                    - In the ``Teardown`` suite the AltDriver needs to be stopped                
+            .. code-block:: robot
+
+                *** Settings***
+                Library    AltTesterLibrary
+                Suite Setup    Initialize Altdriver
+                Suite Teardown    Stop Altdriver 
+            - The ``Test Cases`` section stores all your tests which should have a specific and relevant name             
+            .. code-block:: robot
+
+                *** Test Cases ***
+                Test My First Test
+
+        **Running the tests:**
+            
+            - To run your test use the ``robot`` commmand            
+            - Robot Framework test cases are created in files and directories, and they are executed by giving the path to the file or directory in question to the selected runner script
+            - Examples:
+            .. code-block:: console
+
+                robot my_first_test.robot
+
+            .. code-block:: console
+
+                robot path/to/my_tests/
+
+            - After running the test the Robot will generate 3 files: ``report.html``, ``log.html`` and ``output.xml`` - the  html files can be opened in the browser and for every test in ``log.html`` there will be a status highlight, the keywords used, as well as a potential error that might have occured during the test
+
+
+        Example test file:
+
+        .. tabs::
+
+            .. tab:: Unity Editor & PC
+
+                .. literalinclude:: ../_static/examples~/get-started/robot-test.robot
+                    :language: robot
+
+            .. tab:: Android
+
+                .. literalinclude:: ../_static/examples~/common/robot-android-test.robot
+                    :language: robot
+                    :emphasize-lines: 26, 31
+
+            .. tab:: iOS
 
 ```
 

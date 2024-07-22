@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,21 +18,22 @@
 using System.Linq;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltFindObjectCommand : AltBaseClassFindObjectsCommand<AltObject>
+    class AltFindObjectCommand : AltBaseFindObjectsCommand<AltObject>
     {
-        public AltFindObjectCommand(BaseFindObjectsParams cmdParam) : base(cmdParam) { }
+        public AltFindObjectCommand(BaseGameFindObjectParams cmdParam) : base(cmdParam) { }
 
         public override AltObject Execute()
         {
-            var path = new PathSelector(CommandParams.path);
-            var foundGameObject = FindObjects(null, path.FirstBound, true, CommandParams.enabled);
+
+            var foundGameObject = FindObjects(null, CommandParams.objectConditions, 0, true, CommandParams.enabled);
             UnityEngine.Camera camera = null;
-            if (!CommandParams.cameraPath.Equals("//"))
+            if (IsCameraSpecified(CommandParams.cameraConditions))
             {
-                camera = GetCamera(CommandParams.cameraBy, CommandParams.cameraPath);
+                camera = GetCamera(CommandParams.cameraConditions);
                 if (camera == null) throw new CameraNotFoundException();
             }
             if (foundGameObject.Count() >= 1)
@@ -40,7 +41,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 return
                     AltRunner._altRunner.GameObjectToAltObject(foundGameObject[0], camera);
             }
-            throw new NotFoundException(string.Format("Object {0} not found", CommandParams.path));
+            throw new NotFoundException(string.Format("Object not found"));
         }
     }
 }

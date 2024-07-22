@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,17 +21,16 @@ using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltFindObjectsLightCommand : AltBaseClassFindObjectsCommand<List<AltObjectLight>>
+    class AltFindObjectsLightCommand : AltBaseFindObjectsCommand<List<AltObjectLight>>
     {
-        public AltFindObjectsLightCommand(BaseFindObjectsParams cmdParams) : base(cmdParams)
+        public AltFindObjectsLightCommand(BaseGameFindObjectParams cmdParams) : base(cmdParams)
         {
         }
 
         public override List<AltObjectLight> Execute()
         {
-            var path = new PathSelector(CommandParams.path);
             var foundObjects = new List<AltObjectLight>();
-            foreach (UnityEngine.GameObject testableObject in FindObjects(null, path.FirstBound, false, CommandParams.enabled))
+            foreach (UnityEngine.GameObject testableObject in FindObjects(null, CommandParams.objectConditions, 0, false, CommandParams.enabled))
             {
                 foundObjects.Add(AltRunner._altRunner.GameObjectToAltObjectLight(testableObject));
             }

@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@ import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.IMessageHandler;
 import com.alttester.AltObject;
 import com.alttester.altTesterExceptions.WaitTimeOutException;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 /**
  * Wait until there are no longer any objects that respect the given criteria or
@@ -29,15 +31,18 @@ import com.alttester.altTesterExceptions.WaitTimeOutException;
  */
 public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
     /**
-     * @param waitParams the properties parameter for waiting
-     *                   the
-     *                   object
-     * @param altObject  the AltObject element
-     * @param property   the wanted value of the property
+     * @param waitParams          the properties parameter for waiting
+     *                            the
+     *                            object
+     * @param altObject           the AltObject element
+     * @param property            the wanted value of the property
+     * @param getPropertyAsString if true compares the property's value and the
+     *                            actual value as strings
      */
     private AltObject altObject;
     private AltWaitForComponentPropertyParams<T> waitParams;
     private T property;
+    private Boolean getPropertyAsString = false;
 
     /**
      * @param messageHandler
@@ -51,25 +56,44 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
         this.altObject = altObject;
     }
 
+    public AltWaitForComponentProperty(IMessageHandler messageHandler,
+            AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams, T property,
+            Boolean getPropertyAsString, AltObject altObject) {
+        super(messageHandler);
+        this.waitParams = altWaitForComponentPropertyParams;
+        this.property = property;
+        this.getPropertyAsString = getPropertyAsString;
+        this.altObject = altObject;
+    }
+
     public T Execute(Class<T> returnType) {
-        T propertyFound;
         double time = 0;
+        String jsonElementToString = "";
         AltGetComponentPropertyParams getComponentPropertyParams = waitParams.getAltGetComponentPropertyParams();
         while (time < waitParams.getTimeout()) {
             logger.debug("Waiting for element where name contains "
                     + getComponentPropertyParams.getPropertyName() + "....");
-                propertyFound = altObject.getComponentProperty(
-                        getComponentPropertyParams,
-                        returnType);
-
-                if (propertyFound.equals(property))
-                    return propertyFound;
+            T propertyFound = altObject.getComponentProperty(
+                    getComponentPropertyParams,
+                    returnType);
+            if (!getPropertyAsString && propertyFound.equals(property))
+                return propertyFound;
+            if (!(propertyFound instanceof JsonArray)) {
+                String str = new Gson().toJsonTree(propertyFound).toString();
+                jsonElementToString = str.contains("\"") ? str : "\"" + str + "\"";
+            } else {
+                jsonElementToString = propertyFound.toString();
+            }
+            if (getPropertyAsString && jsonElementToString.equals(property.toString()))
+                return propertyFound;
 
             Utils.sleepFor(waitParams.getInterval());
             time += waitParams.getInterval();
         }
         throw new WaitTimeOutException(
                 "Property " + getComponentPropertyParams.getPropertyName()
-                        + " still not found after " + waitParams.getTimeout() + " seconds");
+                        + " was " + jsonElementToString + " and was not " + property + " after "
+                        + waitParams.getTimeout()
+                        + " seconds");
     }
 }

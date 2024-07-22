@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,10 +16,7 @@
 */
 
 using System;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Logging;
@@ -42,26 +39,22 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         protected System.Collections.IEnumerator SendTexturedScreenshotCoroutine(UnityEngine.Vector2 size, int quality)
         {
-#if UNITY_EDITOR
             if (Application.isBatchMode)
             {
                 yield return null;
             }
             else
-#endif
                 yield return new UnityEngine.WaitForEndOfFrame();
             sendTexturedScreenshotResponse(size, quality);
         }
 
         protected System.Collections.IEnumerator SendPNGScreenshotCoroutine()
         {
-#if UNITY_EDITOR
             if (Application.isBatchMode)
             {
                 yield return null;
             }
             else
-#endif
                 yield return new UnityEngine.WaitForEndOfFrame();
             var response = ExecuteAndSerialize(getPNGScreenshot);
             Handler.Send(response);
@@ -81,13 +74,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     renderer.materials[i].SetColor("_OutlineColor", color);
                     renderer.materials[i].SetFloat("_OutlineWidth", width);
                 }
-#if UNITY_EDITOR
                 if (Application.isBatchMode)
                 {
                     yield return null;
                 }
                 else
-#endif
                     yield return new UnityEngine.WaitForEndOfFrame();
                 sendTexturedScreenshotResponse(size, quality);
 
@@ -101,13 +92,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     var panelHighlight = UnityEngine.Object.Instantiate(AltRunner._altRunner.panelHightlightPrefab, rectTransform);
                     panelHighlight.GetComponent<UnityEngine.UI.Image>().color = color;
 
-#if UNITY_EDITOR
                     if (Application.isBatchMode)
                     {
                         yield return null;
                     }
                     else
-#endif
                         yield return new UnityEngine.WaitForEndOfFrame();
                     sendTexturedScreenshotResponse(size, quality);
 
@@ -115,13 +104,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 }
                 else
                 {
-#if UNITY_EDITOR
                     if (Application.isBatchMode)
                     {
                         yield return null;
                     }
                     else
-#endif
                         yield return new UnityEngine.WaitForEndOfFrame();
                     sendTexturedScreenshotResponse(size, quality);
                 }

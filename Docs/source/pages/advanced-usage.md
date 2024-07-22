@@ -179,6 +179,12 @@ commands:
 
             pytest  <name_of_your_test_file.py>
 
+    .. tab:: robot
+
+        .. code-block:: bash
+
+            robot <name_of_your_test_file.robot>
+
 ```
 
 ## Run tests on a Continuous Integration Server
@@ -262,8 +268,17 @@ In the routing table, the personal hotspot network would be secondary, therefore
 
                 Use the following static methods from the **AltReversePortForwarding** class in your test file:
 
-                    - **ReversePortForwardingAndroid** (int remotePort = 13000, int localPort = 13000, string deviceId = "", string adbPath = "")
-                    - **RemoveReversePortForwardingAndroid** (int remotePort = 13000, string deviceId = "", string adbPath = "")
+                    - **ReversePortForwardingAndroid**
+                    
+                        .. code-block:: c#
+
+                            ReversePortForwardingAndroid(int remotePort = 13000, int localPort = 13000, string deviceId = "", string adbPath = "")
+                     
+                    - **RemoveReversePortForwardingAndroid**
+
+                        .. code-block:: c#
+
+                            RemoveReversePortForwardingAndroid(int remotePort = 13000, string deviceId = "", string adbPath = "")
 
                 Example test file:
 
@@ -282,8 +297,17 @@ In the routing table, the personal hotspot network would be secondary, therefore
 
                 Use the following static methods from the **AltReversePortForwarding** class in your test file:
 
-                    - **reversePortForwardingAndroid** (int remotePort = 13000, int localPort = 13000, string deviceId = "", string adbPath = "")
-                    - **removeReverseForwardingAndroid** (int remotePort = 13000, string deviceId = "", string adbPath = "")
+                    - **reversePortForwardingAndroid**
+                                        
+                        .. code-block:: java
+
+                            reversePortForwardingAndroid(int remotePort = 13000, int localPort = 13000, string deviceId = "", string adbPath = "")
+                     
+                    - **removeReverseForwardingAndroid**
+
+                        .. code-block:: java
+
+                            removeReverseForwardingAndroid(int remotePort = 13000, string deviceId = "", string adbPath = "")
 
                 Example test file:
 
@@ -302,13 +326,50 @@ In the routing table, the personal hotspot network would be secondary, therefore
 
                 Use the following static methods from the **AltReversePortForwarding** class in your test file:
 
-                    - **reverse_port_forwarding_android** (device_port = 13000, local_port = 13000, device_id = "")
-                    - **remove_reverse_port_forwarding_android** (device_port = 13000, device_id = "")
+                    - **reverse_port_forwarding_android**
+                    
+                        .. code-block:: py
+
+                            reverse_port_forwarding_android(device_port = 13000, local_port = 13000, device_id = "")
+                     
+                    - **remove_reverse_port_forwarding_android**
+                    
+                        .. code-block:: py
+
+                            remove_reverse_port_forwarding_android(device_port = 13000, device_id = "")
 
                 Example test file:
 
                     .. literalinclude:: ../_static/examples~/common/python-android-test.py
                         :language: py
+
+            .. tab:: iOS
+
+                Not available. A workaround is described above.
+
+    .. tab:: robot
+
+        .. tabs::
+
+            .. tab:: Android
+
+                Use the following static methods from the **AltReversePortForwarding** class in your test file:
+
+                    - **Reverse Port Forwarding Android**
+                        .. code-block:: robot
+
+                            Reverse Port Forwarding Android    device_port=13000    local_port=13000    device_id=your_device_id 
+                    
+                    - **Remove Reverse Port Forwarding Android**
+                        .. code-block:: robot
+
+                            Remove Reverse Port Forwarding Android    device_port=13000
+
+                Example test file:
+
+                    .. literalinclude:: ../_static/examples~/common/robot-android-test.robot
+                        :language: robot
+                        :emphasize-lines: 26, 31
 
             .. tab:: iOS
 
@@ -352,7 +413,11 @@ There are multiple scenarios:
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
+            cls.alt_driver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
+
+    .. code-tab:: robot
+
+            Initialize Altdriver    host=127.0.0.1    port=13000    app_name=MyApp
 ```
 
 In this case **reverse port forwarding** is not needed as both the app and tests are using localhost:13000.
@@ -378,7 +443,11 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
+            cls.alt_driver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
+
+    .. code-tab:: robot
+
+            Initialize Altdriver    host=127.0.0.1    port=13000    app_name=MyApp
 ```
 
 ### Establish connection via IP when the app is running on a device
@@ -402,7 +471,11 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
     .. code-tab:: py
 
-            cls.altDriver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
+            cls.alt_driver = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp")
+
+    .. code-tab:: robot
+
+            Initialize Altdriver    host=127.0.0.1    port=13000    app_name=MyApp
 ```
 
 In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) is not needed. **Despite that**, it is recommended to use reverse port forwarding since IP addresses could change and would need to be updated more frequently.
@@ -431,8 +504,13 @@ In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when
 
     .. code-tab:: py
 
-            cls.altDriver1 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp1")
-            cls.altDriver2 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp2")
+            cls.alt_driver1 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp1")
+            cls.alt_driver2 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp2")
+
+    .. code-tab:: robot
+
+            Initialize Altdriver1    host=127.0.0.1    port=13000    app_name=MyApp1
+            Initialize Altdriver2    host=127.0.0.1    port=13000    app_name=MyApp2
 ```
 
 The same happens with n devices. Repeat the steps n times.
@@ -470,8 +548,13 @@ Ex. with 2 Android devices:
 
     .. code-tab:: py
 
-            cls.altDriver1 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp1")
-            cls.altDriver2 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp2")
+            cls.alt_driver1 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp1")
+            cls.alt_driver2 = AltDriver(host="127.0.0.1", port=13000, app_name="MyApp2")
+
+    .. code-tab:: robot
+
+            Initialize Altdriver1    host=127.0.0.1    port=13000    app_name=MyApp1
+            Initialize Altdriver2    host=127.0.0.1    port=13000    app_name=MyApp2
 ```
 
 #### Connection through USB
@@ -516,7 +599,11 @@ Ex1. Let's say we want to run a set of tests on all apps started on Windows 11 (
 
     .. code-tab:: py
 
-            altDriver = AltDriver(host="127.0.0.1", port=13000, platform_version="Windows 11  (10.0.22621) 64bit")
+            alt_driver = AltDriver(host="127.0.0.1", port=13000, platform_version="Windows 11  (10.0.22621) 64bit")
+
+    .. code-tab:: robot
+
+            Initialize Altdriver    host=127.0.0.1    port=13000    platform_version=Windows 11 ${SPACE}(10.0.22621) 64bit 
 ```
 
 Ex2. Let's say we want to run the same set of tests on Windows and Android platforms. If you run your tests with `pytest`, use the following code snippets:
@@ -526,7 +613,7 @@ In your test file:
     .. code-block:: py
 
         def test(platform):
-            altDriver = AltDriver(host="127.0.0.1", port=13000, platform=platform)
+            alt_driver = AltDriver(host="127.0.0.1", port=13000, platform=platform)
 ```
 
 In your conftest.py file:
@@ -559,7 +646,7 @@ In your test file:
     .. code-block:: py
 
         def test():
-            altDriver = AltDriver(host="127.0.0.1", port=13000, platform=get_platform())
+            alt_driver = AltDriver(host="127.0.0.1", port=13000, platform=get_platform())
 ```
 
 In your conftest.py file:
@@ -628,8 +715,13 @@ Logging inside the instrumented app can be configured from the driver using the 
 
     .. code-tab:: py
 
-        altDriver.set_server_logging(AltLogger.File, AltLogLevel.Off);
-        altDriver.set_server_logging(AltLogger.Unity, AltLogLevel.Info);
+        alt_driver.set_server_logging(AltLogger.File, AltLogLevel.Off)
+        alt_driver.set_server_logging(AltLogger.Unity, AltLogLevel.Info)
+
+    .. code-tab:: robot
+
+        Set Server Logging    File     Off
+        Set Server Logging    Unity    Info
 
 ```
 
@@ -654,11 +746,11 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         .. code-block:: c#
 
+            /* start AltDriver with logging enabled */
+            var altDriver = new AltDriver (enableLogging: true);
+
             /* start AltDriver with logging disabled */
             var altDriver = new AltDriver (enableLogging: false);
-
-            /* start AltDriver with logging enabled for Debug.Level; this is the default behaviour*/
-            var altDriver = new AltDriver (enableLogging: true);
 
             /* disable AltDriver logging */
             altDriver.SetLogging(enableLogging: false);
@@ -668,7 +760,6 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
             /* set logging level to Info for File target */
             AltTester.AltTesterUnitySDK.Driver.Logging.DriverLogManager.SetMinLogLevel(AltLogger.File, AltLogLevel.Info);
-
 
 
     .. tab:: Java
@@ -682,6 +773,9 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
             /* start AltDriver with logging enabled */
             altDriver = new AltDriver("127.0.0.1", 13000, true);
 
+            /* start AltDriver with logging disabled */
+            altDriver = new AltDriver("127.0.0.1", 13000, false);
+
             /* disable logging for com.AltTester® logger */
             final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
             final Configuration config = ctx.getConfiguration();
@@ -694,16 +788,42 @@ Logging on the driver is handled using `NLog` in C#, `loguru` in python and `log
 
         Logging is handled via loguru.
 
-        Setting the `enable_logging` to `False` in AltDriver, all logs from `alttester` package are disabled.
+        Setting the `enable_logging` to `True` in AltDriver, all logs from `alttester` package are enabled.
 
         .. code-block:: python
 
-            # enable logging in driver:
+            /* start AltDriver with logging enabled */
+            alt_driver = AltDriver(enable_logging= True)
+            
+            /* start AltDriver with logging disabled */
+            alt_driver = AltDriver(enable_logging= False)            
+            
+            /* enable logging in driver /*
             loguru.logger.enable("alttester")
 
-            # disable logging in driver:
-            loguru.logger.disable("alttesterr")
+            /* disable logging in driver /*
+            loguru.logger.disable("alttester")   
 
+
+    .. tab:: robot
+
+        Logging is handled via loguru.
+
+        Setting the `enable_logging` to `True` in AltDriver, all logs from `alttester` package are enabled.
+
+        .. code-block:: robot
+
+            /* start AltDriver with logging enabled */
+            Initialize AltDriver    enable_logging=True
+            
+            /* start AltDriver with logging disabled */
+            Initialize AltDriver    enable_logging=False            
+
+            /* enable logging in driver /*
+            Enable Loguru Logger alttester
+
+            /* disable logging in driver /*
+            Disable Loguru Logger alttester
 ```
 
 ## Logging in WebGL
@@ -898,7 +1018,7 @@ More details related to Allure can be found at the official [Allure documentatio
             <dependency>
                 <groupId>com.alttester</groupId>
                 <artifactId>alttester</artifactId>
-                <version>2.1.1</version>
+                <version>2.1.2</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

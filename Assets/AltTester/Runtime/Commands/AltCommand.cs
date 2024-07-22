@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -146,7 +146,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 exception = e;
                 errorType = AltErrors.errorUnknownError;
             }
-
             if (exception != null)
             {
                 error = new CommandError();
@@ -156,6 +155,22 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
 
             var cmdResponse = new CommandResponse();
+            if (CommandParams.commandName.Equals("gameFindObject"))
+            {
+                CommandParams.commandName = "findObject";
+            }
+            if (CommandParams.commandName.Equals("gameFindObjects"))
+            {
+                CommandParams.commandName = "findObjects";
+            }
+            if (CommandParams.commandName.Equals("gameFindObjectsLight"))
+            {
+                CommandParams.commandName = "findObjectsLight";
+            }
+            if (CommandParams.commandName.Equals("gameGetAllLoadedScenesAndObjects"))
+            {
+                CommandParams.commandName = "getAllLoadedScenesAndObjects";
+            }
             cmdResponse.commandName = CommandParams.commandName;
             cmdResponse.messageId = CommandParams.messageId;
             cmdResponse.driverId = CommandParams.driverId;

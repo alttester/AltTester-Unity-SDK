@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,7 +37,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         {
             ContractResolver = new DefaultContractResolver(),
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            Culture = CultureInfo.InvariantCulture
+            Culture = CultureInfo.InvariantCulture,
+            Formatting = Formatting.None
         };
 
         private DriverWebSocketClient wsClient = null;
@@ -51,11 +52,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private readonly string deviceInstanceId;
         private readonly string appId;
         private readonly string driverType;
+        private static readonly object _lock = new object();
 
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
         private bool websocketClosedCalled = false;
-        private bool driverRegisteredCalled = false;
 
         private List<string> messageIdTimeouts = new List<string>();
 
@@ -160,7 +161,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public void Send(CommandParams param)
         {
-            param.messageId = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+            lock (_lock)
+            {
+                param.messageId = DateTime.UtcNow.Ticks.ToString();
+            }
             string message = JsonConvert.SerializeObject(param, jsonSerializerSettings);
             this.wsClient.Send(message);
         }
@@ -289,7 +293,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 case AltErrors.errorInvalidPath:
                     throw new InvalidPathException(error.message);
                 case AltErrors.errorInvalidCommand:
-                    throw new InvalidCommandException(error.message);
+                    throw new InvalidCommandException("Invalid command exception. You may want to set the Managed Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization.");
                 case AltErrors.errorInputModule:
                     throw new AltInputModuleException(error.message);
                 case AltErrors.errorCameraNotFound:

@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -128,7 +128,8 @@ class TestWebsocketConnection:
         self.connection._command_handler.set_current_command(command)
         assert not self.connection._command_handler.has_response()
 
-        self.connection._on_message(self.connection._websocket, json.dumps(command))
+        self.connection._on_message(
+            self.connection._websocket, json.dumps(command))
 
         assert self.connection._command_handler.has_response()
         assert self.connection._command_handler.get_response() == command
@@ -178,7 +179,8 @@ class TestWebsocketConnection:
         }
         self.connection.send(command)
 
-        assert self.connection._command_handler.get_current_command() == (command["messageId"], command["commandName"])
+        assert self.connection._command_handler.get_current_command() == (
+            command["messageId"], command["commandName"])
 
     def test_send_with_close_connection(self):
         self.connection._is_open = False
@@ -191,4 +193,5 @@ class TestWebsocketConnection:
         with pytest.raises(ConnectionError):
             self.connection.send(command)
 
-        assert self.connection._command_handler.get_current_command() != (command["messageId"], command["commandName"])
+        assert self.connection._command_handler.get_current_command() != (
+            command["messageId"], command["commandName"])

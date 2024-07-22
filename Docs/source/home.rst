@@ -1,5 +1,5 @@
 AltTester® Unity SDK
-===================
+====================
 
 AltTester® Unity SDK is an open-source UI driven test automation tool that helps you
 find objects in your application and interacts with them using tests written in C#,

@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,9 +21,9 @@ using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltGetAllLoadedScenesAndObjectsCommand : AltBaseClassFindObjectsCommand<List<AltObjectLight>>
+    class AltGetAllLoadedScenesAndObjectsCommand : AltBaseFindObjectsCommand<List<AltObjectLight>>
     {
-        public AltGetAllLoadedScenesAndObjectsCommand(BaseFindObjectsParams cmdParams) : base(cmdParams) { }
+        public AltGetAllLoadedScenesAndObjectsCommand(BaseGameFindObjectParams cmdParams) : base(cmdParams) { }
 
         public override List<AltObjectLight> Execute()
         {

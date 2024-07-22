@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             // wsClient.Log.Level = LogLevel.Trace;
             // wsClient.Log.Output = (logData, output) =>
             // {
-            //     UnityEngine.Debug.Log($"[{logData.Level}] {logData.Date.ToString("yyyy-MM-dd HH:mm:ss.ffff")} - {logData.Message}");
+            //    UnityEngine.Debug.Log($"[{logData.Level}] {logData.Date.ToString("yyyy-MM-dd HH:mm:ss.ffff")} - {logData.Message}");
             // };
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);
@@ -124,7 +124,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.wsClient.Send(message);
         }
     }
-
 #if UNITY_WEBGL
     public class WebGLRuntimeWebSocketClient : IRuntimeWebSocketClient
     {

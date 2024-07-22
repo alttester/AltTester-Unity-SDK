@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using AltWebSocketSharp;
+
+using AltTester.AltTesterUnitySDK.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Communication
 {
@@ -42,7 +42,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         }
 
 
-        public new void Init()
+        public void Init()
         {
             base.Init(path, (code, reason) =>
             {

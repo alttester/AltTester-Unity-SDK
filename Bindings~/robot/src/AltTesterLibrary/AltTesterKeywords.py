@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 
 from alttester import AltDriver, AltObject, AltReversePortForwarding
 from alttester import By, AltKeyCode, PlayerPrefKeyType, AltLogger, AltLogLevel
-
+from loguru import logger
 
 class AltTesterKeywords(object):
     DEFAULT_WAIT = 20
@@ -48,21 +48,21 @@ class AltTesterKeywords(object):
         `enable_logging` : If set to ``True`` will turn on logging, by default logging is disabled.
 
         `timeout` : The connect timeout in seconds. The default value is 60.
-        
+
         `platform` : The platform of the device. The default value is ``unknown``.
-        
+
         `platform_version` : The version of the platform. The default value is ``unknown``.
-        
+
         `device_instance_id` : The id of the device. The default value is ``unknown``.
-        
+
         `app_id` : The id of the application. The default value is ``unknown``.
 
         Example:
 
-        | ${altDriver}= | Initialize AltDriver  | 127.0.0.1  |  15001
+        | ${altDriver}= | Initialize AltDriver | 127.0.0.1 | 15001
 
-        | ${altDriver}= | Initialize AltDriver  | platform="Android"
-        
+        | ${altDriver}= | Initialize AltDriver | platform="Android"
+
         """
         self._driver = AltDriver(
             host=host,
@@ -82,7 +82,7 @@ class AltTesterKeywords(object):
 
         Example:
 
-        Stop AltDriver
+        | Stop AltDriver
         """
         self._driver.stop()
 
@@ -91,7 +91,7 @@ class AltTesterKeywords(object):
 
         Example:
 
-        ${timeout}= | Get Command Response Timeout
+        | ${timeout}= | Get Command Response Timeout
         """
         return self._driver.get_command_response_timeout()
 
@@ -103,43 +103,69 @@ class AltTesterKeywords(object):
         Example:
 
         Set Command Response Timeout to 30 seconds.
-        
-        Set Command Response Timeout | 30
+
+        | Set Command Response Timeout | 30
         """
         self._driver.set_command_response_timeout(timeout)
 
-    def reverse_port_forwarding_android(self, device_port=13000, local_port=13000):
+    def enable_loguru_logger(self, logger_name):
+        """Enable the specified Loguru logger.
+        
+        logger_name: The name of the logger.
+
+        Example:
+        
+        | Enable Loguru Logger | alttester
+        """
+        logger.enable(logger_name)
+
+    def disable_loguru_logger(self, logger_name):
+        """Disable the specified Loguru logger.
+        
+        logger_name: The name of the logger.
+
+        Example:
+       
+        | Disable Loguru Logger | alttester
+        """
+        logger.disable(logger_name)
+
+    def reverse_port_forwarding_android(self, device_port=13000, local_port=13000, device_id=""):
         """This method calls adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}.
 
-        device_port : The id of the device. The default value is ``1300``.
+        device_port : The port of the device to do reverse port forwarding to. The default value is ``13000``.
 
-        local_port : The local port to do reverse port forwarding to. The default value is ``1300``.
+        local_port : The local port to do reverse port forwarding to. The default value is ``13000``.
+
+        device_id : The id of the device.
 
         Example:
 
-        Reverse Port Forwarding Android     device_port=15500
+        | Reverse Port Forwarding Android | device_port=15500
         """
         AltReversePortForwarding.reverse_port_forwarding_android(
-            device_port, local_port)
+            device_port, local_port, device_id)
 
-    def remove_reverse_port_forwarding_android(device_port=13000):
+    def remove_reverse_port_forwarding_android(self, device_port=13000, device_id=""):
         """This method calls adb reverse --remove [-s {deviceId}] tcp:{devicePort} or adb reverse --remove-all if no port is provided.
 
-        device_port : The device port to be removed. The default value is ``1300``.
+        device_port : The device port to be removed. The default value is ``13000``.
+
+        device_id : The id of the device.
 
         Example:
 
-        Remove Reverse Port Forwarding Android     device_port=15500
+        | Remove Reverse Port Forwarding Android | device_port=15500
         """
         AltReversePortForwarding.remove_reverse_port_forwarding_android(
-            device_port)
+            device_port, device_id)
 
-    def remove_all_reverse_port_forwardings_android():
+    def remove_all_reverse_port_forwardings_android(self):
         """This method calls adb reverse --remove-all.
 
         Example:
 
-        Remove All Reverse Port Forwarding Android
+        | Remove All Reverse Port Forwardings Android
         """
         AltReversePortForwarding.remove_all_reverse_port_forwardings_android()
 
@@ -163,7 +189,7 @@ class AltTesterKeywords(object):
 
         Find Object by PATH
 
-        | ${logo}= | Find Object | PATH | //Canvas//Logo |  enabled=${False}
+        | ${logo}= | Find Object | PATH | //Canvas//Logo | enabled=${False}
         """
         return self._driver.find_object(self.get_by_enum(locator_strategy), locator,
                                         camera_by=self.get_by_enum(camera_by),
@@ -171,7 +197,7 @@ class AltTesterKeywords(object):
 
     def find_objects(self, locator_strategy,
                      locator, camera_by="NAME", camera_value="", enabled=True):
-        """Finds all objects in the scene that respects the given criteria.
+        """Finds all objects in the scene that respect the given criteria.
 
         `locator_strategy` one of the following: ID, NAME, PATH, LAYER,
         COMPONENT, TAG, TEXT.
@@ -189,7 +215,7 @@ class AltTesterKeywords(object):
 
         Find Objects by PATH
 
-        | ${logo}= | Find Objects | PATH | //Canvas//Logo |  enabled=${False} 
+        | ${logo}= | Find Objects | PATH | //Canvas//Logo | enabled=${False} 
         """
         return self._driver.find_objects(self.get_by_enum(locator_strategy), locator,
                                          camera_by=self.get_by_enum(camera_by),
@@ -215,7 +241,7 @@ class AltTesterKeywords(object):
 
         Find Object Which Contains in Text
 
-        | ${logo}= | Find Object Which Contains | TEXT | Logo |  enabled=${False} 
+        | ${logo}= | Find Object Which Contains | TEXT | Logo | enabled=${False} 
         """
         return self._driver.find_object_which_contains(self.get_by_enum(locator_strategy), locator,
                                                        camera_by=self.get_by_enum(
@@ -224,7 +250,7 @@ class AltTesterKeywords(object):
 
     def find_objects_which_contain(self, locator_strategy,
                                    locator, camera_by="NAME", camera_value="", enabled=True):
-        """Finds all objects in the scene that respects the given criteria.
+        """Finds all objects in the scene that respect the given criteria.
 
         `locator_strategy` one of the following: ID, NAME, PATH, LAYER,
         COMPONENT, TAG, TEXT.
@@ -242,7 +268,7 @@ class AltTesterKeywords(object):
 
         Find Objects Which Contain in Text
 
-        | ${logo}= | Find Objects Which Contain | TEXT | Logo |  enabled=${False} 
+        | ${logo}= | Find Objects Which Contain | TEXT | Logo | enabled=${False} 
         """
         return self._driver.find_objects_which_contain(self.get_by_enum(locator_strategy), locator,
                                                        camera_by=self.get_by_enum(
@@ -258,14 +284,15 @@ class AltTesterKeywords(object):
 
         Find Object at coordinates [20, 20].
 
-        | ${coordinates}  | = | Create List   ${20}   ${20}
+        | ${coordinates}= | Create List | ${20} | ${20}
 
-        | ${object}=      | Find Object At Coordinates | ${coordinates}
+        | ${object}= | Find Object At Coordinates | ${coordinates}
+        
         """
         return self._driver.find_object_at_coordinates(coordinates)
 
     def get_all_elements(self, camera_by="NAME", camera_value="", enabled=True):
-        """Returns information about every objects loaded in the currently loaded scenes. This also means objects that
+        """Returns information about every object loaded in the currently loaded scenes. This also means objects that
         are set as DontDestroyOnLoad.
 
         `camera_by` one of the following: ID, NAME, PATH, LAYER,
@@ -346,8 +373,7 @@ class AltTesterKeywords(object):
 
     def wait_for_object_to_not_be_present(self, locator_strategy,
                                           locator, camera_by="NAME", camera_value="", timeout=DEFAULT_WAIT, interval=0.5, enabled=True):
-        """Waits until the object in the scene that respects the given criteria is no longer in the scene or until
-        timeout limit is reached.
+        """Waits until the object in the scene that respects the given criteria is no longer in the scene or until the timeout limit is reached.
 
         `locator_strategy` one of the following: ID, NAME, PATH, LAYER,
         COMPONENT, TAG, TEXT
@@ -429,7 +455,7 @@ class AltTesterKeywords(object):
 
         Press Keys A and B Down
 
-        | ${keys} | = | Create List | A | B
+        | ${keys}=  | Create List | A | B
 
         | Keys Down | ${keys}
         """
@@ -451,7 +477,7 @@ class AltTesterKeywords(object):
 
         Press Key A Up
 
-        Key Up | A
+        | Key Up | A
         """
         try:
             self._driver.key_up(getattr(AltKeyCode, key_code))
@@ -468,9 +494,9 @@ class AltTesterKeywords(object):
 
         Press Key A and B Up
 
-        | ${keys} | = | Create List | A | B
+        | ${keys}= | Create List | A | B
 
-        Keys Up    | ${keys}
+        | Keys Up  | ${keys}
         """
         list = []
         for key in key_codes:
@@ -494,7 +520,7 @@ class AltTesterKeywords(object):
 
         Hold Button for 1 second
 
-        | ${coordinates} | = | Create List | 20 | 20
+        | ${coordinates}= | Create List | 20 | 20
 
         | Hold Button | ${coordinates} | duration=1
         """
@@ -505,7 +531,7 @@ class AltTesterKeywords(object):
 
         coordinates : The screen coordinates.
 
-        duration : The time measured in seconds to move the mouse from current position to the set location. Default value is``0.1``
+        duration : The time measured in seconds to move the mouse from the current position to the set location. Default value is``0.1``
 
         wait : If set wait for command to finish. Default value is ``True``.
 
@@ -513,7 +539,7 @@ class AltTesterKeywords(object):
 
         Move Mouse for 1 second and don't wait to finish.
 
-        | ${coordinates} | = | Create List | 100 | 100
+        | ${coordinates}= | Create List | 100 | 100
 
         | Move Mouse | ${coordinates} | duration=1 | wait=${False}
         """
@@ -558,7 +584,7 @@ class AltTesterKeywords(object):
 
         Press Keys Mouse0 and Mouse1 for 1 second.
 
-        | ${keys} | = | Create List | Mouse0 | Mouse1
+        | ${keys}= | Create List | Mouse0 | Mouse1
 
         | Press Keys | ${keys} | duration=1
         """
@@ -620,7 +646,7 @@ class AltTesterKeywords(object):
 
         positions : A list of positions on the screen where the swipe be made.
 
-        duration : The time measured in seconds to swipe from first position to the last position. Default value is ``0.1``.
+        duration : The time measured in seconds to swipe from the first position to the last position. Default value is ``0.1``.
 
         wait : If set wait for command to finish. Default value is ``True``.
 
@@ -636,12 +662,12 @@ class AltTesterKeywords(object):
 
         | ${positions}= | Create List | ${position1} | ${position2} | ${position3}
 
-        | Multipoint Swipe| ${positions} | duration=1 | wait=${False}
+        | Multipoint Swipe | ${positions} | duration=1 | wait=${False}
         """
         self._driver.multipoint_swipe(positions, duration=duration, wait=wait)
 
     def begin_touch(self, coordinates):
-        """Simulates starting of a touch on the screen.
+        """Simulates the starting of a touch on the screen.
 
         coordinates : The screen coordinates.
 
@@ -667,18 +693,18 @@ class AltTesterKeywords(object):
 
         Move Touch at coodinates [20, 20]
 
-        ${initila_coordinates}= | Create List | 10 | 10
+        | ${initial_coordinates}= | Create List | 10 | 10
 
-        ${finger_id}= | Begin Touch | ${initila_coordinates}
+        | ${finger_id}= | Begin Touch | ${initial_coordinates}
 
         | ${coordinates}= | Create List | 20 | 20
 
-        | Move Touch   | ${finger_id} | ${coordinates}
+        | Move Touch | ${finger_id} | ${coordinates}
         """
         self._driver.move_touch(finger_id, coordinates)
 
     def end_touch(self, finger_id):
-        """Simulates ending of a touch on the screen. This command will destroy the touch making it no longer usable to
+        """Simulates the ending of a touch on the screen. This command will destroy the touch making it no longer usable to
         other movements.
 
         finger_id : The value returned by ``begin_touch``.
@@ -687,15 +713,15 @@ class AltTesterKeywords(object):
 
         Move Touch from [10, 10] to [20, 20]
 
-        ${initila_coordinates}= | Create List | 10 | 10
+        | ${initial_coordinates}= | Create List | 10 | 10
 
-        ${finger_id}= | Begin Touch | ${initila_coordinates}
+        | ${finger_id}= | Begin Touch | ${initial_coordinates}
 
         | ${coordinates}= | Create List | 20 | 20
 
-        | Move Touch   | ${finger_id} | ${coordinates}
+        | Move Touch | ${finger_id} | ${coordinates}
 
-        | End Touch    | ${finger_id}
+        | End Touch  | ${finger_id}
         """
         self._driver.end_touch(finger_id)
 
@@ -785,7 +811,7 @@ class AltTesterKeywords(object):
     def get_player_pref_key(self, key_name, key_type):
         """Returns the value for a given key from PlayerPrefs.
 
-        key_name : The name of the key to be retrived.
+        key_name : The name of the key to be retrieved.
 
         key_type : The type of the key. One of the following:  Int, String, Float.
 
@@ -805,7 +831,7 @@ class AltTesterKeywords(object):
 
         key_name : The name of the key to be set.
 
-        value : The new value of be set.
+        value : The new value to be set.
 
         key_type : The type of the key.One of the following:  Int, String, Float.
 
@@ -845,7 +871,7 @@ class AltTesterKeywords(object):
 
         Example:
 
-        | ${scene} = | Get Current Scene |
+        | ${scene}= | Get Current Scene |
         """
         return self._driver.get_current_scene()
 
@@ -854,7 +880,7 @@ class AltTesterKeywords(object):
 
         scene_name : The name of the scene to be loaded.
 
-        load_single : Sets the loading mode. If set to ``False`` the scene will be loaded additive, together with the current loaded scenes. Default value is ``True``.
+        load_single : Sets the loading mode. If set to ``False`` the scene will be loaded additive, together with the currently loaded scenes. Default value is ``True``.
 
         Example:
 
@@ -940,7 +966,7 @@ class AltTesterKeywords(object):
                 this: ``"namespace.typeName"``.
 
         method_name : The name of the public method that we want to call. If the method is inside a
-                static property/field to be able to call that method, methodName need to be the following format
+                static property/field to be able to call that method, methodName needs to be in the following format
                 ``"propertyName.MethodName"``.
 
         assembly : The name of the assembly containing the script.
@@ -1022,7 +1048,7 @@ class AltTesterKeywords(object):
                 like this: ``"namespace.typeName"``.
 
         method_name : The name of the public method that we want to call. If the method is inside a
-                static property/field to be able to call that method, methodName need to be the following format
+                static property/field to be able to call that method, methodName needs to be in the following format
                 ``"propertyName.MethodName"``.
 
         assembly : The name of the assembly containing the script.
@@ -1035,9 +1061,9 @@ class AltTesterKeywords(object):
 
         Call method get_text for PlayButton
 
-        | ${object}=   | Find Object | PATH | //PlayButton
+        | ${object}= | Find Object | PATH | //PlayButton
 
-        | ${text} =    | Call Component Method | ${object} | UnityEngine.UI.Text | get_text | UnityEngine.UI
+        | ${text}=   | Call Component Method | ${object} | UnityEngine.UI.Text | get_text | UnityEngine.UI
         """
         return alt_object.call_component_method(component_name, method_name, assembly, parameters=parameters, type_of_parameters=type_of_parameters)
 
@@ -1061,11 +1087,11 @@ class AltTesterKeywords(object):
 
         Example:
 
-        Get Screen Position for Capsule object.
+        Get Screen Position for the Capsule object.
 
-        | ${object}=   | Find Object | NAME | Capsule
+        | ${object}=    | Find Object | NAME | Capsule
 
-        | ${positions} =    | Get Screen Position | ${object}
+        | ${positions}= | Get Screen Position | ${object}
         """
         return alt_object.get_screen_position()
 
@@ -1075,11 +1101,11 @@ class AltTesterKeywords(object):
 
         Example:
 
-        Get World Position for Capsule object.
+        Get World Position for the Capsule object.
 
-        | ${object}=   | Find Object | NAME | Capsule
+        | ${object}=    | Find Object | NAME | Capsule
 
-        | ${positions} =    | Get World Position | ${object}
+        | ${positions}= | Get World Position | ${object}
         """
         return alt_object.get_world_position()
 
@@ -1089,11 +1115,11 @@ class AltTesterKeywords(object):
 
         Example:
 
-        Get Parent for Capsule object.
+        Get Parent for the Capsule object.
 
-        | ${object}=   | Find Object | NAME | Capsule
+        | ${object}= | Find Object | NAME | Capsule
 
-        | ${parent} =    | Get Parent | ${object}
+        | ${parent}= | Get Parent | ${object}
         """
         return alt_object.get_parent()
 
@@ -1103,16 +1129,16 @@ class AltTesterKeywords(object):
 
         Example:
 
-        Get All Components for Capsule object.
+        Get All Components for the Capsule object.
 
-        | ${object}=   | Find Object | NAME | Capsule
+        | ${object}=     | Find Object | NAME | Capsule
 
-        | ${components} =    | Get All Components | ${object}
+        | ${components}= | Get All Components | ${object}
         """
         return alt_object.get_all_components()
 
     def wait_for_component_property(self, alt_object: AltObject, component_name, property_name,
-                                    property_value, assembly,  timeout=20, interval=0.5):
+                                    property_value, assembly, timeout=20, interval=0.5, get_property_as_string=False, max_depth=2):
         """Wait until a property has a specific value and returns the value of the given component property.
 
             alt_object : The AltObject for which we want to wait for property.
@@ -1131,16 +1157,20 @@ class AltTesterKeywords(object):
             timeout : The number of seconds that it will wait for property. Default value is 20 seconds.
 
             interval : The number of seconds after which it will try to find the object again. The interval should be smaller than timeout. Default value is 0.5.
+            
+            get_property_as_string: A boolean value that compares the property_value as a string with the property from the instrumented app.
+
+            max_depth: An integer value that defines the maximum level from which to retrieve properties.
 
         Example:
 
         Wait for property TestBool from Capsule
 
-        | ${object}=   | Find Object | NAME | Capsule
+        | ${object}= | Find Object | NAME | Capsule
 
-        | ${result} =    | Wait For Component Property | ${object} | AltExampleScriptCapsule | TestBool | ${True} | Assembly-CSharp
+        | ${result}= | Wait For Component Property | ${object} | AltExampleScriptCapsule | TestBool | ${True} | Assembly-CSharp
         """
-        return alt_object.wait_for_component_property(component_name, property_name, property_value, assembly, timeout=timeout, interval=interval)
+        return alt_object.wait_for_component_property(component_name, property_name, property_value, assembly,timeout=timeout, interval=interval, get_property_as_string=get_property_as_string, max_depth=max_depth)
 
     def get_component_property(self, alt_object: AltObject, component_name, property_name, assembly, max_depth=2):
         """Returns the value of the given component property.
@@ -1160,11 +1190,11 @@ class AltTesterKeywords(object):
 
         Example:
 
-        Get property arrayOfInts for Capsule .
+        Get property arrayOfInts for Capsule.
 
-        | ${object}=       | Find Object | NAME | Capsule
+        | ${object}=   | Find Object | NAME | Capsule
 
-        | ${property} =    | Get Component Property| ${object} | Capsule | arrayOfInts | ${True} | Assembly-CSharp
+        | ${property}= | Get Component Property | ${object} | Capsule | arrayOfInts | ${True} | Assembly-CSharp
 
         """
         return alt_object.get_component_property(component_name, property_name, assembly, max_depth=max_depth)
@@ -1185,11 +1215,11 @@ class AltTesterKeywords(object):
 
         Example:
 
-        Set property stringToSetFromTests for Capsule .
+        Set property stringToSetFromTests for Capsule.
 
-        | ${object}=       | Find Object | NAME | Capsule
+        | ${object}=             | Find Object | NAME | Capsule
 
-        | Set Component Property| ${object} | Capsule | stringToSetFromTests | Assembly-CSharp | 2
+        | Set Component Property | ${object} | Capsule | stringToSetFromTests | Assembly-CSharp | 2
         """
         alt_object.set_component_property(
             component_name, property_name, assembly, value)
@@ -1203,24 +1233,24 @@ class AltTesterKeywords(object):
 
         Get text for CapsuleInfo.
 
-        | ${object}=    | Find Object | NAME | CapsuleInfo
+        | ${object}= | Find Object | NAME | CapsuleInfo
 
-        | ${text}=      | Get Text | ${object}
+        | ${text}=   | Get Text | ${object}
         """
         return alt_object.get_text()
 
     def get_object_name(self, alt_object: AltObject):
         """Returns name for alt_object.
 
-        alt_object : The AltObject for which we want to get name.
+        alt_object : The AltObject for which we want to get the name.
 
         Example:
 
         Get Object Name for CapsuleInfo.
 
-        | ${object}=    | Find Object | PATH | //CapsuleInfo
+        | ${object}= | Find Object | PATH | //CapsuleInfo
 
-        | ${name}=      | Get Object Name | ${object}
+        | ${name}=   | Get Object Name | ${object}
         """
         return alt_object.name
 
@@ -1233,9 +1263,9 @@ class AltTesterKeywords(object):
 
         Get Object Id for CapsuleInfo.
 
-        | ${object}=    | Find Object | PATH | //CapsuleInfo
+        | ${object}= | Find Object | PATH | //CapsuleInfo
 
-        | ${id}=      | Get Object Id | ${object}
+        | ${id}=     | Get Object Id | ${object}
         """
         return alt_object.id
 
@@ -1248,9 +1278,9 @@ class AltTesterKeywords(object):
 
         Get Object X for CapsuleInfo.
 
-        | ${object}=    | Find Object | PATH | //CapsuleInfo
+        | ${object}=  | Find Object | PATH | //CapsuleInfo
 
-        | ${x_param}=   | Get Object X | ${object}
+        | ${x_param}= | Get Object X | ${object}
         """
         return alt_object.x
 
@@ -1263,9 +1293,9 @@ class AltTesterKeywords(object):
 
         Get Object Y for CapsuleInfo.
 
-        | ${object}=    | Find Object | PATH | //CapsuleInfo
+        | ${object}=  | Find Object | PATH | //CapsuleInfo
 
-        | ${y_param}=   | Get Object Y | ${object}
+        | ${y_param}= | Get Object Y | ${object}
         """
         return alt_object.y
 
@@ -1278,9 +1308,9 @@ class AltTesterKeywords(object):
 
         Get Object Z for CapsuleInfo.
 
-        | ${object}=    | Find Object | PATH | //CapsuleInfo
+        | ${object}=  | Find Object | PATH | //CapsuleInfo
 
-        | ${z_param}=   | Get Object Z | ${object}
+        | ${z_param}= | Get Object Z | ${object}
         """
         return alt_object.z
 
@@ -1293,9 +1323,9 @@ class AltTesterKeywords(object):
 
         Get Object MobileY for CapsuleInfo.
 
-        | ${object}=    | Find Object | PATH | //CapsuleInfo
+        | ${object}=  | Find Object | PATH | //CapsuleInfo
 
-        | ${mobileY}=   | Get Object MobileY | ${object}
+        | ${mobileY}= | Get Object MobileY | ${object}
         """
         return alt_object.mobileY
 
@@ -1308,9 +1338,9 @@ class AltTesterKeywords(object):
 
         Get Object Type for CapsuleInfo.
 
-        | ${object}=  | Find Object | PATH | //CapsuleInfo
+        | ${object}= | Find Object | PATH | //CapsuleInfo
 
-        | ${type}=    | Get Object Type | ${object}
+        | ${type}=   | Get Object Type | ${object}
         """
         return alt_object.type
 
@@ -1323,9 +1353,9 @@ class AltTesterKeywords(object):
 
         Get Object Enabled for CapsuleInfo.
 
-        | ${object}=    | Find Object | PATH | //CapsuleInfo
+        | ${object}=  | Find Object | PATH | //CapsuleInfo
 
-        | ${enabled}=   | Get Object Enabled | ${object}
+        | ${enabled}= | Get Object Enabled | ${object}
         """
         return alt_object.enabled
 
@@ -1338,9 +1368,9 @@ class AltTesterKeywords(object):
 
         Get Object WorldX for CapsuleInfo.
 
-        | ${object}=   | Find Object | PATH | //CapsuleInfo
+        | ${object}= | Find Object | PATH | //CapsuleInfo
 
-        | ${worldX}=   | Get Object WorldX | ${object}
+        | ${worldX}= | Get Object WorldX | ${object}
         """
         return alt_object.worldX
 
@@ -1353,9 +1383,9 @@ class AltTesterKeywords(object):
 
         Get Object WorldY for CapsuleInfo.
 
-        | ${object}=   | Find Object | PATH | //CapsuleInfo
+        | ${object}= | Find Object | PATH | //CapsuleInfo
 
-        | ${worldY}=   | Get Object WorldY | ${object}
+        | ${worldY}= | Get Object WorldY | ${object}
         """
         return alt_object.worldY
 
@@ -1368,9 +1398,9 @@ class AltTesterKeywords(object):
 
         Get Object WorldZ for CapsuleInfo.
 
-        | ${object}=   | Find Object | PATH | //CapsuleInfo
+        | ${object}= | Find Object | PATH | //CapsuleInfo
 
-        | ${worldZ}=   | Get Object WorldZ | ${object}
+        | ${worldZ}= | Get Object WorldZ | ${object}
         """
         return alt_object.worldZ
 
@@ -1383,9 +1413,9 @@ class AltTesterKeywords(object):
 
         Get Object IdCamera for CapsuleInfo.
 
-        | ${object}=    | Find Object | PATH | //CapsuleInfo
+        | ${object}=   | Find Object | PATH | //CapsuleInfo
 
-        | ${idCamera}=  | Get Object IdCamera | ${object}
+        | ${idCamera}= | Get Object IdCamera | ${object}
         """
         return alt_object.idCamera
 
@@ -1398,9 +1428,9 @@ class AltTesterKeywords(object):
 
         Get Object TransformParentId for CapsuleInfo.
 
-        | ${object}=    | Find Object | PATH | //CapsuleInfo
+        | ${object}=            | Find Object | PATH | //CapsuleInfo
 
-        | ${transformParentId}=  | Get Object TransformParentId | ${object}
+        | ${transformParentId}= | Get Object TransformParentId | ${object}
         """
         return alt_object.transformParentId
 
@@ -1413,9 +1443,9 @@ class AltTesterKeywords(object):
 
         Get Object TransformId for CapsuleInfo.
 
-        | ${object}=       | Find Object | PATH | //CapsuleInfo
+        | ${object}=      | Find Object | PATH | //CapsuleInfo
 
-        | ${transformId}=  | Get Object TransformId | ${object}
+        | ${transformId}= | Get Object TransformId | ${object}
         """
         return alt_object.transformId
 
@@ -1432,9 +1462,9 @@ class AltTesterKeywords(object):
 
         Set text InputFieldTest for CapsuleInfo.
 
-        | ${object}=    | Find Object | NAME | CapsuleInfo
+        | ${object}= | Find Object | NAME | CapsuleInfo
 
-        | Set Text      | ${object} | InputFieldTest
+        | Set Text   | ${object} | InputFieldTest
         """
         return alt_object.set_text(text, submit=submit)
 
@@ -1453,9 +1483,9 @@ class AltTesterKeywords(object):
 
         Double tap on Capsule.
 
-        | ${object}=    | Find Object | NAME | Capsule
+        | ${object}= | Find Object | NAME | Capsule
 
-        | Tap Object    | ${object} |  count=2
+        | Tap Object | ${object} | count=2
         """
         alt_object.tap(count=count, interval=interval, wait=wait)
 
@@ -1472,11 +1502,11 @@ class AltTesterKeywords(object):
 
         Example:
 
-        Double click on Capsule.
+        Double-click on Capsule.
 
-        | ${object}=    | Find Object | NAME | Capsule
+        | ${object}=   | Find Object | NAME | Capsule
 
-        | Click Object  | ${object} |  count=2
+        | Click Object | ${object} | count=2
         """
         alt_object.click(count=count, interval=interval, wait=wait)
 
@@ -1489,9 +1519,9 @@ class AltTesterKeywords(object):
 
         Pointer Down on Panel.
 
-        | ${object}=    | Find Object | NAME | Panel
+        | ${object}=   | Find Object | NAME | Panel
 
-        | Pointer Down  | ${object} |
+        | Pointer Down | ${object} |
         """
         return alt_object.pointer_down()
 
@@ -1504,9 +1534,9 @@ class AltTesterKeywords(object):
 
         Pointer Up on Panel.
 
-        | ${object}=    | Find Object | NAME | Panel
+        | ${object}= | Find Object | NAME | Panel
 
-        | Pointer Up  | ${object} |
+        | Pointer Up | ${object} |
         """
         return alt_object.pointer_up()
 
@@ -1521,7 +1551,7 @@ class AltTesterKeywords(object):
 
         | ${object}=    | Find Object | NAME | Drop Image
 
-        | Pointer Enter  | ${object} |
+        | Pointer Enter | ${object} |
         """
         return alt_object.pointer_enter()
 
@@ -1534,9 +1564,9 @@ class AltTesterKeywords(object):
 
         Pointer Exit on Drop Image.
 
-        | ${object}=    | Find Object | NAME | Drop Image
+        | ${object}=   | Find Object | NAME | Drop Image
 
-        | Pointer Exit  | ${object} |
+        | Pointer Exit | ${object} |
         """
         return alt_object.pointer_exit()
 

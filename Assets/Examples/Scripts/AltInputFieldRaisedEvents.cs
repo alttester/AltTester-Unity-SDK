@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,9 +22,11 @@ using UnityEngine.UI;
 
 public class AltInputFieldRaisedEvents : MonoBehaviour, ISubmitHandler
 {
+#pragma warning disable CS0414
     private bool onValueChangedInvoked = false;
     private bool onSubmitInvoked = false;
     private bool onEndEditInvoked = false;
+#pragma warning restore CS0414
     public void OnValueChanged()
     {
         onValueChangedInvoked = true;

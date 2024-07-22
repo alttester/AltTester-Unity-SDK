@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,7 +39,8 @@ class TestCallMethod:
 
         assert command.component_name == 'AltScript'
         assert command.method_name == 'methodName'
-        assert command.parameters == ['1', '"string_param"', '0.5', '[1, 2, 3]']
+        assert command.parameters == [
+            '1', '"string_param"', '0.5', '[1, 2, 3]']
         assert command.type_of_parameters == ['System.String']
         assert command.assembly == 'assemblyName'
 

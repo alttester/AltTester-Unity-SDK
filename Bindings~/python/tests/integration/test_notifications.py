@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -50,50 +50,51 @@ class MockNotificationCallbacks(BaseNotificationCallbacks):
 class TestNotifications:
 
     @pytest.fixture(autouse=True)
-    def setup(self, altdriver):
-        self.altdriver = altdriver
-        self.altdriver.reset_input()
+    def setup(self, alt_driver):
+        self.alt_driver = alt_driver
+        self.alt_driver.reset_input()
 
     def test_load_scene_notification(self):
         test_notification_callbacks = MockNotificationCallbacks()
-        self.altdriver.add_notification_listener(
+        self.alt_driver.add_notification_listener(
             NotificationType.LOADSCENE, test_notification_callbacks.scene_loaded_callback)
-        self.altdriver.load_scene(Scenes.Scene01)
+        self.alt_driver.load_scene(Scenes.Scene01)
         assert test_notification_callbacks.last_scene_loaded == Scenes.Scene01
-        self.altdriver.remove_notification_listener(NotificationType.LOADSCENE)
+        self.alt_driver.remove_notification_listener(
+            NotificationType.LOADSCENE)
 
     def test_unload_scene_notification(self):
         test_notification_callbacks = MockNotificationCallbacks()
-        self.altdriver.add_notification_listener(
+        self.alt_driver.add_notification_listener(
             NotificationType.UNLOADSCENE, test_notification_callbacks.scene_unloaded_callback)
-        self.altdriver.load_scene(Scenes.Scene01)
-        self.altdriver.load_scene(Scenes.Scene02, load_single=False)
-        self.altdriver.unload_scene(Scenes.Scene02)
+        self.alt_driver.load_scene(Scenes.Scene01)
+        self.alt_driver.load_scene(Scenes.Scene02, load_single=False)
+        self.alt_driver.unload_scene(Scenes.Scene02)
         assert test_notification_callbacks.last_scene_unloaded == Scenes.Scene02
-        self.altdriver.remove_notification_listener(
+        self.alt_driver.remove_notification_listener(
             NotificationType.UNLOADSCENE)
 
     def test_log_notification(self):
         test_notification_callbacks = MockNotificationCallbacks()
-        self.altdriver.add_notification_listener(
+        self.alt_driver.add_notification_listener(
             NotificationType.LOG, test_notification_callbacks.log_callback)
-        self.altdriver.load_scene(Scenes.Scene01)
+        self.alt_driver.load_scene(Scenes.Scene01)
         assert "\"commandName\":\"loadScene" in test_notification_callbacks.log_message
         assert test_notification_callbacks.log_type == AltLogLevel.Debug.value
-        self.altdriver.remove_notification_listener(NotificationType.LOG)
+        self.alt_driver.remove_notification_listener(NotificationType.LOG)
 
     def test_application_paused_notification(self):
         test_notification_callbacks = MockNotificationCallbacks()
-        self.altdriver.add_notification_listener(
+        self.alt_driver.add_notification_listener(
             NotificationType.APPLICATION_PAUSED, test_notification_callbacks.application_paused_callback)
-        self.altdriver.load_scene(Scenes.Scene01)
-        alt_object = self.altdriver.find_object(By.NAME, "AltTesterPrefab")
+        self.alt_driver.load_scene(Scenes.Scene01)
+        alt_object = self.alt_driver.find_object(By.NAME, "AltTesterPrefab")
         alt_object.call_component_method(
-            "AltTester.AltTesterUnitySDK.AltRunner", "OnApplicationPause", "AltTester.AltTesterUnitySDK",
+            "AltTester.AltTesterUnitySDK.Commands.AltRunner", "OnApplicationPause", "AltTester.AltTesterUnitySDK",
             parameters=[True],
             type_of_parameters=["System.Boolean"]
         )
 
         assert test_notification_callbacks.application_paused
-        self.altdriver.remove_notification_listener(
+        self.alt_driver.remove_notification_listener(
             NotificationType.APPLICATION_PAUSED)

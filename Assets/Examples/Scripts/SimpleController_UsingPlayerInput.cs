@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ public class SimpleController_UsingPlayerInput : MonoBehaviour
     private Vector2 m_Rotation;
     private Vector2 m_Look;
     private Vector2 m_Move;
-    
+
 
 
 
@@ -74,7 +74,7 @@ public class SimpleController_UsingPlayerInput : MonoBehaviour
                 break;
         }
     }
-   
+
 
     public void OnGUI()
     {

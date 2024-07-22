@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -57,7 +57,8 @@ class WaitForObjectToNotBePresent(Command):
 
         while (t <= self.timeout):
             try:
-                logger.debug("Waiting for element {} to not be present...", self.value)
+                logger.debug(
+                    "Waiting for element {} to not be present...", self.value)
 
                 FindObject(
                     self.connection,

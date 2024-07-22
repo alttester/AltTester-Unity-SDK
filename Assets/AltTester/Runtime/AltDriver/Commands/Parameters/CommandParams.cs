@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.Driver.Notifications;
 using Newtonsoft.Json;
@@ -90,6 +91,51 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
             this.enabled = enabled;
         }
     }
+    public class BaseGameFindObjectParams : CommandParams
+    {
+        public bool enabled { get; protected set; }
+        public List<BoundCondition> objectConditions;
+        public List<BoundCondition> cameraConditions;
+
+        public BaseGameFindObjectParams(List<BoundCondition> objectConditions, List<BoundCondition> cameraConditions, bool enabled) : base()
+        {
+            this.objectConditions = objectConditions;
+            this.cameraConditions = cameraConditions;
+            this.enabled = enabled;
+        }
+    }
+    [Command("findObject")]
+    public class AltGameFindObjectParams : BaseGameFindObjectParams
+    {
+        public AltGameFindObjectParams(List<BoundCondition> objectConditions, List<BoundCondition> cameraConditions, bool enabled) : base(objectConditions, cameraConditions, enabled)
+        {
+            commandName = "findObject";
+        }
+    }
+    [Command("findObjects")]
+    public class AltGameFindObjectsParams : BaseGameFindObjectParams
+    {
+        public AltGameFindObjectsParams(List<BoundCondition> objectConditions, List<BoundCondition> cameraConditions, bool enabled) : base(objectConditions, cameraConditions, enabled)
+        {
+            commandName = "findObjects";
+        }
+    }
+    [Command("getAllLoadedScenesAndObjects")]
+    public class AltGameGetAllLoadedScenesAndObjectsParams : BaseGameFindObjectParams
+    {
+        public AltGameGetAllLoadedScenesAndObjectsParams(List<BoundCondition> objectConditions, List<BoundCondition> cameraConditions, bool enabled) : base(objectConditions, cameraConditions, enabled)
+        {
+            commandName = "findObjects";
+        }
+    }
+    [Command("findObjectsLight")]
+    public class AltGameFindObjectsLightParams : BaseGameFindObjectParams
+    {
+        public AltGameFindObjectsLightParams(List<BoundCondition> objectConditions, List<BoundCondition> cameraConditions, bool enabled) : base(objectConditions, cameraConditions, enabled)
+        {
+            commandName = "findObjects";
+        }
+    }
 
     [Command("findObjects")]
     public class AltFindObjectsParams : BaseFindObjectsParams
@@ -123,6 +169,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
 
         }
     }
+
 
     [Command("getServerVersion")]
     public class AltGetServerVersionParams : CommandParams

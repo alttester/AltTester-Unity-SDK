@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 AltTester®
-=========
+==========
 
 Through AltTester®, we provide a UI Test Automation solution for Unity
 applications.
@@ -40,8 +40,9 @@ Documentation
    :caption: Table of contents:
    :hidden:
 
+   Home Page <https://alttester.com/docs/sdk/2.1.2/index.html>
    home
-   AltTester® Desktop <https://alttester.com/docs/desktop/v.2.1.1/home.html>
+   AltTester® Desktop <https://alttester.com/docs/desktop/v.2.1.2/home.html>
 
 
 .. toctree::
@@ -55,6 +56,7 @@ Documentation
    :caption: Useful Links:
    :hidden:
 
+   AltTester® Blog <https://alttester.com/blog/>
    Source Code <https://github.com/alttester/AltTester-Unity-SDK>
    PyPi Python <https://pypi.org/project/AltTester-Driver/>
    PyPi Robot <https://pypi.org/project/alttester-robotframework-library>

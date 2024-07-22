@@ -231,6 +231,10 @@ Test Wait For Component Property
     ${result}=    Wait For Component Property    ${alt_object}    AltExampleScriptCapsule    TestBool    ${True}    Assembly-CSharp
     Should Be Equal    ${result}    ${True}
 
+Test Wait For Component Property Get Property As String
+    ${Canvas} =    Wait For Object    PATH    /Canvas
+    Wait For Component Property    ${Canvas}    UnityEngine.RectTransform    name    Canvas    UnityEngine.CoreModule    1    get_property_as_string=${True}    max_depth=1
+
 Test Get Component Property
     ${alt_object}=    Find Object    NAME    Capsule
     ${result}=    Get Component Property    ${alt_object}    AltExampleScriptCapsule    arrayOfInts    Assembly-CSharp
@@ -373,13 +377,12 @@ Test Set Player Pref Keys String
 
 Test Delete Player Pref Key
     Delete Player Pref
-    Set Player Pref Key           test                  1       String
-    ${actual_value}=              Get Player Pref Key   test    String
-    Should Be Equal As Strings    ${actual_value}       1
-    Delete Player Pref Key        test
-
-    Run Keyword And Expect Error    NotFoundException: PlayerPrefs key test not found    
-    ...    Get Player Pref Key      test    String
+    Set Player Pref Key    test    1    String
+    ${actual_value}=    Get Player Pref Key    test    String
+    Should Be Equal As Strings    ${actual_value}    1
+    Delete Player Pref Key    test
+    Run Keyword And Expect Error    NotFoundException: PlayerPrefs key test not found
+    ...    Get Player Pref Key    test    String
 
 Test Press Next Scene
     ${initial_scene}=    Get Current Scene
@@ -786,13 +789,13 @@ Test Call Private Method
 Test Reset Input
     Key Down    P    power=1
     ${object}=    Find Object    NAME    AltTesterPrefab
-    ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK
+    ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.InputModule.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK.InputModule
     Should Be True    ${nis}
     Reset Input
-    ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK
+    ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.InputModule.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK.InputModule
     Should Not Be True    ${nis}
     ${countKeyDown}=    Find Object    NAME    AltTesterPrefab
-    ${count}=    Get Component Property    ${countKeyDown}    Input    _keyCodesPressed.Count    AltTester.AltTesterUnitySDK
+    ${count}=    Get Component Property    ${countKeyDown}    Input    _keyCodesPressed.Count    AltTester.AltTesterUnitySDK.InputModule
     Should Be Equal As Integers    0    ${count}
 
 *** Keywords ***

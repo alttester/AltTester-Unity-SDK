@@ -29,7 +29,7 @@ project = 'AltTester® Unity SDK'
 # https://github.com/sphinx-doc/sphinx/issues/1836
 # https://github.com/sphinx-doc/sphinx/issues/500
 
-TAGS = ["1.8.1", "2.0.0", "2.0.1", "2.0.2", "2.0.3", "2.1.0", "2.1.1"]
+TAGS = ["1.8.1", "2.0.0", "2.0.1", "2.0.2", "2.0.3", "2.1.0", "2.1.1", "2.1.2"]
 LATEST_VERSION = 'master'
 BRANCHES = ['master']
 
@@ -119,7 +119,9 @@ html_css_files = [
     'css/custom.css',
 ]
 html_js_files = [
-    'js/custom.js'
+    'js/custom.js',
+    ('https://cdn.usefathom.com/script.js',
+     {'defer': 'defer', 'data-site': 'RTZVKYOQ'})
 ]
 html_theme_options = {
     'collapse_navigation': False,

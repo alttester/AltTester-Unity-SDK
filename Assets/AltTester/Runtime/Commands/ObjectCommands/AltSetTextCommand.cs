@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override AltObject Execute()
         {
+
             var targetObject = AltRunner.GetGameObject(CommandParams.altObject.id);
             Exception exception = null;
 
@@ -47,7 +48,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 try
                 {
                     System.Type type = GetType(property.Component, property.Assembly);
-
                     string valueText = Newtonsoft.Json.JsonConvert.SerializeObject(CommandParams.value);
                     SetValueForMember(CommandParams.altObject, property.Property.Split('.'), type, valueText);
                     var uiInputFieldComp = targetObject.GetComponent<UnityEngine.UI.InputField>();

@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -111,10 +111,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         {
             var altElement = altDriver.FindObject(By.NAME, "Drop Image");
             var color1 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
-            altDriver.FindObject(By.NAME, "Drop Image").PointerEnterObject();
+            altDriver.FindObject(By.NAME, "Drop Image").PointerEnter();
             var color2 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color1, color2);
-            altDriver.FindObject(By.NAME, "Drop Image").PointerExitObject();
+            altDriver.FindObject(By.NAME, "Drop Image").PointerExit();
             var color3 = altElement.GetComponentProperty<dynamic>("AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp");
             Assert.AreNotEqual(color3, color2);
             Assert.AreEqual(color1, color3);

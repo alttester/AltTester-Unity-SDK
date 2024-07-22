@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,21 +21,20 @@ using AltTester.AltTesterUnitySDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
-    class AltFindObjectsCommand : AltBaseClassFindObjectsCommand<List<AltObject>>
+    class AltFindObjectsCommand : AltBaseFindObjectsCommand<List<AltObject>>
     {
-        public AltFindObjectsCommand(BaseFindObjectsParams cmdParams) : base(cmdParams) { }
+        public AltFindObjectsCommand(BaseGameFindObjectParams cmdParams) : base(cmdParams) { }
 
         public override List<AltObject> Execute()
         {
             UnityEngine.Camera camera = null;
-            if (!CommandParams.cameraPath.Equals("//"))
+            if (IsCameraSpecified(CommandParams.cameraConditions))
             {
-                camera = GetCamera(CommandParams.cameraBy, CommandParams.cameraPath);
+                camera = GetCamera(CommandParams.cameraConditions);
                 if (camera == null) throw new CameraNotFoundException();
             }
-            var path = new PathSelector(CommandParams.path);
             var foundObjects = new List<AltObject>();
-            foreach (UnityEngine.GameObject testableObject in FindObjects(null, path.FirstBound, false, CommandParams.enabled))
+            foreach (UnityEngine.GameObject testableObject in FindObjects(null, CommandParams.objectConditions, 0, false, CommandParams.enabled))
             {
                 foundObjects.Add(AltRunner._altRunner.GameObjectToAltObject(testableObject, camera));
             }
@@ -43,4 +42,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
             return foundObjects;
         }
     }
+
+
 }

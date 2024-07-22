@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -119,9 +119,9 @@ namespace AltTester.AltTesterUnitySDK.Driver
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return propertyValue;
         }
-        public T WaitForComponentProperty<T>(string componentName, string propertyName, T propertyValue, string assemblyName, double timeout = 20, double interval = 0.5)
+        public T WaitForComponentProperty<T>(string componentName, string propertyName, T propertyValue, string assemblyName, double timeout = 20, double interval = 0.5, bool getPropertyAsString = false, int maxDepth = 2)
         {
-            var propertyFound = new AltWaitForComponentProperty<T>(CommHandler, componentName, propertyName, propertyValue, assemblyName, timeout, interval, this).Execute();
+            var propertyFound = new AltWaitForComponentProperty<T>(CommHandler, componentName, propertyName, propertyValue, assemblyName, timeout, interval, getPropertyAsString, maxDepth, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return propertyFound;
         }
@@ -166,28 +166,52 @@ namespace AltTester.AltTesterUnitySDK.Driver
             return altObject;
         }
 
+        [Obsolete("PointerUpFromObject is deprecated, please use PointerUp instead.")]
         public AltObject PointerUpFromObject()
+        {
+            return PointerUp();
+        }
+
+        public AltObject PointerUp()
         {
             var altObject = new AltPointerUpFromObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
 
+        [Obsolete("PointerDownFromObject is deprecated, please use PointerDown instead.")]
         public AltObject PointerDownFromObject()
+        {
+            return PointerDown();
+        }
+
+        public AltObject PointerDown()
         {
             var altObject = new AltPointerDownFromObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
 
+        [Obsolete("PointerEnterObject is deprecated, please use PointerEnter instead.")]
         public AltObject PointerEnterObject()
+        {
+            return PointerEnter();
+        }
+
+        public AltObject PointerEnter()
         {
             var altObject = new AltPointerEnterObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
 
+        [Obsolete("PointerExitObject is deprecated, please use PointerExit instead.")]
         public AltObject PointerExitObject()
+        {
+            return PointerExit();
+        }
+
+        public AltObject PointerExit()
         {
             var altObject = new AltPointerExitObject(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());

@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2023 Altom Consulting
+    Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -63,6 +63,9 @@ import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -294,7 +297,7 @@ public class TestsSampleScene1 extends BaseTest {
     @Test
     public void testFindElementByComponent() throws InterruptedException {
         Thread.sleep(1000);
-        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                 AltDriver.By.COMPONENT, componentName).build();
         AltObject altElement = altDriver.findObject(altFindObjectsParams);
@@ -305,7 +308,7 @@ public class TestsSampleScene1 extends BaseTest {
     @Test
     public void testFindElementByComponentWithNamespace() throws InterruptedException {
         Thread.sleep(1000);
-        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                 AltDriver.By.COMPONENT, componentName).build();
         AltObject altElement = altDriver.findObject(altFindObjectsParams);
@@ -316,7 +319,7 @@ public class TestsSampleScene1 extends BaseTest {
     @Test
     public void testGetComponentProperty() throws InterruptedException {
         Thread.sleep(1000);
-        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
         String propertyName = "InstrumentationSettings.ResetConnectionData";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 "AltTesterPrefab").build();
@@ -333,7 +336,7 @@ public class TestsSampleScene1 extends BaseTest {
     @Test
     public void testWaitForComponentProperty() throws InterruptedException {
         Thread.sleep(1000);
-        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
         String propertyName = "InstrumentationSettings.AppName";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 "AltTesterPrefab").build();
@@ -355,7 +358,7 @@ public class TestsSampleScene1 extends BaseTest {
     @Test
     public void testWaitForComponentPropertyComponentNotFound() throws InterruptedException {
         Thread.sleep(1000);
-        String componentName = "AltTester.AltTesterUnitySDK.AltRunnerTest";
+        String componentName = "AltRunnerTest";
         String propertyName = "InstrumentationSettings.AltServerPort";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 "AltTesterPrefab").build();
@@ -377,10 +380,67 @@ public class TestsSampleScene1 extends BaseTest {
 
     }
 
+    @Tag("WebGLUnsupported")
+    @Test
+    public void TestWaitForComponentPropertyMultipleTypes() throws InterruptedException {
+        AltObject Canvas = altDriver.waitForObject(new AltWaitForObjectsParams.Builder(
+                new AltFindObjectsParams.Builder(AltDriver.By.PATH, "/Canvas").build()).build());
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(
+                        new AltGetComponentPropertyParams.Builder(
+                                "UnityEngine.RectTransform", "rect.x",
+                                "UnityEngine.CoreModule").build())
+                        .build(),
+                new Gson().toJsonTree("-960.0"), true, JsonElement.class);
+
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(
+                        new AltGetComponentPropertyParams.Builder(
+                                "UnityEngine.RectTransform", "hasChanged",
+                                "UnityEngine.CoreModule").build())
+                        .build(),
+                new Gson().toJsonTree("true"), true, JsonElement.class);
+
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(
+                        new AltGetComponentPropertyParams.Builder(
+                                "UnityEngine.RectTransform", "tag",
+                                "UnityEngine.CoreModule").build())
+                        .build(),
+                new Gson().toJsonTree("Untagged"), true, JsonElement.class);
+
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(
+                        new AltGetComponentPropertyParams.Builder(
+                                "UnityEngine.RectTransform", "hideFlags",
+                                "UnityEngine.CoreModule").build())
+                        .build(),
+                new Gson().toJsonTree("0"), true, JsonElement.class);
+
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(
+                        new AltGetComponentPropertyParams.Builder("UnityEngine.RectTransform",
+                                "reapplyDrivenProperties.Target",
+                                "UnityEngine.CoreModule").build())
+                        .build(),
+                new Gson().toJsonTree("null"), true, JsonElement.class);
+
+        Canvas.waitForComponentProperty(
+                new AltWaitForComponentPropertyParams.Builder<JsonElement>(
+                        new AltGetComponentPropertyParams.Builder(
+                                "UnityEngine.UI.CanvasScaler", "transform",
+                                "UnityEngine.UI").build())
+                        .build(),
+                new Gson().toJsonTree(JsonParser.parseString(
+                        "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]")),
+                true,
+                JsonElement.class);
+    }
+
     @Test
     public void TestWaitForComponentPropertyNotFound() throws InterruptedException {
         Thread.sleep(1000);
-        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
         String propertyName = "InstrumentationSettings.AltServerPortTest";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 "AltTesterPrefab").build();
@@ -404,7 +464,7 @@ public class TestsSampleScene1 extends BaseTest {
     @Test
     public void TestWaitForComponentPropertyTimeOut() throws InterruptedException {
         Thread.sleep(1000);
-        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
         String propertyName = "InstrumentationSettings.AltServerPort";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 "AltTesterPrefab").build();
@@ -425,7 +485,8 @@ public class TestsSampleScene1 extends BaseTest {
                 });
     }
 
-    @Tag("WebGLUnsupported") // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
+    @Tag("WebGLUnsupported") // Fails on WebGL in pipeline, skip until issue #1465 is fixed:
+                             // https://github.com/alttester/AltTester-Unity-SDK/issues/1465
     @Test
     public void TestWaitForComponentPropertyAssemblyNotFound() throws InterruptedException {
         Thread.sleep(1000);
@@ -452,7 +513,7 @@ public class TestsSampleScene1 extends BaseTest {
 
     @Test
     public void testGetComponentPropertyInvalidDeserialization() {
-        String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+        String componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
         String propertyName = "InstrumentationSettings.ResetConnectionData";
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 "AltTesterPrefab").build();
@@ -475,7 +536,7 @@ public class TestsSampleScene1 extends BaseTest {
         assertThrows(PropertyNotFoundException.class,
                 () -> {
                     Thread.sleep(1000);
-                    String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+                    String componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
                     String propertyName = "socketPort";
                     AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(
                             AltDriver.By.NAME,
@@ -1694,11 +1755,11 @@ public class TestsSampleScene1 extends BaseTest {
                 AltDriver.By.NAME, "AltTesterPrefab").build();
 
         AltGetComponentPropertyParams pIsPressed = new AltGetComponentPropertyParams.Builder(
-                "AltTester.AltTesterUnitySDK.NewInputSystem",
-                "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK").build();
+                "AltTester.AltTesterUnitySDK.InputModule.NewInputSystem",
+                "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK.InputModule").build();
         AltGetComponentPropertyParams count = new AltGetComponentPropertyParams.Builder(
                 "Input",
-                "_keyCodesPressed.Count", "AltTester.AltTesterUnitySDK").build();
+                "_keyCodesPressed.Count", "AltTester.AltTesterUnitySDK.InputModule").build();
         altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.P).build());
         assertTrue(altDriver.findObject(prefab).getComponentProperty(pIsPressed, Boolean.class));
         altDriver.resetInput();
