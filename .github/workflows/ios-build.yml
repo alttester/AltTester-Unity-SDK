@@ -10,7 +10,6 @@ env:
 jobs:
   build-ipa:
     runs-on: [self-hosted, macOS]
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -31,7 +30,6 @@ jobs:
             **/*.log
   build-ipa2:
     runs-on: [self-hosted, macOS]
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -53,7 +51,6 @@ jobs:
 
   build-ipa3:
     runs-on: [self-hosted, macOS]
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
     steps:
       - uses: actions/checkout@v3
 
