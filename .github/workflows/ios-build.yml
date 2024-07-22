@@ -50,3 +50,25 @@ jobs:
           path: |
             sampleGame.ipa
             **/*.log
+
+  build-ipa3:
+    runs-on: [self-hosted, macOS]
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build sampleGame ipa3
+        run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="altom-mac4.local"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildiOS.log -quit
+          xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
+          xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath ./
+          osascript -e 'tell app "Xcode" to quit'
+      - uses: actions/upload-artifact@v3
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildiOSArtifact3
+          path: |
+            sampleGame.ipa
+            **/*.log
