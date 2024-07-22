@@ -1,0 +1,52 @@
+name: iOS build to investigate a client's issue
+
+on: [push, workflow_dispatch]
+
+env:
+  ALTSERVER_PORT: 13005
+  ALTSERVER_HOST: 192.168.11.35
+  PYTHON_VERSION: "3.10"
+
+jobs:
+  build-ipa:
+    runs-on: [self-hosted, macOS]
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build sampleGame ipa
+        run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildiOS.log -quit
+          xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
+          xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath ./
+          osascript -e 'tell app "Xcode" to quit'
+      - uses: actions/upload-artifact@v3
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildiOSArtifact
+          path: |
+            sampleGame.ipa
+            **/*.log
+  build-ipa2:
+    runs-on: [self-hosted, macOS]
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build sampleGame ipa2
+        run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="altom-mac4"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildiOS.log -quit
+          xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
+          xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath ./
+          osascript -e 'tell app "Xcode" to quit'
+      - uses: actions/upload-artifact@v3
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildiOSArtifact2
+          path: |
+            sampleGame.ipa
+            **/*.log
