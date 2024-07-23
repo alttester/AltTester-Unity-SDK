@@ -57,9 +57,12 @@ namespace AltTester.AltTesterUnitySDK.Driver
                 var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Console, AltLogLevel.Debug } };
 #endif
 
-                DriverLogManager.SetupAltDriverLogging(defaultLevels);
 
-                if (!enableLogging)
+                if (enableLogging)
+                {
+                    DriverLogManager.SetupAltDriverLogging(defaultLevels);
+                }
+                else
                 {
                     DriverLogManager.StopLogging();
                 }
