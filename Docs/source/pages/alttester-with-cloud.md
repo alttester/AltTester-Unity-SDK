@@ -737,20 +737,20 @@ You can find your tests results in the designated section **Tests Results**
 
 Amazon offers another great alternative to cloud mobile testing, in the form of [**AWS Device Farm**](https://docs.aws.amazon.com/devicefarm/index.html). You can register for free and get a 1000 device minutes trial period (a credit card will be required for registration).
 
-Because the application is instrumented with AltUnityTester SDK with a version ≥ v2.0.0, AltTester® Server is no longer integrated into the instrumented application. In order to connect to AltTester® Server, AltTester® Desktop needs to be running and accessible from the devices running inside the AWS Device Farm. 
+Because the application is instrumented with AltUnityTester SDK with a version ≥ v2.0.0, AltTester® Server is no longer integrated into the instrumented application. In order to connect to AltTester® Server, AltTester® Desktop needs to be running and accessible from the devices running inside the AWS Device Farm.
 
 You can connect to AltTester® Desktop in two ways:
 
 **A. A remote connection**
 
 - AltTester® Desktop is opened in a remote location (e.g. a virtual machine in the cloud) from where it can be accessed through IP/URL.
-- For the purpose of this example AltTester® Desktop was installed on an AWS instance. You can connect with the application through IP/URL. In this case, during instrumentation, you need to specify the IP/URL as the AltServerHost. 
+- For the purpose of this example AltTester® Desktop was installed on an AWS instance. You can connect with the application through IP/URL. In this case, during instrumentation, you need to specify the IP/URL as the AltServerHost.
 - This works for both Android and iOS.
 
 **B. A local connection**
 
 - AltTester® Desktop is installed on the AWS Device Farm VM. Therefore a localhost connection is established, so there is no need for setting the host during instrumentation. A license for running the application in batch mode is needed as well, which is stored separately in `license.txt` (Be aware to not make this file public).
-- The local connection works only for Android. Unfortunately, [IProxy does not have a way of setting up reverse port forwarding](https://alttester.com/docs/sdk/latest/pages/advanced-usage.html#in-case-of-ios).
+- The local connection works only for Android. Unfortunately, [IProxy does not have a way of setting up reverse port forwarding](advanced-usage.html#in-case-of-ios).
 
 You will need two files in order to run your tests:
 * **.apk** file, with a build of your app containing the AltDriver;
@@ -1120,15 +1120,15 @@ In this dashboard you can have an overview of the setup combinations we tried an
 ```
 *because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build cannot connect to AltTester® Server on localhost.
 
-As in the case of running [Client-Side Appium testing](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/), we need to deal with the connectivity between: the test script (where we instantiate [AltDriver](https://alttester.com/docs/sdk/2.1.2/pages/commands.html#altdriver)), AltTester® Desktop and the instrumented application installed on a device in the cloud.
+As in the case of running [Client-Side Appium testing](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/), we need to deal with the connectivity between: the test script (where we instantiate [AltDriver](commands.html#altdriver)), AltTester® Desktop and the instrumented application installed on a device in the cloud.
 
-In a local environment, setting up is relatively simple since all three components are co-located and can interact with each other on the localhost at port 13000. For communication with a USB-connected device on **Android**, [reverse port forwarding](https://alttester.com/docs/sdk/2.1.2/pages/commands.html#altreverseportforwarding) is employed to establish connectivity.
+In a local environment, setting up is relatively simple since all three components are co-located and can interact with each other on the localhost at port 13000. For communication with a USB-connected device on **Android**, [reverse port forwarding](commands.html#altreverseportforwarding) is employed to establish connectivity.
 
-For **iOS** devices, things are not so straightforward because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build does not connect to AltTester® Server - please [consult a workaround from the documentation for further details](https://alttester.com/docs/sdk/2.1.2/pages/advanced-usage.html#in-case-of-ios). 
+For **iOS** devices, things are not so straightforward because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build does not connect to AltTester® Server - please [consult a workaround from the documentation for further details](advanced-usage.html#in-case-of-ios).
 
 Because we used BitBar’s free plan, we got a machine and we do not have control over what IP it has on each test session. If you are considering doing the same, we strongly recommend having **AltTester® Desktop** installed and launched on a machine which is in your control.
 
-When starting a server-side running test session with **Android devices**, BitBar offers an Ubuntu machine - in this case the script which will set up Appium and execute the tests, also needs to install AltTester® Desktop and activate the license. 
+When starting a server-side running test session with **Android devices**, BitBar offers an Ubuntu machine - in this case the script which will set up Appium and execute the tests, also needs to install AltTester® Desktop and activate the license.
 
 ```eval_rst
 
@@ -1238,7 +1238,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
 - create a `BaseTest.cs` file with [**OneTimeSetUp**](https://docs.nunit.org/articles/nunit/writing-tests/attributes/onetimesetup.html) and [**OneTimeTeardown**](https://docs.nunit.org/articles/nunit/writing-tests/attributes/onetimeteardown.html) methods
     - In **OneTimeSetUp** method you need to define instructions to:
         - Start Appium driver with desired capabilities
-        - Initialize [AltDriver](https://alttester.com/docs/sdk/latest/pages/commands.html#altdriver)
+        - Initialize [AltDriver](commands.html#altdriver)
         Make sure that all test classes will inherit this `BaseTest.cs` in order to have this setup executed.
 
     - In **OneTimeTearDown** method you define instructions to:
@@ -1472,7 +1472,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 - create a `BaseTest.cs` file with [**OneTimeSetUp**](https://docs.nunit.org/articles/nunit/writing-tests/attributes/onetimesetup.html) and [**OneTimeTeardown**](https://docs.nunit.org/articles/nunit/writing-tests/attributes/onetimeteardown.html) methods
     - before the commands from actual tests we need to:
         - start Appium driver with desired capabilities
-        - initialize [AltDriver](https://alttester.com/docs/sdk/latest/pages/commands.html#altdriver)
+        - initialize [AltDriver](commands.html#altdriver)
     - import the Appium namespace:
     ```c#
     using OpenQA.Selenium.Appium;
@@ -1689,7 +1689,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
 - create a `base_test.py` file with **setUpClass** and **tearDownClass** methods
     - before the commands from actual tests we need to:
         - start Appium driver with desired capabilities
-        - initialize [AltDriver](https://alttester.com/docs/sdk/latest/pages/commands.html#altdriver)
+        - initialize [AltDriver](commands.html#altdriver)
     - import the Appium namespaces:
     ```python
     from appium import webdriver
@@ -1910,7 +1910,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 - create a `base_test.py` file with **setUpClass** and **tearDownClass** methods
     - before the commands from actual tests we need to:
         - start Appium driver with desired capabilities
-        - initialize [AltDriver](https://alttester.com/docs/sdk/latest/pages/commands.html#altdriver)
+        - initialize [AltDriver](commands.html#altdriver)
     - import the Appium namespaces:
     ```python
     from appium import webdriver
