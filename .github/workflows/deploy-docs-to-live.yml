@@ -76,6 +76,13 @@ jobs:
           replace: ${{ secrets.LIVE_URL_ALTTESTER }}/docs/desktop/latest/
           include: "DocumentationHTML/latest/**"
 
+      - name: Update AltTester Unity SDK link for latest version
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: ${{ secrets.LIVE_URL_ALTTESTER }}/docs/sdk/.*?/
+          replace: ${{ secrets.LIVE_URL_ALTTESTER }}/docs/sdk/latest/
+          include: "DocumentationHTML/latest/**"
+
       - name: Upload documentation
         uses: appleboy/scp-action@v0.1.7
         with:

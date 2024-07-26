@@ -32,7 +32,7 @@ AltTester® Unity SDK works with Unity 2020.3.0 or higher. If you encounter any 
 <summary>Can I use AltTester® Unity SDK to run tests using device cloud services? </summary>
 <br>
 It works with some of the cloud services. We tried it with Bitbar, AWS Device Farm, BrowserStack and SauceLabs.
-These give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. Some of these cloud services allow running Appium automated tests by giving you access to an Appium server running in the cloud that has access to all their mobile devices. More info about this here:<em><a href=" alttester-with-cloud.html"> Running tests using device cloud services.</a></em>
+These give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. Some of these cloud services allow running Appium automated tests by giving you access to an Appium server running in the cloud that has access to all their mobile devices. More info about this here:<em><a href="alttester-with-cloud.html"> Running tests using device cloud services.</a></em>
 </details>
 <br>
 
