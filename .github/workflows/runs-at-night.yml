@@ -139,7 +139,7 @@ jobs:
     timeout-minutes: 60 # Set job timeout to 1 hour
     needs: build-webgl
 
-    runs-on: [self-hosted, macOS]
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -203,7 +203,7 @@ jobs:
     timeout-minutes: 60 # Set job timeout to 1 hour
     needs: build-webgl
 
-    runs-on: [self-hosted, macOS]
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -275,7 +275,7 @@ jobs:
     timeout-minutes: 60 # Set job timeout to 1 hour
     needs: build-webgl
 
-    runs-on: [self-hosted, macOS]
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v4
