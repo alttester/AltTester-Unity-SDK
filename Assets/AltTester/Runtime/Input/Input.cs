@@ -1,4 +1,4 @@
-﻿/*
+/*
     Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
@@ -87,7 +87,7 @@ public class Input : MonoBehaviour
         _acceleration = Vector3.zero;
         _accelerationEvents = new AccelerationEvent[0];
         _pointerEventsDataDictionary.Clear();
-        AltRunner._altRunner.StopAllCoroutines();
+        CoroutineManager.Instance.StopAllCoroutines();
     }
 
     public static AltMockUpPointerInputModule AltMockUpPointerInputModule
@@ -559,13 +559,11 @@ public class Input : MonoBehaviour
 
     public static IEnumerator EndTouch(int fingerId)
     {
-#if UNITY_EDITOR
         if (Application.isBatchMode)
         {
             yield return null;
         }
         else
-#endif
             yield return new UnityEngine.WaitForEndOfFrame();
 
         var touch = findTouch(fingerId);
@@ -596,13 +594,11 @@ public class Input : MonoBehaviour
             mouseDownPointerEventData = pointerEventData;
         }
         var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
-#if UNITY_EDITOR
         if (Application.isBatchMode)
         {
             yield return null;
         }
         else
-#endif
             yield return new UnityEngine.WaitForEndOfFrame();
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
@@ -782,13 +778,11 @@ public class Input : MonoBehaviour
     private static IEnumerator setMouse0KeyCodePressedDown()
     {
         var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
-#if UNITY_EDITOR
         if (Application.isBatchMode)
         {
             yield return null;
         }
         else
-#endif
             yield return new UnityEngine.WaitForEndOfFrame();
         _keyCodesPressedDown.Add(keyStructure);
         _keyCodesPressed.Add(keyStructure);
@@ -849,13 +843,11 @@ public class Input : MonoBehaviour
         var eventSystemTarget = findEventSystemObject(pointerEventData);
         var monoBehaviourTarget = FindObjectViaRayCast.FindMonoBehaviourObject(screenPosition);
 
-#if UNITY_EDITOR
         if (Application.isBatchMode)
         {
             yield return null;
         }
         else
-#endif
             yield return new UnityEngine.WaitForEndOfFrame();//run after Update
 
         mousePosition = screenPosition;
@@ -943,14 +935,12 @@ public class Input : MonoBehaviour
     internal static IEnumerator tapClickElementLifeCycle(UnityEngine.GameObject target, int count, float interval, bool tap)
     {
         UnityEngine.Vector3 screenPosition;
-        AltRunner._altRunner.FindCameraThatSeesObject(target, out screenPosition);
-#if UNITY_EDITOR
+        FindObjectViaRayCast.FindCameraThatSeesObject(target, out screenPosition);
         if (Application.isBatchMode)
         {
             yield return null;
         }
         else
-#endif
             yield return new UnityEngine.WaitForEndOfFrame();//run after Update
 
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
@@ -1415,7 +1405,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 #else
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK.InputModule
+namespace AltTester.AltTesterUnitySDK.InputModuletest
 {
 
     public class Input : MonoBehaviour

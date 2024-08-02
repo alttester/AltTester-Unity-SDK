@@ -146,7 +146,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 exception = e;
                 errorType = AltErrors.errorUnknownError;
             }
-
             if (exception != null)
             {
                 error = new CommandError();

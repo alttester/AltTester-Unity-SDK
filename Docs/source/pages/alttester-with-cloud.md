@@ -737,20 +737,20 @@ You can find your tests results in the designated section **Tests Results**
 
 Amazon offers another great alternative to cloud mobile testing, in the form of [**AWS Device Farm**](https://docs.aws.amazon.com/devicefarm/index.html). You can register for free and get a 1000 device minutes trial period (a credit card will be required for registration).
 
-Because the application is instrumented with AltUnityTester SDK with a version ≥ v2.0.0, AltTester® Server is no longer integrated into the instrumented application. In order to connect to AltTester® Server, AltTester® Desktop needs to be running and accessible from the devices running inside the AWS Device Farm. 
+Because the application is instrumented with AltUnityTester SDK with a version ≥ v2.0.0, AltTester® Server is no longer integrated into the instrumented application. In order to connect to AltTester® Server, AltTester® Desktop needs to be running and accessible from the devices running inside the AWS Device Farm.
 
 You can connect to AltTester® Desktop in two ways:
 
 **A. A remote connection**
 
 - AltTester® Desktop is opened in a remote location (e.g. a virtual machine in the cloud) from where it can be accessed through IP/URL.
-- For the purpose of this example AltTester® Desktop was installed on an AWS instance. You can connect with the application through IP/URL. In this case, during instrumentation, you need to specify the IP/URL as the AltServerHost. 
+- For the purpose of this example AltTester® Desktop was installed on an AWS instance. You can connect with the application through IP/URL. In this case, during instrumentation, you need to specify the IP/URL as the AltServerHost.
 - This works for both Android and iOS.
 
 **B. A local connection**
 
 - AltTester® Desktop is installed on the AWS Device Farm VM. Therefore a localhost connection is established, so there is no need for setting the host during instrumentation. A license for running the application in batch mode is needed as well, which is stored separately in `license.txt` (Be aware to not make this file public).
-- The local connection works only for Android. Unfortunately, [IProxy does not have a way of setting up reverse port forwarding](https://alttester.com/docs/sdk/latest/pages/advanced-usage.html#in-case-of-ios).
+- The local connection works only for Android. Unfortunately, [IProxy does not have a way of setting up reverse port forwarding](advanced-usage.html#in-case-of-ios).
 
 You will need two files in order to run your tests:
 * **.apk** file, with a build of your app containing the AltDriver;
@@ -763,7 +763,7 @@ You can download our example project from [here](https://github.com/alttester-te
 #### **Preparation steps**
 
 **1. Prepare the application**
-- instrument the TrashCat application using AltTester® Unity SDK `v2.1.1`- For additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x).
+- instrument the TrashCat application using AltTester® Unity SDK `v2.1.2`- For additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x).
 - Based on your option to connect to AltTester® Desktop you need to set AltTester® Server Host of the instrumented app to:
     - localhost (`127.0.0.1`) - for local connection 
     - IP/URL provided by the AWS Instance where AltTester® Desktop is running - for remote connection
@@ -841,7 +841,7 @@ Keep in mind that the setup is different for Android and iOS.
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-connect-to-instance.png
     ```  
-    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop__v2.1.1.exe) and install it on the Instance  
+    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop__v2.1.2.exe) and install it on the Instance  
     - [Associate an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating), so that the IP remains constant after each opening of the instance
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
@@ -854,7 +854,7 @@ Keep in mind that the setup is different for Android and iOS.
 
 #### **Steps for running tests on Android using the remote connection**
 
-The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.1.1 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection).
+The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.1.2 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection).
 
 ```eval_rst
 
@@ -1057,7 +1057,7 @@ Keep in mind that the setup is different for Android and iOS.
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-connect-to-instance.png
     ```  
-    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop__v2.1.1.exe) and install it on the Instance  
+    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop__v2.1.2.exe) and install it on the Instance  
     - [Associate an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating), so that the IP remains constant after each opening of the instance
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
@@ -1120,15 +1120,15 @@ In this dashboard you can have an overview of the setup combinations we tried an
 ```
 *because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build cannot connect to AltTester® Server on localhost.
 
-As in the case of running [Client-Side Appium testing](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/), we need to deal with the connectivity between: the test script (where we instantiate [AltDriver](https://alttester.com/docs/sdk/2.1.1/pages/commands.html#altdriver)), AltTester® Desktop and the instrumented application installed on a device in the cloud.
+As in the case of running [Client-Side Appium testing](https://alttester.com/integrate-appium-and-run-your-test-suite-in-bitbar-client-side/), we need to deal with the connectivity between: the test script (where we instantiate [AltDriver](commands.html#altdriver)), AltTester® Desktop and the instrumented application installed on a device in the cloud.
 
-In a local environment, setting up is relatively simple since all three components are co-located and can interact with each other on the localhost at port 13000. For communication with a USB-connected device on **Android**, [reverse port forwarding](https://alttester.com/docs/sdk/2.1.1/pages/commands.html#altreverseportforwarding) is employed to establish connectivity.
+In a local environment, setting up is relatively simple since all three components are co-located and can interact with each other on the localhost at port 13000. For communication with a USB-connected device on **Android**, [reverse port forwarding](commands.html#altreverseportforwarding) is employed to establish connectivity.
 
-For **iOS** devices, things are not so straightforward because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build does not connect to AltTester® Server - please [consult a workaround from the documentation for further details](https://alttester.com/docs/sdk/2.1.1/pages/advanced-usage.html#in-case-of-ios). 
+For **iOS** devices, things are not so straightforward because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build does not connect to AltTester® Server - please [consult a workaround from the documentation for further details](advanced-usage.html#in-case-of-ios).
 
 Because we used BitBar’s free plan, we got a machine and we do not have control over what IP it has on each test session. If you are considering doing the same, we strongly recommend having **AltTester® Desktop** installed and launched on a machine which is in your control.
 
-When starting a server-side running test session with **Android devices**, BitBar offers an Ubuntu machine - in this case the script which will set up Appium and execute the tests, also needs to install AltTester® Desktop and activate the license. 
+When starting a server-side running test session with **Android devices**, BitBar offers an Ubuntu machine - in this case the script which will set up Appium and execute the tests, also needs to install AltTester® Desktop and activate the license.
 
 ```eval_rst
 
@@ -1136,7 +1136,7 @@ When starting a server-side running test session with **Android devices**, BitBa
     In order to start the **AltTester® Desktop in batchmode**, it is required you have an **AltTester® Pro license**.
 ```
 
-For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltTester® Server can not be made, so please setup a machine of your choice and install AltTester® Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.1.1.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.1.1.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
+For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltTester® Server can not be made, so please setup a machine of your choice and install AltTester® Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.1.2.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.1.2.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
 
 ### BitBar C# project example running server-side
 
@@ -1238,7 +1238,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
 - create a `BaseTest.cs` file with [**OneTimeSetUp**](https://docs.nunit.org/articles/nunit/writing-tests/attributes/onetimesetup.html) and [**OneTimeTeardown**](https://docs.nunit.org/articles/nunit/writing-tests/attributes/onetimeteardown.html) methods
     - In **OneTimeSetUp** method you need to define instructions to:
         - Start Appium driver with desired capabilities
-        - Initialize [AltDriver](https://alttester.com/docs/sdk/latest/pages/commands.html#altdriver)
+        - Initialize [AltDriver](commands.html#altdriver)
         Make sure that all test classes will inherit this `BaseTest.cs` in order to have this setup executed.
 
     - In **OneTimeTearDown** method you define instructions to:
@@ -1443,7 +1443,7 @@ We have now a VM where AltTester® Server is listening for connections. Further 
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
-[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.1`.
+[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.2`.
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
@@ -1455,7 +1455,7 @@ After you finish setting up the build, you need to use the **Archive** option to
     - in case you have not done it so far, add the AltTester-Driver package as well
     ```c#
     dotnet add package Appium.WebDriver --version 4.3.1
-    dotnet add package AltTester-Driver --version 2.1.1
+    dotnet add package AltTester-Driver --version 2.1.2
     ```
     - after installing the packages, you can see them in `.csproj` (check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/client-side-ios/TestAlttrashCSharp.csproj))
 
@@ -1472,7 +1472,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 - create a `BaseTest.cs` file with [**OneTimeSetUp**](https://docs.nunit.org/articles/nunit/writing-tests/attributes/onetimesetup.html) and [**OneTimeTeardown**](https://docs.nunit.org/articles/nunit/writing-tests/attributes/onetimeteardown.html) methods
     - before the commands from actual tests we need to:
         - start Appium driver with desired capabilities
-        - initialize [AltDriver](https://alttester.com/docs/sdk/latest/pages/commands.html#altdriver)
+        - initialize [AltDriver](commands.html#altdriver)
     - import the Appium namespace:
     ```c#
     using OpenQA.Selenium.Appium;
@@ -1675,7 +1675,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
-[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.1`.
+[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.2`.
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
@@ -1689,7 +1689,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
 - create a `base_test.py` file with **setUpClass** and **tearDownClass** methods
     - before the commands from actual tests we need to:
         - start Appium driver with desired capabilities
-        - initialize [AltDriver](https://alttester.com/docs/sdk/latest/pages/commands.html#altdriver)
+        - initialize [AltDriver](commands.html#altdriver)
     - import the Appium namespaces:
     ```python
     from appium import webdriver
@@ -1890,7 +1890,7 @@ We have now a VM where AltTester® Server is listening for connections. Further 
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
-[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.1`.
+[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.1.2`.
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
@@ -1910,7 +1910,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 - create a `base_test.py` file with **setUpClass** and **tearDownClass** methods
     - before the commands from actual tests we need to:
         - start Appium driver with desired capabilities
-        - initialize [AltDriver](https://alttester.com/docs/sdk/latest/pages/commands.html#altdriver)
+        - initialize [AltDriver](commands.html#altdriver)
     - import the Appium namespaces:
     ```python
     from appium import webdriver

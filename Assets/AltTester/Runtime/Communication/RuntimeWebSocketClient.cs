@@ -124,7 +124,6 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.wsClient.Send(message);
         }
     }
-
 #if UNITY_WEBGL
     public class WebGLRuntimeWebSocketClient : IRuntimeWebSocketClient
     {

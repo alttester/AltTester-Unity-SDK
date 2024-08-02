@@ -16,7 +16,7 @@
 */
 
 using AltTester.AltTesterUnitySDK.Driver.Notifications;
-using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Commands;
 using UnityEngine.SceneManagement;
 
 namespace AltTester.AltTesterUnitySDK.Notification

@@ -16,9 +16,9 @@
 */
 
 using System.Collections.Generic;
-using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.InputModule;
 using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
@@ -42,12 +42,12 @@ namespace AltTester.AltTesterUnitySDK.Commands
             if (selectedObject != null)
             {
                 Handler.Send(ExecuteAndSerialize(() => AltRunner._altRunner.GameObjectToAltObject(selectedObject)));
-                AltRunner._altRunner.StartCoroutine(SendScreenshotObjectHighlightedCoroutine(CommandParams.size.ToUnity(), CommandParams.quality, selectedObject, color, CommandParams.width));
+                AltRunner._altRunner.StartCoroutine(SendScreenshotObjectHighlightedCoroutine(new UnityEngine.Vector2(CommandParams.size.x, CommandParams.size.y), CommandParams.quality, selectedObject, color, CommandParams.width));
             }
             else
             {
                 Handler.Send(ExecuteAndSerialize(() => new AltObject("Null")));
-                AltRunner._altRunner.StartCoroutine(SendTexturedScreenshotCoroutine(CommandParams.size.ToUnity(), CommandParams.quality));
+                AltRunner._altRunner.StartCoroutine(SendTexturedScreenshotCoroutine(new UnityEngine.Vector2(CommandParams.size.x, CommandParams.size.y), CommandParams.quality));
             }
             return "Ok";
         }
@@ -56,7 +56,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             GameObject selectedObject = null;
             AltMockUpPointerInputModule mockUp = new AltMockUpPointerInputModule();
-            var screenCoordinates = CommandParams.coordinates.ToUnity();
+            var screenCoordinates = new Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y);
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
             {
                 position = screenCoordinates

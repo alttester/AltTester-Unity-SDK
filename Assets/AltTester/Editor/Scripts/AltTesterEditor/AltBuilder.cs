@@ -18,6 +18,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 #if UNITY_2021_3_OR_NEWER && ADDRESSABLES

@@ -20,6 +20,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AltTester.AltTesterUnitySDK;
+using AltTester.AltTesterUnitySDK.Commands;
+using AltTester.AltTesterUnitySDK.InputModule;
 using AltTester.AltTesterUnitySDK.UI;
 using UnityEditor;
 using UnityEngine;
@@ -243,6 +245,8 @@ namespace AltTesterTools
 
     public class CreateAltPrefab : MonoBehaviour
     {
+        public static Font RobotoBold;
+        public static Font RobotoRegular;
 
         public static GameObject CreateAltDialog(Transform parent)
         {
@@ -254,7 +258,7 @@ namespace AltTesterTools
             AltDialogTransform.anchorMin = Vector2.zero;
             AltDialogTransform.anchorMax = Vector2.zero;
             AltDialogTransform.anchoredPosition = new Vector2(551, 257.5f);
-            AltDialogTransform.sizeDelta = new Vector2(2106, 984);
+            AltDialogTransform.sizeDelta = new Vector2(2108, 984);
             AltDialogTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var AltDialogCanvas = AltDialogGameObject.GetComponent<Canvas>();
@@ -278,12 +282,12 @@ namespace AltTesterTools
             DialogTransform.anchorMin = new Vector2(0.5f, 0.5f);
             DialogTransform.anchorMax = new Vector2(0.5f, 0.5f);
             DialogTransform.pivot = new Vector2(0.5f, 0.5f);
-            DialogTransform.sizeDelta = new Vector2(440, 707);
+            DialogTransform.sizeDelta = new Vector2(440, 760);
             DialogTransform.localPosition = new Vector3(0, 0, 0);
 
             var DialogImage = DialogGameObject.GetComponent<Image>();
             DialogImage.color = new Color(0, 0.6470588f, 0.1411765f, 1);
-            DialogImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+            DialogImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/Rounded20px.png");
             DialogImage.type = Image.Type.Sliced;
             DialogImage.fillCenter = true;
             DialogImage.pixelsPerUnitMultiplier = 1;
@@ -291,23 +295,24 @@ namespace AltTesterTools
             return DialogGameObject;
         }
 
-        public static Text CreateTitle(RectTransform parent, string version = "2.0.x")
+        public static Text CreateTitle(RectTransform parent)
         {
             var TitleGameObject = new GameObject("Title", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
 
             var TitleRectTransform = TitleGameObject.GetComponent<RectTransform>();
             TitleRectTransform.SetParent(parent, false);
 
-            TitleRectTransform.localPosition = new Vector3(0, 322.5f, 0);
+            TitleRectTransform.localPosition = new Vector3(0, 365, 0);
             TitleRectTransform.anchorMin = new Vector2(0.5f, 1f);
             TitleRectTransform.anchorMax = new Vector2(0.5f, 1f);
-            TitleRectTransform.anchoredPosition = new Vector2(0, -31);
-            TitleRectTransform.sizeDelta = new Vector2(300, 65);
+            TitleRectTransform.anchoredPosition = new Vector2(0, -15);
+            TitleRectTransform.sizeDelta = new Vector2(440, 65);
             TitleRectTransform.pivot = new Vector2(0.5f, 1f);
 
             var TitleText = TitleGameObject.GetComponent<Text>();
-            TitleText.text = "AltTester® v." + version;
+            TitleText.text = "AltTester®";
             TitleText.fontSize = 27;
+            TitleText.font = RobotoBold;
             TitleText.color = Color.white;
             TitleText.alignment = TextAnchor.MiddleCenter;
 
@@ -321,16 +326,18 @@ namespace AltTesterTools
             var MessageRectTransform = MessageGameObject.GetComponent<RectTransform>();
             MessageRectTransform.SetParent(parent, false);
 
-            MessageRectTransform.localPosition = new Vector3(0, 93.25f, 0);
+            MessageRectTransform.localPosition = new Vector3(0, 50f, 0);
             MessageRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             MessageRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            MessageRectTransform.anchoredPosition = new Vector2(0, 93.25f);
-            MessageRectTransform.sizeDelta = new Vector2(400, 328.5f);
+            MessageRectTransform.anchoredPosition = new Vector2(0, 50f);
+            MessageRectTransform.sizeDelta = new Vector2(350, 356);
             MessageRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var MessageText = MessageGameObject.GetComponent<Text>();
             MessageText.text = "Starting communication protocol!";
-            MessageText.fontSize = 20;
+            MessageText.fontSize = 18;
+            MessageText.font = RobotoRegular;
+
             MessageText.color = Color.white;
             MessageText.alignment = TextAnchor.MiddleCenter;
 
@@ -343,16 +350,17 @@ namespace AltTesterTools
             var LabelRectTransform = LabelGameObject.GetComponent<RectTransform>();
             LabelRectTransform.SetParent(parent, false);
 
-            LabelRectTransform.localPosition = new Vector3(0, -103.5f, 0);
-            LabelRectTransform.anchoredPosition = new Vector2(0, -103.5f);
+            LabelRectTransform.localPosition = new Vector3(0, -262.5f, 0);
+            LabelRectTransform.anchoredPosition = new Vector2(0, -262.5f);
             LabelRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             LabelRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            LabelRectTransform.sizeDelta = new Vector2(400, 65);
+            LabelRectTransform.sizeDelta = new Vector2(350, 45);
             LabelRectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var LabelText = LabelGameObject.GetComponent<Text>();
-            LabelText.text = "To change the host, port or app name input a new value and press the Restart button.";
-            LabelText.fontSize = 15;
+            LabelText.text = "To make modifications, enter a new value and press the <b>Restart</b> button.";
+            LabelText.fontSize = 18;
+            LabelText.font = RobotoRegular;
             LabelText.color = Color.white;
             LabelText.alignment = TextAnchor.MiddleCenter;
 
@@ -366,12 +374,13 @@ namespace AltTesterTools
             var InputFieldTransform = InputFieldGameObject.GetComponent<RectTransform>();
             InputFieldTransform.SetParent(parent, false);
 
-            InputFieldTransform.localPosition = new Vector3(0, -153, 0);
+            InputFieldTransform.localPosition = new Vector3(-77, -196, 0);
             InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            InputFieldTransform.sizeDelta = new Vector2(240, 34);
+            InputFieldTransform.sizeDelta = new Vector2(200, 34);
             InputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
-            InputFieldTransform.anchoredPosition = new Vector2(0, -153);
+            InputFieldTransform.anchoredPosition = new Vector2(-77, -196);
+
 
             var InputFieldTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
             var InputFieldTextTransform = InputFieldTextGameObject.GetComponent<RectTransform>();
@@ -386,7 +395,8 @@ namespace AltTesterTools
 
             var InputFieldText = InputFieldTextGameObject.GetComponent<Text>();
             InputFieldText.supportRichText = false;
-            InputFieldText.fontSize = 18;
+            InputFieldText.fontSize = 17;
+            InputFieldText.font = RobotoRegular;
             InputFieldText.color = Color.black;
 
             var InputFieldPlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -401,8 +411,9 @@ namespace AltTesterTools
 
             var InputFieldPlaceholder = InputFieldPlaceholderGameObject.GetComponent<Text>();
             InputFieldPlaceholder.supportRichText = false;
-            InputFieldPlaceholder.fontSize = 18;
-            InputFieldPlaceholder.text = "Enter host...";
+            InputFieldPlaceholder.fontSize = 17;
+            InputFieldPlaceholder.font = RobotoBold;
+            InputFieldPlaceholder.text = "Host...";
             InputFieldPlaceholder.color = Color.gray;
 
             var InputField = InputFieldGameObject.GetComponent<InputField>();
@@ -419,10 +430,11 @@ namespace AltTesterTools
             var InputFieldTransform = InputFieldGameObject.GetComponent<RectTransform>();
             InputFieldTransform.SetParent(parent, false);
 
-            InputFieldTransform.localPosition = new Vector3(0, -198, 0);
+            InputFieldTransform.localPosition = new Vector3(102.5f, -198, 0);
             InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            InputFieldTransform.sizeDelta = new Vector2(240, 34);
+            InputFieldTransform.anchoredPosition = new Vector2(102.5f, -196);
+            InputFieldTransform.sizeDelta = new Vector2(141, 34);
             InputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var InputFieldTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -435,9 +447,13 @@ namespace AltTesterTools
             InputFieldTextTransform.sizeDelta = new Vector2(-20, -13);
             InputFieldTextTransform.pivot = new Vector2(0.5f, 0.5f);
 
+
+
+
             var InputFieldText = InputFieldTextGameObject.GetComponent<Text>();
             InputFieldText.supportRichText = false;
-            InputFieldText.fontSize = 18;
+            InputFieldText.fontSize = 17;
+            InputFieldText.font = RobotoRegular;
             InputFieldText.color = Color.black;
 
             var InputFieldPlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -452,8 +468,9 @@ namespace AltTesterTools
 
             var InputFieldPlaceholder = InputFieldPlaceholderGameObject.GetComponent<Text>();
             InputFieldPlaceholder.supportRichText = false;
-            InputFieldPlaceholder.fontSize = 18;
-            InputFieldPlaceholder.text = "Enter port number...";
+            InputFieldPlaceholder.fontSize = 17;
+            InputFieldPlaceholder.font = RobotoBold;
+            InputFieldPlaceholder.text = "Port number...";
             InputFieldPlaceholder.color = Color.gray;
 
             var InputField = InputFieldGameObject.GetComponent<InputField>();
@@ -469,10 +486,13 @@ namespace AltTesterTools
             var InputFieldTransform = InputFieldGameObject.GetComponent<RectTransform>();
             InputFieldTransform.SetParent(parent, false);
 
-            InputFieldTransform.localPosition = new Vector3(0, -243, 0);
+
+
+            InputFieldTransform.localPosition = new Vector3(-2, -154, 0);
             InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            InputFieldTransform.sizeDelta = new Vector2(240, 34);
+            InputFieldTransform.anchoredPosition = new Vector2(-2, -154);
+            InputFieldTransform.sizeDelta = new Vector2(350, 34);
             InputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var TextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -487,7 +507,8 @@ namespace AltTesterTools
 
             var Text = TextGameObject.GetComponent<Text>();
             Text.supportRichText = false;
-            Text.fontSize = 18;
+            Text.fontSize = 17;
+            Text.font = RobotoRegular;
             Text.color = Color.black;
 
             var PlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -502,8 +523,9 @@ namespace AltTesterTools
 
             var Placeholder = PlaceholderGameObject.GetComponent<Text>();
             Placeholder.supportRichText = false;
-            Placeholder.fontSize = 18;
-            Placeholder.text = "Enter app name...";
+            Placeholder.fontSize = 17;
+            Placeholder.font = RobotoBold;
+            Placeholder.text = "App name...";
             Placeholder.color = Color.gray;
 
             var InputField = InputFieldGameObject.GetComponent<InputField>();
@@ -519,10 +541,10 @@ namespace AltTesterTools
             var RestartButtonTransform = RestartButtonGameObject.GetComponent<RectTransform>();
             RestartButtonTransform.SetParent(parent, false);
 
-            RestartButtonTransform.localPosition = new Vector3(0, -288, 0);
+            RestartButtonTransform.localPosition = new Vector3(0, -320, 0);
             RestartButtonTransform.anchorMin = new Vector2(0.5f, 0.5f);
             RestartButtonTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            RestartButtonTransform.sizeDelta = new Vector2(240, 34);
+            RestartButtonTransform.sizeDelta = new Vector2(240, 40);
             RestartButtonTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var RestartButtonTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -537,9 +559,19 @@ namespace AltTesterTools
 
             var RestartButtonText = RestartButtonTextGameObject.GetComponent<Text>();
             RestartButtonText.text = "Restart";
-            RestartButtonText.fontSize = 18;
-            RestartButtonText.color = Color.black;
+            RestartButtonText.fontSize = 24;
+            RestartButtonText.font = RobotoBold;
+            RestartButtonText.color = Color.white;
             RestartButtonText.alignment = TextAnchor.MiddleCenter;
+
+            var RestartButtonImage = RestartButtonGameObject.GetComponent<Image>();
+            RestartButtonImage.color = new Color(0, 0.4509804f, 0.09803922f, 1);
+            RestartButtonImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/Rounded10px.png");
+            RestartButtonImage.type = Image.Type.Sliced;
+            RestartButtonImage.fillCenter = true;
+            RestartButtonImage.pixelsPerUnitMultiplier = 1;
+
+
 
             return RestartButtonGameObject.GetComponent<Button>();
         }
@@ -551,11 +583,11 @@ namespace AltTesterTools
             var CloseButtonTransform = CloseButtonGameObject.GetComponent<RectTransform>();
             CloseButtonTransform.SetParent(parent, false);
 
-            CloseButtonTransform.localPosition = new Vector3(205, 338, 0);
+            CloseButtonTransform.localPosition = new Vector3(205, 365, 0);
             CloseButtonTransform.anchorMin = new Vector2(1f, 1f);
             CloseButtonTransform.anchorMax = new Vector2(1f, 1f);
             CloseButtonTransform.anchoredPosition = new Vector2(-15, -15);
-            CloseButtonTransform.sizeDelta = new Vector2(30, 30);
+            CloseButtonTransform.sizeDelta = new Vector2(16, 16);
             CloseButtonTransform.pivot = new Vector2(1f, 1f);
 
             var CloseButtonImage = CloseButtonGameObject.GetComponent<Image>();
@@ -592,7 +624,7 @@ namespace AltTesterTools
             var ToggleTransform = Toggle.GetComponent<RectTransform>();
             ToggleTransform.SetParent(parent, false);
 
-            ToggleTransform.localPosition = new Vector3(18, -338, 0);
+            ToggleTransform.localPosition = new Vector3(0, -367.5f, 0);
             ToggleTransform.sizeDelta = new Vector2(15, 25);
             ToggleTransform.anchorMin = new Vector2(0.5f, 0.5f);
             ToggleTransform.anchorMax = new Vector2(0.5f, 0.5f);
@@ -602,10 +634,11 @@ namespace AltTesterTools
             var BackgroundTransform = Background.GetComponent<RectTransform>();
             BackgroundTransform.SetParent(ToggleTransform, false);
 
-            BackgroundTransform.localPosition = new Vector3(-68, 0, 0);
+            BackgroundTransform.localPosition = new Vector3(-75.5f, 12.5f, 0);
             BackgroundTransform.sizeDelta = new Vector2(20, 20);
             BackgroundTransform.anchorMin = new Vector2(0, 1);
             BackgroundTransform.anchorMax = new Vector2(0, 1);
+            BackgroundTransform.anchoredPosition = new Vector2(-68, 0);
             BackgroundTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var BackgroundImage = Background.GetComponent<Image>();
@@ -628,15 +661,17 @@ namespace AltTesterTools
             var LabelTransform = Label.GetComponent<RectTransform>();
             LabelTransform.SetParent(ToggleTransform, false);
 
-            LabelTransform.localPosition = new Vector3(13.25f, 0, 0);
-            LabelTransform.sizeDelta = new Vector2(130, 25);
+            LabelTransform.localPosition = new Vector3(15.25f, 0, 0);
+            LabelTransform.anchoredPosition = new Vector3(20.25f, 0, 0);
+            LabelTransform.sizeDelta = new Vector2(150, 25);
             LabelTransform.anchorMin = new Vector2(0, 1);
             LabelTransform.anchorMax = new Vector2(0, 1);
             LabelTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var LabelText = Label.GetComponent<Text>();
             LabelText.text = "AltTester® input";
-            LabelText.fontSize = 18;
+            LabelText.fontSize = 20;
+            LabelText.font = RobotoRegular;
             LabelText.alignment = TextAnchor.MiddleLeft;
 
             var ToggleComponet = Toggle.GetComponent<Toggle>();
@@ -687,12 +722,16 @@ namespace AltTesterTools
         [UnityEditor.MenuItem("AltTester®/Create AltTester® Prefab", false, 80)]
         public static void CreateAltTesterPrefab()
         {
+            RobotoBold = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Bold.ttf");
+            RobotoRegular = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Regular.ttf");
             var prefab = CreatePrefab();
             SavePrefab(prefab);
         }
         [UnityEditor.MenuItem("AltTester®/Create AltTester® Prefab Without Checking Equality", false, 90)]
         public static void CreateAltTesterPrefabWithoutCheck()
         {
+            RobotoBold = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Bold.ttf");
+            RobotoRegular = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Regular.ttf");
             var prefab = CreatePrefab();
             SavePrefab(prefab, false);
         }
@@ -708,7 +747,7 @@ namespace AltTesterTools
                 Debug.LogError("ALTTESTER must be added as define before updating the prefab.");
             }
 
-            var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(Input), typeof(NewInputSystem) });
+            var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(Input), typeof(NewInputSystem), typeof(CoroutineManager) });
             var RectTransform = Prefab.GetComponent<Transform>();
             var AltRunnerComponent = Prefab.GetComponent<AltRunner>();
             SetUpAltRunnerVariables(AltRunnerComponent);
@@ -721,17 +760,69 @@ namespace AltTesterTools
             var DialogTransform = Dialog.GetComponent<RectTransform>();
 
             AltDialog.Dialog = Dialog;
+            AltDialog.InfoArea = CreateInfoArea(DialogTransform);
+            var InfoAreaTransform = AltDialog.InfoArea.GetComponent<RectTransform>();
             AltDialog.Icon = CreateIcon(AltDialogTransform);
-            AltDialog.TitleText = CreateTitle(DialogTransform, AltRunner.VERSION);
-            AltDialog.MessageText = CreateStatusMessage(DialogTransform);
+            AltDialog.TitleText = CreateTitle(DialogTransform);
+            AltDialog.SubtitleText = CreateSubtitle(DialogTransform);
+            AltDialog.MessageText = CreateStatusMessage(InfoAreaTransform);
             AltDialog.CloseButton = CreateCloseButton(DialogTransform);
             AltDialog.InfoLabel = CreateInfoLabel(DialogTransform);
-            AltDialog.HostInputField = CreateHostInputField(DialogTransform);
-            AltDialog.PortInputField = CreatePortInputField(DialogTransform);
-            AltDialog.AppNameInputField = CreateAppNameInputField(DialogTransform);
+            AltDialog.HostInputField = CreateHostInputField(InfoAreaTransform);
+            AltDialog.PortInputField = CreatePortInputField(InfoAreaTransform);
+            AltDialog.AppNameInputField = CreateAppNameInputField(InfoAreaTransform);
             AltDialog.RestartButton = CreateRestartButton(DialogTransform);
             AltDialog.CustomInputToggle = CreateCustomInputToggle(DialogTransform);
             return Prefab;
+        }
+
+        private static GameObject CreateInfoArea(RectTransform parent)
+        {
+            var InfoArea = new GameObject("InfoArea", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
+
+            var InfoAreaTransform = InfoArea.GetComponent<RectTransform>();
+            InfoAreaTransform.SetParent(parent, false);
+
+            InfoAreaTransform.localPosition = new Vector3(0, -2.5f, 0);
+            InfoAreaTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            InfoAreaTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            InfoAreaTransform.anchoredPosition = new Vector2(0, -2.5f);
+            InfoAreaTransform.sizeDelta = new Vector2(400, 475);
+            InfoAreaTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var InfoAreaImage = InfoArea.GetComponent<Image>();
+            InfoAreaImage.color = new Color(0, 0.4509804f, 0.09803922f, 1);
+            InfoAreaImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/Rounded10px.png");
+            InfoAreaImage.type = Image.Type.Sliced;
+            InfoAreaImage.fillCenter = true;
+            InfoAreaImage.pixelsPerUnitMultiplier = 1;
+
+
+            return InfoArea;
+        }
+
+        private static Text CreateSubtitle(RectTransform parent)
+        {
+            var SubtitleGameObject = new GameObject("Subtitle", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
+
+            var SubtitleRectTransform = SubtitleGameObject.GetComponent<RectTransform>();
+            SubtitleRectTransform.SetParent(parent, false);
+
+            SubtitleRectTransform.localPosition = new Vector3(0, 300, 0);
+            SubtitleRectTransform.anchorMin = new Vector2(0.5f, 1f);
+            SubtitleRectTransform.anchorMax = new Vector2(0.5f, 1f);
+            SubtitleRectTransform.anchoredPosition = new Vector2(0, -80);
+            SubtitleRectTransform.sizeDelta = new Vector2(440, 65);
+            SubtitleRectTransform.pivot = new Vector2(0.5f, 1f);
+
+            var SubtitleText = SubtitleGameObject.GetComponent<Text>();
+            SubtitleText.text = "AltTester®";
+            SubtitleText.fontSize = 24;
+            SubtitleText.font = RobotoBold;
+            SubtitleText.color = Color.white;
+            SubtitleText.alignment = TextAnchor.MiddleCenter;
+
+            return SubtitleText;
         }
     }
 }

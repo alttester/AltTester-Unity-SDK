@@ -17,7 +17,10 @@
 
 using System;
 using System.Collections;
+using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.Communication;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.InputModule;
 using AltTester.AltTesterUnitySDK.Logging;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
@@ -100,6 +103,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private bool stopClientsCalled = false;
         private bool beginCommunicationCalled = false;
         private bool isEditing = false;
+        private bool isError = false;
         private bool isCommunicationConnected;
         private bool isLiveUpdateConnected;
         private bool isDriverConnected;
@@ -173,13 +177,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void checkIfPlayerPrefNeedsToBeDeleted()
         {
-#if ENABLE_LEGACY_INPUT_MANAGER
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.L))
-#else
-#if ENABLE_INPUT_SYSTEM
-            if (Keyboard.current.leftCtrlKey.isPressed && Keyboard.current.leftShiftKey.isPressed && Keyboard.current.dKey.isPressed && Keyboard.current.lKey.isPressed)
-#endif
-#endif
+            if (InputMisc.IsResetConnectionShortcutPressed())
             {
                 PlayerPrefs.DeleteKey(UID);
                 resetConnectionDataBasedOnUID();
@@ -218,13 +216,9 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         protected IEnumerator SendScreenshot()
         {
-#if UNITY_EDITOR
             if (Application.isBatchMode)
-            {
                 yield return null;
-            }
             else
-#endif
                 yield return new WaitForEndOfFrame();
             this.liveUpdateClient.SendScreenshot();
         }
@@ -318,6 +312,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             appId = null;
 
             responseCode = 0;
+            isError = false;
             validateFields();
             if (isDataValid)
                 isEditing = false;
@@ -376,22 +371,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             CustomInputToggle.isOn = value;
             Icon.color = value ? Color.white : Color.grey;
-
-#if ALTTESTER
-#if ENABLE_LEGACY_INPUT_MANAGER
-            Input.UseCustomInput = value;
-#endif
-#if ENABLE_INPUT_SYSTEM
-            if (value)
-            {
-                NewInputSystem.DisableDefaultDevicesAndEnableAltDevices();
-            }
-            else
-            {
-                NewInputSystem.EnableDefaultDevicesAndDisableAltDevices();
-            }
-#endif
-#endif
+            InputMisc.ActivateCustomInput(value);
         }
 
         private void initCommunicationClient()
@@ -521,7 +501,10 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             responseCode = code;
             if (code >= 4000 && code < 5000)
+            {
+                isError = true;
                 updateQueue.ScheduleResponse(() => setMessage(reason, errorColor, true));
+            }
             updateQueue.ScheduleResponse(() => stopClients());
         }
 
@@ -568,7 +551,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onConnect()
         {
             wasConnected = true;
-            if (!isDriverConnected)
+            if (!isDriverConnected && !isError)
             {
                 string message = createMessage();
                 setMessage(message, color: successColor, visible: true);

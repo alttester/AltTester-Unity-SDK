@@ -17,20 +17,20 @@
 
 using System;
 using System.Collections.Generic;
-using AltTester.AltTesterUnitySDK.Communication;
 using AltTester.AltTesterUnitySDK.Driver;
 using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterUnitySDK.InputModule;
 using AltTester.AltTesterUnitySDK.Logging;
 using AltTester.AltTesterUnitySDK.Notification;
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK
+namespace AltTester.AltTesterUnitySDK.Commands
 {
     public class AltRunner : UnityEngine.MonoBehaviour
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "2.1.1";
+        public static readonly string VERSION = "2.1.2";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
         public AltInstrumentationSettings InstrumentationSettings = null;
@@ -101,11 +101,11 @@ namespace AltTester.AltTesterUnitySDK
             {
                 if (camera == null)
                 {
-                    cameraId = FindCameraThatSeesObject(altGameObject, out position);
+                    cameraId = FindObjectViaRayCast.FindCameraThatSeesObject(altGameObject, out position);
                 }
                 else
                 {
-                    position = getObjectScreenPosition(altGameObject, camera);
+                    position = FindObjectViaRayCast.GetObjectScreenPosition(altGameObject, camera);
                     cameraId = camera.GetInstanceID();
                 }
             }
@@ -192,13 +192,11 @@ namespace AltTester.AltTesterUnitySDK
 
         public System.Collections.IEnumerator RunActionAfterEndOfFrame(Action action)
         {
-#if UNITY_EDITOR
             if (Application.isBatchMode)
             {
                 yield return null;
             }
             else
-#endif
                 yield return new UnityEngine.WaitForEndOfFrame();
             action();
         }
@@ -206,74 +204,8 @@ namespace AltTester.AltTesterUnitySDK
 
         #endregion
         #region private methods
-        private UnityEngine.Vector3 getObjectScreenPosition(UnityEngine.GameObject gameObject, UnityEngine.Camera camera)
-        {
-            var selectedCamera = camera;
-            var position = gameObject.transform.position;
-            UnityEngine.Canvas canvas = gameObject.GetComponentInParent<UnityEngine.Canvas>();
-            if (canvas != null)
-            {
-                if (gameObject.GetComponent<UnityEngine.RectTransform>() == null)
-                    return camera.WorldToScreenPoint(gameObject.transform.position);
 
-                UnityEngine.Vector3[] vector3S = new UnityEngine.Vector3[4];
-                gameObject.GetComponent<UnityEngine.RectTransform>().GetWorldCorners(vector3S);
-                position = new UnityEngine.Vector3((vector3S[0].x + vector3S[2].x) / 2, (vector3S[0].y + vector3S[2].y) / 2, (vector3S[0].z + vector3S[2].z) / 2);
 
-                if (canvas.renderMode == UnityEngine.RenderMode.ScreenSpaceOverlay)
-                {
-                    return position;
-                }
-                if (canvas.worldCamera != null)
-                {
-                    selectedCamera = canvas.worldCamera;
-                }
-                return selectedCamera.WorldToScreenPoint(position);
-
-            }
-
-            var collider = gameObject.GetComponent<UnityEngine.Collider>();
-            if (collider != null)
-            {
-                position = collider.bounds.center;
-            }
-
-            return camera.WorldToScreenPoint(position);
-        }
-        ///<summary>
-        /// Iterate through all cameras until finds one that sees the object.
-        /// If no camera sees the object return the position from the last camera
-        ///</summary>
-        public int FindCameraThatSeesObject(UnityEngine.GameObject gameObject, out UnityEngine.Vector3 position)
-        {
-            position = UnityEngine.Vector3.one * -1;
-            int cameraId = -1;
-            if (UnityEngine.Camera.allCamerasCount == 0)
-            {
-                var rectTransform = gameObject.GetComponent<UnityEngine.RectTransform>();
-                if (rectTransform != null)
-                {
-                    var canvas = rectTransform.GetComponentInParent<UnityEngine.Canvas>();
-                    if (canvas != null)
-                        position = UnityEngine.RectTransformUtility.PixelAdjustPoint(rectTransform.position, rectTransform, canvas.rootCanvas);
-                }
-                return cameraId;
-            }
-            foreach (var camera1 in UnityEngine.Camera.allCameras)
-            {
-                position = getObjectScreenPosition(gameObject, camera1);
-                cameraId = camera1.GetInstanceID();
-                if (position.x > 0 &&
-                    position.y > 0 &&
-                    position.x < UnityEngine.Screen.width &&
-                    position.y < UnityEngine.Screen.height &&
-                    position.z >= 0)//Check if camera sees the object
-                {
-                    break;
-                }
-            }
-            return cameraId;
-        }
         #endregion
     }
 }

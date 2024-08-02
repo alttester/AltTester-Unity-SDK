@@ -119,9 +119,9 @@ namespace AltTester.AltTesterUnitySDK.Driver
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return propertyValue;
         }
-        public T WaitForComponentProperty<T>(string componentName, string propertyName, T propertyValue, string assemblyName, double timeout = 20, double interval = 0.5, bool getPropertyAsString = false)
+        public T WaitForComponentProperty<T>(string componentName, string propertyName, T propertyValue, string assemblyName, double timeout = 20, double interval = 0.5, bool getPropertyAsString = false, int maxDepth = 2)
         {
-            var propertyFound = new AltWaitForComponentProperty<T>(CommHandler, componentName, propertyName, propertyValue, assemblyName, timeout, interval, getPropertyAsString, this).Execute();
+            var propertyFound = new AltWaitForComponentProperty<T>(CommHandler, componentName, propertyName, propertyValue, assemblyName, timeout, interval, getPropertyAsString, maxDepth, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return propertyFound;
         }

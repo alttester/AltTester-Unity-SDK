@@ -3783,7 +3783,7 @@ Wait until a property has a specific value and returns the value of the given co
 | timeout     | double             | No       | The number of seconds that it will wait for the property. The default value is 20 seconds.                                                                                                                            
 | interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.                                                                                                                                         | 
 | getPropertyAsString    | bool             | No       | If `true`, it will treat the propertyValue as a string; if `false` it will consider the original type of the propertyValue. This is especially useful when you want to pass for example `[[], []]` as a propertyValue, which you can do by setting getPropertyAsString to `true` and propertyValue to `JToken.Parse("[[], []]")` (in C#).
-
+| maxDepth    | int             | No       | The value that defines the maximum level from which to retrieve properties. By default it is 2.
 
 **_Returns_**
 
@@ -3799,14 +3799,14 @@ Wait until a property has a specific value and returns the value of the given co
         [Test]
         public void TestWaitForComponentProperty()
         {
-            const string componentName = "AltTester.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
 
             string portStr = System.Environment.GetEnvironmentVariable("ALTSERVER_PORT");
             int port = int.Parse(portStr);
-            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "Assembly-CSharp");
+            var propertyValue = altElement.WaitForComponentProperty<int>(componentName, propertyName, port, "AltTester.AltTesterUnitySDK", maxDepth: 1);
             Assert.AreEqual(port, propertyValue);
         }
 
@@ -3830,10 +3830,10 @@ Wait until a property has a specific value and returns the value of the given co
             AltObject altElement = altDriver.findObject(altFindObjectsParams);
                 assertNotNull(altElement);
             AltGetComponentPropertyParams altGetComponentPropertyParams = new AltGetComponentPropertyParams.Builder(
-                componentName, propertyName, "").build();
-            AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.       Builder<Boolean>(altGetComponentPropertyParams).build();
+                componentName, propertyName, "").withMaxDepth(1).build();
+            AltWaitForComponentPropertyParams<Boolean> altWaitForComponentPropertyParams = new AltWaitForComponentPropertyParams.Builder<Boolean>(altGetComponentPropertyParams).build();
 
-            Boolean propertyValue = altElement.WaitForComponentProperty(
+            Boolean propertyValue = altElement.waitForComponentProperty(
                 altWaitForComponentPropertyParams,
                 false,
                 Boolean.class);
@@ -3859,7 +3859,7 @@ Wait until a property has a specific value and returns the value of the given co
             alt_object = self.alt_driver.find_object(By.NAME, "Capsule")
             result = alt_object.wait_for_component_property(
                 "AltExampleScriptCapsule", "TestBool", True,
-                "Assembly-CSharp")
+                "Assembly-CSharp", max_depth=1)
             assert result is True
 
         def test_wait_for_component_property_get_property_as_string(self):
@@ -3873,7 +3873,7 @@ Wait until a property has a specific value and returns the value of the given co
         Test Wait For Component Property
             ${alt_object}=    Find Object    NAME    Capsule
             ${result}=    Wait For Component Property    ${alt_object}    AltExampleScriptCapsule    TestBool    ${True}    Assembly-CSharp
-            Should Be Equal    ${result}    ${True} 
+            Should Be Equal    ${result}    ${True}    max_depth=${1}
 
         Test Wait For Component Property Get Property As String
             ${Canvas} =    Wait For Object    PATH    /Canvas
@@ -3908,7 +3908,7 @@ Returns the value of the given component property.
         [Test]
         public void TestGetComponentProperty()
         {
-            const string componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AppName";
             var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
@@ -3923,7 +3923,7 @@ Returns the value of the given component property.
         public void testGetComponentProperty() throws InterruptedException
         {
             Thread.sleep(1000);
-            String componentName = "AltTester.AltTesterUnitySDK.AltRunner";
+            String componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             String propertyName = "InstrumentationSettings.ResetConnectionData";
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                     "AltTesterPrefab").build();

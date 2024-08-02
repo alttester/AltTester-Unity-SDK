@@ -87,11 +87,11 @@ def get_browserstack_app_url(device):
 
 
 @pytest.fixture(scope="class", autouse=True)
-def altdriver(request, appium_driver, worker_id, current_device):
+def alt_driver(request, appium_driver, worker_id, current_device):
     platform = current_device["os"]
     if current_device["os"] == "ios":
         platform = "iphone"
-    altdriver = AltDriver(
+    alt_driver = AltDriver(
         host=get_host(),
         port=get_port(),
         app_name=get_app_name(),
@@ -99,12 +99,12 @@ def altdriver(request, appium_driver, worker_id, current_device):
         platform_version=current_device["os_version"].split(".")[0],
         timeout=180
     )
-    request.cls.altdriver = altdriver
-    print("Started altdriver (worker {})".format(worker_id) +
+    request.cls.alt_driver = alt_driver
+    print("Started alt_driver (worker {})".format(worker_id) +
           " with device: {}".format(current_device))
-    yield altdriver
+    yield alt_driver
 
-    altdriver.stop()
+    alt_driver.stop()
 
 
 def get_ui_automator_capabilities(device):
