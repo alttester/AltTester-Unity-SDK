@@ -9,7 +9,7 @@ on:
 env:
   ALTSERVER_PORT: 13005
   ALTSERVER_HOST: 192.168.11.35
-  PYTHON_VERSION: "3.10"
+  PYTHON_VERSION: "3.12"
 
 jobs:
   build-webgl:
