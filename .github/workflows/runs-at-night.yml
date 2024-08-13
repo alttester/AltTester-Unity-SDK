@@ -209,12 +209,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Remove conflicting Python paths
-        run: |
-          sudo rm -rf /usr/local/bin/python3*
-          sudo rm -rf /usr/bin/python3*
-      
-
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
