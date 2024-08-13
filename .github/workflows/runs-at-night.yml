@@ -10,7 +10,7 @@ on:
 env:
   ALTSERVER_PORT: 13005
   ALTSERVER_HOST: 192.168.11.35
-  PYTHON_VERSION: "3.12"
+  PYTHON_VERSION: "3.12.4"
 
 jobs:
   # build-webgl:
@@ -208,6 +208,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Remove conflicting Python paths
+        run: |
+          sudo rm -rf /usr/local/bin/python3*
+          sudo rm -rf /usr/bin/python3*
       
 
       - uses: actions/setup-python@v5
