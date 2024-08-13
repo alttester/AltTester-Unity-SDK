@@ -1,7 +1,8 @@
 name: Push
 
-on: [push, workflow_dispatch]
-
+# on: [push, workflow_dispatch]
+on:
+  workflow_dispatch:
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
