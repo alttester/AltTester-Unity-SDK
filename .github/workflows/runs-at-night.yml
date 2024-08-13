@@ -1,7 +1,6 @@
 name: Runs at night
 
 on:
-  push:
   workflow_dispatch:
   schedule:
     # * is a special character in YAML so you have to quote this string
