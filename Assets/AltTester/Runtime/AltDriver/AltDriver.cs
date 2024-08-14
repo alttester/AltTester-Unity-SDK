@@ -77,10 +77,20 @@ namespace AltTester.AltTesterUnitySDK.Driver
                     deviceInstanceId,
                     driverType
                 );
-                communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType);
-                communicationHandler.Connect();
-
-                checkServerVersion();
+                while (true)
+                {
+                    communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType);
+                    communicationHandler.Connect();
+                    try
+                    {
+                        checkServerVersion();
+                        break;
+                    }
+                    catch (NullReferenceException)//There is a strange situation when sometimes checkServerVersion throws that command params is null. I investigated but didn't find the cause.
+                    {
+                        communicationHandler.Close();
+                    }
+                }
             }
         }
 
