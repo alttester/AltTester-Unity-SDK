@@ -41,14 +41,14 @@ jobs:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
     steps:
-    - uses: actions/checkout@v2
-    - name: Restore dependencies
-      run: |
-       $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -logFile buildForDotnetClean.log -quit
-       dotnet clean AltTester-Unity-SDK.sln
-       dotnet restore AltTester-Unity-SDK.sln
-    - name: Run code analysis
-      run: dotnet build AltTester-Unity-SDK.sln --no-restore -warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
+      - uses: actions/checkout@v2
+      - name: Restore dependencies
+        run: |
+          $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -logFile buildForDotnetClean.log -quit
+          dotnet clean AltTester-Unity-SDK.sln
+          dotnet restore AltTester-Unity-SDK.sln
+      - name: Run code analysis
+        run: dotnet build AltTester-Unity-SDK.sln --no-restore -warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
 
   build-macOS:
     runs-on: [self-hosted, macOS]
@@ -443,9 +443,9 @@ jobs:
         with:
           name: BuildiOSArtifact
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12.4"
 
       - name: Install dependencies
         run: |
@@ -542,7 +542,7 @@ jobs:
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
-  
+
   test-DotNet-with-Server-PathValidation:
     runs-on: [self-hosted, macOS]
     needs: build-macOS-for-Server-PathValidation
