@@ -33,7 +33,7 @@ devices = [
     {"name": "Samsung Galaxy S23", "os": "android", "os_version": "13.0"},
     {"name": "Google Pixel 6 Pro", "os": "android", "os_version": "13.0"},
     # {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
-    {"name": "iPhone 15", "os": "ios", "os_version": "17.5"},
+    {"name": "iPhone 15", "os": "ios", "os_version": "17.3"},
     {"name": "OnePlus 9", "os": "android", "os_version": "11.0"},
     {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
     {"name": "Google Pixel 6", "os": "android", "os_version": "12.0"},
@@ -48,7 +48,7 @@ android_devices = [
 
 ios_devices = [
     # {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
-    {"name": "iPhone 15", "os": "ios", "os_version": "17.5"},
+    {"name": "iPhone 15", "os": "ios", "os_version": "17.3"},
     {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
     {"name": "iPhone 12 Pro", "os": "ios", "os_version": "14"},
 ]
