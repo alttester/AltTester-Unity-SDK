@@ -25,8 +25,9 @@ namespace AltTester.AltTesterUnitySDK.Driver
         public int idCamera;
         public int transformParentId;
         public int transformId;
+        public string type;
 
-        public AltObjectLight(string name, int id = 0, bool enabled = true, int idCamera = 0, int transformParentId = 0, int transformId = 0)
+        public AltObjectLight(string name, string type = "", int id = 0, bool enabled = true, int idCamera = 0, int transformParentId = 0, int transformId = 0)
         {
             this.name = name;
             this.id = id;
@@ -34,6 +35,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
             this.idCamera = idCamera;
             this.transformParentId = transformParentId;
             this.transformId = transformId;
+            this.type = type;
         }
     }
 }
