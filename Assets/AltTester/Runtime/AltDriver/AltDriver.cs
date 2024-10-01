@@ -531,10 +531,8 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
         public AltVector2 GetApplicationScreenSize()
         {
-            var screenWidth = CallStaticMethod<short>("UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new string[] { }, null);
-            var screenHeight = CallStaticMethod<short>("UnityEngine.Screen", "get_height", "UnityEngine.CoreModule", new string[] { }, null);
-
-            return new AltVector2(screenWidth, screenHeight);
+            var applicationScreenSize = new AltGetApplicationScreenSize(communicationHandler).Execute();
+            return applicationScreenSize;
         }
 
         public AltTextureInformation GetScreenshot(AltVector2 size = default(AltVector2), int screenShotQuality = 100)

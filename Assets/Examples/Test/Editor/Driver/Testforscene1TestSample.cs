@@ -56,6 +56,18 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             Assert.That(screensize.y != 0);
         }
 
+        [Test]
+        public void TestGetApplicationScreenSize2()
+        {
+            var screenSize = altDriver.GetApplicationScreenSize();
+
+            var screenWidth = altDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new string[] { }, null);
+            var screenHeight = altDriver.CallStaticMethod<short>("UnityEngine.Screen", "get_height", "UnityEngine.CoreModule", new string[] { }, null);
+
+            Assert.That(screenSize.x, Is.EqualTo(screenWidth));
+            Assert.That(screenSize.y, Is.EqualTo(screenHeight));
+        }
+
         // UI disable elements are neede for this because at the moment, the test uses the AltDialog objects
         [TestCase("/AltTesterPrefab/AltDialog/Dialog", "Dialog")]
         [TestCase("/AltTesterPrefab/AltDialog/Dialog/Title", "Title")]
