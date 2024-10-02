@@ -138,6 +138,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
             {
                 return new AltGetServerVersionCommand((AltGetServerVersionParams)cmdParams).ExecuteAndSerialize;
             }
+            if (cmdParams is AltGetApplicationScreenSizeParams)
+            {
+                return new AltGetApplicationScreenSizeCommand((AltGetApplicationScreenSizeParams)cmdParams).ExecuteAndSerialize;
+            }
             if (cmdParams is AltTapElementParams)
             {
                 return new AltTapElementCommand(this, cmdParams as AltTapElementParams).ExecuteAndSerialize;
