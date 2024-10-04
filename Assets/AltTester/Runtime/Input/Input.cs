@@ -153,6 +153,7 @@ public class Input : MonoBehaviour
             }
         if (previousMousePosition != mousePosition)
         {
+            if (eventSystemTarget ?? false) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerMoveHandler);
             previousMousePosition = mousePosition;
         }
 
