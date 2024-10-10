@@ -34,8 +34,9 @@ devices = [
     {"name": "Google Pixel 6 Pro", "os": "android", "os_version": "13.0"},
     # {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
     {"name": "iPhone 15", "os": "ios", "os_version": "17.3"},
+    {"name": "iPad Pro 11 2024", "os": "ios", "os_version": "17"},
     {"name": "OnePlus 9", "os": "android", "os_version": "11.0"},
-    {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
+    # {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
     {"name": "Google Pixel 6", "os": "android", "os_version": "12.0"},
     # Add more devices as needed
 ]
@@ -49,8 +50,9 @@ android_devices = [
 ios_devices = [
     # {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
     {"name": "iPhone 15", "os": "ios", "os_version": "17.3"},
-    {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
-    {"name": "iPhone 12 Pro", "os": "ios", "os_version": "14"},
+    # {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
+    # {"name": "iPhone 12 Pro", "os": "ios", "os_version": "14"},
+    {"name": "iPad Pro 11 2024", "os": "ios", "os_version": "17"},
 ]
 
 local_run_device = [
@@ -92,7 +94,11 @@ def get_browserstack_app_url(device):
 def alt_driver(request, appium_driver, worker_id, current_device):
     platform = current_device["os"]
     if current_device["os"] == "ios":
-        platform = "iphone"
+        # platform = "iphone"
+        if "iPad" in current_device["device"]:  
+            platform = "ipad"
+        else:
+            platform = "iphone"
     alt_driver = AltDriver(
         host=get_host(),
         port=get_port(),
