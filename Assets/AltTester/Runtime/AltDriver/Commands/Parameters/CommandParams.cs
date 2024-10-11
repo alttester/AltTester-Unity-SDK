@@ -610,6 +610,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     {
     }
 
+    [Command("getApplicationScreenSize")]
+    public class AltGetApplicationScreenSizeParams : CommandParams
+    {
+    }
+
     [Command("getCurrentScene")]
     public class AltGetCurrentSceneParams : CommandParams
     {
