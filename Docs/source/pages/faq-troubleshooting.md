@@ -3,7 +3,7 @@
 <details>
 <summary> On what platforms can I run tests with AltTester® Unity SDK? </summary>
 <br>
-PC, Mac, Android, iOS, WebGL, Consoles and Unity Editor.
+PC, Mac, Android, iOS, WebGL, Console and Unity Editor.
 </details>
 <br>
 
