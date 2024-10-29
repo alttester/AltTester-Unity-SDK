@@ -224,18 +224,12 @@ namespace AltTester.AltTesterUnitySDK.Editor
         {
             logger.Debug("Adding AltTesterPrefab into the [" + scene + "] scene.");
             var altRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets(PREFABNAME)[0]));
-            UnityEngine.Debug.Log("1");
             SceneWithAltRunner = EditorSceneManager.OpenScene(scene);
-            UnityEngine.Debug.Log("4");
             AltRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altRunner);
-            UnityEngine.Debug.Log("5");
             var altRunnerComponent = ((GameObject)AltRunner).GetComponent<AltRunner>();
-            UnityEngine.Debug.Log("6");
             altRunnerComponent.InstrumentationSettings = instrumentationSettings;
-            UnityEngine.Debug.Log("7");
 
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-            UnityEngine.Debug.Log("8");
             EditorSceneManager.SaveOpenScenes();
             logger.Info("AltTesterPrefab successfully modified into the [" + scene + "] scene.");
         }
@@ -248,19 +242,28 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         public static void InsertAltInTheFirstScene(AltInstrumentationSettings instrumentationSettings)
         {
+            UnityEngine.Debug.Log("1");
+
             var altRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets(PREFABNAME)[0]));
+            UnityEngine.Debug.Log("2");
 
             PreviousScenePath = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
+            UnityEngine.Debug.Log("3");
             SceneWithAltRunner = EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
+            UnityEngine.Debug.Log("4");
 
             AltRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altRunner);
+            UnityEngine.Debug.Log("5");
             AltRunner altRunnerComponent = ((GameObject)AltRunner).GetComponent<AltRunner>();
+            UnityEngine.Debug.Log("6");
             altRunnerComponent.InstrumentationSettings = instrumentationSettings;
+            UnityEngine.Debug.Log("7");
 
 
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+            UnityEngine.Debug.Log("8");
             EditorSceneManager.SaveOpenScenes();
-
+            UnityEngine.Debug.Log("9");
             try
             {
                 EditorSceneManager.OpenScene(PreviousScenePath);
