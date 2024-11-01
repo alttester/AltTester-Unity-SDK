@@ -385,4 +385,4 @@ class AltObject:
         if self.type != "UIToolkit":
             raise exceptions.WrongAltObjectTypeException(
                 "This method is only available for VisualElement objects")
-        return commands.GetVisualElementProperty.run(self._connection, self, property_name)
+        return commands.GetVisualElementProperty.run(self._connection,  property_name, self,)
