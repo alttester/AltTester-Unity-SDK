@@ -18,6 +18,7 @@
 import json
 
 import alttester.commands as commands
+import alttester.exceptions as exceptions
 from alttester.by import By
 
 
@@ -368,3 +369,20 @@ class AltObject:
             self, count, interval, wait
         )
         return AltObject(self._altdriver, data)
+
+    def get_visual_element_property(self, property_name: str) -> str:
+        """Gets a value for a given visual element property.
+
+        Args:
+            property_name: The name of the property of which value you want to get.
+
+        Returns:
+            The property value is serialized to a JSON string.
+
+        Raises:
+            WrongAltObjectTypeException: The method is called on an object that is not a VisualElement.
+        """
+        if self.type != "UIToolkit":
+            raise exceptions.WrongAltObjectTypeException(
+                "This method is only available for VisualElement objects")
+        return commands.GetVisualElementProperty.run(self._connection, self, property_name)
