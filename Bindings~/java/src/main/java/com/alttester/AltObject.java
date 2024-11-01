@@ -20,6 +20,9 @@ package com.alttester;
 import lombok.Getter;
 
 import com.alttester.Commands.ObjectCommand.*;
+import com.alttester.Commands.UnityCommand.AltGetVisualElementProperty;
+import com.alttester.Commands.UnityCommand.AltGetVisualElementProperyParams;
+import com.alttester.altTesterExceptions.WrongAltObjectTypeException;
 import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
 import com.alttester.AltDriver.By;
@@ -352,5 +355,28 @@ public class AltObject {
         AltObject response = new AltSendActionAndEvaluateResult(messageHandler, this, command).Execute();
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
         return response;
+    }
+
+    /**
+     * Retrieves the specified property value of a VisualElement object.
+     *
+     * @param propertyName The name of the property to retrieve.
+     * @param returnType   The expected return type of the property value.
+     * @param <T>          The type of the property value.
+     * @return The value of the specified property.
+     * @throws WrongAltObjectTypeException if the object type is not "UIToolkit".
+     */
+    public <T> T GetVisualElementProperty(String propertyName, Class<T> returnType) {
+        if (!type.equals("UIToolkit")) {
+            throw new WrongAltObjectTypeException("This method is only available for VisualElement objects");
+        }
+        AltGetVisualElementProperyParams altGetVisualElementPropertyParams = new AltGetVisualElementProperyParams.Builder(
+                propertyName).build();
+        altGetVisualElementPropertyParams.setAltObject(this);
+        T propertyValue = new AltGetVisualElementProperty(messageHandler, altGetVisualElementPropertyParams)
+                .Execute(returnType);
+
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return propertyValue;
     }
 }
