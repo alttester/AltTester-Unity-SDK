@@ -471,4 +471,9 @@ namespace AltTester.AltTesterUnitySDK.Driver
         {
         }
     }
+    public class WrongAltObjectTypeException : AltException
+    {
+        public WrongAltObjectTypeException() { }
+        public WrongAltObjectTypeException(string message) : base(message) { }
+    }
 }
