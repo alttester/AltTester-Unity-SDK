@@ -124,7 +124,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var lastKeyPress = altDriver.FindObject(By.NAME, "LastKeyPressedValue");
             foreach (AltKeyCode kcode in Enum.GetValues(typeof(AltKeyCode)))
             {
-                if (kcode != AltKeyCode.NoKey && kcode < AltKeyCode.Joystick1Button0)
+                if (kcode != AltKeyCode.NoKey && kcode != AltKeyCode.None && kcode < AltKeyCode.Joystick1Button0)
                 {
                     altDriver.PressKey(kcode, duration: 0.2f);
 
