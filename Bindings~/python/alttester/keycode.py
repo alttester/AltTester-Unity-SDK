@@ -19,7 +19,7 @@ from enum import Enum
 
 
 class AltKeyCode(Enum):
-    None = 0
+    NoKey = 0
     Backspace = 8
     Delete = 127
     Tab = 9
