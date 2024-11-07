@@ -263,11 +263,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip setuptools wheel
-          pip uninstall -y AltTester-Driver
-          pip install -r "Bindings~/python/requirements.txt"
-          pip install -r "Bindings~/python/requirements-dev.txt"
-          pip install -e "Bindings~/python" --root "Bindings~/python"
+          pip install --upgrade pip setuptools wheel --break-system-packages
+          pip uninstall -y AltTester-Driver --break-system-packages
+          pip install -r "Bindings~/python/requirements.txt" --break-system-packages
+          pip install -r "Bindings~/python/requirements-dev.txt" --break-system-packages
+          pip install -e "Bindings~/python" --root "Bindings~/python" --break-system-packages
 
       - name: Lint with flake8
         run: |
