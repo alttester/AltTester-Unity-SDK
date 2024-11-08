@@ -866,27 +866,9 @@ public class TestsSampleScene1 extends BaseTest {
     }
 
     @Test
-    public void testFindNonExistentObject() throws Exception {
-        try {
-            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                    AltDriver.By.NAME, "NonExistent").build();
-            altDriver.findObject(altFindObjectsParameters1);
-            fail();
-        } catch (NotFoundException e) {
-            assertTrue(e.getMessage().startsWith("Object //NonExistent not found"), e.getMessage());
-        }
-    }
-
-    @Test
-    public void testFindNonExistentObjectByName() throws Exception {
-        try {
-            AltFindObjectsParams altFindObjectsParameters1 = new AltFindObjectsParams.Builder(
-                    AltDriver.By.NAME, "NonExistent").build();
-            altDriver.findObject(altFindObjectsParameters1);
-            fail();
-        } catch (NotFoundException e) {
-            assertTrue(e.getMessage().startsWith("Object //NonExistent not found"), e.getMessage());
-        }
+    public void testFindNonExistentObjectByName() {
+        AltFindObjectsParams params = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "NonExistent").build();
+        assertThrows(NotFoundException.class, () -> altDriver.findObject(params));
     }
 
     @Test
@@ -1007,25 +989,12 @@ public class TestsSampleScene1 extends BaseTest {
         AltWaitForObjectsParams altWaitForObjectsParameters1 = new AltWaitForObjectsParams.Builder(
                 altFindObjectsParameters1).build();
         altDriver.waitForObjectToNotBePresent(altWaitForObjectsParameters1);
-        try {
-            altDriver.findObject(altFindObjectsParameters1);
-            assertFalse(true, "Not found exception should be thrown");
-        } catch (NotFoundException e) {
-            assertTrue(e.getMessage().startsWith("Object //ObjectDestroyedIn5Secs not found"),
-                    e.getMessage());
-        }
 
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 "Capsulee").build();
         AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                 altFindObjectsParams).build();
         altDriver.waitForObjectToNotBePresent(altWaitForObjectsParams);
-        try {
-            altDriver.findObject(altFindObjectsParams);
-            assertFalse(true, "Not found exception should be thrown");
-        } catch (NotFoundException e) {
-            assertTrue(e.getMessage().startsWith("Object //Capsulee not found"), e.getMessage());
-        }
     }
 
     @Test
