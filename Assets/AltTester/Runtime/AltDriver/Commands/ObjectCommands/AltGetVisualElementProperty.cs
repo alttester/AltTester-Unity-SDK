@@ -15,27 +15,19 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace AltTester.AltTesterUnitySDK.Driver
+namespace AltTester.AltTesterUnitySDK.Driver.Commands
 {
-    public class AltObjectLight
+    public class AltGetVisualElementProperty<T> : AltBaseCommand
     {
-        public string name;
-        public int id;
-        public bool enabled;
-        public int idCamera;
-        public int transformParentId;
-        public int transformId;
-        public string type;
-
-        public AltObjectLight(string name, string type = "", int id = 0, bool enabled = true, int idCamera = 0, int transformParentId = 0, int transformId = 0)
+        AltGetVisualElementPropertyParams cmdParams;
+        public AltGetVisualElementProperty(IDriverCommunication commHandler, string propertyName, AltObject altObject) : base(commHandler)
         {
-            this.name = name;
-            this.id = id;
-            this.enabled = enabled;
-            this.idCamera = idCamera;
-            this.transformParentId = transformParentId;
-            this.transformId = transformId;
-            this.type = type;
+            cmdParams = new AltGetVisualElementPropertyParams(altObject, propertyName);
+        }
+        public T Execute()
+        {
+            CommHandler.Send(cmdParams);
+            return CommHandler.Recvall<T>(cmdParams);
         }
     }
 }

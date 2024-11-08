@@ -1,4 +1,4 @@
-/*
+"""
     Copyright(C) 2024 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
@@ -13,22 +13,28 @@
 
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
-*/
+"""
 
-package com.alttester.Commands.ObjectCommand;
+from alttester.commands.base_command import BaseCommand
 
-import com.alttester.AltMessage;
-import com.alttester.AltObject;
 
-public class AltObjectParams extends AltMessage {
+class GetVisualElementProperty(BaseCommand):
 
-    protected AltObject altObject;
+    def __init__(self, connection, property_name, alt_object):
+        super().__init__(connection, "getVisualElementProperty")
 
-    protected AltObjectParams() {
-    }
+        self.alt_object = alt_object
+        self.property_name = property_name
 
-    public void setAltObject(AltObject altObject) {
-        this.altObject = altObject;
-    }
+    @property
+    def _parameters(self):
+        parameters = super()._parameters
+        parameters.update(**{
+            "altObject": self.alt_object.to_json(),
+            "property": self.property_name,
+        })
 
-}
+        return parameters
+
+    def execute(self):
+        return self.send()

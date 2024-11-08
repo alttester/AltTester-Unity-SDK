@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.12.4"
       - name: Install dependencies
         run: |
           pip install -r "Docs/requirements.txt"

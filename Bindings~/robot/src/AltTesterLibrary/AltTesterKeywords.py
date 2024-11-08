@@ -19,6 +19,7 @@ from alttester import AltDriver, AltObject, AltReversePortForwarding
 from alttester import By, AltKeyCode, PlayerPrefKeyType, AltLogger, AltLogLevel
 from loguru import logger
 
+
 class AltTesterKeywords(object):
     DEFAULT_WAIT = 20
 
@@ -110,22 +111,22 @@ class AltTesterKeywords(object):
 
     def enable_loguru_logger(self, logger_name):
         """Enable the specified Loguru logger.
-        
+
         logger_name: The name of the logger.
 
         Example:
-        
+
         | Enable Loguru Logger | alttester
         """
         logger.enable(logger_name)
 
     def disable_loguru_logger(self, logger_name):
         """Disable the specified Loguru logger.
-        
+
         logger_name: The name of the logger.
 
         Example:
-       
+
         | Disable Loguru Logger | alttester
         """
         logger.disable(logger_name)
@@ -287,7 +288,7 @@ class AltTesterKeywords(object):
         | ${coordinates}= | Create List | ${20} | ${20}
 
         | ${object}= | Find Object At Coordinates | ${coordinates}
-        
+
         """
         return self._driver.find_object_at_coordinates(coordinates)
 
@@ -1157,7 +1158,7 @@ class AltTesterKeywords(object):
             timeout : The number of seconds that it will wait for property. Default value is 20 seconds.
 
             interval : The number of seconds after which it will try to find the object again. The interval should be smaller than timeout. Default value is 0.5.
-            
+
             get_property_as_string: A boolean value that compares the property_value as a string with the property from the instrumented app.
 
             max_depth: An integer value that defines the maximum level from which to retrieve properties.
@@ -1170,7 +1171,7 @@ class AltTesterKeywords(object):
 
         | ${result}= | Wait For Component Property | ${object} | AltExampleScriptCapsule | TestBool | ${True} | Assembly-CSharp
         """
-        return alt_object.wait_for_component_property(component_name, property_name, property_value, assembly,timeout=timeout, interval=interval, get_property_as_string=get_property_as_string, max_depth=max_depth)
+        return alt_object.wait_for_component_property(component_name, property_name, property_value, assembly, timeout=timeout, interval=interval, get_property_as_string=get_property_as_string, max_depth=max_depth)
 
     def get_component_property(self, alt_object: AltObject, component_name, property_name, assembly, max_depth=2):
         """Returns the value of the given component property.
@@ -1223,6 +1224,23 @@ class AltTesterKeywords(object):
         """
         alt_object.set_component_property(
             component_name, property_name, assembly, value)
+
+    def get_visual_element_property(self, alt_object: AltObject, property_name):
+        """Returns the value of the given component property.
+
+        alt_object : The AltObject for which we want to get for property.
+
+        property_name : The name of the property of which value you want.
+
+        Example:
+
+        Get property stringToSetFromTests for Capsule.
+
+        | ${object}=             | Find Object | NAME | Capsule
+
+        | ${property}= | Get Visual Element Property | ${object} | stringToSetFromTests
+        """
+        return alt_object.get_visual_element_property(property_name)
 
     def get_text(self, alt_object: AltObject):
         """Returns text value from alt_object.

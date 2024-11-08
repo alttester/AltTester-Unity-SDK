@@ -122,9 +122,23 @@ WegGL app disconnects
 **Problem** The WebGL application disconnects due to WebSocket timeouts occurring over time when no data is transmitted.
 
 **Affects**: AltTester® Unity SDK v2.x
-
-Impossibility to connect to AltTester® Desktop an ``IL2CPP`` instrumented app built with Managed Stripping Level higher than ``Minimal`` which throws ``InvalidCommandException: Unable to find a constructor to use for type AltTester.AltTesterUnitySDK.Driver.Commands.AltGetServerVersionParams. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Impossibility to connect to AltTester® Desktop an ``IL2CPP`` instrumented app built with Managed Stripping Level higher than ``Minimal`` which throws ``InvalidCommandException: Unable to find a constructor to use for type AltTester.AltTesterUnitySDK.Driver.Commands.AltGetServerVersionParams. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Workaround**: Set the Managed Stripping Level setting to ``Minimal`` from Player Settings -> Other Settings -> Optimization 
 
 **Affects**: AltTester® Unity SDK v2.x
+
+
+
+
+UI Toolkit
+----------
+
+Input actions become unresponsive after using modifier keys and shifting application focus.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Problem**: Input actions such as clicking or dragging cease to function if the application loses focus after holding modifier keys (e.g., Alt, Ctrl, or Shift). This issue typically arises when the user switches to another window using keyboard shortcuts like Alt+Tab on Windows or Command+Tab on Mac, causing the application to lose focus. However, once the application regains focus, input actions resume and register correctly without needing to restart or reload the application.
+
+**Workaround**: Avoid using modifier keys when switching between applications.
+
+**Affects**: AltTester® Unity SDK v2.2.x

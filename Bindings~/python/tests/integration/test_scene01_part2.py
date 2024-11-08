@@ -407,9 +407,9 @@ class TestScene01Part2:
     def test_float_world_coordinates(self):
         plane = self.alt_driver.find_object(By.NAME, "Plane")
 
-        assert type(plane.worldX) == float
-        assert type(plane.worldY) == float
-        assert type(plane.worldZ) == float
+        assert type(plane.worldX) is float
+        assert type(plane.worldY) is float
+        assert type(plane.worldZ) is float
 
     def test_set_command_response_timeout(self):
         self.alt_driver.set_command_response_timeout(1)

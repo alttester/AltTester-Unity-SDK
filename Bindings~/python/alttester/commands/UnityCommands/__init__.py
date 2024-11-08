@@ -26,3 +26,4 @@ from alttester.commands.UnityCommands.set_time_scale import SetTimeScale
 from alttester.commands.UnityCommands.wait_for_current_scene_to_be import WaitForCurrentSceneToBe
 from alttester.commands.UnityCommands.get_all_loaded_scenes import GetAllLoadedScenes
 from alttester.commands.UnityCommands.unload_scene import UnloadScene
+from alttester.commands.UnityCommands.get_visual_element_property import GetVisualElementProperty
