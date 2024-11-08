@@ -5009,6 +5009,7 @@ Returns the value of the given property for a visual element.
 
 
 
+
 **_Returns_**
 
 - Object
