@@ -22,7 +22,7 @@ from alttester.exceptions import InvalidParameterTypeException
 
 class AddNotificationListener(BaseCommand):
 
-    def __init__(self, connection, notification_type, notification_callback, overwrite):
+    def __init__(self, connection, notification_type, notification_callback, overwrite=False):
         super().__init__(connection, "activateNotification")
 
         if notification_type not in NotificationType:
@@ -33,7 +33,7 @@ class AddNotificationListener(BaseCommand):
             )
         self.notification_type = notification_type
 
-        if type(notification_callback) is "method":
+        if not callable(notification_callback):
             raise InvalidParameterTypeException(
                 parameter_name='notification_callback',
                 expected_types=[callable],
@@ -41,7 +41,7 @@ class AddNotificationListener(BaseCommand):
             )
         self.notification_callback = notification_callback
 
-        if type(overwrite) is "bool":
+        if not isinstance(overwrite, bool):
             raise InvalidParameterTypeException(
                 parameter_name='overwrite',
                 expected_types=[bool],
