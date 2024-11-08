@@ -33,7 +33,7 @@ class AddNotificationListener(BaseCommand):
             )
         self.notification_type = notification_type
 
-        if type(notification_callback) == "method":
+        if type(notification_callback) is "method":
             raise InvalidParameterTypeException(
                 parameter_name='notification_callback',
                 expected_types=[callable],
@@ -41,7 +41,7 @@ class AddNotificationListener(BaseCommand):
             )
         self.notification_callback = notification_callback
 
-        if type(overwrite) == "bool":
+        if type(overwrite) is "bool":
             raise InvalidParameterTypeException(
                 parameter_name='overwrite',
                 expected_types=[bool],
