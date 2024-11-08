@@ -113,7 +113,7 @@ Test Find Objects Which Contain By Name
 
 Test Find Object Which Contains With Not Existing Object
     ${element_name}=    Set Variable    EventNonExisting
-    ${error_message}=    Set Variable    NotFoundException: Object //*[contains(@name,${element_name})] not found
+    ${error_message}=    Set Variable    NotFoundException: Object not found
     ${error}=    Run Keyword And Ignore Error    Find Object Which Contains    NAME    ${element_name}
     Should Be Equal As Strings    ${error[1]}    ${error_message}
 

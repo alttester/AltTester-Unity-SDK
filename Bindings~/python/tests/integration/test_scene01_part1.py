@@ -137,7 +137,7 @@ class TestScene01Part1:
                 By.NAME, "EventNonExisting")
 
         assert str(
-            execinfo.value) == "Object //*[contains(@name,EventNonExisting)] not found"
+            execinfo.value) == "Object not found"
 
     def test_get_all_components(self):
         components = self.alt_driver.find_object(
