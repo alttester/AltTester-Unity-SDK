@@ -4997,7 +4997,7 @@ None
 ```
 
 
-### GetVisualElementProperty[Pro]
+### GetVisualElementProperty[Non-GPL]
 
 Returns the value of the given property for a visual element.
 
@@ -5005,7 +5005,7 @@ Returns the value of the given property for a visual element.
 
 | Name          | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| propertyName  | string | Yes      | The name of the property for which you want to retrieve the value. The list of supported properties can be found in the [Unity Documentation](file:///D:/github/AltTester-Unity-SDK/Docs/build/html/pages/commands.html#getvisualelementproperty-pro).                                                                                                                                                                  |
+| propertyName  | string | Yes      | The name of the property for which you want to retrieve the value. The list of supported properties can be found in the [Unity Documentation](https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html).                                                                                                                                                                  |
 
 
 
