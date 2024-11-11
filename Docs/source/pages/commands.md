@@ -4997,7 +4997,7 @@ None
 ```
 
 
-### GetVisualElementProperty[Non-GPL]
+### GetVisualElementProperty [Non-GPL]
 
 Returns the value of the given property for a visual element.
 
