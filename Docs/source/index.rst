@@ -40,9 +40,9 @@ Documentation
    :caption: Table of contents:
    :hidden:
 
-   Home Page <https://alttester.com/docs/sdk/2.1.2/index.html>
+   Home Page <https://alttester.com/docs/sdk/2.2.0/index.html>
    home
-   AltTester® Desktop <https://alttester.com/docs/desktop/v.2.1.2/home.html>
+   AltTester® Desktop <https://alttester.com/docs/desktop/v.2.2.0/home.html>
 
 
 .. toctree::

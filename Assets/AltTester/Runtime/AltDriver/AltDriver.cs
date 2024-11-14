@@ -35,7 +35,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
         private static object driverLock = new object();
-        public static readonly string VERSION = "2.1.2";
+        public static readonly string VERSION = "2.2.0";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
@@ -113,9 +113,18 @@ namespace AltTester.AltTesterUnitySDK.Driver
             splitVersion(serverVersion, out majorServer, out minorServer);
             splitVersion(VERSION, out majorDriver, out minorDriver);
 
-            if (majorServer != majorDriver || minorServer != minorDriver)
+            int serverMajor, serverMinor;
+
+            serverMajor = int.Parse(majorServer);
+            serverMinor = int.Parse(minorServer);
+
+            bool isSupported =
+        (serverMajor == 2 && serverMinor == 2) || // Server version 2.2.x
+        (serverMajor == 1 && serverMinor == 0);    // Server version 1.0.0
+
+            if (!isSupported)
             {
-                string message = "Version mismatch. AltDriver version is " + VERSION + ". AltTester(R) version is " + serverVersion + ".";
+                string message = $"Version mismatch. AltDriver version is {VERSION}. AltTester(R) version is {serverVersion}.";
                 logger.Warn(message);
             }
         }
