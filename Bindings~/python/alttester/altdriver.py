@@ -133,18 +133,20 @@ class AltDriver:
 
     def _check_server_version(self):
         server_version = commands.GetServerVersion.run(self._connection)
-        logger.info(
-            "Connection established with instrumented Unity app. AltTester(R) Version: {}", server_version)
+        logger.info("Connection established with instrumented Unity app. AltTester(R) Version: {}".format(
+            server_version))
 
         major_server, minor_server = self._split_version(server_version)
-        major_driver, minor_driver = self._split_version(VERSION)
 
-        if major_server != major_driver or minor_server != minor_driver:
+        server_major = int(major_server)
+        server_minor = int(minor_server)
+
+        is_supported = (server_major == 2 and server_minor == 2) or (
+            server_major == 1 and server_minor == 0)
+
+        if not is_supported:
             message = "Version mismatch. AltDriver version is {}. AltTester(R) version is {}.".format(
-                VERSION,
-                server_version
-            )
-
+                VERSION, server_version)
             logger.warning(message)
 
     def _get_alt_object(self, data):

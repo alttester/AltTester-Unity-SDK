@@ -41,7 +41,7 @@ import com.alttester.altTesterExceptions.*;
 
 public class AltDriver {
     private static final Logger logger = LogManager.getLogger(AltDriver.class);
-    public static final String VERSION = "2.1.2";
+    public static final String VERSION = "2.2.0";
 
     static {
         ConfigurationFactory custom = new AltDriverConfigFactory();
@@ -128,15 +128,13 @@ public class AltDriver {
     private void checkServerVersion() {
         String serverVersion = getServerVersion();
 
-        String[] parts = splitVersion(serverVersion);
-        String majorServer = parts[0];
-        String minorServer = parts[1];
+        String[] serverParts = splitVersion(serverVersion);
+        int serverMajor = Integer.parseInt(serverParts[0]);
+        int serverMinor = Integer.parseInt(serverParts[1]);
 
-        parts = splitVersion(AltDriver.VERSION);
-        String majorDriver = parts[0];
-        String minorDriver = parts[1];
+        boolean isSupported = (serverMajor == 2 && serverMinor == 2) || (serverMajor == 1 && serverMinor == 0);
 
-        if (!majorServer.equals(majorDriver) || !minorServer.equals(minorDriver)) {
+        if (!isSupported) {
             String message = String.format(
                     "Version mismatch. AltDriver version is %s. AltTester(R) version is %s.",
                     AltDriver.VERSION, serverVersion);
