@@ -30,6 +30,11 @@ Documentation
    *  :doc:`/pages/overview`
    *  :doc:`/pages/get-started`
 
+*  :doc:`unreal-sdk`
+
+   *  :doc:`/unreal-pages/overview`
+   *  :doc:`/unreal-pages/get-started`
+
 *  :altTesterdesktopdocumentation:`AltTester® Desktop <home.html>`
 
    *  :altTesterdesktopdocumentation:`Overview <pages/overview.html>`
@@ -42,6 +47,7 @@ Documentation
 
    Home Page <https://alttester.com/docs/sdk/2.2.0/index.html>
    home
+   unreal-sdk
    AltTester® Desktop <https://alttester.com/docs/desktop/v.2.2.0/home.html>
 
 
