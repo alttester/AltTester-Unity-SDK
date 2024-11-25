@@ -12,7 +12,11 @@ AltTester® framework contains the following components:
 * AltTester® Desktop (illustrated in the middle)
 * AltTester® Bindings / Clients (for C#, Python, Java, Robot Framework, illustrated on the right)
 
-![Architecture](../_static/img/overview/architecture1.png)
+```eval_rst
+        .. figure:: ../_static/img/overview/architecture1.svg
+            :scale: 150 %
+
+```
 
 * **AltTester® Unreal SDK**
 
