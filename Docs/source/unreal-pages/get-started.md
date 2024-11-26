@@ -29,7 +29,7 @@ To instrument your Unreal application with AltTester® Unreal SDK, you first nee
             :scale: 80 %
 
 ```
-- **Move the AltTester-Unreal-SDK folder**: Place the unzipped **_AltTester-Unreal-SDK_** folder into the ***UE\_5.x\\Engine\\Plugins\\Marketplace*** directory.
+- **Move the AltTester-Unreal-SDK folder**: Place the **_AltTester-Unreal-SDK_** folder into the ***UE\_5.x\\Engine\\Plugins\\Marketplace*** directory.
 - **Open your project in Unreal Engine**: Once your project is loaded, go to the top toolbar, click **_Edit_**, and then select **_Plugins_** from the dropdown menu to open the Plugins browser. 
 
 ```eval_rst
