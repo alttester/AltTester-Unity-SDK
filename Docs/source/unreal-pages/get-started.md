@@ -69,6 +69,26 @@ To add the AltTester® Unreal SDK to your Unreal application, you first need to 
 
 The AltTester® Server Module is incorporated in AltTester® Desktop. In order to start it, all you have to do is to open AltTester® Desktop.
 
+### Compatibility matrix for AltTester® Unreal SDK and AltTester® Desktop
+
+```eval_rst
+
+.. list-table::
+   :header-rows: 1
+   :align: center
+
+   * -
+     - AltTester® Desktop
+     - AltTester® Driver
+   * - AltTester® Unreal SDK versions
+     - 2.2.x
+     - 2.2.x
+   * - v.1.0.x
+     - ✓
+     - ✓
+
+```
+
 ## Run your app in Unreal Editor or on desired platform
 
 Before running your tests you need to start the instrumented Unreal application. Upon startup, your instrumented Unreal app should display a popup with the message: "Waiting for connections on port: {Port}". The popup disappears when your app has successfully connected to the tests.
