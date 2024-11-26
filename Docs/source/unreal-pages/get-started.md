@@ -12,13 +12,16 @@ To run the first test for your Unreal app you need to:
 
 .. note::
 
-    If you don't have access to source code of the app you need to ask a person with access to give you an instrumented version of the app.
+    If you don’t have access to the source code of the app, you need to ask a person with access to provide you with a version of the app that includes the AltTester® Plugin.
 
 ```
 
-## Download the AltTester® package
+## Download the AltTester® Plugin
 
-To instrument your Unreal application with AltTester® Unreal SDK, you first need to download the AltTester® package. You can obtain it by visiting the AltTester® website.
+```eval_rst
+To add the AltTester® Unreal SDK to your Unreal application, you first need to download the AltTester® Plugin. You can obtain it by visiting the :alttesterpage:`AltTester® website <downloads/>`.
+
+```
 
 ## Set up the AltTester® Unreal SDK in your project
 

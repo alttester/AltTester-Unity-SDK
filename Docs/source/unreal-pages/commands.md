@@ -46,7 +46,7 @@ Finds the first object in the level that respects the given criteria. Check [By]
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -106,7 +106,7 @@ Finds all objects in the level that respects the given criteria. Check [By](#by-
 
 **_Returns_**
 
-- List of AltObjects or an empty list if no objects were found.
+- List of [AltObjects](#altobject) or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -168,7 +168,7 @@ Finds the first object in the level that respects the given criteria. Check [By]
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -225,7 +225,7 @@ Finds all objects in the level that respects the given criteria. Check [By](#by-
 
 **_Returns_**
 
-- List of AltObjects or an empty list if no objects were found.
+- List of [AltObjects](#altobject) or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -287,7 +287,7 @@ Uses `WorldContext->LineTraceSingleByChannel` with `ECC_Visibility` to perform a
 
 **_Returns_**
 
-- AltObject - The object hit by `LineTraceSingleByChannel`, nothing otherwise.
+- [AltObject](#altobject) - The object hit by `LineTraceSingleByChannel`, nothing otherwise.
 
 **_Examples_**
 
@@ -351,7 +351,7 @@ Returns information about every objects loaded in the currently loaded levels.
 
 **_Returns_**
 
-- List of AltObjects or an empty list if no objects were found.
+- List of [AltObjects](#altobject) or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -406,7 +406,7 @@ Waits until it finds an object that respects the given criteria or until timeout
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -477,7 +477,7 @@ Waits until it finds an object that respects the given criteria or time runs out
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -1709,10 +1709,10 @@ Invokes static methods from your app.
 
 | Name             | Type   | Required | Description                                                                                                                                                                                               |
 | ---------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| typeName         | string | Yes      | The name of the script. If the script has a namespace the format should look like this: "namespace.typeName".                                                                                             |
-| methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
-| assemblyName     | string | Yes       | The name of the assembly containing the script.                                                                                                                                                          |
-| parameters       | array  | Yes       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
+| typeName         | string | Yes      | The name of the class blueprint or C++ class.                                                                                             |
+| methodName       | string | Yes      | The name of the method that we want to call. |
+| assemblyName     | string | Yes       | -                                                                                                                                                          |
+| parameters       | array  | Yes       | An array containing the serialized parameters, formatted as strings, to be sent to the component method.                                                                                                                         |
 | typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                                 |
 
 ```eval_rst
@@ -1724,7 +1724,7 @@ Invokes static methods from your app.
 
 **_Returns_**
 
-- This is a generic method. The return type depends on the type parameter.
+- This is a generic method. The return type is a string, which depends on the type parameter.
 
 **_Examples_**
 
@@ -1812,7 +1812,6 @@ The **AltObject** class represents the objects present in the app and it allows 
 | id                | int    | The objects's id.                                                                                                                    |
 | x                 | int    | The value for x axis coordinate on screen.                                                                                           |
 | y                 | int    | The value for y axis coordinate on screen.                                                                                           |
-| mobileY           | int    | The value for y axis for appium.                                                                                                     |
 | type              | string | Object's type, this field corresponds to the object's class name.                                                                              |
 | enabled           | bool   | The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true. |
 | worldX            | float  | The value for x axis coordinate in the app's world.                                                                                 |
@@ -1838,10 +1837,10 @@ Invokes a method from an existing component of the object.
 
 | Name             | Type   | Required | Description                                                                                                                                                                                       |
 | ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |
-| componentName    | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName".                                                                          |
-| methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
-| assemblyName     | string | Yes      | The name of the assembly containing the component.                                                                                                                                                |
-| parameters       | array  | Yes       | An array containing the serialized parameters to be sent to the component method.                                                                                                                 |
+| componentName    | string | Yes      | The name of the component.                                                                          |
+| methodName       | string | Yes      | The name of the method (public or private) that will be called. |
+| assemblyName     | string | Yes      | -                                                                                                                                                |
+| parameters       | array  | Yes       | An array containing the serialized parameters, formatted as strings, to be sent to the component method.                                                                                                                 |
 | typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                         |
 
 ```eval_rst
@@ -1853,7 +1852,7 @@ Invokes a method from an existing component of the object.
 
 **_Returns_**
 
-- This is a generic method. The return type depends on the type parameter.
+- This is a generic method. The return type is a string, which depends on the type parameter.
 
 **_Examples_**
 
@@ -1960,10 +1959,10 @@ Wait until a property has a specific value and returns the value of the given co
 
 | Name             | Type   | Required | Description                                                                                                                                                                                       |
 | ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |
-| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                    |
-| propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                           |                                                                                                                                   
+| componentName | string | Yes      | The name of the component.                                    |
+| propertyName  | string | Yes      | Name of the property of which value you want.                                                           |                                                                                                                                   
 | propertyValue  | T | Yes       | The value that property should have.                             
-| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                           
+| assemblyName  | string | Yes       | -                                                                                                                           
 | timeout     | double             | No       | The number of seconds that it will wait for the property. The default value is 20 seconds.                                                                                                                            
 | interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.                                                                                                                                         | 
 | getPropertyAsString    | bool             | No       | If `true`, it will treat the propertyValue as a string; if `false` it will consider the original type of the propertyValue. This is especially useful when you want to pass for example `[[], []]` as a propertyValue, which you can do by setting getPropertyAsString to `true` and propertyValue to `JToken.Parse("[[], []]")` (in C#).
@@ -2043,9 +2042,9 @@ Returns the value of the given component property.
 
 | Name          | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                                                                                                                                                                                                                                                                                                            |
-| propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                                                                                                                                  |
-| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                                                                                                                                                                                                                                                                                                  |
+| componentName | string | Yes      | The name of the component.                                                                                                                                                                                                                                                                                                                            |
+| propertyName  | string | Yes      | Name of the property of which value you want.                                                                                                                                                                  |
+| assemblyName  | string | Yes       | -                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 ```eval_rst
 
@@ -2117,10 +2116,10 @@ Sets value of the given component property.
 
 | Name          | Type   | Required | Description                                                                                                              |
 | ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
-| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
+| componentName | string | Yes      | The name of the component. |
 | propertyName  | string | Yes      | The name of the property of which value you want to set                                                                  |
 | value         | object | Yes      | The value to be set for the chosen component's property                                               |
-| assemblyName  | string | Yes       | The name of the assembly containing the component.                                               |
+| assemblyName  | string | Yes       | -                                               |
 
 ```eval_rst
 
@@ -2207,7 +2206,7 @@ Sets value of the given component property.
 
 ### GetText
 
-Returns text value from a Button, Text, InputField.
+Returns text value from a TextBlock, EditableText, EditableTextBox.
 
 **_Parameters_**
 
@@ -2273,7 +2272,7 @@ None
 
 ### SetText
 
-Sets text value for a Button, Text, InputField.
+Sets text value for a TextBlock, EditableText, EditableTextBox.
 
 **_Parameters_**
 
@@ -2283,7 +2282,7 @@ Sets text value for a Button, Text, InputField.
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -2419,7 +2418,7 @@ None
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -2487,7 +2486,7 @@ None
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -2667,7 +2666,7 @@ None
 It is used in find objects methods to set the criteria of which the objects are searched.
 Currently there are 7 types implemented:
 
--   _By.TAG_ - search for objects that have a specific tag
+-   _By.TAG_ - search for objects that have a specific actor tag
 -   _By.LAYER_ - search for objects that are set on a specific layer
 -   _By.NAME_ - search for objects that are named in a certain way
 -   _By.COMPONENT_ - search for objects that have certain component
