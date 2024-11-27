@@ -610,6 +610,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     {
     }
 
+    [Command("getApplicationScreenSize")]
+    public class AltGetApplicationScreenSizeParams : CommandParams
+    {
+    }
+
     [Command("getCurrentScene")]
     public class AltGetCurrentSceneParams : CommandParams
     {
@@ -822,5 +827,28 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         {
             this.coordinates = coordinates;
         }
+    }
+    [Command("getVisualElementProperty")]
+    public class AltGetVisualElementPropertyParams : BaseAltObjectParams
+    {
+        public string property;
+
+        public AltGetVisualElementPropertyParams(AltObject altObject, string property) : base(altObject)
+        {
+            this.property = property;
+        }
+
+    }
+    [Command("setVisualElementProperty")]
+    public class AltSetVisualElementPropertyParams : BaseAltObjectParams
+    {
+        public string property;
+        public object value;
+        public AltSetVisualElementPropertyParams(AltObject altObject, string property, object value) : base(altObject)
+        {
+            this.property = property;
+            this.value = value;
+        }
+
     }
 }

@@ -5,7 +5,7 @@ configuration options of AltTester® Unity SDK.
 
 ## AltTester® input
 
-AltTester® Unity SDK has an `Input` class which overrides the Input class implemented by Unity. This war® intercepts the input actions to be performed in the instrumented app and simulates them through this class.
+AltTester® Unity SDK has an `Input` class which overrides the Input class implemented by Unity. This way AltTester® intercepts the input actions to be performed in the instrumented app and simulates them through this class.
 In case you are using assembly definitions inside your project, you will have to reference the `AltTesterUnitySDK.asmdef` in all your .asmdef files which use input actions.
 
 ## AltTester® input vs. regular input
@@ -1018,7 +1018,7 @@ More details related to Allure can be found at the official [Allure documentatio
             <dependency>
                 <groupId>com.alttester</groupId>
                 <artifactId>alttester</artifactId>
-                <version>2.1.2</version>
+                <version>2.2.0</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

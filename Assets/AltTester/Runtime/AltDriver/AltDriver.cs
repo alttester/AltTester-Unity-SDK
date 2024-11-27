@@ -35,7 +35,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
         private static object driverLock = new object();
-        public static readonly string VERSION = "2.1.2";
+        public static readonly string VERSION = "2.2.0";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
@@ -57,9 +57,12 @@ namespace AltTester.AltTesterUnitySDK.Driver
                 var defaultLevels = new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Console, AltLogLevel.Debug } };
 #endif
 
-                DriverLogManager.SetupAltDriverLogging(defaultLevels);
 
-                if (!enableLogging)
+                if (enableLogging)
+                {
+                    DriverLogManager.SetupAltDriverLogging(defaultLevels);
+                }
+                else
                 {
                     DriverLogManager.StopLogging();
                 }
@@ -74,10 +77,20 @@ namespace AltTester.AltTesterUnitySDK.Driver
                     deviceInstanceId,
                     driverType
                 );
-                communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType);
-                communicationHandler.Connect();
-
-                checkServerVersion();
+                while (true)
+                {
+                    communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType);
+                    communicationHandler.Connect();
+                    try
+                    {
+                        checkServerVersion();
+                        break;
+                    }
+                    catch (NullReferenceException)//There is a strange situation when sometimes checkServerVersion throws that command params is null. I investigated but didn't find the cause.
+                    {
+                        communicationHandler.Close();
+                    }
+                }
             }
         }
 
@@ -100,9 +113,18 @@ namespace AltTester.AltTesterUnitySDK.Driver
             splitVersion(serverVersion, out majorServer, out minorServer);
             splitVersion(VERSION, out majorDriver, out minorDriver);
 
-            if (majorServer != majorDriver || minorServer != minorDriver)
+            int serverMajor, serverMinor;
+
+            serverMajor = int.Parse(majorServer);
+            serverMinor = int.Parse(minorServer);
+
+            bool isSupported =
+        (serverMajor == 2 && serverMinor == 2) || // Server version 2.2.x
+        (serverMajor == 1 && serverMinor == 0);    // Server version 1.0.0
+
+            if (!isSupported)
             {
-                string message = "Version mismatch. AltDriver version is " + VERSION + ". AltTester(R) version is " + serverVersion + ".";
+                string message = $"Version mismatch. AltDriver version is {VERSION}. AltTester(R) version is {serverVersion}.";
                 logger.Warn(message);
             }
         }
@@ -518,10 +540,8 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
         public AltVector2 GetApplicationScreenSize()
         {
-            var screenWidth = CallStaticMethod<short>("UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new string[] { }, null);
-            var screenHeight = CallStaticMethod<short>("UnityEngine.Screen", "get_height", "UnityEngine.CoreModule", new string[] { }, null);
-
-            return new AltVector2(screenWidth, screenHeight);
+            var applicationScreenSize = new AltGetApplicationScreenSize(communicationHandler).Execute();
+            return applicationScreenSize;
         }
 
         public AltTextureInformation GetScreenshot(AltVector2 size = default(AltVector2), int screenShotQuality = 100)

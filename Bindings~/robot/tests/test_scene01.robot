@@ -113,7 +113,7 @@ Test Find Objects Which Contain By Name
 
 Test Find Object Which Contains With Not Existing Object
     ${element_name}=    Set Variable    EventNonExisting
-    ${error_message}=    Set Variable    NotFoundException: Object //*[contains(@name,${element_name})] not found
+    ${error_message}=    Set Variable    NotFoundException: Object not found
     ${error}=    Run Keyword And Ignore Error    Find Object Which Contains    NAME    ${element_name}
     Should Be Equal As Strings    ${error[1]}    ${error_message}
 
@@ -741,12 +741,10 @@ Test Float World Coordinates
     ${worldX}=    Get Object WorldX    ${plane}
     ${worldY}=    Get Object WorldY    ${plane}
     ${worldZ}=    Get Object WorldZ    ${plane}
-    ${is_float}=    Evaluate    isinstance($worldX, float)
-    Should Be True    ${is_float}
-    ${is_float}=    Evaluate    isinstance($worldY, float)
-    Should Be True    ${is_float}
-    ${is_float}=    Evaluate    isinstance($worldZ, float)
-    Should Be True    ${is_float}
+    FOR    ${coord}    IN    ${worldX}    ${worldY}    ${worldZ}
+        ${is_float}=    Evaluate    isinstance(${coord}, float)
+        Should Be True    ${is_float}    msg=${coord} should be a float
+    END
 
 Test Keys Down
     ${keys}=    Create List    K    L

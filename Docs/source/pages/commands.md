@@ -4996,6 +4996,64 @@ None
 
 ```
 
+
+### GetVisualElementProperty [Non-GPL]
+
+Returns the value of the given property for a visual element.
+
+**_Parameters_**
+
+| Name          | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| propertyName  | string | Yes      | The name of the property for which you want to retrieve the value. The list of supported properties can be found in the [Unity Documentation](https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html).                                                                                                                                                                  |
+
+
+
+
+**_Returns_**
+
+- Object
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestGetVisualElementProperty()
+        {
+            var playButton = altDriver.FindObject(By.NAME, "Play");
+            var width = playButton.GetVisualElementProperty<float>("width");
+            Assert.That(width, Is.EqualTo(300));
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testGetVisualElementProperty() {
+            AltObject playButton=altDriver.findObject(new AltFindObjectsParams.Builder(By.NAME, "Play").build());
+            float width = playButton.GetVisualElementProperty("width", Float.class);
+            assertTrue(width == 300);
+        }
+
+    .. code-tab:: py
+
+        def test_get_visual_element_property(self):
+            play_button = self.alt_driver.find_object(By.NAME, "Play") 
+            width = play_button.get_visual_element_property("width")
+            assert width == 300
+
+    .. code-tab:: robot
+
+        Test Get Visual Element Property
+            ${play_button}=    Find Object    Name    Play
+            ${widht}=    Get Visual Element Property    ${play_button}    width
+            Should Be Equal    ${widht}  
+
+```
+
 ## BY-Selector
 
 It is used in find objects methods to set the criteria of which the objects are searched.

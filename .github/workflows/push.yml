@@ -1,7 +1,6 @@
 name: Push
 
 on: [push, workflow_dispatch]
-
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -42,14 +41,14 @@ jobs:
     runs-on: [self-hosted, macOS]
     needs: paths-filter
     steps:
-    - uses: actions/checkout@v2
-    - name: Restore dependencies
-      run: |
-       $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -logFile buildForDotnetClean.log -quit
-       dotnet clean AltTester-Unity-SDK.sln
-       dotnet restore AltTester-Unity-SDK.sln
-    - name: Run code analysis
-      run: dotnet build AltTester-Unity-SDK.sln --no-restore -warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
+      - uses: actions/checkout@v2
+      - name: Restore dependencies
+        run: |
+          $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -logFile buildForDotnetClean.log -quit
+          dotnet clean AltTester-Unity-SDK.sln
+          dotnet restore AltTester-Unity-SDK.sln
+      - name: Run code analysis
+        run: dotnet build AltTester-Unity-SDK.sln --no-restore -warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
 
   build-macOS:
     runs-on: [self-hosted, macOS]
@@ -260,15 +259,15 @@ jobs:
 
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.12.4"
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip setuptools wheel
-          pip uninstall -y AltTester-Driver
-          pip install -r "Bindings~/python/requirements.txt"
-          pip install -r "Bindings~/python/requirements-dev.txt"
-          pip install -e "Bindings~/python" --root "Bindings~/python"
+          pip install --upgrade pip setuptools wheel --break-system-packages
+          pip uninstall -y AltTester-Driver --break-system-packages
+          pip install -r "Bindings~/python/requirements.txt" --break-system-packages
+          pip install -r "Bindings~/python/requirements-dev.txt" --break-system-packages
+          pip install -e "Bindings~/python" --root "Bindings~/python" --break-system-packages
 
       - name: Lint with flake8
         run: |
@@ -333,7 +332,7 @@ jobs:
 
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.12.4"
 
       - name: Install dependencies
         run: |
@@ -444,9 +443,9 @@ jobs:
         with:
           name: BuildiOSArtifact
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12.4"
 
       - name: Install dependencies
         run: |
@@ -507,80 +506,6 @@ jobs:
           footer: "Linked Repo <{repo_url}|{repo}>"
           notify_when: "failure"
           mention_groups: "alttester,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
-
-  build-macOS-for-Server-PathValidation:
-    runs-on: [self-hosted, macOS]
-    needs: Roslyn-Analyzer-dotnet
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Build SampleGame
-        run: |
-          export ALTSERVER_PORT=13006
-          export ALTSERVER_HOST="192.168.11.35"
-          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
-
-      - uses: actions/upload-artifact@v3
-        if: always() # run this step even if one of the previous step failed
-        with:
-          name: BuildMacForServerPathValidationArtifact
-          path: |
-            sampleGame.app
-            **/*.log
-
-      - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
-  
-  test-DotNet-with-Server-PathValidation:
-    runs-on: [self-hosted, macOS]
-    needs: build-macOS-for-Server-PathValidation
-    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/download-artifact@v3
-        with:
-          name: BuildMacForServerPathValidationArtifact
-
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v2.1.1
-
-      - run: |
-          export ALTSERVER_PORT=13006
-          echo $ALTSERVER_PORT
-          export ALTSERVER_HOST="192.168.11.35"
-          chmod -R 755  sampleGame.app
-          open sampleGame.app
-          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter "FullyQualifiedName~AltTester.AltTesterUnitySDK.Driver.Tests.TestForScene1TestSample"
-
-      - uses: actions/upload-artifact@v3
-        if: always() # run this step even if one of the previous step failed
-        with:
-          name: TestCSharpServerPathValidationArtifact
-          path: "**/*.log"
-
-      - uses: ravsamhq/notify-slack-action@2.3.0
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
           mention_groups_when: "failure"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}

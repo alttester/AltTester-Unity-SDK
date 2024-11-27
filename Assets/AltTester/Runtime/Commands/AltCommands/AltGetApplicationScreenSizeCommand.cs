@@ -15,27 +15,22 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace AltTester.AltTesterUnitySDK.Driver
-{
-    public class AltObjectLight
-    {
-        public string name;
-        public int id;
-        public bool enabled;
-        public int idCamera;
-        public int transformParentId;
-        public int transformId;
-        public string type;
+using UnityEngine;
+using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterUnitySDK.Driver.Commands;
 
-        public AltObjectLight(string name, string type = "", int id = 0, bool enabled = true, int idCamera = 0, int transformParentId = 0, int transformId = 0)
+namespace AltTester.AltTesterUnitySDK.Commands
+{
+    public class AltGetApplicationScreenSizeCommand : AltCommand<AltGetApplicationScreenSizeParams, AltVector2>
+    {
+        public AltGetApplicationScreenSizeCommand(AltGetApplicationScreenSizeParams cmdParams) : base(cmdParams) { }
+
+        public override AltVector2 Execute()
         {
-            this.name = name;
-            this.id = id;
-            this.enabled = enabled;
-            this.idCamera = idCamera;
-            this.transformParentId = transformParentId;
-            this.transformId = transformId;
-            this.type = type;
+            int screenWidth = Screen.width;
+            int screenHeight = Screen.height;
+
+            return new AltVector2(screenWidth, screenHeight);
         }
     }
 }

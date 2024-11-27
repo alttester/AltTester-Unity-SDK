@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.12.4"
       - name: Install dependencies
         run: |
           pip install -r "Docs/requirements.txt"
@@ -64,6 +64,13 @@ jobs:
         with:
           find: ${{ secrets.DEV_URL_ALTTESTER }}/docs/desktop/.*?/
           replace: ${{ secrets.DEV_URL_ALTTESTER }}/docs/desktop/latest/
+          include: "DocumentationHTML/latest/**"
+
+      - name: Update AltTester Unity SDK link for latest version
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: ${{ secrets.DEV_URL_ALTTESTER }}/docs/sdk/.*?/
+          replace: ${{ secrets.DEV_URL_ALTTESTER }}/docs/sdk/latest/
           include: "DocumentationHTML/latest/**"
 
       - name: Upload documentation

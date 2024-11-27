@@ -15,20 +15,25 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-package com.alttester.Commands.ObjectCommand;
+package com.alttester.Commands.UnityCommand;
 
-import com.alttester.AltMessage;
-import com.alttester.AltObject;
+import com.alttester.IMessageHandler;
+import com.alttester.Commands.AltBaseCommand;
 
-public class AltObjectParams extends AltMessage {
+public class AltGetVisualElementProperty extends AltBaseCommand {
 
-    protected AltObject altObject;
+    private AltGetVisualElementProperyParams params;
 
-    protected AltObjectParams() {
+    public AltGetVisualElementProperty(IMessageHandler messageHandler,
+            AltGetVisualElementProperyParams altGetVisualElementProperyParams) {
+        super(messageHandler);
+        this.params = altGetVisualElementProperyParams;
+        this.params.setCommandName("getVisualElementProperty");
     }
 
-    public void setAltObject(AltObject altObject) {
-        this.altObject = altObject;
-    }
+    public <T> T Execute(Class<T> returnType) {
 
+        SendCommand(params);
+        return recvall(params, returnType);
+    }
 }

@@ -198,7 +198,7 @@ Before running your tests you need to start the instrumented Unity application. 
 
         Prerequisites:
 
-        * Have IProxy installed: ``brew install libimobiledevice``
+        * Use the Unity Hub to install iOS Build Support
 
         Steps:
 
@@ -210,13 +210,6 @@ Before running your tests you need to start the instrumented Unity application. 
 
             Check the following link to see how to build and run your app for iOS (.ipa file) -- :alttesteriphoneblog:`link <>`
 
-.. note::
-
-    You can switch between the regular and the AltTester® input by toggling the box with the `AltTester® Input` label. Take into consideration that if you are using the New Input System, then after activating the AltTester® input, you will only be able to interact with the instrumented build via your automated tests or the AltTester® Desktop.
-
-```
-
-<!--
     .. tab:: WebGL
 
         Prerequisites:
@@ -228,7 +221,12 @@ Before running your tests you need to start the instrumented Unity application. 
         1. Open AltTester® Editor
         2. In platform section select WebGL
         3. Click Build & Run
- -->
+
+.. note::
+
+    You can switch between the regular and the AltTester® input by toggling the box with the `AltTester® Input` label. Take into consideration that if you are using the New Input System, then after activating the AltTester® input, you will only be able to interact with the instrumented build via your automated tests or the AltTester® Desktop.
+
+```
 
 ## Write and execute first test for your app
 
@@ -255,7 +253,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
         .. tabs::
 
-            .. tab:: Unity Editor & PC
+            .. tab:: Unity Editor, PC & WebGL
 
                 .. literalinclude:: ../_static/examples~/get-started/csharp-test.cs
                     :language: c#
@@ -322,7 +320,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
         .. tabs::
 
-            .. tab:: Unity Editor & PC
+            .. tab:: Unity Editor, PC & WebGL
 
                 .. literalinclude:: ../_static/examples~/get-started/csharp-test.cs
                     :language: c#
@@ -362,7 +360,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
                 <dependency>
                     <groupId>com.alttester</groupId>
                     <artifactId>alttester</artifactId>
-                    <version>2.1.2</version>
+                    <version>2.2.0</version>
                 </dependency>
 
             .. code-block:: console
@@ -388,7 +386,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
         .. tabs::
 
-            .. tab:: Unity Editor & PC
+            .. tab:: Unity Editor, PC & WebGL
 
                 .. literalinclude:: ../_static/examples~/get-started/java-test.java
                     :language: java
@@ -470,7 +468,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
         .. tabs::
 
-            .. tab:: Unity Editor & PC
+            .. tab:: Unity Editor, PC & WebGL
 
                 .. literalinclude:: ../_static/examples~/get-started/python-test.py
                     :language: py
@@ -543,7 +541,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
         .. tabs::
 
-            .. tab:: Unity Editor & PC
+            .. tab:: Unity Editor, PC & WebGL
 
                 .. literalinclude:: ../_static/examples~/get-started/robot-test.robot
                     :language: robot

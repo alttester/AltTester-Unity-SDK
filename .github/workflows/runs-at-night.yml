@@ -9,7 +9,7 @@ on:
 env:
   ALTSERVER_PORT: 13005
   ALTSERVER_HOST: 192.168.11.35
-  PYTHON_VERSION: "3.10"
+  PYTHON_VERSION: "3.12.4"
 
 jobs:
   build-webgl:
@@ -212,6 +212,12 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      - name: Create and activate virtual environment
+        run: |
+          python3 -m venv venv 
+          source venv/bin/activate  
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
+
       - name: Download build
         uses: actions/download-artifact@v4
         with:
@@ -227,8 +233,9 @@ jobs:
           open -a "Google Chrome" http://localhost:8360/index.html
           sleep 10  # Give some time for Chrome to open and load the page
 
-      - name: Install dependencies
+      - name: Install dependencies in virtual environment
         run: |
+          source venv/bin/activate  # Activate the virtual environment
           pip install --upgrade pip setuptools wheel
           pip uninstall -y AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
@@ -237,6 +244,7 @@ jobs:
 
       - name: Run integration tests
         run: |
+          source venv/bin/activate  # Activate the virtual environment
           pytest Bindings~/python/tests/integration -m "not WebGLUnsupported"
 
       - name: Close Chrome and stop server
@@ -257,19 +265,6 @@ jobs:
           name: webgl-python-logs
           path: "**/*.log"
 
-      - name: Notify on Slack
-        uses: ravsamhq/notify-slack-action@v2
-        if: ${{ always() && github.ref_name == 'development' }}
-        with:
-          status: ${{ job.status }}
-          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-          footer: "Linked Repo <{repo_url}|{repo}>"
-          notify_when: "failure"
-          mention_groups: "alttester-pipelines,!here"
-          mention_groups_when: "failure"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-webgl-java:
     timeout-minutes: 60 # Set job timeout to 1 hour

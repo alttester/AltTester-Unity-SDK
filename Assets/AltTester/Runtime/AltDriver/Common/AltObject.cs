@@ -259,5 +259,15 @@ namespace AltTester.AltTesterUnitySDK.Driver
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
+        public T GetVisualElementProperty<T>(string propertyName)
+        {
+            if (type != "UIToolkit")
+            {
+                throw new WrongAltObjectTypeException("This method is only available for VisualElement objects");
+            }
+            var propertyValue = new AltGetVisualElementProperty<T>(CommHandler, propertyName, this).Execute();
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return propertyValue;
+        }
     }
 }

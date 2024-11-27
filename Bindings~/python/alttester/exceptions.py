@@ -159,3 +159,7 @@ class AltTesterInputModuleException(AltException):
 
 class UnknownErrorException(AltException):
     """Raised when an unexpected error occurred."""
+
+
+class WrongAltObjectTypeException(AltException):
+    """Raised when an object is not of the expected type."""

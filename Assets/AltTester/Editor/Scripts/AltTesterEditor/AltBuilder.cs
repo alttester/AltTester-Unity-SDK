@@ -224,7 +224,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
         {
             logger.Debug("Adding AltTesterPrefab into the [" + scene + "] scene.");
             var altRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets(PREFABNAME)[0]));
-
             SceneWithAltRunner = EditorSceneManager.OpenScene(scene);
             AltRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altRunner);
             var altRunnerComponent = ((GameObject)AltRunner).GetComponent<AltRunner>();
@@ -243,19 +242,16 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         public static void InsertAltInTheFirstScene(AltInstrumentationSettings instrumentationSettings)
         {
-            var altRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets(PREFABNAME)[0]));
 
+            var altRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets(PREFABNAME)[0]));
             PreviousScenePath = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
             SceneWithAltRunner = EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
 
             AltRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altRunner);
             AltRunner altRunnerComponent = ((GameObject)AltRunner).GetComponent<AltRunner>();
             altRunnerComponent.InstrumentationSettings = instrumentationSettings;
-
-
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             EditorSceneManager.SaveOpenScenes();
-
             try
             {
                 EditorSceneManager.OpenScene(PreviousScenePath);
