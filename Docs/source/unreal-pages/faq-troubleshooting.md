@@ -56,7 +56,7 @@ The popup message shows up when you start your instrumented Unreal App. It tells
 <br>
 
 <details>
-<summary> macOS blocks AltTester® Plugin files due to security verification </summary>
+<summary> MacOS blocks AltTester® Plugin files due to security verification </summary>
 <br>
 If you're unable to open the Unreal Engine project with the AltTester® Plugin enabled on macOS, and you encounter a message stating that <b><i>Apple could not verify that the `.dylib` file is free of malware</i></b>, follow one of these steps to resolve the issue.
 <br><br>
