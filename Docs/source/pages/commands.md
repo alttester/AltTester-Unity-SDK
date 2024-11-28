@@ -787,7 +787,7 @@ Simulates a key down.
 | Name    | Type            | Required | Description                                                                            |
 | ------- | --------------- | -------- | -------------------------------------------------------------------------------------- |
 | keyCode | AltKeyCode      | Yes      | The keyCode of the key simulated to be pressed.                                        |
-| power   | int             | Yes      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
+| power   | int             | No      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
 
 **_Returns_**
 
