@@ -54,3 +54,34 @@ We’ve published AltTester® Desktop, which allows you to inspect the app objec
 The popup message shows up when you start your instrumented Unreal App. It tells you that the AltTester® Unreal SDK is ready and you can start running your tests.
 </details>
 <br>
+
+<details>
+<summary> MacOS blocks AltTester® Plugin files due to security verification </summary>
+<br>
+If you're unable to open the Unreal Engine project with the AltTester® Plugin enabled on macOS, and you encounter a message stating that <b><i>Apple could not verify that the `.dylib` file is free of malware</i></b>, follow one of these steps to resolve the issue.
+<br><br>
+
+1. **Download the AltTester® Plugin using *wget* command**:
+    - For Unreal Engine 5.3, use the following command:
+      ```
+      wget https://alttester.com/app/uploads/AltTester/sdks/alttester-unreal/AltTesterUnrealSDK-Package-UE5.3.zip
+      ```
+    - For Unreal Engine 5.4, use this command:
+      ```
+      wget https://alttester.com/app/uploads/AltTester/sdks/alttester-unreal/AltTesterUnrealSDK-Package-UE5.4.zip
+      ```
+
+2. **Remove the quarantine attribute**:  
+   Open *Terminal* and run the following command to remove the quarantine flag from the downloaded file:
+   - Go to ```UE_5.x/Engine/Plugins/Marketplace/AltTester-Unreal-SDK/Binaries/Mac``` and run:
+        ```
+        xattr -d com.apple.quarantine UnrealEditor-AltTester.dylib 
+        xattr -d com.apple.quarantine UnrealEditor-AltTesterEditor.dylib  
+        ``` 
+
+3. **Allow the files from *Privacy & Security Settings***:  
+   Go to **System Preferences > Security & Privacy > General** and click **Allow Anyway** for the blocked file (do this for each `.dylib` file).
+    <img src="../_static/img/troubleshooting/allow_anyway_screenshot.png" alt="AltTester® Plugin Allow Anyway Screenshot">
+
+</details>
+<br>

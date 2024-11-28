@@ -23,6 +23,14 @@ To add the AltTester® Unreal SDK to your Unreal application, you first need to 
 
 ```
 
+```eval_rst
+.. important::
+
+    To download the AltTester® Plugin on **macOS**, you can use the **wget** command for convenience. Otherwise, if downloading via a browser, ensure to either allow the files from *Privacy & Security Settings* if macOS prevents the file from being opened or **remove the quarantine attribute** from the downloaded files. 
+```
+
+Please check the [Troubleshooting](faq-troubleshooting.html#troubleshooting) section for more detailed instructions on how to solve this problem.
+
 ## Set up the AltTester® Unreal SDK in your project
 
 - **Extract the AltTesterUnrealSDK-Package.zip**: Unzip the downloaded file and navigate to the **_Plugin_** folder.
