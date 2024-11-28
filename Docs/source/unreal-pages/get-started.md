@@ -41,7 +41,7 @@ To add the AltTester® Unreal SDK to your Unreal application, you first need to 
 
 ```
 
-- **Enable AltTester**: In the Plugins browser, search for AltTester using the search bar, and check the **_Enabled_** box next to the AltTester® icon. 
+- **Enable AltTester®**: In the Plugins browser, search for _AltTester_ using the search bar, and check the **_Enabled_** box next to the AltTester® icon. 
 
 ```eval_rst
         .. figure:: ../_static/img/get-started/enable-alttester-plugin.png
