@@ -34,7 +34,7 @@ devices = [
     {"name": "Google Pixel 6 Pro", "os": "android", "os_version": "13.0"},
     # {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
     {"name": "iPhone 15", "os": "ios", "os_version": "17.3"},
-    {"name": "iPad Pro 11 2024", "os": "ios", "os_version": "17"},
+    # {"name": "iPad Pro 11 2024", "os": "ios", "os_version": "17"},
     {"name": "OnePlus 9", "os": "android", "os_version": "11.0"},
     # {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
     {"name": "Google Pixel 6", "os": "android", "os_version": "12.0"},
@@ -49,14 +49,13 @@ android_devices = [
 
 ios_devices = [
     # {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
-    {"name": "iPhone 15", "os": "ios", "os_version": "17.3"},
+    {"name": "iPhone 15", "os": "ios", "os_version": "17.3"}
     # {"name": "iPhone 13 Pro Max", "os": "ios", "os_version": "15"},
     # {"name": "iPhone 12 Pro", "os": "ios", "os_version": "14"},
-    {"name": "iPad Pro 11 2024", "os": "ios", "os_version": "17"},
+    # {"name": "iPad Pro 11 2024", "os": "ios", "os_version": "17"},
 ]
 
 local_run_device = [
-
     {"name": "__default__", "os": "unknown", "os_version": "unknown"},
 ]
 
@@ -94,22 +93,20 @@ def get_browserstack_app_url(device):
 def alt_driver(request, appium_driver, worker_id, current_device):
     platform = current_device["os"]
     if current_device["os"] == "ios":
-        # platform = "iphone"
-        if "iPad" in current_device["device"]:  
-            platform = "ipad"
-        else:
-            platform = "iphone"
+        platform = "iphone"
     alt_driver = AltDriver(
         host=get_host(),
         port=get_port(),
         app_name=get_app_name(),
         platform=platform,
         platform_version=current_device["os_version"].split(".")[0],
-        timeout=180
+        timeout=180,
     )
     request.cls.alt_driver = alt_driver
-    print("Started alt_driver (worker {})".format(worker_id) +
-          " with device: {}".format(current_device))
+    print(
+        "Started alt_driver (worker {})".format(worker_id)
+        + " with device: {}".format(current_device)
+    )
     yield alt_driver
 
     alt_driver.stop()
@@ -184,8 +181,10 @@ def appium_driver(request, current_device, worker_id):
             options = options = XCUITestOptions().load_capabilities(
                 get_ui_automator_capabilities(current_device)
             )
-        print("Starting appium driver (worker id: {})".format(worker_id) +
-              " for device: {}".format(current_device["name"]))
+        print(
+            "Starting appium driver (worker id: {})".format(worker_id)
+            + " for device: {}".format(current_device["name"])
+        )
         appium_driver = webdriver.Remote(
             "http://hub.browserstack.com/wd/hub", options=options
         )
@@ -196,9 +195,7 @@ def appium_driver(request, current_device, worker_id):
                 allow_button.click()
             except Exception as e:
                 try:
-                    print(
-                        "No Allow button found: {}".format(type(e).__name__)
-                    )
+                    print("No Allow button found: {}".format(type(e).__name__))
                     ok_button = appium_driver.find_element(MobileBy.ID, "OK")
                     ok_button.click()
                 except Exception as e:
