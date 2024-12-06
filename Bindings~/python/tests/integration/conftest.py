@@ -100,7 +100,7 @@ def alt_driver(request, appium_driver, worker_id, current_device):
         app_name=get_app_name(),
         platform=platform,
         platform_version=current_device["os_version"].split(".")[0],
-        timeout=180,
+        timeout=180
     )
     request.cls.alt_driver = alt_driver
     print(
