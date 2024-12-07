@@ -25,7 +25,7 @@ from alttester.commands.base_command import Command
 from alttester.__version__ import VERSION
 from alttester._websocket import WebsocketConnection, CommandHandler, NotificationHandler
 from alttester.altobject import AltObject
-from alttester.by import By
+from alttester.by import By, AltBy
 
 
 warnings.filterwarnings(
@@ -414,6 +414,26 @@ class AltDriver:
 
         return self._get_alt_object(data)
 
+    def find_object(
+        self, altby: AltBy, camera_altby: AltBy = None, enabled: bool = True
+    ) -> AltObject:
+        """Finds the first object in the scene that respects the given criteria.
+
+        Args:
+            altby (:obj:`AltBy`): Sets what criteria to use in order to find the object.
+            camera_altby (:obj:`AltBy`, optional): Set what criteria to use in order to find the camera.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
+
+        Returns:
+            AltObject: The object.
+
+        """
+        camera_by = camera_altby.by if camera_altby else By.NAME
+        camera_value = camera_altby.value if camera_altby else ""
+
+        return self.find_object(altby.by, altby.value, camera_by, camera_value, enabled)
+
     def find_objects(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
         """Finds all objects in the scene that respects the given criteria.
 
@@ -440,6 +460,28 @@ class AltDriver:
         )
 
         return self._get_alt_objects(data)
+
+    def find_objects(
+        self, altby: AltBy, camera_altby: AltBy = None, enabled: bool = True
+    ) -> list:
+        """Finds all objects in the scene that respects the given criteria.
+
+        Args:
+            altby (:obj:`AltBy`): Sets what criteria to use in order to find the objects.
+            camera_altby (:obj:`AltBy`, optional): Set what criteria to use in order to find the camera.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
+
+        Returns:
+            list of AltObject: The list of objects.
+
+        """
+        camera_by = camera_altby.by if camera_altby else By.NAME
+        camera_value = camera_altby.value if camera_altby else ""
+
+        return self.find_objects(
+            altby.by, altby.value, camera_by, camera_value, enabled
+        )
 
     def find_object_which_contains(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
         """Finds the first object in the scene that respects the given criteria.
@@ -468,6 +510,28 @@ class AltDriver:
 
         return self._get_alt_object(data)
 
+    def find_object_which_contains(
+        self, altby: AltBy, camera_altby: AltBy = None, enabled: bool = True
+    ) -> AltObject:
+        """Finds the first object in the scene that respects the given criteria.
+
+        Args:
+            altby (:obj:`AltBy`): Sets what criteria to use in order to find the object.
+            camera_altby (:obj:`AltBy`, optional): Set what criteria to use in order to find the camera.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
+
+        Returns:
+            AltObject: The object.
+
+        """
+        camera_by = camera_altby.by if camera_altby else By.NAME
+        camera_value = camera_altby.value if camera_altby else ""
+
+        return self.find_object_which_contains(
+            altby.by, altby.value, camera_by, camera_value, enabled
+        )
+
     def find_objects_which_contain(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
         """Finds all objects in the scene that respects the given criteria.
 
@@ -494,6 +558,28 @@ class AltDriver:
         )
 
         return self._get_alt_objects(data)
+
+    def find_objects_which_contain(
+        self, altby: AltBy, camera_altby: AltBy = None, enabled: bool = True
+    ) -> list:
+        """Finds all objects in the scene that respects the given criteria.
+
+        Args:
+            altby (:obj:`AltBy`): Sets what criteria to use in order to find the objects.
+            camera_altby (:obj:`AltBy`, optional): Set what criteria to use in order to find the camera.
+            enabled (:obj:`bool`): If ``True`` will match only objects that are active in hierarchy. If ``False`` will
+                match all objects. Defaults to ``True``.
+
+        Returns:
+            list of AltObjects: The list of objects.
+
+        """
+        camera_by = camera_altby.by if camera_altby else By.NAME
+        camera_value = camera_altby.value if camera_altby else ""
+
+        return self.find_objects_which_contain(
+            altby.by, altby.value, camera_by, camera_value, enabled
+        )
 
     def wait_for_object(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5, enabled=True):
         """Waits until it finds an object that respects the given criteria or until timeout limit is reached.
@@ -524,6 +610,36 @@ class AltDriver:
         )
 
         return self._get_alt_object(data)
+
+    def wait_for_object(
+        self,
+        altby: AltBy,
+        camera_altby: AltBy = None,
+        timeout=20,
+        interval=0.5,
+        enabled=True,
+    ) -> AltObject:
+        """Waits until it finds an object that respects the given criteria or until timeout limit is reached.
+
+        Args:
+            altby (:obj:`AltBy`): Sets what criteria to use in order to find the object.
+            camera_altby (:obj:`AltBy`, optional): Set what criteria to use in order to find the camera.
+            timeout (:obj:`int`, :obj:`float`, optional): The number of seconds that it will wait for object.
+            interval (:obj:`int`, :obj:`float`, optional): The number of seconds after which it will try to find the
+                object again. The interval should be smaller than the timeout.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
+
+        Returns:
+            AltObject: The object.
+
+        """
+        camera_by = camera_altby.by if camera_altby else By.NAME
+        camera_value = camera_altby.value if camera_altby else ""
+
+        return self.wait_for_object(
+            altby.by, altby.value, camera_by, camera_value, timeout, interval, enabled
+        )
 
     def wait_for_object_which_contains(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5,
                                        enabled=True):
@@ -556,6 +672,36 @@ class AltDriver:
 
         return self._get_alt_object(data)
 
+    def wait_for_object_which_contains(
+        self,
+        altby: AltBy,
+        camera_altby: AltBy = None,
+        timeout=20,
+        interval=0.5,
+        enabled=True,
+    ) -> AltObject:
+        """Waits until it finds an object that respects the given criteria or time runs out and will throw an error.
+
+        Args:
+            altby (:obj:`AltBy`): Sets what criteria to use in order to find the object.
+            camera_altby (:obj:`AltBy`, optional): Set what criteria to use in order to find the camera.
+            timeout (:obj:`int`, :obj:`float`, optional): The number of seconds that it will wait for object.
+            interval (:obj:`int`, :obj:`float`, optional): The number of seconds after which it will try to find the
+                object again. The interval should be smaller than the timeout.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
+
+        Returns:
+            AltObject: The object.
+
+        """
+        camera_by = camera_altby.by if camera_altby else By.NAME
+        camera_value = camera_altby.value if camera_altby else ""
+
+        return self.wait_for_object_which_contains(
+            altby.by, altby.value, camera_by, camera_value, timeout, interval, enabled
+        )
+
     def wait_for_object_to_not_be_present(self, by, value, camera_by=By.NAME, camera_value="", timeout=20, interval=0.5,
                                           enabled=True):
         """Waits until the object in the scene that respects the given criteria is no longer in the scene or until
@@ -583,6 +729,35 @@ class AltDriver:
             by, value, camera_by, camera_value, timeout, interval, enabled
         )
 
+    def wait_for_object_to_not_be_present(
+        self,
+        altby: AltBy,
+        camera_altby: AltBy = None,
+        timeout=20,
+        interval=0.5,
+        enabled=True,
+    ):
+        """Waits until the object in the scene that respects the given criteria is no longer in the scene or until
+        timeout limit is reached.
+
+        Args:
+            altby (:obj:`AltBy`): Sets what criteria to use in order to find the object.
+            camera_altby (:obj:`AltBy`, optional): Set what criteria to use in order to find the camera.
+            timeout (:obj:`int`, :obj:`float`, optional): The number of seconds that it will wait for object.
+            interval (:obj:`int`, :obj:`float`, optional): The number of seconds after which it will try to find the
+                object again. The interval should be smaller than the timeout.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
+
+        """
+
+        camera_by = camera_altby.by if camera_altby else By.NAME
+        camera_value = camera_altby.value if camera_altby else ""
+
+        self.wait_for_object_to_not_be_present(
+            altby.by, altby.value, camera_by, camera_value, timeout, interval, enabled
+        )
+
     def get_all_elements(self, camera_by=By.NAME, camera_value="", enabled=True):
         """Returns information about every objects loaded in the currently loaded scenes. This also means objects that
         are set as DontDestroyOnLoad.
@@ -602,6 +777,25 @@ class AltDriver:
         """
 
         return self.find_objects(By.PATH, "//*", camera_by=camera_by, camera_value=camera_value, enabled=enabled)
+
+    def get_all_elements(self, camera_altby: AltBy = None, enabled: bool = True) -> list:
+        """Returns information about every objects loaded in the currently loaded scenes. This also means objects that
+        are set as DontDestroyOnLoad.
+
+        Args:
+            camera_altby (:obj:`AltBy`, optional): Set what criteria to use in order to find the camera.
+            enabled (:obj:`bool`, optional): If ``True`` will match only objects that are active in hierarchy. If
+                ``False`` will match all objects. Defaults to ``True``.
+
+        Returns:
+            list of AltObjects: The list of objects.
+
+        """
+        camera_by = camera_altby.by if camera_altby else By.NAME
+        camera_value = camera_altby.value if camera_altby else ""
+
+        return self.get_all_elements(camera_by, camera_value, enabled)
+
 
     def move_mouse(self, coordinates, duration=0.1, wait=True):
         """Simulates mouse movement in your application.

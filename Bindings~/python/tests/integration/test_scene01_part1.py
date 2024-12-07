@@ -21,6 +21,7 @@ import time
 from .utils import Scenes
 from alttester import By, PlayerPrefKeyType
 import alttester.exceptions as exceptions
+import alttester.altby as AltBy
 
 
 class TestScene01Part1:
@@ -205,6 +206,20 @@ class TestScene01Part1:
 
         assert str(
             execinfo.value) == "Element Capsule still found after 1 seconds"
+
+    def test_all_find_and_wait_object_with_altby(self):
+        self.alt_driver.find_object(AltBy.name("Capsule")).tap()
+        self.alt_driver.wait_for_object(AltBy.name("Capsule"))
+        self.alt_driver.find_object(AltBy.tag("plane"))
+        self.alt_driver.wait_for_object(AltBy.tag("plane"))
+        self.alt_driver.find_object(AltBy.layer("Water"))
+        self.alt_driver.wait_for_object(AltBy.layer("Water"))
+        self.alt_driver.find_object(AltBy.text("Capsule was clicked to jump!"))
+        self.alt_driver.wait_for_object(AltBy.text("Capsule was clicked to jump!"))
+        self.alt_driver.find_object(AltBy.component("AltExampleScriptCapsule"))
+        self.alt_driver.wait_for_object(AltBy.component("AltExampleScriptCapsule"))
+        self.alt_driver.find_object(AltBy.path("//CapsuleInfo"))
+        self.alt_driver.wait_for_object(AltBy.path("//CapsuleInfo"))
 
     def test_get_text_with_non_english_text(self):
         text = self.alt_driver.find_object(
