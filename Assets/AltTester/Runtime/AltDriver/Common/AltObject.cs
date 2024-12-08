@@ -89,6 +89,11 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
             AltObject altObject = (AltObject)obj;
             return id == altObject.id;
+        }
+
+        public override int GetHashCode()
+        {
+            return id;
         }        
 
         public AltObject GetParent()
