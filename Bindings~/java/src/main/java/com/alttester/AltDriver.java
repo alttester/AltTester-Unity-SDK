@@ -497,6 +497,15 @@ public class AltDriver {
     }
 
     /**
+     * @param altBy - By by* , String value*
+     * @return The first object in the scene that respects the given criteria.
+     */
+    public AltObject findObject(AltBy altBy) {
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(altBy).build();
+        return findObject(altFindObjectsParams);
+    }
+
+    /**
      *
      * @param altFindObjectsParams - By by* , String value* , By cameraBy , String
      *                             cameraValue , boolean enabled
@@ -510,6 +519,15 @@ public class AltDriver {
     }
 
     /**
+     * @param altBy - By by* , String value*
+     * @return The first object containing the given criteria
+     */
+    public AltObject findObjectWhichContains(AltBy altBy) {
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(altBy).build();
+        return findObjectWhichContains(altFindObjectsParams);
+    }
+
+    /**
      *
      * @param altFindObjectsParams - By by* , String value* , By cameraBy , String
      *                             cameraValue , boolean enabled
@@ -519,6 +537,15 @@ public class AltDriver {
         AltObject[] response = new AltFindObjects(this.connection.messageHandler, altFindObjectsParams).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
         return response;
+    }
+
+    /**
+     * @param altBy - By by* , String value*
+     * @return All the objects respecting the given criteria
+     */
+    public AltObject[] findObjects(AltBy altBy) {
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(altBy).build();
+        return findObjects(altFindObjectsParams); 
     }
 
     /**
@@ -536,6 +563,17 @@ public class AltDriver {
     }
 
     /**
+     * Finds all objects in the scene that respects the given criteria.
+     *
+     * @param altBy - By by* , String value*
+     * @return All objects containing the given criteria
+     */
+    public AltObject[] findObjectsWhichContain(AltBy altBy) {
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(altBy).build();
+        return findObjectsWhichContain(altFindObjectsParams);
+    }
+
+    /**
      * Returns information about every objects loaded in the currently loaded
      * scenes. This also means objects that are set as DontDestroyOnLoad.
      *
@@ -548,6 +586,17 @@ public class AltDriver {
                 .Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
         return response;
+    }
+
+    /**
+     * Returns information about every objects loaded in the currently loaded
+     * scenes. This also means objects that are set as DontDestroyOnLoad.
+     *
+     * @return Information about every object loaded in the currently loaded scenes.
+     */
+    public AltObject[] getAllElements() {
+        AltGetAllElementsParams altGetAllElementsParams = new AltGetAllElementsParams.Builder().build();
+        return getAllElements(altGetAllElementsParams);
     }
 
     /**
@@ -579,6 +628,19 @@ public class AltDriver {
     }
 
     /**
+     * Waits until it finds an object that respects the given criteria or time runs
+     * out and will throw an error.
+     *
+     * @param altBy - By by* , String value*
+     * @return The object that respects the given criteria/Error if time runs out
+     */
+    public AltObject waitForObject(AltBy altBy) {
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(altBy).build();
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(altFindObjectsParams).build();
+        return waitForObject(altWaitForObjectsParams);
+    }
+
+    /**
      * Wait until the object in the scene that respect the given criteria is no
      * longer in the scene or times run out and will throw an error.
      *
@@ -589,6 +651,18 @@ public class AltDriver {
     public void waitForObjectToNotBePresent(AltWaitForObjectsParams altWaitForObjectsParams) {
         new AltWaitForObjectToNotBePresent(this.connection.messageHandler, altWaitForObjectsParams).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
+    }
+
+    /**
+     * Wait until the object in the scene that respect the given criteria is no
+     * longer in the scene or times run out and will throw an error.
+     *
+     * @param altBy - By by* , String value*
+     */
+    public void waitForObjectToNotBePresent(AltBy altBy) {
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(altBy).build();
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(altFindObjectsParams).build();
+        waitForObjectToNotBePresent(altWaitForObjectsParams);
     }
 
     /**
@@ -605,6 +679,19 @@ public class AltDriver {
                 altWaitForObjectsParams).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
         return response;
+    }
+
+    /**
+     * Waits until it finds an object that respects the given criteria or time runs
+     * out and will throw an error.
+     *
+     * @param altBy - By by* , String value*
+     * @return The object that respects the given criteria/Error if time runs out
+     */
+    public AltObject waitForObjectWhichContains(AltBy altBy) {
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(altBy).build();
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(altFindObjectsParams).build();
+        return waitForObjectWhichContains(altWaitForObjectsParams);
     }
 
     /**

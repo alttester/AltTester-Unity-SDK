@@ -195,11 +195,23 @@ namespace AltTester.AltTesterUnitySDK.Driver
             return listOfObjects;
         }
 
+        public List<AltObject> FindObjects(AltBy locator, AltBy cameraLocator = default, bool enabled = true)
+        {
+            cameraLocator = cameraLocator == default ? new AltBy(By.NAME, "") : cameraLocator;
+            return FindObjects(locator.By, locator.Value, cameraLocator.By, cameraLocator.Value, enabled);
+        }
+
         public List<AltObject> FindObjectsWhichContain(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
         {
             var listOfObjects = new AltFindObjectsWhichContain(communicationHandler, by, value, cameraBy, cameraValue, enabled).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
             return listOfObjects;
+        }
+
+        public List<AltObject> FindObjectsWhichContain(AltBy locator, AltBy cameraLocator = default, bool enabled = true)
+        {
+            cameraLocator = cameraLocator == default ? new AltBy(By.NAME, "") : cameraLocator;
+            return FindObjectsWhichContain(locator.By, locator.Value, cameraLocator.By, cameraLocator.Value, enabled);
         }
 
         public AltObject FindObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
@@ -209,11 +221,23 @@ namespace AltTester.AltTesterUnitySDK.Driver
             return findObject;
         }
 
+        public AltObject FindObject(AltBy locator, AltBy cameraLocator = default, bool enabled = true)
+        {
+            cameraLocator = cameraLocator == default ? new AltBy(By.NAME, "") : cameraLocator;
+            return FindObject(locator.By, locator.Value, cameraLocator.By, cameraLocator.Value, enabled);
+        }
+
         public AltObject FindObjectWhichContains(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
         {
             var findObject = new AltFindObjectWhichContains(communicationHandler, by, value, cameraBy, cameraValue, enabled).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
             return findObject;
+        }
+
+        public AltObject FindObjectWhichContains(AltBy locator, AltBy cameraLocator = default, bool enabled = true)
+        {
+            cameraLocator = cameraLocator == default ? new AltBy(By.NAME, "") : cameraLocator;
+            return FindObjectWhichContains(locator.By, locator.Value, cameraLocator.By, cameraLocator.Value, enabled);
         }
 
         public void SetTimeScale(float timeScale)
@@ -504,10 +528,22 @@ namespace AltTester.AltTesterUnitySDK.Driver
             return objectFound;
         }
 
+        public AltObject WaitForObject(AltBy locator, AltBy cameraLocator = default, bool enabled = true, double timeout = 20, double interval = 0.5)
+        {
+            cameraLocator = cameraLocator == default ? new AltBy(By.NAME, "") : cameraLocator;
+            return WaitForObject(locator.By, locator.Value, cameraLocator.By, cameraLocator.Value, enabled, timeout, interval);
+        }
+
         public void WaitForObjectNotBePresent(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
             new AltWaitForObjectNotBePresent(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
+
+        public void WaitForObjectNotBePresent(AltBy locator, AltBy cameraLocator = default, bool enabled = true, double timeout = 20, double interval = 0.5)
+        {
+            cameraLocator = cameraLocator == default ? new AltBy(By.NAME, "") : cameraLocator;
+            WaitForObjectNotBePresent(locator.By, locator.Value, cameraLocator.By, cameraLocator.Value, enabled, timeout, interval);
         }
 
         public AltObject WaitForObjectWhichContains(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
@@ -515,6 +551,12 @@ namespace AltTester.AltTesterUnitySDK.Driver
             var objectFound = new AltWaitForObjectWhichContains(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
             return objectFound;
+        }
+
+        public AltObject WaitForObjectWhichContains(AltBy locator, AltBy cameraLocator = default, bool enabled = true, double timeout = 20, double interval = 0.5)
+        {
+            cameraLocator = cameraLocator == default ? new AltBy(By.NAME, "") : cameraLocator;
+            return WaitForObjectWhichContains(locator.By, locator.Value, cameraLocator.By, cameraLocator.Value, enabled, timeout, interval);
         }
 
         public List<string> GetAllScenes()
