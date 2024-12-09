@@ -38,7 +38,7 @@ An AltDriver instance will connect to the running instrumented Unity application
     .. code-tab:: java
 
         @Test
-        public void myTest()
+        public void MyTest()
         {
             AltDriver altDriver = new AltDriver(host: "127.0.0.1", port: 13000);
         }
