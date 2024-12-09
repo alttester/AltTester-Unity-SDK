@@ -22,6 +22,42 @@ An AltDriver instance will connect to the running instrumented Unity application
 | deviceInstanceId| string  | No      | The device instance id of the Unity application. The default value is`unknown`.         |
 | appId        | string  | No         | The unique id of the Unity application. The default value is `unknown`.                 |
 
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void MyTest()
+        {
+            AltDriver altDriver = new AltDriver(host: "127.0.0.1", port: 13000);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void myTest()
+        {
+            AltDriver altDriver = new AltDriver(host: "127.0.0.1", port: 13000);
+        }
+
+    .. code-tab:: py
+
+        def my_test(self):
+             alt_driver = AltDriver(
+                host="127.0.0.1",
+                port=13000
+             )
+
+    .. code-tab:: robot
+
+        My Test
+            Initialize AltDriver  host="127.0.0.1"  port=13000
+
+```
+
 Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the app. The available methods are the following:
 
 ### Find Objects
