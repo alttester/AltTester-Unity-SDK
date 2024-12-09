@@ -28,6 +28,42 @@ An AltDriver instance will connect to the running instrumented Unreal applicatio
 | deviceInstanceId| string  | No      | The device instance id of the Unreal application. The default value is`unknown`.         |
 | appId        | string  | No         | The unique id of the Unreal application. The default value is `unknown`.                 |
 
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void MyTest()
+        {
+            AltDriver altDriver = new AltDriver(host: "127.0.0.1", port: 13000);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void MyTest()
+        {
+            AltDriver altDriver = new AltDriver(host: "127.0.0.1", port: 13000);
+        }
+
+    .. code-tab:: py
+
+        def my_test(self):
+             alt_driver = AltDriver(
+                host="127.0.0.1",
+                port=13000
+             )
+
+    .. code-tab:: robot
+
+        My Test
+            Initialize AltDriver  host="127.0.0.1"  port=13000
+
+```
+
 Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the app. The available methods are the following:
 
 ### Find Objects
@@ -392,7 +428,7 @@ Returns information about every objects loaded in the currently loaded levels.
 
 #### WaitForObject
 
-Waits until it finds an object that respects the given criteria or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
+Waits until it finds an object that respects the given criteria or until the timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
 **_Parameters_**
 
@@ -401,7 +437,7 @@ Waits until it finds an object that respects the given criteria or until timeout
 | by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
 | value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
-| timeout     | double             | No       | The number of seconds that it will wait for object.                                                                                                                                                                                                                                                                                                                                                        |
+| timeout     | double             | No       | The number of seconds that it will wait for the object. By default it is set to 20 seconds.                                                                                                                                                                                                                                                                                                                                                        |
 | interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than timeout.                                                                                                                                                                                                                                                                                       |
 
 **_Returns_**
@@ -416,48 +452,33 @@ Waits until it finds an object that respects the given criteria or until timeout
     .. code-tab:: c#
 
         [Test]
-        public void TestWaitForExistingElement()
+        public void TestWaitForObject()
         {
             const string name = "Capsule";
-            var timeStart = DateTime.Now;
-            var altElement = altDriver.WaitForObject(By.NAME, name);
-            var timeEnd = DateTime.Now;
-            var time = timeEnd - timeStart;
-            Assert.Less(time.TotalSeconds, 20);
-            Assert.NotNull(altElement);
-            Assert.AreEqual(altElement.name, name);
+            var altObject = altDriver.WaitForObject(By.NAME, name);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testWaitForExistingElement() {
+        public void testWaitForObject() {
             String name = "Capsule";
-            long timeStart = System.currentTimeMillis();
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                             name).build();
             AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                             altFindObjectsParams).build();
-            AltObject altElement = altDriver.waitForObject(altWaitForObjectsParams);
-            long timeEnd = System.currentTimeMillis();
-            long time = timeEnd - timeStart;
-            assertTrue(time / 1000 < 20);
-            assertNotNull(altElement);
-            assertEquals(altElement.name, name);
+            AltObject altObject = altDriver.waitForObject(altWaitForObjectsParams);
         }
 
     .. code-tab:: py
 
         def test_wait_for_object(self):
             alt_object = self.alt_driver.wait_for_object(By.NAME, "Capsule")
-            assert alt_object.name == "Capsule"
 
     .. code-tab:: robot
 
         Test Wait For Object By Name
             ${capsule}=         Wait For Object    NAME         Capsule
-            ${capsule_name}=    Get Object Name    ${capsule}
-            Should Be Equal     ${capsule_name}    Capsule
 
 ```
 
@@ -472,7 +493,7 @@ Waits until it finds an object that respects the given criteria or time runs out
 | by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                     |
 | value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                    |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout     | double             | No       | The number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                        |
+| timeout     | double             | No       | The number of seconds that it will wait for the object. By default it is set to 20 seconds.                                                                                                                                                                                                                                                                                                                                                        |
 | interval    | double             | No       | The number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                           |
 
 **_Returns_**
@@ -490,39 +511,33 @@ Waits until it finds an object that respects the given criteria or time runs out
         public void TestWaitForObjectWhichContains()
         {
             var altObject = altDriver.WaitForObjectWhichContains(By.NAME, "Canva");
-            Assert.AreEqual("Canvas", altObject.name);
         }
 
     .. code-tab:: java
 
         @Test
         public void TestWaitForObjectWhichContains() {
-            AltFindObjectsParams altFindObjectsParametersObject = 
-                new AltFindObjectsParams.Builder(By.NAME, "Canva").build();
-            AltWaitForObjectsParams altWaitForObjectsParams =
-                new AltWaitForObjectsParams.Builder(altFindObjectsParametersObject).build();
+            AltFindObjectsParams altFindObjectsParametersObject = new AltFindObjectsParams.Builder(By.NAME, "Canva").build();
+            AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
+                    altFindObjectsParametersObject).build();
             AltObject altObject = altDriver.waitForObjectWhichContains(altWaitForObjectsParams);
-            assertEquals("Canvas", altObject.name);
         }
 
     .. code-tab:: py
 
         def test_wait_for_object_which_contains(self):
-            alt_object = self.alt_driver.wait_for_object_which_contains(By.NAME, "Main")
-            assert alt_object.name == "Main Camera"
+            alt_object = self.alt_driver.wait_for_object_which_contains(By.NAME, "Canva")
 
     .. code-tab:: robot
 
         Test Wait For Object Which Contains
-            ${alt_object}=    Wait For Object Which Contains    NAME    Main
-            ${alt_object_name}=    Get Object Name    ${alt_object}
-            Should Be Equal As Strings    ${alt_object_name}    Main Camera
+            ${alt_object}=    Wait For Object Which Contains    NAME    Canva
 
 ```
 
 #### WaitForObjectNotBePresent
 
-Waits until the object in the level that respects the given criteria is no longer in the level or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
+Waits until the object in the level that respects the given criteria is no longer in the level or until the timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
 **_Parameters_**
 
@@ -531,7 +546,7 @@ Waits until the object in the level that respects the given criteria is no longe
 | by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                     |
 | value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                    |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout     | double             | No       | The number of seconds that it will wait for object.                                                                                                                                                                                                                                                                                                                                                       |
+| timeout     | double             | No       | The number of seconds that it will wait for the object. By default it is set to 20 seconds.                                                                                                                                                                                                                                                                                                                                                       |
 | interval    | double             | No       | The number of seconds after which it will try to find the object again. interval should be smaller than timeout.                                                                                                                                                                                                                                                                                          |
 
 **_Returns_**
@@ -546,9 +561,9 @@ Waits until the object in the level that respects the given criteria is no longe
     .. code-tab:: c#
 
         [Test]
-        public void TestWaitForObjectToNotExist()
+        public void TestWaitForObjectNotBePresent()
         {
-            altDriver.WaitForObjectNotBePresent(By.NAME, "Capsulee", timeout: 1, interval: 0.5f);
+            altDriver.WaitForObjectNotBePresent(By.NAME, "Capsulee");
         }
 
     .. code-tab:: java
@@ -563,15 +578,12 @@ Waits until the object in the level that respects the given criteria is no longe
     .. code-tab:: py
 
         def test_wait_for_object_to_not_be_present(self):
-            self.alt_driver.wait_for_object_to_not_be_present(By.NAME, "Capsuule")
+            self.alt_driver.wait_for_object_to_not_be_present(By.NAME, "Capsulee")
 
     .. code-tab:: robot
 
-        Test Wait For Object Not Be Present
-            Wait For Object To Not Be Present    NAME    ObjectDestroyedIn5Secs
-            ${elements}=    Get All Elements
-            ${list}=    Convert To String    ${elements}
-            Should Not Contain    ${list}    'name': 'ObjectDestroyedIn5Secs'
+        Test Wait For Object To Not Be Present
+            Wait For Object To Not Be Present    NAME    Capsulee
 
 ```
 
