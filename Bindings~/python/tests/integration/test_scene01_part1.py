@@ -19,13 +19,15 @@ import pytest
 import time
 
 from .utils import Scenes
-from alttester import By, PlayerPrefKeyType
+from alttester import By, PlayerPrefKeyType, AltDriver
 import alttester.exceptions as exceptions
-import alttester.altby as AltBy
+from alttester.altby import AltBy
 
 
 class TestScene01Part1:
-
+    
+    alt_driver: AltDriver
+    
     @pytest.fixture(autouse=True)
     def setup(self):
         self.alt_driver.reset_input()
@@ -48,6 +50,32 @@ class TestScene01Part1:
             By.PATH, "//CapsuleInfo[@text={}]".format(expected_text), timeout=1)
 
         assert capsule_info.get_text() == expected_text
+
+    @pytest.mark.parametrize("args, kwargs", [
+        ((By.NAME, "Capsule"), {}),
+        ((By.NAME, "Capsule", By.NAME), {}),
+        ((By.NAME, "Capsule", By.NAME, ""), {}),
+        ((By.NAME, "Capsule", By.NAME, "", True), {}),
+        ((), {'by': By.NAME, 'value': "Capsule"}),
+        ((), {'by': By.NAME, 'value': "Capsule", 'camera_by': By.NAME}),
+        ((), {'by': By.NAME, 'value': "Capsule", 'camera_by': By.NAME, 'camera_value': ""}),
+        ((), {'by': By.NAME, 'value': "Capsule", 'camera_by': By.NAME, 'camera_value': "", 'enabled': True}),
+        ((By.NAME, "Capsule", By.NAME), {'camera_value': "", 'enabled': True}),
+        ((AltBy.name("Capsule"),), {}),
+        ((AltBy.name("Capsule"), AltBy.name("")), {}),
+        ((AltBy.name("Capsule"), AltBy.name(""), True), {}),
+        ((), {'altby': AltBy.name("Capsule")}),
+        ((), {'altby': AltBy.name("Capsule"), 'camera_altby': AltBy.name("")}),
+        ((), {'altby': AltBy.name("Capsule"), 'camera_altby': AltBy.name(""), 'enabled': True}),
+        ((AltBy.name("Capsule"),), {'enabled': True}),
+        ((AltBy.name("Capsule"),), {'camera_altby': AltBy.name(""), 'enabled': True}),
+    ])
+    def test_find_object_with_all_possible_params_combinations(self, args, kwargs):
+        self.alt_driver.find_object(*args, **kwargs)
+        self.alt_driver.find_objects(*args, **kwargs)
+        self.alt_driver.find_object_which_contains(*args, **kwargs)
+        self.alt_driver.find_objects_which_contain(*args, **kwargs)
+        
 
     def test_find_object_by_name(self):
         plane = self.alt_driver.find_object(By.NAME, "Plane")

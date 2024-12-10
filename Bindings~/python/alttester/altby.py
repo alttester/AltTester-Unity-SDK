@@ -34,23 +34,30 @@ class AltBy:
     def __eq__(self, other):
         return self.by == other.by and self.value == other.value
 
-    def name(name):
-        return AltBy(by=By.NAME, value=name)
+    @classmethod
+    def name(cls, name):
+        return cls(by=By.NAME, value=name)
 
-    def id(id):
-        return AltBy(by=By.ID, value=id)
+    @classmethod
+    def id(cls, id):
+        return cls(by=By.ID, value=id)
 
-    def path(path):
-        return AltBy(by=By.PATH, value=path)
+    @classmethod
+    def path(cls, path):
+        return cls(by=By.PATH, value=path)
 
-    def tag(tag):
-        return AltBy(by=By.TAG, value=tag)
+    @classmethod
+    def tag(cls, tag):
+        return cls(by=By.TAG, value=tag)
 
-    def layer(layer):
-        return AltBy(by=By.LAYER, value=layer)
+    @classmethod
+    def layer(cls, layer):
+        return cls(by=By.LAYER, value=layer)
 
-    def text(text):
-        return AltBy(by=By.TEXT, value=text)
+    @classmethod
+    def text(cls, text):
+        return cls(by=By.TEXT, value=text)
 
-    def component(component):
-        return AltBy(by=By.COMPONENT, value=component)
+    @classmethod
+    def component(cls, component):
+        return cls(by=By.COMPONENT, value=component)
