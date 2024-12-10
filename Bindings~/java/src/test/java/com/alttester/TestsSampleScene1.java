@@ -109,6 +109,40 @@ public class TestsSampleScene1 extends BaseTest {
         AltObject altElement = altDriver.findObject(altFindObjectsParams);
         assertNotNull(altElement);
         assertEquals(name, altElement.name);
+
+        AltFindObjectsParams altFindObjectsParamsWithAltBy = new AltFindObjectsParams.Builder(AltBy.name(name)).build();
+        
+        AltObject altElementWithAltBy = altDriver.findObject(altFindObjectsParamsWithAltBy);
+        assertNotNull(altElementWithAltBy);
+        assertEquals(name, altElementWithAltBy.name);
+    }
+
+    @Test
+    public void testFindAndWaitMethodsWithAltBy() {
+        String name = "Capsule";
+        AltObject altElement = altDriver.findObject(AltBy.name(name));
+        assertNotNull(altElement);
+        assertEquals(name, altElement.name);
+
+        AltObject altElementWithAltBy = altDriver.waitForObject(AltBy.name(name));
+        assertNotNull(altElementWithAltBy);
+        assertEquals(name, altElementWithAltBy.name);
+
+        AltObject altElementWhichContains = altDriver.findObjectWhichContains(AltBy.name("Cap"));
+        assertNotNull(altElementWhichContains);
+        assertTrue(altElementWhichContains.name.contains("Cap"));
+
+        AltObject altElementWhichContainsWithAltBy = altDriver.waitForObjectWhichContains(AltBy.name("Cap"));
+        assertNotNull(altElementWhichContainsWithAltBy);
+        assertTrue(altElementWhichContainsWithAltBy.name.contains("Cap"));
+
+        AltObject[] altElements = altDriver.findObjects(AltBy.name("Capsule"));
+        assertNotNull(altElements);
+        assertEquals(altElements[0].name, "Capsule");
+
+        AltObject[] altElementsWithAltBy = altDriver.findObjectsWhichContain(AltBy.name("Cap"));
+        assertNotNull(altElementsWithAltBy);
+        assertTrue(altElementsWithAltBy[0].name.contains("Cap"));
     }
 
     @Test
@@ -119,6 +153,11 @@ public class TestsSampleScene1 extends BaseTest {
         AltObject[] altElements = altDriver.findObjects(altFindObjectsParams);
         assertNotNull(altElements);
         assertEquals(altElements[0].name, name);
+
+        AltFindObjectsParams altFindObjectsParamsWithAltBy = new AltFindObjectsParams.Builder(AltBy.name(name)).build();
+        AltObject[] altElementsWithAltBy = altDriver.findObjects(altFindObjectsParamsWithAltBy);
+        assertNotNull(altElementsWithAltBy);
+        assertEquals(altElementsWithAltBy[0].name, name);
     }
 
     @Test

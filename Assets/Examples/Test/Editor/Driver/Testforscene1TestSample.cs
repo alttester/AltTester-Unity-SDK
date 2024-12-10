@@ -77,6 +77,25 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var altObject = altDriver.FindObject(By.PATH, path, enabled: false);
             Assert.NotNull(altObject);
             Assert.AreEqual(name, altObject.name);
+
+            var altObjectWithAltBy = altDriver.FindObject(AltBy.Path(path), enabled: false);
+            Assert.NotNull(altObjectWithAltBy);
+            Assert.AreEqual(altObject, altObjectWithAltBy);
+        }
+
+        [TestCase(By.NAME, "Capsule")]
+        [TestCase(By.TAG, "plane")]
+        [TestCase(By.TEXT, "Change Camera Mode")]
+        [TestCase(By.COMPONENT, "AltRunner")]
+        [TestCase(By.ID, "13b211d0-eafa-452d-8708-cc70f5075e93")]
+        [TestCase(By.LAYER, "Water")]
+        [TestCase(By.PATH, "//Capsule")]
+        public void TestFindObjectWithAltBy(By by, string value)
+        {
+            var altBy = new AltBy(by, value);
+            var altObjectWithAltBy = altDriver.FindObject(altBy);
+            var altObject = altDriver.FindObject(by, value);
+            Assert.AreEqual(altObject, altObjectWithAltBy);
         }
 
         [TestCase(By.COMPONENT, "CapsuleColl", "//Capsule")]
@@ -91,6 +110,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var altObject = altDriver.FindObjectWhichContains(by, value);
             Assert.NotNull(altObject);
             Assert.AreEqual(expectedObject.id, altObject.id);
+
+            var altObjectWithAltBy = altDriver.FindObjectWhichContains(new AltBy(by, value));
+            Assert.NotNull(altObjectWithAltBy);
+            Assert.AreEqual(altObject, altObjectWithAltBy);
         }
 
         [Test]
@@ -99,6 +122,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             const string text = "Change Camera";
             var altElement = altDriver.FindObject(By.PATH, "//*[contains(@text," + text + ")]");
             Assert.NotNull(altElement);
+
+            var altElementWithAltBy = altDriver.FindObject(AltBy.Path("//*[contains(@text," + text + ")]"));
+            Assert.NotNull(altElementWithAltBy);
         }
 
         [TestCase(By.COMPONENT, "NonExistent")]
@@ -120,8 +146,13 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         {
             var expectedObject = altDriver.FindObject(By.PATH, path);
             var altObjects = altDriver.FindObjectsWhichContain(by, value);
+
+            var altObjectsWithAltBy = altDriver.FindObjectsWhichContain(new AltBy(by, value));
+
             Assert.AreEqual(1, altObjects.Count());
+            Assert.AreEqual(1, altObjectsWithAltBy.Count());
             Assert.AreEqual(expectedObject.id, altObjects[0].id);
+            Assert.AreEqual(expectedObject.id, altObjectsWithAltBy[0].id);
         }
 
         [TestCase(By.NAME, "Cap", "//Capsule", "//CapsuleInfo")]
@@ -146,6 +177,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         {
             var altObjects = altDriver.FindObjectsWhichContain(by, value);
             Assert.IsEmpty(altObjects);
+
+            var altObjectsWithAltBy = altDriver.FindObjectsWhichContain(new AltBy(by, value));
+            Assert.IsEmpty(altObjectsWithAltBy);
         }
 
         [Test]
@@ -212,6 +246,54 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var altObject = altDriver.FindObject(by, value);
             Assert.NotNull(altObject);
             Assert.AreEqual(referenceId, altObject.id);
+
+            var altObjectWithAltBy = altDriver.FindObject(new AltBy(by, value));
+            Assert.AreEqual(altObject, altObjectWithAltBy);
+            Assert.AreEqual(referenceId, altObjectWithAltBy.id);
+
+            if (by == By.PATH)
+            {
+                var altObjectWithAltByPath = altDriver.FindObject(AltBy.Path(value));
+                Assert.AreEqual(altObject, altObjectWithAltByPath);
+                Assert.AreEqual(referenceId, altObjectWithAltByPath.id);
+            } 
+            else if (by == By.NAME)
+            {
+                var altObjectWithAltByName = altDriver.FindObject(AltBy.Name(value));
+                Assert.AreEqual(altObject, altObjectWithAltByName);
+                Assert.AreEqual(referenceId, altObjectWithAltByName.id);
+            }
+            else if (by == By.TAG)
+            {
+                var altObjectWithAltByTag = altDriver.FindObject(AltBy.Tag(value));
+                Assert.AreEqual(altObject, altObjectWithAltByTag);
+                Assert.AreEqual(referenceId, altObjectWithAltByTag.id);
+            }
+            else if (by == By.ID)
+            {
+                var altObjectWithAltById = altDriver.FindObject(AltBy.Id(value));
+                Assert.AreEqual(altObject, altObjectWithAltById);
+                Assert.AreEqual(referenceId, altObjectWithAltById.id);
+            }
+            else if (by == By.TEXT)
+            {
+                var altObjectWithAltByText = altDriver.FindObject(AltBy.Text(value));
+                Assert.AreEqual(altObject, altObjectWithAltByText);
+                Assert.AreEqual(referenceId, altObjectWithAltByText.id);
+            }
+            else if (by == By.COMPONENT)
+            {
+                var altObjectWithAltByComponent = altDriver.FindObject(AltBy.Component(value));
+                Assert.AreEqual(altObject, altObjectWithAltByComponent);
+                Assert.AreEqual(referenceId, altObjectWithAltByComponent.id);
+            }
+            else if (by == By.LAYER)
+            {
+                var altObjectWithAltByLayer = altDriver.FindObject(AltBy.Layer(value));
+                Assert.AreEqual(altObject, altObjectWithAltByLayer);
+                Assert.AreEqual(referenceId, altObjectWithAltByLayer.id);
+            }
+            
         }
 
         [Test]
@@ -1214,9 +1296,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var camera = altDriver.FindObject(By.PATH, "//Camera");
             var altElement = altDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.ID, camera.id.ToString());
             Assert.True(altElement.name.Equals("Capsule"));
+
+            var altElementWithAltBy = altDriver.FindObject(AltBy.Component("CapsuleCollider"), AltBy.Id(camera.id.ToString()));
+            Assert.True(altElementWithAltBy.name.Equals("Capsule"));
+
             var camera2 = altDriver.FindObject(By.PATH, "//Main Camera");
             var altElement2 = altDriver.FindObject(By.COMPONENT, "CapsuleCollider", By.ID, camera2.id.ToString());
             Assert.AreNotEqual(altElement.GetScreenPosition(), altElement2.GetScreenPosition());
+
+            var altElementWithAltBy2 = altDriver.FindObject(AltBy.Component("CapsuleCollider"), AltBy.Id(camera2.id.ToString()));
+            Assert.AreNotEqual(altElement.GetScreenPosition(), altElementWithAltBy2.GetScreenPosition());
         }
 
         [Test]
@@ -1349,6 +1438,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var altObject = altDriver.FindObject(By.PATH, "//Capsule", cameraBy, cameraValue);
             Assert.NotNull(altObject);
             Assert.AreEqual(referenceId, altObject.id);
+
+            var altObjectWithAltBy = altDriver.FindObject(AltBy.Path("//Capsule"), new AltBy(cameraBy, cameraValue));
+            Assert.NotNull(altObjectWithAltBy);
+            Assert.AreEqual(referenceId, altObjectWithAltBy.id);
         }
 
         [Test]
@@ -1369,10 +1462,18 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var altButton = altDriver.FindObject(By.PATH, "//Button");
             altButton.Click();
             altButton.Click();
+            
             var altElement = altDriver.FindObjects(By.NAME, "Plane", By.NAME, "Camera");
             Assert.True(altElement[0].name.Equals("Plane"));
+
+            var altElementWithAltBy = altDriver.FindObjects(AltBy.Name("Plane"), AltBy.Name("Camera"));
+            Assert.True(altElementWithAltBy[0].name.Equals("Plane"));
+
             var altElement2 = altDriver.FindObjects(By.NAME, "Plane", By.NAME, "Main Camera");
             Assert.AreNotEqual(altElement[0].GetScreenPosition(), altElement2[0].GetScreenPosition());
+
+            var altElementWithAltBy2 = altDriver.FindObjects(AltBy.Name("Plane"), AltBy.Name("Main Camera"));
+            Assert.AreNotEqual(altElement[0].GetScreenPosition(), altElementWithAltBy2[0].GetScreenPosition());
         }
 
         [Test]

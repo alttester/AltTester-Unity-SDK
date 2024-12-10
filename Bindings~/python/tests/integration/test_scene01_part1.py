@@ -19,12 +19,15 @@ import pytest
 import time
 
 from .utils import Scenes
-from alttester import By, PlayerPrefKeyType
+from alttester import By, PlayerPrefKeyType, AltDriver
 import alttester.exceptions as exceptions
+from alttester.altby import AltBy
 
 
 class TestScene01Part1:
-
+    
+    alt_driver: AltDriver
+    
     @pytest.fixture(autouse=True)
     def setup(self):
         self.alt_driver.reset_input()
@@ -47,6 +50,32 @@ class TestScene01Part1:
             By.PATH, "//CapsuleInfo[@text={}]".format(expected_text), timeout=1)
 
         assert capsule_info.get_text() == expected_text
+
+    @pytest.mark.parametrize("args, kwargs", [
+        ((By.NAME, "Capsule"), {}),
+        ((By.NAME, "Capsule", By.NAME), {}),
+        ((By.NAME, "Capsule", By.NAME, ""), {}),
+        ((By.NAME, "Capsule", By.NAME, "", True), {}),
+        ((), {'by': By.NAME, 'value': "Capsule"}),
+        ((), {'by': By.NAME, 'value': "Capsule", 'camera_by': By.NAME}),
+        ((), {'by': By.NAME, 'value': "Capsule", 'camera_by': By.NAME, 'camera_value': ""}),
+        ((), {'by': By.NAME, 'value': "Capsule", 'camera_by': By.NAME, 'camera_value': "", 'enabled': True}),
+        ((By.NAME, "Capsule", By.NAME), {'camera_value': "", 'enabled': True}),
+        ((AltBy.name("Capsule"),), {}),
+        ((AltBy.name("Capsule"), AltBy.name("")), {}),
+        ((AltBy.name("Capsule"), AltBy.name(""), True), {}),
+        ((), {'altby': AltBy.name("Capsule")}),
+        ((), {'altby': AltBy.name("Capsule"), 'camera_altby': AltBy.name("")}),
+        ((), {'altby': AltBy.name("Capsule"), 'camera_altby': AltBy.name(""), 'enabled': True}),
+        ((AltBy.name("Capsule"),), {'enabled': True}),
+        ((AltBy.name("Capsule"),), {'camera_altby': AltBy.name(""), 'enabled': True}),
+    ])
+    def test_find_object_with_all_possible_params_combinations(self, args, kwargs):
+        self.alt_driver.find_object(*args, **kwargs)
+        self.alt_driver.find_objects(*args, **kwargs)
+        self.alt_driver.find_object_which_contains(*args, **kwargs)
+        self.alt_driver.find_objects_which_contain(*args, **kwargs)
+        
 
     def test_find_object_by_name(self):
         plane = self.alt_driver.find_object(By.NAME, "Plane")
@@ -205,6 +234,20 @@ class TestScene01Part1:
 
         assert str(
             execinfo.value) == "Element Capsule still found after 1 seconds"
+
+    def test_all_find_and_wait_object_with_altby(self):
+        self.alt_driver.find_object(AltBy.name("Capsule")).tap()
+        self.alt_driver.wait_for_object(AltBy.name("Capsule"))
+        self.alt_driver.find_object(AltBy.tag("plane"))
+        self.alt_driver.wait_for_object(AltBy.tag("plane"))
+        self.alt_driver.find_object(AltBy.layer("Water"))
+        self.alt_driver.wait_for_object(AltBy.layer("Water"))
+        self.alt_driver.find_object(AltBy.text("Capsule was clicked to jump!"))
+        self.alt_driver.wait_for_object(AltBy.text("Capsule was clicked to jump!"))
+        self.alt_driver.find_object(AltBy.component("AltExampleScriptCapsule"))
+        self.alt_driver.wait_for_object(AltBy.component("AltExampleScriptCapsule"))
+        self.alt_driver.find_object(AltBy.path("//CapsuleInfo"))
+        self.alt_driver.wait_for_object(AltBy.path("//CapsuleInfo"))
 
     def test_get_text_with_non_english_text(self):
         text = self.alt_driver.find_object(
