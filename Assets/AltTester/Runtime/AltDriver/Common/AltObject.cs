@@ -93,6 +93,12 @@ namespace AltTester.AltTesterUnitySDK.Driver
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
         }
+        public AltObject FindObjectFromObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
+        {
+            var findObject = new AltFindObjectFromObject(CommHandler, by, value, cameraBy, cameraValue, enabled, this).Execute();
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return findObject;
+        }
         public AltVector2 GetScreenPosition()
         {
             return new AltVector2(x, y);

@@ -19,6 +19,7 @@ package com.alttester.Commands.FindObject;
 
 import com.alttester.IMessageHandler;
 import com.alttester.AltDriver;
+import com.alttester.AltObject;
 import com.alttester.Commands.AltCommandReturningAltObjects;
 
 public class AltBaseFindObject extends AltCommandReturningAltObjects {
@@ -49,6 +50,34 @@ public class AltBaseFindObject extends AltCommandReturningAltObjects {
                 break;
             case TEXT:
                 path = "//*[@text=" + value + "]";
+                break;
+        }
+        return path;
+    }
+
+    protected String SetPathFromObject(AltObject obj, AltDriver.By by, String value) {
+        String path = "";
+        switch (by) {
+            case TAG:
+                path = "//*[@id=" + obj.id + "]//*[@tag=" + value + "]";
+                break;
+            case LAYER:
+                path = "//*[@id=" + obj.id + "]//*[@layer=" + value + "]";
+                break;
+            case NAME:
+                path = "//*[@id=" + obj.id + "]//" + value;
+                break;
+            case COMPONENT:
+                path = "//*[@id=" + obj.id + "]//*[@component=" + value + "]";
+                break;
+            case PATH:
+                path = "//*[@id=" + obj.id + "]" + value;
+                break;
+            case ID:
+                path = "//*[@id=" + obj.id + "]//*[@id=" + value + "]";
+                break;
+            case TEXT:
+                path = "//*[@id=" + obj.id + "]//*[@text=" + value + "]";
                 break;
         }
         return path;

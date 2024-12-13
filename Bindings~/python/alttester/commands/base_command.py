@@ -98,7 +98,23 @@ class Command(metaclass=abc.ABCMeta):
         if by == By.TEXT:
             return "//*[@text={}]".format(value)
         if by == By.PATH:
-            return value
+            return 
+
+    def get_path_from_object(self, obj, by, value):
+        if by==By.TAG:
+           return "//*[@id={}]//*[@tag={}]".format(obj.id, value)
+        if by==By.LAYER:
+           return "//*[@id={}]//*[@layer={}]".format(obj.id, value)
+        if by==By.NAME:
+           return "//*[@id={}]//{}".format(obj.id, value)
+        if by==By.COMPONENT:
+           return "//*[@id={}]//*[@component={}]".format(obj.id, value)
+        if by==By.PATH:
+           return "//*[@id={}]{}".format(obj.id, value)
+        if by==By.ID:
+           return "//*[@id={}]//*[@id={}]".format(obj.id, value)
+        if by==By.TEXT:
+           return "//*[@id={}]//*[@text={}]".format(obj.id, value)
 
     def get_path_contains(self, by, value):
         if by == By.TAG:

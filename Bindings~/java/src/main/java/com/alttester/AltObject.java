@@ -118,6 +118,18 @@ public class AltObject {
     }
 
     /**
+     * Returns the child that satisfies the conditions of the AltTester® object on
+     * which it is called
+     *
+     * @return - The child object
+     */
+    public AltObject findObjectFromObject(AltFindObjectsParams altFindObjectsParams) {
+        AltObject response = new AltFindObjectFromObject(messageHandler, altFindObjectsParams, this).Execute();
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
+    }
+
+    /**
      * Returns the screen position of the AltTester® object
      *
      * @return - The screen position
