@@ -157,12 +157,19 @@ class AltObject:
         )
 
         return AltObject(self._altdriver, data)
-    
-    def get_object_from_object(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
+
+    def find_object_from_object(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
         """Returns the child of the object that meets the specified conditions."""
 
-        return commands.FindObjectFromObject.run(self._connection,
-            by, value, camera_by, camera_value, enabled)
+        data = commands.FindObjectFromObject.run(self._connection,
+                                                 by, value, camera_by, camera_value, enabled, self)
+
+        if data is None:
+            return None
+
+        alt_object = AltObject(self, data)
+
+        return alt_object
 
     def get_all_components(self):
         """Returns all components."""

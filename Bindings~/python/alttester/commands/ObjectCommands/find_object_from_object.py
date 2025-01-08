@@ -22,7 +22,7 @@ from alttester.by import By
 
 class FindObjectFromObject(BaseCommand):
 
-    def __init__(self, connection, by, value, camera_by, camera_value, enabled):
+    def __init__(self, connection, by, value, camera_by, camera_value, enabled, alt_object):
         super().__init__(connection, "findObject")
 
         if by not in By:
@@ -44,13 +44,14 @@ class FindObjectFromObject(BaseCommand):
         self.camera_by = camera_by
         self.camera_value = camera_value
         self.enabled = enabled
+        self.alt_object = alt_object
 
     @property
     def _parameters(self):
         parameters = super()._parameters
         parameters.update(**{
             "by": str(self.by),
-            "path": self.get_path_from_object(self, self.by, self.value),
+            "path": self.get_path_from_object(self.alt_object, self.by, self.value),
             "cameraBy": str(self.camera_by),
             "cameraPath": self.get_path(self.camera_by, self.camera_value),
             "enabled": self.enabled,
