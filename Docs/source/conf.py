@@ -56,13 +56,12 @@ sdk_release_version = version.replace('.', '_')
 
 alttester_sdk_docs_link = "https://alttester.com/docs/desktop/" + \
     desktop_release_version + "/%s"
-alttester_sdk_download_link = "https://alttester.com/app/uploads/AltTester/sdks/AltTester_" + \
-    sdk_release_version + ".unitypackage%s"
+alttester_unreal_docs_link = "https://alttester.com/docs/unreal-sdk/latest/%s"
 
 extlinks = {
     "alttesterpage":                    ("https://alttester.com/%s", None),
     "alttesterdesktopdocumentation":    (alttester_sdk_docs_link, None),
-    "alttestersdkdownload":             (alttester_sdk_download_link, None),
+    "alttesterunrealdocumentation":     (alttester_unreal_docs_link, None),
     "alttesteriphoneblog":              ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
 }
 

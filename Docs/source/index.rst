@@ -12,13 +12,13 @@ and Unreal applications.
 - AltTester® Unity SDK is a free, open source asset. Its main goal is to enable UI
   test automation, by instrumenting applications to get access and programmatically
   control the Unity objects. Get AltTester® Unity SDK from
-  :alttestersdkdownload:`our website <>`.
+  :alttesterpage:`our website <downloads/>`.
 
 - AltTester® Unreal SDK is a free tool designed to facilitate UI test automation 
   by instrumenting Unreal Engine applications. It provides programmatic access to 
   Unreal objects, enabling efficient test creation and execution. Get AltTester® 
   Unreal SDK from
-  :alttestersdkdownload:`our website <>`.
+  :alttesterpage:`our website <downloads/>`.
 
 - AltTester® Desktop is an application allowing users to inspect the
   object hierarchy and interact with their app outside the Unity Editor. Get
@@ -36,10 +36,10 @@ Documentation
    *  :doc:`/pages/overview`
    *  :doc:`/pages/get-started`
 
-*  :doc:`unreal-sdk`
+*  :alttesterunrealdocumentation:`AltTester® Unreal SDK <home.html>`
 
-   *  :doc:`/unreal-pages/overview`
-   *  :doc:`/unreal-pages/get-started`
+   *  :alttesterunrealdocumentation:`Overview <pages/overview.html>`
+   *  :alttesterunrealdocumentation:`Get Started <pages/get-started.html>`
 
 *  :altTesterdesktopdocumentation:`AltTester® Desktop <home.html>`
 
@@ -53,7 +53,7 @@ Documentation
 
    Home Page <https://alttester.com/docs/sdk/2.2.0/index.html>
    home
-   unreal-sdk
+   AltTester® Unreal SDK <https://alttester.com/docs/unreal-sdk/latest/home.html>
    AltTester® Desktop <https://alttester.com/docs/desktop/v.2.2.0/home.html>
 
 
