@@ -76,7 +76,7 @@ jobs:
           cp $AUT public/AltTester/AltTester.unitypackage
           cp $AUT public/AltTester/AltTester_2_0_1.unitypackage
           cp SampleScenes.unitypackage public/AltTester/SampleScenes.unitypackage
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: AltTester
           path: public/AltTester
@@ -88,7 +88,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: AltTester
           path: AltTester/
@@ -132,7 +132,7 @@ jobs:
           mvn clean compile assembly:single
           mv target/alttester-jar-with-dependencies.jar ../../public/AltTesterJAR/AltTester-Driver.jar
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: AltTesterJAR
           path: public/AltTesterJAR
@@ -144,7 +144,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: AltTesterJAR
           path: public/AltTesterJAR
