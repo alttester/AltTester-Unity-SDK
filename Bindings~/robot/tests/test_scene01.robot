@@ -796,39 +796,39 @@ Test Reset Input
     ${count}=    Get Component Property    ${countKeyDown}    Input    _keyCodesPressed.Count    AltTester.AltTesterUnitySDK.InputModule
     Should Be Equal As Integers    0    ${count}
 
-Test Find Object By Tag
+Test Find Object From Object By Tag
     ${parent}=    Find Object    NAME    Canvas
-    ${child}=    Find Object From Object    TAG    Finish
+    ${child}=    Find Object From Object    ${parent}    TAG    Finish
     Should Be Equal    ${child.name}    Button
 
-Test Find Object By Layer
+Test Find Object From Object By Layer
     ${plane}=    Find Object    NAME    Plane
-    ${child}=    Find Object From Object    LAYER    ButtonLayer
+    ${child}=    Find Object From Object    ${parent}    LAYER    ButtonLayer
     Should Be Equal    ${child.name}    Button
 
-Test Find Object By Name
+Test Find Object From Object By Name
     ${plane}=    Find Object    NAME    Plane
-    ${child}=    Find Object From Object    NAME    Button
+    ${child}=    Find Object From Object    ${parent}    NAME    Button
     Should Be Equal    ${child.name}    Button
 
-Test Find Object By Component
+Test Find Object From Object By Component
     ${plane}=    Find Object    NAME    Plane
-    ${child}=    Find Object From Object    COMPONENT    Button
+    ${child}=    Find Object From Object    ${parent}    COMPONENT    Button
     Should Be Equal    ${child.name}    UIButton
 
-Test Find Object By Path
+Test Find Object From Object By Path
     ${plane}=    Find Object    NAME    Plane
-    ${child}=    Find Object From Object    PATH    /Button
+    ${child}=    Find Object From Object    ${parent}    PATH    /Button
     Should Be Equal    ${child.name}    Button
 
-Test Find Object By Id
+Test Find Object From Object By Id
     ${plane}=    Find Object    NAME    Plane
-    ${child}=    Find Object From Object    ID    049eccc5-b072-468b-83bf-119d868ca311
+    ${child}=    Find Object From Object    ${parent}    ID    049eccc5-b072-468b-83bf-119d868ca311
     Should Be Equal    ${child.name}    Button
 
-Test Find Object By Text
+Test Find Object From Object By Text
     ${plane}=    Find Object    NAME    Plane
-    ${child}=    Find Object From Object    TEXT    Change Camera Mode
+    ${child}=    Find Object From Object    ${parent}    TEXT    Change Camera Mode
     Should Be Equal    ${child.name}    Text
 
 *** Keywords ***

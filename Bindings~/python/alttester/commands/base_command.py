@@ -98,7 +98,7 @@ class Command(metaclass=abc.ABCMeta):
         if by == By.TEXT:
             return "//*[@text={}]".format(value)
         if by == By.PATH:
-            return
+            return value
 
     def get_path_from_object(self, obj, by, value):
         if by == By.TAG:
