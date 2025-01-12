@@ -28,7 +28,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override AltObject Execute()
         {
-            UnityEngine.Debug.Log("OlfFindObject " + CommandParams.path);
             var path = new OldPathSelector(CommandParams.path);
             var foundGameObject = FindObjects(null, path.FirstBound, true, CommandParams.enabled);
             UnityEngine.Camera camera = null;

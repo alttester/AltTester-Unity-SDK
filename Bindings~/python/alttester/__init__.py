@@ -17,6 +17,7 @@
 
 from alttester.altdriver import AltDriver
 from alttester.altobject import AltObject
+from alttester.altdriver_unity import AltDriverUnity
 from alttester.by import By
 from alttester.playerpref import PlayerPrefKeyType
 from alttester.keycode import AltKeyCode
