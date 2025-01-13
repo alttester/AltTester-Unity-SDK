@@ -802,32 +802,32 @@ Test Find Object From Object By Tag
     Should Be Equal    ${child.name}    Button
 
 Test Find Object From Object By Layer
-    ${plane}=    Find Object    NAME    Plane
+    ${parent}=    Find Object    NAME    Plane
     ${child}=    Find Object From Object    ${parent}    LAYER    ButtonLayer
     Should Be Equal    ${child.name}    Button
 
 Test Find Object From Object By Name
-    ${plane}=    Find Object    NAME    Plane
+    ${parent}=    Find Object    NAME    Plane
     ${child}=    Find Object From Object    ${parent}    NAME    Button
     Should Be Equal    ${child.name}    Button
 
 Test Find Object From Object By Component
-    ${plane}=    Find Object    NAME    Plane
+    ${parent}=    Find Object    NAME    Plane
     ${child}=    Find Object From Object    ${parent}    COMPONENT    Button
     Should Be Equal    ${child.name}    UIButton
 
 Test Find Object From Object By Path
-    ${plane}=    Find Object    NAME    Plane
+    ${parent}=    Find Object    NAME    Plane
     ${child}=    Find Object From Object    ${parent}    PATH    /Button
     Should Be Equal    ${child.name}    Button
 
 Test Find Object From Object By Id
-    ${plane}=    Find Object    NAME    Plane
+    ${parent}=    Find Object    NAME    Plane
     ${child}=    Find Object From Object    ${parent}    ID    049eccc5-b072-468b-83bf-119d868ca311
     Should Be Equal    ${child.name}    Button
 
 Test Find Object From Object By Text
-    ${plane}=    Find Object    NAME    Plane
+    ${parent}=    Find Object    NAME    Plane
     ${child}=    Find Object From Object    ${parent}    TEXT    Change Camera Mode
     Should Be Equal    ${child.name}    Text
 
