@@ -316,7 +316,7 @@ class AltTesterKeywords(object):
 
         | ${child}= | Get Object From Object | ${object} | By.NAME | UIButton
         """
-        return alt_object.find_object(self.get_by_enum(locator_strategy), locator,
+        return alt_object.find_object_from_object(self.get_by_enum(locator_strategy), locator,
                                         camera_by=self.get_by_enum(camera_by),
                                         camera_value=camera_value, enabled=enabled)
 
