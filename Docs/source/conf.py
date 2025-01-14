@@ -20,7 +20,7 @@ from pygments.lexers.robotframework import RobotFrameworkLexer
 
 # -- Project information -----------------------------------------------------
 
-copyright = '2024, Altom Consulting'
+copyright = '2025, Altom Consulting'
 author = 'Altom'
 project = 'AltTester® Unity SDK'
 
