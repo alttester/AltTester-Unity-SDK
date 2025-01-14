@@ -796,6 +796,41 @@ Test Reset Input
     ${count}=    Get Component Property    ${countKeyDown}    Input    _keyCodesPressed.Count    AltTester.AltTesterUnitySDK.InputModule
     Should Be Equal As Integers    0    ${count}
 
+Test Find Object From Object By Tag
+    ${parent}=    Find Object    NAME    Canvas
+    ${child}=    Find Object From Object    ${parent}    TAG    Finish
+    Should Be Equal    ${child.name}    Button
+
+Test Find Object From Object By Layer
+    ${parent}=    Find Object    NAME    Canvas
+    ${child}=    Find Object From Object    ${parent}    LAYER    ButtonLayer
+    Should Be Equal    ${child.name}    Button
+
+Test Find Object From Object By Name
+    ${parent}=    Find Object    NAME    Canvas
+    ${child}=    Find Object From Object    ${parent}    NAME    Button
+    Should Be Equal    ${child.name}    Button
+
+Test Find Object From Object By Component
+    ${parent}=    Find Object    NAME    Canvas
+    ${child}=    Find Object From Object    ${parent}    COMPONENT    Button
+    Should Be Equal    ${child.name}    UIButton
+
+Test Find Object From Object By Path
+    ${parent}=    Find Object    NAME    Canvas
+    ${child}=    Find Object From Object    ${parent}    PATH    /Button
+    Should Be Equal    ${child.name}    Button
+
+Test Find Object From Object By Id
+    ${parent}=    Find Object    NAME    Canvas
+    ${child}=    Find Object From Object    ${parent}    ID    049eccc5-b072-468b-83bf-119d868ca311
+    Should Be Equal    ${child.name}    Button
+
+Test Find Object From Object By Text
+    ${parent}=    Find Object    NAME    Canvas
+    ${child}=    Find Object From Object    ${parent}    TEXT    Change Camera Mode
+    Should Be Equal    ${child.name}    Text
+
 *** Keywords ***
 SetUp Tests
     Reset Input

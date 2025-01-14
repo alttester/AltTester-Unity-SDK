@@ -1737,4 +1737,32 @@ public class TestsSampleScene1 extends BaseTest {
         int countKeyDown = altDriver.findObject(prefab).getComponentProperty(count, Integer.class);
         assertEquals(0, countKeyDown);
     }
+
+    @Test
+    public void testFindObjectFromObject() {
+        AltObject parent = altDriver.findObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.NAME, "Canvas").build());
+
+        AltObject child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.TAG, "Finish").build());
+        assertEquals("Button", child.name);
+        child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.LAYER, "ButtonLayer").build());
+        assertEquals("Button", child.name);
+        child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.NAME, "Button").build());
+        assertEquals("Button", child.name);
+        child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.COMPONENT, "Button").build());
+        assertEquals("UIButton", child.name);
+        child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.PATH, "/Button").build());
+        assertEquals("Button", child.name);
+        child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.ID, "049eccc5-b072-468b-83bf-119d868ca311").build());
+        assertEquals("Button", child.name);
+        child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.TEXT, "Change Camera Mode").build());
+        assertEquals("Text", child.name);
+    }
 }
