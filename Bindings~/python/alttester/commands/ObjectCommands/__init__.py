@@ -27,3 +27,4 @@ from alttester.commands.ObjectCommands.pointer_up import *
 from alttester.commands.ObjectCommands.set_component_property import *
 from alttester.commands.ObjectCommands.tap_element import *
 from alttester.commands.ObjectCommands.click_element import *
+from alttester.commands.ObjectCommands.find_object_from_object import *

@@ -40,7 +40,7 @@ An AltDriver instance will connect to the running instrumented Unity application
         @Test
         public void MyTest()
         {
-            AltDriver altDriver = new AltDriver(host: "127.0.0.1", port: 13000);
+            AltDriver altDriver = new AltDriver("127.0.0.1", 13000);
         }
 
     .. code-tab:: py
