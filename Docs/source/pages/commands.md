@@ -3607,6 +3607,67 @@ The **AltObject** class represents the objects present in the app and it allows 
 
 The available methods are the following:
 
+#### FindObjectFromObject
+
+Finds the first child of the object that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+
+**_Parameters_**
+
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene.  |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
+
+**_Returns_**
+
+- AltObject
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestFindObjectFromObject()
+        {
+            var parent = altDriver.FindObject(By.NAME,"Canvas");
+            var child = parent.FindObjectFromObject(By.TEXT,"Change Camera Mode");
+            Assert.AreEqual(child.name, "Text);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testfindObjectFromObject() throws Exception
+        {
+            AltObject parent = altDriver.findObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.NAME, "Canvas").build());
+            child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.TEXT, "Change Camera Mode").build());
+            assertEquals("Text", child.name);
+        }
+
+    .. code-tab:: py
+
+        def test_find_object_from_object(self):
+            parent = self.alt_driver.find_object(By.NAME, "Canvas")
+            child = parent.find_object_from_object(By.TEXT, "Change Camera Mode")
+            assert child.name == "Text
+
+    .. code-tab:: robot
+
+        Test Find Object From Object By Text
+            ${parent}=    Find Object    NAME    Canvas
+            ${child}=    Find Object From Object    ${parent}    TEXT    Change Camera Mode
+            Should Be Equal    ${child.name}    Text
+
+```
+
 ### CallComponentMethod
 
 Invokes a method from an existing component of the object.
