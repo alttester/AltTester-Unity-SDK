@@ -91,7 +91,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             };
             this.wsClient.OnCloseEvent += (sender, e) =>
             {
+                logger.Info($"Driver disconnected {e.Reason}-{e.Code}. Clean: {e.WasClean}");
                 websocketClosedCalled = true;
+                if (e.Code == 1006)
+                    Connect();
+
             };
 
             this.wsClient.Connect();
