@@ -54,6 +54,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         private readonly string driverType;
         private static readonly object _lock = new object();
 
+        bool retryConnection = false;
+
+
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
         private bool websocketClosedCalled = false;
@@ -91,11 +94,20 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
             };
             this.wsClient.OnCloseEvent += (sender, e) =>
             {
+                logger.Info($"Driver disconnected {e.Reason}-{e.Code}. Clean: {e.WasClean}");
+
+                if (e.Code == 1006 && !retryConnection && !websocketClosedCalled)
+                {
+                    retryConnection = true;
+                    Connect();
+                }
                 websocketClosedCalled = true;
+
             };
 
             this.wsClient.Connect();
             websocketClosedCalled = false;
+            retryConnection = false;
 
         }
 
