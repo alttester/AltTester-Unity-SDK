@@ -100,11 +100,22 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 {
                     retryConnection = true;
                     websocketClosedCalled = true;
-                    Connect();
+                    Reconnect();
                 }
 
             };
 
+            this.wsClient.Connect();
+            websocketClosedCalled = false;
+            retryConnection = false;
+
+        }
+        public void Reconnect()
+        {
+            if (wsClient.IsAlive)
+            {
+                return;
+            }
             this.wsClient.Connect();
             websocketClosedCalled = false;
             retryConnection = false;
@@ -183,10 +194,11 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         public void Close()
         {
-
             logger.Info(string.Format("Closing connection to AltTester(R) on: {0}", this.wsClient.URI));
             websocketClosedCalled = true;
+            retryConnection = true;
             this.wsClient.Close();
+            this.wsClient = null;
         }
 
         public void SetCommandTimeout(int timeout)
