@@ -99,9 +99,9 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
                 if (e.Code == 1006 && !retryConnection && !websocketClosedCalled)
                 {
                     retryConnection = true;
+                    websocketClosedCalled = true;
                     Connect();
                 }
-                websocketClosedCalled = true;
 
             };
 
