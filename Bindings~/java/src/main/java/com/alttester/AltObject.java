@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2024 Altom Consulting
+    Copyright(C) 2025 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -113,6 +113,18 @@ public class AltObject {
         AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(By.PATH,
                 "//*[@id=" + this.id + "]/..").build();
         AltObject response = new AltFindObject(messageHandler, altFindObjectsParameters).Execute();
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
+    }
+
+    /**
+     * Returns the child that satisfies the conditions of the AltTester® object on
+     * which it is called
+     *
+     * @return - The child object
+     */
+    public AltObject findObjectFromObject(AltFindObjectsParams altFindObjectsParams) {
+        AltObject response = new AltFindObjectFromObject(messageHandler, altFindObjectsParams, this).Execute();
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
         return response;
     }

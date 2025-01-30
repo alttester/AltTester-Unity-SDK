@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2024 Altom Consulting
+    Copyright(C) 2025 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "2.2.0";
+        public static readonly string VERSION = "2.2.2";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
         public AltInstrumentationSettings InstrumentationSettings = null;

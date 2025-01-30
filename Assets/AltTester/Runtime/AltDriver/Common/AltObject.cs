@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2024 Altom Consulting
+    Copyright(C) 2025 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -92,6 +92,12 @@ namespace AltTester.AltTesterUnitySDK.Driver
             var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return altObject;
+        }
+        public AltObject FindObjectFromObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
+        {
+            var findObject = new AltFindObjectFromObject(CommHandler, by, value, cameraBy, cameraValue, enabled, this).Execute();
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return findObject;
         }
         public AltVector2 GetScreenPosition()
         {

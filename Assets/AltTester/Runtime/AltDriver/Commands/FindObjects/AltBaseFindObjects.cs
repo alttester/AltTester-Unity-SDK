@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2024 Altom Consulting
+    Copyright(C) 2025 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -47,6 +47,36 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
                     break;
                 case By.TEXT:
                     path = "//*[@text=" + value + "]";
+                    break;
+            }
+            return path;
+        }
+
+        protected string SetPathFromObject(AltObject obj, By by, string value)
+        {
+            string path = "";
+            switch (by)
+            {
+                case By.TAG:
+                    path = $"//*[@id={obj.id}]//*[@tag={value}]";
+                    break;
+                case By.LAYER:
+                    path = $"//*[@id={obj.id}]//*[@layer={value}]";
+                    break;
+                case By.NAME:
+                    path = $"//*[@id={obj.id}]//{value}";
+                    break;
+                case By.COMPONENT:
+                    path = $"//*[@id={obj.id}]//*[@component={value}]";
+                    break;
+                case By.PATH:
+                    path = $"//*[@id={obj.id}]{value}";
+                    break;
+                case By.ID:
+                    path = $"//*[@id={obj.id}]//*[@id={value}]";
+                    break;
+                case By.TEXT:
+                    path = $"//*[@id={obj.id}]//*[@text={value}]";
                     break;
             }
             return path;

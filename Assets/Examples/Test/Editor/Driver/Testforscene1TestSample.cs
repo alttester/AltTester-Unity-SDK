@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2024 Altom Consulting
+    Copyright(C) 2025 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -2133,6 +2133,19 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             secondDriver.Stop();
             Assert.True(toggle.GetComponentProperty<bool>("UnityEngine.UI.Toggle", "isOn", "UnityEngine.UI"));
 
+        }
+        [TestCase(By.TAG, "Finish", "Button")]
+        [TestCase(By.LAYER, "ButtonLayer", "Button")]
+        [TestCase(By.NAME, "Button", "Button")]
+        [TestCase(By.COMPONENT, "Button", "UIButton")]
+        [TestCase(By.PATH, "/Button", "Button")]
+        [TestCase(By.ID, "049eccc5-b072-468b-83bf-119d868ca311", "Button")]
+        [TestCase(By.TEXT, "Change Camera Mode", "Text")]
+        public void TestFindObjectFromObject(By by, string value, string nameOfChild)
+        {
+            var parent = altDriver.FindObject(By.NAME, "Canvas");
+            var child = parent.FindObjectFromObject(by, value);
+            Assert.True(child.name == nameOfChild);
         }
     }
 }

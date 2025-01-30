@@ -63,7 +63,7 @@ jobs:
           export ALTSERVER_HOST="192.168.11.35"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
           name: BuildMacArtifact
@@ -99,7 +99,7 @@ jobs:
           export ALTSERVER_HOST="192.168.11.35"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
           name: BuildAndroidArtifact
@@ -134,7 +134,7 @@ jobs:
           xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
           xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath ./
           osascript -e 'tell app "Xcode" to quit'
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
           name: BuildiOSArtifact
@@ -161,7 +161,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: BuildMacArtifact
 
@@ -175,10 +175,10 @@ jobs:
           export ALTSERVER_HOST="192.168.11.35"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile - -quit
       #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
-          name: TestCSharpArtifact
+          name: TestCSharpEditorArtifact
           path: |
             **/*.log
             **/*.log
@@ -204,7 +204,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: BuildMacArtifact
 
@@ -219,7 +219,7 @@ jobs:
           open sampleGame.app
           dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
           name: TestCSharpArtifact
@@ -245,7 +245,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: BuildMacArtifact
 
@@ -290,7 +290,7 @@ jobs:
           allure generate -c allure-report -o allure-results-html
           allure-combine ./allure-results-html
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
           name: TestPythonArtifact
@@ -318,7 +318,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: BuildMacArtifact
 
@@ -348,7 +348,7 @@ jobs:
           export ALTSERVER_HOST="192.168.11.35"
           robot --exclude Mobile Bindings~/robot/tests
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
           name: TestRobotArtifact
@@ -365,7 +365,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: BuildMacArtifact
 
@@ -386,7 +386,7 @@ jobs:
           open sampleGame.app
           cd "Bindings~/java"
           mvn -Dtest=com.alttester.Tests* test
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
           name: TestJavaArtifact
@@ -435,11 +435,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: BuildAndroidArtifact
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: BuildiOSArtifact
 
@@ -482,7 +482,7 @@ jobs:
           allure generate -c Bindings~/python/tests/integration/allure-report -o allure-results-html
           allure-combine ./allure-results-html
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
           name: TestPythonAndroidInBrowserstackArtifact

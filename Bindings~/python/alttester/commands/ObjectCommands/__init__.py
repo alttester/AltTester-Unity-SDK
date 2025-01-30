@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2024 Altom Consulting
+    Copyright(C) 2025 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,3 +27,4 @@ from alttester.commands.ObjectCommands.pointer_up import *
 from alttester.commands.ObjectCommands.set_component_property import *
 from alttester.commands.ObjectCommands.tap_element import *
 from alttester.commands.ObjectCommands.click_element import *
+from alttester.commands.ObjectCommands.find_object_from_object import *

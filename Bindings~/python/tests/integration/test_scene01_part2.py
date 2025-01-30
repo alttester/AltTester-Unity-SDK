@@ -1,5 +1,5 @@
 ﻿"""
-    Copyright(C) 2024 Altom Consulting
+    Copyright(C) 2025 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -474,3 +474,38 @@ class TestScene01Part2:
         countKeyDown = self.alt_driver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
             "Input", "_keyCodesPressed.Count", "AltTester.AltTesterUnitySDK.InputModule")
         assert 0 == countKeyDown
+
+    def test_find_object_in_object_by_tag(self):
+        parent = self.alt_driver.find_object(By.NAME, "Canvas")
+        child = parent.find_object_from_object(By.TAG, "Finish")
+        assert child.name == "Button"
+
+    def test_find_object_in_object_by_layer(self):
+        parent = self.alt_driver.find_object(By.NAME, "Canvas")
+        child = parent.find_object_from_object(By.LAYER, "ButtonLayer")
+        assert child.name == "Button"
+
+    def test_find_object_in_object_by_name(self):
+        parent = self.alt_driver.find_object(By.NAME, "Canvas")
+        child = parent.find_object_from_object(By.NAME, "Button")
+        assert child.name == "Button"
+
+    def test_find_object_in_object_by_component(self):
+        parent = self.alt_driver.find_object(By.NAME, "Canvas")
+        child = parent.find_object_from_object(By.COMPONENT, "Button")
+        assert child.name == "UIButton"
+
+    def test_find_object_in_object_by_path(self):
+        parent = self.alt_driver.find_object(By.NAME, "Canvas")
+        child = parent.find_object_from_object(By.PATH, "/Button")
+        assert child.name == "Button"
+
+    def test_find_object_in_object_by_id(self):
+        parent = self.alt_driver.find_object(By.NAME, "Canvas")
+        child = parent.find_object_from_object(By.ID, "049eccc5-b072-468b-83bf-119d868ca311")
+        assert child.name == "Button"
+
+    def test_find_object_in_object_by_text(self):
+        parent = self.alt_driver.find_object(By.NAME, "Canvas")
+        child = parent.find_object_from_object(By.TEXT, "Change Camera Mode")
+        assert child.name == "Text"

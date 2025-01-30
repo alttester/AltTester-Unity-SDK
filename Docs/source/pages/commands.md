@@ -22,6 +22,42 @@ An AltDriver instance will connect to the running instrumented Unity application
 | deviceInstanceId| string  | No      | The device instance id of the Unity application. The default value is`unknown`.         |
 | appId        | string  | No         | The unique id of the Unity application. The default value is `unknown`.                 |
 
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void MyTest()
+        {
+            AltDriver altDriver = new AltDriver(host: "127.0.0.1", port: 13000);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void MyTest()
+        {
+            AltDriver altDriver = new AltDriver("127.0.0.1", 13000);
+        }
+
+    .. code-tab:: py
+
+        def my_test(self):
+             alt_driver = AltDriver(
+                host="127.0.0.1",
+                port=13000
+             )
+
+    .. code-tab:: robot
+
+        My Test
+            Initialize AltDriver  host="127.0.0.1"  port=13000
+
+```
+
 Once you have an instance of the _AltDriver_, you can use all the available commands to interact with the app. The available methods are the following:
 
 ### Find Objects
@@ -44,7 +80,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 | by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
 | value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
 | cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene.  |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
 
 **_Returns_**
@@ -112,7 +148,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 | by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
 | value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
 | cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene.  |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
 
 **_Returns_**
@@ -184,7 +220,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 | by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
 | value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
 | cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene.  |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
 
 **_Returns_**
@@ -250,7 +286,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 | by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                     |
 | value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                    |
 | cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                     |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene. |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
 
 **_Returns_**
@@ -393,7 +429,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
 | Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
 | ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene.  |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
 
 **_Returns_**
@@ -451,7 +487,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 #### WaitForObject
 
-Waits until it finds an object that respects the given criteria or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
+Waits until it finds an object that respects the given criteria or until the timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
 ```eval_rst
 
@@ -467,10 +503,10 @@ Waits until it finds an object that respects the given criteria or until timeout
 | by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
 | value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
 | cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene.  |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
-| timeout     | double             | No       | The number of seconds that it will wait for object.                                                                                                                                                                                                                                                                                                                                                        |
-| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than timeout.                                                                                                                                                                                                                                                                                       |
+| timeout     | double             | No       | The number of seconds that it will wait for the object. By default it is set to 20 seconds.                                                                                                                                                                                                                                                                                                                                                        |
+| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout.                                                                                                                                                                                                                                                                                       |
 
 **_Returns_**
 
@@ -484,48 +520,33 @@ Waits until it finds an object that respects the given criteria or until timeout
     .. code-tab:: c#
 
         [Test]
-        public void TestWaitForExistingElement()
+        public void TestWaitForObject()
         {
             const string name = "Capsule";
-            var timeStart = DateTime.Now;
-            var altElement = altDriver.WaitForObject(By.NAME, name);
-            var timeEnd = DateTime.Now;
-            var time = timeEnd - timeStart;
-            Assert.Less(time.TotalSeconds, 20);
-            Assert.NotNull(altElement);
-            Assert.AreEqual(altElement.name, name);
+            var altObject = altDriver.WaitForObject(By.NAME, name);
         }
 
     .. code-tab:: java
 
         @Test
-        public void testWaitForExistingElement() {
+        public void testWaitForObject() {
             String name = "Capsule";
-            long timeStart = System.currentTimeMillis();
             AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                             name).build();
             AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                             altFindObjectsParams).build();
-            AltObject altElement = altDriver.waitForObject(altWaitForObjectsParams);
-            long timeEnd = System.currentTimeMillis();
-            long time = timeEnd - timeStart;
-            assertTrue(time / 1000 < 20);
-            assertNotNull(altElement);
-            assertEquals(altElement.name, name);
+            AltObject altObject = altDriver.waitForObject(altWaitForObjectsParams);
         }
 
     .. code-tab:: py
 
         def test_wait_for_object(self):
             alt_object = self.alt_driver.wait_for_object(By.NAME, "Capsule")
-            assert alt_object.name == "Capsule"
 
     .. code-tab:: robot
 
         Test Wait For Object By Name
             ${capsule}=         Wait For Object    NAME         Capsule
-            ${capsule_name}=    Get Object Name    ${capsule}
-            Should Be Equal     ${capsule_name}    Capsule
 
 ```
 
@@ -547,9 +568,9 @@ Waits until it finds an object that respects the given criteria or time runs out
 | by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                     |
 | value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                    |
 | cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                     |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene. |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout     | double             | No       | The number of seconds that it will wait for object                                                                                                                                                                                                                                                                                                                                                        |
+| timeout     | double             | No       | The number of seconds that it will wait for the object. By default it is set to 20 seconds.                                                                                                                                                                                                                                                                                                                                                        |
 | interval    | double             | No       | The number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                           |
 
 **_Returns_**
@@ -567,44 +588,33 @@ Waits until it finds an object that respects the given criteria or time runs out
         public void TestWaitForObjectWhichContains()
         {
             var altObject = altDriver.WaitForObjectWhichContains(By.NAME, "Canva");
-            Assert.AreEqual("Canvas", altObject.name);
         }
 
     .. code-tab:: java
 
         @Test
-        public void TestWaitForObjectWhichContainsWithCameraId() {
-            AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(By.PATH,
-                    "//Main Camera").build();
-            AltObject camera = altDriver.findObject(altFindObjectsParametersCamera);
-
-            AltFindObjectsParams altFindObjectsParametersObject = new AltFindObjectsParams.Builder(By.NAME, "Canva")
-                    .withCamera(By.ID, String.valueOf(camera.id)).build();
+        public void TestWaitForObjectWhichContains() {
+            AltFindObjectsParams altFindObjectsParametersObject = new AltFindObjectsParams.Builder(By.NAME, "Canva").build();
             AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                     altFindObjectsParametersObject).build();
             AltObject altObject = altDriver.waitForObjectWhichContains(altWaitForObjectsParams);
-            assertEquals("Canvas", altObject.name);
-
         }
 
     .. code-tab:: py
 
         def test_wait_for_object_which_contains(self):
-            alt_object = self.alt_driver.wait_for_object_which_contains(By.NAME, "Main")
-            assert alt_object.name == "Main Camera"
+            alt_object = self.alt_driver.wait_for_object_which_contains(By.NAME, "Canva")
 
     .. code-tab:: robot
 
         Test Wait For Object Which Contains
-            ${alt_object}=    Wait For Object Which Contains    NAME    Main
-            ${alt_object_name}=    Get Object Name    ${alt_object}
-            Should Be Equal As Strings    ${alt_object_name}    Main Camera
+            ${alt_object}=    Wait For Object Which Contains    NAME    Canva
 
 ```
 
 #### WaitForObjectNotBePresent
 
-Waits until the object in the scene that respects the given criteria is no longer in the scene or until timeout limit is reached. Check [By](#by-selector) for more information about criteria.
+Waits until the object in the scene that respects the given criteria is no longer in the scene or until the timeout limit is reached. Check [By](#by-selector) for more information about criteria.
 
 ```eval_rst
 
@@ -620,9 +630,9 @@ Waits until the object in the scene that respects the given criteria is no longe
 | by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                     |
 | value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                    |
 | cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                     |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinate of the object will be calculated. If no camera is given It will search through all camera that are in the scene until some camera sees the object or return the screen coordinate of the object calculated to the last camera in the scene. |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene. |
 | enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout     | double             | No       | The number of seconds that it will wait for object.                                                                                                                                                                                                                                                                                                                                                       |
+| timeout     | double             | No       | The number of seconds that it will wait for the object. By default it is set to 20 seconds.                                                                                                                                                                                                                                                                                                                                                      |
 | interval    | double             | No       | The number of seconds after which it will try to find the object again. interval should be smaller than timeout.                                                                                                                                                                                                                                                                                          |
 
 **_Returns_**
@@ -637,9 +647,9 @@ Waits until the object in the scene that respects the given criteria is no longe
     .. code-tab:: c#
 
         [Test]
-        public void TestWaitForObjectToNotExist()
+        public void TestWaitForObjectNotBePresent()
         {
-            altDriver.WaitForObjectNotBePresent(By.NAME, "Capsulee", timeout: 1, interval: 0.5f);
+            altDriver.WaitForObjectNotBePresent(By.NAME, "Capsulee");
         }
 
     .. code-tab:: java
@@ -654,15 +664,12 @@ Waits until the object in the scene that respects the given criteria is no longe
     .. code-tab:: py
 
         def test_wait_for_object_to_not_be_present(self):
-            self.alt_driver.wait_for_object_to_not_be_present(By.NAME, "Capsuule")
+            self.alt_driver.wait_for_object_to_not_be_present(By.NAME, "Capsulee")
 
     .. code-tab:: robot
 
-        Test Wait For Object Not Be Present By Camera
-            Wait For Object To Not Be Present    NAME    ObjectDestroyedIn5Secs    camera_by=NAME    camera_value=Main Camera
-            ${elements}=    Get All Elements
-            ${list}=    Convert To String    ${elements}
-            Should Not Contain    ${list}    'name': 'ObjectDestroyedIn5Secs'
+        Test Wait For Object To Not Be Present
+            Wait For Object To Not Be Present    NAME    Capsulee
 
 ```
 
@@ -3599,6 +3606,67 @@ The **AltObject** class represents the objects present in the app and it allows 
 | transformParentId | int    | The transform parent's id.                                                                                                           |
 
 The available methods are the following:
+
+#### FindObjectFromObject
+
+Finds the first child of the object that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+
+**_Parameters_**
+
+| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
+| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
+| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
+| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
+| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
+
+**_Returns_**
+
+- AltObject
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestFindObjectFromObject()
+        {
+            var parent = altDriver.FindObject(By.NAME,"Canvas");
+            var child = parent.FindObjectFromObject(By.TEXT,"Change Camera Mode");
+            Assert.AreEqual(child.name, "Text);
+        }
+
+    .. code-tab:: java
+
+        @Test
+        public void testfindObjectFromObject() throws Exception
+        {
+            AltObject parent = altDriver.findObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.NAME, "Canvas").build());
+            child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
+                AltDriver.By.TEXT, "Change Camera Mode").build());
+            assertEquals("Text", child.name);
+        }
+
+    .. code-tab:: py
+
+        def test_find_object_from_object(self):
+            parent = self.alt_driver.find_object(By.NAME, "Canvas")
+            child = parent.find_object_from_object(By.TEXT, "Change Camera Mode")
+            assert child.name == "Text
+
+    .. code-tab:: robot
+
+        Test Find Object From Object By Text
+            ${parent}=    Find Object    NAME    Canvas
+            ${child}=    Find Object From Object    ${parent}    TEXT    Change Camera Mode
+            Should Be Equal    ${child.name}    Text
+
+```
 
 ### CallComponentMethod
 

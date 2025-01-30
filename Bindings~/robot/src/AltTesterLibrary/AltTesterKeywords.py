@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2024 Altom Consulting
+    Copyright(C) 2025 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -291,6 +291,34 @@ class AltTesterKeywords(object):
 
         """
         return self._driver.find_object_at_coordinates(coordinates)
+
+    def find_object_from_object(self, alt_object: AltObject, locator_strategy,
+                    locator, camera_by="NAME", camera_value="", enabled=True):
+        """Finds the child of the object on which it is called that respects the given criteria.
+
+        `locator_strategy` one of the following: ID, NAME, PATH, LAYER,
+        COMPONENT, TAG, TEXT.
+
+        `locator` : The actual locator value.
+
+        `camera_by` one of the following: ID, NAME, PATH, LAYER,
+        COMPONENT, TAG, TEXT. The default value is ``NAME``
+
+        `camera_value` : The actual camera value.The default value is ``""``
+
+        `enabled` : If true will match only objects that are active in hierarchy. If false will match all objects.The default value is ``True``
+
+        Example:
+
+        Find the child of the Canvas object by the name UIButton
+
+        | ${object}= | Find Object | NAME | Canvas
+
+        | ${child}= | Get Object From Object | ${object} | By.NAME | UIButton
+        """
+        return alt_object.find_object_from_object(self.get_by_enum(locator_strategy), locator,
+                                        camera_by=self.get_by_enum(camera_by),
+                                        camera_value=camera_value, enabled=enabled)
 
     def get_all_elements(self, camera_by="NAME", camera_value="", enabled=True):
         """Returns information about every object loaded in the currently loaded scenes. This also means objects that

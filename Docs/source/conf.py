@@ -20,7 +20,7 @@ from pygments.lexers.robotframework import RobotFrameworkLexer
 
 # -- Project information -----------------------------------------------------
 
-copyright = '2024, Altom Consulting'
+copyright = '2025, Altom Consulting'
 author = 'Altom'
 project = 'AltTester® Unity SDK'
 
@@ -30,7 +30,7 @@ project = 'AltTester® Unity SDK'
 # https://github.com/sphinx-doc/sphinx/issues/500
 
 TAGS = ["1.8.1", "2.0.0", "2.0.1", "2.0.2",
-        "2.0.3", "2.1.0", "2.1.1", "2.1.2", "2.2.0"]
+        "2.0.3", "2.1.0", "2.1.1", "2.1.2", "2.2.0", "2.2.2"]
 LATEST_VERSION = 'master'
 BRANCHES = ['master']
 
@@ -56,13 +56,12 @@ sdk_release_version = version.replace('.', '_')
 
 alttester_sdk_docs_link = "https://alttester.com/docs/desktop/" + \
     desktop_release_version + "/%s"
-alttester_sdk_download_link = "https://alttester.com/app/uploads/AltTester/sdks/AltTester_" + \
-    sdk_release_version + ".unitypackage%s"
+alttester_unreal_docs_link = "https://alttester.com/docs/unreal-sdk/latest/%s"
 
 extlinks = {
     "alttesterpage":                    ("https://alttester.com/%s", None),
     "alttesterdesktopdocumentation":    (alttester_sdk_docs_link, None),
-    "alttestersdkdownload":             (alttester_sdk_download_link, None),
+    "alttesterunrealdocumentation":     (alttester_unreal_docs_link, None),
     "alttesteriphoneblog":              ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
 }
 

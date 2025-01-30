@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2024 Altom Consulting
+    Copyright(C) 2025 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ import com.alttester.altTesterExceptions.*;
 
 public class AltDriver {
     private static final Logger logger = LogManager.getLogger(AltDriver.class);
-    public static final String VERSION = "2.2.0";
+    public static final String VERSION = "2.2.2";
 
     static {
         ConfigurationFactory custom = new AltDriverConfigFactory();
