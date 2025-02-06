@@ -362,7 +362,7 @@ Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses
 
 | Name        | Type    | Required | Description             |
 | ----------- | ------- | -------- | ----------------------- |
-| coordinates | Vector2 | Yes      | The screen coordinates. |
+| coordinates | AltVector2 | Yes      | The screen coordinates. |
 
 **_Returns_**
 
@@ -998,7 +998,7 @@ Simulates holding left click button down for a specified amount of time at given
 
 | Name        | Type    | Required | Default | Description                                           |
 | ----------- | ------- | -------- | ------- | ----------------------------------------------------- |
-| coordinates | Vector2 | Yes      |         | The coordinates where the button is held down.        |
+| coordinates | AltVector2 | Yes      |         | The coordinates where the button is held down.        |
 | duration    | float   | No       | 0.1     | The time measured in seconds to keep the button down. |
 | wait        | boolean | No       | true    | If set wait for command to finish.                    |
 
@@ -1067,7 +1067,7 @@ Simulate mouse movement in your app.
 
 | Name        | Type    | Required | Default | Description                                                                                            |
 | ----------- | ------- | -------- | ------- | ------------------------------------------------------------------------------------------------------ |
-| coordinates | Vector2 | Yes      |         | The screen coordinates.                                                                                |
+| coordinates | AltVector2 | Yes      |         | The screen coordinates.                                                                                |
 | duration    | float   | No       | 0.1     | The time measured in seconds to move the mouse from the current mouse position to the set coordinates. |
 | wait        | boolean | No       | true    | If set wait for command to finish.                                                                     |
 
@@ -1435,8 +1435,8 @@ Simulates a swipe action between two points.
 
 | Name     | Type    | Required | Default | Description                                                                |
 | -------- | ------- | -------- | ------- | -------------------------------------------------------------------------- |
-| start    | Vector2 | Yes      |         | Starting location of the swipe.                                            |
-| end      | Vector2 | Yes      |         | Ending location of the swipe.                                              |
+| start    | AltVector2 | Yes      |         | Starting location of the swipe.                                            |
+| end      | AltVector2 | Yes      |         | Ending location of the swipe.                                              |
 | duration | float   | No       | 0.1     | The time measured in seconds to move the mouse from start to end location. |
 | wait     | boolean | No       | true    | If set wait for command to finish.                                         |
 
@@ -1723,7 +1723,7 @@ Simulates starting of a touch on the screen. To further interact with the touch 
 
 | Name        | Type    | Required | Description         |
 | ----------- | ------- | -------- | ------------------- |
-| coordinates | Vector2 | Yes      | Screen coordinates. |
+| coordinates | AltVector2 | Yes      | Screen coordinates. |
 
 **_Returns_**
 
@@ -1807,7 +1807,7 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
 | Name        | Type    | Required | Description                                               |
 | ----------- | ------- | -------- | --------------------------------------------------------- |
 | fingerId    | int     | Yes      | Identifier returned by [BeginTouch](#begintouch) command. |
-| coordinates | Vector2 | Yes      | Screen coordinates where the touch will be moved.         |
+| coordinates | AltVector2 | Yes      | Screen coordinates where the touch will be moved.         |
 
 **_Returns_**
 
@@ -1972,7 +1972,7 @@ Click at screen coordinates.
 
 | Name        | Type    | Required | Default | Description                         |
 | ----------- | ------- | -------- | ------- | ----------------------------------- |
-| coordinates | Vector2 | Yes      |         | The screen coordinates.             |
+| coordinates | AltVector2 | Yes      |         | The screen coordinates.             |
 | count       | int     | No       | 1       | Number of clicks.                   |
 | interval    | float   | No       | 0.1     | Interval between clicks in seconds. |
 | wait        | boolean | No       | true    | If set wait for command to finish.  |
@@ -2040,7 +2040,7 @@ Tap at screen coordinates.
 
 | Name        | Type    | Required | Default | Description                         |
 | ----------- | ------- | -------- | ------- | ----------------------------------- |
-| coordinates | Vector2 | Yes      |         | The screen coordinates.             |
+| coordinates | AltVector2 | Yes      |         | The screen coordinates.             |
 | count       | int     | No       | 1       | Number of taps.                     |
 | interval    | float   | No       | 0.1     | Interval between taps in seconds.   |
 | wait        | boolean | No       | true    | If set wait for command to finish.  |
@@ -2108,7 +2108,7 @@ Simulates device rotation action in your app.
 
 | Name         | Type    | Required | Default | Description                                 |
 | ------------ | ------- | -------- | ------- | ------------------------------------------- |
-| acceleration | Vector3 | Yes      |         | The linear acceleration of a device.        |
+| acceleration | AltVector3 | Yes      |         | The linear acceleration of a device.        |
 | duration     | float   | No       | 0.1     | How long the rotation will take in seconds. |
 | wait         | boolean | No       | true    | If set wait for command to finish.          |
 
