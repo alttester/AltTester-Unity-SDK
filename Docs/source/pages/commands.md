@@ -85,7 +85,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -153,7 +153,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 **_Returns_**
 
-- List of AltObjects or an empty list if no objects were found.
+- List of [AltObjects](#altobject) or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -225,7 +225,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -291,7 +291,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 **_Returns_**
 
-- List of AltObjects or an empty list if no objects were found.
+- List of [AltObjects](#altobject) or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -366,7 +366,7 @@ Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses
 
 **_Returns_**
 
-- AltObject - The UI object hit by event system Raycast, nothing otherwise.
+- [AltObject](#altobject) - The UI object hit by event system Raycast, nothing otherwise.
 
 **_Examples_**
 
@@ -434,7 +434,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 **_Returns_**
 
-- List of AltObjects or an empty list if no objects were found.
+- List of [AltObjects](#altobject) or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -510,7 +510,7 @@ Waits until it finds an object that respects the given criteria or until the tim
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -575,7 +575,7 @@ Waits until it finds an object that respects the given criteria or time runs out
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -3623,7 +3623,7 @@ Finds the first child of the object that respects the given criteria. Check [By]
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -4186,7 +4186,7 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -4387,7 +4387,7 @@ None
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -4474,7 +4474,7 @@ None
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -4564,7 +4564,7 @@ None
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -4690,7 +4690,7 @@ None
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -4815,7 +4815,7 @@ None
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
@@ -4884,7 +4884,7 @@ None
 
 **_Returns_**
 
-- AltObject
+- [AltObject](#altobject)
 
 **_Examples_**
 
