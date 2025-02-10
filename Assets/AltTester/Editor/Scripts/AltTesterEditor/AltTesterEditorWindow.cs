@@ -947,7 +947,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 labelAndInputFieldHorizontalLayout("Company Name*", ref companyName);
                 UnityEditor.PlayerSettings.companyName = companyName;
 
-                var productName = Regex.Replace(UnityEditor.PlayerSettings.productName, "[^a-zA-Z0-9 ]", "");
+                var productName = Regex.Replace(UnityEditor.PlayerSettings.productName, "[^a-zA-Z0-9 _-]", "");
                 labelAndInputFieldHorizontalLayout("Product Name*", ref productName);
                 UnityEditor.PlayerSettings.productName = productName;
 
