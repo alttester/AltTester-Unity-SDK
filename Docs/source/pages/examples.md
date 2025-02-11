@@ -44,7 +44,7 @@ We plan to add more examples in the near future.
 
 **4.** Example test projects for AltTester® Unity SDK for a project that uses UIToolkit:
 
-* C# tests [DragonCrasher](https://github.com/alttester/Example-CSharp-Standalone-DragonCrasher): This project demonstrates how to write and run automated tests using AltTester in a Unity project that utilizes UI Toolkit. It includes pre-written tests that interact with Unity UI elements and validate behaviors. Follow the provided setup instructions to build the project and execute the tests.
+* C# tests [DragonCrasher](https://github.com/alttester/Example-CSharp-Standalone-DragonCrasher): This project demonstrates how to write and run automated tests using AltTester® in a Unity project that utilizes UI Toolkit. It includes pre-written tests that interact with Unity UI elements and validate behaviors. Follow the provided setup instructions to build the project and execute the tests.
 
 
 
