@@ -26,10 +26,10 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         {
             cmdParams = new AltGetAllVisualElementPropertyParams(altObject);
         }
-        public Dictionary<string, string> Execute()
+        public Dictionary<string, object> Execute()
         {
             CommHandler.Send(cmdParams);
-            return CommHandler.Recvall<Dictionary<string, string>>(cmdParams);
+            return CommHandler.Recvall<Dictionary<string, object>>(cmdParams);
         }
     }
 }

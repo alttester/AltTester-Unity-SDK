@@ -16,6 +16,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
 
@@ -272,6 +273,16 @@ namespace AltTester.AltTesterUnitySDK.Driver
                 throw new WrongAltObjectTypeException("This method is only available for VisualElement objects");
             }
             var propertyValue = new AltGetVisualElementProperty<T>(CommHandler, propertyName, this).Execute();
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return propertyValue;
+        }
+        public Dictionary<string, object> GetAllVisualElementProperties()
+        {
+            if (type != "UIToolkit")
+            {
+                throw new WrongAltObjectTypeException("This method is only available for VisualElement objects");
+            }
+            var propertyValue = new AltGetAllVisualElementProperties(CommHandler, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return propertyValue;
         }
