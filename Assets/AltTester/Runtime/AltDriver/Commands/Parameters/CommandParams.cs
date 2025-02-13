@@ -843,7 +843,6 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
     [Command("getAllVisualElementProperty")]
     public class AltGetAllVisualElementPropertyParams : BaseAltObjectParams
     {
-        public string property;
 
         public AltGetAllVisualElementPropertyParams(AltObject altObject) : base(altObject)
         {
