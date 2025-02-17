@@ -286,5 +286,11 @@ namespace AltTester.AltTesterUnitySDK.Driver
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return propertyValue;
         }
+        public T WaitForVisualElementProperty<T>(string propertyName, T propertyValue, double timeout = 20, double interval = 0.5, bool getPropertyAsString = false, int maxDepth = 2)
+        {
+            var propertyFound = new AltWaitForVisualElementProperty<T>(CommHandler, propertyName, propertyValue, timeout, interval, getPropertyAsString, maxDepth, this).Execute();
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return propertyFound;
+        }
     }
 }
