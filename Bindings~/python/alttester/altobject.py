@@ -399,3 +399,27 @@ class AltObject:
             raise exceptions.WrongAltObjectTypeException(
                 "This method is only available for VisualElement objects")
         return commands.GetVisualElementProperty.run(self._connection,  property_name, self,)
+
+    def wait_for_visual_element_property(self, property_name,
+                                         property_value, timeout=20, interval=0.5,
+                                         get_property_as_string=False):
+        """Waits until a property of the current object has a specific value.
+
+        Args:
+            property_name (str): The name of the property of which value you want to get.
+            property_value (str): The value of the property expected.
+            timeout (int, optional): The number of seconds that it will wait for property. Defaults to 20.
+            interval (int, optional): The number of seconds after which it will try to find the object again. Defaults to 0.5.
+            get_property_as_string (bool, optional): A boolean value that makes the property_value
+                to be compared as a string with the property from the instrumented app. Defaults to False.
+
+        Returns:
+            The property value is serialized to a JSON string.
+
+        Raises:
+            WrongAltObjectTypeException: The method is called on an object that is not a VisualElement.
+        """
+        if self.type != "UIToolkit":
+            raise exceptions.WrongAltObjectTypeException(
+                "This method is only available for VisualElement objects")
+        return commands.WaitForVisualElementProperty.run(self._connection,  property_name, property_value, timeout, interval, get_property_as_string, self,)

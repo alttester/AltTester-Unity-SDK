@@ -29,6 +29,8 @@ import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
 import com.alttester.Commands.FindObject.AltWaitForComponentProperty;
 import com.alttester.Commands.FindObject.AltWaitForComponentPropertyParams;
+import com.alttester.Commands.FindObject.AltWaitForVisualElementProperty;
+import com.alttester.Commands.FindObject.AltWaitForVisualElementPropertyParams;
 import com.alttester.Commands.FindObject.AltFindObject;
 
 @Getter
@@ -378,7 +380,7 @@ public class AltObject {
      * @return The value of the specified property.
      * @throws WrongAltObjectTypeException if the object type is not "UIToolkit".
      */
-    public <T> T GetVisualElementProperty(String propertyName, Class<T> returnType) {
+    public <T> T getVisualElementProperty(String propertyName, Class<T> returnType) {
         if (!type.equals("UIToolkit")) {
             throw new WrongAltObjectTypeException("This method is only available for VisualElement objects");
         }
@@ -391,4 +393,28 @@ public class AltObject {
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
         return propertyValue;
     }
+
+    @Deprecated
+    public <T> T GetVisualElementProperty(String propertyName, Class<T> returnType) {
+        return getVisualElementProperty(propertyName, returnType);
+    }
+
+    public <T> T waitForVisualElementProperty(
+            AltWaitForVisualElementPropertyParams<T> altWaitForVisualElementPropertyParams,
+            T propertyValue,
+            Class<T> returnType) {
+
+        if (!type.equals("UIToolkit")) {
+            throw new WrongAltObjectTypeException("This method is only available for VisualElement objects");
+        }
+
+        altWaitForVisualElementPropertyParams.setAltObject(this);
+        T response = new AltWaitForVisualElementProperty<T>(messageHandler,
+                altWaitForVisualElementPropertyParams,
+                propertyValue, this)
+                .Execute(returnType);
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
+    }
+
 }
