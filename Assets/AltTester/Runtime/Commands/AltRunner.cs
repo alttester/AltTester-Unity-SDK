@@ -120,10 +120,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
             var altObject = new AltObject(
                 name: altGameObject.name,
                 id: altGameObject.GetInstanceID(),
-                x: Convert.ToInt32(UnityEngine.Mathf.Round(position.x)),
-                y: Convert.ToInt32(UnityEngine.Mathf.Round(position.y)),
-                z: Convert.ToInt32(UnityEngine.Mathf.Round(position.z)),//if z is negative object is behind the camera
-                mobileY: Convert.ToInt32(UnityEngine.Mathf.Round(UnityEngine.Screen.height - position.y)),
+                x: Convert.ToInt32(Mathf.Clamp(Mathf.Round(position.x), int.MinValue, int.MaxValue)),
+                y: Convert.ToInt32(Mathf.Clamp(Mathf.Round(position.y), int.MinValue, int.MaxValue)),
+                z: Convert.ToInt32(Mathf.Clamp(Mathf.Round(position.z), int.MinValue, int.MaxValue)),//if z is negative object is behind the camera
+                mobileY: Convert.ToInt32(Mathf.Clamp(Mathf.Round(UnityEngine.Screen.height - position.y),int.MinValue,int.MaxValue)),
                 type: "",
                 enabled: altGameObject.activeSelf,
                 worldX: altGameObject.transform.position.x,
