@@ -5154,32 +5154,34 @@ Waits for a visual element property to match a specified value.
         public void TestWaitForVisualElementProperty()
         {
             var playButton = altDriver.FindObject(By.NAME, "Play");
-            // Wait for the "text" property of a visual element to match "Hello World"
-            playButton.WaitForVisualElementProperty("text", "Hello World", 10, 0.5);
+            // Wait for the "width" property of a visual element to match 300f
+            playButton.WaitForVisualElementProperty("width", 300f, 2, 0.5);
         }
 
     .. code-tab:: java
 
-        @Test
+         @Test
         public void testWaitForVisualElementProperty() {
-            AltObject playButton=altDriver.findObject(new AltFindObjectsParams.Builder(By.NAME, "Play").build());
-            // Wait for the "text" property of a visual element to match "Hello World"
-            altObject.waitForVisualElementProperty("text", "Hello World", 10, 0.5);
+            AltObject playButton = altDriver.findObject(new AltFindObjectsParams.Builder(By.NAME, "Play").build());
+            /// Wait for the "width" property of a visual element to match 300
+            AltWaitForVisualElementPropertyParams<Float> altWaitForVisualElementPropertyParams = new AltWaitForVisualElementPropertyParams.Builder<Float>(
+                    "width", 300f).withTimeout(10).withInterval(0.5).build();
+            playButton.waitForVisualElementProperty(altWaitForVisualElementPropertyParams, 300f, Float.class);
         }
 
     .. code-tab:: py
 
         def test_wait_for_visual_element_property(self):
             play_button = self.alt_driver.find_object(By.NAME, "Play")
-            # Wait for the "text" property of a visual element to match "Hello World"
-            self.alt_object.wait_for_visual_element_property("text", "Hello World", 10, 0.5)
+            # Wait for the "width" property of a visual element to match 300
+            play_button.wait_for_visual_element_property("width", 300, 10, 0.5)
 
     .. code-tab:: robot
     
         Test Wait For Visual Element Property
             ${play_button}=    Find Object    Name    Play
-            # Wait for the text property of the visual element to be "Hello World"
-            Wait For Visual Element Property    ${play_button}    text    Hello World    10    0.5
+            # Wait for the "width" property of a visual element to match 300
+            Wait For Visual Element Property    ${play_button}    width    300    10    0.5
 
 ```
 

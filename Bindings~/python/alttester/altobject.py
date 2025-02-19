@@ -398,7 +398,7 @@ class AltObject:
         if self.type != "UIToolkit":
             raise exceptions.WrongAltObjectTypeException(
                 "This method is only available for VisualElement objects")
-        return commands.GetVisualElementProperty.run(self._connection,  property_name, self,)
+        return commands.GetVisualElementProperty.run(self._connection,  property_name, self)
 
     def wait_for_visual_element_property(self, property_name,
                                          property_value, timeout=20, interval=0.5,
@@ -422,4 +422,4 @@ class AltObject:
         if self.type != "UIToolkit":
             raise exceptions.WrongAltObjectTypeException(
                 "This method is only available for VisualElement objects")
-        return commands.WaitForVisualElementProperty.run(self._connection,  property_name, property_value, timeout, interval, get_property_as_string, self,)
+        return commands.WaitForVisualElementProperty.run(property_name, property_value, self, timeout, interval, get_property_as_string)

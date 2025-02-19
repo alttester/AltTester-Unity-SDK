@@ -46,8 +46,8 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         public T Execute()
         {
             double time = 0;
-            JToken jTokenPropertyFound = "";
             string strPropertyValue = "";
+            string propertyFoundString = "";
             while (time < timeout)
             {
                 logger.Debug($"Waiting for property {propertyName} to be {propertyValue}.");
@@ -57,14 +57,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
                 if (!getPropertyAsString && propertyFound.Equals(propertyValue))
                     return propertyFound;
                 strPropertyValue = propertyValue.ToString() == "" ? "null" : propertyValue.ToString();
-                jTokenPropertyFound = propertyFound == null ? "null" : propertyFound as JToken;
+                JToken jTokenPropertyFound = propertyFound == null ? "null" : propertyFound as JToken;
+                propertyFoundString = propertyFound.ToString();
                 if (getPropertyAsString && jTokenPropertyFound.ToString().Equals(strPropertyValue))
                     return propertyFound;
 
                 Thread.Sleep(System.Convert.ToInt32(interval * 1000));
                 time += interval;
             }
-            throw new WaitTimeOutException($"Property {propertyName} was {jTokenPropertyFound} and was not {strPropertyValue} after {timeout} seconds");
+            throw new WaitTimeOutException($"Property {propertyName} was {propertyFoundString} and was not {strPropertyValue} after {timeout} seconds");
         }
     }
 }
