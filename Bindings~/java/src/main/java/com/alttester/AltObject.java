@@ -400,8 +400,9 @@ public class AltObject {
     }
 
     public <T> T waitForVisualElementProperty(
-            AltWaitForVisualElementPropertyParams<T> altWaitForVisualElementPropertyParams,
+            AltWaitForVisualElementPropertyParams altWaitForVisualElementPropertyParams,
             T propertyValue,
+            boolean getPropertyAsString,
             Class<T> returnType) {
 
         if (!type.equals("UIToolkit")) {
@@ -411,7 +412,7 @@ public class AltObject {
         altWaitForVisualElementPropertyParams.setAltObject(this);
         T response = new AltWaitForVisualElementProperty<T>(messageHandler,
                 altWaitForVisualElementPropertyParams,
-                propertyValue, this)
+                propertyValue, getPropertyAsString, this)
                 .Execute(returnType);
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
         return response;

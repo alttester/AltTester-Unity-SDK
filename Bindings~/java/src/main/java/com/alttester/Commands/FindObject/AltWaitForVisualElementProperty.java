@@ -40,7 +40,7 @@ public class AltWaitForVisualElementProperty<T> extends AltBaseFindObject {
      *                            actual value as strings
      */
     private AltObject altObject;
-    private AltWaitForVisualElementPropertyParams<T> waitParams;
+    private AltWaitForVisualElementPropertyParams waitParams;
     private T property;
     private Boolean getPropertyAsString = false;
 
@@ -49,7 +49,7 @@ public class AltWaitForVisualElementProperty<T> extends AltBaseFindObject {
      * @param AltWaitForVisualElementPropertyParams
      */
     public AltWaitForVisualElementProperty(IMessageHandler messageHandler,
-            AltWaitForVisualElementPropertyParams<T> AltWaitForVisualElementPropertyParams, T property,
+            AltWaitForVisualElementPropertyParams AltWaitForVisualElementPropertyParams, T property,
             AltObject altObject) {
         super(messageHandler);
         this.waitParams = AltWaitForVisualElementPropertyParams;
@@ -58,7 +58,7 @@ public class AltWaitForVisualElementProperty<T> extends AltBaseFindObject {
     }
 
     public AltWaitForVisualElementProperty(IMessageHandler messageHandler,
-            AltWaitForVisualElementPropertyParams<T> AltWaitForVisualElementPropertyParams, T property,
+            AltWaitForVisualElementPropertyParams AltWaitForVisualElementPropertyParams, T property,
             Boolean getPropertyAsString, AltObject altObject) {
         super(messageHandler);
         this.waitParams = AltWaitForVisualElementPropertyParams;

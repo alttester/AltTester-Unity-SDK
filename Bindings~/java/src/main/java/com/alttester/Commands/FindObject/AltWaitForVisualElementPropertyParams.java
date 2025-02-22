@@ -21,36 +21,32 @@ package com.alttester.Commands.FindObject;
 import com.alttester.AltMessage;
 import com.alttester.AltObject;
 
-public class AltWaitForVisualElementPropertyParams<T> extends AltMessage {
-    public static class Builder<T> {
+public class AltWaitForVisualElementPropertyParams extends AltMessage {
+    public static class Builder {
         private String propertyName;
         private double timeout = 20;
         private double interval = 0.5;
-        private T propertyValue;
         private AltObject altObject;
 
-        public Builder(String propertyName, T propertyValue) {
+        public Builder(String propertyName) {
             this.propertyName = propertyName;
-            this.propertyValue = propertyValue;
         }
 
-        public AltWaitForVisualElementPropertyParams.Builder<T> withTimeout(double timeout) {
+        public AltWaitForVisualElementPropertyParams.Builder withTimeout(double timeout) {
             this.timeout = timeout;
             return this;
         }
 
-        public AltWaitForVisualElementPropertyParams.Builder<T> withInterval(double interval) {
+        public AltWaitForVisualElementPropertyParams.Builder withInterval(double interval) {
             this.interval = interval;
             return this;
         }
 
-        public AltWaitForVisualElementPropertyParams<T> build() {
-            AltWaitForVisualElementPropertyParams<T> AltWaitForVisualElementPropertyParams = new AltWaitForVisualElementPropertyParams<T>();
+        public AltWaitForVisualElementPropertyParams build() {
+            AltWaitForVisualElementPropertyParams AltWaitForVisualElementPropertyParams = new AltWaitForVisualElementPropertyParams();
             AltWaitForVisualElementPropertyParams.propertyName = this.propertyName;
-            AltWaitForVisualElementPropertyParams.propertyValue = propertyValue;
             AltWaitForVisualElementPropertyParams.timeout = this.timeout;
             AltWaitForVisualElementPropertyParams.interval = this.interval;
-            AltWaitForVisualElementPropertyParams.propertyValue = this.propertyValue;
             AltWaitForVisualElementPropertyParams.altObject = this.altObject;
 
             return AltWaitForVisualElementPropertyParams;
@@ -61,7 +57,6 @@ public class AltWaitForVisualElementPropertyParams<T> extends AltMessage {
     }
 
     private String propertyName;
-    private T propertyValue;
     private double timeout = 20;
     private double interval = 0.5;
     private AltObject altObject;
@@ -80,14 +75,6 @@ public class AltWaitForVisualElementPropertyParams<T> extends AltMessage {
 
     public void setAltObject(AltObject altObject) {
         this.altObject = altObject;
-    }
-
-    public T getPropertyValue() {
-        return propertyValue;
-    }
-
-    public void setPropertyValue(T propertyValue) {
-        this.propertyValue = propertyValue;
     }
 
     public double getTimeout() {
