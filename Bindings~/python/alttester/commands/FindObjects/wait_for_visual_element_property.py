@@ -60,8 +60,8 @@ class WaitForVisualElementProperty(Command):
             t += self.interval
         if exception:
             raise WaitTimeOutException(
-                "After {} seconds, exception was: {} for component: {} and property {}".format(
-                    self.timeout, exception, self.component_name, self.property_name
+                "After {} seconds, exception was: {} for  property {}".format(
+                    self.timeout, exception, self.property_name
                 )
             )
         raise WaitTimeOutException(
