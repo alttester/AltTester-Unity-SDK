@@ -70,11 +70,12 @@ jobs:
         run: |
           mkdir -p public/AltTester || true
           mkdir -p public/SampleScenes || true
+          VERSION=$(jq -r '.version' package.json | sed 's/\./_/g')
           $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
-          cp $AUT public/AltTester/AltTester.unitypackage
-          cp $AUT public/AltTester/AltTester_2_0_1.unitypackage
+          cp $AUT public/AltTester/AltTesterUnitySDK.unitypackage
+          cp $AUT public/AltTester/AltTesterUnitySDK_${VERSION}.unitypackage
           cp SampleScenes.unitypackage public/AltTester/SampleScenes.unitypackage
       - uses: actions/upload-artifact@v4
         with:
