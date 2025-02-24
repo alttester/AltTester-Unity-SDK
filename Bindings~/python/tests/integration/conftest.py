@@ -21,7 +21,7 @@ import os
 import sys
 import pytest
 import time
-from alttester import AltDriver
+from alttester import AltDriver, AltDriverUnity
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
 from appium.options.android import UiAutomator2Options
@@ -99,6 +99,34 @@ def alt_driver(request, appium_driver, worker_id, current_device):
         platform_version=current_device["os_version"].split(".")[0],
         timeout=180
     )
+
+    request.cls.alt_driver = alt_driver
+    print("Started alt_driver (worker {})".format(worker_id) +
+          " with device: {}".format(current_device))
+    yield alt_driver
+
+    try:
+        alt_driver.stop()
+    except Exception:
+        print("AltDriver was already stopped.")
+
+
+@pytest.fixture(scope="class")
+def alt_driver_unity(request, appium_driver, worker_id, current_device):
+    request.cls.alt_driver.stop()
+
+    platform = current_device["os"]
+    if current_device["os"] == "ios":
+        platform = "iphone"
+    alt_driver = AltDriverUnity(
+        host=get_host(),
+        port=get_port(),
+        app_name=get_app_name(),
+        platform=platform,
+        platform_version=current_device["os_version"].split(".")[0],
+        timeout=180
+    )
+
     request.cls.alt_driver = alt_driver
     print("Started alt_driver (worker {})".format(worker_id) +
           " with device: {}".format(current_device))

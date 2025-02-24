@@ -28,7 +28,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override List<AltObject> Execute()
         {
-            UnityEngine.Debug.Log("OlfFindObject " + CommandParams.path);
             UnityEngine.Camera camera = null;
             if (!CommandParams.cameraPath.Equals("//"))
             {

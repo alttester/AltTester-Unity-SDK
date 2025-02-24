@@ -46,5 +46,15 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             return new AltDriver(host: GetAltDriverHost(), port: GetAltDriverPort(), enableLogging: true);
         }
 
+        public static AltDriverUnity GetAltDriverUnity()
+        {
+            return new AltDriverUnity(host: GetAltDriverHost(), port: GetAltDriverPort(), enableLogging: true);
+        }
+
+        public static AltDriverUnreal GetAltDriverUnreal()
+        {
+            return new AltDriverUnreal(host: GetAltDriverHost(), port: GetAltDriverPort(), enableLogging: true);
+        }
+
     }
 }
