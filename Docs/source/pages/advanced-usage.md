@@ -193,7 +193,7 @@ commands:
 2. Start the app build on a device.
 3. Run your tests - see commands in the ["Run tests from the command line" section](#run-tests-from-the-command-line).
 
-An example CI configuration file can be viewed in the [GitLab repository](https://gitlab.com/altom/altunity/altunitytester/-/blob/master/.gitlab-ci.yml).
+An example CI configuration file can be viewed in the [GitHub repository](https://github.com/alttester/AltTester-Unity-SDK/blob/development/.github/workflows/push.yml).
 
 
 ## What is reverse port forwarding and when to use it
