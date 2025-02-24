@@ -293,7 +293,7 @@ class AltTesterKeywords(object):
         return self._driver.find_object_at_coordinates(coordinates)
 
     def find_object_from_object(self, alt_object: AltObject, locator_strategy,
-                    locator, camera_by="NAME", camera_value="", enabled=True):
+                                locator, camera_by="NAME", camera_value="", enabled=True):
         """Finds the child of the object on which it is called that respects the given criteria.
 
         `locator_strategy` one of the following: ID, NAME, PATH, LAYER,
@@ -317,8 +317,9 @@ class AltTesterKeywords(object):
         | ${child}= | Get Object From Object | ${object} | By.NAME | UIButton
         """
         return alt_object.find_object_from_object(self.get_by_enum(locator_strategy), locator,
-                                        camera_by=self.get_by_enum(camera_by),
-                                        camera_value=camera_value, enabled=enabled)
+                                                  camera_by=self.get_by_enum(
+                                                      camera_by),
+                                                  camera_value=camera_value, enabled=enabled)
 
     def get_all_elements(self, camera_by="NAME", camera_value="", enabled=True):
         """Returns information about every object loaded in the currently loaded scenes. This also means objects that
@@ -1269,6 +1270,33 @@ class AltTesterKeywords(object):
         | ${property}= | Get Visual Element Property | ${object} | stringToSetFromTests
         """
         return alt_object.get_visual_element_property(property_name)
+
+    def wait_for_visual_element_property(self, alt_object: AltObject, property_name, property_value, timeout=20, interval=0.5, get_property_as_string=False):
+        """Waits until a property of the current object has a specific value and returns the value of the given visual element property.
+
+        alt_object : The AltObject for which we want to wait for property.
+
+        property_name : The name of the property of which value you want. If the property is an array
+            you can specify which element of the array to return by doing ``property[index]``, or if you want a
+            property inside of another property you can get by doing ``property.subProperty``.
+
+        property_value : The value of the component expected.
+
+        timeout : The number of seconds that it will wait for property. Default value is 20 seconds.
+
+        interval : The number of seconds after which it will try to find the object again. The interval should be smaller than timeout. Default value is 0.5.
+
+        get_property_as_string: A boolean value that compares the property_value as a string with the property from the instrumented app.
+
+        Example:
+
+        Wait for property TestBool from Capsule
+
+        | ${object}= | Find Object | NAME | Capsule
+
+        | ${result}= | Wait For Component Property | ${object} | AltExampleScriptCapsule | TestBool | ${True} | Assembly-CSharp
+        """
+        return alt_object.wait_for_visual_element_property(property_name, property_value, timeout, interval, get_property_as_string)
 
     def get_text(self, alt_object: AltObject):
         """Returns text value from alt_object.

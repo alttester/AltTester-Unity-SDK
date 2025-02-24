@@ -5117,8 +5117,71 @@ Returns the value of the given property for a visual element.
 
         Test Get Visual Element Property
             ${play_button}=    Find Object    Name    Play
-            ${widht}=    Get Visual Element Property    ${play_button}    width
-            Should Be Equal    ${widht}  
+            ${width}=    Get Visual Element Property    ${play_button}    width
+            Should Be Equal    ${width}    300
+
+```
+
+
+
+### WaitForVisualElementProperty[Non-GPL]
+
+Waits for a visual element property to match a specified value.
+
+**_Parameters_**
+
+| Name                | Type    | Required | Description                                                                                                     |
+| ------------------- | ------- | -------- | --------------------------------------------------------------------------------------------------------------- |
+| propertyName        | string  | Yes      | The name of the property to wait for. The list of supported properties can be found in the [Unity Documentation](https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html). |
+| propertyValue       | T  | Yes      | The value to wait for the property to match.                                                                    |
+| timeout             | number  | No       | The maximum time to wait for the property to match the value. Default is 20 seconds.                                     |
+| interval            | number  | No       | The interval at which to check the property value. Default is 0.5 seconds.                                      |
+| getPropertyAsString | boolean | No       | Whether to retrieve the property value as a string. Default is false.                                           |
+
+
+**_Returns_**
+
+- Object: the value of the property once it matches the specified value.
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        [Test]
+        public void TestWaitForVisualElementProperty()
+        {
+            var playButton = altDriver.FindObject(By.NAME, "Play");
+            // Wait for the "width" property of a visual element to match 300f
+            playButton.WaitForVisualElementProperty("width", 300f, 2, 0.5);
+        }
+
+    .. code-tab:: java
+
+         @Test
+        public void testWaitForVisualElementProperty() {
+            AltObject playButton = altDriver.findObject(new AltFindObjectsParams.Builder(By.NAME, "Play").build());
+            /// Wait for the "width" property of a visual element to match 300
+            AltWaitForVisualElementPropertyParams<Float> altWaitForVisualElementPropertyParams = new AltWaitForVisualElementPropertyParams.Builder<Float>(
+                    "width", 300f).withTimeout(10).withInterval(0.5).build();
+            playButton.waitForVisualElementProperty(altWaitForVisualElementPropertyParams, 300f, Float.class);
+        }
+
+    .. code-tab:: py
+
+        def test_wait_for_visual_element_property(self):
+            play_button = self.alt_driver.find_object(By.NAME, "Play")
+            # Wait for the "width" property of a visual element to match 300
+            play_button.wait_for_visual_element_property("width", 300, 10, 0.5)
+
+    .. code-tab:: robot
+    
+        Test Wait For Visual Element Property
+            ${play_button}=    Find Object    Name    Play
+            # Wait for the "width" property of a visual element to match 300
+            Wait For Visual Element Property    ${play_button}    width    300    10    0.5
 
 ```
 
