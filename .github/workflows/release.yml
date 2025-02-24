@@ -70,7 +70,7 @@ jobs:
         run: |
           mkdir -p public/AltTester || true
           mkdir -p public/SampleScenes || true
-          VERSION=$(jq -r '.version' package.json | sed 's/\./_/g')
+          VERSION=$(jq -r '.version' Assets/package.json | sed 's/\./_/g')
           $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
