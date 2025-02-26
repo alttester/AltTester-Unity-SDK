@@ -5124,7 +5124,7 @@ Returns the value of the given property for a visual element.
 
 
 
-### WaitForVisualElementProperty[Non-GPL]
+### WaitForVisualElementProperty [Non-GPL]
 
 Waits for a visual element property to match a specified value.
 
