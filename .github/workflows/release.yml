@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish-python-pip-package:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     steps:
       - uses: actions/checkout@v3
@@ -27,7 +27,7 @@ jobs:
           python3 -m twine upload dist/*
 
   publish-robot-pip-package:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     steps:
       - uses: actions/checkout@v3
@@ -63,7 +63,7 @@ jobs:
           dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.2.2.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
   create-unity-package:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     steps:
       - uses: actions/checkout@v3
       - name: Create Unity Package
