@@ -19,144 +19,70 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Driver.Commands;
+using Newtonsoft.Json;
 
 namespace AltTester.AltTesterUnitySDK.Driver
 {
-    public class AltObject
+    public class AltObject: AltObjectBase
     {
-        public string name;
-        public int id;
-        public int x;
-        public int y;
-        public int z;
-        public int mobileY;
-        public string type;
-        public bool enabled;
-        public float worldX;
-        public float worldY;
-        public float worldZ;
-        public int idCamera;
-        public int transformParentId;
-        public int transformId;
-        [Newtonsoft.Json.JsonIgnore]
-        public IDriverCommunication CommHandler;
-
+        
+        [JsonConstructor]
         public AltObject(string name, int id = 0, int x = 0, int y = 0, int z = 0, int mobileY = 0, string type = "", bool enabled = true, float worldX = 0, float worldY = 0, float worldZ = 0, int idCamera = 0, int transformParentId = 0, int transformId = 0)
+            : base(name, id, x, y, z, mobileY, type, enabled, worldX, worldY, worldZ, idCamera, transformParentId, transformId)
         {
-            this.name = name;
-            this.id = id;
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.mobileY = mobileY;
-            this.type = type;
-            this.enabled = enabled;
-            this.worldX = worldX;
-            this.worldY = worldY;
-            this.worldZ = worldZ;
-            this.idCamera = idCamera;
-            this.transformParentId = transformParentId;
-            this.transformId = transformId;
         }
 
-        public AltObject UpdateObject()
+        public AltObject(AltObjectBase altObjectBase)
+            : base(altObjectBase.name, altObjectBase.id, altObjectBase.x, altObjectBase.y, altObjectBase.z, altObjectBase.mobileY, altObjectBase.type, altObjectBase.enabled, altObjectBase.worldX, altObjectBase.worldY, altObjectBase.worldZ, altObjectBase.idCamera, altObjectBase.transformParentId, altObjectBase.transformId)
         {
-            var altObject = new AltFindObject(CommHandler, By.ID, this.id.ToString(), By.NAME, "", this.enabled).Execute();
-            x = altObject.x;
-            y = altObject.y;
-            z = altObject.z;
-            id = altObject.id;
-            name = altObject.name;
-            mobileY = altObject.mobileY;
-            type = altObject.type;
-            enabled = altObject.enabled;
-            worldX = altObject.worldX;
-            worldY = altObject.worldY;
-            worldZ = altObject.worldZ;
-            idCamera = altObject.idCamera;
-            transformParentId = altObject.transformParentId;
-            transformId = altObject.transformId;
-
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return this;
+            this.name = altObjectBase.name;
+            this.id = altObjectBase.id;
+            this.x = altObjectBase.x;
+            this.y = altObjectBase.y;
+            this.z = altObjectBase.z;
+            this.mobileY = altObjectBase.mobileY;
+            this.type = altObjectBase.type;
+            this.enabled = altObjectBase.enabled;
+            this.worldX = altObjectBase.worldX;
+            this.worldY = altObjectBase.worldY;
+            this.worldZ = altObjectBase.worldZ;
+            this.idCamera = altObjectBase.idCamera;
+            this.transformParentId = altObjectBase.transformParentId;
+            this.transformId = altObjectBase.transformId;
+            this.CommHandler = altObjectBase.CommHandler;
         }
-        public AltObject GetParent()
+   
+        public new AltObject UpdateObject()
         {
-            var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+            return base.UpdateObject();
         }
 
-        [Obsolete("getParent is deprecated, please use GetParent instead.")]
-        public AltObject getParent()
+        public new AltObject FindObjectFromObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
         {
-            var altObject = new AltFindObject(CommHandler, By.PATH, "//*[@id=" + this.id + "]/..", By.NAME, "", true).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+            return base.FindObjectFromObject(by, value, cameraBy, cameraValue, enabled);
         }
-        public AltObject FindObjectFromObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true)
+    
+        public new T GetComponentProperty<T>(string componentName, string propertyName, string assemblyName, int maxDepth = 2)
         {
-            var findObject = new AltFindObjectFromObject(CommHandler, by, value, cameraBy, cameraValue, enabled, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return findObject;
+            return base.GetComponentProperty<T>(componentName, propertyName, assemblyName, maxDepth);
         }
-        public AltVector2 GetScreenPosition()
+        public new T WaitForComponentProperty<T>(string componentName, string propertyName, T propertyValue, string assemblyName, double timeout = 20, double interval = 0.5, bool getPropertyAsString = false, int maxDepth = 2)
         {
-            return new AltVector2(x, y);
+            return base.WaitForComponentProperty(componentName, propertyName, propertyValue, assemblyName, timeout, interval, getPropertyAsString, maxDepth);
         }
-
-        [Obsolete("getScreenPosition is deprecated, please use GetScreenPosition instead.")]
-        public AltVector2 getScreenPosition()
+        public new void SetComponentProperty(string componentName, string propertyName, object value, string assemblyName)
         {
-            return new AltVector2(x, y);
-        }
-        public AltVector3 GetWorldPosition()
-        {
-            return new AltVector3(worldX, worldY, worldZ);
+            base.SetComponentProperty(componentName, propertyName, value, assemblyName);
         }
 
-        [Obsolete("getWorldPosition is deprecated, please use GetWorldPosition instead.")]
-        public AltVector3 getWorldPosition()
+        public new T CallComponentMethod<T>(string componentName, string methodName, string assemblyName, object[] parameters, string[] typeOfParameters = null)
         {
-            return new AltVector3(worldX, worldY, worldZ);
-        }
-        public T GetComponentProperty<T>(string componentName, string propertyName, string assemblyName, int maxDepth = 2)
-        {
-            var propertyValue = new AltGetComponentProperty<T>(CommHandler, componentName, propertyName, assemblyName, maxDepth, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return propertyValue;
-        }
-        public T WaitForComponentProperty<T>(string componentName, string propertyName, T propertyValue, string assemblyName, double timeout = 20, double interval = 0.5, bool getPropertyAsString = false, int maxDepth = 2)
-        {
-            var propertyFound = new AltWaitForComponentProperty<T>(CommHandler, componentName, propertyName, propertyValue, assemblyName, timeout, interval, getPropertyAsString, maxDepth, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return propertyFound;
-        }
-        public void SetComponentProperty(string componentName, string propertyName, object value, string assemblyName)
-        {
-            new AltSetComponentProperty(CommHandler, componentName, propertyName, value, assemblyName, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return base.CallComponentMethod<T>(componentName, methodName, assemblyName, parameters, typeOfParameters);
         }
 
-        public T CallComponentMethod<T>(string componentName, string methodName, string assemblyName, object[] parameters, string[] typeOfParameters = null)
+        public new AltObject SetText(string text, bool submit = false)
         {
-            var result = new AltCallComponentMethod<T>(CommHandler, componentName, methodName, parameters, typeOfParameters, assemblyName, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return result;
-        }
-
-        public string GetText()
-        {
-            var text = new AltGetText(CommHandler, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return text;
-        }
-
-        public AltObject SetText(string text, bool submit = false)
-        {
-            var altObject = new AltSetText(CommHandler, this, text, submit).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+            return base.SetText(text, submit);
         }
 
         /// <summary>
@@ -166,63 +92,29 @@ namespace AltTester.AltTesterUnitySDK.Driver
         /// <param name="interval">Interval between clicks in seconds</param>
         /// <param name="wait">Wait for command to finish</param>
         /// <returns>The clicked object</returns>
-        public AltObject Click(int count = 1, float interval = 0.1f, bool wait = true)
+        public new AltObject Click(int count = 1, float interval = 0.1f, bool wait = true)
         {
-            var altObject = new AltClickElement(CommHandler, this, count, interval, wait).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+            return base.Click(count, interval, wait);
         }
 
-        [Obsolete("PointerUpFromObject is deprecated, please use PointerUp instead.")]
-        public AltObject PointerUpFromObject()
+        public new AltObject PointerUp()
         {
-            return PointerUp();
+            return base.PointerUp();
         }
 
-        public AltObject PointerUp()
+        public new AltObject PointerDown()
         {
-            var altObject = new AltPointerUpFromObject(CommHandler, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+            return base.PointerDown();
         }
 
-        [Obsolete("PointerDownFromObject is deprecated, please use PointerDown instead.")]
-        public AltObject PointerDownFromObject()
+        public new AltObject PointerEnter()
         {
-            return PointerDown();
+            return base.PointerEnter();
         }
 
-        public AltObject PointerDown()
+        public new AltObject PointerExit()
         {
-            var altObject = new AltPointerDownFromObject(CommHandler, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
-        }
-
-        [Obsolete("PointerEnterObject is deprecated, please use PointerEnter instead.")]
-        public AltObject PointerEnterObject()
-        {
-            return PointerEnter();
-        }
-
-        public AltObject PointerEnter()
-        {
-            var altObject = new AltPointerEnterObject(CommHandler, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
-        }
-
-        [Obsolete("PointerExitObject is deprecated, please use PointerExit instead.")]
-        public AltObject PointerExitObject()
-        {
-            return PointerExit();
-        }
-
-        public AltObject PointerExit()
-        {
-            var altObject = new AltPointerExitObject(CommHandler, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+            return base.PointerExit();
         }
 
         /// <summary>
@@ -232,49 +124,33 @@ namespace AltTester.AltTesterUnitySDK.Driver
         /// <param name="interval">Interval in seconds</param>
         /// <param name="wait">Wait for command to finish</param>
         /// <returns>The tapped object</returns>
-        public AltObject Tap(int count = 1, float interval = 0.1f, bool wait = true)
+        public new AltObject Tap(int count = 1, float interval = 0.1f, bool wait = true)
         {
-            var altObject = new AltTapElement(CommHandler, this, count, interval, wait).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+            return base.Tap(count, interval, wait);
         }
 
-        public System.Collections.Generic.List<AltComponent> GetAllComponents()
+        public new System.Collections.Generic.List<AltComponent> GetAllComponents()
         {
-            var altObject = new AltGetAllComponents(CommHandler, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+           return base.GetAllComponents();
         }
 
-        public System.Collections.Generic.List<AltProperty> GetAllProperties(AltComponent altComponent, AltPropertiesSelections altPropertiesSelections = AltPropertiesSelections.ALLPROPERTIES)
+        public new System.Collections.Generic.List<AltProperty> GetAllProperties(AltComponent altComponent, AltPropertiesSelections altPropertiesSelections = AltPropertiesSelections.ALLPROPERTIES)
         {
-            var altObject = new AltGetAllProperties(CommHandler, altComponent, this, altPropertiesSelections).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+            return base.GetAllProperties(altComponent, altPropertiesSelections);
         }
 
-        public System.Collections.Generic.List<AltProperty> GetAllFields(AltComponent altComponent, AltFieldsSelections altFieldsSelections = AltFieldsSelections.ALLFIELDS)
+        public new System.Collections.Generic.List<AltProperty> GetAllFields(AltComponent altComponent, AltFieldsSelections altFieldsSelections = AltFieldsSelections.ALLFIELDS)
         {
-            var altObject = new AltGetAllFields(CommHandler, altComponent, this, altFieldsSelections).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+            return base.GetAllFields(altComponent, altFieldsSelections);
         }
 
-        public System.Collections.Generic.List<string> GetAllMethods(AltComponent altComponent, AltMethodSelection methodSelection = AltMethodSelection.ALLMETHODS)
+        public new System.Collections.Generic.List<string> GetAllMethods(AltComponent altComponent, AltMethodSelection methodSelection = AltMethodSelection.ALLMETHODS)
         {
-            var altObject = new AltGetAllMethods(CommHandler, altComponent, methodSelection).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return altObject;
+            return base.GetAllMethods(altComponent, methodSelection);
         }
-        public T GetVisualElementProperty<T>(string propertyName)
+        public new T GetVisualElementProperty<T>(string propertyName)
         {
-            if (type != "UIToolkit")
-            {
-                throw new WrongAltObjectTypeException("This method is only available for VisualElement objects");
-            }
-            var propertyValue = new AltGetVisualElementProperty<T>(CommHandler, propertyName, this).Execute();
-            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
-            return propertyValue;
+           return base.GetVisualElementProperty<T>(propertyName);
         }
         public T WaitForVisualElementProperty<T>(string propertyName, T propertyValue, double timeout = 20, double interval = 0.5, bool getPropertyAsString = false)
         {

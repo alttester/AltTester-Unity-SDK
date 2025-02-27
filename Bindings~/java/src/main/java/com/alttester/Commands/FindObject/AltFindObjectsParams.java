@@ -18,6 +18,7 @@
 package com.alttester.Commands.FindObject;
 
 import com.alttester.AltMessage;
+import com.alttester.AltBy;
 import com.alttester.AltDriver;
 import com.alttester.AltDriver.By;
 
@@ -35,6 +36,11 @@ public class AltFindObjectsParams extends AltMessage {
             this.value = value;
         }
 
+        public Builder(AltBy altBy) {
+            this.by = altBy.getBy();
+            this.value = altBy.getValue();
+        }
+
         public AltFindObjectsParams.Builder isEnabled(boolean enabled) {
             this.enabled = enabled;
             return this;
@@ -43,6 +49,12 @@ public class AltFindObjectsParams extends AltMessage {
         public AltFindObjectsParams.Builder withCamera(By cameraBy, String cameraValue) {
             this.cameraBy = cameraBy;
             this.cameraValue = cameraValue;
+            return this;
+        }
+
+        public AltFindObjectsParams.Builder withCamera(AltBy altBy) {
+            this.cameraBy = altBy.getBy();
+            this.cameraValue = altBy.getValue();
             return this;
         }
 
