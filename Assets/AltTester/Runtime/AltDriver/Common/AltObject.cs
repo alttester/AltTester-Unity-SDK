@@ -17,10 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.ThrAltTesterSDK.Driver
-using AltTester.AltTesterUnitySDK.Driver.Commands;
-AltTesterSDK.Driver
-namespace AltTester.AltTesterUnitySDK.Driver
+using System.Threading;
+using AltTester.AltTesterSDK.Driver.Commands;
+
+namespace AltTester.AltTesterSDK.Driver
 {
     public class AltObject
     {

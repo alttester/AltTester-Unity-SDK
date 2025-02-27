@@ -17,7 +17,7 @@
 
 using System.Collections.Generic;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Commands
+namespace AltTester.AltTesterSDK.Driver.Commands
 {
     public class AltGetAllVisualElementProperties : AltBaseCommand
     {
