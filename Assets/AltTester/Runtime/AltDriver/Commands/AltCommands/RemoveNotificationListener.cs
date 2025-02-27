@@ -16,9 +16,9 @@
 */
 
 using System;
-using AltTester.AltTesterUnitySDK.Driver.Notifications;
+using AltTester.AltTesterSDK.Driver.Notifications;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Commands
+namespace AltTester.AltTesterSDK.Driver.Commands
 {
     public class RemoveNotificationListener : AltBaseCommand
     {

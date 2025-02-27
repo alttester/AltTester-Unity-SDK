@@ -17,7 +17,7 @@
 
 using System.Globalization;
 using AltTester.AltTesterUnitySDK.Commands;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterSDK.Driver.Commands;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 

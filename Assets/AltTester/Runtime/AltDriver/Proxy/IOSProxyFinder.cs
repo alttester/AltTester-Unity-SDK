@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 using System.Globalization;
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Proxy
+namespace AltTester.AltTesterSDK.Driver.Proxy
 {
     public class IOSProxyFinder : IProxyFinder
     {

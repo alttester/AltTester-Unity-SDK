@@ -17,9 +17,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.ThrAltTesterSDK.Driver
 using AltTester.AltTesterUnitySDK.Driver.Commands;
-
+AltTesterSDK.Driver
 namespace AltTester.AltTesterUnitySDK.Driver
 {
     public class AltObject

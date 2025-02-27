@@ -23,7 +23,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Commands;
-using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using AltTester.AltTesterUnitySDK.Editor.Platform;
 using Unity.EditorCoroutines.Editor;

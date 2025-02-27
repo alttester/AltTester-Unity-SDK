@@ -16,9 +16,9 @@
 */
 
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Logging;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Commands
+namespace AltTester.AltTesterSDK.Driver.Commands
 {
     public class AltWaitForCurrentSceneToBe : AltBaseCommand
     {

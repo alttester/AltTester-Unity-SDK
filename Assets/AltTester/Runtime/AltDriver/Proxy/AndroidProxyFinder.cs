@@ -19,7 +19,7 @@
 using System;
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Proxy
+namespace AltTester.AltTesterSDK.Driver.Proxy
 {
     public class AndroidProxyFinder : IProxyFinder
     {

@@ -15,7 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace AltTester.AltTesterUnitySDK.Driver.Notifications
+namespace AltTester.AltTesterSDK.Driver.Notifications
 {
     public enum AltLoadSceneMode
     {

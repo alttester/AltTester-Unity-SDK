@@ -17,14 +17,14 @@
 
 using System;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
-using AltTester.AltTesterUnitySDK.Driver.MockClasses;
-using AltTester.AltTesterUnitySDK.Driver.Notifications;
-using AltTester.AltTesterUnitySDK.Driver.Tests;
+using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterSDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.MockClasses;
+using AltTester.AltTesterSDK.Driver.Notifications;
+using AltTester.AltTesterSDK.Driver.Tests;
 using NUnit.Framework;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Tests
+namespace AltTester.AltTesterSDK.Driver.Tests
 {
     [TestFixture]
     [Parallelizable]

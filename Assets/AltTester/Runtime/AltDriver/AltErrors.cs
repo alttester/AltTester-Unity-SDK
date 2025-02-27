@@ -17,7 +17,7 @@
 
 using System;
 
-namespace AltTester.AltTesterUnitySDK.Driver
+namespace AltTester.AltTesterSDK.Driver
 {
     public class AltErrors
     {

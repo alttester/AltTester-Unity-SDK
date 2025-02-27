@@ -19,8 +19,8 @@ using System;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver.Communication;
-using AltTester.AltTesterUnitySDK.Driver.Proxy;
+using AltTester.AltTesterSDK.Driver.Communication;
+using AltTester.AltTesterSDK.Driver.Proxy;
 using AltTester.AltTesterUnitySDK.Logging;
 using AltWebSocketSharp;
 

@@ -18,7 +18,7 @@
 using System;
 using System.Linq;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Proxy
+namespace AltTester.AltTesterSDK.Driver.Proxy
 {
     public class EnvironmentProxyFinder : IProxyFinder
     {

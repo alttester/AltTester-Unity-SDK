@@ -15,10 +15,10 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using AltTester.AltTesterUnitySDK.Driver.Logging;
-using AltTester.AltTesterUnitySDK.Driver.Notifications;
+using AltTester.AltTesterSDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Notifications;
 
-namespace AltTester.AltTesterUnitySDK.Driver.MockClasses
+namespace AltTester.AltTesterSDK.Driver.MockClasses
 {
     internal class MockNotificationCallBacks : INotificationCallbacks
     {
