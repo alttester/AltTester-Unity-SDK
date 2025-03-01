@@ -16,24 +16,78 @@
 """
 
 import json
-
 import alttester.commands as commands
 import alttester.exceptions as exceptions
-from alttester.altby import AltBy
 from alttester.by import By
-from alttester.altobject_base import AltObjectBase
+from alttester.altby import AltBy
 
 
-class AltObject(AltObjectBase):
+class AltObjectBase:
+    """The AltObjectBase class represents a base object present in the application and it allows you to interact with it."""
 
     def __init__(self, altdriver, data):
-        super().__init__(altdriver, data)
+        self._altdriver = altdriver
+        self._data = data
 
-    def __repr__(self):
-        return f"AltObject({repr(self._altdriver)}, {repr(self.to_json())})"
+    @property
+    def _connection(self):
+        return self._altdriver._connection
 
-    def __str__(self):
-        return json.dumps(self.to_json())
+    @property
+    def name(self):
+        return self._data.get("name", "")
+
+    @property
+    def id(self):
+        return self._data.get("id", 0)
+
+    @property
+    def x(self):
+        return self._data.get("x", 0)
+
+    @property
+    def y(self):
+        return self._data.get("y", 0)
+
+    @property
+    def z(self):
+        return self._data.get("z", 0)
+
+    @property
+    def mobileY(self):
+        return self._data.get("mobileY", 0)
+
+    @property
+    def type(self):
+        return self._data.get("type", "")
+
+    @property
+    def enabled(self):
+        return self._data.get("enabled", True)
+
+    @property
+    def worldX(self):
+        return self._data.get("worldX", 0.0)
+
+    @property
+    def worldY(self):
+        return self._data.get("worldY", 0.0)
+
+    @property
+    def worldZ(self):
+        return self._data.get("worldZ", 0.0)
+
+    @property
+    def idCamera(self):
+        return self._data.get("idCamera", 0)
+
+    @property
+    def transformParentId(self):
+        return self._data.get("transformParentId", 0)
+
+    @property
+    def transformId(self):
+        return self._data.get("transformId", 0)
 
     def to_json(self) -> dict:
         return {
@@ -50,76 +104,60 @@ class AltObject(AltObjectBase):
             "worldZ": self.worldZ,
             "transformParentId": self.transformParentId,
             "transformId": self.transformId,
-            "idCamera": self.idCamera,
+            "idCamera": self.idCamera
         }
 
-    def update_object(self) -> "AltObject":
-        return super().update_object()
-
-    def find_object(
-        self, altby: AltBy, camera_altby: AltBy = AltBy.name(""), enabled=True
-    ) -> "AltObject":
-        return super().find_object_from_object(
-            altby.by, altby.value, camera_altby.by, camera_altby.value, enabled
+    def update_object(self) -> "AltObjectBase":
+        altObject = commands.FindObject.run(
+            self._connection,
+            By.ID, self.id, By.NAME, "", enabled=True
         )
-        return AltObject(self._altdriver, altObject)
+        return AltObjectBase(self._altdriver, altObject)
 
-    def get_screen_position(self):
+    def get_screen_position(self) -> tuple:
         """Returns the screen position.
 
         Returns:
             tuple: A tuple containing ``x`` and ``y``.
 
         """
-
         return self.x, self.y
 
-    def get_world_position(self):
+    def get_world_position(self) -> tuple:
         """Returns the world position.
 
         Returns:
             tuple: A tuple containing ``worldX``, ``worldY`` and ``worldZ``.
 
         """
-
         return self.worldX, self.worldY, self.worldZ
 
-    def get_parent(self):
+    def get_parent(self) -> "AltObjectBase":
         """Returns the parent object.
 
         Returns:
-            AltObject: The parent object.
+            AltObjectBase: The parent object.
 
         """
-
         data = commands.FindObject.run(
             self._connection,
             By.PATH, "//*[@id={}]/..".format(self.id), By.NAME, "", enabled=True
         )
+        return AltObjectBase(self._altdriver, data)
 
-        return AltObject(self._altdriver, data)
-
-    def find_object_from_object(self, by, value, camera_by=By.NAME, camera_value="", enabled=True):
+    def find_object_from_object(self, by, value, camera_by=By.NAME, camera_value="", enabled=True) -> "AltObjectBase":
         """Returns the child of the object that meets the specified conditions."""
-
         data = commands.FindObjectFromObject.run(self._connection,
                                                  by, value, camera_by, camera_value, enabled, self)
-
         if data is None:
             return None
-
-        alt_object = AltObject(self, data)
-
-        return alt_object
+        return AltObjectBase(self._altdriver, data)
 
     def get_all_components(self):
         """Returns all components."""
-
         return commands.GetAllComponents.run(self._connection, self)
 
-    def wait_for_component_property(self, component_name, property_name,
-                                    property_value, assembly,  timeout=20, interval=0.5,
-                                    get_property_as_string=False, max_depth=2):
+    def wait_for_component_property(self, component_name, property_name, property_value, assembly, timeout=20, interval=0.5, get_property_as_string=False, max_depth=2) -> str:
         """Wait until a property has a specific value and returns the value of the given component property.
 
         Args:
@@ -147,7 +185,7 @@ class AltObject(AltObjectBase):
             assembly, self, timeout, interval, get_property_as_string, max_depth
         )
 
-    def get_component_property(self, component_name, property_name, assembly, max_depth=2):
+    def get_component_property(self, component_name, property_name, assembly, max_depth=2) -> str:
         """Returns the value of the given component property.
 
         Args:
@@ -163,13 +201,12 @@ class AltObject(AltObjectBase):
             str: The property value is serialized to a JSON string.
 
         """
-
         return commands.GetComponentProperty.run(
             self._connection,
             component_name, property_name, assembly, max_depth, self
         )
 
-    def set_component_property(self, component_name, property_name, assembly, value):
+    def set_component_property(self, component_name, property_name, assembly, value) -> str:
         """Sets a value for a given component property.
 
         Args:
@@ -183,13 +220,12 @@ class AltObject(AltObjectBase):
             str: The property value is serialized to a JSON string.
 
         """
-
         return commands.SetComponentProperty.run(
             self._connection,
             component_name, property_name, value, assembly, self
         )
 
-    def call_component_method(self, component_name, method_name, assembly, parameters=None, type_of_parameters=None):
+    def call_component_method(self, component_name, method_name, assembly, parameters=None, type_of_parameters=None) -> str:
         """Invokes a method from an existing component of the object.
 
         Args:
@@ -206,7 +242,6 @@ class AltObject(AltObjectBase):
             str: The value returned by the method is serialized to a JSON string.
 
         """
-
         return commands.CallMethod.run(
             self._connection,
             component_name,
@@ -217,17 +252,16 @@ class AltObject(AltObjectBase):
             assembly=assembly
         )
 
-    def get_text(self):
+    def get_text(self) -> str:
         """Returns text value from a Button, Text, InputField. This also works with TextMeshPro elements.
 
         Returns:
-            str: The text value of the AltObject.
+            str: The text value of the AltObjectBase.
 
         """
-
         return commands.GetText.run(self._connection, self)
 
-    def set_text(self, text, submit=False):
+    def set_text(self, text, submit=False) -> "AltObjectBase":
         """Sets text value for a Button, Text or InputField. This also works with TextMeshPro elements.
 
         Args:
@@ -235,58 +269,53 @@ class AltObject(AltObjectBase):
             submit (obj:`bool`): If set will trigger a submit event.
 
         Returns:
-            AltObject: The current AltObject.
+            AltObjectBase: The current AltObjectBase.
 
         """
-
         data = commands.SetText.run(self._connection, text, self, submit)
-        return AltObject(self._altdriver, data)
+        return AltObjectBase(self._altdriver, data)
 
-    def pointer_up(self):
+    def pointer_up(self) -> "AltObjectBase":
         """Simulates pointer up action on the object.
 
         Returns:
-            AltObject: The current AltObject.
+            AltObjectBase: The current AltObjectBase.
 
         """
-
         data = commands.PointerUp.run(self._connection, self)
-        return AltObject(self._altdriver, data)
+        return AltObjectBase(self._altdriver, data)
 
-    def pointer_down(self):
+    def pointer_down(self) -> "AltObjectBase":
         """Simulates pointer down action on the object.
 
         Returns:
-            AltObject: The current AltObject.
+            AltObjectBase: The current AltObjectBase.
 
         """
-
         data = commands.PointerDown.run(self._connection, self)
-        return AltObject(self._altdriver, data)
+        return AltObjectBase(self._altdriver, data)
 
-    def pointer_enter(self):
+    def pointer_enter(self) -> "AltObjectBase":
         """Simulates pointer enter action on the object.
 
         Returns:
-            AltObject: The current AltObject.
+            AltObjectBase: The current AltObjectBase.
 
         """
-
         data = commands.PointerEnter.run(self._connection, self)
-        return AltObject(self._altdriver, data)
+        return AltObjectBase(self._altdriver, data)
 
-    def pointer_exit(self):
+    def pointer_exit(self) -> "AltObjectBase":
         """Simulates pointer exit action on the object.
 
         Returns:
-            AltObject: The current AltObject.
+            AltObjectBase: The current AltObjectBase.
 
         """
-
         data = commands.PointerExit.run(self._connection, self)
-        return AltObject(self._altdriver, data)
+        return AltObjectBase(self._altdriver, data)
 
-    def tap(self, count=1, interval=0.1, wait=True):
+    def tap(self, count=1, interval=0.1, wait=True) -> "AltObjectBase":
         """Taps the current object.
 
         Args:
@@ -295,17 +324,16 @@ class AltObject(AltObjectBase):
             wait (:obj:`int`, optional): Wait for command to finish. Defaults to ``True``.
 
         Returns:
-            AltObject: The tapped object.
+            AltObjectBase: The tapped object.
 
         """
-
         data = commands.TapElement.run(
             self._connection,
             self, count, interval, wait
         )
-        return AltObject(self._altdriver, data)
+        return AltObjectBase(self._altdriver, data)
 
-    def click(self, count=1, interval=0.1, wait=True):
+    def click(self, count=1, interval=0.1, wait=True) -> "AltObjectBase":
         """Clicks the current object.
 
         Args:
@@ -314,15 +342,14 @@ class AltObject(AltObjectBase):
             wait (:obj:`int`, optional): Wait for command to finish. Defaults to ``True``.
 
         Returns:
-            AltObject: The clicked object.
+            AltObjectBase: The clicked object.
 
         """
-
         data = commands.ClickElement.run(
             self._connection,
             self, count, interval, wait
         )
-        return AltObject(self._altdriver, data)
+        return AltObjectBase(self._altdriver, data)
 
     def get_visual_element_property(self, property_name: str) -> str:
         """Gets a value for a given visual element property.
@@ -339,29 +366,4 @@ class AltObject(AltObjectBase):
         if self.type != "UIToolkit":
             raise exceptions.WrongAltObjectTypeException(
                 "This method is only available for VisualElement objects")
-        return commands.GetVisualElementProperty.run(self._connection,  property_name, self)
-
-    def wait_for_visual_element_property(self, property_name,
-                                         property_value, timeout=20, interval=0.5,
-                                         get_property_as_string=False):
-        """Waits until a property of the current object has a specific value.
-
-        Args:
-            property_name (str): The name of the property of which value you want to get.
-            property_value (str): The value of the property expected.
-            timeout (int, optional): The number of seconds that it will wait for property. Defaults to 20.
-            interval (int, optional): Time in seconds before retrying. Defaults to 0.5.
-            get_property_as_string (bool, optional): A boolean value that makes the property_value
-                to be compared as a string with the property from the instrumented app. Defaults to False.
-
-        Returns:
-            The property value is serialized to a JSON string.
-
-        Raises:
-            WrongAltObjectTypeException: The method is called on an object that is not a VisualElement.
-        """
-        if self.type != "UIToolkit":
-            raise exceptions.WrongAltObjectTypeException(
-                "This method is only available for VisualElement objects")
-        return commands.WaitForVisualElementProperty.run(
-            property_name, property_value, self, timeout, interval, get_property_as_string)
+        return commands.GetVisualElementProperty.run(self._connection, property_name, self)

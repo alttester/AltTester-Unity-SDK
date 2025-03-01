@@ -17,12 +17,16 @@
 
 import pytest
 
+from alttester.altobject import AltObject
+
 from .utils import Scenes
 from alttester import By, AltKeyCode
+from alttester.altdriver import AltDriver
 import alttester.exceptions as exceptions
 
 
 class TestScene01Part2:
+    alt_driver: AltDriver
 
     @pytest.fixture(autouse=True)
     def setup(self):
@@ -476,14 +480,14 @@ class TestScene01Part2:
         assert 0 == countKeyDown
 
     def test_find_object_in_object_by_tag(self):
-        parent = self.alt_driver.find_object(By.NAME, "Canvas")
-        child = parent.find_object_from_object(By.TAG, "Finish")
-        assert child.name == "Button"
+        parent = self.alt_driver.find_object(By.NAME, "UIWithWorldSpace")
+        child = parent.find_object_from_object(By.TAG, "plane")
+        assert child.name == "Plane"
 
     def test_find_object_in_object_by_layer(self):
-        parent = self.alt_driver.find_object(By.NAME, "Canvas")
-        child = parent.find_object_from_object(By.LAYER, "ButtonLayer")
-        assert child.name == "Button"
+        parent = self.alt_driver.find_object(By.NAME, "UIWithWorldSpace")
+        child = parent.find_object_from_object(By.LAYER, "Default")
+        assert child.name == "Plane"
 
     def test_find_object_in_object_by_name(self):
         parent = self.alt_driver.find_object(By.NAME, "Canvas")

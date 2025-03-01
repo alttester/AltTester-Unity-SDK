@@ -16,8 +16,11 @@
 """
 
 from alttester.altdriver import AltDriver
-from alttester.altobject import AltObject
+from alttester.altby import AltBy
 from alttester.altdriver_unity import AltDriverUnity
+from alttester.altdriver_unreal import AltDriverUnreal
+from alttester.altobject import AltObject
+from alttester.altobject_unreal import AltObjectUnreal
 from alttester.by import By
 from alttester.playerpref import PlayerPrefKeyType
 from alttester.keycode import AltKeyCode

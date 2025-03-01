@@ -21,9 +21,12 @@ import time
 from .utils import Scenes
 from alttester import By, PlayerPrefKeyType
 import alttester.exceptions as exceptions
+from alttester.altdriver import AltDriver
 
 
 class TestScene01Part1:
+    alt_driver: AltDriver
+    
     @pytest.fixture(autouse=True)
     def setup(self):
         self.alt_driver.reset_input()
