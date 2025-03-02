@@ -79,7 +79,6 @@ public class AltWaitForVisualElementProperty<T> extends AltBaseFindObject {
                     returnType);
             if (!getPropertyAsString && propertyFound.equals(property))
                 return propertyFound;
-
             if (!(propertyFound instanceof JsonArray)) {
                 String str = new Gson().toJsonTree(propertyFound).toString();
                 jsonElementToString = str.contains("\"") ? str : "\"" + str + "\"";

@@ -38,7 +38,7 @@ jobs:
               - 'Bindings~/robot/**'
 
   Roslyn-Analyzer-dotnet:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     needs: paths-filter
     steps:
       - uses: actions/checkout@v2
@@ -51,7 +51,7 @@ jobs:
         run: dotnet build AltTester-Unity-SDK.sln --no-restore -warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
 
   build-macOS:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     needs: Roslyn-Analyzer-dotnet
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true' || needs.paths-filter.outputs.robot == 'true'
     steps:
@@ -85,7 +85,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   build-android:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     needs: Roslyn-Analyzer-dotnet
 
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
@@ -120,7 +120,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   build-ipa:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     needs: Roslyn-Analyzer-dotnet
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
     steps:
@@ -155,7 +155,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-CSharp-Editor:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     needs: build-macOS
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
     steps:
@@ -198,7 +198,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-DotNet:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     needs: build-macOS
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
@@ -239,7 +239,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-Python:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     needs: build-macOS
     if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
@@ -312,7 +312,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-Robot:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     needs: build-macOS
     if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.robot == 'true'
     steps:
@@ -359,7 +359,7 @@ jobs:
             **/output.xml
 
   test-Java:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     needs: build-macOS
     if: needs.paths-filter.outputs.java == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
@@ -406,7 +406,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   copyright:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     steps:
       - run: |
           pwsh copyright.ps1
@@ -425,7 +425,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-Python-Browserstack-ios-android:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     needs:
       - build-android
       - build-ipa
