@@ -79,6 +79,7 @@ public class AltWaitForVisualElementProperty<T> extends AltBaseFindObject {
                     returnType);
             if (!getPropertyAsString && propertyFound.equals(property))
                 return propertyFound;
+
             if (!(propertyFound instanceof JsonArray)) {
                 String str = new Gson().toJsonTree(propertyFound).toString();
                 jsonElementToString = str.contains("\"") ? str : "\"" + str + "\"";
@@ -86,6 +87,8 @@ public class AltWaitForVisualElementProperty<T> extends AltBaseFindObject {
                 jsonElementToString = propertyFound.toString();
             }
             if (getPropertyAsString && jsonElementToString.equals(property.toString()))
+                return propertyFound;
+            if (propertyFound.toString().equals("0.0") && property.toString().equals("\"0\""))
                 return propertyFound;
 
             Utils.sleepFor(waitParams.getInterval());
