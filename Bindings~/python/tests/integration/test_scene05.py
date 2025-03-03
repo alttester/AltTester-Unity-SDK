@@ -131,7 +131,7 @@ class TestScene05:
 
     def test_key_down_and_key_up(self):
         self.alt_driver.key_down(AltKeyCode.A)
-        time.sleep(0.1)
+        time.sleep(1)
 
         last_key_down = self.alt_driver.find_object(
             By.NAME, "LastKeyDownValue")
