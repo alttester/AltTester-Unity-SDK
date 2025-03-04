@@ -32,6 +32,5 @@ public class AltKeyDown extends AltBaseCommand {
     public void Execute() throws InterruptedException {
         SendCommand(altKeyDownParameters);
         recvall(altKeyDownParameters, String.class);
-        Thread.sleep(100);
     }
 }

@@ -238,7 +238,6 @@ class BaseCommand(Command):
         response = self.connection.recv()
         self.handle_response(response)
         data = response.get("data")
-        time.sleep(0.1)
         if data is None:
             return data
         return json.loads(data)

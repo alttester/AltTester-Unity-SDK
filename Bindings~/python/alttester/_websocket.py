@@ -330,7 +330,7 @@ class WebsocketConnection:
     def recv(self):
         self._ensure_connection_is_open()
         elapsed_time = 0
-        delay = 0.1
+        delay = 0.01
 
         while elapsed_time <= self.command_timeout:
             if self._command_handler.has_response():
