@@ -17,11 +17,11 @@
 
 using System;
 using System.Collections.Generic;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
-using AltTester.AltTesterUnitySDK.Driver.Notifications;
+using AltTester.AltTesterSDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Notifications;
 using Newtonsoft.Json;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Commands
+namespace AltTester.AltTesterSDK.Driver.Commands
 {
     public class CommandParams
     {

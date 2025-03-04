@@ -16,7 +16,7 @@
 */
 
 using System.Collections.Generic;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterSDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {

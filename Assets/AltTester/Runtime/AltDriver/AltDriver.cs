@@ -18,12 +18,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Driver.Communication;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
-using AltTester.AltTesterUnitySDK.Driver.Notifications;
+using AltTester.AltTesterSDK.Driver.Commands;
+using AltTester.AltTesterSDK.Driver.Communication;
+using AltTester.AltTesterSDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Notifications;
 
-namespace AltTester.AltTesterUnitySDK.Driver
+namespace AltTester.AltTesterSDK.Driver
 {
     public enum By
     {

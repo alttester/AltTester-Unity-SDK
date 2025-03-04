@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using AltTester.AltTesterUnitySDK;
-using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterUnitySDK.InputModule;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

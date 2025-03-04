@@ -15,7 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace AltTester.AltTesterUnitySDK.Driver
+namespace AltTester.AltTesterSDK.Driver
 {
     public enum AltFieldsSelections
     {

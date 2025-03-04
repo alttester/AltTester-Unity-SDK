@@ -19,7 +19,7 @@ using System;
 using System.Collections;
 using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.Communication;
-using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterUnitySDK.InputModule;
 using AltTester.AltTesterUnitySDK.Logging;
 using UnityEngine;

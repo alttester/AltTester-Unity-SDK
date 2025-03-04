@@ -18,8 +18,8 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using AltTester.AltTesterUnitySDK.Driver;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterSDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {

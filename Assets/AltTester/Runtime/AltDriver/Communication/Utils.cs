@@ -18,7 +18,7 @@
 using System;
 using System.Threading;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Communication
+namespace AltTester.AltTesterSDK.Driver.Communication
 {
     public class Utils
     {

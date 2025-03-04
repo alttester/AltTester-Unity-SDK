@@ -17,7 +17,7 @@
 
 using System;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Commands
+namespace AltTester.AltTesterSDK.Driver.Commands
 {
     [Obsolete]
     public struct AltObjectAction

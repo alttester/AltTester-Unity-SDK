@@ -16,8 +16,8 @@
 */
 
 using System;
-using AltTester.AltTesterUnitySDK.Driver;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterSDK.Driver.Commands;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

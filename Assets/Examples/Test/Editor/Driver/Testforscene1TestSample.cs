@@ -23,7 +23,7 @@ using System.Threading;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Tests
+namespace AltTester.AltTesterSDK.Driver.Tests
 {
     [TestFixture]
     [Parallelizable]

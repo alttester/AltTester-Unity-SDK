@@ -21,7 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
-using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using AltTester.AltTesterUnitySDK.Editor.Platform;
 using Newtonsoft.Json;
