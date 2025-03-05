@@ -698,7 +698,7 @@ Test Key Down And Key Up Mouse0
     Should Be Equal As Strings    ${text}    哦伊娜哦
 
 Test Camera Not Found Exception
-    ${expected_error}=    Set Variable    CameraNotFoundException: Exception of type 'AltTester.AltTesterUnitySDK.Driver.CameraNotFoundException' was thrown.
+    ${expected_error}=    Set Variable    CameraNotFoundException: Exception of type 'AltTester.AltTesterSDK.Driver.CameraNotFoundException' was thrown.
     ${error}=    Run Keyword And Ignore Error
     ...    Find Object    NAME    Capsule    camera_by=NAME    camera_value=Camera
     Should Be Equal As Strings    ${error[1]}    ${expected_error}
