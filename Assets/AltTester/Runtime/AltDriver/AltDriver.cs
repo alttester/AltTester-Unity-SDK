@@ -133,7 +133,16 @@ namespace AltTester.AltTesterUnitySDK.Driver
         {
             communicationHandler.Close();
         }
-
+        public void SetImplicitTimeout(float value)
+        {
+            if (value < 0)
+                throw new ArgumentOutOfRangeException("Timeout cannot be negative number");
+            communicationHandler.SetImplicitTimeout(value);
+        }
+        public float GetImplicitTimeout()
+        {
+            return communicationHandler.GetImplicitTimeout();
+        }
         public void ResetInput()
         {
             new AltResetInput(communicationHandler).Execute();
@@ -491,14 +500,18 @@ namespace AltTester.AltTesterUnitySDK.Driver
             return listOfObjects;
         }
 
-        public void WaitForCurrentSceneToBe(string sceneName, double timeout = 10, double interval = 1)
+        public void WaitForCurrentSceneToBe(string sceneName, double timeout = 20, double interval = 1)
         {
+            if (communicationHandler.GetImplicitTimeout() != -1 && timeout == 20)
+                timeout = communicationHandler.GetImplicitTimeout();
             new AltWaitForCurrentSceneToBe(communicationHandler, sceneName, timeout, interval).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
         public AltObject WaitForObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
+            if (communicationHandler.GetImplicitTimeout() != -1 && timeout == 20)
+                timeout = communicationHandler.GetImplicitTimeout();
             var objectFound = new AltWaitForObject(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
             return objectFound;
@@ -506,12 +519,16 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
         public void WaitForObjectNotBePresent(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
+            if (communicationHandler.GetImplicitTimeout() != -1 && timeout == 20)
+                timeout = communicationHandler.GetImplicitTimeout();
             new AltWaitForObjectNotBePresent(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
         public AltObject WaitForObjectWhichContains(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
+            if (communicationHandler.GetImplicitTimeout() != -1 && timeout == 20)
+                timeout = communicationHandler.GetImplicitTimeout();
             var objectFound = new AltWaitForObjectWhichContains(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
             return objectFound;

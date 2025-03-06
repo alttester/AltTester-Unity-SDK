@@ -32,5 +32,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         void SetDelayAfterCommand(float delay);
         float GetDelayAfterCommand();
         void SleepFor(float time);
+        void SetImplicitTimeout(float value);
+        float GetImplicitTimeout();
     }
 }

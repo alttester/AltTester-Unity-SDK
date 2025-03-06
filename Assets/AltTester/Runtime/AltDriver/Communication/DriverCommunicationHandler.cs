@@ -59,6 +59,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
+        private float implicitTimeout = -1;
         private bool websocketClosedCalled = false;
 
         private List<string> messageIdTimeouts = new List<string>();
@@ -391,6 +392,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         public void SleepFor(float time)
         {
             Utils.SleepFor(time);
+        }
+
+        public void SetImplicitTimeout(float value)
+        {
+            implicitTimeout = value;
+        }
+
+        public float GetImplicitTimeout()
+        {
+            return implicitTimeout;
         }
     }
 }
