@@ -11,7 +11,7 @@
         <type fullname="AltTester.*" preserve="all" />
     </assembly>
 
-    <assembly fullname="AltTester.AltTesterUnitySDK.Driver">
+    <assembly fullname="AltTester.AltTesterSDK.Driver">
         <type fullname="AltTester.*" preserve="all" />
     </assembly>
 </linker>
