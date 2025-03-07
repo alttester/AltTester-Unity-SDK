@@ -182,7 +182,6 @@ public class AltObject {
     public <T> T WaitForComponentProperty(AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams,
             T propertyValue,
             Class<T> returnType) {
-
         return waitForComponentProperty(altWaitForComponentPropertyParams, propertyValue, returnType);
     }
 
@@ -191,6 +190,8 @@ public class AltObject {
             Class<T> returnType) {
 
         altWaitForComponentPropertyParams.setAltObject(this);
+        if (this.messageHandler.getImplicitTimeout() != -1 && altWaitForComponentPropertyParams.getTimeout() == 20)
+                altWaitForComponentPropertyParams.setTimeout(this.messageHandler.getImplicitTimeout());
         T response = new AltWaitForComponentProperty<T>(messageHandler,
                 altWaitForComponentPropertyParams,
                 propertyValue, this)
@@ -204,6 +205,8 @@ public class AltObject {
             Class<T> returnType) {
 
         altWaitForComponentPropertyParams.setAltObject(this);
+        if (this.messageHandler.getImplicitTimeout() != -1 && altWaitForComponentPropertyParams.getTimeout() == 20)
+                altWaitForComponentPropertyParams.setTimeout(this.messageHandler.getImplicitTimeout());
         T response = new AltWaitForComponentProperty<T>(messageHandler,
                 altWaitForComponentPropertyParams,
                 propertyValue, getPropertyAsString, this)
@@ -410,6 +413,8 @@ public class AltObject {
         }
 
         altWaitForVisualElementPropertyParams.setAltObject(this);
+        if (this.messageHandler.getImplicitTimeout() != -1 && altWaitForVisualElementPropertyParams.getTimeout() == 20)
+                altWaitForVisualElementPropertyParams.setTimeout(this.messageHandler.getImplicitTimeout());
         T response = new AltWaitForVisualElementProperty<T>(messageHandler,
                 altWaitForVisualElementPropertyParams,
                 propertyValue, getPropertyAsString, this)

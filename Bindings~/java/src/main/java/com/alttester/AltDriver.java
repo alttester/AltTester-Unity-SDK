@@ -19,25 +19,86 @@ package com.alttester;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.ConfigurationFactory;
-import org.apache.logging.log4j.LogManager;
 
-import com.alttester.Commands.*;
-import com.alttester.Commands.AltCommands.AltSetServerLoggingParams;
+import com.alttester.Commands.AltCallStaticMethod;
+import com.alttester.Commands.AltCallStaticMethodParams;
 import com.alttester.Commands.AltCommands.AltAddNotificationListener;
 import com.alttester.Commands.AltCommands.AltAddNotificationListenerParams;
 import com.alttester.Commands.AltCommands.AltRemoveNotificationListener;
 import com.alttester.Commands.AltCommands.AltRemoveNotificationListenerParams;
 import com.alttester.Commands.AltCommands.AltResetInput;
 import com.alttester.Commands.AltCommands.AltSetServerLogging;
-import com.alttester.Commands.FindObject.*;
-import com.alttester.Commands.InputActions.*;
-import com.alttester.Commands.UnityCommand.*;
+import com.alttester.Commands.AltCommands.AltSetServerLoggingParams;
+import com.alttester.Commands.AltGetStaticProperty;
+import com.alttester.Commands.AltSetStaticProperty;
+import com.alttester.Commands.FindObject.AltFindObject;
+import com.alttester.Commands.FindObject.AltFindObjectAtCoordinates;
+import com.alttester.Commands.FindObject.AltFindObjectAtCoordinatesParams;
+import com.alttester.Commands.FindObject.AltFindObjectWhichContains;
+import com.alttester.Commands.FindObject.AltFindObjects;
+import com.alttester.Commands.FindObject.AltFindObjectsParams;
+import com.alttester.Commands.FindObject.AltFindObjectsWhichContain;
+import com.alttester.Commands.FindObject.AltGetAllElements;
+import com.alttester.Commands.FindObject.AltGetAllElementsParams;
+import com.alttester.Commands.FindObject.AltWaitForObject;
+import com.alttester.Commands.FindObject.AltWaitForObjectToNotBePresent;
+import com.alttester.Commands.FindObject.AltWaitForObjectWhichContains;
+import com.alttester.Commands.FindObject.AltWaitForObjectsParams;
+import com.alttester.Commands.GetPNGScreenshotCommand;
+import com.alttester.Commands.GetServerVersionCommand;
+import com.alttester.Commands.InputActions.AltBeginTouch;
+import com.alttester.Commands.InputActions.AltBeginTouchParams;
+import com.alttester.Commands.InputActions.AltClickCoordinates;
+import com.alttester.Commands.InputActions.AltEndTouch;
+import com.alttester.Commands.InputActions.AltEndTouchParams;
+import com.alttester.Commands.InputActions.AltHoldParams;
+import com.alttester.Commands.InputActions.AltKeyDownParams;
+import com.alttester.Commands.InputActions.AltKeyUpParams;
+import com.alttester.Commands.InputActions.AltKeysDown;
+import com.alttester.Commands.InputActions.AltKeysDownParams;
+import com.alttester.Commands.InputActions.AltKeysUp;
+import com.alttester.Commands.InputActions.AltKeysUpParams;
+import com.alttester.Commands.InputActions.AltMoveMouse;
+import com.alttester.Commands.InputActions.AltMoveMouseParams;
+import com.alttester.Commands.InputActions.AltMoveTouch;
+import com.alttester.Commands.InputActions.AltMoveTouchParams;
+import com.alttester.Commands.InputActions.AltMultiPointSwipe;
+import com.alttester.Commands.InputActions.AltMultiPointSwipeParams;
+import com.alttester.Commands.InputActions.AltPressKeyParams;
+import com.alttester.Commands.InputActions.AltPressKeys;
+import com.alttester.Commands.InputActions.AltPressKeysParams;
+import com.alttester.Commands.InputActions.AltScroll;
+import com.alttester.Commands.InputActions.AltScrollParams;
+import com.alttester.Commands.InputActions.AltSwipe;
+import com.alttester.Commands.InputActions.AltSwipeParams;
+import com.alttester.Commands.InputActions.AltTapClickCoordinatesParams;
+import com.alttester.Commands.InputActions.AltTapCoordinates;
+import com.alttester.Commands.InputActions.AltTilt;
+import com.alttester.Commands.InputActions.AltTiltParams;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
 import com.alttester.Commands.ObjectCommand.AltSetComponentPropertyParams;
+import com.alttester.Commands.UnityCommand.AltDeleteKeyPlayerPref;
+import com.alttester.Commands.UnityCommand.AltDeletePlayerPref;
+import com.alttester.Commands.UnityCommand.AltFloatGetKeyPlayerPref;
+import com.alttester.Commands.UnityCommand.AltGetAllLoadedScenes;
+import com.alttester.Commands.UnityCommand.AltGetCurrentScene;
+import com.alttester.Commands.UnityCommand.AltGetTimeScale;
+import com.alttester.Commands.UnityCommand.AltIntGetKeyPlayerPref;
+import com.alttester.Commands.UnityCommand.AltLoadScene;
+import com.alttester.Commands.UnityCommand.AltLoadSceneParams;
+import com.alttester.Commands.UnityCommand.AltSetKeyPlayerPref;
+import com.alttester.Commands.UnityCommand.AltSetTimeScale;
+import com.alttester.Commands.UnityCommand.AltSetTimeScaleParams;
+import com.alttester.Commands.UnityCommand.AltStringGetKeyPlayerPref;
+import com.alttester.Commands.UnityCommand.AltUnloadScene;
+import com.alttester.Commands.UnityCommand.AltUnloadSceneParams;
+import com.alttester.Commands.UnityCommand.AltWaitForCurrentSceneToBe;
+import com.alttester.Commands.UnityCommand.AltWaitForCurrentSceneToBeParams;
 import com.alttester.UnityStruct.AltKeyCode;
-import com.alttester.altTesterExceptions.*;
+import com.alttester.altTesterExceptions.InvalidParameterException;
 
 public class AltDriver {
     private static final Logger logger = LogManager.getLogger(AltDriver.class);
@@ -558,6 +619,8 @@ public class AltDriver {
      *                                             timeout , double interval
      */
     public void waitForCurrentSceneToBe(AltWaitForCurrentSceneToBeParams altWaitForCurrentSceneToBeParameters) {
+        if (this.connection.messageHandler.getImplicitTimeout() != -1 && altWaitForCurrentSceneToBeParameters.getTimeout() == 20)
+                altWaitForCurrentSceneToBeParameters.setTimeout(this.connection.messageHandler.getImplicitTimeout());
         new AltWaitForCurrentSceneToBe(this.connection.messageHandler, altWaitForCurrentSceneToBeParameters).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
@@ -572,6 +635,8 @@ public class AltDriver {
      * @return Error if time runs out
      */
     public AltObject waitForObject(AltWaitForObjectsParams altWaitForObjectsParams) {
+        if (this.connection.messageHandler.getImplicitTimeout() != -1 && altWaitForObjectsParams.getTimeout() == 20)
+                altWaitForObjectsParams.setTimeout(this.connection.messageHandler.getImplicitTimeout());
         AltObject response = new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParams)
                 .Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
@@ -587,6 +652,8 @@ public class AltDriver {
      *                                double interval
      */
     public void waitForObjectToNotBePresent(AltWaitForObjectsParams altWaitForObjectsParams) {
+        if (this.connection.messageHandler.getImplicitTimeout() != -1 && altWaitForObjectsParams.getTimeout() == 20)
+                altWaitForObjectsParams.setTimeout(this.connection.messageHandler.getImplicitTimeout());
         new AltWaitForObjectToNotBePresent(this.connection.messageHandler, altWaitForObjectsParams).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
@@ -601,6 +668,8 @@ public class AltDriver {
      * @return The object that respects the given criteria/Error if time runs out
      */
     public AltObject waitForObjectWhichContains(AltWaitForObjectsParams altWaitForObjectsParams) {
+        if (this.connection.messageHandler.getImplicitTimeout() != -1 && altWaitForObjectsParams.getTimeout() == 20)
+                altWaitForObjectsParams.setTimeout(this.connection.messageHandler.getImplicitTimeout());
         AltObject response = new AltWaitForObjectWhichContains(this.connection.messageHandler,
                 altWaitForObjectsParams).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
