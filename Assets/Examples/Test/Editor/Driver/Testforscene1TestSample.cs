@@ -249,7 +249,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
             const string assemblyName = "AltTester.AltTesterUnitySDK";
-            const string initialPropertyValue = "13000";
+            const string initialPropertyValue = "13005";
             const string testPropertyValue = "Test";
             const int timeout = 2;
             
