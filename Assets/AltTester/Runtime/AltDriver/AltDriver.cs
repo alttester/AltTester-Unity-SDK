@@ -136,7 +136,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
         public void SetImplicitTimeout(float value)
         {
             if (value < 0)
-                throw new ArgumentOutOfRangeException("Timeout cannot be negative number");
+                throw new ArgumentOutOfRangeException("Timeout cannot be negative");
             communicationHandler.SetImplicitTimeout(value);
         }
         public float GetImplicitTimeout()
