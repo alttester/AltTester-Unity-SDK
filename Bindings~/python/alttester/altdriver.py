@@ -283,13 +283,13 @@ class AltDriver:
             scene_name, load_single
         )
 
-    def wait_for_current_scene_to_be(self, scene_name, timeout=30, interval=1):
+    def wait_for_current_scene_to_be(self, scene_name, timeout=20, interval=1):
         """Waits for the scene to be loaded for a specified amount of time.
 
         Args:
             scene_name (:obj:`str`): The name of the scene to wait for.
             timeout (obj:`int`, :obj:`float`, optional): The time measured in seconds to wait for the specified scene.
-                Defaults to ``30``.
+                Defaults to ``20``.
             interval (obj:`int`, :obj:`float`, optional): How often to check that the scene was loaded in the given
                 timeout. Defaults to ``1``.
 
@@ -297,7 +297,8 @@ class AltDriver:
             str: The name of the loaded scene.
 
         """
-
+        if self._connection.get_implicit_timeout() != -1 and timeout == 20:
+            self._connection.set_implicit_timeout(timeout)
         return commands.WaitForCurrentSceneToBe.run(
             self._connection,
             scene_name, timeout, interval
@@ -518,6 +519,8 @@ class AltDriver:
 
         """
 
+        if self._connection.get_implicit_timeout() != -1 and timeout == 20:
+            self._connection.set_implicit_timeout(timeout)
         data = commands.WaitForObject.run(
             self._connection,
             by, value, camera_by, camera_value, timeout, interval, enabled
@@ -548,7 +551,8 @@ class AltDriver:
             AltObject: The object.
 
         """
-
+        if self._connection.get_implicit_timeout() != -1 and timeout == 20:
+            self._connection.set_implicit_timeout(timeout)
         data = commands.WaitForObjectWhichContains.run(
             self._connection,
             by, value, camera_by, camera_value, timeout, interval, enabled
@@ -577,7 +581,8 @@ class AltDriver:
                 ``False`` will match all objects. Defaults to ``True``.
 
         """
-
+        if self._connection.get_implicit_timeout() != -1 and timeout == 20:
+            self._connection.set_implicit_timeout(timeout)
         commands.WaitForObjectToNotBePresent.run(
             self._connection,
             by, value, camera_by, camera_value, timeout, interval, enabled

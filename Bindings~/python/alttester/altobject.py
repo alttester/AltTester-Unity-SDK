@@ -201,6 +201,8 @@ class AltObject:
             str: The property value is serialized to a JSON string.
 
         """
+        if self._connection.get_implicit_timeout() != -1 and timeout == 20:
+            self._connection.set_implicit_timeout(timeout)
         return commands.WaitForComponentProperty.run(
             component_name, property_name, property_value,
             assembly, self, timeout, interval, get_property_as_string, max_depth
@@ -422,5 +424,7 @@ class AltObject:
         if self.type != "UIToolkit":
             raise exceptions.WrongAltObjectTypeException(
                 "This method is only available for VisualElement objects")
+        if self._connection.get_implicit_timeout() != -1 and timeout == 20:
+            self._connection.set_implicit_timeout(timeout)
         return commands.WaitForVisualElementProperty.run(
             property_name, property_value, self, timeout, interval, get_property_as_string)

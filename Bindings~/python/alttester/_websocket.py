@@ -167,6 +167,7 @@ class WebsocketConnection:
 
         self.timeout = timeout
         self.command_timeout = 60
+        self.implicit_timeout = -1
         self.delay = 0.1
 
         self._errors = deque()
@@ -286,6 +287,12 @@ class WebsocketConnection:
 
     def get_command_timeout(self):
         return self.command_timeout
+
+    def set_implicit_timeout(self, timeout):
+        self.implicit_timeout = timeout
+
+    def get_implicit_timeout(self):
+        return self.implicit_timeout
 
     def connect(self):
         logger.info("Connecting to URL: '{}'.", self.url)
