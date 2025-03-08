@@ -23,6 +23,16 @@ using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterUnitySDK.InputModule;
 using AltTester.AltTesterUnitySDK.Logging;
 using UnityEngine;
+using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net;
+using System.Text.RegularExpressions;
+using TMPro;
+
+
+
+
+
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -53,16 +63,16 @@ namespace AltTester.AltTesterUnitySDK.UI
         public GameObject Dialog = null;
 
         [SerializeField]
-        public UnityEngine.UI.Text TitleText = null;
+        public TMP_Text TitleText = null;
 
         [SerializeField]
-        public UnityEngine.UI.Text SubtitleText = null;
+        public TMP_Text SubtitleText = null;
 
         [SerializeField]
         public GameObject InfoArea = null;
 
         [SerializeField]
-        public UnityEngine.UI.Text MessageText = null;
+        public TMP_Text MessageText = null;
 
         [SerializeField]
         public UnityEngine.UI.Button CloseButton = null;
@@ -71,17 +81,16 @@ namespace AltTester.AltTesterUnitySDK.UI
         public UnityEngine.UI.Image Icon = null;
 
         [SerializeField]
-        public UnityEngine.UI.Text InfoLabel = null;
+        public TMP_Text InfoLabel = null;
 
         [SerializeField]
-        public UnityEngine.UI.InputField HostInputField = null;
+        public TMP_InputField HostInputField = null;
 
         [SerializeField]
-        public UnityEngine.UI.InputField PortInputField = null;
+        public TMP_InputField PortInputField = null;
 
         [SerializeField]
-        public UnityEngine.UI.InputField AppNameInputField = null;
-
+        public TMP_InputField AppNameInputField = null;
         [SerializeField]
         public UnityEngine.UI.Button RestartButton = null;
 
@@ -112,6 +121,16 @@ namespace AltTester.AltTesterUnitySDK.UI
         private UnityEngine.UI.Image infoArea;
         private UnityEngine.UI.Image restartButton;
 
+        private bool isNewVersionAvailable = false;
+        private string newVersionMessage = "";
+        private string currentMessage = "";
+        private Tuple<Color, Color> currentColor = null;
+        private bool currentIsVisible = false;
+        private bool stillDisplayingMessage = false;
+        private Coroutine runningCoroutine;
+        private string downloadURL = "";
+        private string colorCode = "#FFD700";
+
         protected void Awake()
         {
             dialogImage = Dialog.GetComponent<UnityEngine.UI.Image>();
@@ -119,12 +138,13 @@ namespace AltTester.AltTesterUnitySDK.UI
             restartButton = RestartButton.GetComponent<UnityEngine.UI.Image>();
         }
 
-        protected void Start()
+        protected async void Start()
         {
             resetConnectionDataBasedOnUID();
 
             setTitle("AltTester® v." + AltRunner.VERSION);
             setSubtitle("AltTester® Server");
+            handleNewVersionCheck();
             setUpCloseButton();
             setUpIcon();
             setUpAppNameInputField();
@@ -146,6 +166,8 @@ namespace AltTester.AltTesterUnitySDK.UI
                 beginCommunication();
             InvokeRepeating(nameof(CheckAlive), 5, 5);
         }
+
+
 
         protected void CheckAlive() // This method is just to see if sending a ping will keep client from disconnecting .
         {
@@ -231,6 +253,13 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void setMessage(string message, Tuple<Color, Color> color, bool visible = true)
         {
+            currentMessage = message;
+            currentColor = color;
+            currentIsVisible = visible;
+            if (stillDisplayingMessage)
+            {
+                return;
+            }
             var primaryColor = color.Item1;
             var secondaryColor = color.Item2;
 
@@ -290,7 +319,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             currentPort = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
             PortInputField.text = currentPort;
             PortInputField.onValueChanged.AddListener(onPortInputFieldValueChange);
-            PortInputField.characterValidation = UnityEngine.UI.InputField.CharacterValidation.Integer;
+            PortInputField.characterValidation = TMP_InputField.CharacterValidation.Integer;
         }
 
         private void setUpAppNameInputField()
@@ -335,7 +364,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
 
             int port;
-            if (Int32.TryParse(PortInputField.text, out port) && port > 0 && port <= 65535)
+            if (int.TryParse(PortInputField.text, out port) && port > 0 && port <= 65535)
             {
                 currentPort = port.ToString();
                 InstrumentationSettings.AltServerPort = port;
@@ -608,6 +637,120 @@ namespace AltTester.AltTesterUnitySDK.UI
                     setMessage(message, color: successColor, visible: true);
                 });
             }
+        }
+
+
+
+        private async Task getRequest()
+        {
+
+            var response = await Get("https://alttester.com/alttester-desktop-versions");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                UnityEngine.Debug.Log("There was a problem with the request.");
+                return;
+            }
+
+            string textReceived = await response.Content.ReadAsStringAsync();
+            Regex regex = new Regex(@"https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*.exe");//TODO update to unitypackage
+            Match match = regex.Match(textReceived);
+            if (match.Success)
+            {
+                downloadURL = match.Value;
+                var splitedText = match.Value.Split('_');
+                var releasedVersion = splitedText[2].Substring(1);
+                if (isCurrentVersionEqualOrNewer(releasedVersion, AltRunner.VERSION))
+                {
+                    isNewVersionAvailable = false;
+                    UnityEngine.Debug.Log("There is no new version available to download");
+                }
+                else
+                {
+                    releasedVersion = releasedVersion.Split(".e")[0];//TODO update to unitypackage
+                    isNewVersionAvailable = true;
+                    newVersionMessage = $"There is a new version (<b>{releasedVersion}</b>) available to <b><color={colorCode}><u><link=\"download\">download</link></u></color></b>.";
+                }
+            }
+
+        }
+
+        private bool isCurrentVersionEqualOrNewer(string releasedVersion, string version)
+        {
+            var releasedVersionSplited = releasedVersion.Split('.');
+            var currentVersionSplited = version.Split('.');
+            if (short.Parse(currentVersionSplited[0]) != short.Parse(releasedVersionSplited[0]))//check major number
+            {
+                return short.Parse(currentVersionSplited[0]) > short.Parse(releasedVersionSplited[0]);
+            }
+            if (short.Parse(currentVersionSplited[1]) != short.Parse(releasedVersionSplited[1]))//check minor number
+            {
+                return short.Parse(currentVersionSplited[1]) > short.Parse(releasedVersionSplited[1]);
+            }
+            return short.Parse(currentVersionSplited[2]) > short.Parse(releasedVersionSplited[2]);//check patch number
+
+        }
+        public static async Task<HttpResponseMessage> Get(string url)
+        {
+            using (var handler = new HttpClientHandler())
+            {
+                IWebProxy proxy = WebRequest.GetSystemWebProxy();
+                proxy.Credentials = CredentialCache.DefaultCredentials;
+                handler.Proxy = proxy;
+                using (var client = new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromMilliseconds(50000);
+                    return await client.GetAsync(url);
+                }
+            }
+        }
+        private async void handleNewVersionCheck()
+        {
+            await getRequest();
+            if (runningCoroutine != null)
+            {
+                StopCoroutine(runningCoroutine);
+            }
+
+            runningCoroutine = StartCoroutine(showNewVersionMessage());
+        }
+
+        private IEnumerator showNewVersionMessage()
+        {
+            stillDisplayingMessage = true;
+            Dialog.SetActive(true);
+
+            float totalTime = 30;
+            float interval = 1;
+            var currentTime = 0f;
+
+            while (currentTime < totalTime)
+            {
+                MessageText.text = $"{newVersionMessage} {Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}" +
+                   $"This message will disappear in <b>{totalTime - currentTime}</b> seconds.{Environment.NewLine}" +
+                   $"<b><color={colorCode}><u><link=\"close\">Click here</link></u></color></b> to close.";
+
+
+                yield return new WaitForSeconds(interval);
+                currentTime = Mathf.Min(currentTime + interval, totalTime);
+            }
+            CloseNewVersionMessage();
+
+
+        }
+
+        internal void CloseNewVersionMessage(bool fromClick = false)
+        {
+            if (fromClick)
+            {
+                StopCoroutine(runningCoroutine);
+            }
+            stillDisplayingMessage = false;
+            setMessage(currentMessage, currentColor, currentIsVisible);
+        }
+        internal void DownloadNewVersion()
+        {
+            Application.OpenURL(downloadURL);
         }
     }
 }
