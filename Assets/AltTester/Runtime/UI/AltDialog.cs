@@ -138,7 +138,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             restartButton = RestartButton.GetComponent<UnityEngine.UI.Image>();
         }
 
-        protected async void Start()
+        protected void Start()
         {
             resetConnectionDataBasedOnUID();
 
