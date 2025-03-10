@@ -653,13 +653,13 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
 
             string textReceived = await response.Content.ReadAsStringAsync();
-            Regex regex = new Regex(@"https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop[\w\.]*.exe");//TODO update to unitypackage
+            Regex regex = new Regex(@"https://alttester.com/app/uploads/AltTester/sdks/AltTesterUnitySDK[\w\.]*.unitypackage");
             Match match = regex.Match(textReceived);
             if (match.Success)
             {
                 downloadURL = match.Value;
-                var splitedText = match.Value.Split('_');
-                var releasedVersion = splitedText[2].Substring(1);
+                Match match2 = Regex.Match(match.Value, @"(\d+_\d+_\d+)\.unitypackage");
+                var releasedVersion = match2.Groups[1].Value.Replace('_', '.');
                 if (isCurrentVersionEqualOrNewer(releasedVersion, AltRunner.VERSION))
                 {
                     isNewVersionAvailable = false;
@@ -667,9 +667,8 @@ namespace AltTester.AltTesterUnitySDK.UI
                 }
                 else
                 {
-                    releasedVersion = releasedVersion.Split(".e")[0];//TODO update to unitypackage
                     isNewVersionAvailable = true;
-                    newVersionMessage = $"There is a new version (<b>{releasedVersion}</b>) available to <b><color={colorCode}><u><link=\"download\">download</link></u></color></b>.";
+                    newVersionMessage = $"<size=26>Version <b>{releasedVersion}</b> is available to <b><color={colorCode}><u><link=\"download\">download</link></u></color></b>.</size>";
                 }
             }
 
@@ -728,7 +727,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 MessageText.text = $"{newVersionMessage} {Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}" +
                    $"This message will disappear in <b>{totalTime - currentTime}</b> seconds.{Environment.NewLine}" +
-                   $"<b><color={colorCode}><u><link=\"close\">Click here</link></u></color></b> to close.";
+                   $"<b><color={colorCode}><u><link=\"close\">Click here to close.</link></u></color></b>";
 
 
                 yield return new WaitForSeconds(interval);
