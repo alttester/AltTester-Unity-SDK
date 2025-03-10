@@ -63,7 +63,7 @@ namespace AltTester.AltTesterSDK.Driver.Commands
                 if (!getPropertyAsString && propertyFound.Equals(propertyValue))
                     return propertyFound;
                 strPropertyValue = propertyValue.ToString() == "" ? "null" : propertyValue.ToString();
-                jTokenPropertyFound = propertyFound == null ? "null" : propertyFound as JToken;
+                jTokenPropertyFound = propertyFound != null ? JToken.FromObject(propertyFound) : "null";
                 if (getPropertyAsString && jTokenPropertyFound.ToString().Equals(strPropertyValue))
                     return propertyFound;
 

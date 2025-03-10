@@ -248,9 +248,22 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         {
             const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
-            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+            const string assemblyName = "AltTester.AltTesterUnitySDK";
+            const string initialPropertyValue = "13005";
+            const string testPropertyValue = "Test";
+            const int timeout = 2;
+            
+            AltObject altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
-            Assert.Throws<WaitTimeOutException>(() => altElement.WaitForComponentProperty(componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK", 2));
+            try
+            {
+                altElement.WaitForComponentProperty(componentName, propertyName, testPropertyValue, assemblyName, timeout);
+                Assert.Fail();
+            }
+            catch (WaitTimeOutException exception)
+            {
+                Assert.That(exception.Message, Is.EqualTo($"Property {propertyName} was {initialPropertyValue} and was not {testPropertyValue} after {timeout} seconds"));
+            }
         }
 
         [Category("WebGLUnsupported")] // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
