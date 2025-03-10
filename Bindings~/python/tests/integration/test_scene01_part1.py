@@ -540,3 +540,17 @@ class TestScene01Part1:
         capsule = self.alt_driver.find_object(By.NAME, "Capsule")
         final_position = [capsule.worldX, capsule.worldY, capsule.worldZ]
         assert initial_position != final_position
+
+    def test_implicit_timeout(self):
+        self.alt_driver.set_implicit_timeout(5)
+        start_time = time.time()
+        self.alt_driver.wait_for_object(By.NAME, "Capsule")
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        assert elapsed_time <= 5
+        self.alt_driver.set_implicit_timeout(20)
+
+    def test_implicit_timeout_out_of_range(self):
+        with pytest.raises(ValueError) as exc_info:
+            self.alt_driver.set_implicit_timeout(-5)
+        assert str(exc_info.value) == "Timeout cannot be negative"

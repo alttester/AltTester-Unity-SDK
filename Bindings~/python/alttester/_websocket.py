@@ -289,6 +289,8 @@ class WebsocketConnection:
         return self.command_timeout
 
     def set_implicit_timeout(self, timeout):
+        if timeout < 0:
+            raise ValueError("Timeout cannot be negative")
         self.implicit_timeout = timeout
 
     def get_implicit_timeout(self):

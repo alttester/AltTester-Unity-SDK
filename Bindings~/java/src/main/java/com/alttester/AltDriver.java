@@ -809,4 +809,14 @@ public class AltDriver {
     public enum By {
         TAG, LAYER, NAME, COMPONENT, PATH, ID, TEXT
     }
+
+    public void setImplicitTimeout(double timeout)
+    {
+       this.connection.messageHandler.setImplicitTimeout(timeout); 
+    }
+
+    public double getImplicitTimeout(double timeout)
+    {
+       return this.connection.messageHandler.getImplicitTimeout(); 
+    }
 }

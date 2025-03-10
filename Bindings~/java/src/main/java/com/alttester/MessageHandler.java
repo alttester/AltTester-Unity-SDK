@@ -95,6 +95,8 @@ public class MessageHandler implements IMessageHandler {
 
     public void setImplicitTimeout(double value)
     {
+         if (value < 0)
+            throw new IllegalArgumentException("Timeout cannot be negative");
         implicitTimeout = value;
     }
 

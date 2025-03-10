@@ -18,7 +18,19 @@
 package com.alttester;
 
 import java.io.File;
-import java.lang.Void;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import com.alttester.AltDriver.By;
 import com.alttester.Commands.AltCallStaticMethodParams;
@@ -61,23 +73,9 @@ import com.alttester.altTesterExceptions.SceneNotFoundException;
 import com.alttester.altTesterExceptions.WaitTimeOutException;
 import com.alttester.position.Vector2;
 import com.alttester.position.Vector3;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class TestsSampleScene1 extends BaseTest {
 
@@ -1764,5 +1762,29 @@ public class TestsSampleScene1 extends BaseTest {
         child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
                 AltDriver.By.TEXT, "Change Camera Mode").build());
         assertEquals("Text", child.name);
+    }
+
+    @Test
+    public void testImplicitTimeout() {
+        String name = "Capsule";
+        altDriver.setImplicitTimeout(5);
+        long timeStart = System.currentTimeMillis();
+        AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
+                name).build();
+        AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
+                altFindObjectsParams).build();
+        altDriver.waitForObject(altWaitForObjectsParams);
+        long timeEnd = System.currentTimeMillis();
+        long time = timeEnd - timeStart;
+        assertTrue(time / 1000 <= 5);
+        altDriver.setImplicitTimeout(20);
+    }
+
+    @Test
+    public void testImplicitTimeoutOutOfRange() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            altDriver.setImplicitTimeout(-5);
+        });
+        assertTrue(exception.getMessage().contains("Timeout cannot be negative"));
     }
 }

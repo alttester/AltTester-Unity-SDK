@@ -938,3 +938,11 @@ class AltDriver:
         """Clear all active input actions simulated by AltTester."""
 
         commands.ResetInput.run(self._connection)
+
+    def set_implicit_timeout(self, timeout):
+        """Sets an implicit timeout from tests for the AltTester commands using a timeout."""
+        self._connection.set_implicit_timeout(timeout)
+
+    def get_implicit_timeout(self):
+        """Returns the implicit timeout used by AltTester commands."""
+        self._connection.get_implicit_timeout()
