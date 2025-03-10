@@ -308,7 +308,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
         **Writing tests:**
             - There are many ways in which the project can be organized. We suggest using the `Page Object Model <https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html>`_ design pattern to organize your project into `pages` folders and `tests` folders.
-            - To initialize the AltDriver in your project, you should import it. You can do it by using the following syntax: ``using AltTester.AltTesterUnitySDK.Driver;``.
+            - To initialize the AltDriver in your project, you should import it. You can do it by using the following syntax: ``using AltTester.AltTesterSDK.Driver;``.
             - After that you can initialize the AltDriver: ``altDriver = new AltDriver();``.
         **Running the tests:**
             - To run your test, open a terminal window in the project folder and paste the following command:

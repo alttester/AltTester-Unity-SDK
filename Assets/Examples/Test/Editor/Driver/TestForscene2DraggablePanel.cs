@@ -18,10 +18,10 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Logging;
 using NUnit.Framework;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Tests
+namespace AltTester.AltTesterSDK.Driver.Tests
 {
     [TestFixture]
     [Parallelizable]

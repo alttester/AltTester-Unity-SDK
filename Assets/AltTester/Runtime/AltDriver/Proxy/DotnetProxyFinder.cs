@@ -17,7 +17,7 @@
 
 using System;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Proxy
+namespace AltTester.AltTesterSDK.Driver.Proxy
 {
     public class DotnetProxyFinder : IProxyFinder
     {

@@ -17,7 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Logging;
 using NLog;
 using NLog.Config;
 using NLog.Layouts;

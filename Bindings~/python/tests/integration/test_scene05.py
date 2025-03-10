@@ -131,15 +131,17 @@ class TestScene05:
 
     def test_key_down_and_key_up(self):
         self.alt_driver.key_down(AltKeyCode.A)
-
-        last_key_down = self.alt_driver.find_object(By.NAME, "LastKeyDownValue")
+        time.sleep(0.1)
+        self.alt_driver.key_up(AltKeyCode.A)
+        time.sleep(0.1)
+        last_key_down = self.alt_driver.find_object(
+            By.NAME, "LastKeyDownValue")
         last_key_press = self.alt_driver.find_object(
             By.NAME, "LastKeyPressedValue")
 
         assert last_key_down.get_text() == "97"
         assert last_key_press.get_text() == "97"
 
-        self.alt_driver.key_up(AltKeyCode.A)
         last_key_up = self.alt_driver.find_object(By.NAME, "LastKeyUpValue")
 
         assert last_key_up.get_text() == "97"

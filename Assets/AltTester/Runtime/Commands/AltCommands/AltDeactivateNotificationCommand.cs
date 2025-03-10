@@ -15,8 +15,8 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Driver.Notifications;
+using AltTester.AltTesterSDK.Driver.Commands;
+using AltTester.AltTesterSDK.Driver.Notifications;
 using AltTester.AltTesterUnitySDK.Notification;
 
 namespace AltTester.AltTesterUnitySDK.Commands

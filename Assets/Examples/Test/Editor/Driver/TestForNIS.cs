@@ -18,11 +18,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver;
-using AltTester.AltTesterUnitySDK.Driver.Tests;
+using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterSDK.Driver.Tests;
 using NUnit.Framework;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Tests
+namespace AltTester.AltTesterSDK.Driver.Tests
 {
     [TestFixture]
     [Parallelizable]

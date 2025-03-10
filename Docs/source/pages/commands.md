@@ -10,17 +10,198 @@ An AltDriver instance will connect to the running instrumented Unity application
 
 **_Parameters_**
 
-| Name           | Type    | Required | Description                                                                           |
-| -------------- | ------- | -------- | ------------------------------------------------------------------------------------- |
-| host           | string  | No       | The IP or hostname AltTester® Unity SDK is listening on. The default value is `127.0.0.1`. |
-| port           | int     | No       | The default value is `13000`.                                                              |
-| appName        | string  | No       | The name of the Unity application. The default value is `__default__`.                  |
-| enableLogging  | boolean | No       | The default value is `false`.                                                           |
-| connectTimeout | int     | No       | The connect timeout in seconds. The default value is `60`.                              |
-| platform       | string  | No       | The platform of the Unity application. The default value is `unknown`.                  |
-| platformVersion| string  | No       | The platform version of the Unity application. The default value is `unknown`.          |
-| deviceInstanceId| string  | No      | The device instance id of the Unity application. The default value is`unknown`.         |
-| appId        | string  | No         | The unique id of the Unity application. The default value is `unknown`.                 |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: AltDriver Parameters
+           :widths: 20 15 10 55
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - host
+             - string
+             - No
+             - The IP or hostname AltTester® Unity SDK is listening on. The default value is: `127.0.0.1`
+           * - port
+             - int
+             - No
+             - The default value is: `13000`
+           * - appName
+             - string
+             - No
+             - The name of the Unity application. The default value is: `__default__`
+           * - enableLogging
+             - boolean
+             - No
+             - The default value is: `false`
+           * - connectTimeout
+             - int
+             - No
+             - The connect timeout in seconds. The default value is: `60`
+           * - platform
+             - string
+             - No
+             - The platform of the Unity application. The default value is: `unknown`
+           * - platformVersion
+             - string
+             - No
+             - The platform version of the Unity application. The default value is: `unknown`
+           * - deviceInstanceId
+             - string
+             - No
+             - The device instance ID of the Unity application. The default value is: `unknown`
+           * - appId
+             - string
+             - No
+             - The unique ID of the Unity application. The default value is: `unknown`
+
+    .. tab:: Java
+
+        .. list-table:: AltDriver Parameters
+           :widths: 20 15 10 55
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - host
+             - string
+             - No
+             - The IP or hostname AltTester® Unity SDK is listening on. The default value is: `127.0.0.1`
+           * - port
+             - int
+             - No
+             - The default value is: `13000`
+           * - appName
+             - string
+             - No
+             - The name of the Unity application. The default value is: `__default__`
+           * - enableLogging
+             - boolean
+             - No
+             - The default value is: `false`
+           * - connectTimeout
+             - int
+             - No
+             - The connect timeout in seconds. The default value is: `60`
+           * - platform
+             - string
+             - No
+             - The platform of the Unity application. The default value is: `unknown`
+           * - platformVersion
+             - string
+             - No
+             - The platform version of the Unity application. The default value is: `unknown`
+           * - deviceInstanceId
+             - string
+             - No
+             - The device instance ID of the Unity application. The default value is: `unknown`
+           * - appId
+             - string
+             - No
+             - The unique ID of the Unity application. The default value is: `unknown`
+
+    .. tab:: Python
+
+        .. list-table:: AltDriver Parameters
+           :widths: 20 15 10 55
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - host
+             - string
+             - No
+             - The IP or hostname AltTester® Unity SDK is listening on. The default value is: `127.0.0.1`
+           * - port
+             - int
+             - No
+             - The default value is: `13000`
+           * - app_name
+             - string
+             - No
+             - The name of the Unity application. The default value is: `__default__`
+           * - enable_logging
+             - boolean
+             - No
+             - The default value is: `false`
+           * - connect_timeout
+             - int
+             - No
+             - The connect timeout in seconds. The default value is: `60`
+           * - platform
+             - string
+             - No
+             - The platform of the Unity application. The default value is: `unknown`
+           * - platform_version
+             - string
+             - No
+             - The platform version of the Unity application. The default value is: `unknown`
+           * - device_instance_id
+             - string
+             - No
+             - The device instance ID of the Unity application. The default value is: `unknown`
+           * - app_id
+             - string
+             - No
+             - The unique ID of the Unity application. The default value is: `unknown`
+
+    .. tab:: Robot
+
+        .. list-table:: AltDriver Parameters
+           :widths: 20 15 10 55
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - host
+             - string
+             - No
+             - The IP or hostname AltTester® Unity SDK is listening on. The default value is: `127.0.0.1`
+           * - port
+             - int
+             - No
+             - The default value is: `13000`
+           * - app_name
+             - string
+             - No
+             - The name of the Unity application. The default value is: `__default__`
+           * - enable_logging
+             - boolean
+             - No
+             - The default value is: `false`
+           * - connect_timeout
+             - int
+             - No
+             - The connect timeout in seconds. The default value is: `60`
+           * - platform
+             - string
+             - No
+             - The platform of the Unity application. The default value is: `unknown`
+           * - platform_version
+             - string
+             - No
+             - The platform version of the Unity application. The default value is: `unknown`
+           * - device_instance_id
+             - string
+             - No
+             - The device instance ID of the Unity application. The default value is: `unknown`
+           * - app_id
+             - string
+             - No
+             - The unique ID of the Unity application. The default value is: `unknown`
+
+```
 
 **_Examples_**
 
@@ -75,13 +256,138 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
-| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: FindObject Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Java
+
+        .. list-table:: findObject Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Python
+
+        .. list-table:: find_object Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Robot
+
+        .. list-table:: Find Object Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+```
+
 
 **_Returns_**
 
@@ -143,13 +449,137 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
-| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: FindObjects Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Java
+
+        .. list-table:: findObjects Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Python
+
+        .. list-table:: find_objects Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Robot
+
+        .. list-table:: Find Objects Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+```
 
 **_Returns_**
 
@@ -215,13 +645,138 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
-| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: FindObjectWhichContains Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Java
+
+        .. list-table:: findObjectWhichContains Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Python
+
+        .. list-table:: find_object_which_contains Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Robot
+
+        .. list-table:: Find Object Which Contains Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+```
 
 **_Returns_**
 
@@ -281,13 +836,138 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                     |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                    |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                     |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene. |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: FindObjectsWhichContain Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Java
+
+        .. list-table:: findObjectsWhichContain Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Python
+
+        .. list-table:: _find_objects_which_contain Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Robot
+
+        .. list-table:: Find Objects Which Contain Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+```
 
 **_Returns_**
 
@@ -360,9 +1040,69 @@ Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses
 
 **_Parameters_**
 
-| Name        | Type    | Required | Description             |
-| ----------- | ------- | -------- | ----------------------- |
-| coordinates | AltVector2 | Yes      | The screen coordinates. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: FindObjectAtCoordinates Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - The screen coordinates.
+
+    .. tab:: Java
+
+        .. list-table:: findObjectAtCoordinates Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - The screen coordinates.
+
+    .. tab:: Python
+
+        .. list-table:: find_object_at_coordinates Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - The screen coordinates.
+
+    .. tab:: Robot Framework
+
+        .. list-table:: Find Object At Coordinates Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - The screen coordinates.
+```
 
 **_Returns_**
 
@@ -426,11 +1166,105 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
-| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: GetAllElements Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Java
+
+        .. list-table:: getAllElements Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Python
+
+        .. list-table:: get_all_elements Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Robot
+
+        .. list-table:: Get All Elements Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated.  
+               If no camera is given, it will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+```
 
 **_Returns_**
 
@@ -498,15 +1332,177 @@ Waits until it finds an object that respects the given criteria or until the tim
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
-| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
-| timeout     | double             | No       | The number of seconds that it will wait for the object. By default it is set to 20 seconds.                                                                                                                                                                                                                                                                                                                                                        |
-| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout.                                                                                                                                                                                                                                                                                       |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: WaitForObject Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it meets the criteria.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+
+    .. tab:: Java
+
+        .. list-table:: waitForObject Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it meets the criteria.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+
+    .. tab:: Python
+
+        .. list-table:: wait_for_object Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_type
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it meets the criteria.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+
+    .. tab:: Robot
+
+        .. list-table:: Wait For Object Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_type
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it meets the criteria.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+```
 
 **_Returns_**
 
@@ -563,15 +1559,177 @@ Waits until it finds an object that respects the given criteria or time runs out
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                     |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                    |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                     |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene. |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout     | double             | No       | The number of seconds that it will wait for the object. By default it is set to 20 seconds.                                                                                                                                                                                                                                                                                                                                                        |
-| interval    | double             | No       | The number of seconds after which it will try to find the object again. interval should be smaller than timeout                                                                                                                                                                                                                                                                                           |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: WaitForObjectWhichContains Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to determine if it meets the criteria.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+
+    .. tab:: Java
+
+        .. list-table:: waitForObjectWhichContains Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to determine if it meets the criteria.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+
+    .. tab:: Python
+
+        .. list-table:: wait_for_object_which_contains Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to determine if it meets the criteria.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+
+    .. tab:: Robot
+
+        .. list-table:: Wait For Object Which Contains Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to determine if it meets the criteria.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+```
 
 **_Returns_**
 
@@ -625,15 +1783,177 @@ Waits until the object in the scene that respects the given criteria is no longe
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ----------- | ------------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                     |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                    |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                     |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene. |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                        |
-| timeout     | double             | No       | The number of seconds that it will wait for the object. By default it is set to 20 seconds.                                                                                                                                                                                                                                                                                                                                                      |
-| interval    | double             | No       | The number of seconds after which it will try to find the object again. interval should be smaller than timeout.                                                                                                                                                                                                                                                                                          |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: WaitForObjectNotBePresent Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to determine if it meets the criteria.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+
+    .. tab:: Java
+
+        .. list-table:: waitForObjectNotBePresent Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to determine if it meets the criteria.
+           * - cameraBy
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+
+    .. tab:: Python
+
+        .. list-table:: wait_for_object_not_be_present Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to determine if it meets the criteria.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+
+    .. tab:: Robot
+
+        .. list-table:: Wait For Object Not Be Present Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - `By <#by-selector>`_
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to determine if it meets the criteria.
+           * - camera_by
+             - `By <#by-selector>`_
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to determine if they respect the criteria or not.  
+               If no camera is given, it will search through all cameras in the scene until some camera sees the object  
+               or return the screen coordinates of the object based on the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, matches only objects that are active in the hierarchy. If `false`, matches all objects.
+           * - timeout
+             - double
+             - No
+             - The number of seconds it will wait for the object. The default is **20 seconds**.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will retry finding the object.  
+               The interval should be **smaller than the timeout**.
+```
 
 **_Returns_**
 
@@ -679,9 +1999,69 @@ Sets the value for the command response timeout.
 
 **_Parameters_**
 
-| Name           | Type | Required | Description                                          |
-| -------------- | ---- | -------- | ---------------------------------------------------- |
-| commandTimeout | int  | Yes      | The duration for a command response from the driver. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: SetCommandResponseTimeout Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - commandTimeout
+             - int
+             - Yes
+             - The duration for a command response from the driver.
+
+    .. tab:: Java
+
+        .. list-table:: setCommandResponseTimeout Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - commandTimeout
+             - int
+             - Yes
+             - The duration for a command response from the driver.
+
+    .. tab:: Python
+
+        .. list-table:: set_command_response_timeout Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - command_timeout
+             - int
+             - Yes
+             - The duration for a command response from the driver.
+
+    .. tab:: Robot
+
+        .. list-table:: Set Command Response Timeout Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - command_timeout
+             - int
+             - Yes
+             - The duration for a command response from the driver.
+```
 
 **_Returns_**
 
@@ -752,9 +2132,69 @@ Set the delay after a command.
 
 **_Parameters_**
 
-| Name           | Type | Required | Description                      |
-| -------------- | ---- | -------- | -------------------------------- |
-| delay          | int  | Yes      | The new delay a after a command. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: SetDelayAfterCommand Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - delay
+             - int
+             - Yes
+             - The new delay after a command.
+
+    .. tab:: Java
+
+        .. list-table:: setDelayAfterCommand Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - delay
+             - int
+             - Yes
+             - The new delay after a command.
+
+    .. tab:: Python
+
+        .. list-table:: set_delay_after_command Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - delay
+             - int
+             - Yes
+             - The new delay after a command.
+
+    .. tab:: Robot
+
+        .. list-table:: Set Delay After Command Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - delay
+             - int
+             - Yes
+             - The new delay after a command.
+```
 
 **_Returns_**
 
@@ -791,10 +2231,85 @@ Simulates a key down.
 
 **_Parameters_**
 
-| Name    | Type            | Required | Description                                                                            |
-| ------- | --------------- | -------- | -------------------------------------------------------------------------------------- |
-| keyCode | AltKeyCode      | Yes      | The keyCode of the key simulated to be pressed.                                        |
-| power   | int             | No      | A value between [-1,1] used for joysticks to indicate how hard the button was pressed. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: KeyDown Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - keyCode
+             - AltKeyCode
+             - Yes
+             - The keyCode of the key simulated to be pressed.
+           * - power
+             - int
+             - No
+             - A value between [-1,1] used for joysticks to indicate how hard the button was pressed.
+
+    .. tab:: Java
+
+        .. list-table:: keyDown Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - keyCode
+             - AltKeyCode
+             - Yes
+             - The keyCode of the key simulated to be pressed.
+           * - power
+             - int
+             - No
+             - A value between [-1,1] used for joysticks to indicate how hard the button was pressed.
+
+    .. tab:: Python
+
+        .. list-table:: key_down Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - key_code
+             - AltKeyCode
+             - Yes
+             - The keyCode of the key simulated to be pressed.
+           * - power
+             - int
+             - No
+             - A value between [-1,1] used for joysticks to indicate how hard the button was pressed.
+
+    .. tab:: Robot
+
+        .. list-table:: Key Down Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - key_code
+             - AltKeyCode
+             - Yes
+             - The keyCode of the key simulated to be pressed.
+           * - power
+             - int
+             - No
+             - A value between [-1,1] used for joysticks to indicate how hard the button was pressed.
+```
 
 **_Returns_**
 
@@ -894,9 +2409,69 @@ Simulates a key up.
 
 **_Parameters_**
 
-| Name    | Type            | Required | Description                                      |
-| ------- | --------------- | -------- | ------------------------------------------------ |
-| keyCode | AltKeyCode      | Yes      | The keyCode of the key simulated to be released. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: KeyUp Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - keyCode
+             - AltKeyCode
+             - Yes
+             - The keyCode of the key simulated to be released.
+
+    .. tab:: Java
+
+        .. list-table:: keyUp Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - keyCode
+             - AltKeyCode
+             - Yes
+             - The keyCode of the key simulated to be released.
+
+    .. tab:: Python
+
+        .. list-table:: key_up Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - key_code
+             - AltKeyCode
+             - Yes
+             - The keyCode of the key simulated to be released.
+
+    .. tab:: Robot
+
+        .. list-table:: Key Up Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - key_code
+             - AltKeyCode
+             - Yes
+             - The keyCode of the key simulated to be released.
+```
 
 **_Returns_**
 
@@ -996,11 +2571,117 @@ Simulates holding left click button down for a specified amount of time at given
 
 **_Parameters_**
 
-| Name        | Type    | Required | Default | Description                                           |
-| ----------- | ------- | -------- | ------- | ----------------------------------------------------- |
-| coordinates | AltVector2 | Yes      |         | The coordinates where the button is held down.        |
-| duration    | float   | No       | 0.1     | The time measured in seconds to keep the button down. |
-| wait        | boolean | No       | true    | If set wait for command to finish.                    |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: HoldButton Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - 
+             - The coordinates where the button is held down.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to keep the button down.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Java
+
+        .. list-table:: holdButton Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - 
+             - The coordinates where the button is held down.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to keep the button down.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Python
+
+        .. list-table:: hold_button Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - 
+             - The coordinates where the button is held down.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to keep the button down.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Robot
+
+        .. list-table:: Hold Button Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - 
+             - The coordinates where the button is held down.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to keep the button down.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+```
 
 **_Returns_**
 
@@ -1065,11 +2746,118 @@ Simulate mouse movement in your app.
 
 **_Parameters_**
 
-| Name        | Type    | Required | Default | Description                                                                                            |
-| ----------- | ------- | -------- | ------- | ------------------------------------------------------------------------------------------------------ |
-| coordinates | AltVector2 | Yes      |         | The screen coordinates.                                                                                |
-| duration    | float   | No       | 0.1     | The time measured in seconds to move the mouse from the current mouse position to the set coordinates. |
-| wait        | boolean | No       | true    | If set wait for command to finish.                                                                     |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: MoveMouse Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - 
+             - The screen coordinates.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to move the mouse from the current mouse position to the set coordinates.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Java
+
+        .. list-table:: moveMouse Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - 
+             - The screen coordinates.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to move the mouse from the current mouse position to the set coordinates.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Python
+
+        .. list-table:: move_mouse Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - 
+             - The screen coordinates.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to move the mouse from the current mouse position to the set coordinates.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Robot
+
+        .. list-table:: Move Mouse Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - 
+             - The screen coordinates.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to move the mouse from the current mouse position to the set coordinates.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+```
 
 **_Returns_**
 
@@ -1169,12 +2957,137 @@ Simulates key press action in your app.
 
 **_Parameters_**
 
-| Name     | Type            | Required | Default | Description                                                                              |
-| -------- | --------------- | -------- | ------- | ---------------------------------------------------------------------------------------- |
-| keycode  | AltKeyCode      | Yes      |         | The key code of the key simulated to be pressed.                                         |
-| power    | float           | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the button was pressed. |
-| duration | float           | No       | 0.1     | The time measured in seconds from the key press to the key release.                      |
-| wait     | boolean         | No       | true    | If set wait for command to finish.                                                       |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: PressKey Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - keycode
+             - AltKeyCode
+             - Yes
+             - 
+             - The key code of the key simulated to be pressed.
+           * - power
+             - float
+             - No
+             - 1
+             - A value between [-1,1] used for joysticks to indicate how hard the button was pressed.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds from the key press to the key release.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Java
+
+        .. list-table:: pressKey Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - keycode
+             - AltKeyCode
+             - Yes
+             - 
+             - The key code of the key simulated to be pressed.
+           * - power
+             - float
+             - No
+             - 1
+             - A value between [-1,1] used for joysticks to indicate how hard the button was pressed.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds from the key press to the key release.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Python
+
+        .. list-table:: press_key Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - keycode
+             - AltKeyCode
+             - Yes
+             - 
+             - The key code of the key simulated to be pressed.
+           * - power
+             - float
+             - No
+             - 1
+             - A value between [-1,1] used for joysticks to indicate how hard the button was pressed.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds from the key press to the key release.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Robot
+
+        .. list-table:: Press Key Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - keycode
+             - AltKeyCode
+             - Yes
+             - 
+             - The key code of the key simulated to be pressed.
+           * - power
+             - float
+             - No
+             - 1
+             - A value between [-1,1] used for joysticks to indicate how hard the button was pressed.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds from the key press to the key release.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+```
 
 **_Returns_**
 
@@ -1273,12 +3186,137 @@ Simulates multiple key press action in your app.
 
 **_Parameters_**
 
-| Name     | Type               | Required | Default | Description                                                                                |
-| -------- | ------------------ | -------- | ------- | ------------------------------------------------------------------------------------------ |
-| keycodes | List\[AltKeyCode\] | Yes      |         | The list of keycodes simulated to be pressed simultaneously.                               |
-| power    | float              | No       | 1       | A value between \[-1,1\] used for joysticks to indicate how hard the buttons were pressed. |
-| duration | float              | No       | 0.1     | The time measured in seconds from the multiple key press to the multiple key release.      |
-| wait     | boolean            | No       | true    | If set, wait for command to finish.                                                        |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: PressKeys Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - keycodes
+             - List[AltKeyCode]
+             - Yes
+             - 
+             - The list of keycodes simulated to be pressed simultaneously.
+           * - power
+             - float
+             - No
+             - 1
+             - A value between [-1,1] used for joysticks to indicate how hard the buttons were pressed.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds from the multiple key press to the multiple key release.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Java
+
+        .. list-table:: pressKeys Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - keycodes
+             - List<AltKeyCode>
+             - Yes
+             - 
+             - The list of keycodes simulated to be pressed simultaneously.
+           * - power
+             - float
+             - No
+             - 1
+             - A value between [-1,1] used for joysticks to indicate how hard the buttons were pressed.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds from the multiple key press to the multiple key release.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Python
+
+        .. list-table:: press_keys Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - keycodes
+             - list[AltKeyCode]
+             - Yes
+             - 
+             - The list of keycodes simulated to be pressed simultaneously.
+           * - power
+             - float
+             - No
+             - 1
+             - A value between [-1,1] used for joysticks to indicate how hard the buttons were pressed.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds from the multiple key press to the multiple key release.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Robot
+
+        .. list-table:: Press Keys Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - keycodes
+             - list[AltKeyCode]
+             - Yes
+             - 
+             - The list of keycodes simulated to be pressed simultaneously.
+           * - power
+             - float
+             - No
+             - 1
+             - A value between [-1,1] used for joysticks to indicate how hard the buttons were pressed.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds from the multiple key press to the multiple key release.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+```
 
 **_Returns_**
 
@@ -1352,12 +3390,137 @@ Simulate scroll action in your app.
 
 **_Parameters_**
 
-| Name            | Type    | Required | Default | Description                                                                                  |
-| --------------- | ------- | -------- | ------- | -------------------------------------------------------------------------------------------- |
-| speed           | float   | No       | 1       | Set how fast to scroll. Positive values will scroll up and negative values will scroll down. |
-| duration        | float   | No       | 0.1     | The duration of the scroll in seconds.                                                       |
-| wait            | boolean | No       | true    | If set wait for command to finish.                                                           |
-| speedHorizontal | float   | No       | 1       |Set how fast to scroll right or left.                                                         |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: Scroll Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - speed
+             - float
+             - No
+             - 1
+             - Set how fast to scroll. Positive values will scroll up and negative values will scroll down.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The duration of the scroll in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+           * - speedHorizontal
+             - float
+             - No
+             - 1
+             - Set how fast to scroll right or left.
+
+    .. tab:: Java
+
+        .. list-table:: scroll Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - speed
+             - float
+             - No
+             - 1
+             - Set how fast to scroll. Positive values will scroll up and negative values will scroll down.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The duration of the scroll in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+           * - speedHorizontal
+             - float
+             - No
+             - 1
+             - Set how fast to scroll right or left.
+
+    .. tab:: Python
+
+        .. list-table:: scroll Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - speed
+             - float
+             - No
+             - 1
+             - Set how fast to scroll. Positive values will scroll up and negative values will scroll down.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The duration of the scroll in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+           * - speed_horizontal
+             - float
+             - No
+             - 1
+             - Set how fast to scroll right or left.
+
+    .. tab:: Robot
+
+        .. list-table:: Scroll Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - speed
+             - float
+             - No
+             - 1
+             - Set how fast to scroll. Positive values will scroll up and negative values will scroll down.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The duration of the scroll in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+           * - speed_horizontal
+             - float
+             - No
+             - 1
+             - Set how fast to scroll right or left.
+```
 
 **_Returns_**
 
@@ -1433,12 +3596,137 @@ Simulates a swipe action between two points.
 
 **_Parameters_**
 
-| Name     | Type    | Required | Default | Description                                                                |
-| -------- | ------- | -------- | ------- | -------------------------------------------------------------------------- |
-| start    | AltVector2 | Yes      |         | Starting location of the swipe.                                            |
-| end      | AltVector2 | Yes      |         | Ending location of the swipe.                                              |
-| duration | float   | No       | 0.1     | The time measured in seconds to move the mouse from start to end location. |
-| wait     | boolean | No       | true    | If set wait for command to finish.                                         |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: Swipe Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - start
+             - AltVector2
+             - Yes
+             - 
+             - Starting location of the swipe.
+           * - end
+             - AltVector2
+             - Yes
+             - 
+             - Ending location of the swipe.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to move the mouse from start to end location.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Java
+
+        .. list-table:: swipe Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - start
+             - AltVector2
+             - Yes
+             - 
+             - Starting location of the swipe.
+           * - end
+             - AltVector2
+             - Yes
+             - 
+             - Ending location of the swipe.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to move the mouse from start to end location.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Python
+
+        .. list-table:: swipe Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - start
+             - list/tuple/dict
+             - Yes
+             - 
+             - Starting location of the swipe.
+           * - end
+             - list/tuple/dict
+             - Yes
+             - 
+             - Ending location of the swipe.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to move the mouse from start to end location.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Robot
+
+        .. list-table:: Swipe Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - start
+             - list/tuple/dict
+             - Yes
+             - 
+             - Starting location of the swipe.
+           * - end
+             - list/tuple/dict
+             - Yes
+             - 
+             - Ending location of the swipe.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to move the mouse from start to end location.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+```
 
 **_Returns_**
 
@@ -1603,11 +3891,117 @@ Simulates a multipoint swipe action.
 
 **_Parameters_**
 
-| Name      | Type                    | Required | Default | Description                                                                     |
-| --------- | ----------------------- | -------- | ------- | ------------------------------------------------------------------------------- |
-| positions | List\[AltVector2\]      | Yes      |         | A list of positions on the screen where the swipe be made.                      |
-| duration  | float                   | No       | 0.1     | The time measured in seconds to swipe from first position to the last position. |
-| wait      | boolean                 | No       | true    | If set wait for command to finish.                                              |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: MultiPointSwipe Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - positions
+             - List[AltVector2]
+             - Yes
+             - 
+             - A list of positions on the screen where the swipe will be made.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to swipe from the first position to the last position.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Java
+
+        .. list-table:: multiPointSwipe Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - positions
+             - List<AltVector2>
+             - Yes
+             - 
+             - A list of positions on the screen where the swipe will be made.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to swipe from the first position to the last position.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Python
+
+        .. list-table:: multi_point_swipe Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - positions
+             - list of lists
+             - Yes
+             - 
+             - A list of positions on the screen where the swipe will be made.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to swipe from the first position to the last position.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Robot
+
+        .. list-table:: Multi Point Swipe Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - positions
+             - list of lists
+             - Yes
+             - 
+             - A list of positions on the screen where the swipe will be made.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - The time measured in seconds to swipe from the first position to the last position.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+```
 
 **_Returns_**
 
@@ -1721,9 +4115,69 @@ Simulates starting of a touch on the screen. To further interact with the touch 
 
 **_Parameters_**
 
-| Name        | Type    | Required | Description         |
-| ----------- | ------- | -------- | ------------------- |
-| coordinates | AltVector2 | Yes      | Screen coordinates. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: BeginTouch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - Screen coordinates.
+
+    .. tab:: Java
+
+        .. list-table:: beginTouch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - Screen coordinates.
+
+    .. tab:: Python
+
+        .. list-table:: begin_touch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - Screen coordinates.
+
+    .. tab:: Robot
+
+        .. list-table:: Begin Touch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - Screen coordinates.
+```
 
 **_Returns_**
 
@@ -1804,10 +4258,85 @@ Simulates a touch movement on the screen. Move the touch created with [BeginTouc
 
 **_Parameters_**
 
-| Name        | Type    | Required | Description                                               |
-| ----------- | ------- | -------- | --------------------------------------------------------- |
-| fingerId    | int     | Yes      | Identifier returned by [BeginTouch](#begintouch) command. |
-| coordinates | AltVector2 | Yes      | Screen coordinates where the touch will be moved.         |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: MoveTouch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - fingerId
+             - int
+             - Yes
+             - Identifier returned by `BeginTouch <#begintouch>`_ command.
+           * - coordinates
+             - AltVector2
+             - Yes
+             - Screen coordinates where the touch will be moved.
+
+    .. tab:: Java
+
+        .. list-table:: moveTouch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - fingerId
+             - int
+             - Yes
+             - Identifier returned by `BeginTouch <#begintouch>`_ command.
+           * - coordinates
+             - AltVector2
+             - Yes
+             - Screen coordinates where the touch will be moved.
+
+    .. tab:: Python
+
+        .. list-table:: move_touch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - finger_id
+             - int
+             - Yes
+             - Identifier returned by `BeginTouch <#begintouch>`_ command.
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - Screen coordinates where the touch will be moved.
+
+    .. tab:: Robot
+
+        .. list-table:: Move Touch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - finger_id
+             - int
+             - Yes
+             - Identifier returned by `BeginTouch <#begintouch>`_ command.
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - Screen coordinates where the touch will be moved.
+```
 
 **_Returns_**
 
@@ -1888,9 +4417,69 @@ Simulates ending of a touch on the screen. This command will destroy the touch m
 
 **_Parameters_**
 
-| Name     | Type | Required | Description                                               |
-| -------- | ---- | -------- | --------------------------------------------------------- |
-| fingerId | int  | Yes      | Identifier returned by [BeginTouch](#begintouch) command. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: EndTouch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - fingerId
+             - int
+             - Yes
+             - Identifier returned by `BeginTouch <#begintouch>`_ command.
+
+    .. tab:: Java
+
+        .. list-table:: endTouch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - fingerId
+             - int
+             - Yes
+             - Identifier returned by `BeginTouch <#begintouch>`_ command.
+
+    .. tab:: Python
+
+        .. list-table:: end_touch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - finger_id
+             - int
+             - Yes
+             - Identifier returned by `BeginTouch <#begintouch>`_ command.
+
+    .. tab:: Robot
+
+        .. list-table:: End Touch Parameters
+           :widths: 15 15 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - finger_id
+             - int
+             - Yes
+             - Identifier returned by `BeginTouch <#begintouch>`_ command.
+```
 
 **_Returns_**
 
@@ -1970,12 +4559,137 @@ Click at screen coordinates.
 
 **_Parameters_**
 
-| Name        | Type    | Required | Default | Description                         |
-| ----------- | ------- | -------- | ------- | ----------------------------------- |
-| coordinates | AltVector2 | Yes      |         | The screen coordinates.             |
-| count       | int     | No       | 1       | Number of clicks.                   |
-| interval    | float   | No       | 0.1     | Interval between clicks in seconds. |
-| wait        | boolean | No       | true    | If set wait for command to finish.  |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: Click Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - 
+             - The screen coordinates.
+           * - count
+             - int
+             - No
+             - 1
+             - Number of clicks.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between clicks in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Java
+
+        .. list-table:: click Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - 
+             - The screen coordinates.
+           * - count
+             - int
+             - No
+             - 1
+             - Number of clicks.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between clicks in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Python
+
+        .. list-table:: click Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - 
+             - The screen coordinates.
+           * - count
+             - int
+             - No
+             - 1
+             - Number of clicks.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between clicks in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Robot
+
+        .. list-table:: Click Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - 
+             - The screen coordinates.
+           * - count
+             - int
+             - No
+             - 1
+             - Number of clicks.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between clicks in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+```
 
 **_Returns_**
 
@@ -2038,12 +4752,137 @@ Tap at screen coordinates.
 
 **_Parameters_**
 
-| Name        | Type    | Required | Default | Description                         |
-| ----------- | ------- | -------- | ------- | ----------------------------------- |
-| coordinates | AltVector2 | Yes      |         | The screen coordinates.             |
-| count       | int     | No       | 1       | Number of taps.                     |
-| interval    | float   | No       | 0.1     | Interval between taps in seconds.   |
-| wait        | boolean | No       | true    | If set wait for command to finish.  |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: Tap Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - (empty)
+             - The screen coordinates.
+           * - count
+             - int
+             - No
+             - 1
+             - Number of taps.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between taps in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Java
+
+        .. list-table:: tap Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - AltVector2
+             - Yes
+             - (empty)
+             - The screen coordinates.
+           * - count
+             - int
+             - No
+             - 1
+             - Number of taps.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between taps in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Python
+
+        .. list-table:: tap Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - 
+             - The screen coordinates.
+           * - count
+             - int
+             - No
+             - 1
+             - Number of taps.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between taps in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Robot
+
+        .. list-table:: Tap Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - coordinates
+             - list/tuple/dict
+             - Yes
+             - 
+             - The screen coordinates.
+           * - count
+             - int
+             - No
+             - 1
+             - Number of taps.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between taps in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+```
 
 **_Returns_**
 
@@ -2106,11 +4945,117 @@ Simulates device rotation action in your app.
 
 **_Parameters_**
 
-| Name         | Type    | Required | Default | Description                                 |
-| ------------ | ------- | -------- | ------- | ------------------------------------------- |
-| acceleration | AltVector3 | Yes      |         | The linear acceleration of a device.        |
-| duration     | float   | No       | 0.1     | How long the rotation will take in seconds. |
-| wait         | boolean | No       | true    | If set wait for command to finish.          |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: Tilt Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - acceleration
+             - AltVector3
+             - Yes
+             - 
+             - The linear acceleration of a device.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - How long the rotation will take in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Java
+
+        .. list-table:: tilt Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - acceleration
+             - AltVector3
+             - Yes
+             - 
+             - The linear acceleration of a device.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - How long the rotation will take in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Python
+
+        .. list-table:: tilt Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - acceleration
+             - list/tuple/dict
+             - Yes
+             - 
+             - The linear acceleration of a device.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - How long the rotation will take in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+
+    .. tab:: Robot
+
+        .. list-table:: Tilt Parameters
+           :widths: 15 15 10 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - acceleration
+             - list/tuple/dict
+             - Yes
+             - 
+             - The linear acceleration of a device.
+           * - duration
+             - float
+             - No
+             - 0.1
+             - How long the rotation will take in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - If set, waits for the command to finish.
+```
 
 **_Returns_**
 
@@ -2267,9 +5212,69 @@ Creates a screenshot of the current screen in png format.
 
 **_Parameters_**
 
-| Name | Type   | Required | Description                          |
-| ---- | ------ | -------- | ------------------------------------ |
-| path | string | Yes      | location where the image is created. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: GetPNGScreenshot Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - path
+             - string
+             - Yes
+             - Location where the image is created.
+
+    .. tab:: Java
+
+        .. list-table:: getPNGScreenshot Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - path
+             - string
+             - Yes
+             - Location where the image is created.
+
+    .. tab:: Python
+
+        .. list-table:: get_png_screenshot Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - path
+             - string
+             - Yes
+             - Location where the image is created.
+
+    .. tab:: Robot
+
+        .. list-table:: Get Png Screenshot Parameters
+           :widths: 15 15 10 60
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - path
+             - string
+             - Yes
+             - Location where the image is created.
+```
 
 **_Returns_**
 
@@ -2322,11 +5327,69 @@ Creates a screenshot of the current screen in png format.
 
 This is an enum type used for the **option** parameter in the [set_player_pref_key](#settingplayerprefs) command listed below and has the following values:
 
-| Type   | Assigned Value |
-| ------ | -------------- |
-| Int    | 1              |
-| String | 2              |
-| Float  | 3              |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: PlayerPrefKeyType Assigned Value
+           :widths: 20 20
+           :header-rows: 1
+
+           * - Type
+             - Assigned Value
+           * - Int
+             - 1
+           * - String
+             - 2
+           * - Float
+             - 3
+
+    .. tab:: Java
+
+        .. list-table:: playerPrefKeyType Assigned Value
+           :widths: 20 20
+           :header-rows: 1
+
+           * - Type
+             - Assigned Value
+           * - Int
+             - 1
+           * - String
+             - 2
+           * - Float
+             - 3
+
+    .. tab:: Python
+
+        .. list-table:: player_pref_key_type Assigned Value
+           :widths: 20 20
+           :header-rows: 1
+
+           * - Type
+             - Assigned Value
+           * - Int
+             - 1
+           * - String
+             - 2
+           * - Float
+             - 3
+
+    .. tab:: Robot
+
+        .. list-table:: Player Pref Key Type Assigned Value
+           :widths: 20 20
+           :header-rows: 1
+
+           * - Type
+             - Assigned Value
+           * - Int
+             - 1
+           * - String
+             - 2
+           * - Float
+             - 3
+```
 
 #### GettingPlayerPrefs
 
@@ -2479,7 +5542,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
                 :language: py
                 :emphasize-lines: 6,10
 
-    .. tab:: robot
+    .. tab:: Robot
 
         **Get Player Pref Key**
 
@@ -2604,7 +5667,7 @@ This is an enum type used for the **option** parameter in the [set_player_pref_k
                 :language: py
                 :emphasize-lines: 4,5
 
-    .. tab:: robot
+    .. tab:: Robot
 
         **Set Player Pref Key**
 
@@ -2656,9 +5719,69 @@ Removes key and its corresponding value from PlayerPrefs.
 
 **_Parameters_**
 
-| Name    | Type  | Required | Description         |
-| ------- | ----- | -------- | ------------------- |
-| keyname | sting | Yes      | Key to be deleted.  |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: DeleteKeyPlayerPref Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - keyName
+             - string
+             - Yes
+             - Key to be deleted.
+
+    .. tab:: Java
+
+        .. list-table:: deleteKeyPlayerPref Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - keyName
+             - string
+             - Yes
+             - Key to be deleted.
+
+    .. tab:: Python
+
+        .. list-table:: delete_key_player_pref Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - key_name
+             - string
+             - Yes
+             - Key to be deleted.
+
+    .. tab:: Robot
+
+        .. list-table:: Delete Key Player Pref Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - key_name
+             - string
+             - Yes
+             - Key to be deleted.
+```
 
 **_Returns_**
 
@@ -2846,10 +5969,85 @@ Loads a scene.
 
 **_Parameters_**
 
-| Name       | Type   | Required | Description                                                                                                        |
-| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------ |
-| scene      | string | Yes      | The name of the scene to be loaded.                                                                                |
-| loadSingle | bool   | No       | If set to false the scene will be loaded additive, together with the current loaded scenes. Default value is true. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: LoadScene Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - scene
+             - string
+             - Yes
+             - The name of the scene to be loaded.
+           * - loadSingle
+             - bool
+             - No
+             - If set to false, the scene will be loaded additive, together with the current loaded scenes. Default value is true.
+
+    .. tab:: Java
+
+        .. list-table:: loadScene Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - scene
+             - string
+             - Yes
+             - The name of the scene to be loaded.
+           * - loadSingle
+             - bool
+             - No
+             - If set to false, the scene will be loaded additive, together with the current loaded scenes. Default value is true.
+
+    .. tab:: Python
+
+        .. list-table:: load_scene Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - scene
+             - string
+             - Yes
+             - The name of the scene to be loaded.
+           * - load_single
+             - bool
+             - No
+             - If set to false, the scene will be loaded additive, together with the current loaded scenes. Default value is true.
+
+    .. tab:: Robot
+
+        .. list-table:: Load Scene Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - scene
+             - string
+             - Yes
+             - The name of the scene to be loaded.
+           * - load_single
+             - bool
+             - No
+             - If set to false, the scene will be loaded additive, together with the current loaded scenes. Default value is true.
+```
 
 **_Returns_**
 
@@ -2900,9 +6098,69 @@ Unloads a scene.
 
 **_Parameters_**
 
-| Name  | Type   | Required | Description                       |
-| ----- | ------ | -------- | --------------------------------- |
-| scene | string | Yes      | Name of the scene to be unloaded. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: UnloadScene Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - scene
+             - string
+             - Yes
+             - Name of the scene to be unloaded.
+
+    .. tab:: Java
+
+        .. list-table:: unloadScene Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - scene
+             - string
+             - Yes
+             - Name of the scene to be unloaded.
+
+    .. tab:: Python
+
+        .. list-table:: unload_scene Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - scene
+             - string
+             - Yes
+             - Name of the scene to be unloaded.
+
+    .. tab:: Robot
+
+        .. list-table:: Unload Scene Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - scene
+             - string
+             - Yes
+             - Name of the scene to be unloaded.
+```
 
 **_Returns_**
 
@@ -3051,11 +6309,101 @@ Waits for the scene to be loaded for a specified amount of time.
 
 **_Parameters_**
 
-| Name      | Type   | Required | Description                                                        |
-| --------- | ------ | -------- | ------------------------------------------------------------------ |
-| sceneName | string | Yes      | The name of the scene to wait for.                                 |
-| timeout   | double | No       | The time measured in seconds to wait for the specified scene.      |
-| interval  | double | No       | How often to check that the scene was loaded in the given timeout. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: WaitForCurrentSceneToBe Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - sceneName
+             - string
+             - Yes
+             - The name of the scene to wait for.
+           * - timeout
+             - double
+             - No
+             - The time measured in seconds to wait for the specified scene.
+           * - interval
+             - double
+             - No
+             - How often to check that the scene was loaded in the given timeout.
+
+    .. tab:: Java
+
+        .. list-table:: waitForCurrentSceneToBe Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - sceneName
+             - string
+             - Yes
+             - The name of the scene to wait for.
+           * - timeout
+             - double
+             - No
+             - The time measured in seconds to wait for the specified scene.
+           * - interval
+             - double
+             - No
+             - How often to check that the scene was loaded in the given timeout.
+
+    .. tab:: Python
+
+        .. list-table:: wait_for_current_scene_to_be Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - scene_name
+             - string
+             - Yes
+             - The name of the scene to wait for.
+           * - timeout
+             - float
+             - No
+             - The time measured in seconds to wait for the specified scene.
+           * - interval
+             - float
+             - No
+             - How often to check that the scene was loaded in the given timeout.
+
+    .. tab:: Robot
+
+        .. list-table:: Wait Fo rCurrent Scene To Be Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - scene_name
+             - string
+             - Yes
+             - The name of the scene to wait for.
+           * - timeout
+             - float
+             - No
+             - The time measured in seconds to wait for the specified scene.
+           * - interval
+             - float
+             - No
+             - How often to check that the scene was loaded in the given timeout.
+```
 
 **_Returns_**
 
@@ -3242,9 +6590,69 @@ Sets the value of the time scale.
 
 **_Parameters_**
 
-| Name      | Type  | Required | Description                                  |
-| --------- | ----- | -------- | -------------------------------------------- |
-| timeScale | float | Yes      | The value you want to set the time scale to. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: SetTimeScale Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - timeScale
+             - float
+             - Yes
+             - The value you want to set the time scale to.
+
+    .. tab:: Java
+
+        .. list-table:: setTimeScale Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - timeScale
+             - float
+             - Yes
+             - The value you want to set the time scale to.
+
+    .. tab:: Python
+
+        .. list-table:: set_time_scale Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - time_scale
+             - float
+             - Yes
+             - The value you want to set the time scale to.
+
+    .. tab:: Robot
+
+        .. list-table:: Set Time Scale Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - time_scale
+             - float
+             - Yes
+             - The value you want to set the time scale to.
+```
 
 **_Returns_**
 
@@ -3299,13 +6707,133 @@ Invokes static methods from your app.
 
 **_Parameters_**
 
-| Name             | Type   | Required | Description                                                                                                                                                                                               |
-| ---------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| typeName         | string | Yes      | The name of the script. If the script has a namespace the format should look like this: "namespace.typeName".                                                                                             |
-| methodName       | string | Yes      | The name of the public method that we want to call. If the method is inside a static property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
-| assemblyName     | string | Yes       | The name of the assembly containing the script.                                                                                                                                                          |
-| parameters       | array  | Yes       | An array containing the serialized parameters to be sent to the component method.                                                                                                                         |
-| typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                                 |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: CallStaticMethod Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - typeName
+             - string
+             - Yes
+             - The name of the script. If the script has a namespace, the format should look like this: "namespace.typeName".
+           * - methodName
+             - string
+             - Yes
+             - The name of the public method to be called. If the method is inside a static property/field, use the format "propertyName.MethodName".
+           * - assemblyName
+             - string
+             - Yes
+             - The name of the assembly containing the script.
+           * - parameters
+             - array
+             - Yes
+             - An array containing the serialized parameters to be sent to the component method.
+           * - typeOfParameters
+             - array
+             - No
+             - An array containing the serialized type of parameters to be sent to the component method.
+
+    .. tab:: Java
+
+        .. list-table:: callStaticMethod Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - typeName
+             - string
+             - Yes
+             - The name of the script. If the script has a namespace, the format should look like this: "namespace.typeName".
+           * - methodName
+             - string
+             - Yes
+             - The name of the public method to be called. If the method is inside a static property/field, use the format "propertyName.MethodName".
+           * - assemblyName
+             - string
+             - Yes
+             - The name of the assembly containing the script.
+           * - parameters
+             - array
+             - Yes
+             - An array containing the serialized parameters to be sent to the component method.
+           * - typeOfParameters
+             - array
+             - No
+             - An array containing the serialized type of parameters to be sent to the component method.
+
+    .. tab:: Python
+
+        .. list-table:: call_static_method Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - type_name
+             - string
+             - Yes
+             - The name of the script. If the script has a namespace, the format should look like this: "namespace.type_name".
+           * - method_name
+             - string
+             - Yes
+             - The name of the public method to be called. If the method is inside a static property/field, use the format "property_name.method_name".
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the script.
+           * - parameters
+             - list
+             - Yes
+             - A list containing the serialized parameters to be sent to the component method.
+           * - type_of_parameters
+             - list
+             - No
+             - A list containing the serialized type of parameters to be sent to the component method.
+
+    .. tab:: Robot
+
+        .. list-table:: Call Static Method Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - type_name
+             - string
+             - Yes
+             - The name of the script. If the script has a namespace, the format should look like this: "namespace.type_name".
+           * - method_name
+             - string
+             - Yes
+             - The name of the public method to be called. If the method is inside a static property/field, use the format "property_name.method_name".
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the script.
+           * - parameters
+             - list
+             - Yes
+             - A list containing the serialized parameters to be sent to the component method.
+           * - type_of_parameters
+             - list
+             - No
+             - A list containing the serialized type of parameters to be sent to the component method.
+```
 
 **_Returns_**
 
@@ -3362,12 +6890,117 @@ Gets the value of the static field or property.
 
 **_Parameters_**
 
-| Name          | Type   | Required | Description                                                                                             |
-| ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------- |
-| componentName | string | Yes      | The name of the component which has the static field or property to be retrieved.                       |
-| propertyName  | string | Yes      | The name of the static field or property to be retrieved.                                               |
-| assemblyName  | string | Yes      | The name of the assembly containing the component.                                                     |
-| maxDepth      | int    | No       | The maximum depth in the hierarchy to look for the static field or property. Its value is 2 by default. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: GetStaticProperty Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - string
+             - Yes
+             - The name of the component which has the static field or property to be retrieved.
+           * - propertyName
+             - string
+             - Yes
+             - The name of the static field or property to be retrieved.
+           * - assemblyName
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - maxDepth
+             - int
+             - No
+             - The maximum depth in the hierarchy to look for the static field or property. Default is 2.
+
+    .. tab:: Java
+
+        .. list-table:: getStaticProperty Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - string
+             - Yes
+             - The name of the component which has the static field or property to be retrieved.
+           * - propertyName
+             - string
+             - Yes
+             - The name of the static field or property to be retrieved.
+           * - assemblyName
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - maxDepth
+             - int
+             - No
+             - The maximum depth in the hierarchy to look for the static field or property. Default is 2.
+
+    .. tab:: Python
+
+        .. list-table:: get_static_property Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component which has the static field or property to be retrieved.
+           * - property_name
+             - string
+             - Yes
+             - The name of the static field or property to be retrieved.
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - max_depth
+             - int
+             - No
+             - The maximum depth in the hierarchy to look for the static field or property. Default is 2.
+
+    .. tab:: Robot
+
+        .. list-table:: Get  Static Property Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component which has the static field or property to be retrieved.
+           * - property_name
+             - string
+             - Yes
+             - The name of the static field or property to be retrieved.
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - max_depth
+             - int
+             - No
+             - The maximum depth in the hierarchy to look for the static field or property. Default is 2.
+```
 
 **_Returns_**
 
@@ -3433,12 +7066,117 @@ Sets the value of the static field or property.
 
 **_Parameters_**
 
-| Name            | Type   | Required | Description                                                                                                              |
-| --------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
-| componentName   | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
-| propertyName    | string | Yes      | The name of the property whose value you want to set                                                                  |
-| assemblyName    | string | Yes      | The name of the assembly containing the component.                                           |
-| updatedProperty | object | Yes      | The value to be set for the chosen component's static property                                                           |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: SetStaticProperty Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should be "namespace.componentName".
+           * - propertyName
+             - string
+             - Yes
+             - The name of the property whose value you want to set.
+           * - assemblyName
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - updatedProperty
+             - object
+             - Yes
+             - The value to be set for the chosen component's static property.
+
+    .. tab:: Java
+
+        .. list-table:: setStaticProperty Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should be "namespace.componentName".
+           * - propertyName
+             - string
+             - Yes
+             - The name of the property whose value you want to set.
+           * - assemblyName
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - updatedProperty
+             - object
+             - Yes
+             - The value to be set for the chosen component's static property.
+
+    .. tab:: Python
+
+        .. list-table:: set_static_property Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should be "namespace.component_name".
+           * - property_name
+             - string
+             - Yes
+             - The name of the property whose value you want to set.
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - updated_property
+             - object
+             - Yes
+             - The value to be set for the chosen component's static property.
+
+    .. tab:: Robot
+
+        .. list-table:: Set Static Property Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should be "namespace.component_name".
+           * - property_name
+             - string
+             - Yes
+             - The name of the property whose value you want to set.
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - updated_property
+             - object
+             - Yes
+             - The value to be set for the chosen component's static property.
+```
 
 **_Returns_**
 
@@ -3498,10 +7236,73 @@ Sets the level of logging on AltTester® Unity SDK.
 
 **_Parameters_**
 
-| Name     | Type             | Required | Description         |
-| -------- | ---------------- | -------- | ------------------- |
-| logger   | AltLogger   | Yes      | The type of logger. |
-| logLevel | AltLogLevel | Yes      | The logging level.  |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: SetServerLogging Parameters
+           :widths: 20 20 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Description
+           * - logger
+             - AltLogger
+             - The type of logger.
+           * - logLevel
+             - AltLogLevel
+             - The logging level.
+
+    .. tab:: Java
+
+        .. list-table:: setServerLogging Parameters
+           :widths: 20 20 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Description
+           * - logger
+             - AltLogger
+             - The type of logger.
+           * - logLevel
+             - AltLogLevel
+             - The logging level.
+
+    .. tab:: Python
+
+        .. list-table:: set_server_logging Parameters
+           :widths: 20 20 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Description
+           * - logger
+             - AltLogger
+             - The type of logger.
+           * - log_level
+             - AltLogLevel
+             - The logging level.
+
+    .. tab:: Robot
+
+        .. list-table:: Set Server Logging Parameters
+           :widths: 20 20 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Description
+           * - logger
+             - AltLogger
+             - The type of logger.
+           * - log_level
+             - AltLogLevel
+             - The logging level.
+```
 
 **_Returns_**
 
@@ -3588,22 +7389,217 @@ The **AltObject** class represents the objects present in the app and it allows 
 
 **_Fields_**
 
-| Name              | Type   | Description                                                                                                                          |
-| ----------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| name              | string | The name of the object.                                                                                                              |
-| id                | int    | The objects's id.                                                                                                                    |
-| x                 | int    | The value for x axis coordinate on screen.                                                                                           |
-| y                 | int    | The value for y axis coordinate on screen.                                                                                           |
-| mobileY           | int    | The value for y axis for appium.                                                                                                     |
-| type              | string | Object's type, for objects from the app is gameObject.                                                                              |
-| enabled           | bool   | The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true. |
-| worldX            | float  | The value for x axis coordinate in the app's world.                                                                                 |
-| worldY            | float  | The value for y axis coordinate in the app's world.                                                                                 |
-| worldZ            | float  | The value for z axis coordinate in the app's world.                                                                                 |
-| idCamera          | int    | The camera's id.                                                                                                                     |
-| transformId       | int    | The transform's component id.                                                                                                        |
-| parentId          | int    | The transform parent's id. It's obsolete. Use transformParentId instead.                                                             |
-| transformParentId | int    | The transform parent's id.                                                                                                           |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: AltObject Fields
+           :widths: 20 20 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Description
+           * - name
+             - string
+             - The name of the object.
+           * - id
+             - int
+             - The object's id.
+           * - x
+             - int
+             - The value for x axis coordinate on screen.
+           * - y
+             - int
+             - The value for y axis coordinate on screen.
+           * - mobileY
+             - int
+             - The value for y axis for Appium.
+           * - type
+             - string
+             - Object's type, for objects from the app is gameObject.
+           * - enabled
+             - bool
+             - The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true.
+           * - worldX
+             - float
+             - The value for x axis coordinate in the app's world.
+           * - worldY
+             - float
+             - The value for y axis coordinate in the app's world.
+           * - worldZ
+             - float
+             - The value for z axis coordinate in the app's world.
+           * - idCamera
+             - int
+             - The camera's id.
+           * - transformId
+             - int
+             - The transform's component id.
+           * - parentId
+             - int
+             - The transform parent's id. It's obsolete. Use transformParentId instead.
+           * - transformParentId
+             - int
+             - The transform parent's id.
+
+    .. tab:: Java
+
+        .. list-table:: AltObject Fields
+           :widths: 20 20 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Description
+           * - name
+             - String
+             - The name of the object.
+           * - id
+             - int
+             - The object's id.
+           * - x
+             - int
+             - The value for x axis coordinate on screen.
+           * - y
+             - int
+             - The value for y axis coordinate on screen.
+           * - mobileY
+             - int
+             - The value for y axis for Appium.
+           * - type
+             - String
+             - Object's type, for objects from the app is gameObject.
+           * - enabled
+             - boolean
+             - The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true.
+           * - worldX
+             - float
+             - The value for x axis coordinate in the app's world.
+           * - worldY
+             - float
+             - The value for y axis coordinate in the app's world.
+           * - worldZ
+             - float
+             - The value for z axis coordinate in the app's world.
+           * - idCamera
+             - int
+             - The camera's id.
+           * - transformId
+             - int
+             - The transform's component id.
+           * - parentId
+             - int
+             - The transform parent's id. It's obsolete. Use transformParentId instead.
+           * - transformParentId
+             - int
+             - The transform parent's id.
+
+    .. tab:: Python
+
+        .. list-table:: AltObject Properties
+           :widths: 20 20 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Description
+           * - name
+             - string
+             - The name of the object.
+           * - id
+             - int
+             - The object's id.
+           * - x
+             - int
+             - The value for x axis coordinate on screen.
+           * - y
+             - int
+             - The value for y axis coordinate on screen.
+           * - mobileY
+             - int
+             - The value for y axis for Appium.
+           * - type
+             - string
+             - Object's type, for objects from the app is gameObject.
+           * - enabled
+             - bool
+             - The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true.
+           * - worldX
+             - float
+             - The value for x axis coordinate in the app's world.
+           * - worldY
+             - float
+             - The value for y axis coordinate in the app's world.
+           * - worldZ
+             - float
+             - The value for z axis coordinate in the app's world.
+           * - idCamera
+             - int
+             - The camera's id.
+           * - transformId
+             - int
+             - The transform's component id.
+           * - parentId
+             - int
+             - The transform parent's id. It's obsolete. Use transform_parent_id instead.
+           * - transformParentId
+             - int
+             - The transform parent's id.
+
+    .. tab:: Robot
+
+        .. list-table:: AltObject Properties
+           :widths: 20 20 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Description
+           * - name
+             - string
+             - The name of the object.
+           * - id
+             - int
+             - The object's id.
+           * - x
+             - int
+             - The value for x axis coordinate on screen.
+           * - y
+             - int
+             - The value for y axis coordinate on screen.
+           * - mobileY
+             - int
+             - The value for y axis for Appium.
+           * - type
+             - string
+             - Object's type, for objects from the app is gameObject.
+           * - enabled
+             - boolean
+             - The local active state of the object. Note that an object may be inactive because a parent is not active, even if this returns true.
+           * - worldX
+             - float
+             - The value for x axis coordinate in the app's world.
+           * - worldY
+             - float
+             - The value for y axis coordinate in the app's world.
+           * - worldZ
+             - float
+             - The value for z axis coordinate in the app's world.
+           * - idCamera
+             - int
+             - The camera's id.
+           * - transformId
+             - int
+             - The transform's component id.
+           * - parentId
+             - int
+             - The transform parent's id. It's obsolete. Use transform_parent_id instead.
+           * - transformParentId
+             - int
+             - The transform parent's id.
+```
 
 The available methods are the following:
 
@@ -3613,13 +7609,133 @@ Finds the first child of the object that respects the given criteria. Check [By]
 
 **_Parameters_**
 
-| Name        | Type               | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                |
-| ----------- | ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| by          | [By](#by-selector) | Yes      | Set what criteria to use in order to find the object.                                                                                                                                                                                                                                                                                                                                                      |
-| value       | string             | Yes      | The value to which object will be compared to see if they respect the criteria or not.                                                                                                                                                                                                                                                                                                                     |
-| cameraBy    | [By](#by-selector) | No       | Set what criteria to use in order to find the camera.                                                                                                                                                                                                                                                                                                                                                      |
-| cameraValue | string             | No       | The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given It will search through all cameras that are in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.  |
-| enabled     | boolean            | No       | If `true` will match only objects that are active in hierarchy. If `false` will match all objects.                                                                                                                                                                                                                                                                                                         |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: FindObjectFromObject Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - By
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - cameraBy
+             - By
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given, it will search through all cameras in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Java
+
+        .. list-table:: findObjectFromObject Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - by
+             - By
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - value
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - cameraBy
+             - By
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - cameraValue
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given, it will search through all cameras in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Python
+
+        .. list-table:: find_object_from_object Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - By
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - camera_by
+             - By
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given, it will search through all cameras in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+
+    .. tab:: Robot
+
+        .. list-table:: Find Object From Object Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - locator_strategy
+             - By
+             - Yes
+             - Set what criteria to use in order to find the object.
+           * - locator
+             - string
+             - Yes
+             - The value to which the object will be compared to see if it respects the criteria or not.
+           * - camera_by
+             - By
+             - No
+             - Set what criteria to use in order to find the camera.
+           * - camera_value
+             - string
+             - No
+             - The value to which all the cameras in the scene will be compared to see if they respect the criteria or not to get the camera for which the screen coordinates of the object will be calculated. If no camera is given, it will search through all cameras in the scene until some camera sees the object or return the screen coordinates of the object calculated to the last camera in the scene.
+           * - enabled
+             - boolean
+             - No
+             - If `true`, will match only objects that are active in hierarchy. If `false`, will match all objects.
+```
 
 **_Returns_**
 
@@ -3674,13 +7790,133 @@ Invokes a method from an existing component of the object.
 
 **_Parameters_**
 
-| Name             | Type   | Required | Description                                                                                                                                                                                       |
-| ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |
-| componentName    | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName".                                                                          |
-| methodName       | string | Yes      | The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName need to be the following format "propertyName.MethodName". |
-| assemblyName     | string | Yes      | The name of the assembly containing the component.                                                                                                                                                |
-| parameters       | array  | Yes       | An array containing the serialized parameters to be sent to the component method.                                                                                                                 |
-| typeOfParameters | array  | No       | An array containing the serialized type of parameters to be sent to the component method.                                                                                                         |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: CallComponentMethod Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.componentName".
+           * - methodName
+             - string
+             - Yes
+             - The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName needs to be the following format "propertyName.MethodName".
+           * - assemblyName
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - parameters
+             - array
+             - Yes
+             - An array containing the serialized parameters to be sent to the component method.
+           * - typeOfParameters
+             - array
+             - No
+             - An array containing the serialized type of parameters to be sent to the component method.
+
+    .. tab:: Java
+
+        .. list-table:: callComponentMethod Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - String
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.componentName".
+           * - methodName
+             - String
+             - Yes
+             - The name of the public method that will be called. If the method is inside a property/field to be able to call that method, methodName needs to be the following format "propertyName.MethodName".
+           * - assemblyName
+             - String
+             - Yes
+             - The name of the assembly containing the component.
+           * - parameters
+             - Array
+             - Yes
+             - An array containing the serialized parameters to be sent to the component method.
+           * - typeOfParameters
+             - Array
+             - No
+             - An array containing the serialized type of parameters to be sent to the component method.
+
+    .. tab:: Python
+
+        .. list-table:: call_component_method Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.component_name".
+           * - method_name
+             - string
+             - Yes
+             - The name of the public method that will be called. If the method is inside a property/field to be able to call that method, method_name needs to be the following format "property_name.method_name".
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - parameters
+             - list
+             - Yes
+             - A list containing the serialized parameters to be sent to the component method.
+           * - type_of_parameters
+             - list
+             - No
+             - A list containing the serialized type of parameters to be sent to the component method.
+
+    .. tab:: Robot
+
+        .. list-table:: Call Component Method Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.component_name".
+           * - method_name
+             - string
+             - Yes
+             - The name of the public method that will be called. If the method is inside a property/field to be able to call that method, method_name needs to be the following format "property_name.method_name".
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - parameters
+             - list
+             - Yes
+             - A list containing the serialized parameters to be sent to the component method.
+           * - type_of_parameters
+             - list
+             - No
+             - A list containing the serialized type of parameters to be sent to the component method.
+```
 
 **_Returns_**
 
@@ -3842,16 +8078,181 @@ Wait until a property has a specific value and returns the value of the given co
 
 **_Parameters_**
 
-| Name             | Type   | Required | Description                                                                                                                                                                                       |
-| ---------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  |
-| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                    |
-| propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                           |                                                                                                                                   
-| propertyValue  | T | Yes       | The value that property should have.                             
-| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                           
-| timeout     | double             | No       | The number of seconds that it will wait for the property. The default value is 20 seconds.                                                                                                                            
-| interval    | double             | No       | The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.                                                                                                                                         | 
-| getPropertyAsString    | bool             | No       | If `true`, it will treat the propertyValue as a string; if `false` it will consider the original type of the propertyValue. This is especially useful when you want to pass for example `[[], []]` as a propertyValue, which you can do by setting getPropertyAsString to `true` and propertyValue to `JToken.Parse("[[], []]")` (in C#).
-| maxDepth    | int             | No       | The value that defines the maximum level from which to retrieve properties. By default it is 2.
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: WaitForComponentProperty Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.componentName".
+           * - propertyName
+             - string
+             - Yes
+             - Name of the property of which value you want. If the property is an array, you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.
+           * - propertyValue
+             - T
+             - Yes
+             - The value that the property should have.
+           * - assemblyName
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - timeout
+             - double
+             - No
+             - The number of seconds that it will wait for the property. The default value is 20 seconds.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.
+           * - getPropertyAsString
+             - bool
+             - No
+             - If `true`, it will treat the propertyValue as a string; if `false` it will consider the original type of the propertyValue. This is especially useful when you want to pass for example `[[], []]` as a propertyValue, which you can do by setting getPropertyAsString to `true` and propertyValue to `JToken.Parse("[[], []]")` (in C#).
+           * - maxDepth
+             - int
+             - No
+             - The value that defines the maximum level from which to retrieve properties. By default it is 2.
+
+    .. tab:: Java
+
+        .. list-table:: waitForComponentProperty Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - String
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.componentName".
+           * - propertyName
+             - String
+             - Yes
+             - Name of the property of which value you want. If the property is an array, you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.
+           * - propertyValue
+             - Object
+             - Yes
+             - The value that the property should have.
+           * - assemblyName
+             - String
+             - Yes
+             - The name of the assembly containing the component.
+           * - timeout
+             - double
+             - No
+             - The number of seconds that it will wait for the property. The default value is 20 seconds.
+           * - interval
+             - double
+             - No
+             - The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.
+           * - getPropertyAsString
+             - boolean
+             - No
+             - If `true`, it will treat the propertyValue as a string; if `false` it will consider the original type of the propertyValue. This is especially useful when you want to pass for example `[[], []]` as a propertyValue, which you can do by setting getPropertyAsString to `true` and propertyValue to `JToken.Parse("[[], []]")` (in C#).
+           * - maxDepth
+             - int
+             - No
+             - The value that defines the maximum level from which to retrieve properties. By default it is 2.
+
+    .. tab:: Python
+
+        .. list-table:: wait_for_component_property Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.component_name".
+           * - property_name
+             - string
+             - Yes
+             - Name of the property of which value you want. If the property is an array, you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.
+           * - property_value
+             - object
+             - Yes
+             - The value that the property should have.
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - timeout
+             - float
+             - No
+             - The number of seconds that it will wait for the property. The default value is 20 seconds.
+           * - interval
+             - float
+             - No
+             - The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.
+           * - get_property_as_string
+             - bool
+             - No
+             - If `true`, it will treat the property_value as a string; if `false` it will consider the original type of the property_value. This is especially useful when you want to pass for example `[[], []]` as a property_value, which you can do by setting get_property_as_string to `true` and property_value to `JToken.Parse("[[], []]")` (in C#).
+           * - max_depth
+             - int
+             - No
+             - The value that defines the maximum level from which to retrieve properties. By default it is 2.
+
+    .. tab:: Robot
+
+        .. list-table:: Wait Fo Component Property Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.component_name".
+           * - property_name
+             - string
+             - Yes
+             - Name of the property of which value you want. If the property is an array, you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.
+           * - property_value
+             - object
+             - Yes
+             - The value that the property should have.
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - timeout
+             - float
+             - No
+             - The number of seconds that it will wait for the property. The default value is 20 seconds.
+           * - interval
+             - float
+             - No
+             - The number of seconds after which it will try to find the object again. The interval should be smaller than the timeout. The default value is 0.5 seconds.
+           * - get_property_as_string
+             - bool
+             - No
+             - If `true`, it will treat the property_value as a string; if `false` it will consider the original type of the property_value. This is especially useful when you want to pass for example `[[], []]` as a property_value, which you can do by setting get_property_as_string to `true` and property_value to `JToken.Parse("[[], []]")` (in C#).
+           * - max_depth
+             - int
+             - No
+             - The value that defines the maximum level from which to retrieve properties. By default it is 2.
+```
 
 **_Returns_**
 
@@ -3955,12 +8356,117 @@ Returns the value of the given component property.
 
 **_Parameters_**
 
-| Name          | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName"                                                                                                                                                                                                                                                                                                                            |
-| propertyName  | string | Yes      | Name of the property of which value you want. If the property is an array you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.                                                                                                                                                                  |
-| assemblyName  | string | Yes       | The name of the assembly containing the component.                                                                                                                                                                                                                                                                                                                                                                                                  |
-| maxDepth      | int    | No       | Set how deep the serialization of the property to do. For example for position property in transform the result are following: maxDepth=2 {"normalized":{"magnitude":1.0, "sqrMagnitude":1.0, "x":0.871575534, "y":0.490261227, "z":0.0}, "magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} and for maxDepth=1 :{"normalized":{},"magnitude":1101.45361, "sqrMagnitude":1213200.0, "x":960.0,"y":540.0, "z":0.0} |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: GetComponentProperty Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.componentName".
+           * - propertyName
+             - string
+             - Yes
+             - Name of the property of which value you want. If the property is an array, you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.
+           * - assemblyName
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - maxDepth
+             - int
+             - No
+             - Set how deep the serialization of the property to do.
+
+    .. tab:: Java
+
+        .. list-table:: getComponentProperty Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - String
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.componentName".
+           * - propertyName
+             - String
+             - Yes
+             - Name of the property of which value you want. If the property is an array, you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.
+           * - assemblyName
+             - String
+             - Yes
+             - The name of the assembly containing the component.
+           * - maxDepth
+             - int
+             - No
+             - Set how deep the serialization of the property to do.
+
+    .. tab:: Python
+
+        .. list-table:: get_component_property Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.component_name".
+           * - property_name
+             - string
+             - Yes
+             - Name of the property of which value you want. If the property is an array, you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - max_depth
+             - int
+             - No
+             - Set how deep the serialization of the property to do.
+
+    .. tab:: Robot
+
+        .. list-table:: Get Component Property Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.component_name".
+           * - property_name
+             - string
+             - Yes
+             - Name of the property of which value you want. If the property is an array, you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+           * - max_depth
+             - int
+             - No
+             - Set how deep the serialization of the property to do.
+```
 
 **_Returns_**
 
@@ -4029,12 +8535,117 @@ Sets value of the given component property.
 
 **_Parameters_**
 
-| Name          | Type   | Required | Description                                                                                                              |
-| ------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------ |
-| componentName | string | Yes      | The name of the component. If the component has a namespace the format should look like this: "namespace.componentName". |
-| propertyName  | string | Yes      | The name of the property of which value you want to set                                                                  |
-| value         | object | Yes      | The value to be set for the chosen component's property                                               |
-| assemblyName  | string | Yes       | The name of the assembly containing the component.                                               |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: SetComponentProperty Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.componentName".
+           * - propertyName
+             - string
+             - Yes
+             - The name of the property of which value you want to set.
+           * - value
+             - object
+             - Yes
+             - The value to be set for the chosen component's property.
+           * - assemblyName
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+
+    .. tab:: Java
+
+        .. list-table:: setComponentProperty Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - componentName
+             - String
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.componentName".
+           * - propertyName
+             - String
+             - Yes
+             - The name of the property of which value you want to set.
+           * - value
+             - Object
+             - Yes
+             - The value to be set for the chosen component's property.
+           * - assemblyName
+             - String
+             - Yes
+             - The name of the assembly containing the component.
+
+    .. tab:: Python
+
+        .. list-table:: set_component_property Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.component_name".
+           * - property_name
+             - string
+             - Yes
+             - The name of the property of which value you want to set.
+           * - value
+             - object
+             - Yes
+             - The value to be set for the chosen component's property.
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+
+    .. tab:: Robot
+
+        .. list-table:: Set Component Property Parameters
+           :widths: 20 20 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - component_name
+             - string
+             - Yes
+             - The name of the component. If the component has a namespace, the format should look like this: "namespace.component_name".
+           * - property_name
+             - string
+             - Yes
+             - The name of the property of which value you want to set.
+           * - value
+             - object
+             - Yes
+             - The value to be set for the chosen component's property.
+           * - assembly_name
+             - string
+             - Yes
+             - The name of the assembly containing the component.
+```
                                                               
 **_Returns_**
 
@@ -4179,10 +8790,97 @@ Sets text value for a Button, Text, InputField. This also works with TextMeshPro
 
 **_Parameters_**
 
-| Name   | Type   | Required | Description                         |
-| ------ | ------ | -------- | ----------------------------------- |
-| text   | string | Yes      | The text to be set.                 |
-| submit | bool   | No       | If set will trigger a submit event. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: SetText Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - text
+             - string
+             - Yes
+             - N/A
+             - The text to be set.
+           * - submit
+             - bool
+             - No
+             - N/A
+             - If set will trigger a submit event.
+
+    .. tab:: Java
+
+        .. list-table:: setText Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - text
+             - String
+             - Yes
+             - N/A
+             - The text to be set.
+           * - submit
+             - boolean
+             - No
+             - N/A
+             - If set will trigger a submit event.
+
+    .. tab:: Python
+
+        .. list-table:: set_text Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - text
+             - string
+             - Yes
+             - N/A
+             - The text to be set.
+           * - submit
+             - bool
+             - No
+             - N/A
+             - If set will trigger a submit event.
+
+    .. tab:: Robot
+
+        .. list-table:: Set Text Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - text
+             - string
+             - Yes
+             - N/A
+             - The text to be set.
+           * - submit
+             - bool
+             - No
+             - N/A
+             - If set will trigger a submit event.
+```
 
 **_Returns_**
 
@@ -4249,11 +8947,117 @@ Tap current object.
 
 **_Parameters_**
 
-| Name     | Type    | Required | Default | Description                       |
-| -------- | ------- | -------- | ------- | --------------------------------- |
-| count    | int     | No       | 1       | Number of taps.                   |
-| interval | float   | No       | 0.1     | Interval between taps in seconds. |
-| wait     | boolean | No       | true    | Wait for command to finish.       |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: Tap Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - count
+             - int
+             - No
+             - 1
+             - Number of taps.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between taps in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - Wait for command to finish.
+
+    .. tab:: Java
+
+        .. list-table:: tap Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - count
+             - int
+             - No
+             - 1
+             - Number of taps.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between taps in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - Wait for command to finish.
+
+    .. tab:: Python
+
+        .. list-table:: tap Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - count
+             - int
+             - No
+             - 1
+             - Number of taps.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between taps in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - Wait for command to finish.
+
+    .. tab:: Robot
+
+        .. list-table:: Tap Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - count
+             - int
+             - No
+             - 1
+             - Number of taps.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between taps in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - Wait for command to finish.
+```
 
 **_Returns_**
 
@@ -4317,11 +9121,117 @@ Click current object.
 
 **_Parameters_**
 
-| Name     | Type    | Required | Default | Description                         |
-| -------- | ------- | -------- | ------- | ----------------------------------- |
-| count    | int     | No       | 1       | Number of clicks.                   |
-| interval | float   | No       | 0.1     | Interval between clicks in seconds. |
-| wait     | boolean | No       | true    | Wait for command to finish.         |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: Click Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - count
+             - int
+             - No
+             - 1
+             - Number of clicks.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between clicks in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - Wait for command to finish.
+
+    .. tab:: Java
+
+        .. list-table:: click Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - count
+             - int
+             - No
+             - 1
+             - Number of clicks.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between clicks in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - Wait for command to finish.
+
+    .. tab:: Python
+
+        .. list-table:: click Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - count
+             - int
+             - No
+             - 1
+             - Number of clicks.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between clicks in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - Wait for command to finish.
+
+    .. tab:: Robot
+
+        .. list-table:: Click Parameters
+           :widths: 20 20 10 10 40
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Default
+             - Description
+           * - count
+             - int
+             - No
+             - 1
+             - Number of clicks.
+           * - interval
+             - float
+             - No
+             - 0.1
+             - Interval between clicks in seconds.
+           * - wait
+             - boolean
+             - No
+             - true
+             - Wait for command to finish.
+```
 
 **_Returns_**
 
@@ -5071,12 +9981,69 @@ Returns the value of the given property for a visual element.
 
 **_Parameters_**
 
-| Name          | Type   | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| propertyName  | string | Yes      | The name of the property for which you want to retrieve the value. The list of supported properties can be found in the [Unity Documentation](https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html).                                                                                                                                                                  |
+```eval_rst
+.. tabs::
 
+    .. tab:: C#
 
+        .. list-table:: GetVisualElementProperty Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
 
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - propertyName
+             - string
+             - Yes
+             - The name of the property for which you want to retrieve the value. The list of supported properties can be found in the `Unity Documentation <https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html>`_.
+
+    .. tab:: Java
+
+        .. list-table:: getVisualElementProperty Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - propertyName
+             - string
+             - Yes
+             - The name of the property for which you want to retrieve the value. The list of supported properties can be found in the `Unity Documentation <https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html>`_.
+
+    .. tab:: Python
+
+        .. list-table:: get_visual_element_property Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - property_name
+             - string
+             - Yes
+             - The name of the property for which you want to retrieve the value. The list of supported properties can be found in the `Unity Documentation <https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html>`_.
+
+    .. tab:: Robot
+
+        .. list-table:: Get Visual Element Property Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - property_name
+             - string
+             - Yes
+             - The name of the property for which you want to retrieve the value. The list of supported properties can be found in the `Unity Documentation <https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html>`_.
+```
 
 **_Returns_**
 
@@ -5130,14 +10097,133 @@ Waits for a visual element property to match a specified value.
 
 **_Parameters_**
 
-| Name                | Type    | Required | Description                                                                                                     |
-| ------------------- | ------- | -------- | --------------------------------------------------------------------------------------------------------------- |
-| propertyName        | string  | Yes      | The name of the property to wait for. The list of supported properties can be found in the [Unity Documentation](https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html). |
-| propertyValue       | T  | Yes      | The value to wait for the property to match.                                                                    |
-| timeout             | number  | No       | The maximum time to wait for the property to match the value. Default is 20 seconds.                                     |
-| interval            | number  | No       | The interval at which to check the property value. Default is 0.5 seconds.                                      |
-| getPropertyAsString | boolean | No       | Whether to retrieve the property value as a string. Default is false.                                           |
+```eval_rst
+.. tabs::
 
+    .. tab:: C#
+
+        .. list-table:: WaitForVisualElementProperty Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - propertyName
+             - string
+             - Yes
+             - The name of the property to wait for. The list of supported properties can be found in the `Unity Documentation <https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html>`_.
+           * - propertyValue
+             - T
+             - Yes
+             - The value to wait for the property to match.
+           * - timeout
+             - number
+             - No
+             - The maximum time to wait for the property to match the value. Default is 20 seconds.
+           * - interval
+             - number
+             - No
+             - The interval at which to check the property value. Default is 0.5 seconds.
+           * - getPropertyAsString
+             - boolean
+             - No
+             - Whether to retrieve the property value as a string. Default is false.
+
+    .. tab:: Java
+
+        .. list-table:: waitForVisualElementProperty Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - propertyName
+             - string
+             - Yes
+             - The name of the property to wait for. The list of supported properties can be found in the `Unity Documentation <https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html>`_.
+           * - propertyValue
+             - T
+             - Yes
+             - The value to wait for the property to match.
+           * - timeout
+             - number
+             - No
+             - The maximum time to wait for the property to match the value. Default is 20 seconds.
+           * - interval
+             - number
+             - No
+             - The interval at which to check the property value. Default is 0.5 seconds.
+           * - getPropertyAsString
+             - boolean
+             - No
+             - Whether to retrieve the property value as a string. Default is false.
+
+    .. tab:: Python
+
+        .. list-table:: wait_for_visual_element_property Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - property_name
+             - string
+             - Yes
+             - The name of the property to wait for. The list of supported properties can be found in the `Unity Documentation <https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html>`_.
+           * - property_value
+             - T
+             - Yes
+             - The value to wait for the property to match.
+           * - timeout
+             - number
+             - No
+             - The maximum time to wait for the property to match the value. Default is 20 seconds.
+           * - interval
+             - number
+             - No
+             - The interval at which to check the property value. Default is 0.5 seconds.
+           * - get_property_as_string
+             - boolean
+             - No
+             - Whether to retrieve the property value as a string. Default is false.
+
+    .. tab:: Robot
+
+        .. list-table:: Wait For Visual Element Property Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - property_name
+             - string
+             - Yes
+             - The name of the property to wait for. The list of supported properties can be found in the `Unity Documentation <https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html>`_.
+           * - property_value
+             - T
+             - Yes
+             - The value to wait for the property to match.
+           * - timeout
+             - number
+             - No
+             - The maximum time to wait for the property to match the value. Default is 20 seconds.
+           * - interval
+             - number
+             - No
+             - The interval at which to check the property value. Default is 0.5 seconds.
+           * - get_property_as_string
+             - boolean
+             - No
+             - Whether to retrieve the property value as a string. Default is false.
+```
 
 **_Returns_**
 
@@ -5402,12 +10488,117 @@ This method calls `adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}`
 
 **_Parameters_**
 
-| Name       | Type   | Required | Description                                                                                                                                                                                      |
-| ---------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| remotePort  | int    | No       | The device port to do reverse port forwarding from.                                                                                                                                                                  |
-| localPort | int    | No       | The local port to do reverse port forwarding to.                                                                                                                                                                   |
-| deviceId   | string | No       | The id of the device.                                                                                                                                                                            |
-| adbPath    | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: ReversePortForwardingAndroid Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - remotePort
+             - int
+             - No
+             - The device port to do reverse port forwarding from.
+           * - localPort
+             - int
+             - No
+             - The local port to do reverse port forwarding to.
+           * - deviceId
+             - string
+             - No
+             - The id of the device.
+           * - adbPath
+             - string
+             - No
+             - The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`.
+
+    .. tab:: Java
+
+        .. list-table:: reversePortForwardingAndroid Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - remotePort
+             - int
+             - No
+             - The device port to do reverse port forwarding from.
+           * - localPort
+             - int
+             - No
+             - The local port to do reverse port forwarding to.
+           * - deviceId
+             - string
+             - No
+             - The id of the device.
+           * - adbPath
+             - string
+             - No
+             - The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`.
+
+    .. tab:: Python
+
+        .. list-table:: reverse_port_forwarding_android Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - remote_port
+             - int
+             - No
+             - The device port to do reverse port forwarding from.
+           * - local_port
+             - int
+             - No
+             - The local port to do reverse port forwarding to.
+           * - device_id
+             - string
+             - No
+             - The id of the device.
+           * - adb_path
+             - string
+             - No
+             - The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`.
+
+    .. tab:: Robot
+
+        .. list-table:: Reverse Port Forwarding Android Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - remote_port
+             - int
+             - No
+             - The device port to do reverse port forwarding from.
+           * - local_port
+             - int
+             - No
+             - The local port to do reverse port forwarding to.
+           * - device_id
+             - string
+             - No
+             - The id of the device.
+           * - adb_path
+             - string
+             - No
+             - The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`.
+```
 
 **_Examples_**
 
@@ -5446,17 +10637,108 @@ This method calls `adb reverse [-s {deviceId}] tcp:{remotePort} tcp:{localPort}`
 
 ```
 **Note:** Sometimes, the execution of reverse port forwarding method is too slow so the tests fail because the port is not actually forwarded when trying to establish the connection. In order to fix this problem, a `sleep()` method should be called after calling the ReversePortForwardingAndroid() method.
+
 ### RemoveReversePortForwardingAndroid
 
 This method calls `adb reverse --remove [-s {deviceId}] tcp:{devicePort}` or `adb reverse --remove-all` if no port is provided.
 
 **_Parameters_**
 
-| Name      | Type   | Required | Description                                                                                                                                                                                      |
-| --------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| devicePort | int    | No       | The device port to be removed.                                                                                                                                                                    |
-| deviceId  | string | No       | The id of the device to be removed.                                                                                                                                                              |
-| adbPath   | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: RemoveReversePortForwardingAndroid Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - devicePort
+             - int
+             - No
+             - The device port to be removed.
+           * - deviceId
+             - string
+             - No
+             - The id of the device to be removed.
+           * - adbPath
+             - string
+             - No
+             - The adb path.
+
+    .. tab:: Java
+
+        .. list-table:: removeReversePortForwardingAndroid Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - devicePort
+             - int
+             - No
+             - The device port to be removed.
+           * - deviceId
+             - string
+             - No
+             - The id of the device to be removed.
+           * - adbPath
+             - string
+             - No
+             - The adb path.
+
+    .. tab:: Python
+
+        .. list-table:: remove_reverse_port_forwarding_android Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - device_port
+             - int
+             - No
+             - The device port to be removed.
+           * - device_id
+             - string
+             - No
+             - The id of the device to be removed.
+           * - adb_path
+             - string
+             - No
+             - The adb path.
+
+    .. tab:: Robot
+
+        .. list-table:: Remove Reverse Port Forwarding Android Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - device_port
+             - int
+             - No
+             - The device port to be removed.
+           * - device_id
+             - string
+             - No
+             - The id of the device to be removed.
+           * - adb_path
+             - string
+             - No
+             - The adb path.
+```
 
 **_Returns_**
 
@@ -5505,9 +10787,69 @@ This method calls `adb reverse --remove-all`.
 
 **_Parameters_**
 
-| Name    | Type   | Required | Description                                                                                                                                                                                      |
-| ------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| adbPath | string | No       | The adb path. If no adb path is provided, it tries to use adb from `${ANDROID_SDK_ROOT}/platform-tools/adb`. If `ANDROID_SDK_ROOT` env variable is not set, it tries to execute adb from `PATH`. |
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: RemoveAllReversePortForwardingsAndroid Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - adbPath
+             - string
+             - No
+             - The adb path.
+
+    .. tab:: Java
+
+        .. list-table:: removeAllReversePortForwardingsAndroid Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - adbPath
+             - string
+             - No
+             - The adb path.
+
+    .. tab:: Python
+
+        .. list-table:: remove_all_reverse_port_forwardings_android Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - adb_path
+             - string
+             - No
+             - The adb path.
+
+    .. tab:: Robot
+
+        .. list-table:: Remove All Reverse Port Forwardings Android Parameters
+           :widths: 20 20 10 50
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - adb_path
+             - string
+             - No
+             - The adb path.
+```
 
 **_Returns_**
 

@@ -17,7 +17,7 @@
 
 using System.Collections.Generic;
 
-namespace AltTester.AltTesterUnitySDK.Driver
+namespace AltTester.AltTesterSDK.Driver
 {
     public delegate void SendResponse();
 

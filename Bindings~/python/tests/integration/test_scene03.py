@@ -50,8 +50,10 @@ class TestScene03:
         self.alt_driver.multipoint_swipe(positions, duration, wait)
 
     def drop_image(self, drag_location_name, drop_location_name, duration, wait):
-        drag_location = self.alt_driver.find_object(By.NAME, drag_location_name)
-        drop_location = self.alt_driver.find_object(By.NAME, drop_location_name)
+        drag_location = self.alt_driver.find_object(
+            By.NAME, drag_location_name)
+        drop_location = self.alt_driver.find_object(
+            By.NAME, drop_location_name)
 
         self.alt_driver.swipe(drag_location.get_screen_position(
         ), drop_location.get_screen_position(), duration, wait)
@@ -122,7 +124,7 @@ class TestScene03:
         self.drop_image_with_multipoint_swipe(
             ["Drag Image1", "Drop Box1"],  1, False)
         self.drop_image_with_multipoint_swipe(
-            ["Drag Image2", "Drop Box1", "Drop Box2"],  1, False)
+            ["Drag Image2", "Drop Box1", "Drop Box2"],  1, True)
 
         image_source, image_source_drop_zone = self.get_sprite_name(
             "Drag Image1", "Drop Image")

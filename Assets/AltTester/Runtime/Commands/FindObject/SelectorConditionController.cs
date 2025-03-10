@@ -17,7 +17,7 @@
 
 using System;
 using System.Linq;
-using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterSDK.Driver;
 using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands

@@ -18,7 +18,7 @@
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Commands
+namespace AltTester.AltTesterSDK.Driver.Commands
 {
     public class AltCallComponentMethod<T> : AltBaseCommand
     {
