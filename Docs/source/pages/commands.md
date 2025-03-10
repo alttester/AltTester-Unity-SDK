@@ -2223,6 +2223,138 @@ Set the delay after a command.
 
 ```
 
+### SetImplicitTimeout
+
+Sets an implicit timeout for all commands that use the `timeout` parameter.
+
+**_Parameters_**
+
+```eval_rst
+.. tabs::
+
+    .. tab:: C#
+
+        .. list-table:: SetImplicitTimeout Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - timeout
+             - positive double
+             - Yes
+             - The value of the new timeout. By default it is 20 seconds. Throws `ArgumentOutOfRangeException` in case of a negative timeout.
+
+    .. tab:: Java
+
+        .. list-table:: setImplicitTimeout Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - timeout
+             - positive double
+             - Yes
+             - The value of the new timeout. By default it is 20 seconds. Throws `IllegalArgumentException` in case of a negative timeout. 
+
+    .. tab:: Python
+
+        .. list-table:: set_implicit_timeout Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - timeout
+             - positive double
+             - Yes
+             - The value of the new timeout. By default it is 20 seconds. Raises `ValueError` in case of a negative timeout.
+
+    .. tab:: Robot
+
+        .. list-table:: Set Implicit Timeout Parameters
+           :widths: 15 10 10 65
+           :header-rows: 1
+
+           * - Name
+             - Type
+             - Required
+             - Description
+           * - timeout
+             - positive double
+             - Yes
+             - The value of the new timeout. By default it is 20 seconds. Raises `ValueError` in case of a negative timeout.
+```
+
+**_Returns_**
+
+- Nothing
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        altDriver.SetImplicitTimeout(5);
+
+    .. code-tab:: java
+
+        altDriver.setImplicitTimeout(5);
+
+    .. code-tab:: py
+
+        alt_driver.set_implicit_timeout(5)
+
+    .. code-tab:: robot
+
+        Set Implicit Timeout    5
+
+```
+
+### GetImplicitTimeout
+
+Gets the implicit timeout for all commands that use the `timeout` parameter.
+
+**_Parameters_**
+
+None
+
+**_Returns_**
+
+- The value of the implicit timeout in seconds.
+
+**_Examples_**
+
+```eval_rst
+.. tabs::
+
+    .. code-tab:: c#
+
+        altDriver.GetImplicitTimeout();
+
+    .. code-tab:: java
+
+        altDriver.getImplicitTimeout();
+
+    .. code-tab:: py
+
+        alt_driver.get_implicit_timeout()
+
+    .. code-tab:: robot
+
+        Get Implicit Timeout    5
+
+```
+
 ### Input Actions
 
 #### KeyDown
