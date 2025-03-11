@@ -23,6 +23,7 @@ import com.alttester.IMessageHandler;
 import com.alttester.AltObject;
 import com.alttester.altTesterExceptions.WaitTimeOutException;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 
 /**
@@ -80,7 +81,8 @@ public class AltWaitForVisualElementProperty<T> extends AltBaseFindObject {
             if (!getPropertyAsString && propertyFound.equals(property))
                 return propertyFound;
             if (!(propertyFound instanceof JsonArray)) {
-                String str = new Gson().toJsonTree(propertyFound).toString();
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                String str = gson.toJson(propertyFound).toString();
                 jsonElementToString = str.contains("\"") ? str : "\"" + str + "\"";
             } else {
                 jsonElementToString = propertyFound.toString();
