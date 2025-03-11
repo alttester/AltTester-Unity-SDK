@@ -831,6 +831,20 @@ Test Find Object From Object By Text
     ${child}=    Find Object From Object    ${parent}    TEXT    Change Camera Mode
     Should Be Equal    ${child.name}    Text
 
+Test Set Implicit Timeout
+    Set Implicit Timeout    1
+    ${timeout} =    Get Implicit Timeout
+    Should Be Equal As Numbers    ${timeout}    1
+    ${start_time} =    Get Current Date    epoch
+    Run Keyword And Ignore Error    Wait For Object    name=Capsulee
+    ${end_time} =    Get Current Date    epoch
+    ${elapsed_time} =    Evaluate    ${end_time} - ${start_time}
+    Should Be True    ${elapsed_time} <= 2    Elapsed time exceeded 2 seconds
+    Set Implicit Timeout    20
+
+Test Implicit Timeout Out Of Range
+    Run Keyword And Expect Error    ValueError: Timeout cannot be negative    Set Implicit Timeout    -5
+
 *** Keywords ***
 SetUp Tests
     Reset Input

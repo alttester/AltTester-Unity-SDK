@@ -167,7 +167,6 @@ class WebsocketConnection:
 
         self.timeout = timeout
         self.command_timeout = 60
-        self.implicit_timeout = -1
         self.delay = 0.1
 
         self._errors = deque()
@@ -180,6 +179,7 @@ class WebsocketConnection:
         self._command_handler = command_handler
         self._notification_handler = notification_handler
         self._driver_registered_called = False
+        self._implicit_timeout = -1
 
     def __repr__(self):
         return "{}({!r}, {!r}, {!r}, {!r}, {!r})".format(
@@ -291,10 +291,10 @@ class WebsocketConnection:
     def set_implicit_timeout(self, timeout):
         if timeout < 0:
             raise ValueError("Timeout cannot be negative")
-        self.implicit_timeout = timeout
+        self._implicit_timeout = timeout
 
     def get_implicit_timeout(self):
-        return self.implicit_timeout
+        return self._implicit_timeout
 
     def connect(self):
         logger.info("Connecting to URL: '{}'.", self.url)

@@ -542,12 +542,16 @@ class TestScene01Part1:
         assert initial_position != final_position
 
     def test_implicit_timeout(self):
-        self.alt_driver.set_implicit_timeout(5)
+        self.alt_driver.set_implicit_timeout(1)
+        assert self.alt_driver.get_implicit_timeout() == 1
         start_time = time.time()
-        self.alt_driver.wait_for_object(By.NAME, "Capsule")
+        try:
+            self.alt_driver.wait_for_object(By.NAME, "Capsulee")
+        except Exception:
+            pass
         end_time = time.time()
         elapsed_time = end_time - start_time
-        assert elapsed_time <= 5
+        assert elapsed_time <= 2
         self.alt_driver.set_implicit_timeout(20)
 
     def test_implicit_timeout_out_of_range(self):

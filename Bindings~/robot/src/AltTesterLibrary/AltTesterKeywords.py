@@ -1700,3 +1700,25 @@ class AltTesterKeywords(object):
         except AttributeError:
             raise ValueError("Invalid log level type: {log_level}. Valid ones are: {options}.".format(
                 log_level=log_level, options=", ".join(value.name for value in AltLogLevel)))
+
+    def get_implicit_timeout(self):
+        """Gets the current timeout for the AltTester® commands that use a timeout parameter.
+
+        Example:
+
+        | ${timeout}= | Get Implicit Timeout
+        """
+        return self._driver.get_implicit_timeout()
+
+    def set_implicit_timeout(self, timeout):
+        """Sets the timeout for the AltTester® commands that use a timeout parameter.
+
+        timeout : The new timeout in seconds.
+
+        Example:
+
+        Set Implicit Timeout to 5 seconds.
+
+        | Set Implicit Timeout | 5
+        """
+        self._driver.set_implicit_timeout(timeout)

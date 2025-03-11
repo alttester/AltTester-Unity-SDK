@@ -1766,17 +1766,21 @@ public class TestsSampleScene1 extends BaseTest {
 
     @Test
     public void testImplicitTimeout() {
-        String name = "Capsule";
-        altDriver.setImplicitTimeout(5);
+        String name = "Capsulee";
+        altDriver.setImplicitTimeout(1);
+        assertEquals(1, altDriver.getImplicitTimeout(), 0.1);
         long timeStart = System.currentTimeMillis();
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
                 name).build();
         AltWaitForObjectsParams altWaitForObjectsParams = new AltWaitForObjectsParams.Builder(
                 altFindObjectsParams).build();
-        altDriver.waitForObject(altWaitForObjectsParams);
+        try {
+            altDriver.waitForObject(altWaitForObjectsParams);
+        } catch (Exception e) {
+        }
         long timeEnd = System.currentTimeMillis();
         long time = timeEnd - timeStart;
-        assertTrue(time / 1000 <= 5);
+        assertTrue(time / 1000 <= 2);
         altDriver.setImplicitTimeout(20);
     }
 

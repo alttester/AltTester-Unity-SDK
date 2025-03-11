@@ -298,7 +298,7 @@ class AltDriver:
 
         """
         if self._connection.get_implicit_timeout() != -1 and timeout == 20:
-            self._connection.set_implicit_timeout(timeout)
+            timeout = self._connection.get_implicit_timeout()
         return commands.WaitForCurrentSceneToBe.run(
             self._connection,
             scene_name, timeout, interval
@@ -520,7 +520,7 @@ class AltDriver:
         """
 
         if self._connection.get_implicit_timeout() != -1 and timeout == 20:
-            self._connection.set_implicit_timeout(timeout)
+            timeout = self._connection.get_implicit_timeout()
         data = commands.WaitForObject.run(
             self._connection,
             by, value, camera_by, camera_value, timeout, interval, enabled
@@ -552,7 +552,7 @@ class AltDriver:
 
         """
         if self._connection.get_implicit_timeout() != -1 and timeout == 20:
-            self._connection.set_implicit_timeout(timeout)
+            timeout = self._connection.get_implicit_timeout()
         data = commands.WaitForObjectWhichContains.run(
             self._connection,
             by, value, camera_by, camera_value, timeout, interval, enabled
@@ -582,7 +582,7 @@ class AltDriver:
 
         """
         if self._connection.get_implicit_timeout() != -1 and timeout == 20:
-            self._connection.set_implicit_timeout(timeout)
+            timeout = self._connection.get_implicit_timeout()
         commands.WaitForObjectToNotBePresent.run(
             self._connection,
             by, value, camera_by, camera_value, timeout, interval, enabled
@@ -940,9 +940,12 @@ class AltDriver:
         commands.ResetInput.run(self._connection)
 
     def set_implicit_timeout(self, timeout):
-        """Sets an implicit timeout from tests for the AltTester commands using a timeout."""
+        """Sets an implicit timeout from tests for the AltTester commands using a timeout.
+        Args:
+            timeout (:obj:`int`): the new value of the timeout.
+        """
         self._connection.set_implicit_timeout(timeout)
 
     def get_implicit_timeout(self):
         """Returns the implicit timeout used by AltTester commands."""
-        self._connection.get_implicit_timeout()
+        return self._connection.get_implicit_timeout()
