@@ -905,7 +905,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
     .. tab:: Python
 
-        .. list-table:: _find_objects_which_contain Parameters
+        .. list-table:: find_objects_which_contain Parameters
            :widths: 20 20 10 50
            :header-rows: 1
 
@@ -1872,7 +1872,7 @@ Waits until the object in the scene that respects the given criteria is no longe
 
     .. tab:: Python
 
-        .. list-table:: wait_for_object_not_be_present Parameters
+        .. list-table:: wait_for_object_to_not_be_present Parameters
            :widths: 15 15 10 60
            :header-rows: 1
 
@@ -1914,7 +1914,7 @@ Waits until the object in the scene that respects the given criteria is no longe
 
     .. tab:: Robot
 
-        .. list-table:: Wait For Object Not Be Present Parameters
+        .. list-table:: Wait For Object To Not Be Present Parameters
            :widths: 15 15 10 60
            :header-rows: 1
 
@@ -2354,7 +2354,7 @@ Simulates a key down.
             AltKeyCode kcode = AltKeyCode.A;
             AltKeyParams altKeyParams = new AltKeyParams.Builder(kcode).build();
 
-            altDriver.KeyDown(altKeyParams);
+            altDriver.keyDown(altKeyParams);
             Thread.sleep(2000);
             AltObject lastKeyDown = altDriver.findObject(altFindObjectsParameters1);
             AltObject lastKeyPress = altDriver.findObject(altFindObjectsParameters3);
@@ -2490,14 +2490,14 @@ Simulates a key up.
             altDriver.LoadScene("Scene 5 Keyboard Input");
             AltKeyCode kcode = AltKeyCode.A;
 
-            altDriver.KeyDown(kcode, 1);
+            altDriver.keyDown(kcode, 1);
             var lastKeyDown = altDriver.FindObject(By.NAME, "LastKeyDownValue");
             var lastKeyPress = altDriver.FindObject(By.NAME, "LastKeyPressedValue");
 
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltKeyCode), lastKeyDown.GetText(), true));
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltKeyCode), lastKeyPress.GetText(), true));
 
-            altDriver.KeyUp(kcode);
+            altDriver.keyUp(kcode);
             var lastKeyUp = altDriver.FindObject(By.NAME, "LastKeyUpValue");
 
             Assert.AreEqual((int)kcode, (int)Enum.Parse(typeof(AltKeyCode), lastKeyUp.GetText(), true));
@@ -5754,7 +5754,7 @@ Removes key and its corresponding value from PlayerPrefs.
 
     .. tab:: Python
 
-        .. list-table:: delete_key_player_pref Parameters
+        .. list-table:: delete_player_pref_key Parameters
            :widths: 20 20 10 40
            :header-rows: 1
 
@@ -5769,7 +5769,7 @@ Removes key and its corresponding value from PlayerPrefs.
 
     .. tab:: Robot
 
-        .. list-table:: Delete Key Player Pref Parameters
+        .. list-table:: Delete Player Pref Key Parameters
            :widths: 20 20 10 40
            :header-rows: 1
 
@@ -8186,7 +8186,7 @@ Wait until a property has a specific value and returns the value of the given co
              - Yes
              - Name of the property of which value you want. If the property is an array, you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.
            * - property_value
-             - object
+             - string
              - Yes
              - The value that the property should have.
            * - assembly_name
@@ -8229,7 +8229,7 @@ Wait until a property has a specific value and returns the value of the given co
              - Yes
              - Name of the property of which value you want. If the property is an array, you can specify which element of the array to return by doing property[index], or if you want a property inside of another property you can get by doing property.property2 for example position.x.
            * - property_value
-             - object
+             - string
              - Yes
              - The value that the property should have.
            * - assembly_name
@@ -10177,7 +10177,7 @@ Waits for a visual element property to match a specified value.
              - Yes
              - The name of the property to wait for. The list of supported properties can be found in the `Unity Documentation <https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html>`_.
            * - property_value
-             - T
+             - string
              - Yes
              - The value to wait for the property to match.
            * - timeout
@@ -10208,7 +10208,7 @@ Waits for a visual element property to match a specified value.
              - Yes
              - The name of the property to wait for. The list of supported properties can be found in the `Unity Documentation <https://docs.unity3d.com/ScriptReference/UIElements.IResolvedStyle.html>`_.
            * - property_value
-             - T
+             - string
              - Yes
              - The value to wait for the property to match.
            * - timeout
