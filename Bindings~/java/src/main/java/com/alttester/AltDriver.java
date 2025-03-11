@@ -619,8 +619,9 @@ public class AltDriver {
      *                                             timeout , double interval
      */
     public void waitForCurrentSceneToBe(AltWaitForCurrentSceneToBeParams altWaitForCurrentSceneToBeParameters) {
-        if (this.connection.messageHandler.getImplicitTimeout() != -1 && altWaitForCurrentSceneToBeParameters.getTimeout() == 20)
-                altWaitForCurrentSceneToBeParameters.setTimeout(this.connection.messageHandler.getImplicitTimeout());
+        if (this.connection.messageHandler.getImplicitTimeout() != -1
+                && altWaitForCurrentSceneToBeParameters.getTimeout() == 20)
+            altWaitForCurrentSceneToBeParameters.setTimeout(this.connection.messageHandler.getImplicitTimeout());
         new AltWaitForCurrentSceneToBe(this.connection.messageHandler, altWaitForCurrentSceneToBeParameters).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
@@ -636,7 +637,7 @@ public class AltDriver {
      */
     public AltObject waitForObject(AltWaitForObjectsParams altWaitForObjectsParams) {
         if (this.connection.messageHandler.getImplicitTimeout() != -1 && altWaitForObjectsParams.getTimeout() == 20)
-                altWaitForObjectsParams.setTimeout(this.connection.messageHandler.getImplicitTimeout());
+            altWaitForObjectsParams.setTimeout(this.connection.messageHandler.getImplicitTimeout());
         AltObject response = new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParams)
                 .Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
@@ -653,7 +654,7 @@ public class AltDriver {
      */
     public void waitForObjectToNotBePresent(AltWaitForObjectsParams altWaitForObjectsParams) {
         if (this.connection.messageHandler.getImplicitTimeout() != -1 && altWaitForObjectsParams.getTimeout() == 20)
-                altWaitForObjectsParams.setTimeout(this.connection.messageHandler.getImplicitTimeout());
+            altWaitForObjectsParams.setTimeout(this.connection.messageHandler.getImplicitTimeout());
         new AltWaitForObjectToNotBePresent(this.connection.messageHandler, altWaitForObjectsParams).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     }
@@ -669,7 +670,7 @@ public class AltDriver {
      */
     public AltObject waitForObjectWhichContains(AltWaitForObjectsParams altWaitForObjectsParams) {
         if (this.connection.messageHandler.getImplicitTimeout() != -1 && altWaitForObjectsParams.getTimeout() == 20)
-                altWaitForObjectsParams.setTimeout(this.connection.messageHandler.getImplicitTimeout());
+            altWaitForObjectsParams.setTimeout(this.connection.messageHandler.getImplicitTimeout());
         AltObject response = new AltWaitForObjectWhichContains(this.connection.messageHandler,
                 altWaitForObjectsParams).Execute();
         Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
@@ -810,13 +811,11 @@ public class AltDriver {
         TAG, LAYER, NAME, COMPONENT, PATH, ID, TEXT
     }
 
-    public void setImplicitTimeout(double timeout)
-    {
-       this.connection.messageHandler.setImplicitTimeout(timeout); 
+    public void setImplicitTimeout(double timeout) {
+        this.connection.messageHandler.setImplicitTimeout(timeout);
     }
 
-    public double getImplicitTimeout(double timeout)
-    {
-       return this.connection.messageHandler.getImplicitTimeout(); 
+    public double getImplicitTimeout() {
+        return this.connection.messageHandler.getImplicitTimeout();
     }
 }
