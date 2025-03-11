@@ -2361,7 +2361,7 @@ Simulates a key down.
             assertEquals("A", AltKeyCode.valueOf(lastKeyDown.getText()).name());
             assertEquals("A", AltKeyCode.valueOf(lastKeyPress.getText()).name());
 
-            altDriver.KeyUp(kcode);
+            altDriver.keyUp(kcode);
             Thread.sleep(2000);
             AltObject lastKeyUp = altDriver.findObject(altFindObjectsParameters2);
             assertEquals("A", AltKeyCode.valueOf(lastKeyUp.getText()).name());
@@ -2516,14 +2516,14 @@ Simulates a key up.
             AltKeyCode kcode = AltKeyCode.A;
             AltKeyParams altKeyParams = new AltKeyParams.Builder(kcode).build();
 
-            altDriver.KeyDown(altKeyParams);
+            altDriver.keyDown(altKeyParams);
             Thread.sleep(2000);
             AltObject lastKeyDown = altDriver.findObject(altFindObjectsParameters1);
             AltObject lastKeyPress = altDriver.findObject(altFindObjectsParameters3);
             assertEquals("A", AltKeyCode.valueOf(lastKeyDown.getText()).name());
             assertEquals("A", AltKeyCode.valueOf(lastKeyPress.getText()).name());
 
-            altDriver.KeyUp(kcode);
+            altDriver.keyUp(kcode);
             Thread.sleep(2000);
             AltObject lastKeyUp = altDriver.findObject(altFindObjectsParameters2);
             assertEquals("A", AltKeyCode.valueOf(lastKeyUp.getText()).name());
