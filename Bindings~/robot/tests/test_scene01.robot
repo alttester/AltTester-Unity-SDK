@@ -3,6 +3,7 @@ Library           String
 Library           AltTesterLibrary
 Library           BuiltIn
 Library           Collections
+Library           DateTime
 Suite Setup       Initialize AltDriver With Custom Host And Port
 Test Setup        SetUp Tests
 Suite Teardown    Stop Altdriver
@@ -832,18 +833,18 @@ Test Find Object From Object By Text
     Should Be Equal    ${child.name}    Text
 
 Test Set Implicit Timeout
-    Set Implicit Timeout    1
+    Set Implicit Timeout    ${1}
     ${timeout} =    Get Implicit Timeout
-    Should Be Equal As Numbers    ${timeout}    1
-    ${start_time} =    Get Current Date    epoch
-    Run Keyword And Ignore Error    Wait For Object    name=Capsulee
-    ${end_time} =    Get Current Date    epoch
+    Should Be Equal As Numbers    ${timeout}    ${1}
+    ${start_time} =    Evaluate    time.time()    modules=time
+    Run Keyword And Ignore Error    Wait For Object    NAME    name=Capsulee
+    ${end_time} =    Evaluate    time.time()    modules=time
     ${elapsed_time} =    Evaluate    ${end_time} - ${start_time}
     Should Be True    ${elapsed_time} <= 2    Elapsed time exceeded 2 seconds
-    Set Implicit Timeout    20
+    Set Implicit Timeout    ${20}
 
 Test Implicit Timeout Out Of Range
-    Run Keyword And Expect Error    ValueError: Timeout cannot be negative    Set Implicit Timeout    -5
+    Run Keyword And Expect Error    ValueError: Timeout cannot be negative    Set Implicit Timeout    ${-5}
 
 *** Keywords ***
 SetUp Tests
