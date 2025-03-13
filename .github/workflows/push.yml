@@ -336,11 +336,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip setuptools wheel
-          pip install -r "Bindings~/robot/requirements.txt"
-          pip install -e "Bindings~/robot" --root "Bindings~/robot"
-          pip uninstall -y AltTester-Driver
-          pip install -e "Bindings~/python" --root "Bindings~/python"
+          pip install --upgrade pip setuptools wheel  --break-system-packages
+          pip install -r "Bindings~/robot/requirements.txt" --break-system-packages
+          pip install -e "Bindings~/robot" --root "Bindings~/robot" --break-system-packages
+          pip uninstall -y AltTester-Driver --break-system-packages
+          pip install -e "Bindings~/python" --root "Bindings~/python" --break-system-packages
+
+          pip list
 
       - name: Run Robot tests
         run: |
