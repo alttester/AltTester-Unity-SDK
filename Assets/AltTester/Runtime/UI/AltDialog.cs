@@ -28,6 +28,8 @@ using System.Net.Http;
 using System.Net;
 using System.Text.RegularExpressions;
 using TMPro;
+using UnityEngine.Networking;
+
 
 
 
@@ -641,37 +643,39 @@ namespace AltTester.AltTesterUnitySDK.UI
 
 
 
-        private async Task getRequest()
+        private IEnumerator getRequest()
         {
 
-            var response = await Get("https://alttester.com/alttester-desktop-versions");
-
-            if (!response.IsSuccessStatusCode)
+            using (UnityWebRequest request = UnityWebRequest.Get("https://alttester.com/alttester-desktop-versions"))
             {
-                UnityEngine.Debug.Log("There was a problem with the request.");
-                return;
-            }
-
-            string textReceived = await response.Content.ReadAsStringAsync();
-            Regex regex = new Regex(@"https://alttester.com/app/uploads/AltTester/sdks/AltTesterUnitySDK[\w\.]*.unitypackage");
-            Match match = regex.Match(textReceived);
-            if (match.Success)
-            {
-                downloadURL = match.Value;
-                Match match2 = Regex.Match(match.Value, @"(\d+_\d+_\d+)\.unitypackage");
-                var releasedVersion = match2.Groups[1].Value.Replace('_', '.');
-                if (isCurrentVersionEqualOrNewer(releasedVersion, AltRunner.VERSION))
+                request.SetRequestHeader("Access-Control-Allow-Origin", "*");
+                yield return request.SendWebRequest();
+                if (request.result != UnityWebRequest.Result.Success)
                 {
-                    isNewVersionAvailable = false;
-                    UnityEngine.Debug.Log("There is no new version available to download");
+                    UnityEngine.Debug.Log("There was a problem with the request.");
+                    yield break;
                 }
-                else
+
+                string textReceived = request.downloadHandler.text;
+                Regex regex = new Regex(@"https://alttester.com/app/uploads/AltTester/sdks/AltTesterUnitySDK[\w\.]*.unitypackage");
+                Match match = regex.Match(textReceived);
+                if (match.Success)
                 {
-                    isNewVersionAvailable = true;
-                    newVersionMessage = $"<size=26>Version <b>{releasedVersion}</b> is available to <b><color={colorCode}><u><link=\"download\">download</link></u></color></b>.</size>";
+                    downloadURL = match.Value;
+                    Match match2 = Regex.Match(match.Value, @"(\d+_\d+_\d+)\.unitypackage");
+                    var releasedVersion = match2.Groups[1].Value.Replace('_', '.');
+                    if (isCurrentVersionEqualOrNewer(releasedVersion, AltRunner.VERSION))
+                    {
+                        isNewVersionAvailable = false;
+                        UnityEngine.Debug.Log("There is no new version available to download");
+                    }
+                    else
+                    {
+                        isNewVersionAvailable = true;
+                        newVersionMessage = $"<size=26>Version <b>{releasedVersion}</b> is available to <b><color={colorCode}><u><link=\"download\">download</link></u></color></b>.</size>";
+                    }
                 }
             }
-
         }
 
         private bool isCurrentVersionEqualOrNewer(string releasedVersion, string version)
@@ -703,9 +707,9 @@ namespace AltTester.AltTesterUnitySDK.UI
                 }
             }
         }
-        private async void handleNewVersionCheck()
+        private void handleNewVersionCheck()
         {
-            await getRequest();
+            StartCoroutine(getRequest());
             if (runningCoroutine != null)
             {
                 StopCoroutine(runningCoroutine);
