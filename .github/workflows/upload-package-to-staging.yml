@@ -1,0 +1,52 @@
+name: upload-package-to-staging
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - development
+
+jobs:
+  create-unity-package:
+    runs-on: [self-hosted, MAC37]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create Unity Package
+        run: |
+          mkdir -p public/AltTester || true
+          mkdir -p public/SampleScenes || true
+          VERSION=$(jq -r '.version' Assets/AltTester/package.json | sed 's/\./_/g')
+          $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
+          ls
+          AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
+          cp $AUT public/AltTester/AltTesterUnitySDK.unitypackage
+          cp $AUT public/AltTester/AltTesterUnitySDK_${VERSION}.unitypackage
+          cp SampleScenes.unitypackage public/AltTester/SampleScenes.unitypackage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AltTester
+          path: public/AltTester
+
+  upload-unity-package:
+    runs-on: ubuntu-latest
+    needs: create-unity-package
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: AltTester
+          path: AltTester/
+
+      - name: Upload AltTesterPackage
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          source: AltTester/*
+          target: ${{ secrets.SDK_PATH }}
+          host: ${{ secrets.HOST_IP_ALTTESTER }}
+          port: ${{ secrets.PORT_DEV_ALTTESTER }}
+          username: ${{ secrets.USERNAME_ALTTESTER }}
+          password: ${{ secrets.PASSWORD_ALTTESTER }}
+          rm: true
+          strip_components: 1
