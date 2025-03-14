@@ -38,4 +38,6 @@ public interface IMessageHandler {
     public double getDelayAfterCommand();
 
     public void setDelayAfterCommand(double delay);
+    public  void setImplicitTimeout(double value);
+    public double getImplicitTimeout();
 }

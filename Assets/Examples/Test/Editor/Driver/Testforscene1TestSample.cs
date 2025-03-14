@@ -2160,5 +2160,31 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             var child = parent.FindObjectFromObject(by, value);
             Assert.True(child.name == nameOfChild);
         }
+
+        [Test]
+        public void TestImplicitTimeout()
+        {
+            var timeStart = DateTime.Now;
+            altDriver.SetImplicitTimeout(1);
+            Assert.AreEqual(altDriver.GetImplicitTimeout(), 1, 0.1f);
+            try{
+            altDriver.WaitForObject(By.NAME, "Capsulee");
+            }
+            catch(Exception)
+            {
+
+            }
+            var timeEnd = DateTime.Now;
+            var time = timeEnd - timeStart;
+            Assert.LessOrEqual(time.TotalSeconds, 2);
+            altDriver.SetImplicitTimeout(20);
+        }
+
+        [Test]
+        public void TestImplicitTimeoutOutOfRange()
+        {
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => altDriver.SetImplicitTimeout(-5));
+            Assert.That(ex.Message, Does.Contain("Timeout cannot be negative"));
+        }
     }
 }
