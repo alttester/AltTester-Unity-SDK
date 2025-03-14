@@ -646,9 +646,8 @@ namespace AltTester.AltTesterUnitySDK.UI
         private IEnumerator getRequest()
         {
 
-            using (UnityWebRequest request = UnityWebRequest.Get("https://alttester.com/alttester-desktop-versions"))
+            using (UnityWebRequest request = UnityWebRequest.Get("https://alttester.com/alttester-desktop-versions/"))
             {
-                request.SetRequestHeader("Access-Control-Allow-Origin", "*");
                 yield return request.SendWebRequest();
                 if (request.result != UnityWebRequest.Result.Success)
                 {
