@@ -84,232 +84,232 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # build-android:
-  #   runs-on: [self-hosted, MAC37]
-  #   needs: Roslyn-Analyzer-dotnet
+  build-android:
+    runs-on: [self-hosted, MAC37]
+    needs: Roslyn-Analyzer-dotnet
 
-  #   if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
 
-  #   steps:
-  #     - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Build SampleGame apk
-  #       run: |
-  #         export ALTSERVER_PORT=13005
-  #         export ALTSERVER_HOST="192.168.11.35"
-  #         $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+      - name: Build SampleGame apk
+        run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
 
-  #     - uses: actions/upload-artifact@v4
-  #       if: always() # run this step even if one of the previous step failed
-  #       with:
-  #         name: BuildAndroidArtifact
-  #         path: |
-  #           sampleGame.apk
-  #           **/*.log
-  #     - uses: ravsamhq/notify-slack-action@2.3.0
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildAndroidArtifact
+          path: |
+            sampleGame.apk
+            **/*.log
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # build-ipa:
-  #   runs-on: [self-hosted, MAC37]
-  #   needs: Roslyn-Analyzer-dotnet
-  #   if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
-  #   steps:
-  #     - uses: actions/checkout@v3
+  build-ipa:
+    runs-on: [self-hosted, MAC37]
+    needs: Roslyn-Analyzer-dotnet
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: Build sampleGame ipa
-  #       run: |
-  #         export ALTSERVER_PORT=13005
-  #         export ALTSERVER_HOST="192.168.11.35"
-  #         $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildiOS.log -quit
-  #         xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
-  #         xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath ./
-  #         osascript -e 'tell app "Xcode" to quit'
-  #     - uses: actions/upload-artifact@v4
-  #       if: always() # run this step even if one of the previous step failed
-  #       with:
-  #         name: BuildiOSArtifact
-  #         path: |
-  #           sampleGame.ipa
-  #           **/*.log
-  #     - uses: ravsamhq/notify-slack-action@2.3.0
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - name: Build sampleGame ipa
+        run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildiOS.log -quit
+          xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
+          xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath ./
+          osascript -e 'tell app "Xcode" to quit'
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildiOSArtifact
+          path: |
+            sampleGame.ipa
+            **/*.log
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # test-CSharp-Editor:
-  #   runs-on: [self-hosted, MAC37]
-  #   needs: build-macOS
-  #   if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
-  #   steps:
-  #     - uses: actions/checkout@v3
+  test-CSharp-Editor:
+    runs-on: [self-hosted, MAC37]
+    needs: build-macOS
+    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - uses: actions/download-artifact@v4
-  #       with:
-  #         name: BuildMacArtifact
+      - uses: actions/download-artifact@v4
+        with:
+          name: BuildMacArtifact
 
-  #     - run: |
-  #         export ALTSERVER_PORT=13005
-  #         export ALTSERVER_HOST="192.168.11.35"
-  #         chmod -R 755 sampleGame.app
-  #         open sampleGame.app
-  #     - run: |
-  #         export ALTSERVER_PORT=13005
-  #         export ALTSERVER_HOST="192.168.11.35"
-  #         $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile - -quit
-  #     #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
-  #     - uses: actions/upload-artifact@v4
-  #       if: always() # run this step even if one of the previous step failed
-  #       with:
-  #         name: TestCSharpEditorArtifact
-  #         path: |
-  #           **/*.log
-  #           **/*.log
-  #           reportTest.xml
+      - run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          chmod -R 755 sampleGame.app
+          open sampleGame.app
+      - run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTestRunner.RunTestFromCommandLine -testsAssembly Assembly-CSharp-Editor  -logFile - -quit
+      #TODO add back -reportPath $CI_PROJECT_DIR/reportTest.xml for removing because it's giving me unauthorized error
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestCSharpEditorArtifact
+          path: |
+            **/*.log
+            **/*.log
+            reportTest.xml
 
-  #     - uses: ravsamhq/notify-slack-action@2.3.0
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # test-DotNet:
-  #   runs-on: [self-hosted, MAC37]
-  #   needs: build-macOS
-  #   if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
-  #   steps:
-  #     - uses: actions/checkout@v3
+  test-DotNet:
+    runs-on: [self-hosted, MAC37]
+    needs: build-macOS
+    if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - uses: actions/download-artifact@v4
-  #       with:
-  #         name: BuildMacArtifact
+      - uses: actions/download-artifact@v4
+        with:
+          name: BuildMacArtifact
 
-  #     - name: Setup .NET Core SDK
-  #       uses: actions/setup-dotnet@v2.1.1
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v2.1.1
 
-  #     - run: |
-  #         export ALTSERVER_PORT=13005
-  #         echo $ALTSERVER_PORT
-  #         export ALTSERVER_HOST="192.168.11.35"
-  #         chmod -R 755  sampleGame.app
-  #         open sampleGame.app
-  #         dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
+      - run: |
+          export ALTSERVER_PORT=13005
+          echo $ALTSERVER_PORT
+          export ALTSERVER_HOST="192.168.11.35"
+          chmod -R 755  sampleGame.app
+          open sampleGame.app
+          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
 
-  #     - uses: actions/upload-artifact@v4
-  #       if: always() # run this step even if one of the previous step failed
-  #       with:
-  #         name: TestCSharpArtifact
-  #         path: "**/*.log"
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestCSharpArtifact
+          path: "**/*.log"
 
-  #     - uses: ravsamhq/notify-slack-action@2.3.0
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # test-Python:
-  #   runs-on: [self-hosted, MAC37]
-  #   needs: build-macOS
-  #   if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
-  #   steps:
-  #     - uses: actions/checkout@v3
+  test-Python:
+    runs-on: [self-hosted, MAC37]
+    needs: build-macOS
+    if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - uses: actions/download-artifact@v4
-  #       with:
-  #         name: BuildMacArtifact
+      - uses: actions/download-artifact@v4
+        with:
+          name: BuildMacArtifact
 
-  #     - name: Open application
-  #       run: |
-  #         export RUN_IN_BROWSERSTACK="false"
-  #         export ALTSERVER_PORT=13005
-  #         export ALTSERVER_HOST="192.168.11.35"
-  #         chmod -R 755 sampleGame.app
-  #         open sampleGame.app
+      - name: Open application
+        run: |
+          export RUN_IN_BROWSERSTACK="false"
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          chmod -R 755 sampleGame.app
+          open sampleGame.app
 
-  #     - uses: actions/setup-python@v4
-  #       with:
-  #         python-version: "3.12.4"
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.12.4"
 
-  #     - name: Install dependencies
-  #       run: |
-  #         pip install --upgrade pip setuptools wheel --break-system-packages
-  #         pip uninstall -y AltTester-Driver --break-system-packages
-  #         pip install -r "Bindings~/python/requirements.txt" --break-system-packages
-  #         pip install -r "Bindings~/python/requirements-dev.txt" --break-system-packages
-  #         pip install -e "Bindings~/python" --root "Bindings~/python" --break-system-packages
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip setuptools wheel --break-system-packages
+          pip uninstall -y AltTester-Driver --break-system-packages
+          pip install -r "Bindings~/python/requirements.txt" --break-system-packages
+          pip install -r "Bindings~/python/requirements-dev.txt" --break-system-packages
+          pip install -e "Bindings~/python" --root "Bindings~/python" --break-system-packages
 
-  #     - name: Lint with flake8
-  #       run: |
-  #         flake8 Bindings~/python/ --config Bindings~/python/.flake8
+      - name: Lint with flake8
+        run: |
+          flake8 Bindings~/python/ --config Bindings~/python/.flake8
 
-  #     - name: Run unit tests
-  #       run: |
-  #         pytest Bindings~/python/tests/unit
+      - name: Run unit tests
+        run: |
+          pytest Bindings~/python/tests/unit
 
-  #     - name: Run integration tests
-  #       run: |
-  #         export ALTSERVER_PORT=13005
-  #         export ALTSERVER_HOST="192.168.11.35"
-  #         allure generate
-  #         pytest -s -v --alluredir=allure-report/ Bindings~/python/tests/integration
+      - name: Run integration tests
+        run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          allure generate
+          pytest -s -v --alluredir=allure-report/ Bindings~/python/tests/integration
 
-  #     - name: Generate Allure report
-  #       if: always()
-  #       run: |
-  #         allure generate -c allure-report -o allure-results-html
-  #         allure-combine ./allure-results-html
+      - name: Generate Allure report
+        if: always()
+        run: |
+          allure generate -c allure-report -o allure-results-html
+          allure-combine ./allure-results-html
 
-  #     - uses: actions/upload-artifact@v4
-  #       if: always() # run this step even if one of the previous step failed
-  #       with:
-  #         name: TestPythonArtifact
-  #         path: |
-  #           **/*.log
-  #           ./allure-results-html/complete.html
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestPythonArtifact
+          path: |
+            **/*.log
+            ./allure-results-html/complete.html
 
-  #     - uses: ravsamhq/notify-slack-action@2.3.0
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-Robot:
     runs-on: [self-hosted, MAC37]
@@ -360,154 +360,154 @@ jobs:
             **/report.html
             **/output.xml
 
-  # test-Java:
-  #   runs-on: [self-hosted, MAC37]
-  #   needs: build-macOS
-  #   if: needs.paths-filter.outputs.java == 'true' || needs.paths-filter.outputs.scenes == 'true'
-  #   steps:
-  #     - uses: actions/checkout@v3
+  test-Java:
+    runs-on: [self-hosted, MAC37]
+    needs: build-macOS
+    if: needs.paths-filter.outputs.java == 'true' || needs.paths-filter.outputs.scenes == 'true'
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - uses: actions/download-artifact@v4
-  #       with:
-  #         name: BuildMacArtifact
+      - uses: actions/download-artifact@v4
+        with:
+          name: BuildMacArtifact
 
-  #     - name: Setup Java JDK
-  #       uses: actions/setup-java@v3
-  #       with:
-  #         distribution: "temurin"
-  #         java-version: 11
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: 11
 
-  #     - name: Set up Maven # setup-java does't install maven on self-hosted driver
-  #       uses: stCarolas/setup-maven@v4.5
+      - name: Set up Maven # setup-java does't install maven on self-hosted driver
+        uses: stCarolas/setup-maven@v4.5
 
-  #     - run: |
-  #         export ALTSERVER_PORT=13005
-  #         echo $ALTSERVER_PORT
-  #         export ALTSERVER_HOST="192.168.11.35"
-  #         chmod -R 755  sampleGame.app
-  #         open sampleGame.app
-  #         cd "Bindings~/java"
-  #         mvn -Dtest=com.alttester.Tests* test
-  #     - uses: actions/upload-artifact@v4
-  #       if: always() # run this step even if one of the previous step failed
-  #       with:
-  #         name: TestJavaArtifact
-  #         path: "**/*.log"
+      - run: |
+          export ALTSERVER_PORT=13005
+          echo $ALTSERVER_PORT
+          export ALTSERVER_HOST="192.168.11.35"
+          chmod -R 755  sampleGame.app
+          open sampleGame.app
+          cd "Bindings~/java"
+          mvn -Dtest=com.alttester.Tests* test
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestJavaArtifact
+          path: "**/*.log"
 
-  #     - uses: ravsamhq/notify-slack-action@2.3.0
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # copyright:
-  #   runs-on: [self-hosted, MAC37]
-  #   steps:
-  #     - run: |
-  #         pwsh copyright.ps1
+  copyright:
+    runs-on: [self-hosted, MAC37]
+    steps:
+      - run: |
+          pwsh copyright.ps1
 
-  #     - uses: ravsamhq/notify-slack-action@2.3.0
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # test-Python-Browserstack-ios-android:
-  #   runs-on: [self-hosted, MAC37]
-  #   needs:
-  #     - build-android
-  #     - build-ipa
+  test-Python-Browserstack-ios-android:
+    runs-on: [self-hosted, MAC37]
+    needs:
+      - build-android
+      - build-ipa
 
-  #   if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/development' || needs.paths-filter.outputs.proxy == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true'
 
-  #   steps:
-  #     - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - uses: actions/download-artifact@v4
-  #       with:
-  #         name: BuildAndroidArtifact
+      - uses: actions/download-artifact@v4
+        with:
+          name: BuildAndroidArtifact
 
-  #     - uses: actions/download-artifact@v4
-  #       with:
-  #         name: BuildiOSArtifact
+      - uses: actions/download-artifact@v4
+        with:
+          name: BuildiOSArtifact
 
-  #     - uses: actions/setup-python@v5
-  #       with:
-  #         python-version: "3.12.4"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.4"
 
-  #     - name: Install dependencies
-  #       run: |
-  #         pip install --upgrade pip setuptools wheel
-  #         pip uninstall -y AltTester-Driver
-  #         pip install -r "Bindings~/python/requirements.txt"
-  #         pip install -r "Bindings~/python/requirements-dev.txt"
-  #         pip install -e "Bindings~/python" --root "Bindings~/python"
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip setuptools wheel
+          pip uninstall -y AltTester-Driver
+          pip install -r "Bindings~/python/requirements.txt"
+          pip install -r "Bindings~/python/requirements-dev.txt"
+          pip install -e "Bindings~/python" --root "Bindings~/python"
 
-  #     - name: Run integration tests
-  #       run: |
-  #         export ALTSERVER_PORT=13005
-  #         export ALTSERVER_HOST="192.168.11.35"
-  #         export RUN_IN_BROWSERSTACK="true"
-  #         export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
-  #         export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
-  #         export response_android=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.apk")
-  #         echo $response_android
-  #         export APP_URL_ANDROID=$(echo "${response_android}" | jq -r .app_url)
-  #         export response_ios=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
-  #         export APP_URL_IOS=$(echo "${response_ios}" | jq -r .app_url)
-  #         echo $APP_URL_ANDROID
-  #         echo $APP_URL_IOS
-  #         cd Bindings~/python/tests/integration/
-  #         pkill -f BrowserStackLocal || true
-  #         /usr/local/bin/BrowserStackLocal --key $BROWSERSTACK_KEY --force > bs_local.log &
-  #         sleep 5
-  #         pytest -s -v -n 3 ./ --alluredir=allure-report/ --reruns 3 --reruns-delay 10 --dist=loadfile -m "not iOSUnsupported and not AndroidUnsupported and not WebGLUnsupported"
-  #         pkill -f BrowserStackLocal || true
+      - name: Run integration tests
+        run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          export RUN_IN_BROWSERSTACK="true"
+          export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
+          export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
+          export response_android=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.apk")
+          echo $response_android
+          export APP_URL_ANDROID=$(echo "${response_android}" | jq -r .app_url)
+          export response_ios=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
+          export APP_URL_IOS=$(echo "${response_ios}" | jq -r .app_url)
+          echo $APP_URL_ANDROID
+          echo $APP_URL_IOS
+          cd Bindings~/python/tests/integration/
+          pkill -f BrowserStackLocal || true
+          /usr/local/bin/BrowserStackLocal --key $BROWSERSTACK_KEY --force > bs_local.log &
+          sleep 5
+          pytest -s -v -n 3 ./ --alluredir=allure-report/ --reruns 3 --reruns-delay 10 --dist=loadfile -m "not iOSUnsupported and not AndroidUnsupported and not WebGLUnsupported"
+          pkill -f BrowserStackLocal || true
 
-  #     - name: Generate Allure report
-  #       if: always()
-  #       run: |
-  #         allure generate -c Bindings~/python/tests/integration/allure-report -o allure-results-html
-  #         allure-combine ./allure-results-html
+      - name: Generate Allure report
+        if: always()
+        run: |
+          allure generate -c Bindings~/python/tests/integration/allure-report -o allure-results-html
+          allure-combine ./allure-results-html
 
-  #     - uses: actions/upload-artifact@v4
-  #       if: always() # run this step even if one of the previous step failed
-  #       with:
-  #         name: TestPythonAndroidInBrowserstackArtifact
-  #         path: |
-  #           **/*.log
-  #           ./allure-results-html/complete.html
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestPythonAndroidInBrowserstackArtifact
+          path: |
+            **/*.log
+            ./allure-results-html/complete.html
 
-  #     - name: Unset Browserstack Flag
-  #       if: always()
-  #       run: |
-  #         export RUN_IN_BROWSERSTACK="false"
-  #         unset APP_URL
-  #         unset response
+      - name: Unset Browserstack Flag
+        if: always()
+        run: |
+          export RUN_IN_BROWSERSTACK="false"
+          unset APP_URL
+          unset response
 
-  #     - uses: ravsamhq/notify-slack-action@2.3.0
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
