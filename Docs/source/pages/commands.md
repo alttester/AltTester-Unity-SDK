@@ -2351,7 +2351,7 @@ None
 
     .. code-tab:: robot
 
-        Get Implicit Timeout    5
+        Get Implicit Timeout
 
 ```
 
