@@ -358,6 +358,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          source venv/bin/activate  # Activate the virtual environment
           pip install --upgrade pip setuptools wheel
           pip uninstall -y AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
@@ -439,6 +440,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          source venv/bin/activate  # Activate the virtual environment
           pip install --upgrade pip setuptools wheel
           pip uninstall -y AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
