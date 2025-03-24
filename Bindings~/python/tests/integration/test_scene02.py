@@ -25,8 +25,60 @@ class TestScene02:
 
     @pytest.fixture(autouse=True)
     def setup(self):
+        self.alt_driver.find_object(
+            By.PATH, "/AltTesterPrefab//CloseButton", enabled=False).tap()
         self.alt_driver.reset_input()
         self.alt_driver.load_scene(Scenes.Scene02)
+
+    def test(self):
+        controls__wrap_path = "//FlexboxDemo-container/background/demo__area/demo__area-bottom/controls__group-1/controls__wrap"
+        unity_engine_ui_elements_visual_element_path = "//UnityEngine.UIElements.VisualElement"
+        unity_engine_ui_elements_visual_element_path1 = "//UnityEngine.UIElements.VisualElement/UnityEngine.UIElements.ScrollView/UnityEngine.UIElements.VisualElement[2]/UnityEngine.UIElements.VisualElement"
+        controls__direction_path = "//FlexboxDemo-container/background/demo__area/demo__area-bottom/controls__group-1/controls__direction"
+        unity_engine_ui_elements_visual_element_path2 = "//UnityEngine.UIElements.VisualElement/UnityEngine.UIElements.VisualElement/UnityEngine.UIElements.ScrollView/UnityEngine.UIElements.VisualElement[2]"
+        controls__align_path = "//FlexboxDemo-container/background/demo__area/demo__area-bottom/controls__group-2/controls__align"
+        unity_engine_ui_elements_visual_element_path3 = "//UnityEngine.UIElements.VisualElement/UnityEngine.UIElements.VisualElement/UnityEngine.UIElements.ScrollView/UnityEngine.UIElements.VisualElement[1]/UnityEngine.UIElements.VisualElement"
+        unity_engine_ui_elements_visual_element_path4 = "//UnityEngine.UIElements.VisualElement/UnityEngine.UIElements.VisualElement/UnityEngine.UIElements.ScrollView/UnityEngine.UIElements.VisualElement[3]/UnityEngine.UIElements.VisualElement"
+        self.alt_driver.load_scene("FlexboxDemo", True)
+        controls__wrap = self.alt_driver.wait_for_object(
+            By.PATH, controls__wrap_path, timeout=3)
+        unity_engine_ui_elements_visual_element = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path, timeout=3)
+        self.alt_driver.swipe(controls__wrap.get_screen_position(
+        ), unity_engine_ui_elements_visual_element.get_screen_position(), 0.09999847)
+        unity_engine_ui_elements_visual_element1 = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path1, timeout=3)
+        self.alt_driver.hold_button(
+            unity_engine_ui_elements_visual_element1.get_screen_position(), 0.8929825)
+        controls__direction = self.alt_driver.wait_for_object(
+            By.PATH, controls__direction_path, timeout=3)
+        unity_engine_ui_elements_visual_element2 = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path2, timeout=3)
+        unity_engine_ui_elements_visual_element3 = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path1, timeout=3)
+        unity_engine_ui_elements_visual_element4 = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path, timeout=3)
+        controls__align = self.alt_driver.wait_for_object(
+            By.PATH, controls__align_path, timeout=3)
+        unity_engine_ui_elements_visual_element5 = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path, timeout=3)
+        self.alt_driver.swipe(controls__align.get_screen_position(
+        ), unity_engine_ui_elements_visual_element5.get_screen_position(), 0.2331352)
+        unity_engine_ui_elements_visual_element6 = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path1, timeout=3)
+        unity_engine_ui_elements_visual_element7 = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path3, timeout=3)
+        unity_engine_ui_elements_visual_element8 = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path1, timeout=3)
+        self.alt_driver.swipe(unity_engine_ui_elements_visual_element7.get_screen_position(
+        ), unity_engine_ui_elements_visual_element8.get_screen_position(), 0.09999847)
+        unity_engine_ui_elements_visual_element9 = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path4, timeout=3)
+        unity_engine_ui_elements_visual_element10 = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path1, timeout=3)
+        unity_engine_ui_elements_visual_element10.click()
+        unity_engine_ui_elements_visual_element11 = self.alt_driver.wait_for_object(
+            By.PATH, unity_engine_ui_elements_visual_element_path3, timeout=3)
 
     def test_get_all_elements(self):
         elements = self.alt_driver.get_all_elements(enabled=False)
