@@ -6,7 +6,7 @@
     <groupId>com.alttester</groupId>
     <artifactId>alttester</artifactId>
     <packaging>jar</packaging>
-    <version>2.2.2</version>
+    <version>2.2.4</version>
 
     <name>AltTester-Driver</name>
     <description>An automated tool for testing Unity Games</description>
