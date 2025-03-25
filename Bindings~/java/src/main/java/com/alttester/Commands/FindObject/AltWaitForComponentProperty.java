@@ -87,6 +87,8 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
             }
             if (getPropertyAsString && jsonElementToString.equals(property.toString()))
                 return propertyFound;
+            if (propertyFound.toString().equals("0.0") && property.toString().equals("\"0\""))
+                return propertyFound;
 
             Utils.sleepFor(waitParams.getInterval());
             time += waitParams.getInterval();
