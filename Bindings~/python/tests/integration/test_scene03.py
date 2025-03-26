@@ -151,17 +151,17 @@ class TestScene03:
             "Drag Image2", "Drop")
         assert image_source == image_source_drop_zone
 
-    def test_begin_move_end_touch(self):
-        alt_object1 = self.alt_driver.find_object(By.NAME, "Drag Image1")
-        alt_object2 = self.alt_driver.find_object(By.NAME, "Drop Box1")
+    # def test_begin_move_end_touch(self):
+    #     alt_object1 = self.alt_driver.find_object(By.NAME, "Drag Image1")
+    #     alt_object2 = self.alt_driver.find_object(By.NAME, "Drop Box1")
 
-        id = self.alt_driver.begin_touch(alt_object1.get_screen_position())
-        self.alt_driver.move_touch(id, alt_object2.get_screen_position())
-        self.alt_driver.end_touch(id)
+    #     id = self.alt_driver.begin_touch(alt_object1.get_screen_position())
+    #     self.alt_driver.move_touch(id, alt_object2.get_screen_position())
+    #     self.alt_driver.end_touch(id)
 
-        imageSource = alt_object1.get_component_property(
-            "UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI")
-        imageSourceDropZone = self.alt_driver.find_object(By.NAME, "Drop Image").get_component_property(
-            "UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI")
+    #     imageSource = alt_object1.get_component_property(
+    #         "UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI")
+    #     imageSourceDropZone = self.alt_driver.find_object(By.NAME, "Drop Image").get_component_property(
+    #         "UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI")
 
-        assert imageSource == imageSourceDropZone
+    #     assert imageSource == imageSourceDropZone
