@@ -25,6 +25,8 @@ class TestScene10:
 
     @pytest.fixture(autouse=True)
     def setup(self):
+        self.alt_driver.find_object(
+            By.PATH, "/AltTesterPrefab//CloseButton", enabled=False).tap()
         self.alt_driver.reset_input()
         self.alt_driver.load_scene(Scenes.Scene10)
 

@@ -16,6 +16,7 @@
 """
 
 import time
+import json
 from loguru import logger
 from alttester.commands.base_command import Command
 from alttester.exceptions import WaitTimeOutException
@@ -52,7 +53,12 @@ class WaitForVisualElementProperty(Command):
                 if (str(property_found) == "0.0" and str(self.property_value) == "0"):
                     return property_found
                 if self.get_property_as_string and \
-                   str(property_found).replace(" ", "") == str(self.property_value).replace(" ", ""):
+                   (
+                       str(property_found).replace(" ", "") == str(self.property_value).replace(" ", "") or
+                       str(json.dumps(property_found)).replace(" ", "") == str(
+                        self.property_value).replace(" ", "")
+                   ):
+
                     return property_found
             except Exception as ex:
                 exception = ex

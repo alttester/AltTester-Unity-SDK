@@ -26,6 +26,8 @@ class TestScene03:
 
     @pytest.fixture(autouse=True)
     def setup(self):
+        self.alt_driver.find_object(
+            By.PATH, "/AltTesterPrefab//CloseButton", enabled=False).tap()
         self.alt_driver.reset_input()
         self.alt_driver.load_scene(Scenes.Scene03)
 
@@ -150,6 +152,10 @@ class TestScene03:
         assert image_source == image_source_drop_zone
 
     def test_begin_move_end_touch(self):
+        green_pop_up = self.alt_driver.find_object(
+            By.PATH, "/AltTesterPrefab//CloseButton", enabled=False)
+        if (green_pop_up.enabled):
+            green_pop_up.click()
         alt_object1 = self.alt_driver.find_object(By.NAME, "Drag Image1")
         alt_object2 = self.alt_driver.find_object(By.NAME, "Drop Box1")
 

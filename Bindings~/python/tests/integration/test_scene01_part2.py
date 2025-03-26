@@ -26,6 +26,8 @@ class TestScene01Part2:
 
     @pytest.fixture(autouse=True)
     def setup(self):
+        self.alt_driver.find_object(
+            By.PATH, "/AltTesterPrefab//CloseButton", enabled=False).tap()
         self.alt_driver.reset_input()
         self.alt_driver.load_scene(Scenes.Scene01)
 
@@ -502,7 +504,8 @@ class TestScene01Part2:
 
     def test_find_object_in_object_by_id(self):
         parent = self.alt_driver.find_object(By.NAME, "Canvas")
-        child = parent.find_object_from_object(By.ID, "049eccc5-b072-468b-83bf-119d868ca311")
+        child = parent.find_object_from_object(
+            By.ID, "049eccc5-b072-468b-83bf-119d868ca311")
         assert child.name == "Button"
 
     def test_find_object_in_object_by_text(self):
