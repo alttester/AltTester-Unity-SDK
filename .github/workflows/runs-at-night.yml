@@ -355,9 +355,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
+      - name: Create and activate virtual environment
+        run: |
+          python3 -m venv venv 
+          source venv/bin/activate  
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
 
       - name: Install dependencies
         run: |
+          source venv/bin/activate  # Activate the virtual environment
           pip install --upgrade pip setuptools wheel
           pip uninstall -y AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
@@ -435,10 +441,17 @@ jobs:
           name: android-build
           path: Bindings~/python/
 
+      - name: Create and activate virtual environment
+        run: |
+          python3 -m venv venv 
+          source venv/bin/activate  
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
+
       - run: ls -l Bindings~/python/
 
       - name: Install dependencies
         run: |
+          source venv/bin/activate  # Activate the virtual environment
           pip install --upgrade pip setuptools wheel
           pip uninstall -y AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
