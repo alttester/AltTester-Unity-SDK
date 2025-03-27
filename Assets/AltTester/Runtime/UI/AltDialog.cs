@@ -708,7 +708,6 @@ namespace AltTester.AltTesterUnitySDK.UI
         }
         private void handleNewVersionCheck()
         {
-            StartCoroutine(getRequest());
             if (runningCoroutine != null)
             {
                 StopCoroutine(runningCoroutine);
@@ -725,7 +724,13 @@ namespace AltTester.AltTesterUnitySDK.UI
             float totalTime = 30;
             float interval = 1;
             var currentTime = 0f;
-
+            var getRequestCoroutine = StartCoroutine(getRequest());
+            yield return getRequestCoroutine;
+            if (!isNewVersionAvailable)
+            {
+                CloseNewVersionMessage();
+                yield break;
+            }
             while (currentTime < totalTime)
             {
                 MessageText.text = $"{newVersionMessage} {Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}" +
