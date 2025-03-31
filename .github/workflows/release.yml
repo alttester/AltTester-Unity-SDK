@@ -23,7 +23,9 @@ jobs:
       - name: Upload to PyPi
         run: |
           cd "Bindings~/python"
-          python3 setup.py sdist bdist_wheel
+          pip install --upgrade build twine
+          rm -rf dist/
+          python3 -m build
           python3 -m twine upload dist/*
 
   publish-robot-pip-package:
@@ -42,8 +44,11 @@ jobs:
 
       - name: Upload to PyPi
         run: |
+
           cd "Bindings~/robot"
-          python3 setup.py sdist bdist_wheel
+          pip install --upgrade build twine
+          rm -rf dist/
+          python3 -m build
           python3 -m twine upload dist/*
 
   publish-nuget-package:
