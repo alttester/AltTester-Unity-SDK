@@ -147,6 +147,8 @@ class AltDriver:
         if not is_supported:
             message = "Version mismatch. AltDriver version is {}. AltTester(R) version is {}.".format(
                 VERSION, server_version)
+            if server_major == 1:
+                message += " Please update AltTester(R) to version 1.1."
             logger.warning(message)
 
     def _get_alt_object(self, data):
