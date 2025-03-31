@@ -120,11 +120,15 @@ namespace AltTester.AltTesterSDK.Driver
 
             bool isSupported =
         (serverMajor == 2 && serverMinor == 2) || // Server version 2.2.x
-        (serverMajor == 1 && serverMinor == 0);    // Server version 1.0.0
+        (serverMajor == 1 && serverMinor == 1);    // Server version 1.1.x
 
             if (!isSupported)
             {
                 string message = $"Version mismatch. AltDriver version is {VERSION}. AltTester(R) version is {serverVersion}.";
+                if (serverMajor == 1)
+                {
+                    message = $"Version mismatch. AltDriver version is {VERSION}. AltTester(R) version is {serverVersion}. AltTester(R) should be at least version 1.1.";
+                }
                 logger.Warn(message);
             }
         }

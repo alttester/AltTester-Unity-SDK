@@ -193,12 +193,19 @@ public class AltDriver {
         int serverMajor = Integer.parseInt(serverParts[0]);
         int serverMinor = Integer.parseInt(serverParts[1]);
 
-        boolean isSupported = (serverMajor == 2 && serverMinor == 2) || (serverMajor == 1 && serverMinor == 0);
+        boolean isSupported = (serverMajor == 2 && serverMinor == 2) || (serverMajor == 1 && serverMinor == 1);
 
         if (!isSupported) {
-            String message = String.format(
-                    "Version mismatch. AltDriver version is %s. AltTester(R) version is %s.",
-                    AltDriver.VERSION, serverVersion);
+            String message = "";
+            if (serverMajor == 1) {
+                message = String.format(
+                        "Version mismatch. AltDriver version is %s. AltTester(R) version is %s. AltTester(R) should be at least version 1.1.",
+                        AltDriver.VERSION, serverVersion);
+            } else {
+                message = String.format(
+                        "Version mismatch. AltDriver version is %s. AltTester(R) version is %s.",
+                        AltDriver.VERSION, serverVersion);
+            }
             logger.warn(message);
             System.out.println(message);
         }
