@@ -17,10 +17,10 @@
 
 using System;
 using System.Diagnostics;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Logging;
 using AltWebSocketSharp;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Communication
+namespace AltTester.AltTesterSDK.Driver.Communication
 {
     public class BaseDriver
     {

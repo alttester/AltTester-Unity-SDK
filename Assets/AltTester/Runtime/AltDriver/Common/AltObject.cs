@@ -16,10 +16,11 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterSDK.Driver.Commands;
 
-namespace AltTester.AltTesterUnitySDK.Driver
+namespace AltTester.AltTesterSDK.Driver
 {
     public class AltObject
     {
@@ -127,6 +128,8 @@ namespace AltTester.AltTesterUnitySDK.Driver
         }
         public T WaitForComponentProperty<T>(string componentName, string propertyName, T propertyValue, string assemblyName, double timeout = 20, double interval = 0.5, bool getPropertyAsString = false, int maxDepth = 2)
         {
+            if (CommHandler.GetImplicitTimeout() != -1 && timeout == 20)
+                timeout = CommHandler.GetImplicitTimeout();
             var propertyFound = new AltWaitForComponentProperty<T>(CommHandler, componentName, propertyName, propertyValue, assemblyName, timeout, interval, getPropertyAsString, maxDepth, this).Execute();
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return propertyFound;
@@ -275,5 +278,28 @@ namespace AltTester.AltTesterUnitySDK.Driver
             CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
             return propertyValue;
         }
+        public T WaitForVisualElementProperty<T>(string propertyName, T propertyValue, double timeout = 20, double interval = 0.5, bool getPropertyAsString = false)
+        {
+            if (CommHandler.GetImplicitTimeout() != -1 && timeout == 20)
+                timeout = CommHandler.GetImplicitTimeout();
+            if (type != "UIToolkit")
+            {
+                throw new WrongAltObjectTypeException("This method is only available for VisualElement objects");
+            }
+            var value = new AltWaitForVisualElementProperty<T>(CommHandler, propertyName, propertyValue, timeout, interval, getPropertyAsString, this).Execute();
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return value;
+        }
+        public Dictionary<string, object> GetAllVisualElementProperties()
+        {
+            if (type != "UIToolkit")
+            {
+                throw new WrongAltObjectTypeException("This method is only available for VisualElement objects");
+            }
+            var propertyValue = new AltGetAllVisualElementProperties(CommHandler, this).Execute();
+            CommHandler.SleepFor(CommHandler.GetDelayAfterCommand());
+            return propertyValue;
+        }
+
     }
 }

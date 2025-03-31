@@ -18,12 +18,12 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
-using AltTester.AltTesterUnitySDK.Driver.Proxy;
+using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterSDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Proxy;
 using AltWebSocketSharp;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Communication
+namespace AltTester.AltTesterSDK.Driver.Communication
 {
     public class DriverWebSocketClient
     {

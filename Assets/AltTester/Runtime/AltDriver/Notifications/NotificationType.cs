@@ -16,7 +16,7 @@
 */
 
 using System;
-namespace AltTester.AltTesterUnitySDK.Driver.Notifications
+namespace AltTester.AltTesterSDK.Driver.Notifications
 {
     public enum NotificationType
     {

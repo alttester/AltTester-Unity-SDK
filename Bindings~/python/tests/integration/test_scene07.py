@@ -25,6 +25,8 @@ class TestScene07A:
 
     @pytest.fixture(autouse=True)
     def setup(self):
+        self.alt_driver.find_object(
+            By.PATH, "/AltTesterPrefab//CloseButton", enabled=False).tap()
         self.alt_driver.reset_input()
         self.alt_driver.load_scene(Scenes.Scene07A)
 
@@ -114,7 +116,7 @@ class TestScene07B:
         self.drop_image_with_multipoint_swipe(
             ["Drag Image1", "Drop Box1"], 1, False)
         self.drop_image_with_multipoint_swipe(
-            ["Drag Image2", "Drop Box1", "Drop Box2"], 1, False)
+            ["Drag Image2", "Drop Box1", "Drop Box2"], 1, True)
 
         image_source, image_source_drop_zone = self.get_sprite_name(
             "Drag Image1", "Drop Image")

@@ -15,12 +15,12 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using AltTester.AltTesterUnitySDK.Driver;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterSDK.Driver.Logging;
 using NUnit.Framework;
 
 
-namespace AltTester.AltTesterUnitySDK.Driver.Tests
+namespace AltTester.AltTesterSDK.Driver.Tests
 {
     [TestFixture]
     [Parallelizable]

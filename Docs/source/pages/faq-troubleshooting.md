@@ -164,7 +164,7 @@ You get this error because you don't have the Input System (New) package. If you
         using System.Collections;
         using System.Collections.Generic;
         using System.Linq;
-        using AltTester.AltTesterUnitySDK.Driver;
+        using AltTester.AltTesterSDK.Driver;
         using AltTester.AltTesterUnitySDK;
         using AltTester.AltTesterUnitySDK.InputModule;
         using UnityEngine;

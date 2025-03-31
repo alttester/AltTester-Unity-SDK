@@ -1,7 +1,7 @@
-using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterSDK.Driver;
 using NUnit.Framework;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Tests
+namespace AltTester.AltTesterSDK.Driver.Tests
 {
     [TestFixture]
     [Parallelizable]

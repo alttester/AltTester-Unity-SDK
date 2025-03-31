@@ -15,7 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace AltTester.AltTesterUnitySDK.Driver.Commands
+namespace AltTester.AltTesterSDK.Driver.Commands
 {
     public class AltTapElement : AltCommandReturningAltElement
     {

@@ -21,8 +21,8 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using AltTester.AltTesterUnitySDK.Driver;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
+using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterSDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -341,7 +341,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 {
                     path += methodPathSplited[i] + ".";
                 }
-                throw new AltTester.AltTesterUnitySDK.Driver.NullReferenceException(path + propertyName + "is not assigned");
+                throw new AltTester.AltTesterSDK.Driver.NullReferenceException(path + propertyName + "is not assigned");
             }
             index++;
             return getInstance(instance, methodPathSplited, index);

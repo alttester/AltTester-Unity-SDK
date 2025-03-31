@@ -75,6 +75,7 @@ public class MessageHandler implements IMessageHandler {
 
     private double commandTimeout = 60;
     private double delayAfterCommand = 0;
+    private double implicitTimeout = -1;
     private Gson gson;
 
     public MessageHandler(WebsocketConnection connection) {
@@ -90,6 +91,18 @@ public class MessageHandler implements IMessageHandler {
 
     public void setDelayAfterCommand(double delay) {
         this.delayAfterCommand = delay;
+    }
+
+    public void setImplicitTimeout(double value)
+    {
+         if (value < 0)
+            throw new IllegalArgumentException("Timeout cannot be negative");
+        implicitTimeout = value;
+    }
+
+    public double getImplicitTimeout()
+    {
+        return implicitTimeout;
     }
 
     public <T> T receive(AltMessage data, Class<T> type) {

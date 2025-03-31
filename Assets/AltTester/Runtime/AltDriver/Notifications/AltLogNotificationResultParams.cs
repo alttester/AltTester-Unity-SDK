@@ -15,9 +15,9 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Logging;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Notifications
+namespace AltTester.AltTesterSDK.Driver.Notifications
 {
     public class AltLogNotificationResultParams
     {

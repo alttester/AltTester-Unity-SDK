@@ -20,14 +20,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
-using AltTester.AltTesterUnitySDK.Driver.Notifications;
+using AltTester.AltTesterSDK.Driver.Commands;
+using AltTester.AltTesterSDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Notifications;
 using AltWebSocketSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Communication
+namespace AltTester.AltTesterSDK.Driver.Communication
 {
     public class DriverCommunicationHandler : IDriverCommunication
     {
@@ -59,6 +59,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
 
         private int commandTimeout = 60;
         private float delayAfterCommand = 0;
+        private float implicitTimeout = -1;
         private bool websocketClosedCalled = false;
 
         private List<string> messageIdTimeouts = new List<string>();
@@ -391,6 +392,16 @@ namespace AltTester.AltTesterUnitySDK.Driver.Communication
         public void SleepFor(float time)
         {
             Utils.SleepFor(time);
+        }
+
+        public void SetImplicitTimeout(float value)
+        {
+            implicitTimeout = value;
+        }
+
+        public float GetImplicitTimeout()
+        {
+            return implicitTimeout;
         }
     }
 }

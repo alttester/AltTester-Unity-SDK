@@ -23,7 +23,7 @@ using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Logging
+namespace AltTester.AltTesterSDK.Driver.Logging
 {
     public class DriverLogManager
     {

@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterSDK.Driver;
 
 public class #SCRIPTNAME#
 {   //Important! If your test file is inside a folder that contains an .asmdef file, please make sure that the assembly definition references NUnit.

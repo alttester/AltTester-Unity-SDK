@@ -16,9 +16,9 @@
 */
 
 using System;
-using AltTester.AltTesterUnitySDK.Driver.Notifications;
+using AltTester.AltTesterSDK.Driver.Notifications;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Commands
+namespace AltTester.AltTesterSDK.Driver.Commands
 {
     public interface IDriverCommunication
     {
@@ -32,5 +32,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
         void SetDelayAfterCommand(float delay);
         float GetDelayAfterCommand();
         void SleepFor(float time);
+        void SetImplicitTimeout(float value);
+        float GetImplicitTimeout();
     }
 }

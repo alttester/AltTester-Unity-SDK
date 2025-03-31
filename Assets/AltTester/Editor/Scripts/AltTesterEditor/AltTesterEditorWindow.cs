@@ -20,9 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using AltTester.AltTesterUnitySDK.Commands;
-using AltTester.AltTesterUnitySDK.Driver;
+using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using AltTester.AltTesterUnitySDK.Editor.Platform;
 using Unity.EditorCoroutines.Editor;
@@ -946,7 +947,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 labelAndInputFieldHorizontalLayout("Company Name*", ref companyName);
                 UnityEditor.PlayerSettings.companyName = companyName;
 
-                var productName = UnityEditor.PlayerSettings.productName;
+                var productName = Regex.Replace(UnityEditor.PlayerSettings.productName, "[^a-zA-Z0-9 _-]", "");
                 labelAndInputFieldHorizontalLayout("Product Name*", ref productName);
                 UnityEditor.PlayerSettings.productName = productName;
 

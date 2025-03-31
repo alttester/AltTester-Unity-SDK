@@ -201,6 +201,8 @@ class AltObject:
             str: The property value is serialized to a JSON string.
 
         """
+        if self._connection.get_implicit_timeout() != -1 and timeout == 20:
+            timeout = self._connection.get_implicit_timeout()
         return commands.WaitForComponentProperty.run(
             component_name, property_name, property_value,
             assembly, self, timeout, interval, get_property_as_string, max_depth
@@ -398,4 +400,31 @@ class AltObject:
         if self.type != "UIToolkit":
             raise exceptions.WrongAltObjectTypeException(
                 "This method is only available for VisualElement objects")
-        return commands.GetVisualElementProperty.run(self._connection,  property_name, self,)
+        return commands.GetVisualElementProperty.run(self._connection,  property_name, self)
+
+    def wait_for_visual_element_property(self, property_name,
+                                         property_value, timeout=20, interval=0.5,
+                                         get_property_as_string=False):
+        """Waits until a property of the current object has a specific value.
+
+        Args:
+            property_name (str): The name of the property of which value you want to get.
+            property_value (str): The value of the property expected.
+            timeout (int, optional): The number of seconds that it will wait for property. Defaults to 20.
+            interval (int, optional): Time in seconds before retrying. Defaults to 0.5.
+            get_property_as_string (bool, optional): A boolean value that makes the property_value
+                to be compared as a string with the property from the instrumented app. Defaults to False.
+
+        Returns:
+            The property value is serialized to a JSON string.
+
+        Raises:
+            WrongAltObjectTypeException: The method is called on an object that is not a VisualElement.
+        """
+        if self.type != "UIToolkit":
+            raise exceptions.WrongAltObjectTypeException(
+                "This method is only available for VisualElement objects")
+        if self._connection.get_implicit_timeout() != -1 and timeout == 20:
+            timeout = self._connection.get_implicit_timeout()
+        return commands.WaitForVisualElementProperty.run(
+            property_name, property_value, self, timeout, interval, get_property_as_string)

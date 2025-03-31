@@ -119,17 +119,29 @@ AltTester® does not support proxy configurations
 WegGL app disconnects
 ~~~~~~~~~~~~~~~~~~~~~
 
-**Problem** The WebGL application disconnects due to WebSocket timeouts occurring over time when no data is transmitted.
+**Problem**: The WebGL application disconnects due to WebSocket timeouts occurring over time when no data is transmitted.
 
 **Affects**: AltTester® Unity SDK v2.x
- Impossibility to connect to AltTester® Desktop an ``IL2CPP`` instrumented app built with Managed Stripping Level higher than ``Minimal`` which throws ``InvalidCommandException: Unable to find a constructor to use for type AltTester.AltTesterUnitySDK.Driver.Commands.AltGetServerVersionParams. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute``
+
+Impossibility to connect to AltTester® Desktop an ``IL2CPP`` instrumented app built with Managed Stripping Level higher than ``Minimal`` which throws ``InvalidCommandException: Unable to find a constructor to use for type AltTester.AltTesterSDK.Driver.Commands.AltGetServerVersionParams. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 **Workaround**: Set the Managed Stripping Level setting to ``Minimal`` from Player Settings -> Other Settings -> Optimization 
 
 **Affects**: AltTester® Unity SDK v2.x
 
+In BrowserStack can't connect iOS devices with version greater than 16 to AltTester® Server  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**Problem**: A required setting for allowing arbitrary loads is missing from the instrumented build
 
+**Workaround**: Open the ``plist.info`` file after the xcodeproject is generated from AltTester® Editor (for iOS building) and do the following:
+
+- add ``App Transport Security Settings``, then ``Allow Arbitrary Loads`` and set to ``YES``
+
+- proceed to build the ``ipa`` file from XCode
+
+**Affects**: AltTester® Unity SDK v2.x
 
 UI Toolkit
 ----------

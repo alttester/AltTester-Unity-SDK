@@ -29,6 +29,8 @@ import com.alttester.AltDriver.By;
 import com.alttester.Commands.FindObject.AltFindObjectsParams;
 import com.alttester.Commands.FindObject.AltWaitForComponentProperty;
 import com.alttester.Commands.FindObject.AltWaitForComponentPropertyParams;
+import com.alttester.Commands.FindObject.AltWaitForVisualElementProperty;
+import com.alttester.Commands.FindObject.AltWaitForVisualElementPropertyParams;
 import com.alttester.Commands.FindObject.AltFindObject;
 
 @Getter
@@ -180,7 +182,6 @@ public class AltObject {
     public <T> T WaitForComponentProperty(AltWaitForComponentPropertyParams<T> altWaitForComponentPropertyParams,
             T propertyValue,
             Class<T> returnType) {
-
         return waitForComponentProperty(altWaitForComponentPropertyParams, propertyValue, returnType);
     }
 
@@ -189,6 +190,8 @@ public class AltObject {
             Class<T> returnType) {
 
         altWaitForComponentPropertyParams.setAltObject(this);
+        if (this.messageHandler.getImplicitTimeout() != -1 && altWaitForComponentPropertyParams.getTimeout() == 20)
+                altWaitForComponentPropertyParams.setTimeout(this.messageHandler.getImplicitTimeout());
         T response = new AltWaitForComponentProperty<T>(messageHandler,
                 altWaitForComponentPropertyParams,
                 propertyValue, this)
@@ -202,6 +205,8 @@ public class AltObject {
             Class<T> returnType) {
 
         altWaitForComponentPropertyParams.setAltObject(this);
+        if (this.messageHandler.getImplicitTimeout() != -1 && altWaitForComponentPropertyParams.getTimeout() == 20)
+                altWaitForComponentPropertyParams.setTimeout(this.messageHandler.getImplicitTimeout());
         T response = new AltWaitForComponentProperty<T>(messageHandler,
                 altWaitForComponentPropertyParams,
                 propertyValue, getPropertyAsString, this)
@@ -378,7 +383,7 @@ public class AltObject {
      * @return The value of the specified property.
      * @throws WrongAltObjectTypeException if the object type is not "UIToolkit".
      */
-    public <T> T GetVisualElementProperty(String propertyName, Class<T> returnType) {
+    public <T> T getVisualElementProperty(String propertyName, Class<T> returnType) {
         if (!type.equals("UIToolkit")) {
             throw new WrongAltObjectTypeException("This method is only available for VisualElement objects");
         }
@@ -391,4 +396,31 @@ public class AltObject {
         Utils.sleepFor(messageHandler.getDelayAfterCommand());
         return propertyValue;
     }
+
+    @Deprecated
+    public <T> T GetVisualElementProperty(String propertyName, Class<T> returnType) {
+        return getVisualElementProperty(propertyName, returnType);
+    }
+
+    public <T> T waitForVisualElementProperty(
+            AltWaitForVisualElementPropertyParams altWaitForVisualElementPropertyParams,
+            T propertyValue,
+            boolean getPropertyAsString,
+            Class<T> returnType) {
+
+        if (!type.equals("UIToolkit")) {
+            throw new WrongAltObjectTypeException("This method is only available for VisualElement objects");
+        }
+
+        altWaitForVisualElementPropertyParams.setAltObject(this);
+        if (this.messageHandler.getImplicitTimeout() != -1 && altWaitForVisualElementPropertyParams.getTimeout() == 20)
+                altWaitForVisualElementPropertyParams.setTimeout(this.messageHandler.getImplicitTimeout());
+        T response = new AltWaitForVisualElementProperty<T>(messageHandler,
+                altWaitForVisualElementPropertyParams,
+                propertyValue, getPropertyAsString, this)
+                .Execute(returnType);
+        Utils.sleepFor(messageHandler.getDelayAfterCommand());
+        return response;
+    }
+
 }

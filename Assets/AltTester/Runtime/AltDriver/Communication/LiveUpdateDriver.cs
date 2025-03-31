@@ -21,7 +21,7 @@ using System.Globalization;
 using System.Threading;
 using Newtonsoft.Json;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Communication
+namespace AltTester.AltTesterSDK.Driver.Communication
 {
 
     public class LiveUpdateDriver : BaseDriver

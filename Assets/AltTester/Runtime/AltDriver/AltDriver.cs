@@ -18,12 +18,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver.Commands;
-using AltTester.AltTesterUnitySDK.Driver.Communication;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
-using AltTester.AltTesterUnitySDK.Driver.Notifications;
+using AltTester.AltTesterSDK.Driver.Commands;
+using AltTester.AltTesterSDK.Driver.Communication;
+using AltTester.AltTesterSDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Notifications;
 
-namespace AltTester.AltTesterUnitySDK.Driver
+namespace AltTester.AltTesterSDK.Driver
 {
     public enum By
     {
@@ -35,7 +35,7 @@ namespace AltTester.AltTesterUnitySDK.Driver
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
         private static object driverLock = new object();
-        public static readonly string VERSION = "2.2.2";
+        public static readonly string VERSION = "2.2.4";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 
@@ -120,11 +120,15 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
             bool isSupported =
         (serverMajor == 2 && serverMinor == 2) || // Server version 2.2.x
-        (serverMajor == 1 && serverMinor == 0);    // Server version 1.0.0
+        (serverMajor == 1 && serverMinor == 1);    // Server version 1.1.x
 
             if (!isSupported)
             {
                 string message = $"Version mismatch. AltDriver version is {VERSION}. AltTester(R) version is {serverVersion}.";
+                if (serverMajor == 1)
+                {
+                    message = $"Version mismatch. AltDriver version is {VERSION}. AltTester(R) version is {serverVersion}. AltTester(R) should be at least version 1.1.";
+                }
                 logger.Warn(message);
             }
         }
@@ -133,7 +137,16 @@ namespace AltTester.AltTesterUnitySDK.Driver
         {
             communicationHandler.Close();
         }
-
+        public void SetImplicitTimeout(float value)
+        {
+            if (value < 0)
+                throw new ArgumentOutOfRangeException("Timeout cannot be negative");
+            communicationHandler.SetImplicitTimeout(value);
+        }
+        public float GetImplicitTimeout()
+        {
+            return communicationHandler.GetImplicitTimeout();
+        }
         public void ResetInput()
         {
             new AltResetInput(communicationHandler).Execute();
@@ -491,14 +504,18 @@ namespace AltTester.AltTesterUnitySDK.Driver
             return listOfObjects;
         }
 
-        public void WaitForCurrentSceneToBe(string sceneName, double timeout = 10, double interval = 1)
+        public void WaitForCurrentSceneToBe(string sceneName, double timeout = 20, double interval = 1)
         {
+            if (communicationHandler.GetImplicitTimeout() != -1 && timeout == 20)
+                timeout = communicationHandler.GetImplicitTimeout();
             new AltWaitForCurrentSceneToBe(communicationHandler, sceneName, timeout, interval).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
         public AltObject WaitForObject(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
+            if (communicationHandler.GetImplicitTimeout() != -1 && timeout == 20)
+                timeout = communicationHandler.GetImplicitTimeout();
             var objectFound = new AltWaitForObject(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
             return objectFound;
@@ -506,12 +523,16 @@ namespace AltTester.AltTesterUnitySDK.Driver
 
         public void WaitForObjectNotBePresent(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
+            if (communicationHandler.GetImplicitTimeout() != -1 && timeout == 20)
+                timeout = communicationHandler.GetImplicitTimeout();
             new AltWaitForObjectNotBePresent(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
         public AltObject WaitForObjectWhichContains(By by, string value, By cameraBy = By.NAME, string cameraValue = "", bool enabled = true, double timeout = 20, double interval = 0.5)
         {
+            if (communicationHandler.GetImplicitTimeout() != -1 && timeout == 20)
+                timeout = communicationHandler.GetImplicitTimeout();
             var objectFound = new AltWaitForObjectWhichContains(communicationHandler, by, value, cameraBy, cameraValue, enabled, timeout, interval).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
             return objectFound;

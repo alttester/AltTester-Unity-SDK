@@ -17,10 +17,10 @@
 
 using System;
 using System.Threading;
-using AltTester.AltTesterUnitySDK.Driver.Logging;
+using AltTester.AltTesterSDK.Driver.Logging;
 using Newtonsoft.Json.Linq;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Commands
+namespace AltTester.AltTesterSDK.Driver.Commands
 {
     public class AltWaitForComponentProperty<T> : AltBaseFindObjects
     {
@@ -63,7 +63,7 @@ namespace AltTester.AltTesterUnitySDK.Driver.Commands
                 if (!getPropertyAsString && propertyFound.Equals(propertyValue))
                     return propertyFound;
                 strPropertyValue = propertyValue.ToString() == "" ? "null" : propertyValue.ToString();
-                jTokenPropertyFound = propertyFound == null ? "null" : propertyFound as JToken;
+                jTokenPropertyFound = propertyFound != null ? JToken.FromObject(propertyFound) : "null";
                 if (getPropertyAsString && jTokenPropertyFound.ToString().Equals(strPropertyValue))
                     return propertyFound;
 

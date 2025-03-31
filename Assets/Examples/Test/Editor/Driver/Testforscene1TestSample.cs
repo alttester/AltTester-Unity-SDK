@@ -23,7 +23,7 @@ using System.Threading;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-namespace AltTester.AltTesterUnitySDK.Driver.Tests
+namespace AltTester.AltTesterSDK.Driver.Tests
 {
     [TestFixture]
     [Parallelizable]
@@ -248,9 +248,22 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
         {
             const string componentName = "AltTester.AltTesterUnitySDK.Commands.AltRunner";
             const string propertyName = "InstrumentationSettings.AltServerPort";
-            var altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
+            const string assemblyName = "AltTester.AltTesterUnitySDK";
+            const string initialPropertyValue = "13005";
+            const string testPropertyValue = "Test";
+            const int timeout = 2;
+            
+            AltObject altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
-            Assert.Throws<WaitTimeOutException>(() => altElement.WaitForComponentProperty(componentName, propertyName, "Test", "AltTester.AltTesterUnitySDK", 2));
+            try
+            {
+                altElement.WaitForComponentProperty(componentName, propertyName, testPropertyValue, assemblyName, timeout);
+                Assert.Fail();
+            }
+            catch (WaitTimeOutException exception)
+            {
+                Assert.That(exception.Message, Is.EqualTo($"Property {propertyName} was {initialPropertyValue} and was not {testPropertyValue} after {timeout} seconds"));
+            }
         }
 
         [Category("WebGLUnsupported")] // Fails on WebGL in pipeline, skip until issue #1465 is fixed: https://github.com/alttester/AltTester-Unity-SDK/issues/1465
@@ -2146,6 +2159,32 @@ namespace AltTester.AltTesterUnitySDK.Driver.Tests
             var parent = altDriver.FindObject(By.NAME, "Canvas");
             var child = parent.FindObjectFromObject(by, value);
             Assert.True(child.name == nameOfChild);
+        }
+
+        [Test]
+        public void TestImplicitTimeout()
+        {
+            var timeStart = DateTime.Now;
+            altDriver.SetImplicitTimeout(1);
+            Assert.AreEqual(altDriver.GetImplicitTimeout(), 1, 0.1f);
+            try{
+            altDriver.WaitForObject(By.NAME, "Capsulee");
+            }
+            catch(Exception)
+            {
+
+            }
+            var timeEnd = DateTime.Now;
+            var time = timeEnd - timeStart;
+            Assert.LessOrEqual(time.TotalSeconds, 2);
+            altDriver.SetImplicitTimeout(20);
+        }
+
+        [Test]
+        public void TestImplicitTimeoutOutOfRange()
+        {
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => altDriver.SetImplicitTimeout(-5));
+            Assert.That(ex.Message, Does.Contain("Timeout cannot be negative"));
         }
     }
 }

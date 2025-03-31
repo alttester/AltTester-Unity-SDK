@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish-python-pip-package:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     steps:
       - uses: actions/checkout@v3
@@ -27,7 +27,7 @@ jobs:
           python3 -m twine upload dist/*
 
   publish-robot-pip-package:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     steps:
       - uses: actions/checkout@v3
@@ -60,21 +60,22 @@ jobs:
         run: |
           cd "Bindings~/dotnet"
           dotnet pack AltDriver/AltDriver.csproj -c release
-          dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.2.2.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+          dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.2.4.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
   create-unity-package:
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
     steps:
       - uses: actions/checkout@v3
       - name: Create Unity Package
         run: |
           mkdir -p public/AltTester || true
           mkdir -p public/SampleScenes || true
+          VERSION=$(jq -r '.version' Assets/AltTester/package.json | sed 's/\./_/g')
           $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
-          cp $AUT public/AltTester/AltTester.unitypackage
-          cp $AUT public/AltTester/AltTester_2_0_1.unitypackage
+          cp $AUT public/AltTester/AltTesterUnitySDK.unitypackage
+          cp $AUT public/AltTester/AltTesterUnitySDK_${VERSION}.unitypackage
           cp SampleScenes.unitypackage public/AltTester/SampleScenes.unitypackage
       - uses: actions/upload-artifact@v4
         with:

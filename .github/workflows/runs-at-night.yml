@@ -14,7 +14,7 @@ env:
 jobs:
   build-webgl:
     timeout-minutes: 60
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     steps:
       - uses: actions/checkout@v4
@@ -54,7 +54,7 @@ jobs:
 
   build-ios:
     timeout-minutes: 60
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     steps:
       - uses: actions/checkout@v4
@@ -97,7 +97,7 @@ jobs:
 
   build-android:
     timeout-minutes: 60
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     steps:
       - uses: actions/checkout@v4
@@ -139,7 +139,7 @@ jobs:
     timeout-minutes: 60 # Set job timeout to 1 hour
     needs: build-webgl
 
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     steps:
       - uses: actions/checkout@v4
@@ -203,7 +203,7 @@ jobs:
     timeout-minutes: 60 # Set job timeout to 1 hour
     needs: build-webgl
 
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     steps:
       - uses: actions/checkout@v4
@@ -265,12 +265,11 @@ jobs:
           name: webgl-python-logs
           path: "**/*.log"
 
-
   test-webgl-java:
     timeout-minutes: 60 # Set job timeout to 1 hour
     needs: build-webgl
 
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     steps:
       - uses: actions/checkout@v4
@@ -336,7 +335,7 @@ jobs:
   test-ios-browserstack-python:
     needs: build-ios
     timeout-minutes: 60 # Set job timeout to 1 hour
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     env:
       RUN_IN_BROWSERSTACK: true
@@ -356,9 +355,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
+      - name: Create and activate virtual environment
+        run: |
+          python3 -m venv venv 
+          source venv/bin/activate  
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
 
       - name: Install dependencies
         run: |
+          source venv/bin/activate  # Activate the virtual environment
           pip install --upgrade pip setuptools wheel
           pip uninstall -y AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
@@ -417,7 +422,7 @@ jobs:
   test-android-browserstack-python:
     needs: build-android
     timeout-minutes: 60 # Set job timeout to 1 hour
-    runs-on: [self-hosted, macOS]
+    runs-on: [self-hosted, MAC37]
 
     env:
       RUN_IN_BROWSERSTACK: true
@@ -436,10 +441,17 @@ jobs:
           name: android-build
           path: Bindings~/python/
 
+      - name: Create and activate virtual environment
+        run: |
+          python3 -m venv venv 
+          source venv/bin/activate  
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
+
       - run: ls -l Bindings~/python/
 
       - name: Install dependencies
         run: |
+          source venv/bin/activate  # Activate the virtual environment
           pip install --upgrade pip setuptools wheel
           pip uninstall -y AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
