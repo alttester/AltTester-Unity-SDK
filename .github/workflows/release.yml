@@ -2,11 +2,6 @@ name: release
 
 on:
   workflow_dispatch:
-    inputs:
-        job_name:
-          description: 'Job to run'
-          required: true
-          default: 'publish-python-pip-package'
   release:
     types: [published]
 
@@ -44,17 +39,16 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r "Bindings~/robot/requirements.txt"
+          pip install -r "Bindings~/robot/requirements.txt
           pip install -r "Bindings~/robot/requirements-dev.txt"
 
       - name: Upload to PyPi
         run: |
 
           cd "Bindings~/robot"
-          pip install --upgrade build twine
+          pip install --upgrade build twine --break-system-packages
           rm -rf dist/
-          ls
-          python3 -m build
+          python3 -m build --sdist --wheel --outdir dist .
           python3 -m twine upload dist/*
 
   publish-nuget-package:
