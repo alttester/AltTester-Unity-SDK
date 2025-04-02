@@ -10,4 +10,4 @@ the available upgrade guides.
 
     upgrade-guides/v-1-7-0
     upgrade-guides/v-1-8-0
-    upgrade-guides/v-2-2-4
+    upgrade-guides/v-2-2-5
