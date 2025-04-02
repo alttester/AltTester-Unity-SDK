@@ -663,7 +663,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                     downloadURL = match.Value;
                     Match match2 = Regex.Match(match.Value, @"(\d+_\d+_\d+)\.unitypackage");
                     var releasedVersion = match2.Groups[1].Value.Replace('_', '.');
-                    if (isCurrentVersionEqualOrNewer(releasedVersion, AltRunner.VERSION))
+                    if (isCurrentVersionOlderOrEqualThanRelease(releasedVersion, AltRunner.VERSION))
                     {
                         isNewVersionAvailable = false;
                         UnityEngine.Debug.Log("There is no new version available to download");
@@ -677,7 +677,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
         }
 
-        private bool isCurrentVersionEqualOrNewer(string releasedVersion, string version)
+        private bool isCurrentVersionOlderOrEqualThanRelease(string releasedVersion, string version)
         {
             var releasedVersionSplited = releasedVersion.Split('.');
             var currentVersionSplited = version.Split('.');
@@ -689,7 +689,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 return short.Parse(currentVersionSplited[1]) > short.Parse(releasedVersionSplited[1]);
             }
-            return short.Parse(currentVersionSplited[2]) > short.Parse(releasedVersionSplited[2]);//check patch number
+            return short.Parse(currentVersionSplited[2]) >= short.Parse(releasedVersionSplited[2]);//check patch number
 
         }
         public static async Task<HttpResponseMessage> Get(string url)

@@ -11,7 +11,6 @@
     "url": "https://alttester.com"
   },
   "dependencies": {
-    "com.alttester.sdk": "file:",
     "com.unity.nuget.newtonsoft-json": "3.1.0",
     "com.unity.editorcoroutines": "1.0.0",
     "com.unity.textmeshpro": "3.0.6"
