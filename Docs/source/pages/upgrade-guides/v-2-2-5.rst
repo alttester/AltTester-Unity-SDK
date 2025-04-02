@@ -1,7 +1,7 @@
-Upgrade from v2.2.2 to v2.2.4
+Upgrade from v2.2.2 to v2.2.5
 =============================
 
-This guide will assist in upgrading your AltTester® Unity SDK project from **v2.2.2** to **v2.2.4**.
+This guide will assist in upgrading your AltTester® Unity SDK project from **v2.2.2** to **v2.2.5**.
 
 Dotnet
 ------
