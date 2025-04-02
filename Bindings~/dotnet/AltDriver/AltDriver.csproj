@@ -4,7 +4,7 @@
         <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
         <RootNamespace>AltTester.AltTester-Driver</RootNamespace>
         <IsPackable>true</IsPackable>
-        <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">2.2.4</PackageVersion>
+        <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">2.2.5</PackageVersion>
         <PackageVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</PackageVersion>
         <Title>AltTester-Driver</Title>
         <Description>

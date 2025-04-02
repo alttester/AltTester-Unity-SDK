@@ -35,7 +35,7 @@ namespace AltTester.AltTesterSDK.Driver
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
         private static object driverLock = new object();
-        public static readonly string VERSION = "2.2.4";
+        public static readonly string VERSION = "2.2.5";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 

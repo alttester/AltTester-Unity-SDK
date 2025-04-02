@@ -1455,7 +1455,7 @@ After you finish setting up the build, you need to use the **Archive** option to
     - in case you have not done it so far, add the AltTester-Driver package as well
     ```c#
     dotnet add package Appium.WebDriver --version 4.3.1
-    dotnet add package AltTester-Driver --version 2.2.4
+    dotnet add package AltTester-Driver --version 2.2.5
     ```
     - after installing the packages, you can see them in `.csproj` (check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/client-side-ios/TestAlttrashCSharp.csproj))
 
