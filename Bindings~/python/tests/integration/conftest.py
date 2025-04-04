@@ -103,6 +103,9 @@ def alt_driver(request, appium_driver, worker_id, current_device):
         platform_version=current_device["os_version"].split(".")[0],
         timeout=180
     )
+    if alt_driver is None:
+        raise RuntimeError(
+            "Failed to initialize AltDriver instance. Please verify configuration and environment settings.")
     request.cls.alt_driver = alt_driver
     print("Started alt_driver (worker {})".format(worker_id) +
           " with device: {}".format(current_device))
