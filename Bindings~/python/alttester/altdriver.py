@@ -200,7 +200,7 @@ class AltDriver:
 
         """
 
-        return self._connection.set_command_timeout()
+        return self._connection.get_command_timeout()
 
     def set_command_response_timeout(self, timeout):
         """Sets the command response timeout for the AltTester® connection.
