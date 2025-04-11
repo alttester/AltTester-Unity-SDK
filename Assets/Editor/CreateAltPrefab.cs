@@ -248,7 +248,10 @@ namespace AltTesterTools
     {
         public static TMP_FontAsset RobotoBold;
         public static TMP_FontAsset RobotoRegular;
-
+        public static TMP_FontAsset FontAwesome;
+        public static Color DarkGreenColor = new Color(0, 0.4509804f, 0.09803922f, 1);
+        public static Color LightGreenColor = new Color(0, 0.6470588f, 0.1411765f, 1);
+        public static Color ActiveToggleColor = new Color(0, 0.6698113f, 0.1456111f, 1);
         public static GameObject CreateAltDialog(Transform parent)
         {
             var AltDialogGameObject = new GameObject("AltDialog", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster), typeof(AltDialog) });
@@ -287,7 +290,7 @@ namespace AltTesterTools
             DialogTransform.localPosition = new Vector3(0, 0, 0);
 
             var DialogImage = DialogGameObject.GetComponent<Image>();
-            DialogImage.color = new Color(0, 0.6470588f, 0.1411765f, 1);
+            DialogImage.color = LightGreenColor;
             DialogImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/Rounded20px.png");
             DialogImage.type = Image.Type.Sliced;
             DialogImage.fillCenter = true;
@@ -542,7 +545,7 @@ namespace AltTesterTools
             var RestartButtonTransform = RestartButtonGameObject.GetComponent<RectTransform>();
             RestartButtonTransform.SetParent(parent, false);
 
-            RestartButtonTransform.localPosition = new Vector3(0, -320, 0);
+            RestartButtonTransform.localPosition = new Vector3(-22.5f, -320, 0);
             RestartButtonTransform.anchorMin = new Vector2(0.5f, 0.5f);
             RestartButtonTransform.anchorMax = new Vector2(0.5f, 0.5f);
             RestartButtonTransform.sizeDelta = new Vector2(240, 40);
@@ -566,7 +569,7 @@ namespace AltTesterTools
             RestartButtonText.alignment = TextAlignmentOptions.Center;
 
             var RestartButtonImage = RestartButtonGameObject.GetComponent<Image>();
-            RestartButtonImage.color = new Color(0, 0.4509804f, 0.09803922f, 1);
+            RestartButtonImage.color = DarkGreenColor;
             RestartButtonImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/Rounded10px.png");
             RestartButtonImage.type = Image.Type.Sliced;
             RestartButtonImage.fillCenter = true;
@@ -576,6 +579,48 @@ namespace AltTesterTools
 
             return RestartButtonGameObject.GetComponent<Button>();
         }
+
+        public static Button CreateLogsButton(RectTransform parent)
+        {
+            var logsButtonGameObject = new GameObject("LogsButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button) });
+            var logsButtonTransform = logsButtonGameObject.GetComponent<RectTransform>();
+            logsButtonTransform.SetParent(parent, false);
+
+            logsButtonTransform.localPosition = new Vector3(122.5f, -320, 0);
+            logsButtonTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            logsButtonTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            logsButtonTransform.sizeDelta = new Vector2(40, 40);
+            logsButtonTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var RestartButtonTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI) });
+            var logsButtonTextTransform = RestartButtonTextGameObject.GetComponent<RectTransform>();
+            logsButtonTextTransform.SetParent(logsButtonTransform, false);
+
+            logsButtonTextTransform.localPosition = new Vector3(0, 0, 0);
+            logsButtonTextTransform.anchorMin = new Vector2(0, 0);
+            logsButtonTextTransform.anchorMax = new Vector2(1, 1);
+            logsButtonTextTransform.sizeDelta = new Vector2(0, 0);
+            logsButtonTextTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var logsButtonText = RestartButtonTextGameObject.GetComponent<TMP_Text>();
+            logsButtonText.text = "\uf15c";
+            logsButtonText.fontSize = 24;
+            logsButtonText.font = FontAwesome;
+            logsButtonText.color = Color.white;
+            logsButtonText.alignment = TextAlignmentOptions.Center;
+
+            var logsButtonImage = logsButtonGameObject.GetComponent<Image>();
+            logsButtonImage.color = DarkGreenColor;
+            logsButtonImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/Rounded10px.png");
+            logsButtonImage.type = Image.Type.Sliced;
+            logsButtonImage.fillCenter = true;
+            logsButtonImage.pixelsPerUnitMultiplier = 1;
+
+
+
+            return logsButtonGameObject.GetComponent<Button>();
+        }
+
 
         public static Button CreateCloseButton(RectTransform parent)
         {
@@ -682,6 +727,380 @@ namespace AltTesterTools
             return ToggleComponet;
         }
 
+
+        public static GameObject CreateLogsPanel(Transform parent)
+        {
+
+            var LogsPanel = new GameObject("LogsPanel", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(VerticalLayoutGroup) });
+
+            var LogsPanelTransform = LogsPanel.GetComponent<RectTransform>();
+            LogsPanelTransform.SetParent(parent, false);
+
+            LogsPanelTransform.localPosition = new Vector3(0, 0, 0);
+            LogsPanelTransform.sizeDelta = new Vector2(0, 0);
+            LogsPanelTransform.anchorMin = new Vector2(0, 0);
+            LogsPanelTransform.anchorMax = new Vector2(1, 1);
+            LogsPanelTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var logsPanelImage = LogsPanel.GetComponent<Image>();
+            logsPanelImage.color = DarkGreenColor;
+            logsPanelImage.type = Image.Type.Sliced;
+
+            var VerticalLayoutGroup = LogsPanel.GetComponent<VerticalLayoutGroup>();
+            VerticalLayoutGroup.childAlignment = TextAnchor.UpperLeft;
+            VerticalLayoutGroup.childControlHeight = true;
+            VerticalLayoutGroup.childControlWidth = true;
+            VerticalLayoutGroup.childForceExpandHeight = true;
+            VerticalLayoutGroup.childForceExpandWidth = true;
+
+            CreateLandscapeLayout(LogsPanelTransform);
+            CreateScrollViewLogs(LogsPanelTransform);
+
+            return LogsPanel;
+        }
+
+        private static void CreateScrollViewLogs(RectTransform logsPanelTransform)
+        {
+            var scrollView = new GameObject("Scroll View", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(ScrollRect), typeof(AltConsoleLogViewer), typeof(LayoutElement) });
+
+            var scrollViewTransform = scrollView.GetComponent<RectTransform>();
+            scrollViewTransform.SetParent(logsPanelTransform, false);
+            scrollViewTransform.anchorMin = new Vector2(0, 1);
+            scrollViewTransform.anchorMax = new Vector2(0, 1);
+            scrollViewTransform.pivot = new Vector2(0.5f, 0.5f);
+            var scrollViewImage = scrollView.GetComponent<Image>();
+            scrollViewImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+            scrollViewImage.color = DarkGreenColor;
+            scrollViewImage.type = Image.Type.Sliced;
+
+            var scrollViewLayoutElement = scrollView.GetComponent<LayoutElement>();
+            scrollViewLayoutElement.flexibleHeight = 1000000000000;
+
+            var viewport = new GameObject("Viewport", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Mask) });
+            var viewportTransform = viewport.GetComponent<RectTransform>();
+            viewportTransform.SetParent(scrollViewTransform, false);
+            viewportTransform.anchorMin = new Vector2(0, 0);
+            viewportTransform.anchorMax = new Vector2(1, 1);
+            viewportTransform.sizeDelta = new Vector2(-17, -17);
+            viewportTransform.pivot = new Vector2(0, 1);
+
+            var viewportImage = viewport.GetComponent<Image>();
+            viewportImage.type = Image.Type.Sliced;
+            viewportImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UIMask.psd");
+
+
+
+            var content = new GameObject("Content", new System.Type[] { typeof(RectTransform) });
+            var contentTransform = content.GetComponent<RectTransform>();
+            contentTransform.SetParent(viewportTransform, false);
+            contentTransform.anchorMin = new Vector2(0.5f, 1);
+            contentTransform.anchorMax = new Vector2(0.5f, 1);
+            contentTransform.sizeDelta = new Vector2(0, 10);
+            contentTransform.pivot = new Vector2(0, 1);
+
+
+
+            var text = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI), typeof(AltCopyTextOnClick) });
+            var textTransform = text.GetComponent<RectTransform>();
+            textTransform.SetParent(viewportTransform, false);
+            textTransform.anchorMin = new Vector2(0, 1);
+            textTransform.anchorMax = new Vector2(0, 1);
+            textTransform.sizeDelta = new Vector2(0, 50);
+            textTransform.pivot = new Vector2(0f, 1f);
+
+            var textMeshProUGUI = text.GetComponent<TextMeshProUGUI>();
+            textMeshProUGUI.fontSize = 32;
+            textMeshProUGUI.overflowMode = TextOverflowModes.Truncate;
+            textMeshProUGUI.alignment = TextAlignmentOptions.MidlineLeft;
+            text.SetActive(false);
+            var copyTextOnClick = text.GetComponent<AltCopyTextOnClick>();
+            copyTextOnClick.TmpText = textMeshProUGUI;
+
+
+
+
+            var scrollRect = scrollView.GetComponent<ScrollRect>();
+            scrollRect.viewport = viewportTransform;
+            scrollRect.content = contentTransform;
+            scrollRect.horizontalScrollbar = CreateScrollBarHorizontal(scrollViewTransform);
+            scrollRect.verticalScrollbar = CreateScrollBarVertical(scrollViewTransform);
+            scrollRect.movementType = ScrollRect.MovementType.Clamped;
+            scrollRect.scrollSensitivity = 25;
+            var consoleLog = scrollView.GetComponent<AltConsoleLogViewer>();
+            consoleLog.NormalToggleColor = DarkGreenColor;
+            consoleLog.ActiveToggleColor = ActiveToggleColor;
+            consoleLog.LogItemPrefab = text;
+
+
+
+        }
+        public static Scrollbar CreateScrollBarHorizontal(RectTransform parent)
+        {
+            var scrollBarHorizontal = new GameObject("Scrollbar Horizontal", new System.Type[] { typeof(RectTransform), typeof(Image), typeof(CanvasRenderer), typeof(Scrollbar) });
+            var scrollBarTransform = scrollBarHorizontal.GetComponent<RectTransform>();
+            scrollBarTransform.SetParent(parent, false);
+            scrollBarTransform.anchorMin = new Vector2(0, 0);
+            scrollBarTransform.anchorMax = new Vector2(1, 0);
+            scrollBarTransform.sizeDelta = new Vector2(-17, 20);
+            scrollBarTransform.pivot = new Vector2(0, 0);
+
+            var scrollImage = scrollBarHorizontal.GetComponent<Image>();
+            scrollImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd"); ;
+            scrollImage.type = Image.Type.Sliced;
+
+
+
+            var sldingArea = new GameObject("Sliding Area", new System.Type[] { typeof(RectTransform) });
+            var slidingAreaTransform = sldingArea.GetComponent<RectTransform>();
+            slidingAreaTransform.SetParent(scrollBarTransform, false);
+            slidingAreaTransform.anchorMin = new Vector2(0, 0);
+            slidingAreaTransform.anchorMax = new Vector2(1, 1);
+            slidingAreaTransform.sizeDelta = new Vector2(-20, -20);
+            slidingAreaTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var handle = new GameObject("Handle", new System.Type[] { typeof(RectTransform), typeof(Image), typeof(CanvasRenderer) });
+
+            var handleTransform = handle.GetComponent<RectTransform>();
+            handleTransform.SetParent(slidingAreaTransform, false);
+            handleTransform.anchorMin = new Vector2(0, 0);
+            handleTransform.anchorMax = new Vector2(1, 1);
+            handleTransform.sizeDelta = new Vector2(20, 20);
+            handleTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var handleImage = handle.GetComponent<Image>();
+            handleImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+            handleImage.type = Image.Type.Sliced;
+
+
+            var scroll = scrollBarHorizontal.GetComponent<Scrollbar>();
+            scroll.enabled = true;
+            scroll.direction = Scrollbar.Direction.LeftToRight;
+            scroll.handleRect = handleTransform;
+            scroll.targetGraphic = handleImage;
+            return scroll;
+        }
+        public static Scrollbar CreateScrollBarVertical(RectTransform parent)
+        {
+            var vertical = new GameObject("Scrollbar Vertical", new System.Type[] { typeof(RectTransform), typeof(Image), typeof(CanvasRenderer), typeof(Scrollbar) });
+
+            var scrollBarTransform = vertical.GetComponent<RectTransform>();
+            scrollBarTransform.SetParent(parent, false);
+            scrollBarTransform.anchorMin = new Vector2(1, 0);
+            scrollBarTransform.anchorMax = new Vector2(1, 1);
+            scrollBarTransform.sizeDelta = new Vector2(20, -17);
+            scrollBarTransform.pivot = new Vector2(1, 1);
+
+            var scrollImage = vertical.GetComponent<Image>();
+            scrollImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd"); ;
+            scrollImage.type = Image.Type.Sliced;
+
+
+
+            var sldingArea = new GameObject("Sliding Area", new System.Type[] { typeof(RectTransform) });
+            var slidingAreaTransform = sldingArea.GetComponent<RectTransform>();
+            slidingAreaTransform.SetParent(scrollBarTransform, false);
+            slidingAreaTransform.anchorMin = new Vector2(0, 0);
+            slidingAreaTransform.anchorMax = new Vector2(1, 1);
+            slidingAreaTransform.sizeDelta = new Vector2(-20, -20);
+            slidingAreaTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var handle = new GameObject("Handle", new System.Type[] { typeof(RectTransform), typeof(Image), typeof(CanvasRenderer) });
+
+            var handleTransform = handle.GetComponent<RectTransform>();
+            handleTransform.SetParent(slidingAreaTransform, false);
+            handleTransform.anchorMin = new Vector2(0, 0);
+            handleTransform.anchorMax = new Vector2(1, 1);
+            handleTransform.sizeDelta = new Vector2(20, 20);
+            handleTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var handleImage = handle.GetComponent<Image>();
+            handleImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+            handleImage.type = Image.Type.Sliced;
+
+
+            var scroll = vertical.GetComponent<Scrollbar>();
+            scroll.enabled = true;
+            scroll.direction = Scrollbar.Direction.LeftToRight;
+            scroll.handleRect = handleTransform;
+            scroll.targetGraphic = handleImage;
+            return scroll;
+        }
+
+
+        private static void CreateLandscapeLayout(RectTransform parent)
+        {
+            var landscapeLayout = new GameObject("LandscapeLayout", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(HorizontalLayoutGroup), typeof(LayoutElement), typeof(Image) });
+            var landscapeLayoutTransform = landscapeLayout.GetComponent<RectTransform>();
+            landscapeLayoutTransform.SetParent(parent, false);
+            landscapeLayoutTransform.sizeDelta = new Vector2(1852, 100);
+            landscapeLayoutTransform.pivot = new Vector2(0.5f, 1);
+            landscapeLayoutTransform.anchorMin = new Vector2(0, 1);
+            landscapeLayoutTransform.anchorMax = new Vector2(0, 1);
+
+            var image = landscapeLayout.GetComponent<Image>();
+            image.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+            image.color = LightGreenColor;
+            image.type = Image.Type.Sliced;
+
+            var horizontalLayoutGroup = landscapeLayout.GetComponent<HorizontalLayoutGroup>();
+            horizontalLayoutGroup.padding.left = 10;
+            horizontalLayoutGroup.padding.right = 10;
+            horizontalLayoutGroup.spacing = 5;
+            horizontalLayoutGroup.childAlignment = TextAnchor.MiddleCenter;
+            horizontalLayoutGroup.childControlWidth = true;
+
+            var layoutElement = landscapeLayout.GetComponent<LayoutElement>();
+            layoutElement.preferredHeight = 100;
+
+
+
+
+            CreateLogsToggle(landscapeLayoutTransform, "Log", "\uf05a");
+            CreateLogsToggle(landscapeLayoutTransform, "Warning", "\uf071");
+            CreateLogsToggle(landscapeLayoutTransform, "Error", "\uf057");
+
+            CreateLogsFilter(landscapeLayoutTransform);
+
+            CreateLogsButton(landscapeLayoutTransform, "ClearButton", "\uf2ed");
+            CreateLogsButton(landscapeLayoutTransform, "CopyButton", "\uf0c5");
+            CreateLogsButton(landscapeLayoutTransform, "CloseButton", "\uf00d");
+
+
+
+
+        }
+
+        private static void CreateLogsFilter(RectTransform landscapeLayoutTransform)
+        {
+            var filter = new GameObject("Filter", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(LayoutElement), typeof(Image), typeof(TMP_InputField) });
+            var filterTransform = filter.GetComponent<RectTransform>();
+            filterTransform.sizeDelta = new Vector2(1500, 60);
+            filterTransform.anchoredPosition = new Vector2(50, -50);
+            filterTransform.pivot = new Vector2(0.5f, 0.5f);
+            filterTransform.SetParent(landscapeLayoutTransform, false);
+
+            var image = filter.GetComponent<Image>();
+            image.type = Image.Type.Sliced;
+            image.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/InputFieldBackground.psd");
+
+            var layoutElement = filter.GetComponent<LayoutElement>();
+            layoutElement.flexibleWidth = 1000000;
+            layoutElement.layoutPriority = 1;
+            var inputField = filter.GetComponent<TMP_InputField>();
+
+            var textArea = new GameObject("Text Area", new System.Type[] { typeof(RectTransform), typeof(RectMask2D) });
+            var textAreaTransform = textArea.GetComponent<RectTransform>();
+            textAreaTransform.SetParent(filterTransform, false);
+            textAreaTransform.sizeDelta = new Vector2(-20, -13);
+            textAreaTransform.pivot = new Vector2(0.5f, 0.5f);
+            textAreaTransform.anchorMin = new Vector2(0, 0);
+            textAreaTransform.anchorMax = new Vector2(1, 1);
+            var rectMask2D = textArea.GetComponent<RectMask2D>();
+            rectMask2D.padding = new Vector4(-8, -5, -8, -5);
+
+
+            var placeholder = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(TextMeshProUGUI) });
+            var placeholderTransform = placeholder.GetComponent<RectTransform>();
+            placeholderTransform.SetParent(textAreaTransform, false);
+            placeholderTransform.sizeDelta = new Vector2(0, 0);
+            placeholderTransform.pivot = new Vector2(0.5f, 0.5f);
+            placeholderTransform.anchorMin = new Vector2(0, 0);
+            placeholderTransform.anchorMax = new Vector2(1, 1);
+            var placeholderText = placeholder.GetComponent<TextMeshProUGUI>();
+            placeholderText.text = "Enter text...";
+            placeholderText.fontStyle = FontStyles.Italic;
+            placeholderText.fontSize = 26;
+            placeholderText.color = new Color(0.196f, 0.196f, 0.196f, 0.5f);
+            placeholderText.verticalAlignment = VerticalAlignmentOptions.Middle;
+            inputField.placeholder = placeholderText;
+
+
+
+            var Text = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(TextMeshProUGUI) });
+            var textTransform = Text.GetComponent<RectTransform>();
+            textTransform.SetParent(textAreaTransform, false);
+            textTransform.sizeDelta = new Vector2(0, 0);
+            textTransform.pivot = new Vector2(0.5f, 0.5f);
+            textTransform.anchorMin = new Vector2(0, 0);
+            textTransform.anchorMax = new Vector2(1, 1);
+
+            var TextText = Text.GetComponent<TextMeshProUGUI>();
+            TextText.verticalAlignment = VerticalAlignmentOptions.Middle;
+            TextText.fontSize = 26;
+            TextText.color = Color.black;
+            inputField.textComponent = TextText;
+            inputField.textViewport = textAreaTransform;
+
+
+
+        }
+
+        private static void CreateLogsToggle(RectTransform parent, string name, string icon)
+        {
+            var log = new GameObject(name, new System.Type[] { typeof(RectTransform), typeof(Toggle), typeof(LayoutElement), typeof(Image) });
+
+            var logTransform = log.GetComponent<RectTransform>();
+            logTransform.sizeDelta = new Vector2(80, 80);
+            logTransform.anchoredPosition = new Vector2(50, -50);
+            logTransform.pivot = new Vector2(0.5f, 0.5f);
+            logTransform.SetParent(parent, false);
+            var toggle = logTransform.GetComponent<Toggle>();
+            toggle.isOn = true;
+            toggle.transition = Selectable.Transition.None;
+            var layoutElement = logTransform.GetComponent<LayoutElement>();
+            layoutElement.minHeight = 80;
+            layoutElement.preferredHeight = 80;
+            layoutElement.preferredWidth = 80;
+            layoutElement.minWidth = 80;
+            layoutElement.layoutPriority = 1;
+
+            var toggleImage = log.GetComponent<Image>();
+            toggleImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+            toggleImage.color = DarkGreenColor;
+            toggleImage.type = Image.Type.Sliced;
+
+            CreateTextWithIcon(logTransform, "TextToggle", icon);
+
+        }
+        private static void CreateLogsButton(RectTransform parent, string name, string icon)
+        {
+            var button = new GameObject(name, new System.Type[] { typeof(RectTransform), typeof(Button), typeof(LayoutElement), typeof(Image) });
+
+            var buttonTransform = button.GetComponent<RectTransform>();
+            buttonTransform.sizeDelta = new Vector2(80, 80);
+            buttonTransform.pivot = new Vector2(0.5f, 0.5f);
+            buttonTransform.SetParent(parent, false);
+
+            var layoutElement = buttonTransform.GetComponent<LayoutElement>();
+            layoutElement.minHeight = 80;
+            layoutElement.preferredHeight = 80;
+            layoutElement.preferredWidth = 80;
+            layoutElement.minWidth = 80;
+            layoutElement.layoutPriority = 1;
+
+            var buttonImage = button.GetComponent<Image>();
+            buttonImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+            buttonImage.color = DarkGreenColor;
+            buttonImage.type = Image.Type.Sliced;
+            CreateTextWithIcon(buttonTransform, "ButtonText", icon);
+        }
+        public static void CreateTextWithIcon(RectTransform parent, string name, string icon)
+        {
+            var text = new GameObject(name, new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI) });
+            var textTransform = text.GetComponent<RectTransform>();
+            textTransform.SetParent(parent, false);
+            textTransform.sizeDelta = new Vector2(45, 45);
+            textTransform.anchoredPosition = new Vector2(0, 0);
+            textTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var textMeshProUGUI = text.GetComponent<TextMeshProUGUI>();
+            textMeshProUGUI.text = icon;
+            textMeshProUGUI.fontSize = 48;
+            textMeshProUGUI.font = FontAwesome;
+            textMeshProUGUI.color = Color.white;
+            textMeshProUGUI.alignment = TextAlignmentOptions.Center;
+        }
+
         public static void SetUpAltRunnerVariables(AltRunner altRunnerComponent)
         {
             var outlineShader = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Runtime/Shader/OutlineShader.shader", typeof(Shader));
@@ -725,6 +1144,7 @@ namespace AltTesterTools
         {
             RobotoBold = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/AltTester/Resources/Roboto-Bold SDF.asset");
             RobotoRegular = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/AltTester/Resources/Roboto-Regular SDF.asset");
+            FontAwesome = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/AltTester/Resources/Font Awesome 5 Free-Solid-900 SDF.asset");
             var prefab = CreatePrefab();
             SavePrefab(prefab);
         }
@@ -733,6 +1153,7 @@ namespace AltTesterTools
         {
             RobotoBold = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/AltTester/Resources/Roboto-Bold SDF.asset");
             RobotoRegular = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/AltTester/Resources/Roboto-Regular SDF.asset");
+            FontAwesome = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/AltTester/Resources/Font Awesome 5 Free-Solid-900 SDF.asset");
             var prefab = CreatePrefab();
             SavePrefab(prefab, false);
         }
@@ -773,11 +1194,14 @@ namespace AltTesterTools
             AltDialog.PortInputField = CreatePortInputField(InfoAreaTransform);
             AltDialog.AppNameInputField = CreateAppNameInputField(InfoAreaTransform);
             AltDialog.RestartButton = CreateRestartButton(DialogTransform);
+            AltDialog.LogButton = CreateLogsButton(DialogTransform);
             AltDialog.CustomInputToggle = CreateCustomInputToggle(DialogTransform);
+            AltDialog.LogsPanel = CreateLogsPanel(AltDialogTransform);
+
             return Prefab;
         }
 
-        private static GameObject CreateInfoArea(RectTransform parent)
+        private static GameObject CreateInfoArea(Transform parent)
         {
             var InfoArea = new GameObject("InfoArea", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
 
@@ -792,7 +1216,7 @@ namespace AltTesterTools
             InfoAreaTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var InfoAreaImage = InfoArea.GetComponent<Image>();
-            InfoAreaImage.color = new Color(0, 0.4509804f, 0.09803922f, 1);
+            InfoAreaImage.color = DarkGreenColor;
             InfoAreaImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/Rounded10px.png");
             InfoAreaImage.type = Image.Type.Sliced;
             InfoAreaImage.fillCenter = true;
