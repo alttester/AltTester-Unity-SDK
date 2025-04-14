@@ -29,6 +29,8 @@ using System.Net;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine.Networking;
+using UnityEngine.UI;
+
 
 
 
@@ -98,7 +100,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         [SerializeField]
         public UnityEngine.UI.Toggle CustomInputToggle = null;
-
+        [SerializeField] public Button LogButton = null;
+        [SerializeField] public GameObject LogsPanel = null;
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
         private RuntimeCommunicationHandler communicationClient;
@@ -156,6 +159,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             resetConnectionDataBasedOnUID();
             setUpRestartButton();
             setUpCustomInputToggle();
+            setUpLogButton();
 
             this.platform = Application.platform.ToString();
             this.platformVersion = SystemInfo.operatingSystem;
@@ -396,6 +400,11 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             CustomInputToggle.onValueChanged.AddListener(ToggleCustomInput);
             ToggleCustomInput(false);
+        }
+        private void setUpLogButton()
+        {
+            LogButton.onClick.AddListener(() => LogsPanel.SetActive(true));
+            LogsPanel.SetActive(false);
         }
 
         public void ToggleCustomInput(bool value)
