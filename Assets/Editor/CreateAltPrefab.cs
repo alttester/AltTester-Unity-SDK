@@ -755,8 +755,40 @@ namespace AltTesterTools
 
             CreateLandscapeLayout(LogsPanelTransform);
             CreateScrollViewLogs(LogsPanelTransform);
+            CreateBackgroundClipboard(parent);
+
 
             return LogsPanel;
+        }
+
+        private static void CreateBackgroundClipboard(Transform logsPanelTransform)
+        {
+            var BackgroundClipboard = new GameObject("BackgroundClipboard", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(CanvasGroup) });
+            var BackgroundClipboardTransform = BackgroundClipboard.GetComponent<RectTransform>();
+            BackgroundClipboardTransform.SetParent(logsPanelTransform, false);
+            BackgroundClipboardTransform.anchorMin = new Vector2(0.5f, 1);
+            BackgroundClipboardTransform.anchorMax = new Vector2(0.5f, 1);
+            BackgroundClipboardTransform.pivot = new Vector2(0.5f, 1);
+            BackgroundClipboardTransform.sizeDelta = new Vector2(300, 50);
+
+            var BackgroundImage = BackgroundClipboard.GetComponent<Image>();
+            BackgroundImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+            BackgroundImage.color = DarkGreenColor;
+            BackgroundImage.type = Image.Type.Sliced;
+
+            var ClipboardText = new GameObject("ClipboardText", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI) });
+            var ClipboardTextTransform = ClipboardText.GetComponent<RectTransform>();
+            ClipboardTextTransform.SetParent(BackgroundClipboardTransform, false);
+            ClipboardTextTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            ClipboardTextTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            ClipboardTextTransform.pivot = new Vector2(0.5f, 0.5f);
+            ClipboardTextTransform.sizeDelta = new Vector2(300, 50);
+
+            var Text = ClipboardText.GetComponent<TextMeshProUGUI>();
+            Text.text = "Copied to clipboard";
+            Text.alignment = TextAlignmentOptions.Center;
+            Text.fontSize = 30;
+            Text.font = RobotoRegular;
         }
 
         private static void CreateScrollViewLogs(RectTransform logsPanelTransform)
@@ -787,6 +819,9 @@ namespace AltTesterTools
             var viewportImage = viewport.GetComponent<Image>();
             viewportImage.type = Image.Type.Sliced;
             viewportImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UIMask.psd");
+            viewportImage.color = new Color(0, 0, 0, 1);
+
+            viewport.GetComponent<Mask>().showMaskGraphic = false;
 
 
 
@@ -824,12 +859,16 @@ namespace AltTesterTools
             scrollRect.content = contentTransform;
             scrollRect.horizontalScrollbar = CreateScrollBarHorizontal(scrollViewTransform);
             scrollRect.verticalScrollbar = CreateScrollBarVertical(scrollViewTransform);
+            scrollRect.horizontalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
+            scrollRect.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
             scrollRect.movementType = ScrollRect.MovementType.Clamped;
             scrollRect.scrollSensitivity = 25;
             var consoleLog = scrollView.GetComponent<AltConsoleLogViewer>();
             consoleLog.NormalToggleColor = DarkGreenColor;
             consoleLog.ActiveToggleColor = ActiveToggleColor;
             consoleLog.LogItemPrefab = text;
+            consoleLog.fadeDuration = 0.2f;
+            consoleLog.showDuration = 0.2f;
 
 
 
@@ -988,6 +1027,7 @@ namespace AltTesterTools
             layoutElement.layoutPriority = 1;
             var inputField = filter.GetComponent<TMP_InputField>();
 
+
             var textArea = new GameObject("Text Area", new System.Type[] { typeof(RectTransform), typeof(RectMask2D) });
             var textAreaTransform = textArea.GetComponent<RectTransform>();
             textAreaTransform.SetParent(filterTransform, false);
@@ -1032,6 +1072,32 @@ namespace AltTesterTools
             inputField.textViewport = textAreaTransform;
 
 
+            var ResetSearchButton = new GameObject("ResetSearchButton", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Button), typeof(Image) });
+            var resetSearchButtonTransform = ResetSearchButton.GetComponent<RectTransform>();
+            resetSearchButtonTransform.SetParent(filterTransform, false);
+            resetSearchButtonTransform.sizeDelta = new Vector2(40, 40);
+            resetSearchButtonTransform.anchorMin = new Vector2(1, 0.5f);
+            resetSearchButtonTransform.anchorMax = new Vector2(1, 0.5f);
+            resetSearchButtonTransform.pivot = new Vector2(1, 0.5f);
+
+            ResetSearchButton.GetComponent<Button>().transition = Selectable.Transition.None;
+            ResetSearchButton.GetComponent<Image>().color = Color.clear;
+
+
+            var resetSearchText = new GameObject("ResetSearchText", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI) });
+            var resetSearchTextTransform = resetSearchText.GetComponent<RectTransform>();
+            resetSearchTextTransform.SetParent(resetSearchButtonTransform, false);
+            resetSearchTextTransform.sizeDelta = new Vector2(40, 40);
+            resetSearchTextTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            resetSearchTextTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            resetSearchTextTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var resetText = resetSearchText.GetComponent<TextMeshProUGUI>();
+            resetText.text = "\uf00d";
+            resetText.fontSize = 36;
+            resetText.alignment = TextAlignmentOptions.Center;
+            resetText.font = FontAwesome;
+            resetText.color = Color.black;
 
         }
 

@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using AltWebSocketSharp;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +17,7 @@ public class AltConsoleLogViewer : MonoBehaviour
     [SerializeField] private Button clearButton;
     [SerializeField] private Button copyButton;
     [SerializeField] private Button closeButton;
+    [SerializeField] private Button resetFilterButton;
     [SerializeField] private Toggle logToggle;
     [SerializeField] private Toggle warningToggle;
     [SerializeField] private Toggle errorToggle;
@@ -27,6 +30,14 @@ public class AltConsoleLogViewer : MonoBehaviour
     [SerializeField] private int maxLogCount = 1000;
     [SerializeField] private float verticalPadding = 5f;
     [SerializeField] private float topBottomPadding = 10f;
+
+
+    private Canvas canvas;
+    private GameObject notificationPrefab;
+
+    [Header("Animation Settings")]
+    public float fadeDuration = 0.5f;
+    public float showDuration = 1.0f;
 
     private Image logToggleImage;
     private Image warningToggleImage;
@@ -43,6 +54,8 @@ public class AltConsoleLogViewer : MonoBehaviour
     private bool showErrors = true;
     private bool isInitialized = false;
 
+    public static AltConsoleLogViewer Instance { get; private set; }
+
     public class LogData
     {
         public string Message;
@@ -53,15 +66,19 @@ public class AltConsoleLogViewer : MonoBehaviour
 
     protected void Awake()
     {
+        Instance = this;
         content = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/Scroll View/Viewport/Content").GetComponent<RectTransform>();
         scrollRect = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/Scroll View").GetComponent<ScrollRect>();
         filterInput = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Filter").GetComponent<TMP_InputField>();
         clearButton = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/ClearButton").GetComponent<Button>();
         copyButton = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/CopyButton").GetComponent<Button>();
         closeButton = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/CloseButton").GetComponent<Button>();
+        resetFilterButton = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Filter/ResetSearchButton").GetComponent<Button>();
         logToggle = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Log").GetComponent<Toggle>();
         warningToggle = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Warning").GetComponent<Toggle>();
         errorToggle = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Error").GetComponent<Toggle>();
+        canvas = GameObject.Find("AltTesterPrefab/AltDialog").GetComponent<Canvas>();
+        notificationPrefab = GameObject.Find("AltTesterPrefab/AltDialog/BackgroundClipboard");
 
         initializePool();
         setupUIListeners();
@@ -70,8 +87,9 @@ public class AltConsoleLogViewer : MonoBehaviour
         needsRefresh = true;
         content.anchoredPosition = Vector2.zero;
         scrollRect.verticalNormalizedPosition = 1;
-
-
+        resetFilterButton.gameObject.SetActive(false);
+        resetFilterButton.onClick.AddListener(() => { filterInput.text = ""; resetFilterButton.gameObject.SetActive(false); });
+        notificationPrefab.SetActive(false);
 
     }
 
@@ -294,6 +312,7 @@ public class AltConsoleLogViewer : MonoBehaviour
 
     private void filterLogs(string filter)
     {
+        resetFilterButton.gameObject.SetActive(!filter.IsNullOrEmpty());
         currentFilter = filter;
         needsRefresh = true;
     }
@@ -307,6 +326,7 @@ public class AltConsoleLogViewer : MonoBehaviour
 
     private void copyLogs()
     {
+        ShowClipboardNotification(Input.mousePosition);
         StringBuilder sb = new StringBuilder();
         foreach (var log in filteredLogs)
         {
@@ -329,5 +349,51 @@ public class AltConsoleLogViewer : MonoBehaviour
     protected void OnDestroy()
     {
         Application.logMessageReceived -= handleLog;
+    }
+
+
+
+
+    public void ShowClipboardNotification(Vector2 screenPosition, string message = "Copied to clipboard")
+    {
+        // Instantiate the full prefab
+        GameObject instance = Instantiate(notificationPrefab, canvas.transform);
+        instance.transform.position = screenPosition;
+        instance.SetActive(true);
+        // Set the message text
+        TextMeshProUGUI text = instance.GetComponentInChildren<TextMeshProUGUI>();
+        text.text = message;
+
+        // Get CanvasGroup to control alpha
+        CanvasGroup group = instance.GetComponent<CanvasGroup>();
+        group.alpha = 0f;
+
+        StartCoroutine(AnimateNotification(group, instance));
+    }
+
+    private IEnumerator AnimateNotification(CanvasGroup group, GameObject instance)
+    {
+        float time = 0f;
+
+        // Fade in
+        while (time < fadeDuration)
+        {
+            time += Time.deltaTime;
+            group.alpha = Mathf.Clamp01(time / fadeDuration);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(showDuration);
+
+        // Fade out
+        time = 0f;
+        while (time < fadeDuration)
+        {
+            time += Time.deltaTime;
+            group.alpha = 1f - Mathf.Clamp01(time / fadeDuration);
+            yield return null;
+        }
+
+        Destroy(instance);
     }
 }

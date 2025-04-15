@@ -273,6 +273,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             dialogImage.color = primaryColor;
             restartButton.color = secondaryColor;
             infoArea.color = secondaryColor;
+            LogButton.GetComponent<Image>().color = secondaryColor;
             MessageText.text = message;
         }
 

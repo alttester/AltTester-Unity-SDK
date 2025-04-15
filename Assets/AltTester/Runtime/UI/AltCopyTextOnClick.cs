@@ -10,6 +10,7 @@ public class AltCopyTextOnClick : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        AltConsoleLogViewer.Instance.ShowClipboardNotification(Input.mousePosition);
         GUIUtility.systemCopyBuffer = Regex.Replace(TmpText.text, "<.*?>", string.Empty);
     }
 }
