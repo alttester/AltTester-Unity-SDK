@@ -93,13 +93,17 @@ public class AltConsoleLogViewer : MonoBehaviour
         resetFilterButton.gameObject.SetActive(false);
         resetFilterButton.onClick.AddListener(() => { filterInput.text = ""; resetFilterButton.gameObject.SetActive(false); });
         notificationPrefab.SetActive(false);
+        scrollToBottom();
 
     }
 
+    protected void Start()
+    {
+        scrollToBottom();
+    }
 
     protected void OnEnable()
     {
-        needsRefresh = true;
         scrollToBottom();
     }
 
@@ -309,6 +313,7 @@ public class AltConsoleLogViewer : MonoBehaviour
 
     private void scrollToBottom()
     {
+        needsRefresh = true;
         if (filteredLogs.Count > 0)
         {
             scrollRect.verticalNormalizedPosition = 0;

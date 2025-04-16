@@ -932,6 +932,7 @@ namespace AltTesterTools
             var scrollImage = vertical.GetComponent<Image>();
             scrollImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd"); ;
             scrollImage.type = Image.Type.Sliced;
+            scrollImage.color = LightGreenColor;
 
 
             var sldingArea = new GameObject("Sliding Area", new System.Type[] { typeof(RectTransform) });
@@ -954,6 +955,7 @@ namespace AltTesterTools
             var handleImage = handle.GetComponent<Image>();
             handleImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
             handleImage.type = Image.Type.Sliced;
+            handleImage.color = DarkGreenColor;
 
 
             var scroll = vertical.GetComponent<Scrollbar>();
