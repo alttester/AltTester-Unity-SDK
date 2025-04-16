@@ -5,6 +5,9 @@ using System.Text;
 using AltWebSocketSharp;
 using TMPro;
 using UnityEngine;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 using UnityEngine.UI;
 
 public class AltConsoleLogViewer : MonoBehaviour
@@ -90,12 +93,18 @@ public class AltConsoleLogViewer : MonoBehaviour
         resetFilterButton.gameObject.SetActive(false);
         resetFilterButton.onClick.AddListener(() => { filterInput.text = ""; resetFilterButton.gameObject.SetActive(false); });
         notificationPrefab.SetActive(false);
+        scrollToBottom();
 
+    }
+
+    protected void Start()
+    {
+        scrollToBottom();
     }
 
     protected void OnEnable()
     {
-        needsRefresh = true;
+        scrollToBottom();
     }
 
     private void initializePool()
@@ -304,6 +313,7 @@ public class AltConsoleLogViewer : MonoBehaviour
 
     private void scrollToBottom()
     {
+        needsRefresh = true;
         if (filteredLogs.Count > 0)
         {
             scrollRect.verticalNormalizedPosition = 0;
@@ -326,7 +336,7 @@ public class AltConsoleLogViewer : MonoBehaviour
 
     private void copyLogs()
     {
-        ShowClipboardNotification(Input.mousePosition);
+        ShowClipboardNotification(GetMousePosition());
         StringBuilder sb = new StringBuilder();
         foreach (var log in filteredLogs)
         {
@@ -334,6 +344,15 @@ public class AltConsoleLogViewer : MonoBehaviour
         }
 
         GUIUtility.systemCopyBuffer = sb.ToString();
+    }
+
+    public static Vector2 GetMousePosition()
+    {
+#if ENABLE_INPUT_SYSTEM
+        return Mouse.current.position.ReadValue();
+#else
+        return Input.mousePosition;
+#endif
     }
 
     private string stripRichText(string input)

@@ -773,7 +773,7 @@ namespace AltTesterTools
 
             var BackgroundImage = BackgroundClipboard.GetComponent<Image>();
             BackgroundImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
-            BackgroundImage.color = DarkGreenColor;
+            BackgroundImage.color = LightGreenColor;
             BackgroundImage.type = Image.Type.Sliced;
 
             var ClipboardText = new GameObject("ClipboardText", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI) });
@@ -926,13 +926,13 @@ namespace AltTesterTools
             scrollBarTransform.SetParent(parent, false);
             scrollBarTransform.anchorMin = new Vector2(1, 0);
             scrollBarTransform.anchorMax = new Vector2(1, 1);
-            scrollBarTransform.sizeDelta = new Vector2(20, -17);
+            scrollBarTransform.sizeDelta = new Vector2(35, 0);
             scrollBarTransform.pivot = new Vector2(1, 1);
 
             var scrollImage = vertical.GetComponent<Image>();
             scrollImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd"); ;
             scrollImage.type = Image.Type.Sliced;
-
+            scrollImage.color = LightGreenColor;
 
 
             var sldingArea = new GameObject("Sliding Area", new System.Type[] { typeof(RectTransform) });
@@ -940,7 +940,7 @@ namespace AltTesterTools
             slidingAreaTransform.SetParent(scrollBarTransform, false);
             slidingAreaTransform.anchorMin = new Vector2(0, 0);
             slidingAreaTransform.anchorMax = new Vector2(1, 1);
-            slidingAreaTransform.sizeDelta = new Vector2(-20, -20);
+            slidingAreaTransform.sizeDelta = new Vector2(20, 0);
             slidingAreaTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var handle = new GameObject("Handle", new System.Type[] { typeof(RectTransform), typeof(Image), typeof(CanvasRenderer) });
@@ -949,17 +949,18 @@ namespace AltTesterTools
             handleTransform.SetParent(slidingAreaTransform, false);
             handleTransform.anchorMin = new Vector2(0, 0);
             handleTransform.anchorMax = new Vector2(1, 1);
-            handleTransform.sizeDelta = new Vector2(20, 20);
+            handleTransform.sizeDelta = new Vector2(-30, -20);
             handleTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var handleImage = handle.GetComponent<Image>();
             handleImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
             handleImage.type = Image.Type.Sliced;
+            handleImage.color = DarkGreenColor;
 
 
             var scroll = vertical.GetComponent<Scrollbar>();
             scroll.enabled = true;
-            scroll.direction = Scrollbar.Direction.LeftToRight;
+            scroll.direction = Scrollbar.Direction.BottomToTop;
             scroll.handleRect = handleTransform;
             scroll.targetGraphic = handleImage;
             return scroll;
