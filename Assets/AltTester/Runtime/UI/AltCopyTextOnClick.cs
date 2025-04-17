@@ -11,6 +11,11 @@ public class AltCopyTextOnClick : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         AltConsoleLogViewer.Instance.ShowClipboardNotification(AltConsoleLogViewer.GetMousePosition());
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+    AltConsoleLogViewer.Instance.Copy(Regex.Replace(TmpText.text, "<.*?>", string.Empty));
+#else
         GUIUtility.systemCopyBuffer = Regex.Replace(TmpText.text, "<.*?>", string.Empty);
+#endif
     }
 }
