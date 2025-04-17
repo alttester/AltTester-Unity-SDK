@@ -381,6 +381,15 @@ private static extern void CopyToClipboard(string str);
 #endif
     }
 
+    public static Vector2 GetMousePosition()
+    {
+#if ENABLE_INPUT_SYSTEM
+        return Mouse.current.position.ReadValue();
+#else
+        return Input.mousePosition;
+#endif
+    }
+
     private string stripRichText(string input)
     {
         return System.Text.RegularExpressions.Regex.Replace(input, "<.*?>", string.Empty);
