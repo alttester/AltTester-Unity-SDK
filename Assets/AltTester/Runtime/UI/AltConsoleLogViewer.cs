@@ -9,6 +9,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 using UnityEngine.UI;
+#if UNITY_WEBGL && !UNITY_EDITOR
+using System.Runtime.InteropServices;
+#endif
+
 
 public class AltConsoleLogViewer : MonoBehaviour
 {
@@ -59,6 +63,11 @@ public class AltConsoleLogViewer : MonoBehaviour
 
     public static AltConsoleLogViewer Instance { get; private set; }
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+[DllImport("__Internal")]
+private static extern void CopyToClipboard(string str);
+#endif
+
     public class LogData
     {
         public string Message;
@@ -66,10 +75,21 @@ public class AltConsoleLogViewer : MonoBehaviour
         public LogType LogType;
         public string FullText;
     }
+    public void Copy(string str)
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        CopyToClipboard(str);
+#endif
+    }
 
     protected void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(this);
+        }
         content = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/Scroll View/Viewport/Content").GetComponent<RectTransform>();
         scrollRect = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/Scroll View").GetComponent<ScrollRect>();
         filterInput = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Filter").GetComponent<TMP_InputField>();
@@ -338,12 +358,18 @@ public class AltConsoleLogViewer : MonoBehaviour
     {
         ShowClipboardNotification(GetMousePosition());
         StringBuilder sb = new StringBuilder();
+        sb.Clear();
         foreach (var log in filteredLogs)
         {
             sb.AppendLine(stripRichText(log.FullText));
         }
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+    CopyToClipboard(sb.ToString());
+#else
         GUIUtility.systemCopyBuffer = sb.ToString();
+#endif
+        sb.Clear();
     }
 
     public static Vector2 GetMousePosition()
