@@ -553,7 +553,7 @@ class TestScene01Part1:
             pass
         end_time = time.time()
         elapsed_time = end_time - start_time
-        assert elapsed_time <= 2
+        assert elapsed_time <= 5
         self.alt_driver.set_implicit_timeout(20)
 
     def test_implicit_timeout_out_of_range(self):

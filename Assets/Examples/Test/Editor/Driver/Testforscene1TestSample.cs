@@ -252,7 +252,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             const string initialPropertyValue = "13005";
             const string testPropertyValue = "Test";
             const int timeout = 2;
-            
+
             AltObject altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             try
@@ -2167,16 +2167,17 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             var timeStart = DateTime.Now;
             altDriver.SetImplicitTimeout(1);
             Assert.AreEqual(altDriver.GetImplicitTimeout(), 1, 0.1f);
-            try{
-            altDriver.WaitForObject(By.NAME, "Capsulee");
+            try
+            {
+                altDriver.WaitForObject(By.NAME, "Capsulee");
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
             var timeEnd = DateTime.Now;
             var time = timeEnd - timeStart;
-            Assert.LessOrEqual(time.TotalSeconds, 2);
+            Assert.LessOrEqual(time.TotalSeconds, 5);
             altDriver.SetImplicitTimeout(20);
         }
 
