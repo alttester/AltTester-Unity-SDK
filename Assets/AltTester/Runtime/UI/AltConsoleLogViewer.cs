@@ -84,12 +84,12 @@ private static extern void CopyToClipboard(string str);
 
     protected void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
+        if (Instance != null)
         {
-            Destroy(this);
+            DestroyImmediate(this);
+            return;
         }
+        Instance = this;
         content = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/Scroll View/Viewport/Content").GetComponent<RectTransform>();
         scrollRect = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/Scroll View").GetComponent<ScrollRect>();
         filterInput = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Filter").GetComponent<TMP_InputField>();
