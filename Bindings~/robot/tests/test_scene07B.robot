@@ -12,7 +12,7 @@ Test Multipoint Swipe NIS
                 ${list1}=    Create List    Drag Image1    Drop Box1
                 ${list2}=    Create List    Drag Image2    Drop Box1    Drop Box2
                 Drop Image With Multipoint Swipe    ${list1}    1    ${False}
-                Drop Image With Multipoint Swipe    ${list2}    1    ${False}
+                Drop Image With Multipoint Swipe    ${list2}    1    ${True}
                 ${image_source}    ${image_source_drop_zone}=    Get Sprite Name    Drag Image1    Drop Image
                 Should Be Equal    ${image_source}    ${image_source_drop_zone}
                 ${image_source}    ${image_source_drop_zone}=    Get Sprite Name    Drag Image2    Drop

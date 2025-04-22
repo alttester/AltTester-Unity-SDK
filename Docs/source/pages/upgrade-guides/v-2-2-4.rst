@@ -1,9 +1,0 @@
-Upgrade from v2.2.2 to v2.2.4
-=============================
-
-This guide will assist in upgrading your AltTester® Unity SDK project from **v2.2.2** to **v2.2.4**.
-
-Dotnet
-------
-
-We changed the namespaces containing `AltTesterUnitySDK.Driver` into `AltTesterSDK.Driver`. So anywhere in your tests where you have the `using` keyword, you should make this change to avoid compiler errors.
