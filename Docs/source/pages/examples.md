@@ -36,7 +36,7 @@ We plan to add more examples in the near future.
     Import this package under your AltTester® package in Unity, to have access to the SampleScenes and C# tests.
 
 
-**3.** Example test projects for AltTester® Unity SDK v.2.0.1 and the New Input System:
+**3.** Example test projects for AltTester® Unity SDK v.2.2.* and the New Input System:
 
 * C# tests [CoinCollector](https://github.com/alttester/EXAMPLES-NewInputSystem--CoinCollector-CSharp)
 * C# tests [LeanTouch](https://github.com/alttester/EXAMPLES-NewInputSystem--LeanTouch-CSharp)
