@@ -225,6 +225,20 @@ namespace AltTester.AltTesterSDK.Driver.Tests
 
             Assert.AreEqual("__default__", propertyValue);
         }
+
+        [Test]
+        public void TestGetComponentPropertyDictionary()
+        {
+            const string componentName = "AltExampleScriptCapsule";
+            const string propertyName = "dictionary.key1";
+            string propertyValueExpected = "value1";
+            var altElement = altDriver.FindObject(By.NAME, "Capsule");
+            Assert.NotNull(altElement);
+            var propertyValue = altElement.WaitForComponentProperty(componentName, propertyName, propertyValueExpected, "Assembly-CSharp");
+
+
+            Assert.AreEqual(propertyValueExpected, propertyValue);
+        }
         [Test]
         public void TestWaitForComponentPropertyComponentNotFound()
         {

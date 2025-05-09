@@ -144,8 +144,32 @@ namespace AltTester.AltTesterUnitySDK.Commands
             for (int i = 1; i < fieldArray.Length && value != null; i++)
             {
                 index = getArrayIndex(fieldArray[i], out propertyName);
-                memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
-                value = GetValue(value, memberInfo, index);
+                if (value is IDictionary dictionary)
+                {
+                    object matchedKey = null;
+                    foreach (object key in dictionary.Keys)
+                    {
+                        string keyStr = key is IFormattable formattable
+                            ? formattable.ToString(null, CultureInfo.InvariantCulture)
+                            : key.ToString();
+
+                        if (string.Equals(keyStr, propertyName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            matchedKey = key;
+                            break;
+                        }
+                    }
+                    if (matchedKey == null)
+                    {
+                        return null;
+                    }
+                    value = dictionary[matchedKey];
+                }
+                else
+                {
+                    memberInfo = GetMemberForObjectComponent(value.GetType(), propertyName);
+                    value = GetValue(value, memberInfo, index);
+                }
             }
             return value;
         }
