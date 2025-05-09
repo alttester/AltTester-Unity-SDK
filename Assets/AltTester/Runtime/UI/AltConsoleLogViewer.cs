@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using AltWebSocketSharp;
 using TMPro;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
@@ -342,7 +341,7 @@ private static extern void CopyToClipboard(string str);
 
     private void filterLogs(string filter)
     {
-        resetFilterButton.gameObject.SetActive(!filter.IsNullOrEmpty());
+        resetFilterButton.gameObject.SetActive(!(filter == null || filter.Length == 0));
         currentFilter = filter;
         needsRefresh = true;
     }
