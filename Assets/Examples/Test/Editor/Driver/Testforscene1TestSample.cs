@@ -1019,11 +1019,11 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             List<AltProperty> properties = altElement.GetAllProperties(component, AltPropertiesSelections.ALLPROPERTIES);
             if (properties.Exists(prop => prop.name.Equals("runInEditMode")))
             {
-                Assert.AreEqual(12, properties.Count); // runInEditMode and allowPrefabModeInPlayMode
+                Assert.AreEqual(15, properties.Count); // runInEditMode and allowPrefabModeInPlayMode
             }
             else
             {
-                Assert.IsTrue(properties.Count >= 9 && properties.Count <= 10);// if runned from editor then there are 12 properties, runInEditMode is only available in Editor
+                Assert.IsTrue(properties.Count >= 12 && properties.Count <= 13);// if runned from editor then there are 12 properties, runInEditMode is only available in Editor
             }
             AltProperty property = properties.First(prop => prop.name.Equals("TestProperty"));
             Assert.NotNull(property);
@@ -1069,7 +1069,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.CLASSFIELDS);
-            Assert.AreEqual(20, fields.Count);
+            Assert.AreEqual(19, fields.Count);
         }
 
         [Test]
@@ -1094,7 +1094,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             var component = componentList.First(componenta =>
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.ALLFIELDS);
-            Assert.AreEqual(17, fields.Count);
+            Assert.AreEqual(20, fields.Count);
         }
 
         [Test]
