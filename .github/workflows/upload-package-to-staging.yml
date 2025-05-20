@@ -15,6 +15,11 @@ jobs:
         run: |
           mkdir -p public/AltTester || true
           mkdir -p public/SampleScenes || true
+
+           if [[ "$GITHUB_REF" == refs/heads/* ]]; then
+           sed -i '' 's/public static readonly string VERSION = "[0-9.]*";/public static readonly string VERSION = "2.2.5'"-$(git rev-parse --short "$GITHUB_SHA")"'";/' Assets/AltTester/Commands/AltRunner.cs
+           sed -i '' 's/"version": "[0-9.]*";/"version": "2.2.5'"-$(git rev-parse --short "$GITHUB_SHA")"'";/' Assets/AltTester/package.json
+          fi
           VERSION=$(jq -r '.version' Assets/AltTester/package.json | sed 's/\./_/g')
           $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls
@@ -22,6 +27,8 @@ jobs:
           cp $AUT public/AltTester/AltTesterUnitySDK.unitypackage
           cp $AUT public/AltTester/AltTesterUnitySDK_${VERSION}.unitypackage
           cp SampleScenes.unitypackage public/AltTester/SampleScenes.unitypackage
+          
+
       - uses: actions/upload-artifact@v4
         with:
           name: AltTester
