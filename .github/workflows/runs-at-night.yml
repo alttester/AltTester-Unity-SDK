@@ -12,88 +12,88 @@ env:
   PYTHON_VERSION: "3.12.4"
 
 jobs:
-  # build-webgl:
-  #   timeout-minutes: 60
-  #   runs-on: [self-hosted, MAC37]
+  build-webgl:
+    timeout-minutes: 60
+    runs-on: [self-hosted, MAC37]
 
-  #   steps:
-  #     - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - name: Build app
-  #       run: |
-  #         $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WebGLBuildFromCommandLine -logFile buildWebGL.log -quit
+      - name: Build app
+        run: |
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WebGLBuildFromCommandLine -logFile buildWebGL.log -quit
 
-  #     - name: Upload build
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: webgl-build
-  #         if-no-files-found: error
-  #         path: build/
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: webgl-build
+          if-no-files-found: error
+          path: build/
 
-  #     - name: Upload build logs
-  #       uses: actions/upload-artifact@v4
-  #       if: always()
-  #       with:
-  #         name: webgl-build-logs
-  #         path: |
-  #           buildWebGL.log
+      - name: Upload build logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: webgl-build-logs
+          path: |
+            buildWebGL.log
 
-  #     - name: Notify on Slack
-  #       uses: ravsamhq/notify-slack-action@v2
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - name: Notify on Slack
+        uses: ravsamhq/notify-slack-action@v2
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # build-ios:
-  #   timeout-minutes: 60
-  #   runs-on: [self-hosted, MAC37]
+  build-ios:
+    timeout-minutes: 60
+    runs-on: [self-hosted, MAC37]
 
-  #   steps:
-  #     - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - name: Build sampleGame ipa
-  #       run: |
-  #         $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildiOS.log -quit
-  #         xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
-  #         xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath ./
-  #         osascript -e 'tell app "Xcode" to quit'
+      - name: Build sampleGame ipa
+        run: |
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildiOS.log -quit
+          xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
+          xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath ./
+          osascript -e 'tell app "Xcode" to quit'
 
-  #     - name: Upload builds
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: ios-build
-  #         if-no-files-found: error
-  #         path: sampleGame.ipa
+      - name: Upload builds
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build
+          if-no-files-found: error
+          path: sampleGame.ipa
 
-  #     - name: Upload build logs
-  #       uses: actions/upload-artifact@v4
-  #       if: always()
-  #       with:
-  #         name: ios-build-logs
-  #         path: |
-  #           **/*.log
+      - name: Upload build logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-build-logs
+          path: |
+            **/*.log
 
-  #     - name: Notify on Slack
-  #       uses: ravsamhq/notify-slack-action@v2
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - name: Notify on Slack
+        uses: ravsamhq/notify-slack-action@v2
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   build-android:
     timeout-minutes: 60
@@ -135,289 +135,289 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # test-webgl-dotnet:
-  #   timeout-minutes: 60 # Set job timeout to 1 hour
-  #   needs: build-webgl
+  test-webgl-dotnet:
+    timeout-minutes: 60 # Set job timeout to 1 hour
+    needs: build-webgl
 
-  #   runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, MAC37]
 
-  #   steps:
-  #     - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - name: Setup .NET Core SDK
-  #       uses: actions/setup-dotnet@v4
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4
 
-  #     - name: Download build
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: webgl-build
+      - name: Download build
+        uses: actions/download-artifact@v4
+        with:
+          name: webgl-build
 
-  #     - name: Open application
-  #       run: |
-  #         cd webgl
-  #         python3 -m http.server --cgi 8360 &
-  #         echo $! > server.pid  # Store server PID
-  #         osascript -e 'quit app "Google Chrome"'
-  #         sleep 5
-  #         open -a "Google Chrome" http://localhost:8360/index.html
-  #         sleep 10  # Give some time for Chrome to open and load the page
+      - name: Open application
+        run: |
+          cd webgl
+          python3 -m http.server --cgi 8360 &
+          echo $! > server.pid  # Store server PID
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5
+          open -a "Google Chrome" http://localhost:8360/index.html
+          sleep 10  # Give some time for Chrome to open and load the page
 
-  #     - name: Run tests
-  #       run: |
-  #         dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
+      - name: Run tests
+        run: |
+          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed" --filter TestCategory!=WebGLUnsupported
 
-  #     - name: Close Chrome and stop server
-  #       if: always()
-  #       run: |
-  #         osascript -e 'quit app "Google Chrome"'
-  #         sleep 5  # Ensure there's a delay to give Chrome time to close
-  #         pkill -x "Google Chrome" || true  # Forcefully kill any remaining Chrome processes
-  #         if [ -f server.pid ]; then
-  #           kill $(cat server.pid)  # Stop the Python server
-  #           rm server.pid
-  #         fi
+      - name: Close Chrome and stop server
+        if: always()
+        run: |
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5  # Ensure there's a delay to give Chrome time to close
+          pkill -x "Google Chrome" || true  # Forcefully kill any remaining Chrome processes
+          if [ -f server.pid ]; then
+            kill $(cat server.pid)  # Stop the Python server
+            rm server.pid
+          fi
 
-  #     - name: Upload logs
-  #       uses: actions/upload-artifact@v4
-  #       if: always() # run this step even if one of the previous step failed
-  #       with:
-  #         name: webgl-dotnet-logs
-  #         path: |
-  #           **/*.log
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: webgl-dotnet-logs
+          path: |
+            **/*.log
 
-  #     - name: Notify on Slack
-  #       uses: ravsamhq/notify-slack-action@v2
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - name: Notify on Slack
+        uses: ravsamhq/notify-slack-action@v2
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # test-webgl-python:
-  #   timeout-minutes: 60 # Set job timeout to 1 hour
-  #   needs: build-webgl
+  test-webgl-python:
+    timeout-minutes: 60 # Set job timeout to 1 hour
+    needs: build-webgl
 
-  #   runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, MAC37]
 
-  #   steps:
-  #     - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - uses: actions/setup-python@v5
-  #       with:
-  #         python-version: ${{ env.PYTHON_VERSION }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
 
-  #     - name: Create and activate virtual environment
-  #       run: |
-  #         python3 -m venv venv 
-  #         source venv/bin/activate  
-  #         echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
+      - name: Create and activate virtual environment
+        run: |
+          python3 -m venv venv 
+          source venv/bin/activate  
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
 
-  #     - name: Download build
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: webgl-build
+      - name: Download build
+        uses: actions/download-artifact@v4
+        with:
+          name: webgl-build
 
-  #     - name: Open application
-  #       run: |
-  #         cd webgl
-  #         python3 -m http.server --cgi 8360 &
-  #         echo $! > server.pid  # Store server PID
-  #         osascript -e 'quit app "Google Chrome"'
-  #         sleep 5
-  #         open -a "Google Chrome" http://localhost:8360/index.html
-  #         sleep 10  # Give some time for Chrome to open and load the page
+      - name: Open application
+        run: |
+          cd webgl
+          python3 -m http.server --cgi 8360 &
+          echo $! > server.pid  # Store server PID
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5
+          open -a "Google Chrome" http://localhost:8360/index.html
+          sleep 10  # Give some time for Chrome to open and load the page
 
-  #     - name: Install dependencies in virtual environment
-  #       run: |
-  #         source venv/bin/activate  # Activate the virtual environment
-  #         pip install --upgrade pip setuptools wheel
-  #         pip uninstall -y AltTester-Driver
-  #         pip install -r "Bindings~/python/requirements.txt"
-  #         pip install -r "Bindings~/python/requirements-dev.txt"
-  #         pip install -e "Bindings~/python" --root "Bindings~/python" --use-pep517
+      - name: Install dependencies in virtual environment
+        run: |
+          source venv/bin/activate  # Activate the virtual environment
+          pip install --upgrade pip setuptools wheel
+          pip uninstall -y AltTester-Driver
+          pip install -r "Bindings~/python/requirements.txt"
+          pip install -r "Bindings~/python/requirements-dev.txt"
+          pip install -e "Bindings~/python" --root "Bindings~/python" --use-pep517
 
-  #     - name: Run integration tests
-  #       run: |
-  #         source venv/bin/activate  # Activate the virtual environment
-  #         pytest Bindings~/python/tests/integration -m "not WebGLUnsupported"
+      - name: Run integration tests
+        run: |
+          source venv/bin/activate  # Activate the virtual environment
+          pytest Bindings~/python/tests/integration -m "not WebGLUnsupported"
 
-  #     - name: Close Chrome and stop server
-  #       if: always()
-  #       run: |
-  #         osascript -e 'quit app "Google Chrome"'
-  #         sleep 5  # Ensure there's a delay to give Chrome time to close
-  #         pkill -x "Google Chrome" || true  # Forcefully kill any remaining Chrome processes
-  #         if [ -f server.pid ]; then
-  #           kill $(cat server.pid)  # Stop the Python server
-  #           rm server.pid
-  #         fi
+      - name: Close Chrome and stop server
+        if: always()
+        run: |
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5  # Ensure there's a delay to give Chrome time to close
+          pkill -x "Google Chrome" || true  # Forcefully kill any remaining Chrome processes
+          if [ -f server.pid ]; then
+            kill $(cat server.pid)  # Stop the Python server
+            rm server.pid
+          fi
 
-  #     - name: Upload logs
-  #       uses: actions/upload-artifact@v4
-  #       if: always() # run this step even if one of the previous step failed
-  #       with:
-  #         name: webgl-python-logs
-  #         path: "**/*.log"
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: webgl-python-logs
+          path: "**/*.log"
 
-  # test-webgl-java:
-  #   timeout-minutes: 60 # Set job timeout to 1 hour
-  #   needs: build-webgl
+  test-webgl-java:
+    timeout-minutes: 60 # Set job timeout to 1 hour
+    needs: build-webgl
 
-  #   runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, MAC37]
 
-  #   steps:
-  #     - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - name: Setup Java JDK
-  #       uses: actions/setup-java@v3
-  #       with:
-  #         distribution: temurin
-  #         java-version: 11
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
 
-  #     - name: Setup Maven
-  #       uses: stCarolas/setup-maven@v4
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v4
 
-  #     - name: Download build
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: webgl-build
+      - name: Download build
+        uses: actions/download-artifact@v4
+        with:
+          name: webgl-build
 
-  #     - name: Open application
-  #       run: |
-  #         cd webgl
-  #         python3 -m http.server --cgi 8360 &
-  #         echo $! > server.pid  # Store server PID
-  #         osascript -e 'quit app "Google Chrome"'
-  #         sleep 5
-  #         open -a "Google Chrome" http://localhost:8360/index.html
-  #         sleep 10  # Give some time for Chrome to open and load the page
+      - name: Open application
+        run: |
+          cd webgl
+          python3 -m http.server --cgi 8360 &
+          echo $! > server.pid  # Store server PID
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5
+          open -a "Google Chrome" http://localhost:8360/index.html
+          sleep 10  # Give some time for Chrome to open and load the page
 
-  #     - name: Run tests
-  #       run: |
-  #         cd Bindings~/java
-  #         mvn clean -Dtest=com.alttester.Tests* test -Dgroups=\!WebGLUnsupported
+      - name: Run tests
+        run: |
+          cd Bindings~/java
+          mvn clean -Dtest=com.alttester.Tests* test -Dgroups=\!WebGLUnsupported
 
-  #     - name: Close Chrome
-  #       if: always()
-  #       run: |
-  #         osascript -e 'quit app "Google Chrome"'
-  #         sleep 5  # Ensure there's a delay to give Chrome time to close
-  #         pkill -x "Google Chrome" || true  # Forcefully kill any remaining Chrome processes
+      - name: Close Chrome
+        if: always()
+        run: |
+          osascript -e 'quit app "Google Chrome"'
+          sleep 5  # Ensure there's a delay to give Chrome time to close
+          pkill -x "Google Chrome" || true  # Forcefully kill any remaining Chrome processes
 
-  #     - name: Upload logs
-  #       uses: actions/upload-artifact@v4
-  #       if: always()
-  #       with:
-  #         name: webgl-java-logs
-  #         path: |
-  #           **/*.log
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: webgl-java-logs
+          path: |
+            **/*.log
 
-  #     - name: Notify on Slack
-  #       uses: ravsamhq/notify-slack-action@v2
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - name: Notify on Slack
+        uses: ravsamhq/notify-slack-action@v2
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
-  # test-ios-browserstack-python:
-  #   needs: build-ios
-  #   timeout-minutes: 60 # Set job timeout to 1 hour
-  #   runs-on: [self-hosted, MAC37]
+  test-ios-browserstack-python:
+    needs: build-ios
+    timeout-minutes: 60 # Set job timeout to 1 hour
+    runs-on: [self-hosted, MAC37]
 
-  #   env:
-  #     RUN_IN_BROWSERSTACK: true
-  #     RUN_IN_BROWSERSTACK_IOS_ONLY: true
+    env:
+      RUN_IN_BROWSERSTACK: true
+      RUN_IN_BROWSERSTACK_IOS_ONLY: true
 
-  #   steps:
-  #     - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - name: Download build
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: ios-build
-  #         path: Bindings~/python/
+      - name: Download build
+        uses: actions/download-artifact@v4
+        with:
+          name: ios-build
+          path: Bindings~/python/
 
-  #     - run: ls -l Bindings~/python/
+      - run: ls -l Bindings~/python/
 
-  #     - uses: actions/setup-python@v5
-  #       with:
-  #         python-version: ${{ env.PYTHON_VERSION }}
-  #     - name: Create and activate virtual environment
-  #       run: |
-  #         python3 -m venv venv 
-  #         source venv/bin/activate  
-  #         echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Create and activate virtual environment
+        run: |
+          python3 -m venv venv 
+          source venv/bin/activate  
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
 
-  #     - name: Install dependencies
-  #       run: |
-  #         source venv/bin/activate  # Activate the virtual environment
-  #         pip install --upgrade pip setuptools wheel
-  #         pip uninstall -y AltTester-Driver
-  #         pip install -r "Bindings~/python/requirements.txt"
-  #         pip install -r "Bindings~/python/requirements-dev.txt"
-  #         pip install -e "Bindings~/python" --root "Bindings~/python" --use-pep517
+      - name: Install dependencies
+        run: |
+          source venv/bin/activate  # Activate the virtual environment
+          pip install --upgrade pip setuptools wheel
+          pip uninstall -y AltTester-Driver
+          pip install -r "Bindings~/python/requirements.txt"
+          pip install -r "Bindings~/python/requirements-dev.txt"
+          pip install -e "Bindings~/python" --root "Bindings~/python" --use-pep517
 
-  #     - name: Run integration tests
-  #       run: |
-  #         export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
-  #         export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
-  #         export ALTSERVER_PORT=13005
-  #         export ALTSERVER_HOST="192.168.11.35"
-  #         export RUN_IN_BROWSERSTACK="true"
-  #         export RUN_IN_BROWSERSTACK_IOS_ONLY="true"
-  #         cd Bindings~/python
-  #         export response_ios=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
-  #         export APP_URL_IOS=$(echo "${response_ios}" | jq -r .app_url)
-  #         echo $APP_URL_IOS
-  #         cd tests/integration/
-  #         pkill -f BrowserStackLocal || true
-  #         /usr/local/bin/BrowserStackLocal --key $BROWSERSTACK_KEY --force > bs_local.log &
-  #         sleep 5
-  #         pytest -s -v -n 3 ./ --alluredir=allure-report/ --reruns 3 --reruns-delay 10 --dist=loadfile -m "not iOSUnsupported and not AndroidUnsupported and not WebGLUnsupported"
-  #         pkill -f BrowserStackLocal || true
+      - name: Run integration tests
+        run: |
+          export BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}
+          export BROWSERSTACK_KEY=${{ secrets.BROWSERSTACK_KEY }}
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          export RUN_IN_BROWSERSTACK="true"
+          export RUN_IN_BROWSERSTACK_IOS_ONLY="true"
+          cd Bindings~/python
+          export response_ios=$(curl -u "$BROWSERSTACK_USERNAME:$BROWSERSTACK_KEY" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@sampleGame.ipa")
+          export APP_URL_IOS=$(echo "${response_ios}" | jq -r .app_url)
+          echo $APP_URL_IOS
+          cd tests/integration/
+          pkill -f BrowserStackLocal || true
+          /usr/local/bin/BrowserStackLocal --key $BROWSERSTACK_KEY --force > bs_local.log &
+          sleep 5
+          pytest -s -v -n 3 ./ --alluredir=allure-report/ --reruns 3 --reruns-delay 10 --dist=loadfile -m "not iOSUnsupported and not AndroidUnsupported and not WebGLUnsupported"
+          pkill -f BrowserStackLocal || true
 
-  #     - name: Generate Allure report
-  #       if: always()
-  #       run: |
-  #         cd Bindings~/python/
-  #         allure generate -c allure-report -o allure-results-html
-  #         allure-combine ./allure-results-html
+      - name: Generate Allure report
+        if: always()
+        run: |
+          cd Bindings~/python/
+          allure generate -c allure-report -o allure-results-html
+          allure-combine ./allure-results-html
 
-  #     - name: Upload artifact and allure report
-  #       uses: actions/upload-artifact@v4
-  #       if: always()
-  #       with:
-  #         name: ios-browserstack-python-artifacts
-  #         path: |
-  #           **/*.log
-  #           ./allure-results-html/complete.html
+      - name: Upload artifact and allure report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-browserstack-python-artifacts
+          path: |
+            **/*.log
+            ./allure-results-html/complete.html
 
-  #     - name: Notify on Slack
-  #       uses: ravsamhq/notify-slack-action@v2
-  #       if: ${{ always() && github.ref_name == 'development' }}
-  #       with:
-  #         status: ${{ job.status }}
-  #         notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
-  #         message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
-  #         footer: "Linked Repo <{repo_url}|{repo}>"
-  #         notify_when: "failure"
-  #         mention_groups: "alttester-pipelines,!here"
-  #         mention_groups_when: "failure"
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      - name: Notify on Slack
+        uses: ravsamhq/notify-slack-action@v2
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-android-browserstack-python:
     needs: build-android
