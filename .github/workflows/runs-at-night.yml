@@ -456,7 +456,7 @@ jobs:
           pip uninstall -y AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
           pip install -r "Bindings~/python/requirements-dev.txt"
-          pip install -e "Bindings~/python" "Bindings~/python" --use-pep517
+          pip install -e "Bindings~/python" --use-pep517
 
       - name: Run integration tests
         run: |
