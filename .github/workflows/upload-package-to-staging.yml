@@ -22,7 +22,6 @@ jobs:
           sed -i '' "s/public static readonly string VERSION = \".*\";/public static readonly string VERSION = \"$VERSION\";/" Assets/AltTester/Runtime/Commands/AltRunner.cs
           sed -i '' "s/\"version\": \".*\";/\"version\": \"$VERSION\";/" Assets/AltTester/package.json
           fi
-          VERSION=$(jq -r '.version' Assets/AltTester/package.json | sed 's/\./_/g')
           $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
