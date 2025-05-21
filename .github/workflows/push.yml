@@ -267,7 +267,7 @@ jobs:
           pip uninstall -y AltTester-Driver --break-system-packages
           pip install -r "Bindings~/python/requirements.txt" --break-system-packages
           pip install -r "Bindings~/python/requirements-dev.txt" --break-system-packages
-          pip install -e "Bindings~/python" --root "Bindings~/python" --break-system-packages
+          pip install -e "Bindings~/python" --root "Bindings~/python" --break-system-packages --use-pep517
 
       - name: Lint with flake8
         run: |
@@ -338,9 +338,9 @@ jobs:
         run: |
           pip install --upgrade pip setuptools wheel  --break-system-packages
           pip install -r "Bindings~/robot/requirements.txt" --break-system-packages
-          pip install -e "Bindings~/robot" --break-system-packages
+          pip install -e "Bindings~/robot" --break-system-packages --use-pep517
           pip uninstall -y AltTester-Driver --break-system-packages
-          pip install -e "Bindings~/python" --break-system-packages
+          pip install -e "Bindings~/python" --break-system-packages --use-pep517
 
           pip list
 
@@ -455,7 +455,7 @@ jobs:
           pip uninstall -y AltTester-Driver
           pip install -r "Bindings~/python/requirements.txt"
           pip install -r "Bindings~/python/requirements-dev.txt"
-          pip install -e "Bindings~/python" --root "Bindings~/python"
+          pip install -e "Bindings~/python" --root "Bindings~/python" --use-pep517
 
       - name: Run integration tests
         run: |
