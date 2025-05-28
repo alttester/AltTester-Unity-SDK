@@ -138,6 +138,7 @@ namespace AltTester.AltTesterSDK.Driver.Communication
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
             if (proxyUri != null)
             {
+                logger.Info("Using proxy in DriverWebSocketClient: '{0}'.", proxyUri);
                 wsClient.SetProxy(proxyUri, null, null);
             }
 

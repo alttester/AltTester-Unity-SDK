@@ -16,6 +16,7 @@ extern "C"
     char* _getProxy(const char* uri, const char* host)
     {
         NSString *returnString = [[AltProxyFinder shared] swiftGetProxy:[NSString stringWithUTF8String:uri] destinationHost:[NSString stringWithUTF8String:host]];
+        logDebug(@"_getProxy: uri: %s, host: %s, returnString: %@", uri, host, returnString);
         return cStringCopy([returnString UTF8String]);
     }
 }

@@ -17,11 +17,13 @@
 
 using System;
 using System.Linq;
+using AltTester.AltTesterSDK.Driver.Logging;
 
 namespace AltTester.AltTesterSDK.Driver.Proxy
 {
     public class EnvironmentProxyFinder : IProxyFinder
     {
+        private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         public string GetProxy(string uri, string host)
         {
             // TODO: Check HTTPS_PROXY if we use wss
@@ -38,15 +40,17 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
 
                 if (!string.IsNullOrEmpty(exceptions))
                 {
+                    logger.Info("NO_PROXY environment variable found in EnvironmentProxyFinder: {0}", exceptions);
                     var exceptionsList = exceptions.Split(';').ToList<string>();
 
                     if (exceptionsList.Contains(proxyUrl))
                     {
+                        logger.Info("Proxy {0} is in NO_PROXY list, skipping in EnvironmentProxyFinder.", proxyUrl);
                         return null;
                     }
                 }
             }
-
+            logger.Info("Using proxy in EnvironmentProxyFinder: {0} for uri: {1} and host: {2}", proxyUrl, uri, host);
             return proxyUrl;
         }
 

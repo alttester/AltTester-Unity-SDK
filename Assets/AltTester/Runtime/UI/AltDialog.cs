@@ -712,6 +712,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 using (var client = new HttpClient())
                 {
                     client.Timeout = TimeSpan.FromMilliseconds(50000);
+                    logger.Info("Sending GET from AltDialog request to: " + url);
                     return await client.GetAsync(url);
                 }
             }

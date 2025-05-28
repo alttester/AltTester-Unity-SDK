@@ -25,11 +25,13 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
     {
         public string GetProxy(string uri, string host)
         {
+            logger.Info("AndroidProxyFinder.GetProxy called with uri: {0}, host: {1}", uri, host);
             return CallJavaGetProxy(uri);
         }
 
         private string CallJavaGetProxy(string uri)
         {
+            logger.Info("Calling Java method to get proxy for uri in AndroidProxyFinder: {0}", uri);
             using (var JavaClass = new AndroidJavaClass("com.alttester.utils.AltProxyFinder")) {
                 return JavaClass.CallStatic<string>("getProxy", uri);
             }
