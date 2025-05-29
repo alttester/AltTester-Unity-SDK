@@ -1,7 +1,9 @@
+import os
 import Foundation
 import JavaScriptCore
 
 @objc public class AltProxyFinder: NSObject {
+    let logger = Logger(subsystem: "com.yourapp.bundleid", category: "AltProxyFinder")
     @objc public static let shared = AltProxyFinder()
 
     @objc public func swiftGetProxy(_ destinationUrl: String, destinationHost: String) -> String {
@@ -34,7 +36,7 @@ import JavaScriptCore
                         logger.debug("PAC content")
                         pacContent = pacContent.trimmingCharacters(in: .whitespacesAndNewlines)
                         if (pacContent.starts(with:"<!DOCTYPE html>")) {
-                            logger.error("Received an error page instead of PAC file. Please check the PAC URL: \(pacUrl)")
+                            logger.debug("Received an error page instead of PAC file. Please check the PAC URL: \(pacUrl)")
                             return
                         }
 
@@ -57,7 +59,7 @@ import JavaScriptCore
                     }
                 } else if let error = error {
                     // Handle Error
-                    logger.error("Error fetching PAC file: \(error.localizedDescription)")
+                    logger.debug("Error fetching PAC file: \(error.localizedDescription)")
                 }
             }
 
