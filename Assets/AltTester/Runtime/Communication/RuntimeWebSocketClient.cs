@@ -29,7 +29,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
     public class RuntimeWebSocketClient : IRuntimeWebSocketClient
     {
         private ClientWebSocket wsClient;
-
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
         private readonly string host;
         private readonly int port;
         private readonly string appName;
