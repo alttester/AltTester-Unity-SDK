@@ -18,11 +18,14 @@
 #if !UNITY_EDITOR && UNITY_ANDROID
 using System;
 using UnityEngine;
+using AltTester.AltTesterSDK.Driver.Logging;
 
 namespace AltTester.AltTesterSDK.Driver.Proxy
 {
     public class AndroidProxyFinder : IProxyFinder
     {
+        private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+
         public string GetProxy(string uri, string host)
         {
             logger.Info("AndroidProxyFinder.GetProxy called with uri: {0}, host: {1}", uri, host);

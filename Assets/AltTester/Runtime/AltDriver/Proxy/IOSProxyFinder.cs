@@ -28,6 +28,8 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
         [DllImport("__Internal")]
         private static extern string _getProxy(string uri, string host);
 
+        private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+
         public string GetProxy(string uri, string host)
         {
             var result = _getProxy(uri, host);
