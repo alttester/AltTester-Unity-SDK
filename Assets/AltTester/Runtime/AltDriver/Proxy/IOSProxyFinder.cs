@@ -20,6 +20,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using UnityEngine;
+using AltTester.AltTesterSDK.Driver.Logging;
 
 namespace AltTester.AltTesterSDK.Driver.Proxy
 {
