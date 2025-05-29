@@ -1,9 +1,8 @@
-import os
 import Foundation
 import JavaScriptCore
 
 @objc public class AltProxyFinder: NSObject {
-    let logger = Logger(subsystem: "com.yourapp.bundleid", category: "AltProxyFinder")
+
     @objc public static let shared = AltProxyFinder()
 
     @objc public func swiftGetProxy(_ destinationUrl: String, destinationHost: String) -> String {
@@ -33,10 +32,10 @@ import JavaScriptCore
                         // Workaround for BrowserStack with Forced Local mode.
                         // An issue arises where, instead of receiving the expected PAC file, an error page is returned,
                         // parsing which would lead to a crash in the application.
-                        logger.debug("PAC content")
+                        NSLog("PAC content")
                         pacContent = pacContent.trimmingCharacters(in: .whitespacesAndNewlines)
                         if (pacContent.starts(with:"<!DOCTYPE html>")) {
-                            logger.debug("Received an error page instead of PAC file. Please check the PAC URL: \(pacUrl)")
+                            NSLog("Received an error page instead of PAC file. Please check the PAC URL: \(pacUrl)")
                             return
                         }
 
@@ -52,20 +51,20 @@ import JavaScriptCore
                                 if (host == "null" || port == 0) {
                                     return
                                 }
-                                logger.debug("PAC Proxy Host: \(host), Port: \(port)")
+                                NSLog("PAC Proxy Host: \(host), Port: \(port)")
                                 proxyUrl = "http://" + host + ":" + String(port)
                             }
                         }
                     }
                 } else if let error = error {
                     // Handle Error
-                    logger.debug("Error fetching PAC file: \(error.localizedDescription)")
+                    NSLog("Error fetching PAC file: \(error.localizedDescription)")
                 }
             }
 
             task.resume()
             semaphore.wait()
-            logger.debug("PAC Proxy URL: \(proxyUrl)")
+            NSLog("PAC Proxy URL: \(proxyUrl)")
             return proxyUrl
         }
 
@@ -73,7 +72,7 @@ import JavaScriptCore
            destinationUrl.starts(with: "https") {
             if let host = systemProxySettings["HTTPSProxy"] as? String,
                let port = systemProxySettings["HTTPSPort"] as? Int {
-                logger.debug("HTTPS Proxy Host in AltProxyFinder: \(host), Port: \(port)")
+                NSLog("HTTPS Proxy Host in AltProxyFinder: \(host), Port: \(port)")
                 return "https://\(host):\(port)"
             }
         }
@@ -81,11 +80,11 @@ import JavaScriptCore
         if let httpEnable = systemProxySettings["HTTPEnable"] as? Int, httpEnable == 1 {
             if let host = systemProxySettings["HTTPProxy"] as? String,
                let port = systemProxySettings["HTTPPort"] as? Int {
-                logger.debug("HTTP Proxy Host in AltProxyFinder: \(host), Port: \(port)")
+                NSLog("HTTP Proxy Host in AltProxyFinder: \(host), Port: \(port)")
                 return "http://\(host):\(port)"
             }
         }
-        logger.debug("No proxy found for the given URL in AltProxyFinder: \(destinationUrl)")
+        NSLog("No proxy found for the given URL in AltProxyFinder: \(destinationUrl)")
         return ""
     }
 }
