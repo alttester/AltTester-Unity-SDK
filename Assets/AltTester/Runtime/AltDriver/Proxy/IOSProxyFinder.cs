@@ -37,10 +37,10 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
 
             if (string.IsNullOrEmpty(result))
             {
-                NSLog("No proxy found in IOSProxyFinder for uri: {0} and host: {1}", uri, host);
+                logger.Info("No proxy found in IOSProxyFinder for uri: {0} and host: {1}", uri, host);
                 return null;
             }
-            NSLog("Using proxy in IOSProxyFinder: {0} for uri: {1} and host: {2}", result, uri, host);
+            logger.Info("Using proxy in IOSProxyFinder: {0} for uri: {1} and host: {2}", result, uri, host);
             return result;
         }
     }
