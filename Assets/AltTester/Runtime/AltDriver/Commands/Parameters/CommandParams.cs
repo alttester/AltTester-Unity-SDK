@@ -231,6 +231,22 @@ namespace AltTester.AltTesterSDK.Driver.Commands
             this.wait = wait;
         }
     }
+    [Command("pressXRButtons")]
+    public class AltPressXRButtonsParams : CommandParams
+    {
+        public AltXRControllerButton[] buttons;
+        public float power;
+        public float duration;
+        public bool wait;
+
+        public AltPressXRButtonsParams(AltXRControllerButton[] buttons, float power, float duration, bool wait) : base()
+        {
+            this.buttons = buttons;
+            this.power = power;
+            this.duration = duration;
+            this.wait = wait;
+        }
+    }
 
     [Command("scroll")]
     public class AltScrollParams : CommandParams

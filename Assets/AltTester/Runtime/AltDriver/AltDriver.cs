@@ -646,5 +646,32 @@ namespace AltTester.AltTesterSDK.Driver
         {
             new RemoveNotificationListener(communicationHandler, notificationType).Execute();
         }
+
+        /// <summary>
+        /// Simulates pressing multiple XR controller buttons.
+        /// </summary>
+        /// <param name="buttons">The buttons to press.</param>
+        /// <param name="power">A value between [0,1] used to indicate how hard the button was pressed. Defaults to <c>1</c>.</param>
+        /// <param name="duration">The time measured in seconds from the key press to the key release. Defaults to <c>0.1</c></param>
+        /// <param name="wait">If set wait for command to finish. Defaults to <c>True</c>.</param>
+        /// 
+        public void PressXRButtons(AltXRControllerButton[] buttons, float power = 1, float duration = 0.1f, bool wait = true)
+        {
+            new AltPressXRButtons(communicationHandler, buttons, power, duration, wait).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
+
+        /// <summary>
+        /// Simulates pressing a single XR controller button.
+        /// </summary>
+        /// <param name="button">The button to press.</param>
+        /// <param name="power">A value between [0,1] used to indicate how hard the button was pressed. Defaults to <c>1</c>.</param>
+        /// <param name="duration">The time measured in seconds from the key press to the key release. Defaults to <c>0.1</c>.</param>
+        /// <param name="wait">If set, wait for command to finish. Defaults to <c>True</c>.</param>
+        public void PressXRButton(AltXRControllerButton button, float power = 1, float duration = 0.1f, bool wait = true)
+        {
+            new AltPressXRButtons(communicationHandler, new AltXRControllerButton[] { button }, power, duration, wait).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
     }
 }
