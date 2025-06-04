@@ -679,5 +679,11 @@ namespace AltTester.AltTesterSDK.Driver
             new AltRotateXRController(communicationHandler, controller, rotation, duration, wait).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
+
+        public void MoveXRControllerJoystick(AltXRController controller, AltVector2 direction, float duration = 0.1f, bool wait = true)
+        {
+            new AltMoveXRControllerJoystick(communicationHandler, controller, direction, duration, wait).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
     }
 }

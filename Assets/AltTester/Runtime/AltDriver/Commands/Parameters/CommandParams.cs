@@ -266,6 +266,23 @@ namespace AltTester.AltTesterSDK.Driver.Commands
         }
     }
 
+    [Command("moveXRControllerJoystick")]
+    public class AltMoveXRControllerJoystickParams : CommandParams
+    {
+        public AltXRController controller;
+        public AltVector2 direction;
+        public float duration;
+        public bool wait;
+
+        public AltMoveXRControllerJoystickParams(AltXRController controller, AltVector2 direction, float duration, bool wait) : base()
+        {
+            this.controller = controller;
+            this.direction = direction;
+            this.duration = duration;
+            this.wait = wait;
+        }
+    }
+
     [Command("scroll")]
     public class AltScrollParams : CommandParams
     {
