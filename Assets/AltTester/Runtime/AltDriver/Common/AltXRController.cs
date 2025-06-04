@@ -18,4 +18,9 @@ namespace AltTester.AltTesterSDK.Driver
 
     }
 
+    public enum AltXRController
+    {
+        LEFT,
+        RIGHT
+    }
 }

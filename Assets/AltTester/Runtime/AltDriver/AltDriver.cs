@@ -673,5 +673,11 @@ namespace AltTester.AltTesterSDK.Driver
             new AltPressXRButtons(communicationHandler, new AltXRControllerButton[] { button }, power, duration, wait).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
+
+        public void RotateXRController(AltXRController controller, AltVector2 rotation, float duration = 0.1f, bool wait = true)
+        {
+            new AltRotateXRController(communicationHandler, controller, rotation, duration, wait).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
     }
 }

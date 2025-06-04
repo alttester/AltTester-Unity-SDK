@@ -231,6 +231,7 @@ namespace AltTester.AltTesterSDK.Driver.Commands
             this.wait = wait;
         }
     }
+
     [Command("pressXRButtons")]
     public class AltPressXRButtonsParams : CommandParams
     {
@@ -243,6 +244,23 @@ namespace AltTester.AltTesterSDK.Driver.Commands
         {
             this.buttons = buttons;
             this.power = power;
+            this.duration = duration;
+            this.wait = wait;
+        }
+    }
+
+    [Command("rotateXRController")]
+    public class AltRotateXRControllerParams : CommandParams
+    {
+        public AltXRController controller;
+        public AltVector2 rotation;
+        public float duration;
+        public bool wait;
+
+        public AltRotateXRControllerParams(AltXRController controller, AltVector2 rotation, float duration, bool wait) : base()
+        {
+            this.controller = controller;
+            this.rotation = rotation;
             this.duration = duration;
             this.wait = wait;
         }
