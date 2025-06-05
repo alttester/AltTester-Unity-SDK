@@ -674,7 +674,13 @@ namespace AltTester.AltTesterSDK.Driver
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
-        public void RotateXRController(AltXRController controller, AltVector2 rotation, float duration = 0.1f, bool wait = true)
+        public void MoveXRController(AltXRController controller, AltVector3 direction, float duration = 0.1f, bool wait = true)
+        {
+            new AltMoveXRController(communicationHandler, controller, direction, duration, wait).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
+
+        public void RotateXRController(AltXRController controller, AltVector3 rotation, float duration = 0.1f, bool wait = true)
         {
             new AltRotateXRController(communicationHandler, controller, rotation, duration, wait).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
@@ -683,6 +689,12 @@ namespace AltTester.AltTesterSDK.Driver
         public void MoveXRControllerJoystick(AltXRController controller, AltVector2 direction, float duration = 0.1f, bool wait = true)
         {
             new AltMoveXRControllerJoystick(communicationHandler, controller, direction, duration, wait).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
+
+        public void ResetXRController(AltXRController controller, bool wait = true)
+        {
+            new AltResetXRController(communicationHandler, controller, wait).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
     }

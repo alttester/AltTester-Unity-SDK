@@ -15,7 +15,6 @@ namespace AltTester.AltTesterSDK.Driver
         RIGHTTRIGGER,
         RIGHTGRIP
         //TODO add joystick
-
     }
 
     public enum AltXRController

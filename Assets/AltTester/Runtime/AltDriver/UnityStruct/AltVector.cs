@@ -166,6 +166,118 @@ namespace AltTester.AltTesterSDK.Driver
         public float y;
         public float z;
 
+        private static readonly AltVector3 zeroVector = new AltVector3(0f, 0f, 0f);
+
+        private static readonly AltVector3 oneVector = new AltVector3(1f, 1f, 1f);
+
+        private static readonly AltVector3 upVector = new AltVector3(0f, 1f, 0f);
+
+        private static readonly AltVector3 downVector = new AltVector3(0f, -1f, 0f);
+
+        private static readonly AltVector3 leftVector = new AltVector3(-1f, 0f, 0f);
+
+        private static readonly AltVector3 rightVector = new AltVector3(1f, 0f, 0f);
+
+        private static readonly AltVector3 forwardVector = new AltVector3(0f, 0f, 1f);
+
+        private static readonly AltVector3 backVector = new AltVector3(0f, 0f, -1f);
+
+        //
+        // Summary:
+        //     Shorthand for writing Vector3(0, 0, 0).
+        public static AltVector3 zero
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return zeroVector;
+            }
+        }
+
+        //
+        // Summary:
+        //     Shorthand for writing Vector3(1, 1, 1).
+        public static AltVector3 one
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return oneVector;
+            }
+        }
+
+        //
+        // Summary:
+        //     Shorthand for writing Vector3(0, 0, 1).
+        public static AltVector3 forward
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return forwardVector;
+            }
+        }
+
+        //
+        // Summary:
+        //     Shorthand for writing Vector3(0, 0, -1).
+        public static AltVector3 back
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return backVector;
+            }
+        }
+
+        //
+        // Summary:
+        //     Shorthand for writing Vector3(0, 1, 0).
+        public static AltVector3 up
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return upVector;
+            }
+        }
+
+        //
+        // Summary:
+        //     Shorthand for writing Vector3(0, -1, 0).
+        public static AltVector3 down
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return downVector;
+            }
+        }
+
+        //
+        // Summary:
+        //     Shorthand for writing Vector3(-1, 0, 0).
+        public static AltVector3 left
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return leftVector;
+            }
+        }
+
+        //
+        // Summary:
+        //     Shorthand for writing Vector3(1, 0, 0).
+        public static AltVector3 right
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                return rightVector;
+            }
+        }
+
         public AltVector3(float x, float y, float z)
         {
             this.x = x;

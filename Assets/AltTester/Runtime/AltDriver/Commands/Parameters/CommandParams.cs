@@ -249,15 +249,32 @@ namespace AltTester.AltTesterSDK.Driver.Commands
         }
     }
 
+    [Command("moveXRController")]
+    public class AltMoveXRControllerParams : CommandParams
+    {
+        public AltXRController controller;
+        public AltVector3 direction;
+        public float duration;
+        public bool wait;
+
+        public AltMoveXRControllerParams(AltXRController controller, AltVector3 direction, float duration, bool wait) : base()
+        {
+            this.controller = controller;
+            this.direction = direction;
+            this.duration = duration;
+            this.wait = wait;
+        }
+    }
+
     [Command("rotateXRController")]
     public class AltRotateXRControllerParams : CommandParams
     {
         public AltXRController controller;
-        public AltVector2 rotation;
+        public AltVector3 rotation;
         public float duration;
         public bool wait;
 
-        public AltRotateXRControllerParams(AltXRController controller, AltVector2 rotation, float duration, bool wait) : base()
+        public AltRotateXRControllerParams(AltXRController controller, AltVector3 rotation, float duration, bool wait) : base()
         {
             this.controller = controller;
             this.rotation = rotation;
@@ -283,6 +300,19 @@ namespace AltTester.AltTesterSDK.Driver.Commands
         }
     }
 
+    [Command("resetXRController")]
+    public class AltResetXRControllerParams : CommandParams
+    {
+        public AltXRController controller;
+        public bool wait;
+
+        public AltResetXRControllerParams(AltXRController controller, bool wait) : base()
+        {
+            this.controller = controller;
+            this.wait = wait;
+        }
+    }
+    
     [Command("scroll")]
     public class AltScrollParams : CommandParams
     {
