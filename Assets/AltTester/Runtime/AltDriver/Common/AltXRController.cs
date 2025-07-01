@@ -2,24 +2,29 @@ namespace AltTester.AltTesterSDK.Driver
 {
     public enum AltXRControllerButton
     {
-        LEFTPRIMARYBUTTON,
-        LEFTSECONDARYBUTTON,
-        LEFTMENUBUTTON,
-        LEFTTRIGGER,
-        LEFTGRIP,
+        LeftPrimaryButton,
+        LeftSecondaryButton,
+        LeftMenuButton,
+        LeftGrip,
+        LeftTrigger,
 
-
-        RIGHTPRIMARYBUTTON,
-        RIGHTSECONDARYBUTTON,
-        RIGHTMENUBUTTON,
-        RIGHTTRIGGER,
-        RIGHTGRIP
-        //TODO add joystick
+        RightPrimaryButton,
+        RightSecondaryButton,
+        RightMenuButton,
+        RightGrip,
+        RightTrigger
     }
 
     public enum AltXRController
     {
-        LEFT,
-        RIGHT
+        Left,
+        Right
+    }
+
+    public enum AltXRDevice
+    {
+        LeftController,
+        RightController,
+        HMD
     }
 }

@@ -283,6 +283,36 @@ namespace AltTester.AltTesterSDK.Driver.Commands
         }
     }
 
+    [Command("rotateHMD")]
+    public class AltRotateHMDParams : CommandParams
+    {
+        public AltVector3 rotation;
+        public float duration;
+        public bool wait;
+
+        public AltRotateHMDParams(AltVector3 rotation, float duration, bool wait) : base()
+        {
+            this.rotation = rotation;
+            this.duration = duration;
+            this.wait = wait;
+        }
+    }
+
+    [Command("moveHMD")]
+    public class AltMoveHMDParams : CommandParams
+    {
+        public AltVector3 direction;
+        public float duration;
+        public bool wait;
+
+        public AltMoveHMDParams(AltVector3 direction, float duration, bool wait) : base()
+        {
+            this.direction = direction;
+            this.duration = duration;
+            this.wait = wait;
+        }
+    }
+
     [Command("moveXRControllerJoystick")]
     public class AltMoveXRControllerJoystickParams : CommandParams
     {
@@ -304,11 +334,30 @@ namespace AltTester.AltTesterSDK.Driver.Commands
     public class AltResetXRControllerParams : CommandParams
     {
         public AltXRController controller;
+        public bool resetRotation;
+        public bool resetPosition;
         public bool wait;
 
-        public AltResetXRControllerParams(AltXRController controller, bool wait) : base()
+        public AltResetXRControllerParams(AltXRController controller, bool resetRotation, bool resetPosition, bool wait) : base()
         {
             this.controller = controller;
+            this.resetRotation = resetRotation;
+            this.resetPosition = resetPosition;
+            this.wait = wait;
+        }
+    }
+
+    [Command("resetHMD")]
+    public class AltResetHMDParams : CommandParams
+    {
+        public bool resetRotation;
+        public bool resetPosition;
+        public bool wait;
+
+        public AltResetHMDParams(bool resetRotation, bool resetPosition, bool wait) : base()
+        {
+            this.resetRotation = resetRotation;
+            this.resetPosition = resetPosition;
             this.wait = wait;
         }
     }

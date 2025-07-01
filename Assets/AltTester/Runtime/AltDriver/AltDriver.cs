@@ -674,27 +674,91 @@ namespace AltTester.AltTesterSDK.Driver
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
+        /// <summary>
+        /// Simulates moving an XR controller in a specified direction for a given duration.
+        /// </summary>
+        /// <param name="controller">The XR controller to move.</param>
+        /// <param name="direction">The direction vector to move the controller.</param>
+        /// <param name="duration">Duration of the movement in seconds (default is 0.1).</param>
+        /// <param name="wait">If true, waits until the movement is complete (default is true).</param>
         public void MoveXRController(AltXRController controller, AltVector3 direction, float duration = 0.1f, bool wait = true)
         {
             new AltMoveXRController(communicationHandler, controller, direction, duration, wait).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
+        /// <summary>
+        /// Simulates rotating an XR controller by a given vector for a specific duration.
+        /// </summary>
+        /// <param name="controller">The XR controller to rotate.</param>
+        /// <param name="rotation">Rotation vector to apply to the controller.</param>
+        /// <param name="duration">Duration of the rotation in seconds (default is 0.1).</param>
+        /// <param name="wait">If true, waits until the rotation is complete (default is true).</param>
         public void RotateXRController(AltXRController controller, AltVector3 rotation, float duration = 0.1f, bool wait = true)
         {
             new AltRotateXRController(communicationHandler, controller, rotation, duration, wait).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
+        /// <summary>
+        /// Simulates rotating the HMD (headset) by a specified rotation vector for a given duration.
+        /// </summary>
+        /// <param name="rotation">Rotation vector to apply to the HMD.</param>
+        /// <param name="duration">Duration of the rotation in seconds (default is 0.1).</param>
+        /// <param name="wait">If true, waits until the rotation is complete (default is true).</param>
+        public void RotateHMD(AltVector3 rotation, float duration = 0.1f, bool wait = true)
+        {
+            new AltRotateHMD(communicationHandler, rotation, duration, wait).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
+
+        /// <summary>
+        /// Simulates moving the HMD (headset) in a specified direction for a certain duration.
+        /// </summary>
+        /// <param name="direction">Direction vector to move the HMD.</param>
+        /// <param name="duration">Duration of the movement in seconds (default is 0.1).</param>
+        /// <param name="wait">If true, waits until the movement is complete (default is true).</param>
+        public void MoveHMD(AltVector3 direction, float duration = 0.1f, bool wait = true)
+        {
+            new AltMoveHMD(communicationHandler, direction, duration, wait).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
+
+        /// <summary>
+        /// Simulates moving the joystick of an XR controller in a given direction for a specified duration.
+        /// </summary>
+        /// <param name="controller">The XR controller whose joystick to move.</param>
+        /// <param name="direction">Direction to move the joystick (as a vector).</param>
+        /// <param name="duration">Duration of the joystick movement in seconds (default is 0.1).</param>
+        /// <param name="wait">If true, waits until the joystick movement is complete (default is true).</param>
         public void MoveXRControllerJoystick(AltXRController controller, AltVector2 direction, float duration = 0.1f, bool wait = true)
         {
             new AltMoveXRControllerJoystick(communicationHandler, controller, direction, duration, wait).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
-        public void ResetXRController(AltXRController controller, bool wait = true)
+        /// <summary>
+        /// Resets the specified XR controller's rotation and/or position.
+        /// </summary>
+        /// <param name="controller">The XR controller to reset.</param>
+        /// <param name="resetRotation">If true, resets the rotation.</param>
+        /// <param name="resetPosition">If true, resets the position.</param>
+        /// <param name="wait">If true, waits until the reset operation is complete (default is true).</param>
+        public void ResetXRController(AltXRController controller, bool resetRotation, bool resetPosition, bool wait = true)
         {
-            new AltResetXRController(communicationHandler, controller, wait).Execute();
+            new AltResetXRController(communicationHandler, controller, resetRotation, resetPosition, wait).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
+
+        /// <summary>
+        /// Resets the HMD's (headset's) rotation and/or position.
+        /// </summary>
+        /// <param name="resetRotation">If true, resets the rotation.</param>
+        /// <param name="resetPosition">If true, resets the position.</param>
+        /// <param name="wait">If true, waits until the reset operation is complete (default is true).</param>
+        public void ResetHMD(bool resetRotation, bool resetPosition, bool wait = true)
+        {
+            new AltResetHMD(communicationHandler, resetRotation, resetPosition, wait).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
     }
