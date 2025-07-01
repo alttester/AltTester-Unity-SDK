@@ -17,12 +17,12 @@
 
 namespace AltTester.AltTesterSDK.Driver.Commands
 {
-    public class AltRotateXRController : AltBaseCommand
+    public class AltResetXRDevice : AltBaseCommand
     {
-        AltRotateXRControllerParams cmdParams;
-        public AltRotateXRController(IDriverCommunication commHandler, AltXRController controller, AltVector3 rotation, float duration, bool wait) : base(commHandler)
+        AltResetXRDeviceParams cmdParams;
+        public AltResetXRDevice(IDriverCommunication commHandler, AltXRDevice device, bool resetRotation, bool resetPosition, bool wait) : base(commHandler)
         {
-            cmdParams = new AltRotateXRControllerParams(controller, rotation, duration, wait);
+            cmdParams = new AltResetXRDeviceParams(device, resetRotation, resetPosition, wait);
         }
 
         public void Execute()

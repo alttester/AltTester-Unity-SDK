@@ -17,12 +17,12 @@
 
 namespace AltTester.AltTesterSDK.Driver.Commands
 {
-    public class AltMoveXRController : AltBaseCommand
+    public class AltMoveXRDevice : AltBaseCommand
     {
-        AltMoveXRControllerParams cmdParams;
-        public AltMoveXRController(IDriverCommunication commHandler, AltXRController controller, AltVector3 direction, float duration, bool wait) : base(commHandler)
+        AltMoveXRDeviceParams cmdParams;
+        public AltMoveXRDevice(IDriverCommunication commHandler, AltXRDevice device, AltVector3 direction, float duration, bool wait) : base(commHandler)
         {
-            cmdParams = new AltMoveXRControllerParams(controller, direction, duration, wait);
+            cmdParams = new AltMoveXRDeviceParams(device, direction, duration, wait);
         }
 
         public void Execute()
