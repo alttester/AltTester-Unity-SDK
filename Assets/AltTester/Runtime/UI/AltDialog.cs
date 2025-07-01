@@ -673,7 +673,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                     downloadURL = match.Value;
                     Match match2 = Regex.Match(match.Value, @"(\d+_\d+_\d+)\.unitypackage");
                     var releasedVersion = match2.Groups[1].Value.Replace('_', '.');
-                    if (isCurrentVersionOlderOrEqualThanRelease(releasedVersion, AltRunner.VERSION))
+                    if (isCurrentVersionOlderOrEqualThanRelease(releasedVersion, AltRunner.VERSION.Split("-")[0]))
                     {
                         isNewVersionAvailable = false;
                         UnityEngine.Debug.Log("There is no new version available to download");
