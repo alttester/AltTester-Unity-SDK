@@ -81,10 +81,10 @@ namespace AltTester.AltTesterSDK.Driver
         /// Resets the specified XR device's rotation and/or position.
         /// </summary>
         /// <param name="device">The XR device to reset.</param>
-        /// <param name="resetRotation">If true, resets the rotation.</param>
-        /// <param name="resetPosition">If true, resets the position.</param>
+        /// <param name="resetRotation">If true, resets the rotation (default is false).</param>
+        /// <param name="resetPosition">If true, resets the position (default is false).</param>
         /// <param name="wait">If true, waits until the reset operation is complete (default is true).</param>
-        public void Reset(AltXRDevice device, bool resetRotation, bool resetPosition, bool wait = true)
+        public void Reset(AltXRDevice device, bool resetRotation = false, bool resetPosition = false, bool wait = true)
         {
             new AltResetXRDevice(communicationHandler, device, resetRotation, resetPosition, wait).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
