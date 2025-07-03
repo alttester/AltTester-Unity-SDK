@@ -249,65 +249,35 @@ namespace AltTester.AltTesterSDK.Driver.Commands
         }
     }
 
-    [Command("moveXRController")]
-    public class AltMoveXRControllerParams : CommandParams
+    [Command("moveXRdevice")]
+    public class AltMoveXRDeviceParams : CommandParams
     {
-        public AltXRController controller;
+        public AltXRDevice device;
         public AltVector3 direction;
         public float duration;
         public bool wait;
 
-        public AltMoveXRControllerParams(AltXRController controller, AltVector3 direction, float duration, bool wait) : base()
+        public AltMoveXRDeviceParams(AltXRDevice device, AltVector3 direction, float duration, bool wait) : base()
         {
-            this.controller = controller;
+            this.device = device;
             this.direction = direction;
             this.duration = duration;
             this.wait = wait;
         }
     }
 
-    [Command("rotateXRController")]
-    public class AltRotateXRControllerParams : CommandParams
+    [Command("rotateXRDevice")]
+    public class AltRotateXRDeviceParams : CommandParams
     {
-        public AltXRController controller;
+        public AltXRDevice device;
         public AltVector3 rotation;
         public float duration;
         public bool wait;
 
-        public AltRotateXRControllerParams(AltXRController controller, AltVector3 rotation, float duration, bool wait) : base()
+        public AltRotateXRDeviceParams(AltXRDevice device, AltVector3 rotation, float duration, bool wait) : base()
         {
-            this.controller = controller;
+            this.device = device;
             this.rotation = rotation;
-            this.duration = duration;
-            this.wait = wait;
-        }
-    }
-
-    [Command("rotateHMD")]
-    public class AltRotateHMDParams : CommandParams
-    {
-        public AltVector3 rotation;
-        public float duration;
-        public bool wait;
-
-        public AltRotateHMDParams(AltVector3 rotation, float duration, bool wait) : base()
-        {
-            this.rotation = rotation;
-            this.duration = duration;
-            this.wait = wait;
-        }
-    }
-
-    [Command("moveHMD")]
-    public class AltMoveHMDParams : CommandParams
-    {
-        public AltVector3 direction;
-        public float duration;
-        public bool wait;
-
-        public AltMoveHMDParams(AltVector3 direction, float duration, bool wait) : base()
-        {
-            this.direction = direction;
             this.duration = duration;
             this.wait = wait;
         }
@@ -330,32 +300,17 @@ namespace AltTester.AltTesterSDK.Driver.Commands
         }
     }
 
-    [Command("resetXRController")]
-    public class AltResetXRControllerParams : CommandParams
+    [Command("resetXRDevice")]
+    public class AltResetXRDeviceParams : CommandParams
     {
-        public AltXRController controller;
+        public AltXRDevice device;
         public bool resetRotation;
         public bool resetPosition;
         public bool wait;
 
-        public AltResetXRControllerParams(AltXRController controller, bool resetRotation, bool resetPosition, bool wait) : base()
+        public AltResetXRDeviceParams(AltXRDevice device, bool resetRotation, bool resetPosition, bool wait) : base()
         {
-            this.controller = controller;
-            this.resetRotation = resetRotation;
-            this.resetPosition = resetPosition;
-            this.wait = wait;
-        }
-    }
-
-    [Command("resetHMD")]
-    public class AltResetHMDParams : CommandParams
-    {
-        public bool resetRotation;
-        public bool resetPosition;
-        public bool wait;
-
-        public AltResetHMDParams(bool resetRotation, bool resetPosition, bool wait) : base()
-        {
+            this.device = device;
             this.resetRotation = resetRotation;
             this.resetPosition = resetPosition;
             this.wait = wait;
