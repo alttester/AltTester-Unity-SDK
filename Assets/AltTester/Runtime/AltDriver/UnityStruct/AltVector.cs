@@ -24,17 +24,17 @@ namespace AltTester.AltTesterSDK.Driver
         public float x;
         public float y;
 
-        private static readonly AltVector2 zeroVector = new(0f, 0f);
+        private static readonly AltVector2 zeroVector = new AltVector2(0f, 0f);
 
-        private static readonly AltVector2 oneVector = new(1f, 1f);
+        private static readonly AltVector2 oneVector = new AltVector2(1f, 1f);
 
-        private static readonly AltVector2 upVector = new(0f, 1f);
+        private static readonly AltVector2 upVector = new AltVector2(0f, 1f);
 
-        private static readonly AltVector2 downVector = new(0f, -1f);
+        private static readonly AltVector2 downVector = new AltVector2(0f, -1f);
 
-        private static readonly AltVector2 leftVector = new(-1f, 0f);
+        private static readonly AltVector2 leftVector = new AltVector2(-1f, 0f);
 
-        private static readonly AltVector2 rightVector = new(1f, 0f);
+        private static readonly AltVector2 rightVector = new AltVector2(1f, 0f);
 
         //
         // Summary:
