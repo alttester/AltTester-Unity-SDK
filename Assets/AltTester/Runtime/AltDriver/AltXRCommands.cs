@@ -47,7 +47,7 @@ namespace AltTester.AltTesterSDK.Driver
         /// <param name="wait">If true, waits until the movement is complete (default is true).</param>
         public void Move(AltXRDevice device, AltVector3 direction, float duration = 0.1f, bool wait = true)
         {
-            new AltMoveXRDevice(communicationHandler, device, direction, duration, wait);
+            new AltMoveXRDevice(communicationHandler, device, direction, duration, wait).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
 
