@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using AltTester.AltTesterUnitySDK.InputModule;
 using TMPro;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
@@ -355,7 +356,7 @@ private static extern void CopyToClipboard(string str);
 
     private void copyLogs()
     {
-        ShowClipboardNotification(GetMousePosition());
+        ShowClipboardNotification(InputMisc.GetMousePosition());
         StringBuilder sb = new StringBuilder();
         sb.Clear();
         foreach (var log in filteredLogs)
@@ -371,14 +372,7 @@ private static extern void CopyToClipboard(string str);
         sb.Clear();
     }
 
-    public static Vector2 GetMousePosition()
-    {
-#if ENABLE_INPUT_SYSTEM
-        return Mouse.current.position.ReadValue();
-#else
-        return Input.mousePosition;
-#endif
-    }
+
 
 
     private string stripRichText(string input)
