@@ -330,6 +330,21 @@ namespace AltTester.AltTesterSDK.Driver.Commands
         }
     }
 
+    [Command("moveToXRDevice")]
+    public class AltMoveToXRDeviceParams : CommandParams
+    {
+        public AltXRDevice device;
+        public AltObject pointToObject;
+        public AltVector3 offset;
+
+        public AltMoveToXRDeviceParams(AltXRDevice device, AltObject pointToObject, AltVector3 offset) : base()
+        {
+            this.device = device;
+            this.pointToObject = pointToObject;
+            this.offset = offset;
+        }
+    }
+
 
 
     [Command("scroll")]

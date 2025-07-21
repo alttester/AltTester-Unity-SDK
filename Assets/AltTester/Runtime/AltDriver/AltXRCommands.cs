@@ -103,5 +103,19 @@ namespace AltTester.AltTesterSDK.Driver
             new AltPointToXRDevice(communicationHandler, device, pointToObject).Execute();
             communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
         }
+        /// <summary>
+        /// Moves an XR device (e.g., controller or HMD) toward a specified GameObject in the scene.
+        /// </summary>
+        /// <param name="device">The XR device to point (e.g., controller or HMD).</param>
+        /// <param name="pointToObject">The target object in the scene to point to.</param>
+        public void MoveTo(AltXRDevice device, AltObject pointToObject, AltVector3 offset = default)
+        {
+            if (pointToObject == null)
+            {
+                throw new NullReferenceException("pointToObject cannot be null.");
+            }
+            new AltMoveToXRDevice(communicationHandler, device, pointToObject, offset).Execute();
+            communicationHandler.SleepFor(communicationHandler.GetDelayAfterCommand());
+        }
     }
 }
