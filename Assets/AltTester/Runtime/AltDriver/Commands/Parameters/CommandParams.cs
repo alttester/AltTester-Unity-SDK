@@ -316,7 +316,22 @@ namespace AltTester.AltTesterSDK.Driver.Commands
             this.wait = wait;
         }
     }
-    
+
+    [Command("pointToXRDevice")]
+    public class AltPointToXRDeviceParams : CommandParams
+    {
+        public AltXRDevice device;
+        public AltObject pointToObject;
+
+        public AltPointToXRDeviceParams(AltXRDevice device, AltObject pointToObject) : base()
+        {
+            this.device = device;
+            this.pointToObject = pointToObject;
+        }
+    }
+
+
+
     [Command("scroll")]
     public class AltScrollParams : CommandParams
     {
