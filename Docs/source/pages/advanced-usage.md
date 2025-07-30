@@ -46,9 +46,7 @@ check for *BuildOptions.Development* and *BuildOptions.IncludeTestAssemblies*.
 ```c#
 var buildTargetGroup = BuildTargetGroup.Android;
 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
-if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone) {
-    AltBuilder.CreateJsonFileForInputMappingOfAxis();
-}
+AltBuilder.CreateJsonFileForInputMappingOfAxis();
 var instrumentationSettings = new AltInstrumentationSettings();
 AltBuilder.InsertAltInScene(FirstSceneOfTheApp, instrumentationSettings);
 ```
