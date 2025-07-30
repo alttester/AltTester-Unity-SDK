@@ -77,6 +77,8 @@ namespace AltTester.AltTesterSDK.Driver
                     deviceInstanceId,
                     driverType
                 );
+                if (driverType == "SDK")
+                    driverType = "csharp_" + VERSION;
                 while (true)
                 {
                     communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType);

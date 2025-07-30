@@ -93,7 +93,7 @@ class AltDriver:
                 "platformVersion": self.platform_version,
                 "deviceInstanceId": self.device_instance_id,
                 "appId": self.app_id,
-                "driverType": "SDK"
+                "driverType": "python_" + VERSION
             },
             command_handler=self._command_handler,
             notification_handler=self._notification_handler
