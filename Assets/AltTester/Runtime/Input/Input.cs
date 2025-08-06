@@ -108,16 +108,33 @@ public class Input : MonoBehaviour
     public void Start()
     {
         _instance = this;
-        string filePath = "AltTester/AltTesterInputAxisData";
+        LoadAxisList();
+    }
 
-        UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
-        string dataAsJson = targetFile.text;
-        AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltAxis>>(dataAsJson, new JsonSerializerSettings
+    private static bool LoadAxisList()
+    {
+        try
         {
-            ContractResolver = new DefaultContractResolver(),
-            Culture = CultureInfo.InvariantCulture,
-            Formatting = Formatting.Indented
-        });
+            string filePath = "AltTester/AltTesterInputAxisData";
+
+            UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
+            string dataAsJson = targetFile.text;
+            AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltAxis>>(dataAsJson, new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver(),
+                Culture = CultureInfo.InvariantCulture,
+                Formatting = Formatting.Indented
+            });
+        }
+        catch (Exception e)
+        {
+            UnityEngine.Debug.LogException(e);
+        }
+
+        return AxisList != null;
+
+
+
     }
 
     private void FixedUpdate()
@@ -331,6 +348,14 @@ public class Input : MonoBehaviour
     {
         if (_useCustomInput)
         {
+            if (AxisList == null)
+            {
+                if (LoadAxisList())
+                {
+                    return UnityEngine.Input.GetAxis(axisName);
+                }
+
+            }
             var axis = AxisList.FirstOrDefault(axle => axle.name == axisName);
             if (axis == null)
             {
