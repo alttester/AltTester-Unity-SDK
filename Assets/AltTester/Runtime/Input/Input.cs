@@ -875,7 +875,9 @@ public class Input : MonoBehaviour
 
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
             {
-#endif
+#endif  
+                if (eventSystemTarget ?? false)
+                    ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.pointerEnterHandler);
                 if (eventSystemTarget ?? false)
                     ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
                 if (eventSystemTarget ?? false)
@@ -949,7 +951,9 @@ public class Input : MonoBehaviour
             position = screenPosition,
             button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
             eligibleForClick = true,
-            pressPosition = screenPosition
+            pressPosition = screenPosition,
+            pointerCurrentRaycast = new UnityEngine.EventSystems.RaycastResult { gameObject = target },
+
         };
         mousePosition = screenPosition;
         pointerEventData.pointerEnter = target;
@@ -975,6 +979,8 @@ public class Input : MonoBehaviour
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
             {
 #endif
+                if (target ?? false)
+                    ExecuteEvents.ExecuteHierarchy(target, pointerEventData, ExecuteEvents.pointerEnterHandler);
                 if (target ?? false) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
                 if (target ?? false) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
 #if ENABLE_INPUT_SYSTEM
