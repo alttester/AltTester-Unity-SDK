@@ -146,14 +146,14 @@ public class Input : MonoBehaviour
             {
                 if (eventSystemTarget != previousEventSystemTarget)
                 {
-                    if (previouseventSystemTarget != null) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+                    if (previousEventSystemTarget != null) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
                     if (eventSystemTarget != null && previousMousePosition != mousePosition) ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
                     previousEventSystemTarget = eventSystemTarget;
                 }
             }
         if (previousMousePosition != mousePosition)
         {
-            if (eventSystemTarget != null) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerMoveHandler);
+            if (previousEventSystemTarget != null) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerMoveHandler);
             previousMousePosition = mousePosition;
         }
 
