@@ -51,7 +51,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error matching condition {selectorCondition.Type}: {e.Message}");
+                Debug.LogError($"Error matching condition {selectorCondition.Type}: {e.ToString()}");
                 return null;
             }
         }
@@ -119,7 +119,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error matching property condition: {e.Message}");
+                Debug.LogError($"Error matching property condition: {e.ToString()}");
             }
             return null;
         }
@@ -174,7 +174,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error matching function condition: {e.Message}");
+                Debug.LogError($"Error matching function condition: {e.ToString()}");
             }
             return null;
         }
