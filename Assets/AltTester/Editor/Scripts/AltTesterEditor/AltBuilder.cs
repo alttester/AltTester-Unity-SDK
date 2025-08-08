@@ -63,8 +63,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, $"{UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup)}Test");
             }
             AddAltTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
-            if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
-                CreateJsonFileForInputMappingOfAxis();
+            CreateJsonFileForInputMappingOfAxis();
 
         }
         public static void BuildGameFromUI(UnityEditor.BuildTarget buildTarget, UnityEditor.BuildTargetGroup buildTargetGroup, bool autoRun = false)

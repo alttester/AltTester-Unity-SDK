@@ -550,19 +550,19 @@ For this purpose, an [Azure virtual machine](https://azure.microsoft.com/en-us/p
     .. image:: ../_static/img/alttester-with-cloud/sauce-labs-virtual-machine-settings2.png
     ```
     - another necessary setting: [turn Microsoft Defender Firewall off](https://support.microsoft.com/en-us/windows/turn-microsoft-defender-firewall-on-or-off-ec0844f7-aebd-0583-67fe-601ecf5d774f) on the virtual machine
-- [download AltTester® Desktop](https://alttester.com/alttester/#pricing) on your virtual machine, install it, launch it and leave it running and listening on port `13000`
+- [download AltTester® Desktop](https://alttester.com/downloads/) on your virtual machine, install it, launch it and leave it running and listening on port `13000`
     ```eval_rst
     .. image:: ../_static/img/alttester-with-cloud/sauce-labs-alttester-desktop.png
     ```
 
-**2. Have a set of C# tests that use AltTester® Unity SDK v2.0.\***
+**2. Have a set of C# tests that use AltTester® Unity SDK v2.2.\***
 
-- check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/tree/saucelabs_example)
+- check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/tree/saucelabs_example) where the tests are adapted for SDK 2.2.5
 
-**3. Prepare the build instrumented with AltTester® Unity SDK v2.0.\***
+**3. Prepare the build instrumented with AltTester® Unity SDK v2.2.\***
 
 Our example is based on [TrashCat endless runner game](https://assetstore.unity.com/packages/templates/tutorials/endless-runner-sample-game-87901) that we have instrumented in Unity. 
-- instrument the TrashCat application using AltTester® Unity SDK `v2.0.*`- for additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x)
+- instrument the TrashCat application using AltTester® Unity SDK `v2.2.5`- for additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x)
 - it should be created with the host IP of the VM in which AltDesktop app is running
 
 ```eval_rst
@@ -763,7 +763,7 @@ You can download our example project from [here](https://github.com/alttester-te
 #### **Preparation steps**
 
 **1. Prepare the application**
-- instrument the TrashCat application using AltTester® Unity SDK `v2.2.5`- For additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x).
+- instrument the TrashCat application using AltTester® Unity SDK `v2.2.*`- For additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x).
 - Based on your option to connect to AltTester® Desktop you need to set AltTester® Server Host of the instrumented app to:
     - localhost (`127.0.0.1`) - for local connection 
     - IP/URL provided by the AWS Instance where AltTester® Desktop is running - for remote connection
@@ -841,7 +841,7 @@ Keep in mind that the setup is different for Android and iOS.
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-connect-to-instance.png
     ```  
-    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop__v2.2.4.exe) and install it on the Instance  
+    - [Download AltTester® Desktop for Windows](https://alttester.com/downloads/) and install it on the Instance  
     - [Associate an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating), so that the IP remains constant after each opening of the instance
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
@@ -1006,7 +1006,7 @@ Keep in mind that the setup is different for Android and iOS.
     - install necessary packages for running the C# tests
         ```
         - dotnet add package NUnit --version 3.13.3
-        - dotnet add package AltTester-Driver -- version 2.0.1 
+        - dotnet add package AltTester-Driver -- version 2.2.5 
         - dotnet add package Selenium.WebDriver -- version 3.141.0
         - dotnet add package NUnit3TestAdapter --version 4.4.2
         ```
@@ -1057,7 +1057,7 @@ Keep in mind that the setup is different for Android and iOS.
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-connect-to-instance.png
     ```  
-    - [Download AltTester® Desktop for Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktop__v2.2.4.exe) and install it on the Instance  
+    - [Download AltTester® Desktop for Windows](https://alttester.com/downloads/) and install it on the Instance  
     - [Associate an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating), so that the IP remains constant after each opening of the instance
     ```eval_rst
         .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
@@ -1072,7 +1072,7 @@ Keep in mind that the setup is different for Android and iOS.
 
 Please note that the process of running the tests is similar for iOS or Android. The differences are described above. 
 
-The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.0.1 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection)
+The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.2.5 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection)
 
 ```eval_rst
 
@@ -1168,7 +1168,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
         ```
         - another necessary setting: [Turn off Firewall on the VM](https://support.microsoft.com/en-us/windows/turn-microsoft-defender-firewall-on-or-off-ec0844f7-aebd-0583-67fe-601ecf5d774f)
 
-    - connect using [Remote Desktop Connection](https://support.microsoft.com/en-us/windows/how-to-use-remote-desktop-5fe128d5-8fb1-7a23-3b8a-41e636865e8c) on the machine, [download AltTester® Desktop](https://alttester.com/alttester/#pricing), install it, launch it and leave it running and listening on port `13000`
+    - connect using [Remote Desktop Connection](https://support.microsoft.com/en-us/windows/how-to-use-remote-desktop-5fe128d5-8fb1-7a23-3b8a-41e636865e8c) on the machine, [download AltTester® Desktop](https://alttester.com/downloads/), install it, launch it and leave it running and listening on port `13000`
 
     ```eval_rst
 
@@ -1215,7 +1215,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
-[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.0.*`.
+[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.2.*`.
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
@@ -1418,7 +1418,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
     ```
     - another necessary setting: [Turn off Firewall on the VM](https://support.microsoft.com/en-us/windows/turn-microsoft-defender-firewall-on-or-off-ec0844f7-aebd-0583-67fe-601ecf5d774f)
 
-- connect using [Remote Desktop Connection](https://support.microsoft.com/en-us/windows/how-to-use-remote-desktop-5fe128d5-8fb1-7a23-3b8a-41e636865e8c) on the machine, [download AltTester® Desktop](https://alttester.com/alttester/#pricing), install it, launch it and leave it running and listening on port `13000`
+- connect using [Remote Desktop Connection](https://support.microsoft.com/en-us/windows/how-to-use-remote-desktop-5fe128d5-8fb1-7a23-3b8a-41e636865e8c) on the machine, [download AltTester® Desktop](https://alttester.com/downloads/), install it, launch it and leave it running and listening on port `13000`
 
 ```eval_rst
 
@@ -1443,7 +1443,7 @@ We have now a VM where AltTester® Server is listening for connections. Further 
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
-[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.2.5`.
+[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.2.*`.
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
@@ -1628,7 +1628,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
         ```
         - another necessary setting: [Turn off Firewall on the VM](https://support.microsoft.com/en-us/windows/turn-microsoft-defender-firewall-on-or-off-ec0844f7-aebd-0583-67fe-601ecf5d774f)
 
-    - connect using [Remote Desktop Connection](https://support.microsoft.com/en-us/windows/how-to-use-remote-desktop-5fe128d5-8fb1-7a23-3b8a-41e636865e8c) on the machine, [download AltTester® Desktop](https://alttester.com/alttester/#pricing), install it, launch it and leave it running and listening on port `13000`
+    - connect using [Remote Desktop Connection](https://support.microsoft.com/en-us/windows/how-to-use-remote-desktop-5fe128d5-8fb1-7a23-3b8a-41e636865e8c) on the machine, [download AltTester® Desktop](https://alttester.com/downloads/), install it, launch it and leave it running and listening on port `13000`
 
     ```eval_rst
 
@@ -1675,7 +1675,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
-[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.2.5`.
+[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.2.*`.
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
@@ -1865,7 +1865,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
     ```
     - another necessary setting: [Turn off Firewall on the VM](https://support.microsoft.com/en-us/windows/turn-microsoft-defender-firewall-on-or-off-ec0844f7-aebd-0583-67fe-601ecf5d774f)
 
-- connect using [Remote Desktop Connection](https://support.microsoft.com/en-us/windows/how-to-use-remote-desktop-5fe128d5-8fb1-7a23-3b8a-41e636865e8c) on the machine, [download AltTester® Desktop](https://alttester.com/alttester/#pricing), install it, launch it and leave it running and listening on port `13000`
+- connect using [Remote Desktop Connection](https://support.microsoft.com/en-us/windows/how-to-use-remote-desktop-5fe128d5-8fb1-7a23-3b8a-41e636865e8c) on the machine, [download AltTester® Desktop](https://alttester.com/downloads/), install it, launch it and leave it running and listening on port `13000`
 
 ```eval_rst
 
@@ -1890,7 +1890,7 @@ We have now a VM where AltTester® Server is listening for connections. Further 
 **1. Prepare the application**
 
 You will first need to create an **.apk** (for Android) / **.ipa** (for iOS) file, with a build of your app containing the AltDriver.
-[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.2.5`.
+[Here](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x) is a helpful resource about the process of instrumenting the TrashCat application using AltTester® Unity SDK `v2.2.*`.
 
 If you’re unsure how to generate an **.ipa** file please watch the first half of [this video](https://www.youtube.com/embed/rCwWhEeivjY?start=0&end=199) for iOS.
 After you finish setting up the build, you need to use the **Archive** option to generate the standalone **.ipa**. The required steps for the archive option are described [here](https://docs.saucelabs.com/mobile-apps/automated-testing/ipa-files/#creating-ipa-files-for-appium-testing). Keep in mind that you need to select **Development** at step 6.
@@ -2042,6 +2042,3 @@ GitHub Actions is a very powerful tool for creating a great process CI/CD. You c
   - [GitHub Action documentation](https://docs.github.com/en/actions)
   - [Unity Builder](https://github.com/marketplace/actions/unity-builder)
   - [Example project for running tests on a public machine](https://github.com/alttester/Example-Running-Tests-On-Github-Public-Runner)
-  
-
-

@@ -93,7 +93,7 @@ class AltDriver:
                 "platformVersion": self.platform_version,
                 "deviceInstanceId": self.device_instance_id,
                 "appId": self.app_id,
-                "driverType": "SDK"
+                "driverType": "python_" + VERSION
             },
             command_handler=self._command_handler,
             notification_handler=self._notification_handler
@@ -200,7 +200,7 @@ class AltDriver:
 
         """
 
-        return self._connection.set_command_timeout()
+        return self._connection.get_command_timeout()
 
     def set_command_response_timeout(self, timeout):
         """Sets the command response timeout for the AltTester® connection.

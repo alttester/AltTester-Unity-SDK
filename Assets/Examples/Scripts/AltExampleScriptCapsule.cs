@@ -15,6 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Newtonsoft.Json;
@@ -42,6 +43,10 @@ public class AltExampleScriptCapsule : AltInheritedFields
 #pragma warning restore 0414
     public TouchPhase TouchPhase = TouchPhase.Canceled;
     private TestStructure testStructure = new TestStructure("test", "test2", new List<int>() { 0, 1 });
+
+    public Dictionary<Guid, TestStructure> features { get; } = new Dictionary<Guid, TestStructure>();
+    public Dictionary<Guid, TestStructure> previewCreatedFeatures { get; } = new Dictionary<Guid, TestStructure>();
+    public Dictionary<string, string> dictionary { get; } = new Dictionary<string, string>();
     protected void Awake()
     {
         if (capsuleInfo == null)
@@ -60,6 +65,12 @@ public class AltExampleScriptCapsule : AltInheritedFields
         };
 
         JsonConvert.DefaultSettings = () => badSettings;
+        features.Add(Guid.NewGuid(), new TestStructure("test", "test2", new List<int>() { 0, 1 }));
+        previewCreatedFeatures.Add(Guid.NewGuid(), new TestStructure("test", "test2", new List<int>() { 2, 1 }));
+        features.Add(Guid.NewGuid(), new TestStructure("test3", "test4", new List<int>() { 0, 1 }));
+        previewCreatedFeatures.Add(Guid.NewGuid(), new TestStructure("test1", "test55", new List<int>() { 0, 2 }));
+        dictionary.Add("key1", "value1");
+        dictionary.Add("abe95c2b-5ba3-4c42-ab47-113b039adc56", "value2");
     }
 
     public bool TestProperty

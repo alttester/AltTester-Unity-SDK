@@ -39,7 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r "Bindings~/robot/requirements.txt
+          pip install -r "Bindings~/robot/requirements.txt"
           pip install -r "Bindings~/robot/requirements-dev.txt"
 
       - name: Upload to PyPi

@@ -29,6 +29,8 @@ using System.Net;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine.Networking;
+using UnityEngine.UI;
+
 
 
 
@@ -98,7 +100,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         [SerializeField]
         public UnityEngine.UI.Toggle CustomInputToggle = null;
-
+        [SerializeField] public Button LogButton = null;
+        [SerializeField] public GameObject LogsPanel = null;
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
         private RuntimeCommunicationHandler communicationClient;
@@ -156,6 +159,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             resetConnectionDataBasedOnUID();
             setUpRestartButton();
             setUpCustomInputToggle();
+            setUpLogButton();
 
             this.platform = Application.platform.ToString();
             this.platformVersion = SystemInfo.operatingSystem;
@@ -269,6 +273,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             dialogImage.color = primaryColor;
             restartButton.color = secondaryColor;
             infoArea.color = secondaryColor;
+            LogButton.GetComponent<Image>().color = secondaryColor;
             MessageText.text = message;
         }
 
@@ -396,6 +401,11 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             CustomInputToggle.onValueChanged.AddListener(ToggleCustomInput);
             ToggleCustomInput(false);
+        }
+        private void setUpLogButton()
+        {
+            LogButton.onClick.AddListener(() => LogsPanel.SetActive(true));
+            LogsPanel.SetActive(false);
         }
 
         public void ToggleCustomInput(bool value)
@@ -663,7 +673,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                     downloadURL = match.Value;
                     Match match2 = Regex.Match(match.Value, @"(\d+_\d+_\d+)\.unitypackage");
                     var releasedVersion = match2.Groups[1].Value.Replace('_', '.');
-                    if (isCurrentVersionOlderOrEqualThanRelease(releasedVersion, AltRunner.VERSION))
+                    if (isCurrentVersionOlderOrEqualThanRelease(releasedVersion, AltRunner.VERSION.Split("-")[0]))
                     {
                         isNewVersionAvailable = false;
                         UnityEngine.Debug.Log("There is no new version available to download");
