@@ -61,7 +61,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             coroutines.Add(NewInputSystem.ScrollLifeCycle(speedVertical, speedHorizontal, duration));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.ScrollLifeCycle(speedVertical, speedHorizontal, duration));
+            coroutines.Add(AltInput.ScrollLifeCycle(speedVertical, speedHorizontal, duration));
 #endif
             CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
@@ -77,7 +77,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             coroutines.Add(NewInputSystem.MoveMouseCycle(location, duration));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.MoveMouseCycle(location, duration));
+            coroutines.Add(AltInput.MoveMouseCycle(location, duration));
 #endif
             CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
@@ -92,7 +92,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             coroutines.Add(NewInputSystem.TapElementCycle(target, count, interval));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.tapClickElementLifeCycle(target, count, interval, true));
+            coroutines.Add(AltInput.tapClickElementLifeCycle(target, count, interval, true));
 #endif
             CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
@@ -108,7 +108,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             coroutines.Add(NewInputSystem.TapCoordinatesCycle(coordinates, count, interval));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.tapClickCoordinatesLifeCycle(coordinates, count, interval, true));
+            coroutines.Add(AltInput.tapClickCoordinatesLifeCycle(coordinates, count, interval, true));
 #endif
             CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
@@ -124,7 +124,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             coroutines.Add(NewInputSystem.ClickElementLifeCycle(target, count, interval));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.tapClickElementLifeCycle(target, count, interval, false));
+            coroutines.Add(AltInput.tapClickElementLifeCycle(target, count, interval, false));
 #endif
             CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
@@ -140,7 +140,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             coroutines.Add(NewInputSystem.ClickCoordinatesLifeCycle(screenPosition, count, interval));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.tapClickCoordinatesLifeCycle(screenPosition, count, interval, false));
+            coroutines.Add(AltInput.tapClickCoordinatesLifeCycle(screenPosition, count, interval, false));
 #endif
             CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
@@ -155,7 +155,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             coroutines.Add(NewInputSystem.AccelerationLifeCycle(accelerationValue, duration));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.AccelerationLifeCycle(accelerationValue, duration));
+            coroutines.Add(AltInput.AccelerationLifeCycle(accelerationValue, duration));
 #endif
             CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
@@ -170,7 +170,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             NewInputSystem.KeyDown(keyCode, power);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            CoroutineManager.Instance.StartCoroutine(Input.KeyDownLifeCycle(keyCode, power));
+            CoroutineManager.Instance.StartCoroutine(AltInput.KeyDownLifeCycle(keyCode, power));
 #endif
 #else
                         throw new AltInputModuleException(AltErrors.errorInputModule);
@@ -184,7 +184,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             NewInputSystem.KeyUp(keyCode);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            CoroutineManager.Instance.StartCoroutine(Input.KeyUpLifeCycle(keyCode));
+            CoroutineManager.Instance.StartCoroutine(AltInput.KeyUpLifeCycle(keyCode));
 #endif
 #else
                         throw new AltInputModuleException(AltErrors.errorInputModule);
@@ -199,7 +199,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             coroutines.Add(NewInputSystem.KeyPressLifeCycle(keyCode, power, duration));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.KeyPressLifeCycle(keyCode, power, duration));
+            coroutines.Add(AltInput.KeyPressLifeCycle(keyCode, power, duration));
 #endif
             CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
@@ -215,7 +215,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             coroutines.Add(NewInputSystem.MultipointSwipeLifeCycle(positions, duration));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.MultipointSwipeLifeCycle(positions, duration));
+            coroutines.Add(AltInput.MultipointSwipeLifeCycle(positions, duration));
 #endif
             CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
@@ -231,7 +231,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             newFingerId = NewInputSystem.BeginTouch(screenPosition);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            oldFingerId = Input.BeginTouch(screenPosition);
+            oldFingerId = AltInput.BeginTouch(screenPosition);
 #endif
             if (newFingerId == 0)
                 return oldFingerId + 1;
@@ -252,7 +252,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             NewInputSystem.MoveTouch(fingerId, screenPosition);
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            Input.MoveTouch(fingerId - 1, screenPosition);
+            AltInput.MoveTouch(fingerId - 1, screenPosition);
 #endif
 #else
                         throw new AltInputModuleException(AltErrors.errorInputModule);
@@ -267,7 +267,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             coroutines.Add(NewInputSystem.EndTouch(fingerId));
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            coroutines.Add(Input.EndTouch(fingerId - 1));
+            coroutines.Add(AltInput.EndTouch(fingerId - 1));
 #endif
             CoroutineManager.Instance.StartCoroutine(runThrowingIterator(coroutines, onFinish));
 #else
@@ -282,7 +282,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             NewInputSystem.Instance.ResetInput();
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            Input._instance.ResetInput();
+            AltInput.Instance.ResetInput();
 #endif
 #endif
 

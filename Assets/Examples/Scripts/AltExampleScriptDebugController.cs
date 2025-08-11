@@ -65,11 +65,6 @@ public class AltExampleScriptDebugController : MonoBehaviour
 #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
         Input.GetAxis("Horizontal");
         Input.GetAxis("Vertical");
-        lastButtonDown.text = Input.LastButtonDown;
-        lastButtonPressed.text = Input.LastButtonPressed;
-        lastButtonUp.text = Input.LastButtonUp;
-        lastAxis.text = Input.LastAxisName;
-        lastAxisValue.text = Input.LastAxisValue.ToString();
 #endif
 
         mousePosition.text = Input.mousePosition.ToString();
