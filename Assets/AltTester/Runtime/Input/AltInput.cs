@@ -1019,7 +1019,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             }
             if (keyName.Equals("page down"))
             {
-                return UnityEngine.KeyCode.Home;
+                return UnityEngine.KeyCode.PageDown;
             }
             if (System.Text.RegularExpressions.Regex.Match(keyName, "joystick button [0-9]{1,2}").Success)
             {
