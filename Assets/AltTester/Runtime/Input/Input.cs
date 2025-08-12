@@ -126,7 +126,7 @@ public class Input
     public static UnityEngine.Vector3 acceleration
     {
         get => AltInput.UseCustomInput ? AltInput.Acceleration : UnityEngine.Input.acceleration;
-        set => AltInput.Acceleration = acceleration;
+        set => AltInput.Acceleration = value;
     }
 
     public static UnityEngine.AccelerationEvent[] accelerationEvents
