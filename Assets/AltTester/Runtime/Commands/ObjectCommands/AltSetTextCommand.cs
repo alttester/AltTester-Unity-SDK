@@ -29,8 +29,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             new AltObjectProperty("UnityEngine.UI.Text", "text"),
             new AltObjectProperty("UnityEngine.UI.InputField", "text"),
+#if TMP_PRESENT
             new AltObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
             new AltObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
+#endif
         };
 
         public AltSetTextCommand(AltSetTextParams cmdParams) : base(cmdParams)
@@ -60,6 +62,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 #endif
                         uiInputFieldComp.onEndEdit.Invoke(CommandParams.value);
                     }
+#if TMP_PRESENT
                     else
                     {
                         var tMPInputFieldComp = targetObject.GetComponent<TMPro.TMP_InputField>();
@@ -71,6 +74,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                             tMPInputFieldComp.onEndEdit.Invoke(CommandParams.value);
                         }
                     }
+#endif
                     return AltRunner._altRunner.GameObjectToAltObject(targetObject);
                 }
                 catch (PropertyNotFoundException ex)

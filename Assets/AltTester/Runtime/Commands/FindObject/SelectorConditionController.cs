@@ -158,31 +158,15 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
         private static string getText(UnityEngine.GameObject objectToCheck)
         {
-            var textComponent = objectToCheck.GetComponent<UnityEngine.UI.Text>();
-            if (textComponent != null)
+            try
             {
-                return textComponent.text;
-            }
+                return AltGetTextCommand.GetText(new AltObject(objectToCheck.name, id: objectToCheck.GetInstanceID()));
 
-            var inputFieldComponent = objectToCheck.GetComponent<UnityEngine.UI.InputField>();
-            if (inputFieldComponent != null)
+            }
+            catch (Exception)
             {
-                return inputFieldComponent.text;
+                return "";
             }
-
-            var tmpTextComponent = objectToCheck.GetComponent<TMPro.TMP_Text>();
-            if (tmpTextComponent != null)
-            {
-                return tmpTextComponent.text;
-            }
-
-            var tmpInputFieldComponent = objectToCheck.GetComponent<TMPro.TMP_InputField>();
-            if (tmpInputFieldComponent != null)
-            {
-                return tmpInputFieldComponent.text;
-            }
-
-            return "";
         }
     }
 }

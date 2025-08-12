@@ -27,7 +27,6 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net;
 using System.Text.RegularExpressions;
-using TMPro;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -67,16 +66,16 @@ namespace AltTester.AltTesterUnitySDK.UI
         public GameObject Dialog = null;
 
         [SerializeField]
-        public TMP_Text TitleText = null;
+        public Text TitleText = null;
 
         [SerializeField]
-        public TMP_Text SubtitleText = null;
+        public Text SubtitleText = null;
 
         [SerializeField]
         public GameObject InfoArea = null;
 
         [SerializeField]
-        public TMP_Text MessageText = null;
+        public Text MessageText = null;
 
         [SerializeField]
         public UnityEngine.UI.Button CloseButton = null;
@@ -85,16 +84,16 @@ namespace AltTester.AltTesterUnitySDK.UI
         public UnityEngine.UI.Image Icon = null;
 
         [SerializeField]
-        public TMP_Text InfoLabel = null;
+        public Text InfoLabel = null;
 
         [SerializeField]
-        public TMP_InputField HostInputField = null;
+        public InputField HostInputField = null;
 
         [SerializeField]
-        public TMP_InputField PortInputField = null;
+        public InputField PortInputField = null;
 
         [SerializeField]
-        public TMP_InputField AppNameInputField = null;
+        public InputField AppNameInputField = null;
         [SerializeField]
         public UnityEngine.UI.Button RestartButton = null;
 
@@ -326,7 +325,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             currentPort = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
             PortInputField.text = currentPort;
             PortInputField.onValueChanged.AddListener(onPortInputFieldValueChange);
-            PortInputField.characterValidation = TMP_InputField.CharacterValidation.Integer;
+            PortInputField.characterValidation = InputField.CharacterValidation.Integer;
         }
 
         private void setUpAppNameInputField()
