@@ -62,10 +62,18 @@ public class AltExampleScriptDebugController : MonoBehaviour
             if (Input.GetKeyUp(kcode))
                 lastKeyUp.text = ((int)kcode).ToString();
         }
-#if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-        Input.GetAxis("Horizontal");
-        Input.GetAxis("Vertical");
-#endif
+
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            lastAxis.text = "Horizontal";
+            lastAxisValue.text = Input.GetAxis("Horizontal").ToString();
+
+        }
+        if (Input.GetAxis("Vertical") != 0)
+        {
+            lastAxis.text = "Vertical";
+            lastAxisValue.text = Input.GetAxis("Vertical").ToString();
+        }
 
         mousePosition.text = Input.mousePosition.ToString();
         scroll.text = Input.mouseScrollDelta.ToString();
