@@ -234,7 +234,7 @@ The workaround is to manually add the StoreKit import to the conflicting AltTest
 `Assets/AltTester/SDK/Runtime/AltDriver/Proxy/Plugins/iOS/AltProxyFinder/Source/AltProxyFinderBridge.mm`
 
 2. Add the following line at the top of the file, alongside the other #import statements:
-```Objectiv-C
+```Objective-C
 #import <StoreKit/StoreKit.h>
 ```
 
