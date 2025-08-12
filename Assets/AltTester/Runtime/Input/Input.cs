@@ -132,7 +132,7 @@ public class Input
     public static UnityEngine.AccelerationEvent[] accelerationEvents
     {
         get => AltInput.UseCustomInput ? AltInput.AccelerationEvents : UnityEngine.Input.accelerationEvents;
-        set => AltInput.AccelerationEvents = accelerationEvents;
+        set => AltInput.AccelerationEvents = value;
     }
 
     public static int accelerationEventCount => AltInput.UseCustomInput ? AltInput.AccelerationEvents.Length : UnityEngine.Input.accelerationEventCount;
