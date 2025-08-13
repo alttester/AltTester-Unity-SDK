@@ -1201,18 +1201,18 @@ namespace AltTesterTools
         [UnityEditor.MenuItem("AltTester®/Create AltTester® Prefab", false, 80)]
         public static void CreateAltTesterPrefab()
         {
-            RobotoBold = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Bold SDF.asset");
-            RobotoRegular = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Regular SDF.asset");
-            FontAwesome = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Font Awesome 5 Free-Solid-900 SDF.asset");
+            RobotoBold = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Bold SDF.otf");
+            RobotoRegular = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Regular SDF.otf");
+            FontAwesome = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Font Awesome 5 Free-Solid-900 SDF.otf");
             var prefab = CreatePrefab();
             SavePrefab(prefab);
         }
         [UnityEditor.MenuItem("AltTester®/Create AltTester® Prefab Without Checking Equality", false, 90)]
         public static void CreateAltTesterPrefabWithoutCheck()
         {
-            RobotoBold = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Bold SDF.asset");
-            RobotoRegular = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Regular SDF.asset");
-            FontAwesome = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Font Awesome 5 Free-Solid-900 SDF.asset");
+            RobotoBold = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Bold SDF.otf");
+            RobotoRegular = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Regular SDF.otf");
+            FontAwesome = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Font Awesome 5 Free-Solid-900 SDF.otf");
             var prefab = CreatePrefab();
             SavePrefab(prefab, false);
         }
