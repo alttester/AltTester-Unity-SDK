@@ -210,3 +210,38 @@ You get this error because you are using an older binding. (Eg: You use the AltT
 </details>
 <br>
 
+
+<details>
+<summary>Xcode build fails with `cannot find protocol 'SKPaymentTransactionObserver'` when using Unity IAP</summary>
+<br>
+**Symptom**
+
+When building a Unity project for iOS in Xcode, the build fails. This issue specifically occurs when your project includes both the **AltTester Unity SDK** (v2.2.5 or newer) and a preview version of the **Unity In-App Purchasing** package (e.g., `5.0.0-pre7`).
+
+The Xcode log displays the following error:
+```log
+/Users/builduser/Library/Developer/Xcode/DerivedData/Unity-iPhone-.../Headers/UnityFramework-Swift.h:408:63: 
+error: cannot find protocol declaration for 'SKPaymentTransactionObserver'
+
+@interface PurchaseUseCase (SWIFT_EXTENSION(UnityFramework)) <SKPaymentTransactionObserver>
+```
+
+**Solution**
+
+The workaround is to manually add the StoreKit import to the conflicting AltTester file. This change needs to be made inside your Unity project before building to Xcode.
+
+1. In your Unity project, navigate to and open the following file:
+`Assets/AltTester/SDK/Runtime/AltDriver/Proxy/Plugins/iOS/AltProxyFinder/Source/AltProxyFinderBridge.mm`
+
+2. Add the following line at the top of the file, alongside the other #import statements:
+```Objective-C
+#import <StoreKit/StoreKit.h>
+```
+
+
+3. Re-build your project for iOS from Unity. The subsequent Xcode build should now complete successfully.
+> **Note:** This manual change may be reverted if you update or re-import the AltTester SDK package, so you might need to re-apply it after an update.
+
+
+</details>
+<br>
