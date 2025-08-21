@@ -125,11 +125,11 @@ public class Input : MonoBehaviour
         var monoBehaviourTarget = FindObjectViaRayCast.GetGameObjectHitMonoBehaviour(mousePosition);
         if (monoBehaviourPreviousTarget != monoBehaviourTarget)
         {
-            if (monoBehaviourPreviousTarget ?? false) monoBehaviourPreviousTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            if (monoBehaviourTarget ?? false && previousMousePosition != mousePosition) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (monoBehaviourPreviousTarget != null) monoBehaviourPreviousTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (monoBehaviourTarget != null && previousMousePosition != mousePosition) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
             monoBehaviourPreviousTarget = monoBehaviourTarget;
         }
-        if (monoBehaviourTarget ?? false) monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
         {
@@ -146,14 +146,14 @@ public class Input : MonoBehaviour
             {
                 if (eventSystemTarget != previousEventSystemTarget)
                 {
-                    if (previousEventSystemTarget ?? false) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-                    if (eventSystemTarget ?? false && previousMousePosition != mousePosition) ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
+                    if (previousEventSystemTarget != null) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+                    if (eventSystemTarget != null && previousMousePosition != mousePosition) ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
                     previousEventSystemTarget = eventSystemTarget;
                 }
             }
         if (previousMousePosition != mousePosition)
         {
-            if (eventSystemTarget ?? false) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerMoveHandler);
+            if (previousEventSystemTarget != null) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerMoveHandler);
             previousMousePosition = mousePosition;
         }
 
@@ -168,7 +168,7 @@ public class Input : MonoBehaviour
         {
             var transform = s_InternalTransformList[i];
             if (Execute(transform.gameObject, eventData, callbackFunction))
-                if ((transform ?? false) && (transform.gameObject ?? false))
+                if ((transform != null) && (transform.gameObject != null))
                     return transform.gameObject;
                 else
                     return null;
@@ -875,15 +875,17 @@ public class Input : MonoBehaviour
 
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
             {
-#endif
-                if (eventSystemTarget ?? false)
+#endif  
+                if (eventSystemTarget != null)
+                    ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.pointerEnterHandler);
+                if (eventSystemTarget != null)
                     ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
-                if (eventSystemTarget ?? false)
+                if (eventSystemTarget != null)
                     pointerEventData.pointerPress = ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
 #if ENABLE_INPUT_SYSTEM
             }
 #endif
-            if (monoBehaviourTarget ?? false)
+            if (monoBehaviourTarget != null)
             {
                 monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
             }
@@ -897,16 +899,16 @@ public class Input : MonoBehaviour
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
             {
 #endif
-                if (eventSystemTarget ?? false)
+                if (eventSystemTarget != null)
                     ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
-                if (eventSystemTarget ?? false)
+                if (eventSystemTarget != null)
                     ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
 #if ENABLE_INPUT_SYSTEM
             }
 #endif
-            if (monoBehaviourTarget ?? false)
+            if (monoBehaviourTarget != null)
                 monoBehaviourTarget.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            if (monoBehaviourTarget ?? false)
+            if (monoBehaviourTarget != null)
                 monoBehaviourTarget.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
             time += UnityEngine.Time.unscaledDeltaTime;
@@ -929,8 +931,8 @@ public class Input : MonoBehaviour
 #if ENABLE_INPUT_SYSTEM
         if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-            if (eventSystemTarget ?? false) ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-        if (monoBehaviourTarget ?? false) monoBehaviourTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (eventSystemTarget != null) ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+        if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
     }
 
     internal static IEnumerator tapClickElementLifeCycle(UnityEngine.GameObject target, int count, float interval, bool tap)
@@ -949,7 +951,9 @@ public class Input : MonoBehaviour
             position = screenPosition,
             button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
             eligibleForClick = true,
-            pressPosition = screenPosition
+            pressPosition = screenPosition,
+            pointerCurrentRaycast = new UnityEngine.EventSystems.RaycastResult { gameObject = target },
+
         };
         mousePosition = screenPosition;
         pointerEventData.pointerEnter = target;
@@ -975,12 +979,14 @@ public class Input : MonoBehaviour
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
             {
 #endif
-                if (target ?? false) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
-                if (target ?? false) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
+                if (target != null)
+                    ExecuteEvents.ExecuteHierarchy(target, pointerEventData, ExecuteEvents.pointerEnterHandler);
+                if (target != null) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.initializePotentialDrag);
+                if (target != null) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
 #if ENABLE_INPUT_SYSTEM
             }
 #endif
-            if (target ?? false) target.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (target != null) target.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
             pointerEventData.pointerPress = target;
 
             time += UnityEngine.Time.unscaledDeltaTime;
@@ -993,14 +999,14 @@ public class Input : MonoBehaviour
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
             {
 #endif
-                if (target ?? false) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
-                if (target ?? false) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+                if (target != null) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerUpHandler);
+                if (target != null) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
 #if ENABLE_INPUT_SYSTEM
             }
 #endif
 
-            if (target ?? false) target.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            if (target ?? false) target.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (target != null) target.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (target != null) target.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
             time += UnityEngine.Time.unscaledDeltaTime;
             yield return null;
@@ -1022,8 +1028,8 @@ public class Input : MonoBehaviour
 #if ENABLE_INPUT_SYSTEM
         if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-            if (target ?? false) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
-        if (target ?? false) target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+            if (target != null) ExecuteHierarchy(target, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+        if (target != null) target.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
     }
 
     private static void updateTouchInTouchList(Touch touch)
@@ -1139,10 +1145,10 @@ public class Input : MonoBehaviour
 #if ENABLE_INPUT_SYSTEM
         if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-            if (eventSystemTarget ?? false) pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
+            if (eventSystemTarget != null) pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerDownHandler);
 
 
-        if (mouseButton == PointerEventData.InputButton.Left && (monoBehaviourTarget ?? false)) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
+        if (mouseButton == PointerEventData.InputButton.Left && (monoBehaviourTarget != null)) monoBehaviourTarget.SendMessage("OnMouseDown", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
         if (mouseButtons.Contains(mouseButton))
         {
@@ -1150,7 +1156,7 @@ public class Input : MonoBehaviour
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
             {
 #endif
-                if (eventSystemTarget ?? false) pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.initializePotentialDrag);
+                if (eventSystemTarget != null) pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.initializePotentialDrag);
                 eventSystemTargetMouseDown = eventSystemTarget;
 #if ENABLE_INPUT_SYSTEM
             }
@@ -1167,16 +1173,16 @@ public class Input : MonoBehaviour
 #endif
             if (eventSystemTarget == eventSystemTargetMouseDown && mouseButton == PointerEventData.InputButton.Left)
             {
-                if (eventSystemTarget ?? false) ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.pointerClickHandler);
+                if (eventSystemTarget != null) ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, ExecuteEvents.pointerClickHandler);
             }
-            if (eventSystemTargetMouseDown ?? false) ExecuteEvents.ExecuteHierarchy(eventSystemTargetMouseDown, pointerEventData, ExecuteEvents.pointerUpHandler);
+            if (eventSystemTargetMouseDown != null) ExecuteEvents.ExecuteHierarchy(eventSystemTargetMouseDown, pointerEventData, ExecuteEvents.pointerUpHandler);
 #if ENABLE_INPUT_SYSTEM
         }
 #endif
 
-        if (mouseButton == PointerEventData.InputButton.Left && (monoBehaviourTarget ?? false)) monoBehaviourTarget.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
+        if (mouseButton == PointerEventData.InputButton.Left && (monoBehaviourTarget != null)) monoBehaviourTarget.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
         /* pointer/touch up */
-        if (monoBehaviourTarget == monoBehaviourTargetMouseDown && mouseButton == PointerEventData.InputButton.Left && (monoBehaviourTarget ?? false))
+        if (monoBehaviourTarget == monoBehaviourTargetMouseDown && mouseButton == PointerEventData.InputButton.Left && (monoBehaviourTarget != null))
         {
             monoBehaviourTarget.SendMessage("OnMouseUpAsButton", SendMessageOptions.DontRequireReceiver);
         }
