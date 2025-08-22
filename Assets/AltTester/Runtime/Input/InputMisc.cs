@@ -19,15 +19,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterUnitySDK.Commands;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 #endif
 
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
     public static class InputMisc
     {
+        private static float threeFingerHoldTimer = 0f;
         public static void ActivateCustomInput(bool value)
         {
 
@@ -72,6 +75,78 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 #endif
 
         }
-    }
 
+        public static bool TogglePopup()
+        {
+#if ENABLE_INPUT_SYSTEM
+
+            Keyboard keyboard = Keyboard.current;
+            if (keyboard != null)
+            {
+                bool ctrlHeld = keyboard.leftCtrlKey.isPressed || keyboard.rightCtrlKey.isPressed;
+                bool altHeld = keyboard.leftAltKey.isPressed || keyboard.rightAltKey.isPressed;
+
+                if (ctrlHeld && altHeld && keyboard.tKey.wasPressedThisFrame)
+                {
+                    return true;
+                }
+            }
+
+            Touchscreen touchscreen = Touchscreen.current;
+            if (touchscreen != null)
+            {
+                int activeTouchCount = 0;
+                foreach (var touch in touchscreen.touches)
+                {
+                    if (touch.phase.ReadValue() == TouchPhase.Began ||
+                        touch.phase.ReadValue() == TouchPhase.Moved ||
+                        touch.phase.ReadValue() == TouchPhase.Stationary)
+                    {
+                        activeTouchCount++;
+                    }
+                }
+                if (activeTouchCount == 3)
+                {
+                    threeFingerHoldTimer += Time.deltaTime;
+                    if (threeFingerHoldTimer >= 1.0f)
+                    {
+                        threeFingerHoldTimer = 0f;
+                        return true;
+                    }
+                }
+                else
+                {
+                    threeFingerHoldTimer = 0f;
+                }
+
+            }
+
+#else
+
+bool ctrlHeld = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+        bool altHeld = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
+
+        if (ctrlHeld && altHeld && Input.GetKeyDown(KeyCode.T))
+        {
+            return true;
+        }
+
+        if (Input.touchCount == 3)
+        {
+            threeFingerHoldTimer += Time.deltaTime;
+
+            if (threeFingerHoldTimer >= 1.0f)
+            {
+                threeFingerHoldTimer = 0f;
+                return true;
+            }
+        }
+        else
+        {
+            threeFingerHoldTimer = 0f;
+        }
+#endif
+            return false;
+        }
+    }
 }
