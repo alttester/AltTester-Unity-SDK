@@ -33,7 +33,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
 #if ALTTESTER
 #if ENABLE_LEGACY_INPUT_MANAGER
-            Input.UseCustomInput = value;
+            AltInput.UseCustomInput = value;
 #endif
 #if ENABLE_INPUT_SYSTEM
             if (value)

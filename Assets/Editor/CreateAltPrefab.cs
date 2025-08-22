@@ -1231,12 +1231,9 @@ namespace AltTesterTools
             ///
 
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains("ALTTESTER"))
-            {
-                Debug.LogError("ALTTESTER must be added as define before updating the prefab.");
-            }
 
-            var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(Input), typeof(NewInputSystem), typeof(CoroutineManager) });
+
+            var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(AltInput), typeof(NewInputSystem), typeof(CoroutineManager) });
             var RectTransform = Prefab.GetComponent<Transform>();
             var AltRunnerComponent = Prefab.GetComponent<AltRunner>();
             SetUpAltRunnerVariables(AltRunnerComponent);
