@@ -50,7 +50,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     *Toggling the Popup at Runtime*
     You can show or hide it at any time using the following platform-specific shortcuts:
-          - Desktop (PC/Mac): Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>.
+          - Desktop (PC/Mac): Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>.
           - Mobile (Android/iOS): Hold three fingers on the screen for one second. 
 
 ![Popup Screenshot](../_static/img/alttester-editor/popup.png)

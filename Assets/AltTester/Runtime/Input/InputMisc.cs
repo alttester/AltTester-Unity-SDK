@@ -123,28 +123,28 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
 #else
 
-bool ctrlHeld = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
-        bool altHeld = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
+            bool ctrlHeld = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+            bool altHeld = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
 
-        if (ctrlHeld && altHeld && Input.GetKeyDown(KeyCode.T))
-        {
-            return true;
-        }
-
-        if (Input.touchCount == 3)
-        {
-            threeFingerHoldTimer += Time.deltaTime;
-
-            if (threeFingerHoldTimer >= 1.0f)
+            if (ctrlHeld && altHeld && Input.GetKeyDown(KeyCode.T))
             {
-                threeFingerHoldTimer = 0f;
                 return true;
             }
-        }
-        else
-        {
-            threeFingerHoldTimer = 0f;
-        }
+
+            if (Input.touchCount == 3)
+            {
+                threeFingerHoldTimer += Time.deltaTime;
+
+                if (threeFingerHoldTimer >= 1.0f)
+                {
+                    threeFingerHoldTimer = 0f;
+                    return true;
+                }
+            }
+            else
+            {
+                threeFingerHoldTimer = 0f;
+            }
 #endif
             return false;
         }
