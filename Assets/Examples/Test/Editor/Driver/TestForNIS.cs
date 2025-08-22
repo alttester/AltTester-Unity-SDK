@@ -326,7 +326,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             Assert.AreEqual("Capsule was tapped!", text);
         }
 
-        [Ignore("Flaky. Skip until https://github.com/alttester/AltTester-Unity-SDK/issues/1130 is fixed.")]
+        // [Ignore("Flaky. Skip until https://github.com/alttester/AltTester-Unity-SDK/issues/1130 is fixed.")]
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
