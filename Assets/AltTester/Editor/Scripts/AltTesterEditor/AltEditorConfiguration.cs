@@ -15,12 +15,12 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System.Collections.Generic;
-using AltTester.AltTesterUnitySDK;
-using UnityEngine;
 using System;
+using System.Collections.Generic;
 using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.Editor.Platform;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Editor
 {
@@ -59,6 +59,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 UID = SystemInfo.deviceUniqueIdentifier.ToString() + DateTimeOffset.Now.ToUnixTimeSeconds().ToString()
             };
         }
-        public bool KeepAUTSymbolDefined = false;
+        public bool KeepAUTSymbolDefined = true;
     }
 }
