@@ -51,7 +51,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error matching condition {selectorCondition.Type}: {e.ToString()}");
+                Debug.LogError($"Error matching condition {selectorCondition.Type}: {e.Message}");
                 return null;
             }
         }
