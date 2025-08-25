@@ -46,7 +46,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
     The product name (same with Unity's Player Settings).
 
 - *Hide AltTester Popup Option*
-    You can choose to hide the green AltTester popup by unchecking the "Hide Green Popup" option in the AltTester Editor. When checked, the popup will not be shown in the instrumented build.
+    You can choose to hide the green AltTester popup by checking the "Hide Green Popup" option in the AltTester Editor. When checked, the popup will not be shown in the instrumented build.
 
     *Toggling the Popup at Runtime*
     You can show or hide it at any time using the following platform-specific shortcuts:
