@@ -48,6 +48,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
         public bool ResetConnectionData = false;
         public string UID = "";
 
+        public bool HideGreenPopup = false;
+
         public AltInstrumentationSettings GetInstrumentationSettings()
         {
             return new AltInstrumentationSettings()
@@ -56,7 +58,9 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 AltServerHost = AltServerHost,
                 AppName = AppName,
                 ResetConnectionData = ResetConnectionData,
-                UID = SystemInfo.deviceUniqueIdentifier.ToString() + DateTimeOffset.Now.ToUnixTimeSeconds().ToString()
+                UID = SystemInfo.deviceUniqueIdentifier.ToString() + DateTimeOffset.Now.ToUnixTimeSeconds().ToString(),
+                hideGreenPopup = HideGreenPopup
+
             };
         }
         public bool KeepAUTSymbolDefined = true;
