@@ -7518,9 +7518,9 @@ Triggered when a scene is loaded in the Unity app.
 
         *** Test Cases ***
         Listen For Scene Loaded
-            Add Notification Listener    NotificationType.LOADSCENE    Log Scene Loaded    overwrite=${True}
+            Add Notification Listener    LOADSCENE    Log Scene Loaded    overwrite=${True}
             # ... trigger scene load ...
-            Remove Notification Listener    NotificationType.LOADSCENE
+            Remove Notification Listener    LOADSCENE
 
         Log Scene Loaded
             [Arguments]    ${result}
@@ -7612,9 +7612,9 @@ Triggered when a log is generated in the Unity app.
 
         *** Test Cases ***
         Listen For Log Notification
-            Add Notification Listener    NotificationType.LOG    Log Notification Callback    overwrite=${True}
+            Add Notification Listener    LOG    Log Notification Callback    overwrite=${True}
             # ... trigger log event ...
-            Remove Notification Listener    NotificationType.LOG
+            Remove Notification Listener    LOG
 
         Log Notification Callback
             [Arguments]    ${log}
@@ -7658,9 +7658,9 @@ Triggered when the application is paused or resumed.
 
         *** Test Cases ***
         Listen For Application Paused
-            Add Notification Listener    NotificationType.APPLICATION_PAUSED    Log Application Paused    overwrite=${True}
+            Add Notification Listener    APPLICATION_PAUSED    Log Application Paused    overwrite=${True}
             # ... trigger pause event ...
-            Remove Notification Listener    NotificationType.APPLICATION_PAUSED
+            Remove Notification Listener    APPLICATION_PAUSED
 
         Log Application Paused
             [Arguments]    ${paused}
