@@ -21,6 +21,7 @@ from loguru import logger
 
 
 class AltTesterKeywords(object):
+
     DEFAULT_WAIT = 20
 
     def __init__(self):
@@ -169,6 +170,30 @@ class AltTesterKeywords(object):
         | Remove All Reverse Port Forwardings Android
         """
         AltReversePortForwarding.remove_all_reverse_port_forwardings_android()
+
+    def add_notification_listener(self, notification_type, callback, overwrite=True):
+        """Adds a notification listener for the specified notification type.
+
+        `notification_type` : The type of notification to listen for (e.g., NotificationType.LOADSCENE).
+        `callback` : The callback function to be called when the notification is triggered.
+        `overwrite` : If True, will overwrite any existing listener for the same notification type. Default is True.
+
+        Example:
+        | Add Notification Listener | NotificationType.LOADSCENE | ${callback} | overwrite=${True}
+        """
+
+        self._driver.add_notification_listener(
+            notification_type, callback, overwrite)
+
+    def remove_notification_listener(self, notification_type):
+        """Removes the notification listener for the specified notification type.
+
+        `notification_type` : The type of notification to remove (e.g., NotificationType.LOADSCENE).
+
+        Example:
+        | Remove Notification Listener | NotificationType.LOADSCENE |
+        """
+        self._driver.remove_notification_listener(notification_type)
 
     def find_object(self, locator_strategy,
                     locator, camera_by="NAME", camera_value="", enabled=True):
