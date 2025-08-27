@@ -45,14 +45,13 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     The product name (same with Unity's Player Settings).
 
+- *Hide AltTester Popup Option*
+    You can choose to hide the green AltTester popup by checking the "Hide Green Popup" option in the AltTester Editor. When checked, the popup will not be shown in the instrumented build.
 
-- *Show Popup*
-
-    If this option is checked, it will display the *"AltTester"* popup in
-    app containing the text *"Waiting to connect to AltTester® Server on 127.0.0.1:13000"*. That
-    means the build contains the AltTester® Unity SDK. Popup will disappear once the
-    tests are started.
-    In case you modified the connection data inside the popup, you can use the *LeftCtrl+LeftShift+D+L* key combination to reset your connection data to the default values, a.k.a the values specified in the *Build Settings*.
+    *Toggling the Popup at Runtime*
+    You can show or hide it at any time using the following platform-specific shortcuts:
+          - Desktop (PC/Mac): Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>.
+          - Mobile (Android/iOS): Hold three fingers on the screen for one second. 
 
 ![Popup Screenshot](../_static/img/alttester-editor/popup.png)
 
@@ -77,6 +76,9 @@ In the following sections you can see a breakdown of all the sections in the GUI
 - *Reset Connection Data*
 
     In case you are building your app on the same device but you do not want to start the new build with the connection data from the old build, you will want to check this box. Even if you managed to connect to the old build with different data, your new build will use the host, port and app name specified in the Build Settings.
+
+     You can also use the shortcut:
+    - Press <kbd>LeftCtrl</kbd> + <kbd>LeftShift</kbd> + <kbd>D</kbd> + <kbd>L</kbd> to reset your connection data to the default values specified in the Build Settings.
 
 ## Test run Settings
 ![Test run Settings Screenshot](../_static/img/alttester-editor/testrun-settings.png)

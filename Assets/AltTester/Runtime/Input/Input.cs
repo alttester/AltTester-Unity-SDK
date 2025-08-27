@@ -167,6 +167,14 @@ public class Input
     {
         if (AltInput.UseCustomInput)
         {
+            if (AltInput.AxisList == null)
+            {
+                if (AltInput.LoadAxisList())
+                {
+                    return UnityEngine.Input.GetAxis(axisName);
+                }
+
+            }
             var axis = AltInput.AxisList.FirstOrDefault(axle => axle.name == axisName);
             if (axis == null)
             {

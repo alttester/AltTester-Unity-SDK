@@ -109,16 +109,33 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         public void Start()
         {
             Instance = this;
-            string filePath = "AltTester/AltTesterInputAxisData";
+            LoadAxisList();
+        }
 
-            TextAsset targetFile = Resources.Load<TextAsset>(filePath);
-            string dataAsJson = targetFile.text;
-            AxisList = JsonConvert.DeserializeObject<List<AltAxis>>(dataAsJson, new JsonSerializerSettings
+        public static bool LoadAxisList()
+        {
+            try
             {
-                ContractResolver = new DefaultContractResolver(),
-                Culture = CultureInfo.InvariantCulture,
-                Formatting = Formatting.Indented
-            });
+                string filePath = "AltTester/AltTesterInputAxisData";
+
+                UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
+                string dataAsJson = targetFile.text;
+                AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltAxis>>(dataAsJson, new JsonSerializerSettings
+                {
+                    ContractResolver = new DefaultContractResolver(),
+                    Culture = CultureInfo.InvariantCulture,
+                    Formatting = Formatting.Indented
+                });
+            }
+            catch (Exception e)
+            {
+                UnityEngine.Debug.LogException(e);
+            }
+
+            return AxisList != null;
+
+
+
         }
 
         private void FixedUpdate()

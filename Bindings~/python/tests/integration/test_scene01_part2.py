@@ -474,7 +474,7 @@ class TestScene01Part2:
             "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK.InputModule") is False
 
         countKeyDown = self.alt_driver.find_object(By.NAME, "AltTesterPrefab").get_component_property(
-            "Input", "_keyCodesPressed.Count", "AltTester.AltTesterUnitySDK.InputModule")
+            "AltTester.AltTesterUnitySDK.InputModule.AltInput", "KeyCodesPressed.Count", "AltTester.AltTesterUnitySDK.InputModule")
         assert 0 == countKeyDown
 
     def test_find_object_in_object_by_tag(self):
