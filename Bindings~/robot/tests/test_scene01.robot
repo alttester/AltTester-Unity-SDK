@@ -794,7 +794,7 @@ Test Reset Input
     ${nis}=    Get Component Property    ${object}    AltTester.AltTesterUnitySDK.InputModule.NewInputSystem    Keyboard.pKey.isPressed    AltTester.AltTesterUnitySDK.InputModule
     Should Not Be True    ${nis}
     ${countKeyDown}=    Find Object    NAME    AltTesterPrefab
-    ${count}=    Get Component Property    ${countKeyDown}    Input    _keyCodesPressed.Count    AltTester.AltTesterUnitySDK.InputModule
+    ${count}=    Get Component Property    ${countKeyDown}    AltTester.AltTesterUnitySDK.InputModule.AltInput    KeyCodesPressed.Count    AltTester.AltTesterUnitySDK.InputModule
     Should Be Equal As Integers    0    ${count}
 
 Test Find Object From Object By Tag
@@ -831,8 +831,6 @@ Test Find Object From Object By Text
     ${parent}=    Find Object    NAME    Canvas
     ${child}=    Find Object From Object    ${parent}    TEXT    Change Camera Mode
     Should Be Equal    ${child.name}    Text
-
-Test Notification Listener Logic
 
 Test Scene Load Notification Listener
     [Documentation]    Registers a notification listener for scene load and verifies callback execution.
