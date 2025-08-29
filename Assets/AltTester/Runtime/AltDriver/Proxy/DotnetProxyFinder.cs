@@ -16,13 +16,17 @@
 */
 
 using System;
+using AltWebSocketSharp;
+using AltTester.AltTesterSDK.Driver.Logging;
 
 namespace AltTester.AltTesterSDK.Driver.Proxy
 {
     public class DotnetProxyFinder : IProxyFinder
     {
+        private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         public string GetProxy(string uri, string host)
         {
+            logger.Info("DotnetProxyFinder.GetProxy called with uri: {0}, host: {1}", uri, host);
             var Proxy = System.Net.WebRequest.GetSystemWebProxy() as System.Net.WebProxy;
             if (Proxy != null && Proxy.Address != null)
             {
@@ -33,7 +37,7 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
                     return proxyUri;
                 }
             }
-
+            logger.Info("No proxy found for in DotnetProxyFinder uri: {0} and host: {1}", uri, host);
             return null;
         }
     }

@@ -20,6 +20,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using UnityEngine;
+using AltTester.AltTesterSDK.Driver.Logging;
 
 namespace AltTester.AltTesterSDK.Driver.Proxy
 {
@@ -28,15 +29,18 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
         [DllImport("__Internal")]
         private static extern string _getProxy(string uri, string host);
 
+        private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
+
         public string GetProxy(string uri, string host)
         {
             var result = _getProxy(uri, host);
 
             if (string.IsNullOrEmpty(result))
             {
+                logger.Info("No proxy found in IOSProxyFinder for uri: {0} and host: {1}", uri, host);
                 return null;
             }
-
+            logger.Info("Using proxy in IOSProxyFinder: {0} for uri: {1} and host: {2}", result, uri, host);
             return result;
         }
     }

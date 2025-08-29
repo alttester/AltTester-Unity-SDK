@@ -29,7 +29,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
     public class RuntimeWebSocketClient : IRuntimeWebSocketClient
     {
         private ClientWebSocket wsClient;
-
+        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
         private readonly string host;
         private readonly int port;
         private readonly string appName;
@@ -69,6 +69,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);
             if (proxyUri != null)
             {
+                logger.Info("Using proxy in RuntimeWebSocketClient: {0} for uri: {1} and host: {2}", proxyUri, uri, host);
                 wsClient.SetProxy(proxyUri, null, null);
             }
 

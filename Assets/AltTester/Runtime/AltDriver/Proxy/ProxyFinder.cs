@@ -16,11 +16,13 @@
 */
 
 using System;
+using AltTester.AltTesterSDK.Driver.Logging;
 
 namespace AltTester.AltTesterSDK.Driver.Proxy
 {
     public class ProxyFinder : IProxyFinder
     {
+        private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         public string GetProxy(string uri, string host)
         {
 #if !UNITY_EDITOR && UNITY_WEBGL
@@ -39,6 +41,7 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
             }
             catch (Exception)
             {
+                logger.Info("AndroidProxyFinder in ProxyFinder failed to get proxy for uri: {0}, host: {1}", uri, host);
             }
 #endif
 
@@ -50,9 +53,9 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
             }
             catch (Exception)
             {
+                logger.Info("IOSProxyFinder in ProxyFinder failed to get proxy for uri: {0}, host: {1}", uri, host);
             }
 #endif
-
             if (ProxyUri == null)
             {
                 try
@@ -62,6 +65,7 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
                 }
                 catch (Exception)
                 {
+                    logger.Info("EnvironmentProxyFinder in ProxyFinder failed to get proxy for uri: {0}, host: {1}", uri, host);
                 }
             }
 
@@ -74,9 +78,10 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
                 }
                 catch (Exception)
                 {
+                    logger.Info("DotnetProxyFinder in ProxyFinder failed to get proxy for uri: {0}, host: {1}", uri, host);
                 }
             }
-
+            logger.Info("Using proxy in ProxyFinder: {0} for uri: {1} and host: {2}", ProxyUri, uri, host);
             return ProxyUri;
         }
     }
