@@ -147,7 +147,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             resetConnectionDataBasedOnUID();
 
             setTitle("AltTester® v." + AltRunner.VERSION);
-            setSubtitle("AltTester® Server");
             handleNewVersionCheck();
             setUpCloseButton();
             setUpIcon();
@@ -278,7 +277,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void setTitle(string title) => TitleText.text = title;
 
-        private void setSubtitle(string subtitle) => SubtitleText.text = subtitle;
 
         private void toggleDialog() => Dialog.SetActive(!Dialog.activeSelf);
 

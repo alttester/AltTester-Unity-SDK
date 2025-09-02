@@ -249,6 +249,13 @@ namespace AltTesterTools
         public static Color DarkGreenColor = new Color(0, 0.4509804f, 0.09803922f, 1);
         public static Color LightGreenColor = new Color(0, 0.6470588f, 0.1411765f, 1);
         public static Color ActiveToggleColor = new Color(0, 0.6698113f, 0.1456111f, 1);
+        public static Sprite LogIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/LogIcon.png");
+        public static Sprite WarningIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/WarningIcon.png");
+        public static Sprite ErrorIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/ErrorIcon.png");
+        public static Sprite InfoIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/InformationIcon.png");
+        public static Sprite CloseIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/CloseIcon.png");
+        public static Sprite CopyIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/CopyIcon.png");
+        public static Sprite ClearIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/DeleteIcon.png");
         public static GameObject CreateAltDialog(Transform parent)
         {
             var AltDialogGameObject = new GameObject("AltDialog", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster), typeof(AltDialog) });
@@ -572,21 +579,19 @@ namespace AltTesterTools
             logsButtonTransform.sizeDelta = new Vector2(40, 40);
             logsButtonTransform.pivot = new Vector2(0.5f, 0.5f);
 
-            var RestartButtonTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
-            var logsButtonTextTransform = RestartButtonTextGameObject.GetComponent<RectTransform>();
-            logsButtonTextTransform.SetParent(logsButtonTransform, false);
+            var logButtonIconGameObject = new GameObject("Icon", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
+            var logsButtonIconTransform = logButtonIconGameObject.GetComponent<RectTransform>();
+            logsButtonIconTransform.SetParent(logsButtonTransform, false);
 
-            logsButtonTextTransform.localPosition = new Vector3(0, 0, 0);
-            logsButtonTextTransform.anchorMin = new Vector2(0, 0);
-            logsButtonTextTransform.anchorMax = new Vector2(1, 1);
-            logsButtonTextTransform.sizeDelta = new Vector2(0, 0);
-            logsButtonTextTransform.pivot = new Vector2(0.5f, 0.5f);
+            logsButtonIconTransform.localPosition = new Vector3(0, 0, 0);
+            logsButtonIconTransform.anchorMin = new Vector2(0, 0);
+            logsButtonIconTransform.anchorMax = new Vector2(1, 1);
+            logsButtonIconTransform.sizeDelta = new Vector2(0, 0);
+            logsButtonIconTransform.pivot = new Vector2(0.5f, 0.5f);
 
-            var logsButtonText = RestartButtonTextGameObject.GetComponent<Text>();
-            logsButtonText.text = "Logs";
-            logsButtonText.fontSize = 24;
-            logsButtonText.color = Color.white;
-            logsButtonText.alignment = TextAnchor.MiddleCenter;
+            var logsButtonIcon = logButtonIconGameObject.GetComponent<Image>();
+            logsButtonIcon.sprite = LogIcon;
+            logsButtonIcon.color = Color.white;
 
             var logsButtonImage = logsButtonGameObject.GetComponent<Image>();
             logsButtonImage.color = DarkGreenColor;
@@ -612,17 +617,21 @@ namespace AltTesterTools
             CloseButtonTransform.anchorMin = new Vector2(1f, 1f);
             CloseButtonTransform.anchorMax = new Vector2(1f, 1f);
             CloseButtonTransform.anchoredPosition = new Vector2(-15, -15);
-            CloseButtonTransform.sizeDelta = new Vector2(16, 16);
+            CloseButtonTransform.sizeDelta = new Vector2(32, 32);
             CloseButtonTransform.pivot = new Vector2(1f, 1f);
 
             var CloseButtonImage = CloseButtonGameObject.GetComponent<Image>();
-            CloseButtonImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Editor/Sprites/XIconWhite.png", typeof(Sprite)) as Sprite;
-            CloseButtonImage.SetNativeSize();
+            CloseButtonImage.sprite = CloseIcon;
+
 
             return CloseButtonGameObject.GetComponent<Button>();
         }
+        public static void SetupIcons()
+        {
 
-        public static Image CreateIcon(RectTransform parent)
+        }
+
+        public static Image CreateAltTesterIcon(RectTransform parent)
         {
             var Icon = new GameObject("Icon", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button), typeof(AltPrefabDrag) });
 
@@ -973,17 +982,15 @@ namespace AltTesterTools
 
 
 
-            createLogsToggle(landscapeLayoutTransform, "Log", "Log");
-            createLogsToggle(landscapeLayoutTransform, "Warning", "Warning");
-            createLogsToggle(landscapeLayoutTransform, "Error", "Error");
+            createLogsToggle(landscapeLayoutTransform, "Log", InfoIcon);
+            createLogsToggle(landscapeLayoutTransform, "Warning", WarningIcon);
+            createLogsToggle(landscapeLayoutTransform, "Error", ErrorIcon);
 
             createLogsFilter(landscapeLayoutTransform);
 
-            createLogsButton(landscapeLayoutTransform, "ClearButton", "Clear");
-            createLogsButton(landscapeLayoutTransform, "CopyButton", "Copy");
-            createLogsButton(landscapeLayoutTransform, "CloseButton", "Close");
-
-
+            createLogsButton(landscapeLayoutTransform, "ClearButton", ClearIcon);
+            createLogsButton(landscapeLayoutTransform, "CopyButton", CopyIcon);
+            createLogsButton(landscapeLayoutTransform, "CloseButton", CloseIcon);
 
 
         }
@@ -1030,7 +1037,7 @@ namespace AltTesterTools
             placeholderText.fontStyle = FontStyle.Italic;
             placeholderText.fontSize = 26;
             placeholderText.color = new Color(0.196f, 0.196f, 0.196f, 0.5f);
-            placeholderText.alignment = TextAnchor.MiddleCenter;
+            placeholderText.alignment = TextAnchor.MiddleLeft;
             inputField.placeholder = placeholderText;
 
 
@@ -1044,7 +1051,7 @@ namespace AltTesterTools
             textTransform.anchorMax = new Vector2(1, 1);
 
             var TextText = Text.GetComponent<Text>();
-            TextText.alignment = TextAnchor.MiddleCenter;
+            TextText.alignment = TextAnchor.MiddleLeft;
             TextText.fontSize = 26;
             TextText.color = Color.black;
             inputField.textComponent = TextText;
@@ -1062,23 +1069,21 @@ namespace AltTesterTools
             ResetSearchButton.GetComponent<Image>().color = Color.clear;
 
 
-            var resetSearchText = new GameObject("ResetSearchText", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
-            var resetSearchTextTransform = resetSearchText.GetComponent<RectTransform>();
-            resetSearchTextTransform.SetParent(resetSearchButtonTransform, false);
-            resetSearchTextTransform.sizeDelta = new Vector2(40, 40);
-            resetSearchTextTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            resetSearchTextTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            resetSearchTextTransform.pivot = new Vector2(0.5f, 0.5f);
+            var resetSearchIcon = new GameObject("ResetSearchIcon", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
+            var resetSearchIconTransform = resetSearchIcon.GetComponent<RectTransform>();
+            resetSearchIconTransform.SetParent(resetSearchButtonTransform, false);
+            resetSearchIconTransform.sizeDelta = new Vector2(40, 40);
+            resetSearchIconTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            resetSearchIconTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            resetSearchIconTransform.pivot = new Vector2(0.5f, 0.5f);
 
-            var resetText = resetSearchText.GetComponent<Text>();
-            resetText.text = "Reset";
-            resetText.fontSize = 36;
-            resetText.alignment = TextAnchor.MiddleCenter;
-            resetText.color = Color.black;
+            var resetImage = resetSearchIcon.GetComponent<Image>();
+            resetImage.sprite = CloseIcon;
+            resetImage.color = Color.black;
 
         }
 
-        private static void createLogsToggle(RectTransform parent, string name, string icon)
+        private static void createLogsToggle(RectTransform parent, string name, Sprite icon)
         {
             var log = new GameObject(name, new System.Type[] { typeof(RectTransform), typeof(Toggle), typeof(LayoutElement), typeof(Image) });
 
@@ -1102,10 +1107,26 @@ namespace AltTesterTools
             toggleImage.color = DarkGreenColor;
             toggleImage.type = Image.Type.Sliced;
 
-            CreateTextWithIcon(logTransform, "TextToggle", icon);
+            CreateIcon(logTransform, "IconToggle", icon);
 
         }
-        private static void createLogsButton(RectTransform parent, string name, string icon)
+
+        private static void CreateIcon(RectTransform parent, string iconName, Sprite icon)
+        {
+            var iconObject = new GameObject(iconName, new System.Type[] { typeof(RectTransform), typeof(Image) });
+            var iconTransform = iconObject.GetComponent<RectTransform>();
+            iconTransform.SetParent(parent, false);
+            iconTransform.sizeDelta = new Vector2(45, 45);
+            iconTransform.anchoredPosition = new Vector2(0, 0);
+            iconTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            var iconImage = iconObject.GetComponent<Image>();
+            iconImage.sprite = icon;
+            iconImage.color = Color.white;
+            iconImage.type = Image.Type.Filled;
+        }
+
+        private static void createLogsButton(RectTransform parent, string name, Sprite icon)
         {
             var button = new GameObject(name, new System.Type[] { typeof(RectTransform), typeof(Button), typeof(LayoutElement), typeof(Image) });
 
@@ -1125,7 +1146,7 @@ namespace AltTesterTools
             buttonImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
             buttonImage.color = DarkGreenColor;
             buttonImage.type = Image.Type.Sliced;
-            CreateTextWithIcon(buttonTransform, "ButtonText", icon);
+            CreateIcon(buttonTransform, "IconButton", icon);
         }
         public static void CreateTextWithIcon(RectTransform parent, string name, string icon)
         {
@@ -1222,9 +1243,8 @@ namespace AltTesterTools
             AltDialog.Dialog = Dialog;
             AltDialog.InfoArea = createInfoArea(DialogTransform);
             var InfoAreaTransform = AltDialog.InfoArea.GetComponent<RectTransform>();
-            AltDialog.Icon = CreateIcon(AltDialogTransform);
+            AltDialog.Icon = CreateAltTesterIcon(AltDialogTransform);
             AltDialog.TitleText = CreateTitle(DialogTransform);
-            AltDialog.SubtitleText = createSubtitle(DialogTransform);
             AltDialog.MessageText = CreateStatusMessage(InfoAreaTransform);
             AltDialog.CloseButton = CreateCloseButton(DialogTransform);
             AltDialog.InfoLabel = CreateInfoLabel(DialogTransform);
@@ -1246,11 +1266,11 @@ namespace AltTesterTools
             var InfoAreaTransform = InfoArea.GetComponent<RectTransform>();
             InfoAreaTransform.SetParent(parent, false);
 
-            InfoAreaTransform.localPosition = new Vector3(0, -2.5f, 0);
+            InfoAreaTransform.localPosition = new Vector3(0, 30f, 0);
             InfoAreaTransform.anchorMin = new Vector2(0.5f, 0.5f);
             InfoAreaTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            InfoAreaTransform.anchoredPosition = new Vector2(0, -2.5f);
-            InfoAreaTransform.sizeDelta = new Vector2(400, 475);
+            InfoAreaTransform.anchoredPosition = new Vector2(0, 30f);
+            InfoAreaTransform.sizeDelta = new Vector2(400, 540);
             InfoAreaTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var InfoAreaImage = InfoArea.GetComponent<Image>();
