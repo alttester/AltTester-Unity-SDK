@@ -217,9 +217,9 @@ namespace AltTesterTools
             {
                 throw new System.Exception("OutlineShader object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.outlineShader + " and new: " + newRunner.outlineShader);
             }
-            if (originalRunner.panelHightlightPrefab.name != newRunner.panelHightlightPrefab.name)
+            if (originalRunner.panelHighlightPrefab.name != newRunner.panelHighlightPrefab.name)
             {
-                throw new System.Exception("PanelHightlightPrefab object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.panelHightlightPrefab.name + " and new: " + newRunner.panelHightlightPrefab.name);
+                throw new System.Exception("PanelHighlightPrefab object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.panelHighlightPrefab.name + " and new: " + newRunner.panelHighlightPrefab.name);
             }
             if (originalRunner.RunOnlyInDebugMode != newRunner.RunOnlyInDebugMode)
             {
@@ -245,9 +245,7 @@ namespace AltTesterTools
 
     public class CreateAltPrefab : MonoBehaviour
     {
-        public static Font RobotoBold;
-        public static Font RobotoRegular;
-        public static Font FontAwesome;
+
         public static Color DarkGreenColor = new Color(0, 0.4509804f, 0.09803922f, 1);
         public static Color LightGreenColor = new Color(0, 0.6470588f, 0.1411765f, 1);
         public static Color ActiveToggleColor = new Color(0, 0.6698113f, 0.1456111f, 1);
@@ -315,7 +313,6 @@ namespace AltTesterTools
             var TitleText = TitleGameObject.GetComponent<Text>();
             TitleText.text = "AltTester®";
             TitleText.fontSize = 27;
-            TitleText.font = RobotoBold;
             TitleText.color = Color.white;
             TitleText.alignment = TextAnchor.MiddleCenter;
 
@@ -339,7 +336,6 @@ namespace AltTesterTools
             var MessageText = MessageGameObject.GetComponent<Text>();
             MessageText.text = "Starting communication protocol!";
             MessageText.fontSize = 18;
-            MessageText.font = RobotoRegular;
 
             MessageText.color = Color.white;
             MessageText.alignment = TextAnchor.MiddleCenter;
@@ -363,7 +359,6 @@ namespace AltTesterTools
             var LabelText = LabelGameObject.GetComponent<Text>();
             LabelText.text = "To make modifications, enter a new value and press the <b>Restart</b> button.";
             LabelText.fontSize = 18;
-            LabelText.font = RobotoRegular;
             LabelText.color = Color.white;
             LabelText.alignment = TextAnchor.MiddleCenter;
 
@@ -398,7 +393,6 @@ namespace AltTesterTools
 
             var InputFieldText = InputFieldTextGameObject.GetComponent<Text>();
             InputFieldText.fontSize = 17;
-            InputFieldText.font = RobotoRegular;
             InputFieldText.color = Color.black;
 
             var InputFieldPlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -413,7 +407,6 @@ namespace AltTesterTools
 
             var InputFieldPlaceholder = InputFieldPlaceholderGameObject.GetComponent<Text>();
             InputFieldPlaceholder.fontSize = 17;
-            InputFieldPlaceholder.font = RobotoBold;
             InputFieldPlaceholder.text = "Host...";
             InputFieldPlaceholder.color = Color.gray;
 
@@ -452,7 +445,6 @@ namespace AltTesterTools
 
             var InputFieldText = InputFieldTextGameObject.GetComponent<Text>();
             InputFieldText.fontSize = 17;
-            InputFieldText.font = RobotoRegular;
             InputFieldText.color = Color.black;
 
             var InputFieldPlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -467,7 +459,6 @@ namespace AltTesterTools
 
             var InputFieldPlaceholder = InputFieldPlaceholderGameObject.GetComponent<Text>();
             InputFieldPlaceholder.fontSize = 17;
-            InputFieldPlaceholder.font = RobotoBold;
             InputFieldPlaceholder.text = "Port number...";
             InputFieldPlaceholder.color = Color.gray;
 
@@ -505,7 +496,6 @@ namespace AltTesterTools
 
             var Text = TextGameObject.GetComponent<Text>();
             Text.fontSize = 17;
-            Text.font = RobotoRegular;
             Text.color = Color.black;
 
             var PlaceholderGameObject = new GameObject("Placeholder", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -520,7 +510,6 @@ namespace AltTesterTools
 
             var Placeholder = PlaceholderGameObject.GetComponent<Text>();
             Placeholder.fontSize = 17;
-            Placeholder.font = RobotoBold;
             Placeholder.text = "App name...";
             Placeholder.color = Color.gray;
 
@@ -556,7 +545,6 @@ namespace AltTesterTools
             var RestartButtonText = RestartButtonTextGameObject.GetComponent<Text>();
             RestartButtonText.text = "Restart";
             RestartButtonText.fontSize = 24;
-            RestartButtonText.font = RobotoBold;
             RestartButtonText.color = Color.white;
             RestartButtonText.alignment = TextAnchor.MiddleCenter;
 
@@ -595,9 +583,8 @@ namespace AltTesterTools
             logsButtonTextTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var logsButtonText = RestartButtonTextGameObject.GetComponent<Text>();
-            logsButtonText.text = "\uf15c";
+            logsButtonText.text = "Logs";
             logsButtonText.fontSize = 24;
-            logsButtonText.font = FontAwesome;
             logsButtonText.color = Color.white;
             logsButtonText.alignment = TextAnchor.MiddleCenter;
 
@@ -709,14 +696,13 @@ namespace AltTesterTools
             var LabelText = Label.GetComponent<Text>();
             LabelText.text = "AltTester® input";
             LabelText.fontSize = 20;
-            LabelText.font = RobotoRegular;
             LabelText.alignment = TextAnchor.MiddleCenter;
 
-            var ToggleComponet = Toggle.GetComponent<Toggle>();
-            ToggleComponet.targetGraphic = BackgroundImage;
-            ToggleComponet.graphic = CheckMarkImage;
+            var ToggleComponent = Toggle.GetComponent<Toggle>();
+            ToggleComponent.targetGraphic = BackgroundImage;
+            ToggleComponent.graphic = CheckMarkImage;
 
-            return ToggleComponet;
+            return ToggleComponent;
         }
 
 
@@ -745,15 +731,15 @@ namespace AltTesterTools
             VerticalLayoutGroup.childForceExpandHeight = true;
             VerticalLayoutGroup.childForceExpandWidth = true;
 
-            CreateLandscapeLayout(LogsPanelTransform);
-            CreateScrollViewLogs(LogsPanelTransform);
-            CreateBackgroundClipboard(parent);
+            createLandscapeLayout(LogsPanelTransform);
+            createScrollViewLogs(LogsPanelTransform);
+            createBackgroundClipboard(parent);
 
 
             return LogsPanel;
         }
 
-        private static void CreateBackgroundClipboard(Transform logsPanelTransform)
+        private static void createBackgroundClipboard(Transform logsPanelTransform)
         {
             var BackgroundClipboard = new GameObject("BackgroundClipboard", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(CanvasGroup) });
             var BackgroundClipboardTransform = BackgroundClipboard.GetComponent<RectTransform>();
@@ -780,10 +766,9 @@ namespace AltTesterTools
             Text.text = "Copied to clipboard";
             Text.alignment = TextAnchor.MiddleCenter;
             Text.fontSize = 30;
-            Text.font = RobotoRegular;
         }
 
-        private static void CreateScrollViewLogs(RectTransform logsPanelTransform)
+        private static void createScrollViewLogs(RectTransform logsPanelTransform)
         {
             var scrollView = new GameObject("Scroll View", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(ScrollRect), typeof(AltConsoleLogViewer), typeof(LayoutElement) });
 
@@ -882,8 +867,8 @@ namespace AltTesterTools
 
 
 
-            var sldingArea = new GameObject("Sliding Area", new System.Type[] { typeof(RectTransform) });
-            var slidingAreaTransform = sldingArea.GetComponent<RectTransform>();
+            var slidingArea = new GameObject("Sliding Area", new System.Type[] { typeof(RectTransform) });
+            var slidingAreaTransform = slidingArea.GetComponent<RectTransform>();
             slidingAreaTransform.SetParent(scrollBarTransform, false);
             slidingAreaTransform.anchorMin = new Vector2(0, 0);
             slidingAreaTransform.anchorMax = new Vector2(1, 1);
@@ -928,8 +913,8 @@ namespace AltTesterTools
             scrollImage.color = LightGreenColor;
 
 
-            var sldingArea = new GameObject("Sliding Area", new System.Type[] { typeof(RectTransform) });
-            var slidingAreaTransform = sldingArea.GetComponent<RectTransform>();
+            var slidingArea = new GameObject("Sliding Area", new System.Type[] { typeof(RectTransform) });
+            var slidingAreaTransform = slidingArea.GetComponent<RectTransform>();
             slidingAreaTransform.SetParent(scrollBarTransform, false);
             slidingAreaTransform.anchorMin = new Vector2(0, 0);
             slidingAreaTransform.anchorMax = new Vector2(1, 1);
@@ -960,7 +945,7 @@ namespace AltTesterTools
         }
 
 
-        private static void CreateLandscapeLayout(RectTransform parent)
+        private static void createLandscapeLayout(RectTransform parent)
         {
             var landscapeLayout = new GameObject("LandscapeLayout", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(HorizontalLayoutGroup), typeof(LayoutElement), typeof(Image) });
             var landscapeLayoutTransform = landscapeLayout.GetComponent<RectTransform>();
@@ -988,22 +973,22 @@ namespace AltTesterTools
 
 
 
-            CreateLogsToggle(landscapeLayoutTransform, "Log", "\uf05a");
-            CreateLogsToggle(landscapeLayoutTransform, "Warning", "\uf071");
-            CreateLogsToggle(landscapeLayoutTransform, "Error", "\uf057");
+            createLogsToggle(landscapeLayoutTransform, "Log", "Log");
+            createLogsToggle(landscapeLayoutTransform, "Warning", "Warning");
+            createLogsToggle(landscapeLayoutTransform, "Error", "Error");
 
-            CreateLogsFilter(landscapeLayoutTransform);
+            createLogsFilter(landscapeLayoutTransform);
 
-            CreateLogsButton(landscapeLayoutTransform, "ClearButton", "\uf2ed");
-            CreateLogsButton(landscapeLayoutTransform, "CopyButton", "\uf0c5");
-            CreateLogsButton(landscapeLayoutTransform, "CloseButton", "\uf00d");
+            createLogsButton(landscapeLayoutTransform, "ClearButton", "Clear");
+            createLogsButton(landscapeLayoutTransform, "CopyButton", "Copy");
+            createLogsButton(landscapeLayoutTransform, "CloseButton", "Close");
 
 
 
 
         }
 
-        private static void CreateLogsFilter(RectTransform landscapeLayoutTransform)
+        private static void createLogsFilter(RectTransform landscapeLayoutTransform)
         {
             var filter = new GameObject("Filter", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(LayoutElement), typeof(Image), typeof(InputField) });
             var filterTransform = filter.GetComponent<RectTransform>();
@@ -1086,15 +1071,14 @@ namespace AltTesterTools
             resetSearchTextTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var resetText = resetSearchText.GetComponent<Text>();
-            resetText.text = "\uf00d";
+            resetText.text = "Reset";
             resetText.fontSize = 36;
             resetText.alignment = TextAnchor.MiddleCenter;
-            resetText.font = FontAwesome;
             resetText.color = Color.black;
 
         }
 
-        private static void CreateLogsToggle(RectTransform parent, string name, string icon)
+        private static void createLogsToggle(RectTransform parent, string name, string icon)
         {
             var log = new GameObject(name, new System.Type[] { typeof(RectTransform), typeof(Toggle), typeof(LayoutElement), typeof(Image) });
 
@@ -1121,7 +1105,7 @@ namespace AltTesterTools
             CreateTextWithIcon(logTransform, "TextToggle", icon);
 
         }
-        private static void CreateLogsButton(RectTransform parent, string name, string icon)
+        private static void createLogsButton(RectTransform parent, string name, string icon)
         {
             var button = new GameObject(name, new System.Type[] { typeof(RectTransform), typeof(Button), typeof(LayoutElement), typeof(Image) });
 
@@ -1155,7 +1139,6 @@ namespace AltTesterTools
             var textComponent = text.GetComponent<Text>();
             textComponent.text = icon;
             textComponent.fontSize = 48;
-            textComponent.font = FontAwesome;
             textComponent.color = Color.white;
             textComponent.alignment = TextAnchor.MiddleCenter;
         }
@@ -1165,8 +1148,8 @@ namespace AltTesterTools
             var outlineShader = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Runtime/Shader/OutlineShader.shader", typeof(Shader));
             altRunnerComponent.outlineShader = outlineShader as Shader;
 
-            var panelHightlightPrefab = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Runtime/Prefab/Panel.prefab", typeof(GameObject));
-            altRunnerComponent.panelHightlightPrefab = panelHightlightPrefab as GameObject;
+            var panelHighlightPrefab = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Runtime/Prefab/Panel.prefab", typeof(GameObject));
+            altRunnerComponent.panelHighlightPrefab = panelHighlightPrefab as GameObject;
 
             altRunnerComponent.RunOnlyInDebugMode = true;
         }
@@ -1201,18 +1184,14 @@ namespace AltTesterTools
         [UnityEditor.MenuItem("AltTester®/Create AltTester® Prefab", false, 80)]
         public static void CreateAltTesterPrefab()
         {
-            RobotoBold = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Bold SDF.otf");
-            RobotoRegular = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Regular SDF.otf");
-            FontAwesome = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Font Awesome 5 Free-Solid-900 SDF.otf");
+
             var prefab = CreatePrefab();
             SavePrefab(prefab);
         }
         [UnityEditor.MenuItem("AltTester®/Create AltTester® Prefab Without Checking Equality", false, 90)]
         public static void CreateAltTesterPrefabWithoutCheck()
         {
-            RobotoBold = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Bold SDF.otf");
-            RobotoRegular = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Roboto-Regular SDF.otf");
-            FontAwesome = AssetDatabase.LoadAssetAtPath<Font>("Assets/AltTester/Resources/Font Awesome 5 Free-Solid-900 SDF.otf");
+
             var prefab = CreatePrefab();
             SavePrefab(prefab, false);
         }
@@ -1241,11 +1220,11 @@ namespace AltTesterTools
             var DialogTransform = Dialog.GetComponent<RectTransform>();
 
             AltDialog.Dialog = Dialog;
-            AltDialog.InfoArea = CreateInfoArea(DialogTransform);
+            AltDialog.InfoArea = createInfoArea(DialogTransform);
             var InfoAreaTransform = AltDialog.InfoArea.GetComponent<RectTransform>();
             AltDialog.Icon = CreateIcon(AltDialogTransform);
             AltDialog.TitleText = CreateTitle(DialogTransform);
-            AltDialog.SubtitleText = CreateSubtitle(DialogTransform);
+            AltDialog.SubtitleText = createSubtitle(DialogTransform);
             AltDialog.MessageText = CreateStatusMessage(InfoAreaTransform);
             AltDialog.CloseButton = CreateCloseButton(DialogTransform);
             AltDialog.InfoLabel = CreateInfoLabel(DialogTransform);
@@ -1260,7 +1239,7 @@ namespace AltTesterTools
             return Prefab;
         }
 
-        private static GameObject CreateInfoArea(Transform parent)
+        private static GameObject createInfoArea(Transform parent)
         {
             var InfoArea = new GameObject("InfoArea", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Image) });
 
@@ -1285,7 +1264,7 @@ namespace AltTesterTools
             return InfoArea;
         }
 
-        private static Text CreateSubtitle(RectTransform parent)
+        private static Text createSubtitle(RectTransform parent)
         {
             var SubtitleGameObject = new GameObject("Subtitle", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
 
@@ -1302,7 +1281,6 @@ namespace AltTesterTools
             var SubtitleText = SubtitleGameObject.GetComponent<Text>();
             SubtitleText.text = "AltTester®";
             SubtitleText.fontSize = 24;
-            SubtitleText.font = RobotoBold;
             SubtitleText.color = Color.white;
             SubtitleText.alignment = TextAnchor.MiddleCenter;
 

@@ -688,17 +688,17 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private bool isCurrentVersionOlderOrEqualThanRelease(string releasedVersion, string version)
         {
-            var releasedVersionSplited = releasedVersion.Split('.');
-            var currentVersionSplited = version.Split('.');
-            if (short.Parse(currentVersionSplited[0]) != short.Parse(releasedVersionSplited[0]))//check major number
+            var releasedVersionParts = releasedVersion.Split('.');
+            var currentVersionParts = version.Split('.');
+            if (short.Parse(currentVersionParts[0]) != short.Parse(releasedVersionParts[0]))//check major number
             {
-                return short.Parse(currentVersionSplited[0]) > short.Parse(releasedVersionSplited[0]);
+                return short.Parse(currentVersionParts[0]) > short.Parse(releasedVersionParts[0]);
             }
-            if (short.Parse(currentVersionSplited[1]) != short.Parse(releasedVersionSplited[1]))//check minor number
+            if (short.Parse(currentVersionParts[1]) != short.Parse(releasedVersionParts[1]))//check minor number
             {
-                return short.Parse(currentVersionSplited[1]) > short.Parse(releasedVersionSplited[1]);
+                return short.Parse(currentVersionParts[1]) > short.Parse(releasedVersionParts[1]);
             }
-            return short.Parse(currentVersionSplited[2]) >= short.Parse(releasedVersionSplited[2]);//check patch number
+            return short.Parse(currentVersionParts[2]) >= short.Parse(releasedVersionParts[2]);//check patch number
 
         }
         public static async Task<HttpResponseMessage> Get(string url)
