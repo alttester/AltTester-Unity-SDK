@@ -140,6 +140,30 @@ namespace AltTester.AltTesterUnitySDK.UI
             dialogImage = Dialog.GetComponent<UnityEngine.UI.Image>();
             infoArea = InfoArea.GetComponent<UnityEngine.UI.Image>();
             restartButton = RestartButton.GetComponent<UnityEngine.UI.Image>();
+
+        }
+
+        private void hideGreenPopup()
+        {
+            foreach (var image in gameObject.GetComponentsInChildren<Image>())
+            {
+                image.enabled = false;
+            }
+            foreach (var text in gameObject.GetComponentsInChildren<TMP_Text>())
+            {
+                text.enabled = false;
+            }
+        }
+        public void ToggleGreenPopup()
+        {
+            foreach (var image in gameObject.GetComponentsInChildren<Image>())
+            {
+                image.enabled = !image.enabled;
+            }
+            foreach (var text in gameObject.GetComponentsInChildren<TMP_Text>())
+            {
+                text.enabled = !text.enabled;
+            }
         }
 
         protected void Start()
@@ -169,6 +193,13 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (isDataValid)
                 beginCommunication();
             InvokeRepeating(nameof(CheckAlive), 5, 5);
+            if (AltRunner._altRunner.InstrumentationSettings != null)
+            {
+                if (AltRunner._altRunner.InstrumentationSettings.hideGreenPopup)
+                {
+                    hideGreenPopup();
+                }
+            }
         }
 
 
@@ -190,6 +221,10 @@ namespace AltTester.AltTesterUnitySDK.UI
             updateQueue.Cycle();
             checkIfPlayerPrefNeedsToBeDeleted();
             setIntractabilityForRestartButton(isEditing);
+            if (InputMisc.TogglePopup())
+            {
+                ToggleGreenPopup();
+            }
             if (this.liveUpdateClient == null || !this.liveUpdateClient.IsRunning || !this.liveUpdateClient.IsConnected)
                 return;
 

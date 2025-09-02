@@ -17,10 +17,13 @@
 
 from alttester import AltDriver, AltObject, AltReversePortForwarding
 from alttester import By, AltKeyCode, PlayerPrefKeyType, AltLogger, AltLogLevel
+from alttester.commands.Notifications.notification_type import NotificationType
 from loguru import logger
+from robot.libraries.BuiltIn import BuiltIn
 
 
 class AltTesterKeywords(object):
+
     DEFAULT_WAIT = 20
 
     def __init__(self):
@@ -169,6 +172,37 @@ class AltTesterKeywords(object):
         | Remove All Reverse Port Forwardings Android
         """
         AltReversePortForwarding.remove_all_reverse_port_forwardings_android()
+
+    def add_notification_listener(self, notification_type, callback, overwrite=True):
+        """Adds a notification listener for the specified notification type.
+
+        `notification_type` : The type of notification to listen for (e.g., LOADSCENE).
+        `callback` : The callback function to be called when the notification is triggered.
+        `overwrite` : If True, will overwrite any existing listener for the same notification type. Default is True.
+
+        Example:
+        | Add Notification Listener | LOADSCENE | ${callback} | overwrite=${True}
+        """
+
+        def keyword_runner(*args):
+            # When the notification fires, this function is called.
+            # It then uses Robot's BuiltIn library to execute the keyword
+            # using the name we stored in the 'callback' variable.
+            BuiltIn().run_keyword(callback, *args)
+
+        self._driver.add_notification_listener(
+            self.get_notification_type_enum(notification_type), keyword_runner, overwrite)
+
+    def remove_notification_listener(self, notification_type):
+        """Removes the notification listener for the specified notification type.
+
+        `notification_type` : The type of notification to remove (e.g., LOADSCENE).
+
+        Example:
+        | Remove Notification Listener | LOADSCENE |
+        """
+        self._driver.remove_notification_listener(
+            self.get_notification_type_enum(notification_type))
 
     def find_object(self, locator_strategy,
                     locator, camera_by="NAME", camera_value="", enabled=True):
@@ -834,7 +868,7 @@ class AltTesterKeywords(object):
 
         Example:
 
-        | Get Png Screenshot | C:\TestPNG
+        | Get Png Screenshot | C:\\TestPNG
         """
         self._driver.get_png_screenshot(path)
 
@@ -1684,6 +1718,15 @@ class AltTesterKeywords(object):
             raise ValueError(
                 "Invalid locator strategy: {locator}. Valid ones are: {options}.".format(
                     locator=locator, options=", ".join(value.name for value in By)))
+
+    def get_notification_type_enum(self, notification_type):
+        try:
+            notification_type = getattr(NotificationType, notification_type)
+            return notification_type
+        except AttributeError:
+            raise ValueError(
+                "Invalid notification type: {notification_type}. Valid ones are: {options}.".format(
+                    notification_type=notification_type, options=", ".join(value.name for value in NotificationType)))
 
     def get_logger(self,  logger):
         try:

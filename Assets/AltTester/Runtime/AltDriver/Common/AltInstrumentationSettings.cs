@@ -42,5 +42,7 @@ namespace AltTester.AltTesterSDK.Driver
 
         public bool ResetConnectionData = false;
         public string UID = "";
+
+        public bool hideGreenPopup = false;
     }
 }

@@ -15,12 +15,12 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System.Collections.Generic;
-using AltTester.AltTesterUnitySDK;
-using UnityEngine;
 using System;
+using System.Collections.Generic;
 using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.Editor.Platform;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Editor
 {
@@ -48,6 +48,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
         public bool ResetConnectionData = false;
         public string UID = "";
 
+        public bool HideGreenPopup = false;
+
         public AltInstrumentationSettings GetInstrumentationSettings()
         {
             return new AltInstrumentationSettings()
@@ -56,9 +58,11 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 AltServerHost = AltServerHost,
                 AppName = AppName,
                 ResetConnectionData = ResetConnectionData,
-                UID = SystemInfo.deviceUniqueIdentifier.ToString() + DateTimeOffset.Now.ToUnixTimeSeconds().ToString()
+                UID = SystemInfo.deviceUniqueIdentifier.ToString() + DateTimeOffset.Now.ToUnixTimeSeconds().ToString(),
+                hideGreenPopup = HideGreenPopup
+
             };
         }
-        public bool KeepAUTSymbolDefined = false;
+        public bool KeepAUTSymbolDefined = true;
     }
 }
