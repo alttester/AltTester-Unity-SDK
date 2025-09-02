@@ -43,24 +43,26 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
 
             var targetObject = AltRunner.GetGameObject(CommandParams.altObject.id);
-            Exception exception = null;
 
             foreach (var property in textProperties)
             {
+                UnityEngine.Debug.LogWarning($"Trying to set text on {property.Component}.{property.Property}");
                 try
                 {
-                    System.Type type = GetType(property.Component, property.Assembly);
-                    string valueText = Newtonsoft.Json.JsonConvert.SerializeObject(CommandParams.value);
+                    var type = GetType(property.Component, property.Assembly);
+                    string valueText = Newtonsoft.Json.JsonConvert.SerializeObject(CommandParams.value); // Ensure Newtonsoft.Json is correctly referenced
                     SetValueForMember(CommandParams.altObject, property.Property.Split('.'), type, valueText);
-                    var uiInputFieldComp = targetObject.GetComponent<UnityEngine.UI.InputField>();
-                    if (uiInputFieldComp != null)
+                    if (targetObject.TryGetComponent<UnityEngine.UI.InputField>(out var uiInputFieldComp))
                     {
-                        uiInputFieldComp.onValueChanged.Invoke(CommandParams.value);
-                        checkSubmit(uiInputFieldComp.gameObject);
+                        if (uiInputFieldComp != null)
+                        {
+                            uiInputFieldComp.onValueChanged.Invoke(CommandParams.value);
+                            checkSubmit(uiInputFieldComp.gameObject);
 #if UNITY_2021_1_OR_NEWER
-                        uiInputFieldComp.onSubmit.Invoke(CommandParams.value);
+                            uiInputFieldComp.onSubmit.Invoke(CommandParams.value);
 #endif
-                        uiInputFieldComp.onEndEdit.Invoke(CommandParams.value);
+                            uiInputFieldComp.onEndEdit.Invoke(CommandParams.value);
+                        }
                     }
 #if TMP_PRESENT
                     else
@@ -77,21 +79,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
 #endif
                     return AltRunner._altRunner.GameObjectToAltObject(targetObject);
                 }
-                catch (PropertyNotFoundException ex)
-                {
-                    exception = ex;
-                }
-                catch (ComponentNotFoundException ex)
-                {
-                    exception = ex;
-                }
-                catch (AssemblyNotFoundException ex)
-                {
-                    exception = ex;
-                }
+                catch (PropertyNotFoundException) { continue; }
+                catch (ComponentNotFoundException) { continue; }
+                catch (AssemblyNotFoundException) { continue; }
             }
-            if (exception != null) throw exception;
-            throw new Exception("Something went wrong"); // should not reach this point
+            throw new PropertyNotFoundException("No valid text property could be found or set on the target object.");
         }
 
         private void checkSubmit(GameObject obj)
