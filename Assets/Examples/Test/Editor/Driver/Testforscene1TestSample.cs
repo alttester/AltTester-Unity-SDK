@@ -2116,7 +2116,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hasChanged", JToken.Parse("true"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "name", JToken.Parse("\"Canvas\""), "UnityEngine.CoreModule", 1, getPropertyAsString: true).ToString();
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hideFlags", JToken.Parse("0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
-            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]]]"), "UnityEngine.UIModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]], [[[], [], []]]]"), "UnityEngine.UIModule", 1, getPropertyAsString: true);
         }
 
         [Test]
