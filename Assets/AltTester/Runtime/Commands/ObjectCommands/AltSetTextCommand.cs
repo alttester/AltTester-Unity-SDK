@@ -46,7 +46,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
             foreach (var property in textProperties)
             {
-                UnityEngine.Debug.LogWarning($"Trying to set text on {property.Component}.{property.Property}");
                 try
                 {
                     var type = GetType(property.Component, property.Assembly);
@@ -54,21 +53,18 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     SetValueForMember(CommandParams.altObject, property.Property.Split('.'), type, valueText);
                     if (targetObject.TryGetComponent<UnityEngine.UI.InputField>(out var uiInputFieldComp))
                     {
-                        if (uiInputFieldComp != null)
-                        {
-                            uiInputFieldComp.onValueChanged.Invoke(CommandParams.value);
-                            checkSubmit(uiInputFieldComp.gameObject);
+
+                        uiInputFieldComp.onValueChanged.Invoke(CommandParams.value);
+                        checkSubmit(uiInputFieldComp.gameObject);
 #if UNITY_2021_1_OR_NEWER
-                            uiInputFieldComp.onSubmit.Invoke(CommandParams.value);
+                        uiInputFieldComp.onSubmit.Invoke(CommandParams.value);
 #endif
-                            uiInputFieldComp.onEndEdit.Invoke(CommandParams.value);
-                        }
+                        uiInputFieldComp.onEndEdit.Invoke(CommandParams.value);
                     }
 #if TMP_PRESENT
                     else
                     {
-                        var tMPInputFieldComp = targetObject.GetComponent<TMPro.TMP_InputField>();
-                        if (tMPInputFieldComp != null)
+                        if (targetObject.TryGetComponent<TMPro.TMP_InputField>(out var tMPInputFieldComp))
                         {
                             tMPInputFieldComp.onValueChanged.Invoke(CommandParams.value);
                             checkSubmit(tMPInputFieldComp.gameObject);

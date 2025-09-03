@@ -626,10 +626,6 @@ namespace AltTesterTools
 
             return CloseButtonGameObject.GetComponent<Button>();
         }
-        public static void SetupIcons()
-        {
-
-        }
 
         public static Image CreateAltTesterIcon(RectTransform parent)
         {

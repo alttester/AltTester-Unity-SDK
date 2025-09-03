@@ -724,10 +724,11 @@ namespace AltTester.AltTesterUnitySDK.UI
                     else
                     {
                         isNewVersionAvailable = true;
-                        newVersionMessage = $"<size=26>Version <b>{releasedVersion}</b> is available to <b><color={colorCode}><u><link=\"download\">download</link></u></color></b>.</size>";
+                        newVersionMessage = $"<size=26>Version <b>{releasedVersion}</b> is available to <b><color={colorCode}>download</color></b>.</size>";
                     }
                 }
             }
+
         }
 
         private bool isCurrentVersionOlderOrEqualThanRelease(string releasedVersion, string version)
@@ -786,9 +787,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             while (currentTime < totalTime)
             {
-                MessageText.text = $"{newVersionMessage} {Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}" +
+                MessageText.text = $"{newVersionMessage} {Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}" +
                    $"This message will disappear in <b>{totalTime - currentTime}</b> seconds.{Environment.NewLine}" +
-                   $"<b><color={colorCode}><u><link=\"close\">Click here to close.</link></u></color></b>";
+                   $"<b><color={colorCode}>Click here to close.</color></b>";
 
 
                 yield return new WaitForSeconds(interval);
