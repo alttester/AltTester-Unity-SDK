@@ -149,8 +149,13 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 image.enabled = false;
             }
-            foreach (var text in gameObject.GetComponentsInChildren<TMP_Text>())
+            foreach (var inputField in gameObject.GetComponentsInChildren<InputField>())
             {
+                inputField.enabled = !inputField.enabled;
+            }
+            foreach (var text in gameObject.GetComponentsInChildren<Text>())
+            {
+
                 text.enabled = false;
             }
         }
@@ -160,8 +165,14 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 image.enabled = !image.enabled;
             }
-            foreach (var text in gameObject.GetComponentsInChildren<TMP_Text>())
+            foreach (var inputField in gameObject.GetComponentsInChildren<InputField>())
             {
+                inputField.enabled = !inputField.enabled;
+            }
+            foreach (var text in gameObject.GetComponentsInChildren<Text>())
+            {
+                if (text.gameObject.name.Contains("Placeholder"))
+                    continue;
                 text.enabled = !text.enabled;
             }
         }
