@@ -27,7 +27,6 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net;
 using System.Text.RegularExpressions;
-using TMPro;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -67,16 +66,16 @@ namespace AltTester.AltTesterUnitySDK.UI
         public GameObject Dialog = null;
 
         [SerializeField]
-        public TMP_Text TitleText = null;
+        public Text TitleText = null;
 
         [SerializeField]
-        public TMP_Text SubtitleText = null;
+        public Text SubtitleText = null;
 
         [SerializeField]
         public GameObject InfoArea = null;
 
         [SerializeField]
-        public TMP_Text MessageText = null;
+        public Text MessageText = null;
 
         [SerializeField]
         public UnityEngine.UI.Button CloseButton = null;
@@ -85,16 +84,16 @@ namespace AltTester.AltTesterUnitySDK.UI
         public UnityEngine.UI.Image Icon = null;
 
         [SerializeField]
-        public TMP_Text InfoLabel = null;
+        public Text InfoLabel = null;
 
         [SerializeField]
-        public TMP_InputField HostInputField = null;
+        public InputField HostInputField = null;
 
         [SerializeField]
-        public TMP_InputField PortInputField = null;
+        public InputField PortInputField = null;
 
         [SerializeField]
-        public TMP_InputField AppNameInputField = null;
+        public InputField AppNameInputField = null;
         [SerializeField]
         public UnityEngine.UI.Button RestartButton = null;
 
@@ -150,8 +149,13 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 image.enabled = false;
             }
-            foreach (var text in gameObject.GetComponentsInChildren<TMP_Text>())
+            foreach (var inputField in gameObject.GetComponentsInChildren<InputField>())
             {
+                inputField.enabled = !inputField.enabled;
+            }
+            foreach (var text in gameObject.GetComponentsInChildren<Text>())
+            {
+
                 text.enabled = false;
             }
         }
@@ -161,8 +165,14 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 image.enabled = !image.enabled;
             }
-            foreach (var text in gameObject.GetComponentsInChildren<TMP_Text>())
+            foreach (var inputField in gameObject.GetComponentsInChildren<InputField>())
             {
+                inputField.enabled = !inputField.enabled;
+            }
+            foreach (var text in gameObject.GetComponentsInChildren<Text>())
+            {
+                if (text.gameObject.name.Contains("Placeholder"))
+                    continue;
                 text.enabled = !text.enabled;
             }
         }
@@ -172,7 +182,6 @@ namespace AltTester.AltTesterUnitySDK.UI
             resetConnectionDataBasedOnUID();
 
             setTitle("AltTester® v." + AltRunner.VERSION);
-            setSubtitle("AltTester® Server");
             handleNewVersionCheck();
             setUpCloseButton();
             setUpIcon();
@@ -314,7 +323,6 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void setTitle(string title) => TitleText.text = title;
 
-        private void setSubtitle(string subtitle) => SubtitleText.text = subtitle;
 
         private void toggleDialog() => Dialog.SetActive(!Dialog.activeSelf);
 
@@ -361,7 +369,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             currentPort = PlayerPrefs.GetString(PORT, InstrumentationSettings.AltServerPort.ToString());
             PortInputField.text = currentPort;
             PortInputField.onValueChanged.AddListener(onPortInputFieldValueChange);
-            PortInputField.characterValidation = TMP_InputField.CharacterValidation.Integer;
+            PortInputField.characterValidation = InputField.CharacterValidation.Integer;
         }
 
         private void setUpAppNameInputField()
@@ -716,25 +724,26 @@ namespace AltTester.AltTesterUnitySDK.UI
                     else
                     {
                         isNewVersionAvailable = true;
-                        newVersionMessage = $"<size=26>Version <b>{releasedVersion}</b> is available to <b><color={colorCode}><u><link=\"download\">download</link></u></color></b>.</size>";
+                        newVersionMessage = $"<size=26>Version <b>{releasedVersion}</b> is available to <b><color={colorCode}>download</color></b>.</size>";
                     }
                 }
             }
+
         }
 
         private bool isCurrentVersionOlderOrEqualThanRelease(string releasedVersion, string version)
         {
-            var releasedVersionSplited = releasedVersion.Split('.');
-            var currentVersionSplited = version.Split('.');
-            if (short.Parse(currentVersionSplited[0]) != short.Parse(releasedVersionSplited[0]))//check major number
+            var releasedVersionParts = releasedVersion.Split('.');
+            var currentVersionParts = version.Split('.');
+            if (short.Parse(currentVersionParts[0]) != short.Parse(releasedVersionParts[0]))//check major number
             {
-                return short.Parse(currentVersionSplited[0]) > short.Parse(releasedVersionSplited[0]);
+                return short.Parse(currentVersionParts[0]) > short.Parse(releasedVersionParts[0]);
             }
-            if (short.Parse(currentVersionSplited[1]) != short.Parse(releasedVersionSplited[1]))//check minor number
+            if (short.Parse(currentVersionParts[1]) != short.Parse(releasedVersionParts[1]))//check minor number
             {
-                return short.Parse(currentVersionSplited[1]) > short.Parse(releasedVersionSplited[1]);
+                return short.Parse(currentVersionParts[1]) > short.Parse(releasedVersionParts[1]);
             }
-            return short.Parse(currentVersionSplited[2]) >= short.Parse(releasedVersionSplited[2]);//check patch number
+            return short.Parse(currentVersionParts[2]) >= short.Parse(releasedVersionParts[2]);//check patch number
 
         }
         public static async Task<HttpResponseMessage> Get(string url)
@@ -778,9 +787,9 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             while (currentTime < totalTime)
             {
-                MessageText.text = $"{newVersionMessage} {Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}" +
+                MessageText.text = $"{newVersionMessage} {Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}" +
                    $"This message will disappear in <b>{totalTime - currentTime}</b> seconds.{Environment.NewLine}" +
-                   $"<b><color={colorCode}><u><link=\"close\">Click here to close.</link></u></color></b>";
+                   $"<b><color={colorCode}>Click here to close.</color></b>";
 
 
                 yield return new WaitForSeconds(interval);

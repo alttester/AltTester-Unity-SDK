@@ -39,7 +39,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         [UnityEngine.Space]
         public bool RunOnlyInDebugMode = true;
         public UnityEngine.Shader outlineShader;
-        public UnityEngine.GameObject panelHightlightPrefab;
+        public UnityEngine.GameObject panelHighlightPrefab;
 
 
         #region MonoBehaviour

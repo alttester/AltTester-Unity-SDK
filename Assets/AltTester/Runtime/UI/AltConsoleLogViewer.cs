@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using TMPro;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -19,7 +18,7 @@ public class AltConsoleLogViewer : MonoBehaviour
     [SerializeField] private RectTransform content;
     [SerializeField] public GameObject LogItemPrefab;
     [SerializeField] private ScrollRect scrollRect;
-    [SerializeField] private TMP_InputField filterInput;
+    [SerializeField] private InputField filterInput;
     [SerializeField] private Button clearButton;
     [SerializeField] private Button copyButton;
     [SerializeField] private Button closeButton;
@@ -91,7 +90,7 @@ private static extern void CopyToClipboard(string str);
         Instance = this;
         content = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/Scroll View/Viewport/Content").GetComponent<RectTransform>();
         scrollRect = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/Scroll View").GetComponent<ScrollRect>();
-        filterInput = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Filter").GetComponent<TMP_InputField>();
+        filterInput = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Filter").GetComponent<InputField>();
         clearButton = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/ClearButton").GetComponent<Button>();
         copyButton = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/CopyButton").GetComponent<Button>();
         closeButton = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/CloseButton").GetComponent<Button>();
@@ -317,7 +316,7 @@ private static extern void CopyToClipboard(string str);
             if (poolIndex >= pooledItems.Count) continue;
 
             var item = pooledItems[poolIndex];
-            var tmpText = item.GetComponentInChildren<TextMeshProUGUI>();
+            var tmpText = item.GetComponentInChildren<Text>();
             var log = filteredLogs[i];
 
             tmpText.text = log.FullText;
@@ -406,7 +405,7 @@ private static extern void CopyToClipboard(string str);
         instance.transform.position = screenPosition;
         instance.SetActive(true);
         // Set the message text
-        TextMeshProUGUI text = instance.GetComponentInChildren<TextMeshProUGUI>();
+        Text text = instance.GetComponentInChildren<Text>();
         text.text = message;
 
         // Get CanvasGroup to control alpha
