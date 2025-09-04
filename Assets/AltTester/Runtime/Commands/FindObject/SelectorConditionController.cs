@@ -161,7 +161,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                                     if (comp == null) continue;
                                     string shortTypeName = getComponentShortName(comp);
                                     if (string.IsNullOrEmpty(shortTypeName)) continue;
-                                    if (componentNameFromCondition.Contains(shortTypeName))
+                                    if (shortTypeName.Contains(componentNameFromCondition))
                                         return gameObjectToCheck;
                                 }
                                 return null;
