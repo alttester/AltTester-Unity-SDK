@@ -96,21 +96,17 @@ namespace AltTester.AltTesterUnitySDK.Commands
                         int layerId = LayerMask.NameToLayer(propertyEqualsCondition.PropertyValue);
                         return gameObjectToCheck.layer.Equals(layerId) ? gameObjectToCheck : null;
                     case PropertyType.component:
-                        var componentName = propertyEqualsCondition.PropertyValue.Split(new string[] { "." }, System.StringSplitOptions.None).Last();
-                        var list = gameObjectToCheck.GetComponents(typeof(UnityEngine.Component));
-                        for (int i = 0; i < list.Length; i++)
+                        var componentNameFromCondition = propertyEqualsCondition.PropertyValue.Split(new string[] { "." }, System.StringSplitOptions.None).Last();
+                        var allComponents = gameObjectToCheck.GetComponents(typeof(Component));
+
+                        foreach (var comp in allComponents)
                         {
-                            try
-                            {
-                                if (componentName.Equals(list[i].GetType().Name))
-                                {
-                                    return gameObjectToCheck;
-                                }
-                            }
-                            catch (System.NullReferenceException)
-                            {
-                                continue;
-                            }
+                            if (comp == null) continue;
+                            string shortTypeName = getComponentShortName(comp);
+                            if (string.IsNullOrEmpty(shortTypeName)) continue;
+
+                            if (componentNameFromCondition.Equals(shortTypeName))
+                                return gameObjectToCheck;
                         }
                         return null;
                     case PropertyType.text:
@@ -156,14 +152,17 @@ namespace AltTester.AltTesterUnitySDK.Commands
                                 string layerNm = LayerMask.LayerToName(gameObjectToCheck.layer);
                                 return layerNm.Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
                             case PropertyType.component:
-                                var componentName = functionCondition.PropertyValue.Split(new string[] { "." }, System.StringSplitOptions.None).Last();
-                                var list = gameObjectToCheck.GetComponents(typeof(UnityEngine.Component));
-                                for (int i = 0; i < list.Length; i++)
+                                var componentNameFromCondition = functionCondition.PropertyValue.Split(new string[] { "." }, System.StringSplitOptions.None).Last();
+
+                                var allComponents = gameObjectToCheck.GetComponents(typeof(Component));
+
+                                foreach (var comp in allComponents)
                                 {
-                                    if (list[i].GetType().Name.Contains(componentName))
-                                    {
+                                    if (comp == null) continue;
+                                    string shortTypeName = getComponentShortName(comp);
+                                    if (string.IsNullOrEmpty(shortTypeName)) continue;
+                                    if (componentNameFromCondition.Contains(shortTypeName))
                                         return gameObjectToCheck;
-                                    }
                                 }
                                 return null;
                             case PropertyType.text:
@@ -177,6 +176,17 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 Debug.LogError($"Error matching function condition: {e.ToString()}");
             }
             return null;
+        }
+        private static string getComponentShortName(Component component)
+        {
+            string componentToString = component.ToString();
+            int openParen = componentToString.LastIndexOf('(');
+            int closeParen = componentToString.LastIndexOf(')');
+
+            if (openParen == -1 || closeParen <= openParen) return "";
+
+            string fullTypeName = componentToString.Substring(openParen + 1, closeParen - openParen - 1);
+            return fullTypeName.Split('.').Last();
         }
         private static string getText(UnityEngine.GameObject objectToCheck)
         {
