@@ -40,7 +40,6 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         private static Vector2 endTouchScreenPos;
         private static float keyDownPower;
 
-        // Removed InputTestFixture. Use InputSystem.Queue* methods for input simulation.
         public static NewInputSystem Instance;
         public static Keyboard Keyboard;
         public static Mouse Mouse;
@@ -61,16 +60,19 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 return;
             }
 #if USE_INPUT_SYSTEM_1_3
-            TestExecutionContext testExecutionContext = new TestExecutionContext();
-            IMethodInfo methodInfo = new MethodWrapper(typeof(TestExample), typeof(TestExample).GetMethod("Test"));
-            testExecutionContext.CurrentTest = new TestMethod(methodInfo);
-            TestContext testContext = new TestContext(testExecutionContext);
-            TestContext.CurrentTestExecutionContext = testExecutionContext;
             Application.runInBackground = true;
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
 #endif
 
+            initiateDevices();
+            InputSystem.QueueStateEvent(Mouse, new MouseState { position = new Vector2(0, 0) });
+            EnableDefaultDevicesAndDisableAltDevices();
+
+        }
+
+        private static void initiateDevices()
+        {
             Keyboard = (Keyboard)InputSystem.GetDevice("AltKeyboard");
             if (Keyboard == null)
             {
@@ -81,7 +83,6 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             if (Mouse == null)
             {
                 Mouse = InputSystem.AddDevice<Mouse>("AltMouse");
-
             }
             Gamepad = (Gamepad)InputSystem.GetDevice("AltGamepad");
             if (Gamepad == null)
@@ -99,30 +100,30 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 Accelerometer = InputSystem.AddDevice<Accelerometer>("AltAccelerometer");
             }
-            InputSystem.QueueStateEvent(Mouse, new MouseState { position = new Vector2(0, 0) });
-            EnableDefaultDevicesAndDisableAltDevices();
-
         }
 
         public void ResetInput()
         {
-            // Removed InputTestFixture instantiation.
+
 #if USE_INPUT_SYSTEM_1_3
-            TestExecutionContext testExecutionContext = new TestExecutionContext();
-            IMethodInfo methodInfo = new MethodWrapper(typeof(TestExample), typeof(TestExample).GetMethod("Test"));
-            testExecutionContext.CurrentTest = new TestMethod(methodInfo);
-            TestContext testContext = new TestContext(testExecutionContext);
-            TestContext.CurrentTestExecutionContext = testExecutionContext;
             Application.runInBackground = true;
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
-#endif
 
             InputSystem.ResetDevice(Keyboard, true);
             InputSystem.ResetDevice(Mouse, true);
             InputSystem.ResetDevice(Gamepad, true);
             InputSystem.ResetDevice(Touchscreen, true);
             InputSystem.ResetDevice(Accelerometer, true);
+#else
+
+            InputSystem.RemoveDevice(Keyboard);
+            InputSystem.RemoveDevice(Mouse);
+            InputSystem.RemoveDevice(Gamepad);
+            InputSystem.RemoveDevice(Touchscreen);
+            InputSystem.RemoveDevice(Accelerometer);
+            initiateDevices();
+#endif
             touches = new bool[] { false, true, true, true, true, true, true, true, true, true, true };
 
 
@@ -536,7 +537,7 @@ public class TestExample
 }
 #endif
 #else
-using UnityEngine;
+            using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
