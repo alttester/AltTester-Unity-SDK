@@ -1,4 +1,5 @@
-#import <UnityFramework/UnityFramework-Swift.h>
+#import <UnityFramework/UnityFramework.h>
+#import "AltProxyFinder.h"
 
 extern "C"
 {
@@ -15,7 +16,7 @@ extern "C"
 
     char* _getProxy(const char* uri, const char* host)
     {
-        NSString *returnString = [[AltProxyFinder shared] swiftGetProxy:[NSString stringWithUTF8String:uri] destinationHost:[NSString stringWithUTF8String:host]];
+        NSString *returnString = [[AltProxyFinder shared] getProxyForDestinationUrl:[NSString stringWithUTF8String:uri] destinationHost:[NSString stringWithUTF8String:host]];
         return cStringCopy([returnString UTF8String]);
     }
 }
