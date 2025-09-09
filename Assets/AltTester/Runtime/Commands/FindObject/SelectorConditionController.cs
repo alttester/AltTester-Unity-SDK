@@ -27,24 +27,32 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public static GameObject MatchCondition(SelectorCondition selectorCondition, GameObject gameObjectToCheck, bool enabled)
         {
-            switch (selectorCondition.Type)
+            try
             {
-                case SelectorType.Any:
-                    return matchConditionForAny(selectorCondition as AnyCondition, gameObjectToCheck, enabled);
-                case SelectorType.Name:
-                    NameCondition nameCondition = new NameCondition(selectorCondition.Selector);
-                    return matchConditionForName(nameCondition, gameObjectToCheck, enabled);
-                case SelectorType.Function:
-                    FunctionCondition functionCondition = new FunctionCondition(selectorCondition.Selector);
-                    return matchConditionForFunction(functionCondition, gameObjectToCheck, enabled);
-                case SelectorType.PropertyEquals:
-                    PropertyEqualsCondition propertyEqualsCondition = new PropertyEqualsCondition(selectorCondition.Selector);
-                    return matchConditionForProperty(propertyEqualsCondition, gameObjectToCheck, enabled);
-                case SelectorType.Indexer:
-                    IndexerCondition indexerCondition = new IndexerCondition(selectorCondition.Selector);
-                    return matchConditionForIndexer(indexerCondition, gameObjectToCheck, enabled);
-                default:
-                    return null;
+                switch (selectorCondition.Type)
+                {
+                    case SelectorType.Any:
+                        return matchConditionForAny(selectorCondition as AnyCondition, gameObjectToCheck, enabled);
+                    case SelectorType.Name:
+                        NameCondition nameCondition = new NameCondition(selectorCondition.Selector);
+                        return matchConditionForName(nameCondition, gameObjectToCheck, enabled);
+                    case SelectorType.Function:
+                        FunctionCondition functionCondition = new FunctionCondition(selectorCondition.Selector);
+                        return matchConditionForFunction(functionCondition, gameObjectToCheck, enabled);
+                    case SelectorType.PropertyEquals:
+                        PropertyEqualsCondition propertyEqualsCondition = new PropertyEqualsCondition(selectorCondition.Selector);
+                        return matchConditionForProperty(propertyEqualsCondition, gameObjectToCheck, enabled);
+                    case SelectorType.Indexer:
+                        IndexerCondition indexerCondition = new IndexerCondition(selectorCondition.Selector);
+                        return matchConditionForIndexer(indexerCondition, gameObjectToCheck, enabled);
+                    default:
+                        return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error matching condition {selectorCondition.Type}: {e.Message}");
+                return null;
             }
         }
         private static GameObject matchConditionForAny(AnyCondition anyCondition, GameObject gameObjectToCheck, bool enabled)
@@ -57,54 +65,57 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
         private static GameObject matchConditionForProperty(PropertyEqualsCondition propertyEqualsCondition, GameObject gameObjectToCheck, bool enabled)
         {
-            switch (propertyEqualsCondition.Property)
+            try
             {
-                case PropertyType.id:
-                    if (System.Text.RegularExpressions.Regex.Match(propertyEqualsCondition.PropertyValue, "^([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)$").Success)
-                    {
-                        var id = System.Convert.ToInt32(propertyEqualsCondition.PropertyValue);
-                        return gameObjectToCheck.GetInstanceID() == id ? gameObjectToCheck : null;
-                    }
-                    var component = gameObjectToCheck.GetComponent<AltId>();
-                    if (component != null)
-                    {
-                        return component.altID.Equals(propertyEqualsCondition.PropertyValue) ? gameObjectToCheck : null;
-                    }
-                    return null;
-                case PropertyType.name:
-                    return gameObjectToCheck.name.Equals(propertyEqualsCondition.PropertyValue) ? gameObjectToCheck : null;
-                case PropertyType.tag:
-                    try
-                    {
-                        return gameObjectToCheck.tag.Equals(propertyEqualsCondition.PropertyValue) ? gameObjectToCheck : null;
-                    }
-                    catch (Exception)
-                    {
+                switch (propertyEqualsCondition.Property)
+                {
+                    case PropertyType.id:
+                        if (System.Text.RegularExpressions.Regex.Match(propertyEqualsCondition.PropertyValue, "^([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)$").Success)
+                        {
+                            var id = System.Convert.ToInt32(propertyEqualsCondition.PropertyValue);
+                            return gameObjectToCheck.GetInstanceID() == id ? gameObjectToCheck : null;
+                        }
+                        var component = gameObjectToCheck.GetComponent<AltId>();
+                        if (component != null)
+                        {
+                            return component.altID.Equals(propertyEqualsCondition.PropertyValue) ? gameObjectToCheck : null;
+                        }
                         return null;
-                    }
-                case PropertyType.layer:
-                    int layerId = LayerMask.NameToLayer(propertyEqualsCondition.PropertyValue);
-                    return gameObjectToCheck.layer.Equals(layerId) ? gameObjectToCheck : null;
-                case PropertyType.component:
-                    var componentName = propertyEqualsCondition.PropertyValue.Split(new string[] { "." }, System.StringSplitOptions.None).Last();
-                    var list = gameObjectToCheck.GetComponents(typeof(UnityEngine.Component));
-                    for (int i = 0; i < list.Length; i++)
-                    {
+                    case PropertyType.name:
+                        return gameObjectToCheck.name.Equals(propertyEqualsCondition.PropertyValue) ? gameObjectToCheck : null;
+                    case PropertyType.tag:
                         try
                         {
-                            if (componentName.Equals(list[i].GetType().Name))
-                            {
-                                return gameObjectToCheck;
-                            }
+                            return gameObjectToCheck.tag.Equals(propertyEqualsCondition.PropertyValue) ? gameObjectToCheck : null;
                         }
-                        catch (System.NullReferenceException)
+                        catch (Exception)
                         {
-                            continue;
+                            return null;
                         }
-                    }
-                    return null;
-                case PropertyType.text:
-                    return getText(gameObjectToCheck).Equals(propertyEqualsCondition.PropertyValue) ? gameObjectToCheck : null;
+                    case PropertyType.layer:
+                        int layerId = LayerMask.NameToLayer(propertyEqualsCondition.PropertyValue);
+                        return gameObjectToCheck.layer.Equals(layerId) ? gameObjectToCheck : null;
+                    case PropertyType.component:
+                        var componentNameFromCondition = propertyEqualsCondition.PropertyValue.Split(new string[] { "." }, System.StringSplitOptions.None).Last();
+                        var allComponents = gameObjectToCheck.GetComponents(typeof(Component));
+
+                        foreach (var comp in allComponents)
+                        {
+                            if (comp == null) continue;
+                            string shortTypeName = getComponentShortName(comp);
+                            if (string.IsNullOrEmpty(shortTypeName)) continue;
+
+                            if (componentNameFromCondition.Equals(shortTypeName))
+                                return gameObjectToCheck;
+                        }
+                        return null;
+                    case PropertyType.text:
+                        return getText(gameObjectToCheck).Equals(propertyEqualsCondition.PropertyValue) ? gameObjectToCheck : null;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error matching property condition: {e.ToString()}");
             }
             return null;
         }
@@ -115,74 +126,79 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
         private static GameObject matchConditionForFunction(FunctionCondition functionCondition, GameObject gameObjectToCheck, bool enabled)
         {
-            switch (functionCondition.Function)
+            try
             {
-                case FunctionType.contains:
-                    switch (functionCondition.Property)
-                    {
-                        case PropertyType.id:
-                            if (System.Text.RegularExpressions.Regex.Match(functionCondition.PropertyValue, "^([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)$").Success)
-                            {
-                                return gameObjectToCheck.GetInstanceID().ToString().Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
-                            }
-                            var component = gameObjectToCheck.GetComponent<AltId>();
-                            if (component != null)
-                            {
-                                return component.altID.Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
-                            }
-                            return null;
-                        case PropertyType.name:
-                            return gameObjectToCheck.name.Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
-                        case PropertyType.tag:
-                            return gameObjectToCheck.tag.Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
-                        case PropertyType.layer:
-                            string layerNm = LayerMask.LayerToName(gameObjectToCheck.layer);
-                            return layerNm.Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
-                        case PropertyType.component:
-                            var componentName = functionCondition.PropertyValue.Split(new string[] { "." }, System.StringSplitOptions.None).Last();
-                            var list = gameObjectToCheck.GetComponents(typeof(UnityEngine.Component));
-                            for (int i = 0; i < list.Length; i++)
-                            {
-                                if (list[i].GetType().Name.Contains(componentName))
+                switch (functionCondition.Function)
+                {
+                    case FunctionType.contains:
+                        switch (functionCondition.Property)
+                        {
+                            case PropertyType.id:
+                                if (System.Text.RegularExpressions.Regex.Match(functionCondition.PropertyValue, "^([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)$").Success)
                                 {
-                                    return gameObjectToCheck;
+                                    return gameObjectToCheck.GetInstanceID().ToString().Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
                                 }
-                            }
-                            return null;
-                        case PropertyType.text:
-                            return getText(gameObjectToCheck).Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
-                    }
-                    break;
+                                var component = gameObjectToCheck.GetComponent<AltId>();
+                                if (component != null)
+                                {
+                                    return component.altID.Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
+                                }
+                                return null;
+                            case PropertyType.name:
+                                return gameObjectToCheck.name.Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
+                            case PropertyType.tag:
+                                return gameObjectToCheck.tag.Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
+                            case PropertyType.layer:
+                                string layerNm = LayerMask.LayerToName(gameObjectToCheck.layer);
+                                return layerNm.Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
+                            case PropertyType.component:
+                                var componentNameFromCondition = functionCondition.PropertyValue.Split(new string[] { "." }, System.StringSplitOptions.None).Last();
+
+                                var allComponents = gameObjectToCheck.GetComponents(typeof(Component));
+
+                                foreach (var comp in allComponents)
+                                {
+                                    if (comp == null) continue;
+                                    string shortTypeName = getComponentShortName(comp);
+                                    if (string.IsNullOrEmpty(shortTypeName)) continue;
+                                    if (shortTypeName.Contains(componentNameFromCondition))
+                                        return gameObjectToCheck;
+                                }
+                                return null;
+                            case PropertyType.text:
+                                return getText(gameObjectToCheck).Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
+                        }
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error matching function condition: {e.ToString()}");
             }
             return null;
         }
+        private static string getComponentShortName(Component component)
+        {
+            string componentToString = component.ToString();
+            int openParen = componentToString.LastIndexOf('(');
+            int closeParen = componentToString.LastIndexOf(')');
+
+            if (openParen == -1 || closeParen <= openParen) return "";
+
+            string fullTypeName = componentToString.Substring(openParen + 1, closeParen - openParen - 1);
+            return fullTypeName.Split('.').Last();
+        }
         private static string getText(UnityEngine.GameObject objectToCheck)
         {
-            var textComponent = objectToCheck.GetComponent<UnityEngine.UI.Text>();
-            if (textComponent != null)
+            try
             {
-                return textComponent.text;
-            }
+                return AltGetTextCommand.GetText(new AltObject(objectToCheck.name, id: objectToCheck.GetInstanceID()));
 
-            var inputFieldComponent = objectToCheck.GetComponent<UnityEngine.UI.InputField>();
-            if (inputFieldComponent != null)
+            }
+            catch (Exception)
             {
-                return inputFieldComponent.text;
+                return "";
             }
-
-            var tmpTextComponent = objectToCheck.GetComponent<TMPro.TMP_Text>();
-            if (tmpTextComponent != null)
-            {
-                return tmpTextComponent.text;
-            }
-
-            var tmpInputFieldComponent = objectToCheck.GetComponent<TMPro.TMP_InputField>();
-            if (tmpInputFieldComponent != null)
-            {
-                return tmpInputFieldComponent.text;
-            }
-
-            return "";
         }
     }
 }

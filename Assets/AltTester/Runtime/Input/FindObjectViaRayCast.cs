@@ -33,18 +33,13 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         {
             List<RaycastResult> firstRaycastResult;
             GetAllRaycastResults(pointerEventData, out firstRaycastResult);
-            foreach (var result in firstRaycastResult)
-            {
-                if (ExecuteEvents.CanHandleEvent<IPointerClickHandler>(result.gameObject))
-                {
-                    return result.gameObject;
-                }
-            }
-            foreach (var result in firstRaycastResult)//if nothing has click handler then return the first UI element encountered
-            {
-                return result.gameObject;
-            }
-            return null;
+            if (firstRaycastResult.Count == 0)
+                return null;
+            GameObject topMostObject = firstRaycastResult[0].gameObject;
+            GameObject clickHandler = ExecuteEvents.GetEventHandler<IPointerClickHandler>(topMostObject);
+
+            return clickHandler != null ? clickHandler : topMostObject;
+
         }
         public static GameObject FindObjectAtCoordinates(Vector2 screenPosition)
         {

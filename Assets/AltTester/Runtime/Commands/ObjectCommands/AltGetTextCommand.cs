@@ -63,5 +63,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
             if (exception != null) throw exception;
             throw new Exception("Something went wrong"); // should not reach this point
         }
+        public static string GetText(AltObject altObject)
+        {
+            var command = new AltGetTextCommand(new AltGetTextParams(altObject));
+            return command.Execute();
+        }
     }
 }

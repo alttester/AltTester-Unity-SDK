@@ -166,10 +166,15 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         public void TestSetTextForUnityUIInputField(string fieldName)
         {
             var inputField = altDriver.FindObject(By.NAME, fieldName).SetText("exampleUnityUIInputField", true);
+            var component = "AltInputFieldRaisedEvents";
+            var assembly = "Assembly-CSharp";
             Assert.AreEqual("exampleUnityUIInputField", inputField.GetText());
-            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onValueChangedInvoked", "Assembly-CSharp"), "onValueChangedInvoked was false");
-            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp"), "onSubmitInvoked was false");
-            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onEndEditInvoked", "Assembly-CSharp"), "onEndEditInvoked was false");
+            var onValueChanged = inputField.GetComponentProperty<bool>(component, "onValueChangedInvoked", assembly);
+            Assert.IsTrue(onValueChanged, "onValueChangedInvoked was false");
+            var onSubmit = inputField.GetComponentProperty<bool>(component, "onSubmitInvoked", assembly);
+            Assert.IsTrue(onSubmit, "onSubmitInvoked was false");
+            var onEndEdit = inputField.GetComponentProperty<bool>(component, "onEndEditInvoked", assembly);
+            Assert.IsTrue(onEndEdit, "onEndEditInvoked was false");
         }
 
         [TestCase(By.COMPONENT, "AltRunner", "//AltTesterPrefab")]
@@ -2111,7 +2116,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hasChanged", JToken.Parse("true"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "name", JToken.Parse("\"Canvas\""), "UnityEngine.CoreModule", 1, getPropertyAsString: true).ToString();
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hideFlags", JToken.Parse("0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
-            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]]]"), "UnityEngine.UIModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]], [[[], [], []]]]"), "UnityEngine.UIModule", 1, getPropertyAsString: true);
         }
 
         [Test]

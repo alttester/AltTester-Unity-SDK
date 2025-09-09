@@ -7477,43 +7477,196 @@ Sets the level of logging on AltTester® Unity SDK.
 
 ```
 
-<!--### Notifications
+### Notifications
 
-#### Scene loaded
+Notifications allow you to listen for specific events in the Unity application under test. To activate a notification, use the `AddNotificationListener` command and specify the appropriate `NotificationType`.
 
-If activated this notification will be called every time a scene is loaded in the unity app. To activate this notification use `AddNotificationListener` command and add `NotificationType.LoadScene` as a parameter.
+#### Scene Loaded (NotificationType.LOADSCENE)
+Triggered when a scene is loaded in the Unity app.
 
-**_Returns_**
+**How to activate:**
+`AddNotificationListener<AltLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, callback, true)`
 
--   sceneName - name of the loaded scene
--   loadSceneMode - the way how the scene was loaded (Additive or Single)
+**Returns:**
+- `sceneName`: Name of the loaded scene
+- `loadSceneMode`: How the scene was loaded (Additive or Single)
 
-#### Scene unloaded
+**Example:**
+```eval_rst
+.. tabs::
+  .. tab:: C#
+  
+    altDriver.AddNotificationListener<AltLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, (result) => {
+      Debug.Log($"Scene loaded: {result.sceneName}, Mode: {result.loadSceneMode}");
+    }, true);
 
-If activated this notification will be called every time a scene is unloaded in the unity app. To activate this notification use `AddNotificationListener` command and add `NotificationType.UnloadScene` as a parameter.
+  .. tab:: Java
 
-**_Returns_**
+    altDriver.addNotificationListener(NotificationType.LOADSCENE, (AltLoadSceneNotificationResultParams result) -> {
+      System.out.println("Scene loaded: " + result.sceneName + ", Mode: " + result.loadSceneMode);
+    }, true);
 
--   sceneName - name of the unloaded scene
+  .. tab:: Python
 
-#### Log notification
+    def on_scene_loaded(result):
+      print(f"Scene loaded: {result.scene_name}, Mode: {result.load_scene_mode}")
+    alt_driver.add_notification_listener(NotificationType.LOADSCENE, on_scene_loaded, True)
 
-If activated this notification will be called every time a log is generated. To activate this notification use `AddNotificationListener` command and add `NotificationType.Log` as a parameter.
+  .. tab:: Robot
+        *** Settings ***
+        Library    AltTesterLibrary
 
-**_Returns_**
+        *** Test Cases ***
+        Listen For Scene Loaded
+            Add Notification Listener    LOADSCENE    Log Scene Loaded    overwrite=${True}
+            # ... trigger scene load ...
+            Remove Notification Listener    LOADSCENE
 
--   message - the message of the log
--   stackTrace - the stack trace of the log
--   level - the level of the log (ex. Error, Warning etc.)
+        Log Scene Loaded
+            [Arguments]    ${result}
+            Log    Scene loaded: ${result.sceneName}, Mode: ${result.loadSceneMode}
 
-#### Application paused
+```
 
-If activated this notification will be called every time the application has paused. To activate this notification use `AddNotificationListener` command and add `NotificationType.ApplicationPaused` as a parameter.
+#### Scene Unloaded (NotificationType.UNLOADSCENE)
+Triggered when a scene is unloaded in the Unity app.
 
-**_Returns_**
+**How to activate:**
+`AddNotificationListener<string>(NotificationType.UNLOADSCENE, callback, true)`
 
--   Nothing
--->
+**Returns:**
+- `sceneName`: Name of the unloaded scene
+
+**Example:**
+```eval_rst
+.. tabs::
+  .. tab:: C#
+  
+    altDriver.AddNotificationListener<string>(NotificationType.UNLOADSCENE, (sceneName) => {
+      Debug.Log($"Scene unloaded: {sceneName}");
+    }, true);
+
+  .. tab:: Java
+
+    altDriver.addNotificationListener(NotificationType.UNLOADSCENE, (String sceneName) -> {
+      System.out.println("Scene unloaded: " + sceneName);
+    }, true);
+
+  .. tab:: Python
+
+    def on_scene_unloaded(scene_name):
+      print(f"Scene unloaded: {scene_name}")
+    alt_driver.add_notification_listener(NotificationType.UNLOADSCENE, on_scene_unloaded, True)
+
+  .. tab:: Robot
+        *** Settings ***
+        Library    AltTesterLibrary
+
+        *** Test Cases ***
+        Listen For Scene Unloaded
+            Add Notification Listener    NotificationType.UNLOADSCENE    Log Scene Unloaded    overwrite=${True}
+            # ... trigger scene unload ...
+            Remove Notification Listener    NotificationType.UNLOADSCENE
+
+        Log Scene Unloaded
+            [Arguments]    ${sceneName}
+            Log    Scene unloaded: ${sceneName}
+   
+```
+
+#### Log Notification (NotificationType.LOG)
+Triggered when a log is generated in the Unity app.
+
+**How to activate:**
+`AddNotificationListener<AltLogNotificationResultParams>(NotificationType.LOG, callback, true)`
+
+**Returns:**
+- `message`: The log message
+- `stackTrace`: The stack trace of the log
+- `level`: The log level (e.g., Error, Warning, etc.)
+
+**Example:**
+```eval_rst
+.. tabs::
+  .. tab:: C#
+
+    altDriver.AddNotificationListener<AltLogNotificationResultParams>(NotificationType.LOG, (log) => {
+      Debug.Log($"Log: {log.message}\nLevel: {log.level}\nStackTrace: {log.stackTrace}");
+    }, true);
+
+  .. tab:: Java
+
+    altDriver.addNotificationListener(NotificationType.LOG, (AltLogNotificationResultParams log) -> {
+      System.out.println("Log: " + log.message + "\nLevel: " + log.level + "\nStackTrace: " + log.stackTrace);
+    }, true);
+
+  .. tab:: Python
+
+    def on_log(log):
+      print(f"Log: {log.message}\nLevel: {log.level}\nStackTrace: {log.stack_trace}")
+    alt_driver.add_notification_listener(NotificationType.LOG, on_log, True)
+
+  .. tab:: Robot
+        *** Settings ***
+        Library    AltTesterLibrary
+
+        *** Test Cases ***
+        Listen For Log Notification
+            Add Notification Listener    LOG    Log Notification Callback    overwrite=${True}
+            # ... trigger log event ...
+            Remove Notification Listener    LOG
+
+        Log Notification Callback
+            [Arguments]    ${log}
+            Log    Log: ${log.message}\nLevel: ${log.level}\nStackTrace: ${log.stackTrace}
+   
+```
+
+#### Application Paused (NotificationType.APPLICATION_PAUSED)
+Triggered when the application is paused or resumed.
+
+**How to activate:**
+`AddNotificationListener<bool>(NotificationType.APPLICATION_PAUSED, callback, true)`
+
+**Returns:**
+- `applicationPaused`: Boolean indicating if the application is paused
+
+**Example:**
+```eval_rst
+.. tabs::
+  .. tab:: C#
+
+    altDriver.AddNotificationListener<bool>(NotificationType.APPLICATION_PAUSED, (paused) => {
+      Debug.Log($"Application paused: {paused}");
+    }, true);
+
+  .. tab:: Java
+
+    altDriver.addNotificationListener(NotificationType.APPLICATION_PAUSED, (Boolean paused) -> {
+      System.out.println("Application paused: " + paused);
+    }, true);
+
+  .. tab:: Python
+
+    def on_paused(paused):
+      print(f"Application paused: {paused}")
+    alt_driver.add_notification_listener(NotificationType.APPLICATION_PAUSED, on_paused, True)
+
+  .. tab:: Robot
+        *** Settings ***
+        Library    AltTesterLibrary
+
+        *** Test Cases ***
+        Listen For Application Paused
+            Add Notification Listener    APPLICATION_PAUSED    Log Application Paused    overwrite=${True}
+            # ... trigger pause event ...
+            Remove Notification Listener    APPLICATION_PAUSED
+
+        Log Application Paused
+            [Arguments]    ${paused}
+            Log    Application paused: ${paused}
+    
+```
 
 ## AltObject
 
