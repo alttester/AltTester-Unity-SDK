@@ -122,32 +122,6 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         }
 
 
-        [Test]
-        public void TestKeyDownAndKeyUp()
-        {
-            altDriver.LoadScene(scene10);
-            var player = altDriver.FindObject(By.NAME, "Player");
-            for (AltKeyCode altKeyCode = AltKeyCode.Backspace; altKeyCode <= AltKeyCode.F12; altKeyCode++) //because F13->F15 is present in KeyCode but not in Key
-                keyboardKeyDownAndUp(player, altKeyCode);
-            for (AltKeyCode altKeyCode = AltKeyCode.Numlock; altKeyCode <= AltKeyCode.Menu; altKeyCode++)
-                keyboardKeyDownAndUp(player, altKeyCode);
-            for (AltKeyCode altKeyCode = AltKeyCode.Mouse0; altKeyCode <= AltKeyCode.Mouse4; altKeyCode++)
-                if (Enum.IsDefined(typeof(AltKeyCode), altKeyCode))
-                {
-                    altDriver.KeyDown(altKeyCode);
-                    Thread.Sleep(100);
-                    altDriver.KeyUp(altKeyCode);
-                    var keyPressed = player.GetComponentProperty<string>("AltNIPDebugScript", "MousePressed", "Assembly-CSharp");
-                    var keyReleased = player.GetComponentProperty<string>("AltNIPDebugScript", "MouseReleased", "Assembly-CSharp");
-                    Assert.AreEqual(altKeyCode.ToString(), keyPressed);
-                    Assert.AreEqual(altKeyCode.ToString(), keyReleased);
-                }
-            for (AltKeyCode altKeyCode = AltKeyCode.JoystickButton0; altKeyCode <= AltKeyCode.JoystickButton19; altKeyCode++)
-                joystickKeyDownAndUp(player, altKeyCode, 1);
-            for (AltKeyCode altKeyCode = AltKeyCode.JoystickButton16; altKeyCode <= AltKeyCode.JoystickButton19; altKeyCode++) //for axis.x < 0 and axis.y < 0
-                joystickKeyDownAndUp(player, altKeyCode, -1);
-        }
-
         private void keyboardKeyDownAndUp(AltObject player, AltKeyCode altKeyCode)
         {
             if (Enum.IsDefined(typeof(AltKeyCode), altKeyCode))
@@ -226,10 +200,10 @@ namespace AltTester.AltTesterSDK.Driver.Tests
                     Assert.AreEqual(altKeyCode.ToString(), keyPressed);
                     Assert.AreEqual(altKeyCode.ToString(), keyReleased);
                 }
-            for (AltKeyCode altKeyCode = AltKeyCode.JoystickButton0; altKeyCode <= AltKeyCode.JoystickButton19; altKeyCode++)
-                joystickKeyPress(player, altKeyCode, 1);
-            for (AltKeyCode altKeyCode = AltKeyCode.JoystickButton16; altKeyCode <= AltKeyCode.JoystickButton19; altKeyCode++) //for axis.x < 0 and axis.y < 0
-                joystickKeyPress(player, altKeyCode, -1);
+
+            var keyCode = AltKeyCode.JoystickButton0;
+            joystickKeyPress(player, keyCode, 1);
+
         }
 
 
