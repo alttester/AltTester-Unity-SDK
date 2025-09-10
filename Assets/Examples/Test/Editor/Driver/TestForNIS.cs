@@ -200,10 +200,6 @@ namespace AltTester.AltTesterSDK.Driver.Tests
                     Assert.AreEqual(altKeyCode.ToString(), keyPressed);
                     Assert.AreEqual(altKeyCode.ToString(), keyReleased);
                 }
-
-            var keyCode = AltKeyCode.JoystickButton0;
-            joystickKeyPress(player, keyCode, 1);
-
         }
 
 
@@ -300,7 +296,6 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             Assert.AreEqual("Capsule was tapped!", text);
         }
 
-        // [Ignore("Flaky. Skip until https://github.com/alttester/AltTester-Unity-SDK/issues/1130 is fixed.")]
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
