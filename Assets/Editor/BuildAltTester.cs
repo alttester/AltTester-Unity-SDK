@@ -169,7 +169,7 @@ namespace AltTesterTools
                     "Assets/Examples/Scenes/Scene 7 New Input System Actions.unity",
                     "Assets/Examples/Scenes/Scene 11 ScrollView Scene.unity",
                     "Assets/Examples/Scenes/Sceme 12 2D Objects.unity",
-                    "Assets/Examples/Scenes/Scene 14",
+                    "Assets/Examples/Scenes/Scene 14.unity",
                     "Assets/Examples/Scenes/DragDemo.unity"
                     };
         }
