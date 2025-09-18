@@ -40,6 +40,7 @@ namespace AltTesterTools
                 PlayerSettings.fullScreenMode = UnityEngine.FullScreenMode.Windowed;
                 PlayerSettings.defaultScreenHeight = 1080;
                 PlayerSettings.defaultScreenWidth = 1920;
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Standalone);
 
                 logger.Debug("Starting Mac build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
                 var buildPlayerOptions = GetBuildPlayerOptions("sampleGame", BuildTarget.StandaloneOSX);
@@ -64,6 +65,7 @@ namespace AltTesterTools
 
                 PlayerSettings.Android.bundleVersionCode = int.Parse(PlayerSettings.bundleVersion);
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Android);
 #if UNITY_2018_1_OR_NEWER
                 PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
 #endif
@@ -88,6 +90,7 @@ namespace AltTesterTools
                 SetCommonSettings(BuildTargetGroup.iOS);
                 PlayerSettings.iOS.appleEnableAutomaticSigning = true;
                 PlayerSettings.iOS.appleDeveloperTeamID = "59ESG8ELF5";
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.iOS);
 
                 logger.Debug("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
 
@@ -113,7 +116,7 @@ namespace AltTesterTools
 
                 logger.Debug("Starting WebGL build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
                 var buildPlayerOptions = GetBuildPlayerOptions("build/webgl", BuildTarget.WebGL);
-
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.WebGL);
                 AltBuilder.AddScriptingDefineSymbol("UNITY_WEBGL", BuildTargetGroup.WebGL);
                 buildGame(buildPlayerOptions, BuildTargetGroup.WebGL);
 
