@@ -448,16 +448,19 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
         private static void keyDown(KeyCode keyCode, float power, ButtonControl buttonControl)
         {
+            if (buttonControl == null) return;
             if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
                 setStick(power, buttonControl);
-            if (buttonControl == null) return;
 
             // Keyboard key
             if (buttonControl.device is Keyboard)
             {
                 string key = AltKeyMapping.StringToKeyCode.FirstOrDefault(x => x.Value == keyCode).Key;
-                currentKeyboardState.Press(AltKeyMapping.StringToKey[key]);
+                if (!string.IsNullOrEmpty(key) && AltKeyMapping.StringToKey.TryGetValue(key, out var keyboardKey)){
+                    currentKeyboardState.Press(keyboardKey);
                 InputSystem.QueueStateEvent(Keyboard, currentKeyboardState); // 3. Set the new state
+
+                 }
             }
             // Mouse button
             else if (buttonControl.device is Mouse)
@@ -483,17 +486,19 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
         private static void keyUp(KeyCode keyCode, ButtonControl buttonControl, bool queueEventOnly = false)
         {
+            if (buttonControl == null) return;
             if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
                 setStick(0, buttonControl);
-            if (buttonControl == null) return;
 
             // Keyboard key
             if (buttonControl.device is Keyboard)
             {
-                string key = AltKeyMapping.StringToKeyCode.FirstOrDefault(x => x.Value == keyCode).Key;
-                currentKeyboardState.Release(AltKeyMapping.StringToKey[key]);
-                InputSystem.QueueStateEvent(Keyboard, currentKeyboardState); // 3. Set the new state
-
+                string key = AltKeyMapping.StringToKeyCode.TryGetValue(x => x.Value == keyCode).Key;
+                if (!string.IsNullOrEmpty(key) && AltKeyMapping.StringToKey.TryGetValue(key, out var keyValue))  
+                {  
+                    currentKeyboardState.Release(keyValue);
+                    InputSystem.QueueStateEvent(Keyboard, currentKeyboardState); // 3. Set the new state
+                }
             }
             // Mouse button
             else if (buttonControl.device is Mouse)
@@ -526,18 +531,9 @@ namespace AltTester.AltTesterUnitySDK.InputModule
     }
 
 }
-#if USE_INPUT_SYSTEM_1_3
-public class TestExample
-{
-    [Test]
-    public void Test()
-    {
 
-    }
-}
-#endif
 #else
-            using UnityEngine;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
