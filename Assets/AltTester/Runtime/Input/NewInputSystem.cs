@@ -493,7 +493,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             // Keyboard key
             if (buttonControl.device is Keyboard)
             {
-                string key = AltKeyMapping.StringToKeyCode.TryGetValue(x => x.Value == keyCode).Key;
+                string key = AltKeyMapping.StringToKeyCode.FirstOrDefault(x => x.Value == keyCode).Key;
                 if (!string.IsNullOrEmpty(key) && AltKeyMapping.StringToKey.TryGetValue(key, out var keyValue))  
                 {  
                     currentKeyboardState.Release(keyValue);
