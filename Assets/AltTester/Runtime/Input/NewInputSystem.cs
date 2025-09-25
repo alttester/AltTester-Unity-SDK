@@ -14,8 +14,10 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
+
 #if ALTTESTER && ENABLE_INPUT_SYSTEM
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using AltTester;
@@ -27,6 +29,9 @@ using NUnit.Framework.Internal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.LowLevel;
+using InputTouchPhase = UnityEngine.InputSystem.TouchPhase;
+using System.Linq;
 
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
@@ -35,13 +40,16 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         private static Vector2 endTouchScreenPos;
         private static float keyDownPower;
 
-        public static InputTestFixture InputTestFixture = new InputTestFixture();
         public static NewInputSystem Instance;
         public static Keyboard Keyboard;
         public static Mouse Mouse;
         public static Gamepad Gamepad;
         public static Touchscreen Touchscreen;
         public static Accelerometer Accelerometer;
+
+        private static KeyboardState currentKeyboardState = new KeyboardState();
+        private static MouseState currentMouseState = new MouseState();
+        private static GamepadState currentGamepadState = new GamepadState();
         public static bool[] touches = new bool[] { false, true, true, true, true, true, true, true, true, true, true };
         public void Awake()
         {
@@ -51,18 +59,20 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 return;
             }
-            InputTestFixture = new InputTestFixture();
 #if USE_INPUT_SYSTEM_1_3
-            TestExecutionContext testExecutionContext = new TestExecutionContext();
-            IMethodInfo methodInfo = new MethodWrapper(typeof(TestExample), typeof(TestExample).GetMethod("Test"));
-            testExecutionContext.CurrentTest = new TestMethod(methodInfo);
-            TestContext testContext = new TestContext(testExecutionContext);
-            TestContext.CurrentTestExecutionContext = testExecutionContext;
             Application.runInBackground = true;
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
 #endif
 
+            initiateDevices();
+            InputSystem.QueueStateEvent(Mouse, new MouseState { position = new Vector2(0, 0) });
+            EnableDefaultDevicesAndDisableAltDevices();
+
+        }
+
+        private static void initiateDevices()
+        {
             Keyboard = (Keyboard)InputSystem.GetDevice("AltKeyboard");
             if (Keyboard == null)
             {
@@ -73,7 +83,6 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             if (Mouse == null)
             {
                 Mouse = InputSystem.AddDevice<Mouse>("AltMouse");
-
             }
             Gamepad = (Gamepad)InputSystem.GetDevice("AltGamepad");
             if (Gamepad == null)
@@ -91,30 +100,30 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 Accelerometer = InputSystem.AddDevice<Accelerometer>("AltAccelerometer");
             }
-            InputTestFixture.Set(Mouse.position, new Vector2(0, 0));
-            EnableDefaultDevicesAndDisableAltDevices();
-
         }
 
         public void ResetInput()
         {
-            InputTestFixture = new InputTestFixture();
+
 #if USE_INPUT_SYSTEM_1_3
-            TestExecutionContext testExecutionContext = new TestExecutionContext();
-            IMethodInfo methodInfo = new MethodWrapper(typeof(TestExample), typeof(TestExample).GetMethod("Test"));
-            testExecutionContext.CurrentTest = new TestMethod(methodInfo);
-            TestContext testContext = new TestContext(testExecutionContext);
-            TestContext.CurrentTestExecutionContext = testExecutionContext;
             Application.runInBackground = true;
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
-#endif
 
             InputSystem.ResetDevice(Keyboard, true);
             InputSystem.ResetDevice(Mouse, true);
             InputSystem.ResetDevice(Gamepad, true);
             InputSystem.ResetDevice(Touchscreen, true);
             InputSystem.ResetDevice(Accelerometer, true);
+#else
+
+            InputSystem.RemoveDevice(Keyboard);
+            InputSystem.RemoveDevice(Mouse);
+            InputSystem.RemoveDevice(Gamepad);
+            InputSystem.RemoveDevice(Touchscreen);
+            InputSystem.RemoveDevice(Accelerometer);
+            initiateDevices();
+#endif
             touches = new bool[] { false, true, true, true, true, true, true, true, true, true, true };
 
 
@@ -126,7 +135,8 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 if (device.name.Contains("Alt"))
                 {
-                    if(device!=null){
+                    if (device != null)
+                    {
                         InputSystem.EnableDevice(device);
                         device.MakeCurrent();
                     }
@@ -148,7 +158,8 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 }
                 else
                 {
-                    if(device!=null){
+                    if (device != null)
+                    {
                         InputSystem.EnableDevice(device);
                         device.MakeCurrent();
                     }
@@ -163,11 +174,11 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             float currentTime = 0;
             while (currentTime <= duration)
             {
-                InputTestFixture.Set(Mouse.scroll, new Vector2(speedHorizontal * Time.unscaledDeltaTime / duration, speedVertical * Time.unscaledDeltaTime / duration), queueEventOnly: true);
+                InputSystem.QueueDeltaStateEvent(Mouse.scroll, new Vector2(speedHorizontal * Time.unscaledDeltaTime / duration, speedVertical * Time.unscaledDeltaTime / duration));
                 yield return null;
                 currentTime += Time.unscaledDeltaTime;
             }
-            InputTestFixture.Set(Mouse.scroll, new Vector2(0, 0), queueEventOnly: true);
+            InputSystem.QueueDeltaStateEvent(Mouse.scroll, Vector2.zero);
         }
 
         internal static IEnumerator MoveMouseCycle(UnityEngine.Vector2 location, float duration)
@@ -196,12 +207,12 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                     deltaUnchanged = true;
                     break;
                 }
-                InputTestFixture.Move(Mouse.position, mousePosition, delta);
+                InputSystem.QueueStateEvent(Mouse, new MouseState { position = mousePosition });
             }
             if (deltaUnchanged)
             {
-                InputTestFixture.Move(Mouse.position, mousePosition * 1.01f, Vector2.zero);
-                InputTestFixture.Move(Mouse.position, mousePosition, Vector2.zero);
+                InputSystem.QueueStateEvent(Mouse, new MouseState { position = mousePosition * 1.01f });
+                InputSystem.QueueStateEvent(Mouse, new MouseState { position = mousePosition });
                 while (time < duration)
                 {
                     time += Time.unscaledDeltaTime;
@@ -221,10 +232,10 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputTestFixture.BeginTouch(touchId, screenPosition, screen: Touchscreen);
+                InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = touchId, phase = InputTouchPhase.Began, position = screenPosition });
                 yield return null;
                 time += Time.unscaledDeltaTime;
-                InputTestFixture.EndTouch(touchId, screenPosition, screen: Touchscreen);
+                InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = touchId, phase = InputTouchPhase.Ended, position = screenPosition });
                 while (i != count - 1 && time < interval)
                 {
                     time += Time.unscaledDeltaTime;
@@ -243,11 +254,11 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputTestFixture.BeginTouch(touchId, screenPosition, screen: Touchscreen);
+                InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = touchId, phase = InputTouchPhase.Began, position = screenPosition });
                 yield return null;
                 time += Time.unscaledDeltaTime;
                 endTouchScreenPos = screenPosition;
-                InputTestFixture.EndTouch(touchId, screenPosition, screen: Touchscreen);
+                InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = touchId, phase = InputTouchPhase.Ended, position = screenPosition });
                 while (i != count - 1 && time < interval)
                 {
                     time += Time.unscaledDeltaTime;
@@ -262,14 +273,14 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             Mouse.MakeCurrent();
             UnityEngine.Vector3 screenPosition;
             FindObjectViaRayCast.FindCameraThatSeesObject(target, out screenPosition);
-            InputTestFixture.Set(Mouse.position, screenPosition, queueEventOnly: true);
+            InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition });
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputTestFixture.Press(Mouse.leftButton, queueEventOnly: true);
+                InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition, buttons = 1 });
                 yield return null;
                 time += Time.unscaledDeltaTime;
-                InputTestFixture.Release(Mouse.leftButton, queueEventOnly: true);
+                InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition, buttons = 0 });
                 while (i != count - 1 && time < interval)
                 {
                     time += Time.unscaledDeltaTime;
@@ -282,14 +293,14 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         {
             Mouse.MakeCurrent();
 
-            InputTestFixture.Set(Mouse.position, screenPosition, queueEventOnly: false);
+            InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition });
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputTestFixture.Press(Mouse.leftButton, queueEventOnly: false);
+                InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition, buttons = 1 });
                 yield return null;
                 time += Time.unscaledDeltaTime;
-                InputTestFixture.Release(Mouse.leftButton, queueEventOnly: false);
+                InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition, buttons = 0 });
                 while (i != count - 1 && time < interval)
                 {
                     time += Time.unscaledDeltaTime;
@@ -332,11 +343,11 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             float currentTime = 0;
             while (currentTime <= duration - Time.unscaledDeltaTime)
             {
-                InputTestFixture.Set(Accelerometer.acceleration, accelerationValue * Time.unscaledDeltaTime / duration, queueEventOnly: true);
+                InputSystem.QueueDeltaStateEvent(Accelerometer, accelerationValue * Time.unscaledDeltaTime / duration);
                 yield return null;
                 currentTime += Time.unscaledDeltaTime;
             }
-            InputTestFixture.Set(Accelerometer.acceleration, Vector3.zero);
+            InputSystem.QueueDeltaStateEvent(Accelerometer, Vector3.zero);
         }
 
 
@@ -381,14 +392,14 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         {
             var fingerId = getFreeTouch(touches);
             touches[fingerId] = false;
-            InputTestFixture.BeginTouch(fingerId, screenPosition, queueEventOnly: true, screen: Touchscreen);
+            InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = fingerId, phase = InputTouchPhase.Began, position = screenPosition });
             endTouchScreenPos = screenPosition;
             return fingerId;
         }
 
         internal static void MoveTouch(int fingerId, Vector3 screenPosition)
         {
-            InputTestFixture.MoveTouch(fingerId, screenPosition, screen: Touchscreen);
+            InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = fingerId, phase = InputTouchPhase.Moved, position = screenPosition });
             endTouchScreenPos = screenPosition;
         }
 
@@ -399,10 +410,10 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 yield return null;
             }
             else
-            yield return new UnityEngine.WaitForEndOfFrame();
+                yield return new UnityEngine.WaitForEndOfFrame();
 
 
-            InputTestFixture.EndTouch(fingerId, endTouchScreenPos, screen: Touchscreen);
+            InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = fingerId, phase = InputTouchPhase.Ended, position = endTouchScreenPos });
             touches[fingerId] = true;
 
         }
@@ -426,31 +437,86 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         private static void setStick(float value, ButtonControl buttonControl)
         {
             if (buttonControl == Gamepad.leftStick.up || buttonControl == Gamepad.leftStick.down)
-                InputTestFixture.Set(Gamepad.leftStick.y, value, queueEventOnly: true);
+                InputSystem.QueueDeltaStateEvent(Gamepad.leftStick.y, value);
             else if (buttonControl == Gamepad.leftStick.right || buttonControl == Gamepad.leftStick.left)
-                InputTestFixture.Set(Gamepad.leftStick.x, value, queueEventOnly: true);
+                InputSystem.QueueDeltaStateEvent(Gamepad.leftStick.x, value);
             else if (buttonControl == Gamepad.rightStick.up || buttonControl == Gamepad.rightStick.down)
-                InputTestFixture.Set(Gamepad.rightStick.y, value, queueEventOnly: true);
+                InputSystem.QueueDeltaStateEvent(Gamepad.rightStick.y, value);
             else if (buttonControl == Gamepad.rightStick.right || buttonControl == Gamepad.rightStick.left)
-                InputTestFixture.Set(Gamepad.rightStick.x, value, queueEventOnly: true);
+                InputSystem.QueueDeltaStateEvent(Gamepad.rightStick.x, value);
         }
 
         private static void keyDown(KeyCode keyCode, float power, ButtonControl buttonControl)
         {
+            if (buttonControl == null) return;
             if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
                 setStick(power, buttonControl);
-            else
-                InputTestFixture.Press(buttonControl);
+
+            // Keyboard key
+            if (buttonControl.device is Keyboard)
+            {
+                string key = AltKeyMapping.StringToKeyCode.FirstOrDefault(x => x.Value == keyCode).Key;
+                if (!string.IsNullOrEmpty(key) && AltKeyMapping.StringToKey.TryGetValue(key, out var keyboardKey)){
+                    currentKeyboardState.Press(keyboardKey);
+                InputSystem.QueueStateEvent(Keyboard, currentKeyboardState); // 3. Set the new state
+
+                 }
+            }
+            // Mouse button
+            else if (buttonControl.device is Mouse)
+            {
+                // A more robust way to check buttons
+                if (buttonControl == Mouse.leftButton) currentMouseState.buttons |= (1 << 0);
+                else if (buttonControl == Mouse.rightButton) currentMouseState.buttons |= (1 << 1);
+                else if (buttonControl == Mouse.middleButton) currentMouseState.buttons |= (1 << 2);
+                else if (buttonControl == Mouse.forwardButton) currentMouseState.buttons |= (1 << 3);
+                else if (buttonControl == Mouse.backButton) currentMouseState.buttons |= (1 << 4);
+
+
+                InputSystem.QueueStateEvent(Mouse, currentMouseState);
+            }
+            // Gamepad button
+            else if (buttonControl.device is Gamepad)
+            {
+                currentGamepadState.buttons |= AltKeyMapping.JoystickKeyCodeToGamepadUInt[keyCode];
+                InputSystem.QueueStateEvent(Gamepad, currentGamepadState);
+            }
 
         }
 
         private static void keyUp(KeyCode keyCode, ButtonControl buttonControl, bool queueEventOnly = false)
         {
+            if (buttonControl == null) return;
             if (keyCode >= KeyCode.JoystickButton16 && keyCode <= KeyCode.JoystickButton19)
                 setStick(0, buttonControl);
-            else
-                InputTestFixture.Release(buttonControl, queueEventOnly: queueEventOnly);
 
+            // Keyboard key
+            if (buttonControl.device is Keyboard)
+            {
+                string key = AltKeyMapping.StringToKeyCode.FirstOrDefault(x => x.Value == keyCode).Key;
+                if (!string.IsNullOrEmpty(key) && AltKeyMapping.StringToKey.TryGetValue(key, out var keyValue))  
+                {  
+                    currentKeyboardState.Release(keyValue);
+                    InputSystem.QueueStateEvent(Keyboard, currentKeyboardState); // 3. Set the new state
+                }
+            }
+            // Mouse button
+            else if (buttonControl.device is Mouse)
+            {
+                if (buttonControl == Mouse.leftButton) currentMouseState.buttons = (ushort)(currentMouseState.buttons & ~(1 << 0));
+                else if (buttonControl == Mouse.rightButton) currentMouseState.buttons = (ushort)(currentMouseState.buttons & ~(1 << 1));
+                else if (buttonControl == Mouse.middleButton) currentMouseState.buttons = (ushort)(currentMouseState.buttons & ~(1 << 2));
+                else if (buttonControl == Mouse.forwardButton) currentMouseState.buttons = (ushort)(currentMouseState.buttons & ~(1 << 3));
+                else if (buttonControl == Mouse.backButton) currentMouseState.buttons = (ushort)(currentMouseState.buttons & ~(1 << 4));
+
+                InputSystem.QueueStateEvent(Mouse, currentMouseState);
+            }
+            // Gamepad button
+            else if (buttonControl.device is Gamepad)
+            {
+                currentGamepadState.buttons &= ~AltKeyMapping.JoystickKeyCodeToGamepadUInt[keyCode];
+                InputSystem.QueueStateEvent(Gamepad, currentGamepadState);
+            }
         }
 
         private static int getFreeTouch(bool[] touches)
@@ -465,16 +531,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
     }
 
 }
-#if USE_INPUT_SYSTEM_1_3
-public class TestExample
-{
-    [Test]
-    public void Test()
-    {
 
-    }
-}
-#endif
 #else
 using UnityEngine;
 
