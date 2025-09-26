@@ -87,33 +87,6 @@ Add `"com.unity.nuget.newtonsoft-json": "3.1.0"` to your project `manifest.json`
 </details>
 <br>
 
-<details>
-<summary> I get the error: <strong>The type or namespace name 'InputTestFixture' could not be found (are you missing a using directive or an assembly reference?)</strong>, </summary>
-<br>
-You get this error because you don't have `com.unity.inputsystem` added as a testables dependency.
-<br>
-Add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
-
-```
-{
-    "testables": [
-        "com.unity.inputsystem"
-  ]
-}
-```
-
-</details>
-<br>
-
-<details>
-<summary><strong>[Addressable]</strong>Building the instrumented app, I get the error: <strong>The type or namespace name 'InputTestFixture' could not be found (are you missing a using directive or an assembly reference?)</strong>, </summary>
-<br>
-If you have Addressables package included in your project, set the Addressables settings to not build addressable when building the instrumented app. This can be done in <strong>Windows->Asset Management->Addressables->Settings</strong> and you will have an option <strong>Build Addressables on Player Build</strong>. Select <strong>Do not build Addressables content on Player build</strong>
-<br><br>
-When building Addressable from Asset Management make sure that the option for <strong>Keep ALTTESTER symbol defined</strong> is not checked.
-<br><br>
-Make sure you built your latest addressable before instrumenting your app with AltTester
-</details>
 <br>
 
 <details>
@@ -220,7 +193,7 @@ You get this error because you are using an older binding. (Eg: You use the AltT
 When building a Unity project for iOS in Xcode, the build fails. This issue specifically occurs when your project includes both the **AltTester Unity SDK** (v2.2.5 or newer) and a preview version of the **Unity In-App Purchasing** package (e.g., `5.0.0-pre7`).
 
 The Xcode log displays the following error:
-```log
+```
 /Users/builduser/Library/Developer/Xcode/DerivedData/Unity-iPhone-.../Headers/UnityFramework-Swift.h:408:63: 
 error: cannot find protocol declaration for 'SKPaymentTransactionObserver'
 
