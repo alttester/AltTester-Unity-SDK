@@ -295,7 +295,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 MousePosition = new Vector3(Touches[0].position.x, Touches[0].position.y, 0);
                 mouseTriggerInit(PointerEventData.InputButton.Left, out PointerEventData _, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
-                mouseDownTrigger(PointerEventData.InputButton.Left,ref  pointerEventData, eventSystemTarget, monoBehaviourTarget);
+                mouseDownTrigger(PointerEventData.InputButton.Left, ref  pointerEventData, eventSystemTarget, monoBehaviourTarget);
                 MouseDownPointerEventData = pointerEventData;
             }
             var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
@@ -762,7 +762,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 var inputButton = keyCodeToInputButton(keyCode);
                 mouseTriggerInit(inputButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
-                mouseDownTrigger(inputButton,ref pointerEventData, eventSystemTarget, monoBehaviourTarget);
+                mouseDownTrigger(inputButton, ref pointerEventData, eventSystemTarget, monoBehaviourTarget);
                 MouseDownPointerEventData = pointerEventData;
             }
             yield return null;
@@ -783,7 +783,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 var inputButton = keyCodeToInputButton(keyCode);
                 mouseTriggerInit(inputButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
-                if(MouseDownPointerEventData != null)
+                if (MouseDownPointerEventData != null)
                 {
                     pointerEventData = MouseDownPointerEventData;
                 }
