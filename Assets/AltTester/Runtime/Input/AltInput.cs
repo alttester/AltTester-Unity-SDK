@@ -233,7 +233,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 MousePosition = screenPosition;
                 mouseTriggerInit(PointerEventData.InputButton.Left, out PointerEventData _, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
-                mouseDownTrigger(PointerEventData.InputButton.Left, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+                mouseDownTrigger(PointerEventData.InputButton.Left, ref pointerEventData, eventSystemTarget, monoBehaviourTarget);
                 MouseDownPointerEventData = pointerEventData;
             }
             PointerEventsDataDictionary.Add(touch.fingerId, pointerEventData);
@@ -295,7 +295,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 MousePosition = new Vector3(Touches[0].position.x, Touches[0].position.y, 0);
                 mouseTriggerInit(PointerEventData.InputButton.Left, out PointerEventData _, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
-                mouseDownTrigger(PointerEventData.InputButton.Left, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+                mouseDownTrigger(PointerEventData.InputButton.Left, ref  pointerEventData, eventSystemTarget, monoBehaviourTarget);
                 MouseDownPointerEventData = pointerEventData;
             }
             var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
@@ -351,7 +351,12 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         public static IEnumerator MoveMouseCycle(Vector2 location, float duration)
         {
             float time = 0;
+
             var distance = location - new Vector2(MousePosition.x, MousePosition.y);
+            if (distance == Vector2.zero)
+            {
+                yield break;
+            }
 
             do
             {
@@ -757,7 +762,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 var inputButton = keyCodeToInputButton(keyCode);
                 mouseTriggerInit(inputButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
-                mouseDownTrigger(inputButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+                mouseDownTrigger(inputButton, ref pointerEventData, eventSystemTarget, monoBehaviourTarget);
                 MouseDownPointerEventData = pointerEventData;
             }
             yield return null;
@@ -778,6 +783,10 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 var inputButton = keyCodeToInputButton(keyCode);
                 mouseTriggerInit(inputButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
+                if (MouseDownPointerEventData != null)
+                {
+                    pointerEventData = MouseDownPointerEventData;
+                }
                 mouseUpTrigger(inputButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
             }
             var keyStructure = new KeyStructure(keyCode, 1);
@@ -833,14 +842,15 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 position = MousePosition,
                 button = mouseButton,
                 eligibleForClick = true,
-                pressPosition = MousePosition
+                pressPosition = MousePosition,
+                dragging = false
             };
             eventSystemTarget = findEventSystemObject(pointerEventData);
             monoBehaviourTarget = FindObjectViaRayCast.FindMonoBehaviourObject(MousePosition);
 
         }
 
-        private static void mouseDownTrigger(PointerEventData.InputButton mouseButton, PointerEventData pointerEventData, GameObject eventSystemTarget, GameObject monoBehaviourTarget)
+        private static void mouseDownTrigger(PointerEventData.InputButton mouseButton,ref PointerEventData pointerEventData, GameObject eventSystemTarget, GameObject monoBehaviourTarget)
         {
 
             /* pointer/touch down */
@@ -849,7 +859,6 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
                 if (eventSystemTarget != null) pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerDownHandler);
-
 
             if (mouseButton == PointerEventData.InputButton.Left && (monoBehaviourTarget != null)) monoBehaviourTarget.SendMessage("OnMouseDown", SendMessageOptions.DontRequireReceiver);
 
@@ -901,7 +910,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         private static IEnumerator mouseEventTrigger(PointerEventData.InputButton mouseButton, float duration)
         {
             mouseTriggerInit(mouseButton, out PointerEventData pointerEventData, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
-            mouseDownTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+            mouseDownTrigger(mouseButton, ref pointerEventData, eventSystemTarget, monoBehaviourTarget);
             float elapsedTime = 0;
             while (elapsedTime < duration)
             {
