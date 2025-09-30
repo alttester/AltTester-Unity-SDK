@@ -53,6 +53,29 @@ namespace AltTesterTools
             }
 
         }
+         [MenuItem("Build/Windows")]
+        protected static void WindowsBuildFromCommandLine()
+        {
+            try
+            {
+                SetCommonSettings(BuildTargetGroup.Standalone);
+
+                PlayerSettings.fullScreenMode = UnityEngine.FullScreenMode.Windowed;
+                PlayerSettings.defaultScreenHeight = 1080;
+                PlayerSettings.defaultScreenWidth = 1920;
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Standalone);
+
+                logger.Debug("Starting Windows build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+                var buildPlayerOptions = GetBuildPlayerOptions("sampleGame.exe", BuildTarget.StandaloneWindows);
+                buildGame(buildPlayerOptions, BuildTargetGroup.Standalone);
+
+            }
+            catch (Exception exception)
+            {
+                logger.Error(exception);
+            }
+
+        }
 
 
 
