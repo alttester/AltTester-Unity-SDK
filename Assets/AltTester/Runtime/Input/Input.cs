@@ -107,6 +107,7 @@ public class Input : MonoBehaviour
 
     public void Start()
     {
+        UnityEngine.Debug.Log("|Tester| AltInput initialized");
         _instance = this;
         string filePath = "AltTester/AltTesterInputAxisData";
 
@@ -122,13 +123,26 @@ public class Input : MonoBehaviour
 
     private void FixedUpdate()
     {
+        try
+        {
+            
+        if (EventSystem.current == null)
+        {
+            UnityEngine.Debug.LogWarning("|Tester| EventSystem not found in the scene. Please add an EventSystem to use AltTester input simulation.");
+            return; 
+        }
+        if (mousePosition == null)
+        {
+            UnityEngine.Debug.LogWarning("|Tester| Mouse position is null.");
+            return;
+        }
         var monoBehaviourTarget = FindObjectViaRayCast.GetGameObjectHitMonoBehaviour(mousePosition);
         if (monoBehaviourPreviousTarget != monoBehaviourTarget)
-        {
-            if (monoBehaviourPreviousTarget ?? false) monoBehaviourPreviousTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            if (monoBehaviourTarget ?? false && previousMousePosition != mousePosition) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
-            monoBehaviourPreviousTarget = monoBehaviourTarget;
-        }
+            {
+                if (monoBehaviourPreviousTarget ?? false) monoBehaviourPreviousTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                if (monoBehaviourTarget ?? false && previousMousePosition != mousePosition) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                monoBehaviourPreviousTarget = monoBehaviourTarget;
+            }
         if (monoBehaviourTarget ?? false) monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
 
         var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
@@ -153,8 +167,12 @@ public class Input : MonoBehaviour
             }
         if (previousMousePosition != mousePosition)
         {
-            if (eventSystemTarget ?? false) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerMoveHandler);
+            if (previousEventSystemTarget ?? false) ExecuteHierarchy(previousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerMoveHandler);
             previousMousePosition = mousePosition;
+        }
+        }catch (System.NullReferenceException e)
+        {
+            UnityEngine.Debug.LogError("|Tester| Exception in AltInput FixedUpdate: " + e.StackTrace);
         }
 
     }
