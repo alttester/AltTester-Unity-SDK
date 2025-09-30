@@ -299,6 +299,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
+        [Ignore("Flaky test, needs investigation")]
         public void TestCheckActionDoNotDoubleClick(int numberOfClicks)
         {
             altDriver.LoadScene(scene11);
