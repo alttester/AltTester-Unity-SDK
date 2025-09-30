@@ -66,7 +66,7 @@ namespace AltTesterTools
                 AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Standalone);
 
                 logger.Debug("Starting Windows build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
-                var buildPlayerOptions = GetBuildPlayerOptions("sampleGame.exe", BuildTarget.StandaloneWindows);
+                var buildPlayerOptions = GetBuildPlayerOptions("sampleGame/sampleGame.exe", BuildTarget.StandaloneWindows);
                 buildGame(buildPlayerOptions, BuildTargetGroup.Standalone);
 
             }

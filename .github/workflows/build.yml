@@ -28,6 +28,16 @@ on:
         required: false
         default: false
         type: boolean
+      altserver_port:
+        description: "AltServer Port"
+        required: false
+        default: "13005"
+        type: string
+      altserver_host:
+        description: "AltServer Host"
+        required: false
+        default: "192.168.11.35"
+        type: string
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -42,8 +52,8 @@ jobs:
       - name: Build SampleGame
         shell: bash
         run: |
-          export ALTSERVER_PORT=13005
-          export ALTSERVER_HOST="192.168.11.35"
+          export ALTSERVER_PORT=${{ github.event.inputs.altserver_port }}
+          export ALTSERVER_HOST="${{ github.event.inputs.altserver_host }}"
           "$UNITY_2021_3_HOME" -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
       - uses: actions/upload-artifact@v4
@@ -62,8 +72,8 @@ jobs:
 
       - name: Build SampleGame
         run: |
-          export ALTSERVER_PORT=13005
-          export ALTSERVER_HOST="192.168.11.35"
+          export ALTSERVER_PORT=${{ github.event.inputs.altserver_port }}
+          export ALTSERVER_HOST="${{ github.event.inputs.altserver_host }}"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WindowsBuildFromCommandLine -logFile buildWindows.log -quit
 
       - uses: actions/upload-artifact@v4
@@ -71,7 +81,7 @@ jobs:
         with:
           name: BuildWindowsArtifact
           path: |
-            sampleGame.app
+            sampleGame/
             **/*.log
 
   build-android:
@@ -83,8 +93,8 @@ jobs:
 
       - name: Build SampleGame apk
         run: |
-          export ALTSERVER_PORT=13005
-          export ALTSERVER_HOST="192.168.11.35"
+          export ALTSERVER_PORT=${{ github.event.inputs.altserver_port }}
+          export ALTSERVER_HOST="${{ github.event.inputs.altserver_host }}"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
 
       - uses: actions/upload-artifact@v4
@@ -104,8 +114,8 @@ jobs:
 
       - name: Build sampleGame ipa
         run: |
-          export ALTSERVER_PORT=13005
-          export ALTSERVER_HOST="192.168.11.35"
+          export ALTSERVER_PORT=${{ github.event.inputs.altserver_port }}
+          export ALTSERVER_HOST="${{ github.event.inputs.altserver_host }}"
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildiOS.log -quit
           xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
           xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath ./
