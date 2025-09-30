@@ -93,6 +93,35 @@ You can find more information about the build command and arguments
 
 ```
 
+## How to make an instrumented build using Unity Cloud Build
+
+To instrument your Unity project with AltTester® Unity SDK using Unity Cloud Build, follow these steps:
+
+1. **Create or select a build configuration**  
+   In Unity Cloud Build, either use an existing configuration or create a new one for your instrumented build.
+
+2. **Set the build to Development Mode**  
+   In the configuration settings, ensure that the build is set to Development Mode.
+
+3. **Configure Script Hooks**  
+    In the Script Hooks section, add your method name to the **Pre-Export Method** field. This method should contain the code that inserts AltTester® into your build.
+
+4. **Add Scripting Define Symbols**  
+   In the Script Hooks section, add `ALTTESTER` to the **Scripting Define Symbols** field.  
+
+```eval_rst
+    .. image:: ../_static/img/advanced-usage/unity-cloud-configuration.png
+```
+
+ ```eval_rst
+    .. image:: ../_static/img/advanced-usage/code-unity-cloud.png
+```
+
+```eval_rst
+.. note::
+     An example with a working script can be found at `Unity-Project <https://github.com/alttester/UnityCloudTestBuild>`_
+```
+
 ## How to make a production build
 
 There is no need to remove the AltTester® package entirely from the project, only the `ALTTESTER` Scripting Define Symbol should be deleted from the Player Settings. Also, make sure that the `Keep ALTTESTER symbol defined` checkbox is unchecked. After that, you can build your app normally as you would do in Unity.

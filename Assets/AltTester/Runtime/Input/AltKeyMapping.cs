@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.LowLevel;
 
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
@@ -328,6 +329,25 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         {"Break", Key.Pause},
         {"Menu", Key.RightCtrl}
         };
+        public static Dictionary<KeyCode, uint> JoystickKeyCodeToGamepadUInt = new Dictionary<KeyCode, uint>()
+        {
+            {KeyCode.JoystickButton0, (uint)GamepadButton.South},
+            {KeyCode.JoystickButton1, (uint)GamepadButton.East},
+            {KeyCode.JoystickButton2, (uint)GamepadButton.West},
+            {KeyCode.JoystickButton3, (uint)GamepadButton.North},
+            {KeyCode.JoystickButton4, (uint)GamepadButton.LeftShoulder},
+            {KeyCode.JoystickButton5, (uint)GamepadButton.RightShoulder},
+            {KeyCode.JoystickButton6, (uint)GamepadButton.LeftTrigger},
+            {KeyCode.JoystickButton7, (uint)GamepadButton.RightTrigger},
+            {KeyCode.JoystickButton8, (uint)GamepadButton.Select},
+            {KeyCode.JoystickButton9, (uint)GamepadButton.Start},
+            {KeyCode.JoystickButton10, (uint)GamepadButton.LeftStick},
+            {KeyCode.JoystickButton11, (uint)GamepadButton.RightStick},
+            {KeyCode.JoystickButton12, (uint)GamepadButton.DpadUp},
+            {KeyCode.JoystickButton13, (uint)GamepadButton.DpadDown},
+            {KeyCode.JoystickButton14, (uint)GamepadButton.DpadLeft},
+            {KeyCode.JoystickButton15, (uint)GamepadButton.DpadRight},
+        };
 
         public Dictionary<KeyCode, ButtonControl> mouseKeyCodeToButtonControl;
 
@@ -369,5 +389,6 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         };
         }
     }
+
 }
 #endif
