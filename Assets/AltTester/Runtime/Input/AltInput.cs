@@ -140,39 +140,56 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
         private void FixedUpdate()
         {
-            var monoBehaviourTarget = FindObjectViaRayCast.GetGameObjectHitMonoBehaviour(MousePosition);
-            if (MonoBehaviourPreviousTarget != monoBehaviourTarget)
+            try
             {
-                if (MonoBehaviourPreviousTarget != null) MonoBehaviourPreviousTarget.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
-                if (monoBehaviourTarget != null && PreviousMousePosition != MousePosition) monoBehaviourTarget.SendMessage("OnMouseEnter", SendMessageOptions.DontRequireReceiver);
-                MonoBehaviourPreviousTarget = monoBehaviourTarget;
-            }
-            if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseOver", SendMessageOptions.DontRequireReceiver);
-
-            var pointerEventData = new PointerEventData(EventSystem.current)
-            {
-                position = MousePosition,
-                button = PointerEventData.InputButton.Left,
-                eligibleForClick = true
-            };
-            var eventSystemTarget = findEventSystemObject(pointerEventData);
-            pointerEventData.pointerEnter = eventSystemTarget;
-            if (EventSystem.current.currentInputModule != null)
-#if ENABLE_INPUT_SYSTEM
-                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
-#endif
+                if (EventSystem.current == null)
                 {
-                    if (eventSystemTarget != PreviousEventSystemTarget)
-                    {
-                        if (PreviousEventSystemTarget != null) ExecuteHierarchy(PreviousEventSystemTarget, pointerEventData, pointerExitHandler);
-                        if (eventSystemTarget != null && PreviousMousePosition != MousePosition) ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerEnterHandler);
-                        PreviousEventSystemTarget = eventSystemTarget;
-                    }
+                    UnityEngine.Debug.LogWarning("|Tester| EventSystem not found in the scene. Please add an EventSystem to use AltTester input simulation.");
+                    return;
                 }
-            if (PreviousMousePosition != MousePosition)
+                if (MousePosition == null)
+                {
+                    UnityEngine.Debug.LogWarning("|Tester| Mouse position is null.");
+                    return;
+                }
+                var monoBehaviourTarget = FindObjectViaRayCast.GetGameObjectHitMonoBehaviour(MousePosition);
+                if (MonoBehaviourPreviousTarget != monoBehaviourTarget)
+                {
+                    if (MonoBehaviourPreviousTarget ?? false) MonoBehaviourPreviousTarget.SendMessage("OnMouseExit", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                    if (monoBehaviourTarget ?? false && PreviousMousePosition != MousePosition) monoBehaviourTarget.SendMessage("OnMouseEnter", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                    MonoBehaviourPreviousTarget = monoBehaviourTarget;
+                }
+                if (monoBehaviourTarget ?? false) monoBehaviourTarget.SendMessage("OnMouseOver", UnityEngine.SendMessageOptions.DontRequireReceiver);
+
+                var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
+                {
+                    position = MousePosition,
+                    button = UnityEngine.EventSystems.PointerEventData.InputButton.Left,
+                    eligibleForClick = true
+                };
+                var eventSystemTarget = findEventSystemObject(pointerEventData);
+                pointerEventData.pointerEnter = eventSystemTarget;
+                if (EventSystem.current.currentInputModule != null)
+#if ENABLE_INPUT_SYSTEM
+                    if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+#endif
+                    {
+                        if (eventSystemTarget != PreviousEventSystemTarget)
+                        {
+                            if (PreviousEventSystemTarget ?? false) ExecuteHierarchy(PreviousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerExitHandler);
+                            if (eventSystemTarget ?? false && PreviousMousePosition != MousePosition) ExecuteHierarchy(eventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerEnterHandler);
+                            PreviousEventSystemTarget = eventSystemTarget;
+                        }
+                    }
+                if (PreviousMousePosition != MousePosition)
+                {
+                    if (PreviousEventSystemTarget ?? false) ExecuteHierarchy(PreviousEventSystemTarget, pointerEventData, UnityEngine.EventSystems.ExecuteEvents.pointerMoveHandler);
+                    PreviousMousePosition = MousePosition;
+                }
+            }
+            catch (System.NullReferenceException e)
             {
-                if (eventSystemTarget != null) ExecuteHierarchy(PreviousEventSystemTarget, pointerEventData, pointerMoveHandler);
-                PreviousMousePosition = MousePosition;
+                UnityEngine.Debug.LogError("|Tester| Exception in AltInput FixedUpdate: " + e.StackTrace);
             }
 
         }
@@ -295,7 +312,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 MousePosition = new Vector3(Touches[0].position.x, Touches[0].position.y, 0);
                 mouseTriggerInit(PointerEventData.InputButton.Left, out PointerEventData _, out GameObject eventSystemTarget, out GameObject monoBehaviourTarget);
-                mouseDownTrigger(PointerEventData.InputButton.Left, ref  pointerEventData, eventSystemTarget, monoBehaviourTarget);
+                mouseDownTrigger(PointerEventData.InputButton.Left, ref pointerEventData, eventSystemTarget, monoBehaviourTarget);
                 MouseDownPointerEventData = pointerEventData;
             }
             var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
@@ -850,7 +867,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
         }
 
-        private static void mouseDownTrigger(PointerEventData.InputButton mouseButton,ref PointerEventData pointerEventData, GameObject eventSystemTarget, GameObject monoBehaviourTarget)
+        private static void mouseDownTrigger(PointerEventData.InputButton mouseButton, ref PointerEventData pointerEventData, GameObject eventSystemTarget, GameObject monoBehaviourTarget)
         {
 
             /* pointer/touch down */
