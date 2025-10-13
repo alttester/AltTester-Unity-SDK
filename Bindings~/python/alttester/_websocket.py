@@ -219,7 +219,7 @@ class WebsocketConnection:
                 raise exceptions.MultipleDriversTryingToConnectException(
                     reason)
             if close_message[0] == 4009:
-                raise exceptions.MaxNoOfConnectionsDriversExceeded(
+                raise exceptions.MaxNoOfConnectionsDriversExceededException(
                     reason)
 
             raise exceptions.ConnectionError(

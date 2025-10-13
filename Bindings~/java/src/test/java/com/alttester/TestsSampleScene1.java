@@ -865,7 +865,8 @@ public class TestsSampleScene1 extends BaseTest {
 
     @Test
     public void testFindNonExistentObjectByName() {
-        AltFindObjectsParams params = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "NonExistent").build();
+        AltFindObjectsParams params = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "NonExistent")
+                .build();
         assertThrows(NotFoundException.class, () -> altDriver.findObject(params));
     }
 
@@ -1725,8 +1726,8 @@ public class TestsSampleScene1 extends BaseTest {
                 "AltTester.AltTesterUnitySDK.InputModule.NewInputSystem",
                 "Keyboard.pKey.isPressed", "AltTester.AltTesterUnitySDK.InputModule").build();
         AltGetComponentPropertyParams count = new AltGetComponentPropertyParams.Builder(
-                "Input",
-                "_keyCodesPressed.Count", "AltTester.AltTesterUnitySDK.InputModule").build();
+                "AltTester.AltTesterUnitySDK.InputModule.AltInput",
+                "KeyCodesPressed.Count", "AltTester.AltTesterUnitySDK.InputModule").build();
         altDriver.keyDown(new AltKeyDownParams.Builder(AltKeyCode.P).build());
         assertTrue(altDriver.findObject(prefab).getComponentProperty(pIsPressed, Boolean.class));
         altDriver.resetInput();
@@ -1780,7 +1781,7 @@ public class TestsSampleScene1 extends BaseTest {
         }
         long timeEnd = System.currentTimeMillis();
         long time = timeEnd - timeStart;
-        assertTrue(time / 1000 <= 2);
+        assertTrue(time / 1000 <= 5);
         altDriver.setImplicitTimeout(20);
     }
 

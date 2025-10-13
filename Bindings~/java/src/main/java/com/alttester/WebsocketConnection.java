@@ -92,10 +92,10 @@ public class WebsocketConnection {
     private URI getURI() {
 
         String query = String.format(
-                "appName=%s&platform=%s&platformVersion=%s&deviceInstanceId=%s&appId=%s&driverType=SDK",
+                "appName=%s&platform=%s&platformVersion=%s&deviceInstanceId=%s&appId=%s&driverType=java_%s",
                 escapeDataString(appName), escapeDataString(platform),
                 escapeDataString(platformVersion), escapeDataString(deviceInstanceId),
-                escapeDataString(appId));
+                escapeDataString(appId), AltDriver.VERSION);
 
         try {
             return new URI("ws", null, host, port, "/altws", query, null);

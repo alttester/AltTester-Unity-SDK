@@ -21,10 +21,6 @@ using System.Linq;
 using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
-#if UNITY_2021_3_OR_NEWER && ADDRESSABLES
-using UnityEditor.AddressableAssets;
-using UnityEditor.AddressableAssets.Settings;
-#endif
 
 using UnityEditor.Compilation;
 using UnityEditor.SceneManagement;
@@ -63,28 +59,14 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, $"{UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup)}Test");
             }
             AddAltTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
-            if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
-                CreateJsonFileForInputMappingOfAxis();
+            CreateJsonFileForInputMappingOfAxis();
 
         }
         public static void BuildGameFromUI(UnityEditor.BuildTarget buildTarget, UnityEditor.BuildTargetGroup buildTargetGroup, bool autoRun = false)
         {
             try
             {
-#if UNITY_2021_3_OR_NEWER && ADDRESSABLES
-                AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
-                AddressableAssetSettings.PlayerBuildOption currentValue = AddressableAssetSettings.PlayerBuildOption.PreferencesValue;
-                if (settings != null)
-                {
-                    currentValue = settings.BuildAddressablesWithPlayerBuild;
-                    if (!(settings.BuildAddressablesWithPlayerBuild == AddressableAssetSettings.PlayerBuildOption.DoNotBuildWithPlayer))
-                    {
-                        AddressableAssetSettings.CleanPlayerContent();
-                        AddressableAssetSettings.BuildPlayerContent(out _);
-                    }
-                    settings.BuildAddressablesWithPlayerBuild = AddressableAssetSettings.PlayerBuildOption.DoNotBuildWithPlayer;
-                }
-#endif
+
                 InitBuildSetup(buildTargetGroup);
                 logger.Debug($"Starting {buildTarget} build...{UnityEditor.PlayerSettings.productName}:{UnityEditor.PlayerSettings.bundleVersion}");
 
@@ -97,12 +79,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 };
 
                 buildGame(autoRun, buildPlayerOptions);
-#if UNITY_2021_3_OR_NEWER && ADDRESSABLES
-                if (settings != null)
-                {
-                    settings.BuildAddressablesWithPlayerBuild = currentValue;
-                }
-#endif
             }
             catch (System.Exception e)
             {
@@ -338,12 +314,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
             UnityEditor.PlayerSettings.SetStackTraceLogType(LogType.Warning, StackTraceLogType.None);
             UnityEditor.PlayerSettings.SetStackTraceLogType(LogType.Assert, StackTraceLogType.None);
 
-#if ENABLE_INPUT_SYSTEM
-            modifyTestAssembliesToOnlyWorkInEditor();
-            buildPlayerOptions.options = UnityEditor.BuildOptions.Development | (autoRun ? UnityEditor.BuildOptions.AutoRunPlayer : UnityEditor.BuildOptions.ShowBuiltPlayer) | UnityEditor.BuildOptions.IncludeTestAssemblies;
-#else
+
             buildPlayerOptions.options = UnityEditor.BuildOptions.Development | (autoRun ? UnityEditor.BuildOptions.AutoRunPlayer : UnityEditor.BuildOptions.ShowBuiltPlayer); 
-#endif
 
 
             var results = UnityEditor.BuildPipeline.BuildPlayer(buildPlayerOptions);
@@ -372,34 +344,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
             }
 #endif
 
-        }
-
-        private static void modifyTestAssembliesToOnlyWorkInEditor()
-        {
-            var assemblies = CompilationPipeline.GetAssemblies();
-            foreach (var assembly in assemblies)
-            {
-                if (assembly.flags == AssemblyFlags.None)
-                {
-
-                    var path = CompilationPipeline.GetAssemblyDefinitionFilePathFromAssemblyName(assembly.name);
-                    if (path == null)
-                        continue;
-                    StreamReader reader = new StreamReader(path);
-                    string input = reader.ReadToEnd();
-                    reader.Close();
-                    if (input.Contains("UNITY_INCLUDE_TESTS"))
-                    {
-                        using (StreamWriter writer = new StreamWriter(path, false))
-                        {
-                            string output = input.Replace("\"includePlatforms\": [],",
-                            "\"includePlatforms\": [\"Editor\"],");
-                            writer.Write(output);
-                            writer.Close();
-                        }
-                    }
-                }
-            }
         }
 
         private static string[] getScenesForBuild()

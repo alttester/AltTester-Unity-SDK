@@ -1,3 +1,44 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "alttester-robotframework-library"
+description = "Robot Framework Library for the AltTester® framework. AltTester® is an open-source UI-driven test automation tool that helps you find objects in your game and interacts with them."
+readme = "README.md"
+requires-python = ">=3.4.0"
+license = { text = "GNU GPLv3" }
+authors = [
+    { name = "Altom Consulting", email = "contact@alttester.com" }
+]
+keywords = ["robot", "framework", "testing", "test automation", "alttester"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Other Audience",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3.10",
+    "Operating System :: OS Independent",
+    "Topic :: Games/Entertainment",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Testing :: Acceptance",
+    "Topic :: Software Development :: Testing :: Unit"
+]
+dependencies = [
+    "AltTester-Driver",
+    "robotframework~=3.0"
+]
+
+dynamic = ["version", "dependencies"]
+
+[project.urls]
+Issues = "https://github.com/alttester/AltTester-Unity-SDK/issues"
+Documentation = "https://alttester.com/docs/sdk/latest"
+Source = "https://github.com/alttester/AltTester-Unity-SDK"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]

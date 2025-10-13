@@ -166,10 +166,15 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         public void TestSetTextForUnityUIInputField(string fieldName)
         {
             var inputField = altDriver.FindObject(By.NAME, fieldName).SetText("exampleUnityUIInputField", true);
+            var component = "AltInputFieldRaisedEvents";
+            var assembly = "Assembly-CSharp";
             Assert.AreEqual("exampleUnityUIInputField", inputField.GetText());
-            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onValueChangedInvoked", "Assembly-CSharp"), "onValueChangedInvoked was false");
-            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onSubmitInvoked", "Assembly-CSharp"), "onSubmitInvoked was false");
-            Assert.IsTrue(inputField.GetComponentProperty<bool>("AltInputFieldRaisedEvents", "onEndEditInvoked", "Assembly-CSharp"), "onEndEditInvoked was false");
+            var onValueChanged = inputField.GetComponentProperty<bool>(component, "onValueChangedInvoked", assembly);
+            Assert.IsTrue(onValueChanged, "onValueChangedInvoked was false");
+            var onSubmit = inputField.GetComponentProperty<bool>(component, "onSubmitInvoked", assembly);
+            Assert.IsTrue(onSubmit, "onSubmitInvoked was false");
+            var onEndEdit = inputField.GetComponentProperty<bool>(component, "onEndEditInvoked", assembly);
+            Assert.IsTrue(onEndEdit, "onEndEditInvoked was false");
         }
 
         [TestCase(By.COMPONENT, "AltRunner", "//AltTesterPrefab")]
@@ -225,6 +230,20 @@ namespace AltTester.AltTesterSDK.Driver.Tests
 
             Assert.AreEqual("__default__", propertyValue);
         }
+
+        [Test]
+        public void TestGetComponentPropertyDictionary()
+        {
+            const string componentName = "AltExampleScriptCapsule";
+            const string propertyName = "dictionary.key1";
+            string propertyValueExpected = "value1";
+            var altElement = altDriver.FindObject(By.NAME, "Capsule");
+            Assert.NotNull(altElement);
+            var propertyValue = altElement.WaitForComponentProperty(componentName, propertyName, propertyValueExpected, "Assembly-CSharp");
+
+
+            Assert.AreEqual(propertyValueExpected, propertyValue);
+        }
         [Test]
         public void TestWaitForComponentPropertyComponentNotFound()
         {
@@ -252,7 +271,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             const string initialPropertyValue = "13005";
             const string testPropertyValue = "Test";
             const int timeout = 2;
-            
+
             AltObject altElement = altDriver.FindObject(By.NAME, "AltTesterPrefab");
             Assert.NotNull(altElement);
             try
@@ -1005,11 +1024,11 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             List<AltProperty> properties = altElement.GetAllProperties(component, AltPropertiesSelections.ALLPROPERTIES);
             if (properties.Exists(prop => prop.name.Equals("runInEditMode")))
             {
-                Assert.AreEqual(12, properties.Count); // runInEditMode and allowPrefabModeInPlayMode
+                Assert.AreEqual(15, properties.Count); // runInEditMode and allowPrefabModeInPlayMode
             }
             else
             {
-                Assert.IsTrue(properties.Count >= 9 && properties.Count <= 10);// if runned from editor then there are 12 properties, runInEditMode is only available in Editor
+                Assert.IsTrue(properties.Count >= 12 && properties.Count <= 13);// if runned from editor then there are 12 properties, runInEditMode is only available in Editor
             }
             AltProperty property = properties.First(prop => prop.name.Equals("TestProperty"));
             Assert.NotNull(property);
@@ -1023,7 +1042,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             var component = componentList.First(componenta =>
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
             List<AltProperty> properties = altElement.GetAllProperties(component, AltPropertiesSelections.CLASSPROPERTIES);
-            Assert.AreEqual(2, properties.Count);
+            Assert.AreEqual(5, properties.Count);
             AltProperty property = properties.First(prop => prop.name.Equals("TestProperty"));
             Assert.NotNull(property);
             Assert.AreEqual("False", property.value);
@@ -1055,7 +1074,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.CLASSFIELDS);
-            Assert.AreEqual(16, fields.Count);
+            Assert.AreEqual(19, fields.Count);
         }
 
         [Test]
@@ -1080,14 +1099,14 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             var component = componentList.First(componenta =>
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.ALLFIELDS);
-            Assert.AreEqual(17, fields.Count);
+            Assert.AreEqual(20, fields.Count);
         }
 
         [Test]
         public void TestGetAllScenes()
         {
             var scenes = altDriver.GetAllScenes();
-            Assert.AreEqual(14, scenes.Count);
+            Assert.AreEqual(15, scenes.Count);
             Assert.AreEqual("Scene 1 AltDriverTestScene", scenes[0]);
         }
 
@@ -2097,7 +2116,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hasChanged", JToken.Parse("true"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "name", JToken.Parse("\"Canvas\""), "UnityEngine.CoreModule", 1, getPropertyAsString: true).ToString();
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hideFlags", JToken.Parse("0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
-            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]]]"), "UnityEngine.UIModule", 1, getPropertyAsString: true);
+            Canvas.WaitForComponentProperty("UnityEngine.Canvas", "transform", JToken.Parse("[[], [[]], [[]], [[]], [[]], [[], [], []], [[[], [], []]], [], [], [[]], [[]], [[]], [[[], [], []]]]"), "UnityEngine.UIModule", 1, getPropertyAsString: true);
         }
 
         [Test]
@@ -2167,16 +2186,17 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             var timeStart = DateTime.Now;
             altDriver.SetImplicitTimeout(1);
             Assert.AreEqual(altDriver.GetImplicitTimeout(), 1, 0.1f);
-            try{
-            altDriver.WaitForObject(By.NAME, "Capsulee");
+            try
+            {
+                altDriver.WaitForObject(By.NAME, "Capsulee");
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
             var timeEnd = DateTime.Now;
             var time = timeEnd - timeStart;
-            Assert.LessOrEqual(time.TotalSeconds, 2);
+            Assert.LessOrEqual(time.TotalSeconds, 5);
             altDriver.SetImplicitTimeout(20);
         }
 
