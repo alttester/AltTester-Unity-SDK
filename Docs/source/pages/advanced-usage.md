@@ -113,8 +113,23 @@ To instrument your Unity project with AltTester® Unity SDK using Unity Cloud Bu
     .. image:: ../_static/img/advanced-usage/unity-cloud-configuration.png
 ```
 
- ```eval_rst
-    .. image:: ../_static/img/advanced-usage/code-unity-cloud.png
+```c#
+         public static void OnPreExportWindows()
+        {
+            Debug.Log("Unity Cloud Build - OnPreExportWindows called");
+
+            var buildTargetGroup = BuildTargetGroup.Standalone;
+
+         
+            AltBuilder.CreateJsonFileForInputMappingOfAxis();
+            var instrumentationSettings = new AltInstrumentationSettings();
+            instrumentationSettings.AltServerHost = "127.0.0.1";
+            instrumentationSettings.AltServerPort = 13000;
+            instrumentationSettings.AppName = "__default__";
+            instrumentationSettings.ResetConnectionData = true;
+            AltBuilder.InsertAltInScene("Assets/Scenes/SampleScene.unity", instrumentationSettings);
+        }
+
 ```
 
 ```eval_rst
