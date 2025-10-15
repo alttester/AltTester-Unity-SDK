@@ -1,7 +1,6 @@
 #if UNITY_EDITOR
 using System.Linq;
 using UnityEditor;
-using UnityEditor.PackageManager;
 
 [InitializeOnLoad]
 public class TMPDefineSetter
