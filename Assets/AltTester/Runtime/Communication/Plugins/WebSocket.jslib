@@ -145,7 +145,15 @@ var LibraryWebSocket = {
 			}
 
 			if (webSocketState.onOpen) {
-				Module.dynCall_vi(webSocketState.onOpen, instanceId);
+				// Unity 6+ uses different call method
+				if (typeof dynCall_vi !== 'undefined') {
+					dynCall_vi(webSocketState.onOpen, instanceId);
+				} else if (Module.dynCall_vi) {
+					Module.dynCall_vi(webSocketState.onOpen, instanceId);
+				} else {
+					// Fallback for newer Emscripten versions
+					wasmTable.get(webSocketState.onOpen)(instanceId);
+				}
 			}
 		};
 
@@ -165,7 +173,14 @@ var LibraryWebSocket = {
 				HEAPU8.set(dataBuffer, buffer);
 
 				try {
-					Module.dynCall_viii(webSocketState.onMessage, instanceId, buffer, dataBuffer.length);
+					// Unity 6+ compatibility
+					if (typeof dynCall_viii !== 'undefined') {
+						dynCall_viii(webSocketState.onMessage, instanceId, buffer, dataBuffer.length);
+					} else if (Module.dynCall_viii) {
+						Module.dynCall_viii(webSocketState.onMessage, instanceId, buffer, dataBuffer.length);
+					} else {
+						wasmTable.get(webSocketState.onMessage)(instanceId, buffer, dataBuffer.length);
+					}
 				} finally {
 					_free(buffer);
 				}
@@ -176,7 +191,13 @@ var LibraryWebSocket = {
 				HEAPU8.set(dataBuffer, buffer);
 
 				try {
-					Module.dynCall_viii(webSocketState.onMessage, instanceId, buffer, dataBuffer.length);
+					if (typeof dynCall_viii !== 'undefined') {
+						dynCall_viii(webSocketState.onMessage, instanceId, buffer, dataBuffer.length);
+					} else if (Module.dynCall_viii) {
+						Module.dynCall_viii(webSocketState.onMessage, instanceId, buffer, dataBuffer.length);
+					} else {
+						wasmTable.get(webSocketState.onMessage)(instanceId, buffer, dataBuffer.length);
+					}
 				} finally {
 					_free(buffer);
 				}
@@ -195,7 +216,13 @@ var LibraryWebSocket = {
 				stringToUTF8(msg, buffer, length);
 
 				try {
-					Module.dynCall_vii(webSocketState.onError, instanceId, buffer);
+					if (typeof dynCall_vii !== 'undefined') {
+						dynCall_vii(webSocketState.onError, instanceId, buffer);
+					} else if (Module.dynCall_vii) {
+						Module.dynCall_vii(webSocketState.onError, instanceId, buffer);
+					} else {
+						wasmTable.get(webSocketState.onError)(instanceId, buffer);
+					}
 				} finally {
 					_free(buffer);
 				}
@@ -213,7 +240,13 @@ var LibraryWebSocket = {
 			}
 
 			if (webSocketState.onClose) {
-				Module.dynCall_viii(webSocketState.onClose, instanceId, ev.code, buffer);
+				if (typeof dynCall_viii !== 'undefined') {
+					dynCall_viii(webSocketState.onClose, instanceId, ev.code, buffer);
+				} else if (Module.dynCall_viii) {
+					Module.dynCall_viii(webSocketState.onClose, instanceId, ev.code, buffer);
+				} else {
+					wasmTable.get(webSocketState.onClose)(instanceId, ev.code, buffer);
+				}
 			}
 
 			delete instance.ws;
