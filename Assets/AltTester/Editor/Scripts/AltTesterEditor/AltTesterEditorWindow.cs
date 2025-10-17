@@ -185,6 +185,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             EditorConfiguration.MyTests = null;
             LoadTestCompleted = false;
             this.StartCoroutine(AltTestRunner.SetUpListTestCoroutine());
+            TMPDefineSetter.CheckAndSetTMPDefine();
         }
         protected void OnEnable()
         {
@@ -722,9 +723,13 @@ namespace AltTester.AltTesterUnitySDK.Editor
             selectedTarget = GUILayout.SelectionGrid(selectedTarget, listOfPlatforms, size <= 300 ? 1 : listOfPlatforms.Length, guiStyleRadioButton);
             UnityEditor.EditorGUILayout.EndHorizontal();
             EditorGUI.EndDisabledGroup();
-
+            var previousPlatform = EditorConfiguration.platform;
             EditorConfiguration.platform = (AltPlatform)Enum.Parse(typeof(AltPlatform), listOfPlatforms[selectedTarget]);
 
+            if (previousPlatform == EditorConfiguration.platform)
+                return;
+
+            TMPDefineSetter.CheckAndSetTMPDefine();
             switch (EditorConfiguration.platform)
             {
                 case AltPlatform.Android:
