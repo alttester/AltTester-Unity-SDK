@@ -17,6 +17,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Security.Authentication;
 using System.Threading;
 using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Logging;
@@ -39,6 +40,7 @@ namespace AltTester.AltTesterSDK.Driver.Communication
         private readonly string deviceInstanceId;
         private string appId;
         private string driverType;
+        private readonly bool secureMode;
 
         private String error = null;
 
@@ -53,7 +55,7 @@ namespace AltTester.AltTesterSDK.Driver.Communication
         public string URI { get { return this.uri; } }
         public bool DriverRegisteredCalled = false;
 
-        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType)
+        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType, bool secureMode = false)
         {
             this.host = host;
             this.port = port;
@@ -64,12 +66,13 @@ namespace AltTester.AltTesterSDK.Driver.Communication
             this.deviceInstanceId = deviceInstanceId;
             this.appId = appId;
             this.driverType = driverType;
+            this.secureMode = secureMode;
 
             this.error = null;
             this.closeCode = 0;
             this.closeReason = null;
 
-            this.uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, driverType).ToString();
+            this.uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, driverType, secureMode).ToString();
         }
 
         private void CheckCloseMessage()
@@ -134,6 +137,10 @@ namespace AltTester.AltTesterSDK.Driver.Communication
             int delay = 100;
 
             this.wsClient = new ClientWebSocket(this.uri);
+            if (this.secureMode)
+            {
+                this.wsClient.SslConfiguration.EnabledSslProtocols = SslProtocols.Tls12;
+            }
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
             if (proxyUri != null)
