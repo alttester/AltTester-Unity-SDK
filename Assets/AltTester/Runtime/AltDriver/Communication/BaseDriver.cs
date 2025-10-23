@@ -51,10 +51,10 @@ namespace AltTester.AltTesterSDK.Driver.Communication
             this.WsClient.Close();
         }
 
-        public void Connect(string host, int port, int connectTimeout = 60, string appName = "__default__", string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown", string driverType = "unknown")
+        public void Connect(string host, int port, int connectTimeout = 60, string appName = "__default__", string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown", string driverType = "unknown", bool secureMode = false)
         {
             this.isRunning = false;
-            this.WsClient = new DriverWebSocketClient(host, port, path, appName, connectTimeout, platform, platformVersion, deviceInstanceId, appId, driverType);
+            this.WsClient = new DriverWebSocketClient(host, port, path, appName, connectTimeout, platform, platformVersion, deviceInstanceId, appId, driverType, secureMode);
             this.WsClient.OnMessage += (sender, e) =>
             {
                 if (e.IsText)
