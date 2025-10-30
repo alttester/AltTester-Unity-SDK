@@ -1,5 +1,5 @@
-var LibraryWebSocket = {
-	$webSocketState: {
+var LibraryAltTesterWebSocket = {
+	$altTesterWebSocketState: {
 		/*
 		 * Map of instances
 		 *
@@ -29,8 +29,8 @@ var LibraryWebSocket = {
 	 *
 	 * @param callback Reference to C# static function
 	 */
-	WebSocketSetOnOpen: function (callback) {
-		webSocketState.onOpen = callback;
+	AltTesterWebSocketSetOnOpen: function (callback) {
+		altTesterWebSocketState.onOpen = callback;
 	},
 
 	/**
@@ -38,8 +38,8 @@ var LibraryWebSocket = {
 	 *
 	 * @param callback Reference to C# static function
 	 */
-	WebSocketSetOnMessage: function (callback) {
-		webSocketState.onMessage = callback;
+	AltTesterWebSocketSetOnMessage: function (callback) {
+		altTesterWebSocketState.onMessage = callback;
 	},
 
 	/**
@@ -47,8 +47,8 @@ var LibraryWebSocket = {
 	 *
 	 * @param callback Reference to C# static function
 	 */
-	WebSocketSetOnError: function (callback) {
-		webSocketState.onError = callback;
+	AltTesterWebSocketSetOnError: function (callback) {
+		altTesterWebSocketState.onError = callback;
 	},
 
 	/**
@@ -56,8 +56,8 @@ var LibraryWebSocket = {
 	 *
 	 * @param callback Reference to C# static function
 	 */
-	WebSocketSetOnClose: function (callback) {
-		webSocketState.onClose = callback;
+	AltTesterWebSocketSetOnClose: function (callback) {
+		altTesterWebSocketState.onClose = callback;
 	},
 
 	/**
@@ -65,11 +65,11 @@ var LibraryWebSocket = {
 	 *
 	 * @param url Server URL
 	 */
-	WebSocketAllocate: function (url) {
+	AltTesterWebSocketAllocate: function (url) {
 		var urlStr = UTF8ToString(url);
-		var id = webSocketState.lastId++;
+		var id = altTesterWebSocketState.lastId++;
 
-		webSocketState.instances[id] = {
+		altTesterWebSocketState.instances[id] = {
 			subprotocols: [],
 			url: urlStr,
 			ws: null
@@ -84,9 +84,9 @@ var LibraryWebSocket = {
 	 * @param instanceId Instance ID
 	 * @param subprotocol Subprotocol name to add to instance
 	 */
-	WebSocketAddSubProtocol: function (instanceId, subprotocol) {
+	AltTesterWebSocketAddSubProtocol: function (instanceId, subprotocol) {
 		var subprotocolStr = UTF8ToString(subprotocol);
-		webSocketState.instances[instanceId].subprotocols.push(subprotocolStr);
+		altTesterWebSocketState.instances[instanceId].subprotocols.push(subprotocolStr);
 	},
 
 	/**
@@ -97,8 +97,8 @@ var LibraryWebSocket = {
 	 *
 	 * @param instanceId Instance ID
 	 */
-	WebSocketFree: function (instanceId) {
-		var instance = webSocketState.instances[instanceId];
+	AltTesterWebSocketFree: function (instanceId) {
+		var instance = altTesterWebSocketState.instances[instanceId];
 
 		if (!instance) {
 			return 0;
@@ -114,7 +114,7 @@ var LibraryWebSocket = {
 		}
 
 		// Remove reference
-		delete webSocketState.instances[instanceId];
+		delete altTesterWebSocketState.instances[instanceId];
 
 		return 0;
 	},
@@ -124,8 +124,8 @@ var LibraryWebSocket = {
 	 *
 	 * @param instanceId Instance ID
 	 */
-	WebSocketConnect: function (instanceId) {
-		var instance = webSocketState.instances[instanceId];
+	AltTesterWebSocketConnect: function (instanceId) {
+		var instance = altTesterWebSocketState.instances[instanceId];
 		if (!instance)
 		{
 			return -1;
@@ -140,29 +140,29 @@ var LibraryWebSocket = {
 		instance.ws.binaryType = 'arraybuffer';
 
 		instance.ws.onopen = function () {
-			if (webSocketState.debug) {
-				console.log("[JSLIB WebSocket] Connected.");
+			if (altTesterWebSocketState.debug) {
+				console.log("[AltTester WebSocket] Connected.");
 			}
 
-			if (webSocketState.onOpen) {
+			if (altTesterWebSocketState.onOpen) {
 				// Unity 6+ uses different call method
 				if (typeof dynCall_vi !== 'undefined') {
-					dynCall_vi(webSocketState.onOpen, instanceId);
+					dynCall_vi(altTesterWebSocketState.onOpen, instanceId);
 				} else if (Module.dynCall_vi) {
-					Module.dynCall_vi(webSocketState.onOpen, instanceId);
+					Module.dynCall_vi(altTesterWebSocketState.onOpen, instanceId);
 				} else {
 					// Fallback for newer Emscripten versions
-					wasmTable.get(webSocketState.onOpen)(instanceId);
+					wasmTable.get(altTesterWebSocketState.onOpen)(instanceId);
 				}
 			}
 		};
 
 		instance.ws.onmessage = function (ev) {
-			if (webSocketState.debug) {
-				console.log("[JSLIB WebSocket] Received message:", ev.data);
+			if (altTesterWebSocketState.debug) {
+				console.log("[AltTester WebSocket] Received message:", ev.data);
 			}
 
-			if (webSocketState.onMessage === null) {
+			if (altTesterWebSocketState.onMessage === null) {
 				return;
 			}
 
@@ -175,11 +175,11 @@ var LibraryWebSocket = {
 				try {
 					// Unity 6+ compatibility
 					if (typeof dynCall_viii !== 'undefined') {
-						dynCall_viii(webSocketState.onMessage, instanceId, buffer, dataBuffer.length);
+						dynCall_viii(altTesterWebSocketState.onMessage, instanceId, buffer, dataBuffer.length);
 					} else if (Module.dynCall_viii) {
-						Module.dynCall_viii(webSocketState.onMessage, instanceId, buffer, dataBuffer.length);
+						Module.dynCall_viii(altTesterWebSocketState.onMessage, instanceId, buffer, dataBuffer.length);
 					} else {
-						wasmTable.get(webSocketState.onMessage)(instanceId, buffer, dataBuffer.length);
+						wasmTable.get(altTesterWebSocketState.onMessage)(instanceId, buffer, dataBuffer.length);
 					}
 				} finally {
 					_free(buffer);
@@ -192,11 +192,11 @@ var LibraryWebSocket = {
 
 				try {
 					if (typeof dynCall_viii !== 'undefined') {
-						dynCall_viii(webSocketState.onMessage, instanceId, buffer, dataBuffer.length);
+						dynCall_viii(altTesterWebSocketState.onMessage, instanceId, buffer, dataBuffer.length);
 					} else if (Module.dynCall_viii) {
-						Module.dynCall_viii(webSocketState.onMessage, instanceId, buffer, dataBuffer.length);
+						Module.dynCall_viii(altTesterWebSocketState.onMessage, instanceId, buffer, dataBuffer.length);
 					} else {
-						wasmTable.get(webSocketState.onMessage)(instanceId, buffer, dataBuffer.length);
+						wasmTable.get(altTesterWebSocketState.onMessage)(instanceId, buffer, dataBuffer.length);
 					}
 				} finally {
 					_free(buffer);
@@ -205,23 +205,23 @@ var LibraryWebSocket = {
 		};
 
 		instance.ws.onerror = function (ev) {
-			if (webSocketState.debug) {
-				console.log("[JSLIB WebSocket] Error occured.");
+			if (altTesterWebSocketState.debug) {
+				console.log("[AltTester WebSocket] Error occured.");
 			}
 
-			if (webSocketState.onError) {
-				var msg = "JSLIB WebSocket error.";
+			if (altTesterWebSocketState.onError) {
+				var msg = "AltTester WebSocket error.";
 				var length = lengthBytesUTF8(msg) + 1;
 				var buffer = _malloc(length);
 				stringToUTF8(msg, buffer, length);
 
 				try {
 					if (typeof dynCall_vii !== 'undefined') {
-						dynCall_vii(webSocketState.onError, instanceId, buffer);
+						dynCall_vii(altTesterWebSocketState.onError, instanceId, buffer);
 					} else if (Module.dynCall_vii) {
-						Module.dynCall_vii(webSocketState.onError, instanceId, buffer);
+						Module.dynCall_vii(altTesterWebSocketState.onError, instanceId, buffer);
 					} else {
-						wasmTable.get(webSocketState.onError)(instanceId, buffer);
+						wasmTable.get(altTesterWebSocketState.onError)(instanceId, buffer);
 					}
 				} finally {
 					_free(buffer);
@@ -235,17 +235,17 @@ var LibraryWebSocket = {
 			var buffer = _malloc(length);
 			stringToUTF8(reason, buffer, length);
 
-			if (webSocketState.debug) {
-				console.log("[JSLIB WebSocket] Closed.");
+			if (altTesterWebSocketState.debug) {
+				console.log("[AltTester WebSocket] Closed.");
 			}
 
-			if (webSocketState.onClose) {
+			if (altTesterWebSocketState.onClose) {
 				if (typeof dynCall_viii !== 'undefined') {
-					dynCall_viii(webSocketState.onClose, instanceId, ev.code, buffer);
+					dynCall_viii(altTesterWebSocketState.onClose, instanceId, ev.code, buffer);
 				} else if (Module.dynCall_viii) {
-					Module.dynCall_viii(webSocketState.onClose, instanceId, ev.code, buffer);
+					Module.dynCall_viii(altTesterWebSocketState.onClose, instanceId, ev.code, buffer);
 				} else {
-					wasmTable.get(webSocketState.onClose)(instanceId, ev.code, buffer);
+					wasmTable.get(altTesterWebSocketState.onClose)(instanceId, ev.code, buffer);
 				}
 			}
 
@@ -262,8 +262,8 @@ var LibraryWebSocket = {
 	 * @param code Close status code
 	 * @param reasonPtr Pointer to reason string
 	 */
-	WebSocketClose: function (instanceId, code, reasonPtr) {
-		var instance = webSocketState.instances[instanceId];
+	AltTesterWebSocketClose: function (instanceId, code, reasonPtr) {
+		var instance = altTesterWebSocketState.instances[instanceId];
 		if (!instance) {
 			return -1;
 		}
@@ -300,8 +300,8 @@ var LibraryWebSocket = {
 	 * @param bufferPtr Pointer to the message buffer
 	 * @param length Length of the message in the buffer
 	 */
-	WebSocketSend: function (instanceId, bufferPtr, length) {
-		var instance = webSocketState.instances[instanceId];
+	AltTesterWebSocketSend: function (instanceId, bufferPtr, length) {
+		var instance = altTesterWebSocketState.instances[instanceId];
 		if (!instance) {
 			return -1;
 		}
@@ -322,11 +322,10 @@ var LibraryWebSocket = {
 	 * Send text message over WebSocket
 	 *
 	 * @param instanceId Instance ID
-	 * @param bufferPtr Pointer to the message buffer
-	 * @param length Length of the message in the buffer
+	 * @param message Message string
 	 */
-	WebSocketSendText: function (instanceId, message) {
-		var instance = webSocketState.instances[instanceId];
+	AltTesterWebSocketSendText: function (instanceId, message) {
+		var instance = altTesterWebSocketState.instances[instanceId];
 		if (!instance) {
 			return -1;
 		}
@@ -349,9 +348,9 @@ var LibraryWebSocket = {
 	 *
 	 * @param instanceId Instance ID
 	 */
-	WebSocketGetState: function (instanceId) {
+	AltTesterWebSocketGetState: function (instanceId) {
 
-		var instance = webSocketState.instances[instanceId];
+		var instance = altTesterWebSocketState.instances[instanceId];
 		if (!instance) return -1;
 
 		if (instance.ws) {
@@ -363,8 +362,8 @@ var LibraryWebSocket = {
 
 };
 
-autoAddDeps(LibraryWebSocket, '$webSocketState');
-mergeInto(LibraryManager.library, LibraryWebSocket);
+autoAddDeps(LibraryAltTesterWebSocket, '$altTesterWebSocketState');
+mergeInto(LibraryManager.library, LibraryAltTesterWebSocket);
 
 // https://github.com/WalletConnect/WalletConnectUnity/pull/36 - solved runtime/module error
 // https://github.com/emscripten-core/emscripten/pull/8011 - solved UTF8 encoding error
