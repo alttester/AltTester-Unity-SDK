@@ -15,11 +15,6 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using AltTester.AltTesterSDK.Driver;
-using AltTester.AltTesterUnitySDK.Commands;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
