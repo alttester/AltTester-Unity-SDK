@@ -207,12 +207,16 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                     deltaUnchanged = true;
                     break;
                 }
-                InputSystem.QueueStateEvent(Mouse, new MouseState { position = mousePosition });
+                currentMouseState.position = mousePosition;
+                InputSystem.QueueStateEvent(Mouse, currentMouseState);
             }
             if (deltaUnchanged)
             {
-                InputSystem.QueueStateEvent(Mouse, new MouseState { position = mousePosition * 1.01f });
-                InputSystem.QueueStateEvent(Mouse, new MouseState { position = mousePosition });
+
+                currentMouseState.position = mousePosition * 1.01f;
+                InputSystem.QueueStateEvent(Mouse, currentMouseState);
+                currentMouseState.position = mousePosition;
+                InputSystem.QueueStateEvent(Mouse, currentMouseState);
                 while (time < duration)
                 {
                     time += Time.unscaledDeltaTime;
@@ -458,9 +462,9 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 string key = AltKeyMapping.StringToKeyCode.FirstOrDefault(x => x.Value == keyCode).Key;
                 if (!string.IsNullOrEmpty(key) && AltKeyMapping.StringToKey.TryGetValue(key, out var keyboardKey)){
                     currentKeyboardState.Press(keyboardKey);
-                InputSystem.QueueStateEvent(Keyboard, currentKeyboardState); // 3. Set the new state
+                    InputSystem.QueueStateEvent(Keyboard, currentKeyboardState); // 3. Set the new state
 
-                 }
+                }
             }
             // Mouse button
             else if (buttonControl.device is Mouse)
@@ -494,8 +498,8 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             if (buttonControl.device is Keyboard)
             {
                 string key = AltKeyMapping.StringToKeyCode.FirstOrDefault(x => x.Value == keyCode).Key;
-                if (!string.IsNullOrEmpty(key) && AltKeyMapping.StringToKey.TryGetValue(key, out var keyValue))  
-                {  
+                if (!string.IsNullOrEmpty(key) && AltKeyMapping.StringToKey.TryGetValue(key, out var keyValue))
+                {
                     currentKeyboardState.Release(keyValue);
                     InputSystem.QueueStateEvent(Keyboard, currentKeyboardState); // 3. Set the new state
                 }
