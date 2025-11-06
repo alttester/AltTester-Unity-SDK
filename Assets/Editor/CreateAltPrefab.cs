@@ -827,7 +827,7 @@ namespace AltTesterTools
 
             var text = textObject.GetComponent<Text>();
             text.fontSize = 32;
-            text.horizontalOverflow = HorizontalWrapMode.Wrap;
+            text.horizontalOverflow = HorizontalWrapMode.Overflow;
             text.verticalOverflow = VerticalWrapMode.Truncate;
             text.alignment = TextAnchor.MiddleLeft;
             textObject.SetActive(false);

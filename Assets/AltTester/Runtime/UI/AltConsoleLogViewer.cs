@@ -103,7 +103,7 @@ private static extern void CopyToClipboard(string str);
 
         initializePool();
         setupUIListeners();
-        Application.logMessageReceived += handleLog;
+        Application.logMessageReceivedThreaded += handleLog;
         isInitialized = true;
         needsRefresh = true;
         content.anchoredPosition = Vector2.zero;
@@ -392,7 +392,7 @@ private static extern void CopyToClipboard(string str);
 
     protected void OnDestroy()
     {
-        Application.logMessageReceived -= handleLog;
+        Application.logMessageReceivedThreaded -= handleLog;
     }
 
 
