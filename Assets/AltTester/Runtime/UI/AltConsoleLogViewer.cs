@@ -58,6 +58,8 @@ public class AltConsoleLogViewer : MonoBehaviour
     private bool showWarnings = true;
     private bool showErrors = true;
     private bool isInitialized = false;
+    private TextGenerationSettings textGenerationSettings;
+    private TextGenerator textGenerator;
 
     public static AltConsoleLogViewer Instance { get; private set; }
 
@@ -72,6 +74,7 @@ private static extern void CopyToClipboard(string str);
         public string StackTrace;
         public LogType LogType;
         public string FullText;
+        public float Width;
     }
     public void Copy(string str)
     {
@@ -118,6 +121,30 @@ private static extern void CopyToClipboard(string str);
     protected void Start()
     {
         scrollToBottom();
+        SetTextGenerationSettings();
+    }
+
+    private void SetTextGenerationSettings()
+    {
+        if (pooledItems.Count == 0) return;
+        textGenerator = new UnityEngine.TextGenerator();
+        UnityEngine.UI.Text referenceText = pooledItems.Count > 0 ? pooledItems[0].GetComponentInChildren<UnityEngine.UI.Text>() : null;
+        textGenerationSettings = new UnityEngine.TextGenerationSettings();
+        if (referenceText != null)
+        {
+            textGenerationSettings.font = referenceText.font;
+            textGenerationSettings.fontSize = referenceText.fontSize;
+            textGenerationSettings.fontStyle = referenceText.fontStyle;
+            textGenerationSettings.richText = true; // Enable rich text for accurate width
+            textGenerationSettings.scaleFactor = referenceText.canvas != null ? referenceText.canvas.scaleFactor : 1f;
+            textGenerationSettings.color = referenceText.color;
+            textGenerationSettings.lineSpacing = referenceText.lineSpacing;
+            textGenerationSettings.textAnchor = referenceText.alignment;
+            textGenerationSettings.horizontalOverflow = HorizontalWrapMode.Overflow;
+            textGenerationSettings.verticalOverflow = VerticalWrapMode.Overflow;
+            textGenerationSettings.generateOutOfBounds = true;
+            textGenerationSettings.pivot = Vector2.zero;
+        }
     }
 
     protected void OnEnable()
@@ -174,14 +201,15 @@ private static extern void CopyToClipboard(string str);
     private void handleLog(string logString, string stackTrace, LogType type)
     {
         if (!isInitialized) return;
-
+        if (logString.Contains("|DoNotHandle|")) return;
         string timeStamp = DateTime.Now.ToString("HH:mm:ss");
         var logData = new LogData
         {
             Message = logString,
             StackTrace = stackTrace,
             LogType = type,
-            FullText = formatLogText(timeStamp, logString, stackTrace, type)
+            FullText = formatLogText(timeStamp, logString, stackTrace, type),
+            Width = -1
         };
 
         // Add to collection
@@ -287,7 +315,28 @@ private static extern void CopyToClipboard(string str);
     {
         float totalItemHeight = (itemHeight + verticalPadding) * filteredLogs.Count;
         contentHeight = Mathf.Max(totalItemHeight + topBottomPadding * 2, scrollRect.viewport.rect.height);
-        content.sizeDelta = new Vector2(scrollRect.viewport.rect.width, contentHeight);
+
+        content.sizeDelta = new Vector2(getMaxWidth(), contentHeight); // Extra padding for safety
+    }
+    private float getWidth(string text)
+    {
+        return textGenerator.GetPreferredWidth(text, textGenerationSettings) / textGenerationSettings.scaleFactor;
+    }
+    private float getMaxWidth()
+    {
+
+        float longestWidth = scrollRect.viewport.rect.width;
+        foreach (var log in filteredLogs)
+        {
+            if (log.Width == -1)
+            {
+                log.Width = getWidth(RemoveNewlines(log.FullText));
+            }
+            string singleLineText = RemoveNewlines(log.FullText);
+            if (log.Width > longestWidth) longestWidth = log.Width;
+        }
+        return longestWidth + (longestWidth > scrollRect.viewport.rect.width - 200 ? 200 : 0);
+
     }
     private void updateVisibleItems()
     {
@@ -319,14 +368,19 @@ private static extern void CopyToClipboard(string str);
             var tmpText = item.GetComponentInChildren<Text>();
             var log = filteredLogs[i];
 
-            tmpText.text = log.FullText;
-            item.sizeDelta = new Vector2(scrollRect.viewport.rect.width, itemHeight);
+            tmpText.text = RemoveNewlines(log.FullText);
+            item.sizeDelta = new Vector2(content.sizeDelta.x, itemHeight);
 
             float yPos = -topBottomPadding - (i * totalItemHeight);
             item.anchoredPosition = new Vector2(0, yPos);
 
             item.gameObject.SetActive(true);
         }
+    }
+    // Removes newlines from a string
+    private string RemoveNewlines(string input)
+    {
+        return input.Replace("\n", " ").Replace("\r", " ");
     }
 
     private void scrollToBottom()
