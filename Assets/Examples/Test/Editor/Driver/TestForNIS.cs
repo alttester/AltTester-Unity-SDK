@@ -277,9 +277,10 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             altDriver.LoadScene(scene8);
             var panelToDrag = altDriver.FindObject(By.PATH, "//Panel/Drag Zone");
             var initialPanelPos = panelToDrag.GetScreenPosition();
+            altDriver.MoveMouse(initialPanelPos, 0.1f);
             altDriver.KeyDown(AltKeyCode.Mouse0);
             altDriver.MoveMouse(new AltVector2(initialPanelPos.x + 1, initialPanelPos.y + 1), 0.1f);
-            altDriver.MoveMouse(new AltVector2(initialPanelPos.x + 200, initialPanelPos.y + 20), 0.1f);
+            altDriver.MoveMouse(new AltVector2(initialPanelPos.x + 200, initialPanelPos.y + 20), 0.4f);
             altDriver.KeyUp(AltKeyCode.Mouse0);
             var finalPanelPos = altDriver.FindObject(By.PATH, "//Panel/Drag Zone").GetScreenPosition();
             Assert.AreNotEqual(initialPanelPos, finalPanelPos);
