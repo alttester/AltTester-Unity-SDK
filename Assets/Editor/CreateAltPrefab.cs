@@ -869,6 +869,7 @@ namespace AltTesterTools
             var scrollImage = scrollBarHorizontal.GetComponent<Image>();
             scrollImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd"); ;
             scrollImage.type = Image.Type.Sliced;
+            scrollImage.color = LightGreenColor;
 
 
 
@@ -892,6 +893,7 @@ namespace AltTesterTools
             var handleImage = handle.GetComponent<Image>();
             handleImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
             handleImage.type = Image.Type.Sliced;
+            handleImage.color = DarkGreenColor;
 
 
             var scroll = scrollBarHorizontal.GetComponent<Scrollbar>();
