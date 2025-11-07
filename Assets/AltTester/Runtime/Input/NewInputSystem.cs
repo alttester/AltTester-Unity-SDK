@@ -66,7 +66,8 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 #endif
 
             initiateDevices();
-            InputSystem.QueueStateEvent(Mouse, new MouseState { position = new Vector2(0, 0) });
+            currentMouseState = new MouseState { position = new Vector2(0, 0) };
+            InputSystem.QueueStateEvent(Mouse, currentMouseState);
             EnableDefaultDevicesAndDisableAltDevices();
 
         }
@@ -277,14 +278,17 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             Mouse.MakeCurrent();
             UnityEngine.Vector3 screenPosition;
             FindObjectViaRayCast.FindCameraThatSeesObject(target, out screenPosition);
-            InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition });
+            currentMouseState.position = screenPosition;
+            InputSystem.QueueStateEvent(Mouse, currentMouseState);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition, buttons = 1 });
+                currentMouseState.buttons = 1;
+                InputSystem.QueueStateEvent(Mouse, currentMouseState);
                 yield return null;
                 time += Time.unscaledDeltaTime;
-                InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition, buttons = 0 });
+                currentMouseState.buttons = 0;
+                InputSystem.QueueStateEvent(Mouse, currentMouseState);
                 while (i != count - 1 && time < interval)
                 {
                     time += Time.unscaledDeltaTime;
@@ -296,15 +300,17 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         internal static IEnumerator ClickCoordinatesLifeCycle(UnityEngine.Vector2 screenPosition, int count, float interval)
         {
             Mouse.MakeCurrent();
-
-            InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition });
+            currentMouseState.position = screenPosition;
+            InputSystem.QueueStateEvent(Mouse, currentMouseState);
             for (int i = 0; i < count; i++)
             {
                 float time = 0;
-                InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition, buttons = 1 });
+                currentMouseState.buttons = 1;
+                InputSystem.QueueStateEvent(Mouse, currentMouseState);
                 yield return null;
                 time += Time.unscaledDeltaTime;
-                InputSystem.QueueStateEvent(Mouse, new MouseState { position = screenPosition, buttons = 0 });
+                currentMouseState.buttons = 0;
+                InputSystem.QueueStateEvent(Mouse, currentMouseState);
                 while (i != count - 1 && time < interval)
                 {
                     time += Time.unscaledDeltaTime;
@@ -460,7 +466,8 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             if (buttonControl.device is Keyboard)
             {
                 string key = AltKeyMapping.StringToKeyCode.FirstOrDefault(x => x.Value == keyCode).Key;
-                if (!string.IsNullOrEmpty(key) && AltKeyMapping.StringToKey.TryGetValue(key, out var keyboardKey)){
+                if (!string.IsNullOrEmpty(key) && AltKeyMapping.StringToKey.TryGetValue(key, out var keyboardKey))
+                {
                     currentKeyboardState.Press(keyboardKey);
                     InputSystem.QueueStateEvent(Keyboard, currentKeyboardState); // 3. Set the new state
 
