@@ -1060,7 +1060,7 @@ More details related to Allure can be found at the official [Allure documentatio
             <dependency>
                 <groupId>com.alttester</groupId>
                 <artifactId>alttester</artifactId>
-                <version>2.2.5</version>
+                <version>2.2.6</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

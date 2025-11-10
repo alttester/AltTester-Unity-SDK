@@ -190,7 +190,7 @@ You get this error because you are using an older binding. (Eg: You use the AltT
 
 **Symptom**
 
-When building a Unity project for iOS in Xcode, the build fails. This issue specifically occurs when your project includes both the **AltTester Unity SDK** (v2.2.5 or newer) and a preview version of the **Unity In-App Purchasing** package (e.g., `5.0.0-pre7`).
+When building a Unity project for iOS in Xcode, the build fails. This issue specifically occurs when your project includes both the **AltTester Unity SDK** (v2.2.6 or newer) and a preview version of the **Unity In-App Purchasing** package (e.g., `5.0.0-pre7`).
 
 The Xcode log displays the following error:
 ```
