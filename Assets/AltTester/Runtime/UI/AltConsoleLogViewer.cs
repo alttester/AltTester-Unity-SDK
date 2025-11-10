@@ -201,7 +201,6 @@ private static extern void CopyToClipboard(string str);
     private void handleLog(string logString, string stackTrace, LogType type)
     {
         if (!isInitialized) return;
-        if (logString.Contains("|DoNotHandle|")) return;
         string timeStamp = DateTime.Now.ToString("HH:mm:ss");
         var logData = new LogData
         {
@@ -328,14 +327,15 @@ private static extern void CopyToClipboard(string str);
         float longestWidth = scrollRect.viewport.rect.width;
         foreach (var log in filteredLogs)
         {
+            string singleLineText = RemoveNewlines(log.FullText);
             if (log.Width == -1)
             {
-                log.Width = getWidth(RemoveNewlines(log.FullText));
+                log.Width = getWidth(singleLineText);
             }
-            string singleLineText = RemoveNewlines(log.FullText);
             if (log.Width > longestWidth) longestWidth = log.Width;
         }
-        return longestWidth + (longestWidth > scrollRect.viewport.rect.width - 200 ? 200 : 0);
+        float horizontalPadding = 200f;
+        return longestWidth + (longestWidth > scrollRect.viewport.rect.width - horizontalPadding ? horizontalPadding : 0);
 
     }
     private void updateVisibleItems()
