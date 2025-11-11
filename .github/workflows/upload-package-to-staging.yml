@@ -18,7 +18,7 @@ jobs:
 
           if [[ "$GITHUB_REF" == refs/heads/* ]]; then
           COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
-          VERSION="2.2.5-$COMMIT_HASH"
+          VERSION="2.2.6-$COMMIT_HASH"
           sed -i '' "s/public static readonly string VERSION = \".*\";/public static readonly string VERSION = \"$VERSION\";/" Assets/AltTester/Runtime/Commands/AltRunner.cs
           sed -i '' "s/\"version\": \".*\";/\"version\": \"$VERSION\";/" Assets/AltTester/package.json
           fi
@@ -28,7 +28,6 @@ jobs:
           cp $AUT public/AltTester/AltTesterUnitySDK.unitypackage
           cp $AUT public/AltTester/AltTesterUnitySDK_${VERSION}.unitypackage
           cp SampleScenes.unitypackage public/AltTester/SampleScenes.unitypackage
-          
 
       - uses: actions/upload-artifact@v4
         with:

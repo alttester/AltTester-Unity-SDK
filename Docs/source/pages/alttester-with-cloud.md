@@ -557,12 +557,12 @@ For this purpose, an [Azure virtual machine](https://azure.microsoft.com/en-us/p
 
 **2. Have a set of C# tests that use AltTester® Unity SDK v2.2.\***
 
-- check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/tree/saucelabs_example) where the tests are adapted for SDK 2.2.5
+- check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/tree/saucelabs_example) where the tests are adapted for SDK 2.2.6
 
 **3. Prepare the build instrumented with AltTester® Unity SDK v2.2.\***
 
 Our example is based on [TrashCat endless runner game](https://assetstore.unity.com/packages/templates/tutorials/endless-runner-sample-game-87901) that we have instrumented in Unity. 
-- instrument the TrashCat application using AltTester® Unity SDK `v2.2.5`- for additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x)
+- instrument the TrashCat application using AltTester® Unity SDK `v2.2.6`- for additional information you can follow [this tutorial](https://alttester.com/walkthrough-tutorial-upgrading-trashcat-to-2-0-x/#Instrument%20TrashCat%20with%20AltTester%20Unity%20SDK%20v.2.0.x)
 - it should be created with the host IP of the VM in which AltDesktop app is running
 
 ```eval_rst
@@ -854,7 +854,7 @@ Keep in mind that the setup is different for Android and iOS.
 
 #### **Steps for running tests on Android using the remote connection**
 
-The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.2.5 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection).
+The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.2.6 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection).
 
 ```eval_rst
 
@@ -1006,7 +1006,7 @@ Keep in mind that the setup is different for Android and iOS.
     - install necessary packages for running the C# tests
         ```
         - dotnet add package NUnit --version 3.13.3
-        - dotnet add package AltTester-Driver -- version 2.2.5 
+        - dotnet add package AltTester-Driver -- version 2.2.6 
         - dotnet add package Selenium.WebDriver -- version 3.141.0
         - dotnet add package NUnit3TestAdapter --version 4.4.2
         ```
@@ -1072,7 +1072,7 @@ Keep in mind that the setup is different for Android and iOS.
 
 Please note that the process of running the tests is similar for iOS or Android. The differences are described above. 
 
-The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.2.5 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection)
+The instructions and resources will be for running tests on Android, for an application instrumented with AltTester® Unity SDK v2.2.6 with a specific host (the elastic IP address provided when creating a remote connection), so that we can connect to it from an AWS Instance (remote connection)
 
 ```eval_rst
 
@@ -1455,7 +1455,7 @@ After you finish setting up the build, you need to use the **Archive** option to
     - in case you have not done it so far, add the AltTester-Driver package as well
     ```c#
     dotnet add package Appium.WebDriver --version 4.3.1
-    dotnet add package AltTester-Driver --version 2.2.5
+    dotnet add package AltTester-Driver --version 2.2.6
     ```
     - after installing the packages, you can see them in `.csproj` (check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/client-side-ios/TestAlttrashCSharp.csproj))
 
