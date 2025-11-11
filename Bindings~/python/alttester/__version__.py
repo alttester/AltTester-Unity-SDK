@@ -15,4 +15,4 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-VERSION = "2.2.5"
+VERSION = "2.2.6"

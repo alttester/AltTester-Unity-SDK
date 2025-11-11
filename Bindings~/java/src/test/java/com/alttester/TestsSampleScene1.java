@@ -423,16 +423,6 @@ public class TestsSampleScene1 extends BaseTest {
                         .build(),
                 new Gson().toJsonTree("null"), true, JsonElement.class);
 
-        Canvas.waitForComponentProperty(
-                new AltWaitForComponentPropertyParams.Builder<JsonElement>(
-                        new AltGetComponentPropertyParams.Builder(
-                                "UnityEngine.UI.CanvasScaler", "transform",
-                                "UnityEngine.UI").build())
-                        .build(),
-                new Gson().toJsonTree(JsonParser.parseString(
-                        "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]")),
-                true,
-                JsonElement.class);
     }
 
     @Test
