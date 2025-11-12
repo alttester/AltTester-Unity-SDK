@@ -7494,25 +7494,26 @@ Triggered when a scene is loaded in the Unity app.
 **Example:**
 ```eval_rst
 .. tabs::
-  .. tab:: C#
+  .. code-tab:: c#
   
     altDriver.AddNotificationListener<AltLoadSceneNotificationResultParams>(NotificationType.LOADSCENE, (result) => {
       Debug.Log($"Scene loaded: {result.sceneName}, Mode: {result.loadSceneMode}");
     }, true);
 
-  .. tab:: Java
+  .. code-tab:: java
 
     altDriver.addNotificationListener(NotificationType.LOADSCENE, (AltLoadSceneNotificationResultParams result) -> {
       System.out.println("Scene loaded: " + result.sceneName + ", Mode: " + result.loadSceneMode);
     }, true);
 
-  .. tab:: Python
+  .. code-tab:: py
 
     def on_scene_loaded(result):
       print(f"Scene loaded: {result.scene_name}, Mode: {result.load_scene_mode}")
     alt_driver.add_notification_listener(NotificationType.LOADSCENE, on_scene_loaded, True)
 
-  .. tab:: Robot
+  .. code-tab:: robot
+
         *** Settings ***
         Library    AltTesterLibrary
 
@@ -7540,25 +7541,26 @@ Triggered when a scene is unloaded in the Unity app.
 **Example:**
 ```eval_rst
 .. tabs::
-  .. tab:: C#
+  .. code-tab:: c#
   
     altDriver.AddNotificationListener<string>(NotificationType.UNLOADSCENE, (sceneName) => {
       Debug.Log($"Scene unloaded: {sceneName}");
     }, true);
 
-  .. tab:: Java
+  .. code-tab:: java
 
     altDriver.addNotificationListener(NotificationType.UNLOADSCENE, (String sceneName) -> {
       System.out.println("Scene unloaded: " + sceneName);
     }, true);
 
-  .. tab:: Python
+  .. code-tab:: py
 
     def on_scene_unloaded(scene_name):
       print(f"Scene unloaded: {scene_name}")
     alt_driver.add_notification_listener(NotificationType.UNLOADSCENE, on_scene_unloaded, True)
 
-  .. tab:: Robot
+  .. code-tab:: robot
+
         *** Settings ***
         Library    AltTesterLibrary
 
@@ -7588,25 +7590,26 @@ Triggered when a log is generated in the Unity app.
 **Example:**
 ```eval_rst
 .. tabs::
-  .. tab:: C#
+  .. code-tab:: c#
 
     altDriver.AddNotificationListener<AltLogNotificationResultParams>(NotificationType.LOG, (log) => {
       Debug.Log($"Log: {log.message}\nLevel: {log.level}\nStackTrace: {log.stackTrace}");
     }, true);
 
-  .. tab:: Java
+  .. code-tab:: java
 
     altDriver.addNotificationListener(NotificationType.LOG, (AltLogNotificationResultParams log) -> {
       System.out.println("Log: " + log.message + "\nLevel: " + log.level + "\nStackTrace: " + log.stackTrace);
     }, true);
 
-  .. tab:: Python
+  .. code-tab:: py
 
     def on_log(log):
       print(f"Log: {log.message}\nLevel: {log.level}\nStackTrace: {log.stack_trace}")
     alt_driver.add_notification_listener(NotificationType.LOG, on_log, True)
 
-  .. tab:: Robot
+  .. code-tab:: robot
+
         *** Settings ***
         Library    AltTesterLibrary
 
@@ -7634,25 +7637,26 @@ Triggered when the application is paused or resumed.
 **Example:**
 ```eval_rst
 .. tabs::
-  .. tab:: C#
+  .. code-tab:: c#
 
     altDriver.AddNotificationListener<bool>(NotificationType.APPLICATION_PAUSED, (paused) => {
       Debug.Log($"Application paused: {paused}");
     }, true);
 
-  .. tab:: Java
+  .. code-tab:: java
 
     altDriver.addNotificationListener(NotificationType.APPLICATION_PAUSED, (Boolean paused) -> {
       System.out.println("Application paused: " + paused);
     }, true);
 
-  .. tab:: Python
+  .. code-tab:: py
 
     def on_paused(paused):
       print(f"Application paused: {paused}")
     alt_driver.add_notification_listener(NotificationType.APPLICATION_PAUSED, on_paused, True)
 
-  .. tab:: Robot
+  .. code-tab:: robot
+  
         *** Settings ***
         Library    AltTesterLibrary
 
