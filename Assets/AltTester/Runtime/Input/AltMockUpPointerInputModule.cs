@@ -26,7 +26,7 @@ using static UnityEngine.EventSystems.ExecuteEvents;
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
     public class AltMockUpPointerInputModule :
-#if ENABLE_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
 InputSystemUIInputModule
 #else
 StandaloneInputModule
@@ -60,13 +60,13 @@ StandaloneInputModule
                         if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                         {
 #endif
-                        if (raycastResult.gameObject ?? false) pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            ExecuteEvents.pointerEnterHandler);
-                        if (raycastResult.gameObject ?? false) pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            ExecuteEvents.pointerDownHandler);
-                        pointerEventData.selectedObject = pointerEventData.pointerPress;
-                        if (raycastResult.gameObject ?? false) pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
-                            ExecuteEvents.dragHandler);
+                            if (raycastResult.gameObject ?? false) pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                                ExecuteEvents.pointerEnterHandler);
+                            if (raycastResult.gameObject ?? false) pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                                ExecuteEvents.pointerDownHandler);
+                            pointerEventData.selectedObject = pointerEventData.pointerPress;
+                            if (raycastResult.gameObject ?? false) pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                                ExecuteEvents.dragHandler);
 #if ENABLE_INPUT_SYSTEM
                         }
 #endif
@@ -98,10 +98,10 @@ StandaloneInputModule
                                 {
 #endif
 
-                                if (previousData.pointerEnter ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
-                                        ExecuteEvents.pointerExitHandler);
-                                if (previousData.pointerCurrentRaycast.gameObject ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                    ExecuteEvents.pointerEnterHandler);
+                                    if (previousData.pointerEnter ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
+                                            ExecuteEvents.pointerExitHandler);
+                                    if (previousData.pointerCurrentRaycast.gameObject ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                        ExecuteEvents.pointerEnterHandler);
 #if ENABLE_INPUT_SYSTEM
                                 }
 #endif
@@ -113,8 +113,8 @@ StandaloneInputModule
 #if ENABLE_INPUT_SYSTEM
                                 if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-                                if (previousData.pointerDrag ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
-                                    ExecuteEvents.dragHandler);
+                                    if (previousData.pointerDrag ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
+                                        ExecuteEvents.dragHandler);
                             }
 
                             return previousData;
@@ -130,8 +130,8 @@ StandaloneInputModule
 #if ENABLE_INPUT_SYSTEM
                             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-                            if (previousData.pointerPress ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
-                                ExecuteEvents.pointerUpHandler);
+                                if (previousData.pointerPress ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
+                                    ExecuteEvents.pointerUpHandler);
                             var currentOverGo = previousData.pointerCurrentRaycast.gameObject;
                             var pointerUpHandler = ExecuteEvents.GetEventHandler<IPointerClickHandler>(currentOverGo);
 
@@ -141,8 +141,8 @@ StandaloneInputModule
 #if ENABLE_INPUT_SYSTEM
                                 if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-                                if (previousData.pointerPress ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
-                                      ExecuteEvents.pointerClickHandler);
+                                    if (previousData.pointerPress ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
+                                          ExecuteEvents.pointerClickHandler);
                                 previousData.eligibleForClick = false;
                             }
 
@@ -151,8 +151,8 @@ StandaloneInputModule
 #if ENABLE_INPUT_SYSTEM
                             if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
-                            if (previousData.pointerCurrentRaycast.gameObject ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                                ExecuteEvents.pointerExitHandler);
+                                if (previousData.pointerCurrentRaycast.gameObject ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                    ExecuteEvents.pointerExitHandler);
                             return previousData;
                         }
                         break;
@@ -178,17 +178,17 @@ StandaloneInputModule
                 if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 {
 #endif
-                if (previousData.pointerCurrentRaycast.gameObject ?? false) previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                        ExecuteEvents.beginDragHandler);
-                if (previousData.pointerDrag != null)
-                {
-                    if (previousData.pointerDrag ?? false) ExecuteEvents.Execute(previousData.pointerDrag, previousData,
-                        ExecuteEvents.dragHandler);
-                }
-                else
-
                     if (previousData.pointerCurrentRaycast.gameObject ?? false) previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                        ExecuteEvents.dragHandler);
+                            ExecuteEvents.beginDragHandler);
+                    if (previousData.pointerDrag != null)
+                    {
+                        if (previousData.pointerDrag ?? false) ExecuteEvents.Execute(previousData.pointerDrag, previousData,
+                            ExecuteEvents.dragHandler);
+                    }
+                    else
+
+                        if (previousData.pointerCurrentRaycast.gameObject ?? false) previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                            ExecuteEvents.dragHandler);
 #if ENABLE_INPUT_SYSTEM
                 }
 #endif
@@ -200,13 +200,13 @@ StandaloneInputModule
                 {
 #endif
 
-                if (!previousData.dragging)
-                {
-                    if (previousData.pointerDrag ?? false) ExecuteEvents.Execute(previousData.pointerDrag, previousData,
-                        ExecuteEvents.beginDragHandler);
-                    previousData.dragging = true;
-                }
-                if (previousData.pointerDrag ?? false) ExecuteEvents.Execute(previousData.pointerDrag, previousData, ExecuteEvents.dragHandler);
+                    if (!previousData.dragging)
+                    {
+                        if (previousData.pointerDrag ?? false) ExecuteEvents.Execute(previousData.pointerDrag, previousData,
+                            ExecuteEvents.beginDragHandler);
+                        previousData.dragging = true;
+                    }
+                    if (previousData.pointerDrag ?? false) ExecuteEvents.Execute(previousData.pointerDrag, previousData, ExecuteEvents.dragHandler);
 #if ENABLE_INPUT_SYSTEM
                 }
 #endif
@@ -230,10 +230,10 @@ StandaloneInputModule
                 if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 {
 #endif
-                if (previousData.pointerDrag ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
-                        ExecuteEvents.endDragHandler);
-                if (previousData.pointerCurrentRaycast.gameObject ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
-                    ExecuteEvents.dropHandler);
+                    if (previousData.pointerDrag ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
+                            ExecuteEvents.endDragHandler);
+                    if (previousData.pointerCurrentRaycast.gameObject ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                        ExecuteEvents.dropHandler);
 #if ENABLE_INPUT_SYSTEM
                 }
 #endif
