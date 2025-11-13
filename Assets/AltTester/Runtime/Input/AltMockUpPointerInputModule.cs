@@ -280,9 +280,5 @@ StandaloneInputModule
             return null;
         }
 
-        public override void Process()
-        {
-
-        }
     }
 }
