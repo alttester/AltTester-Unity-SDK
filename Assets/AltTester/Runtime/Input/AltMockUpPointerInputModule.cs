@@ -25,7 +25,12 @@ using static UnityEngine.EventSystems.ExecuteEvents;
 
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
-    public class AltMockUpPointerInputModule : StandaloneInputModule
+    public class AltMockUpPointerInputModule :
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+InputSystemUIInputModule
+#else
+StandaloneInputModule
+#endif
     {
         public UnityEngine.GameObject GameObjectHit;
         public PointerEventData ExecuteTouchEvent(UnityEngine.Touch touch, PointerEventData previousData = null)
@@ -274,5 +279,6 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             }
             return null;
         }
+
     }
 }
