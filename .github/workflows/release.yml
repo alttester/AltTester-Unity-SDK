@@ -245,4 +245,5 @@ jobs:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           cd "Bindings~/java"
-          mvn -DperformRelease=true -DskipTests deploy
+          export GPG_TTY=$(tty)
+          mvn -DperformRelease=true -DskipTests -Dgpg.passphrase="${MAVEN_GPG_PASSPHRASE}" -Dgpg.pinentry-mode=loopback deploy
