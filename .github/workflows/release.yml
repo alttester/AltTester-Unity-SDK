@@ -2,12 +2,54 @@ name: release
 
 on:
   workflow_dispatch:
+    inputs:
+      publish-python-pip:
+        description: "Publish Python pip package"
+        required: false
+        default: false
+        type: boolean
+      publish-robot-pip:
+        description: "Publish Robot pip package"
+        required: false
+        default: false
+        type: boolean
+      publish-nuget:
+        description: "Publish NuGet package"
+        required: false
+        default: false
+        type: boolean
+      create-unity-package:
+        description: "Create Unity package"
+        required: false
+        default: false
+        type: boolean
+      upload-unity-package:
+        description: "Upload Unity package"
+        required: false
+        default: false
+        type: boolean
+      create-jar:
+        description: "Create JAR archive"
+        required: false
+        default: false
+        type: boolean
+      upload-jar:
+        description: "Upload JAR archive"
+        required: false
+        default: false
+        type: boolean
+      java-release:
+        description: "Java Maven Central release"
+        required: false
+        default: false
+        type: boolean
   release:
     types: [published]
 
 jobs:
   publish-python-pip-package:
     runs-on: [self-hosted, MAC37]
+    if: github.event_name == 'release' || github.event.inputs.publish-python-pip == 'true'
 
     steps:
       - uses: actions/checkout@v3
@@ -30,6 +72,7 @@ jobs:
 
   publish-robot-pip-package:
     runs-on: [self-hosted, MAC37]
+    if: github.event_name == 'release' || github.event.inputs.publish-robot-pip == 'true'
 
     steps:
       - uses: actions/checkout@v3
@@ -53,6 +96,7 @@ jobs:
 
   publish-nuget-package:
     runs-on: ubuntu-latest
+    if: github.event_name == 'release' || github.event.inputs.publish-nuget == 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -69,6 +113,7 @@ jobs:
 
   create-unity-package:
     runs-on: [self-hosted, MAC37]
+    if: github.event_name == 'release' || github.event.inputs.create-unity-package == 'true'
     steps:
       - uses: actions/checkout@v3
       - name: Create Unity Package
@@ -90,6 +135,7 @@ jobs:
   upload-unity-package:
     runs-on: ubuntu-latest
     needs: create-unity-package
+    if: (github.event_name == 'release' || github.event.inputs.upload-unity-package == 'true') && (needs.create-unity-package.result == 'success' || github.event.inputs.create-unity-package == 'true')
 
     steps:
       - uses: actions/checkout@v3
@@ -112,6 +158,7 @@ jobs:
 
   create-jar-archive:
     runs-on: ubuntu-latest
+    if: github.event_name == 'release' || github.event.inputs.create-jar == 'true'
     steps:
       - uses: actions/checkout@v3
 
@@ -146,6 +193,7 @@ jobs:
   upload-java-jar:
     runs-on: ubuntu-latest
     needs: create-jar-archive
+    if: (github.event_name == 'release' || github.event.inputs.upload-jar == 'true') && (needs.create-jar-archive.result == 'success' || github.event.inputs.create-jar == 'true')
 
     steps:
       - uses: actions/checkout@v3
@@ -168,23 +216,33 @@ jobs:
 
   java-release:
     runs-on: ubuntu-latest
+    if: github.event_name == 'release' || github.event.inputs.java-release == 'true'
     steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Install Java and Maven
-        uses: actions/setup-java@v1
+      - name: Set up Java
+        uses: actions/setup-java@v4
         with:
-          java-version: 11
+          distribution: temurin
+          java-version: 17
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - run: export GPG_TTY=$(tty)
-
-      - name: Release Maven package
-        uses: samuelmeuli/action-maven-publish@v1.4.0
+      - name: Configure Maven settings
+        uses: s4u/maven-settings-action@v2.8.0
         with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
-          directory: Bindings~/java/
-          maven_args: -f pom-release.xml -Dmaven.test.skip=true
+          servers: |
+            [
+              {
+                "id": "central",
+                "username": "${{ secrets.CENTRAL_USERNAME }}",
+                "password": "${{ secrets.CENTRAL_PASSWORD }}"
+              }
+            ]
+
+      - name: Publish to Central Portal
+        env:
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          cd "Bindings~/java"
+          mvn -DperformRelease=true -DskipTests deploy
