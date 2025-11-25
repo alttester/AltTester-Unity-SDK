@@ -240,10 +240,24 @@ jobs:
               }
             ]
 
+      - name: Configure GPG for CI
+        run: |
+          mkdir -p ~/.gnupg
+          echo "use-agent" >> ~/.gnupg/gpg.conf
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+          chmod 700 ~/.gnupg
+          chmod 600 ~/.gnupg/gpg.conf ~/.gnupg/gpg-agent.conf
+
       - name: Publish to Central Portal
         env:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
-          cd "Bindings~/java"
           export GPG_TTY=$(tty)
-          mvn -DperformRelease=true -DskipTests -Dgpg.passphrase="${MAVEN_GPG_PASSPHRASE}" -Dgpg.pinentry-mode=loopback deploy
+          cd "Bindings~/java"
+          mvn -f pom-release.xml -DperformRelease=true -DskipTests \
+            -Dgpg.passphrase="${MAVEN_GPG_PASSPHRASE}" \
+            -Dgpg.pinentry-mode=loopback \
+            -Dgpg.batch=true \
+            -Dgpg.no-tty=true \
+            deploy
