@@ -1,6 +1,7 @@
 name: Runs at night
 
 on:
+  push:
   workflow_dispatch:
   schedule:
     # * is a special character in YAML so you have to quote this string
@@ -501,6 +502,9 @@ jobs:
 
   build-Windows-Unity6:
     runs-on: [self-hosted, Windows, product]
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v3
 
