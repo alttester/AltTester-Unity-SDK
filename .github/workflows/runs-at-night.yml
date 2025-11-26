@@ -557,7 +557,7 @@ jobs:
           echo $ALTSERVER_PORT
           export ALTSERVER_HOST="192.168.11.35"
           echo "Starting SampleScenes.exe"
-          start SampleScene/SampleScenes.exe
+          start sampleScene/sampleScenes.exe
 
       - name: Run tests
         run: |
