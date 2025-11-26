@@ -537,6 +537,7 @@ jobs:
   test-DotNet:
     runs-on: [self-hosted, Windows, product]
     needs: build-Windows-Unity6
+    timeout-minutes: 30
     defaults:
       run:
         shell: bash
@@ -550,11 +551,17 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v2.1.1
 
-      - run: |
+      - name: Start SampleScenes
+        run: |
           export ALTSERVER_PORT=13005
           echo $ALTSERVER_PORT
           export ALTSERVER_HOST="192.168.11.35"
+          echo "Starting SampleScenes.exe"
           start SampleScene/SampleScenes.exe
+
+      - name: Run tests
+        run: |
+          echo Running tests
           dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
 
       - uses: actions/upload-artifact@v4
