@@ -17,6 +17,7 @@
 
 import time
 import json
+import ssl
 from collections import defaultdict, deque
 from urllib.parse import urlencode, urlunparse
 from threading import Thread
@@ -155,14 +156,15 @@ class WebsocketConnection:
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, path="/", params=None, timeout=None, command_handler=None,
+    def __init__(self, host="127.0.0.1", port=13000, secure_mode=False, path="/", params=None, timeout=None, command_handler=None,
                  notification_handler=None):
         self.host = host
         self.port = port
         self.path = path
         self.params = params or {}
+        self.secure_mode = secure_mode
 
-        self.url = urlunparse(["ws", "{}:{}".format(
+        self.url = urlunparse(["wss" if self.secure_mode else "ws", "{}:{}".format(
             self.host, self.port), self.path, "", urlencode(self.params), ""])
 
         self.timeout = timeout
@@ -202,8 +204,15 @@ class WebsocketConnection:
             on_error=self._on_error,
             on_close=self._on_close
         )
+        
+        # Configure SSL options for secure connections
+        sslopt = None
+        if self.secure_mode:
+            # Disable certificate verification for self-signed certificates
+            sslopt = {"cert_reqs": ssl.CERT_NONE}
+        
         self._thread = Thread(
-            target=self._websocket.run_forever, daemon=True).start()
+            target=self._websocket.run_forever, kwargs={"sslopt": sslopt} if sslopt else {}, daemon=True).start()
 
     def _check_close_message(self, close_message):
         if close_message:
