@@ -328,12 +328,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void toggleDialog()
         {
-            if (Dialog.activeSelf)
-            {
-                if (runningCoroutine != null)
-                    CloseNewVersionMessage(true);
-            }
-
+            if (Dialog.activeSelf && runningCoroutine != null)
+                CloseNewVersionMessage(true);
             Dialog.SetActive(!Dialog.activeSelf);
         }
 
@@ -779,6 +775,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (runningCoroutine != null)
             {
                 StopCoroutine(runningCoroutine);
+                runningCoroutine = null;
             }
 
             runningCoroutine = StartCoroutine(showNewVersionMessage());
@@ -819,6 +816,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             if (stopCoroutine)
             {
                 StopCoroutine(runningCoroutine);
+                runningCoroutine = null;
             }
             stillDisplayingMessage = false;
             setMessage(currentMessage, currentColor, currentIsVisible);
