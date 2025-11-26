@@ -103,6 +103,8 @@ namespace AltTester.AltTesterUnitySDK.UI
         [SerializeField] public GameObject LogsPanel = null;
         public AltInstrumentationSettings InstrumentationSettings { get { return AltRunner._altRunner.InstrumentationSettings; } }
 
+        public bool StillDisplayingNewVersionMessage { get => stillDisplayingMessage; set => stillDisplayingMessage = value; }
+
         private RuntimeCommunicationHandler communicationClient;
         private LiveUpdateCommunicationHandler liveUpdateClient;
         private readonly AltResponseQueue updateQueue = new AltResponseQueue();
@@ -324,7 +326,16 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void setTitle(string title) => TitleText.text = title;
 
 
-        private void toggleDialog() => Dialog.SetActive(!Dialog.activeSelf);
+        private void toggleDialog()
+        {
+            if (Dialog.activeSelf)
+            {
+                if (runningCoroutine != null)
+                    CloseNewVersionMessage(true);
+            }
+
+            Dialog.SetActive(!Dialog.activeSelf);
+        }
 
         private void setUpCloseButton() => CloseButton.onClick.AddListener(toggleDialog);
 
@@ -663,6 +674,10 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 updateQueue.ScheduleResponse(() =>
                 {
+
+                    if (runningCoroutine != null)
+                        CloseNewVersionMessage(true);
+
                     PlayerPrefs.SetString(HOST, currentHost);
                     PlayerPrefs.SetString(PORT, currentPort);
                     PlayerPrefs.SetString(APP_NAME, currentName);
@@ -693,7 +708,6 @@ namespace AltTester.AltTesterUnitySDK.UI
                 });
             }
         }
-
 
 
         private IEnumerator getRequest()
@@ -800,9 +814,9 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         }
 
-        internal void CloseNewVersionMessage(bool fromClick = false)
+        internal void CloseNewVersionMessage(bool stopCoroutine = false)
         {
-            if (fromClick)
+            if (stopCoroutine)
             {
                 StopCoroutine(runningCoroutine);
             }
