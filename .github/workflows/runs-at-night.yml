@@ -537,6 +537,9 @@ jobs:
   test-DotNet:
     runs-on: [self-hosted, Windows, product]
     needs: build-Windows-Unity6
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v3
 
