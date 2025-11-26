@@ -811,9 +811,9 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         }
 
-        internal void CloseNewVersionMessage(bool stopCoroutine = false)
+        internal void CloseNewVersionMessage(bool shouldStopCoroutine = false)
         {
-            if (stopCoroutine)
+            if (shouldStopCoroutine)
             {
                 StopCoroutine(runningCoroutine);
                 runningCoroutine = null;
