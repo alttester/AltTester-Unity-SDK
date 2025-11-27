@@ -214,8 +214,8 @@ jobs:
 
       - name: Create and activate virtual environment
         run: |
-          python3 -m venv venv 
-          source venv/bin/activate  
+          python3 -m venv venv
+          source venv/bin/activate
           echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
 
       - name: Download build
@@ -357,8 +357,8 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Create and activate virtual environment
         run: |
-          python3 -m venv venv 
-          source venv/bin/activate  
+          python3 -m venv venv
+          source venv/bin/activate
           echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
 
       - name: Install dependencies
@@ -443,8 +443,8 @@ jobs:
 
       - name: Create and activate virtual environment
         run: |
-          python3 -m venv venv 
-          source venv/bin/activate  
+          python3 -m venv venv
+          source venv/bin/activate
           echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV  # Export the virtual environment path
 
       - run: ls -l Bindings~/python/
@@ -487,6 +487,89 @@ jobs:
 
       - name: Notify on Slack
         uses: ravsamhq/notify-slack-action@v2
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+
+  build-Windows-Unity6:
+    runs-on: [self-hosted, Windows, product]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build SampleGame
+        run: |
+          export ALTSERVER_PORT=13005
+          export ALTSERVER_HOST="192.168.11.35"
+          $UNITY_6000_0_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WindowsBuildFromCommandLine -logFile buildWindows.log -quit
+
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildWindowsArtifact
+          path: |
+            sampleGame/
+            **/*.log
+
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && github.ref_name == 'development' }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+  test-DotNet:
+    runs-on: [self-hosted, Windows, product]
+    needs: build-Windows-Unity6
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: BuildWindowsArtifact
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v2.1.1
+
+      - name: Start SampleScenes
+        run: |
+          export ALTSERVER_PORT=13005
+          echo $ALTSERVER_PORT
+          export ALTSERVER_HOST="192.168.11.35"
+          echo "Starting SampleGame.exe"
+          start sampleGame/sampleGame.exe
+
+      - name: Run tests
+        run: |
+          echo Running tests
+          dotnet test Bindings~/dotnet/AltDriver.Tests/AltDriver.Tests.csproj --logger:"console;verbosity=detailed"
+
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: TestCSharpArtifact
+          path: "**/*.log"
+
+      - uses: ravsamhq/notify-slack-action@2.3.0
         if: ${{ always() && github.ref_name == 'development' }}
         with:
           status: ${{ job.status }}
