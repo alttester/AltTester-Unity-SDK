@@ -47,7 +47,8 @@ namespace AltTester.AltTesterSDK.Driver
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
         /// <param name="appName">The name of the Unity application.</param>
-        public AltDriver(string host = "127.0.0.1", int port = 13000, string appName = "__default__", bool enableLogging = false, int connectTimeout = 60, string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown", string driverType = "SDK")
+        /// <param name="secureMode">If true it enables secure mode for communication between driver and AltTester® Server.</param>
+        public AltDriver(string host = "127.0.0.1", int port = 13000, string appName = "__default__", bool enableLogging = false, int connectTimeout = 60, string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown", string driverType = "SDK", bool secureMode = false)
         {
             lock (driverLock)
             {
@@ -81,7 +82,7 @@ namespace AltTester.AltTesterSDK.Driver
                     driverType = "csharp_" + VERSION;
                 while (true)
                 {
-                    communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType);
+                    communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType, secureMode);
                     communicationHandler.Connect();
                     try
                     {

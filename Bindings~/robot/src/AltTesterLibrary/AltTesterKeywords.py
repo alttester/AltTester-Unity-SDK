@@ -39,7 +39,8 @@ class AltTesterKeywords(object):
         platform="unknown",
         platform_version="unknown",
         device_instance_id="unknown",
-        app_id="unknown"
+        app_id="unknown",
+        secure_mode=False
     ):
         """Initialize AltDriver and return it.
 
@@ -61,11 +62,15 @@ class AltTesterKeywords(object):
 
         `app_id` : The id of the application. The default value is ``unknown``.
 
+        `secure_mode` : If set to ``True`` will use secure WebSocket connection (wss://). The default value is ``False``.
+
         Example:
 
         | ${altDriver}= | Initialize AltDriver | 127.0.0.1 | 15001
 
         | ${altDriver}= | Initialize AltDriver | platform="Android"
+
+        | ${altDriver}= | Initialize AltDriver | secure_mode=${True}
 
         """
         self._driver = AltDriver(
@@ -77,7 +82,8 @@ class AltTesterKeywords(object):
             platform=platform,
             platform_version=platform_version,
             device_instance_id=device_instance_id,
-            app_id=app_id
+            app_id=app_id,
+            secure_mode=secure_mode
         )
         return self._driver
 
