@@ -156,8 +156,8 @@ class WebsocketConnection:
 
     """
 
-    def __init__(self, host="127.0.0.1", port=13000, secure_mode=False, path="/", params=None, timeout=None, command_handler=None,
-                 notification_handler=None):
+    def __init__(self, host="127.0.0.1", port=13000, secure_mode=False, path="/", params=None, timeout=None,
+                 command_handler=None, notification_handler=None):
         self.host = host
         self.port = port
         self.path = path
@@ -204,13 +204,13 @@ class WebsocketConnection:
             on_error=self._on_error,
             on_close=self._on_close
         )
-        
+
         # Configure SSL options for secure connections
         sslopt = None
         if self.secure_mode:
             # Disable certificate verification for self-signed certificates
             sslopt = {"cert_reqs": ssl.CERT_NONE}
-        
+
         self._thread = Thread(
             target=self._websocket.run_forever, kwargs={"sslopt": sslopt} if sslopt else {}, daemon=True).start()
 
