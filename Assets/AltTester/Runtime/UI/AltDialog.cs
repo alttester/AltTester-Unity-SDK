@@ -109,6 +109,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         int connectedDrivers = 0;
 
         private bool isDataValid = false;
+        private bool isCorrectProtocol = true;
         private bool wasConnected = false;
         private float timeSinceLastScreenshotWasSent;
         private string appId, platform, platformVersion, deviceInstanceId, currentHost, currentName, currentPort; //Connection parameters and tags
@@ -134,6 +135,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private Coroutine runningCoroutine;
         private string downloadURL = "";
         private string colorCode = "#FFD700";
+        private string wrongProtocolMessage = "An exception has occurred while trying to connect. The protocol might be incorrect";
 
         protected void Awake()
         {
@@ -391,6 +393,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             appId = null;
 
             responseCode = 0;
+            isCorrectProtocol = true;
             isError = false;
             validateFields();
             if (isDataValid)
@@ -530,7 +533,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 }
 
                 wasConnected = false;
-                if (responseCode > 4000 && responseCode < 5000)
+                if ((responseCode > 4000 && responseCode < 5000) || !isCorrectProtocol)
                 {
                     isEditing = true;
                     stopClientsCalled = false;
@@ -602,7 +605,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             if (isEditing)
             {
-                var aux = $"Editing app name, host or port.";
+                var aux = $"Editing the app name, protocol, host, or port.";
                 return aux + $"{Environment.NewLine}Press the <b>Restart</b> button to start connection with the new values.";
             }
 
@@ -644,6 +647,15 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onError(string message, Exception ex)
         {
+            if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
+                message.Equals("An error has occurred during a TLS handshake."))
+            {
+                isError = true;
+                isCorrectProtocol = false;
+                updateQueue.ScheduleResponse(() => setMessage(wrongProtocolMessage, errorColor, true));
+                updateQueue.ScheduleResponse(() => stopClients());
+            }
+
             logger.Error(message);
             if (ex != null)
             {

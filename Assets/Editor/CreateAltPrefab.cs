@@ -295,7 +295,7 @@ namespace AltTesterTools
 
             var DialogImage = DialogGameObject.GetComponent<Image>();
             DialogImage.color = LightGreenColor;
-            DialogImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/Rounded20px.png");
+            DialogImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded20px.png");
             DialogImage.type = Image.Type.Sliced;
             DialogImage.fillCenter = true;
             DialogImage.pixelsPerUnitMultiplier = 1;
@@ -421,6 +421,13 @@ namespace AltTesterTools
             InputField.textComponent = InputFieldText;
             InputField.placeholder = InputFieldPlaceholder;
 
+            var InputFieldImage = InputFieldGameObject.GetComponent<Image>();
+            InputFieldImage.color = Color.white;
+            InputFieldImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded5px.png");
+            InputFieldImage.type = Image.Type.Sliced;
+            InputFieldImage.fillCenter = true;
+            InputFieldImage.pixelsPerUnitMultiplier = 1;
+
             return InputField;
         }
 
@@ -473,6 +480,13 @@ namespace AltTesterTools
             InputField.textComponent = InputFieldText;
             InputField.placeholder = InputFieldPlaceholder;
 
+            var InputFieldImage = InputFieldGameObject.GetComponent<Image>();
+            InputFieldImage.color = Color.white;
+            InputFieldImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded5px.png");
+            InputFieldImage.type = Image.Type.Sliced;
+            InputFieldImage.fillCenter = true;
+            InputFieldImage.pixelsPerUnitMultiplier = 1;
+
             return InputField;
         }
 
@@ -524,6 +538,13 @@ namespace AltTesterTools
             InputField.textComponent = Text;
             InputField.placeholder = Placeholder;
 
+            var InputFieldImage = InputFieldGameObject.GetComponent<Image>();
+            InputFieldImage.color = Color.white;
+            InputFieldImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded5px.png");
+            InputFieldImage.type = Image.Type.Sliced;
+            InputFieldImage.fillCenter = true;
+            InputFieldImage.pixelsPerUnitMultiplier = 1;
+
             return InputField;
         }
 
@@ -557,7 +578,7 @@ namespace AltTesterTools
 
             var RestartButtonImage = RestartButtonGameObject.GetComponent<Image>();
             RestartButtonImage.color = DarkGreenColor;
-            RestartButtonImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/Rounded10px.png");
+            RestartButtonImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded10px.png");
             RestartButtonImage.type = Image.Type.Sliced;
             RestartButtonImage.fillCenter = true;
             RestartButtonImage.pixelsPerUnitMultiplier = 1;
@@ -595,7 +616,7 @@ namespace AltTesterTools
 
             var logsButtonImage = logsButtonGameObject.GetComponent<Image>();
             logsButtonImage.color = DarkGreenColor;
-            logsButtonImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/Rounded10px.png");
+            logsButtonImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded10px.png");
             logsButtonImage.type = Image.Type.Sliced;
             logsButtonImage.fillCenter = true;
             logsButtonImage.pixelsPerUnitMultiplier = 1;
@@ -1270,7 +1291,7 @@ namespace AltTesterTools
 
             var InfoAreaImage = InfoArea.GetComponent<Image>();
             InfoAreaImage.color = DarkGreenColor;
-            InfoAreaImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/Rounded10px.png");
+            InfoAreaImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded10px.png");
             InfoAreaImage.type = Image.Type.Sliced;
             InfoAreaImage.fillCenter = true;
             InfoAreaImage.pixelsPerUnitMultiplier = 1;
