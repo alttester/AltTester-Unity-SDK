@@ -46,6 +46,7 @@ namespace AltTester.AltTesterSDK.Driver.Communication
 
         private int closeCode = 0;
         private string closeReason = null;
+        private bool isCorrectProtocol = true;
 
         private ClientWebSocket wsClient = null;
         public event EventHandler<MessageEventArgs> OnMessage;
@@ -54,6 +55,8 @@ namespace AltTester.AltTesterSDK.Driver.Communication
         public bool IsAlive { get { return this.wsClient != null && this.wsClient.IsAlive; } }
         public string URI { get { return this.uri; } }
         public bool DriverRegisteredCalled = false;
+
+        private string wrongProtocolMessage = "An exception has occurred while trying to connect. The protocol might be incorrect";
 
         public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType, bool secureMode = false)
         {
@@ -112,13 +115,25 @@ namespace AltTester.AltTesterSDK.Driver.Communication
 
         protected void OnError(object sender, AltWebSocketSharp.ErrorEventArgs e)
         {
-            logger.Error(e.Message);
-            if (e.Exception != null)
-            {
-                logger.Error(e.Exception);
-            }
+            string message = e.Message;
 
-            this.error = e.Message;
+            if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
+                message.Equals("An error has occurred during a TLS handshake."))
+            {
+                isCorrectProtocol = false;
+
+                logger.Error(wrongProtocolMessage);
+                this.error = wrongProtocolMessage;
+            }
+            else
+            {
+                logger.Error(e.Message);
+                if (e.Exception != null)
+                {
+                    logger.Error(e.Exception);
+                }
+                this.error = e.Message;
+            }
         }
 
         protected void OnClose(object sender, CloseEventArgs e)
@@ -157,6 +172,11 @@ namespace AltTester.AltTesterSDK.Driver.Communication
 
             while (this.connectTimeout > watch.Elapsed.TotalSeconds)
             {
+                if (!isCorrectProtocol)
+                {
+                    break;
+                }
+
                 this.error = null;
                 this.closeCode = 0;
                 this.closeReason = null;

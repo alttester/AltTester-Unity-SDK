@@ -654,12 +654,15 @@ namespace AltTester.AltTesterUnitySDK.UI
                 isCorrectProtocol = false;
                 updateQueue.ScheduleResponse(() => setMessage(wrongProtocolMessage, errorColor, true));
                 updateQueue.ScheduleResponse(() => stopClients());
+                logger.Error(wrongProtocolMessage);
             }
-
-            logger.Error(message);
-            if (ex != null)
+            else
             {
-                logger.Error(ex);
+                logger.Error(message);
+                if (ex != null)
+                {
+                    logger.Error(ex);
+                }
             }
         }
 
