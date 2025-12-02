@@ -55,5 +55,4 @@ jobs:
           port: ${{ secrets.PORT_DEV_ALTTESTER }}
           username: ${{ secrets.USERNAME_ALTTESTER }}
           password: ${{ secrets.PASSWORD_ALTTESTER }}
-          rm: true
           strip_components: 1
