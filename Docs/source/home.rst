@@ -20,6 +20,7 @@ inside the Unity Editor.
    pages/examples
    pages/advanced-usage
    pages/upgrade-guides
+   pages/supported-environments
    pages/faq-troubleshooting
    pages/known-issues
    pages/contributing
