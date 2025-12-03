@@ -44,5 +44,10 @@ namespace AltTester.AltTesterSDK.Driver
         public string UID = "";
 
         public bool hideGreenPopup = false;
+
+        /// <summary>
+        ///  Gets or sets a value indicating whether to use secure WebSocket connection (WSS).
+        /// </summary>
+        public bool SecureMode = false;
     }
 }
