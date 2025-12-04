@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "AltTester-Driver"
-version = "2.2.6"
+version = "2.2.7"
 description = "Python bindings for the AltTester® framework. AltTester® is an open-source UI driven test automation tool that helps you find objects in your game and interacts with them."
 readme = "README.md"
 license = { text = "GPL-3.0-or-later" }
