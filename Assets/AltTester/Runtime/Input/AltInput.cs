@@ -78,6 +78,8 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
         public static bool KeyDownFlag;
 
+        private static EventSystem eventSystem;
+
         public void ResetInput()
         {
             KeyCodesPressed.Clear();
@@ -91,6 +93,20 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             PointerEventsDataDictionary.Clear();
             CoroutineManager.Instance.StopAllCoroutines();
         }
+        public static EventSystem GetEventSystem()
+        {
+            if (eventSystem != null)
+                return eventSystem;
+            eventSystem = EventSystem.current;
+            if (eventSystem != null)
+                return eventSystem;
+            eventSystem = FindObjectOfType<EventSystem>();
+            if (eventSystem != null)
+                return eventSystem;
+            GameObject eventSystemGameObject = new GameObject("EventSystem");
+            eventSystem = eventSystemGameObject.AddComponent<EventSystem>();
+            return eventSystem;
+        }
 
         public static AltMockUpPointerInputModule AltMockUpPointerInputModule
         {
@@ -98,8 +114,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 if (MockUpPointerInputModule == null)
                 {
-                    GameObject eventSystem = EventSystem.current != null ? EventSystem.current.gameObject : new GameObject("EventSystem");
-                    MockUpPointerInputModule = eventSystem.AddComponent<AltMockUpPointerInputModule>();
+                    MockUpPointerInputModule = GetEventSystem().gameObject.AddComponent<AltMockUpPointerInputModule>();
                 }
                 return MockUpPointerInputModule;
             }
@@ -150,7 +165,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             }
             if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseOver", SendMessageOptions.DontRequireReceiver);
 
-            var pointerEventData = new PointerEventData(EventSystem.current)
+            var pointerEventData = new PointerEventData(GetEventSystem())
             {
                 position = MousePosition,
                 button = PointerEventData.InputButton.Left,
@@ -158,9 +173,9 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             };
             var eventSystemTarget = findEventSystemObject(pointerEventData);
             pointerEventData.pointerEnter = eventSystemTarget;
-            if (EventSystem.current.currentInputModule != null)
+            if (GetEventSystem() != null && GetEventSystem().currentInputModule != null)
 #if ENABLE_INPUT_SYSTEM
-                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                if (GetEventSystem().currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
                 {
                     if (eventSystemTarget != PreviousEventSystemTarget)
@@ -393,7 +408,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 float scrollVerticalStep = scrollVertical * Time.unscaledDeltaTime / duration;
                 float scrollHorizontalStep = scrollHorizontal * Time.unscaledDeltaTime / duration;
 
-                var pointerEventData = new PointerEventData(EventSystem.current)
+                var pointerEventData = new PointerEventData(GetEventSystem())
                 {
                     position = MousePosition,
                     button = PointerEventData.InputButton.Left,
@@ -403,7 +418,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 MouseScrollDelta = new Vector2(scrollHorizontalStep, scrollVerticalStep);
                 pointerEventData.scrollDelta = MouseScrollDelta;
 #if ENABLE_INPUT_SYSTEM
-                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                if (GetEventSystem().currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
                     if (eventSystemTarget != null ? eventSystemTarget : false) ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, scrollHandler);
             }
@@ -571,7 +586,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 KeyCodesPressed.Add(keyStructure);
 #if ENABLE_INPUT_SYSTEM
 
-                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                if (GetEventSystem().currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 {
 #endif
                     if (eventSystemTarget != null)
@@ -594,7 +609,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 beginKeyUpTouchEndedLifecycle(keyStructure, tap, ref touch);
 
 #if ENABLE_INPUT_SYSTEM
-                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                if (GetEventSystem().currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 {
 #endif
                     if (eventSystemTarget != null)
@@ -628,7 +643,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
             // mouse position doesn't change  but we fire on mouse exit
 #if ENABLE_INPUT_SYSTEM
-            if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+            if (GetEventSystem().currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
                 if (eventSystemTarget != null) ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerExitHandler);
             if (monoBehaviourTarget != null) monoBehaviourTarget.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
@@ -645,7 +660,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             else
                 yield return new WaitForEndOfFrame();//run after Update
 
-            var pointerEventData = new PointerEventData(EventSystem.current)
+            var pointerEventData = new PointerEventData(GetEventSystem())
             {
                 position = screenPosition,
                 button = PointerEventData.InputButton.Left,
@@ -674,7 +689,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 KeyCodesPressedDown.Add(keyStructure);
                 KeyCodesPressed.Add(keyStructure);
 #if ENABLE_INPUT_SYSTEM
-                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                if (GetEventSystem().currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 {
 #endif
                     if (target != null)
@@ -696,7 +711,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 beginKeyUpTouchEndedLifecycle(keyStructure, tap, ref touch);
 
 #if ENABLE_INPUT_SYSTEM
-                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                if (GetEventSystem().currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 {
 #endif
                     if (target != null)
@@ -732,7 +747,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
             // mouse position doesn't change  but we fire on mouse exit
 #if ENABLE_INPUT_SYSTEM
-            if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+            if (GetEventSystem().currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
                 if (target != null)
                 {
@@ -857,7 +872,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             /* pointer/touch down */
             pointerEventData.pointerId = PointerIds[mouseButton];
 #if ENABLE_INPUT_SYSTEM
-            if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+            if (GetEventSystem().currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
 #endif
                 if (eventSystemTarget != null) pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerDownHandler);
 
@@ -866,7 +881,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             if (MouseButtons.Contains(mouseButton))
             {
 #if ENABLE_INPUT_SYSTEM
-                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                if (GetEventSystem().currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
                 {
 #endif
                     if (eventSystemTarget != null) pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, initializePotentialDrag);
@@ -881,7 +896,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         private static void mouseUpTrigger(PointerEventData.InputButton mouseButton, PointerEventData pointerEventData, GameObject eventSystemTarget, GameObject monoBehaviourTarget)
         {
 #if ENABLE_INPUT_SYSTEM
-            if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+            if (GetEventSystem().currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
             {
 #endif
                 if (eventSystemTarget == EventSystemTargetMouseDown && mouseButton == PointerEventData.InputButton.Left)
