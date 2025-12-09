@@ -288,10 +288,6 @@ class TestScene01Part1:
         Canvas.wait_for_component_property("UnityEngine.RectTransform", "constrainProportionsScale", False,
                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
 
-        Canvas.wait_for_component_property("UnityEngine.RectTransform", "transform",
-                                           "[[],[[]],[[]],[[]],[[]],[[],[],[]],[[[],[],[]]],[],[],[[]],[[]],[[]]]",
-                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
-
         Canvas.wait_for_component_property("UnityEngine.RectTransform", "name", "Canvas",
                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
 

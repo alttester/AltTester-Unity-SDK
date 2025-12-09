@@ -53,19 +53,19 @@ namespace AltTester.AltTesterUnitySDK.Communication
     {
         /* WebSocket JSLIB functions */
         [DllImport("__Internal")]
-        public static extern int WebSocketConnect(int instanceId);
+        public static extern int AltTesterWebSocketConnect(int instanceId);
 
         [DllImport("__Internal")]
-        public static extern int WebSocketClose(int instanceId, int code, string reason);
+        public static extern int AltTesterWebSocketClose(int instanceId, int code, string reason);
 
         [DllImport("__Internal")]
-        public static extern int WebSocketSend(int instanceId, byte[] dataPtr, int dataLength);
+        public static extern int AltTesterWebSocketSend(int instanceId, byte[] dataPtr, int dataLength);
 
         [DllImport("__Internal")]
-        public static extern int WebSocketSendText(int instanceId, string message);
+        public static extern int AltTesterWebSocketSendText(int instanceId, string message);
 
         [DllImport("__Internal")]
-        public static extern int WebSocketGetState(int instanceId);
+        public static extern int AltTesterWebSocketGetState(int instanceId);
 
         protected int InstanceId;
 
@@ -81,7 +81,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 WebSocketFactory.Initialize();
             }
 
-            int instanceId = WebSocketFactory.WebSocketAllocate(url);
+            int instanceId = WebSocketFactory.AltTesterWebSocketAllocate(url);
             WebSocketFactory.instances.Add(instanceId, this);
 
             this.InstanceId = instanceId;
@@ -99,7 +99,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public Task Connect()
         {
-            int ret = WebSocketConnect(this.InstanceId);
+            int ret = AltTesterWebSocketConnect(this.InstanceId);
 
             if (ret < 0)
             {
@@ -119,7 +119,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public Task Close(WebSocketCloseCode code = WebSocketCloseCode.Normal, string reason = null)
         {
-            int ret = WebSocketClose(this.InstanceId, (int)code, reason);
+            int ret = AltTesterWebSocketClose(this.InstanceId, (int)code, reason);
 
             if (ret < 0)
             {
@@ -131,7 +131,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public Task Send(byte[] data)
         {
-            int ret = WebSocketSend(this.InstanceId, data, data.Length);
+            int ret = AltTesterWebSocketSend(this.InstanceId, data, data.Length);
 
             if (ret < 0)
             {
@@ -143,7 +143,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public Task SendText(string message)
         {
-            int ret = WebSocketSendText(this.InstanceId, message);
+            int ret = AltTesterWebSocketSendText(this.InstanceId, message);
 
             if (ret < 0)
             {
@@ -157,7 +157,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         {
             get
             {
-                int state = WebSocketGetState(this.InstanceId);
+                int state = AltTesterWebSocketGetState(this.InstanceId);
 
                 if (state < 0)
                 {
@@ -221,22 +221,22 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         /* WebSocket JSLIB callback setters and other functions */
         [DllImport("__Internal")]
-        public static extern int WebSocketAllocate(string url);
+        public static extern int AltTesterWebSocketAllocate(string url);
 
         [DllImport("__Internal")]
-        public static extern void WebSocketFree(int instanceId);
+        public static extern void AltTesterWebSocketFree(int instanceId);
 
         [DllImport("__Internal")]
-        public static extern void WebSocketSetOnOpen(OnOpenCallback callback);
+        public static extern void AltTesterWebSocketSetOnOpen(OnOpenCallback callback);
 
         [DllImport("__Internal")]
-        public static extern void WebSocketSetOnMessage(OnMessageCallback callback);
+        public static extern void AltTesterWebSocketSetOnMessage(OnMessageCallback callback);
 
         [DllImport("__Internal")]
-        public static extern void WebSocketSetOnError(OnErrorCallback callback);
+        public static extern void AltTesterWebSocketSetOnError(OnErrorCallback callback);
 
         [DllImport("__Internal")]
-        public static extern void WebSocketSetOnClose(OnCloseCallback callback);
+        public static extern void AltTesterWebSocketSetOnClose(OnCloseCallback callback);
 
         /* If callbacks was initialized and set */
         public static bool isInitialized = false;
@@ -246,10 +246,10 @@ namespace AltTester.AltTesterUnitySDK.Communication
         */
         public static void Initialize()
         {
-            WebSocketSetOnOpen(DelegateOnOpenEvent);
-            WebSocketSetOnMessage(DelegateOnMessageEvent);
-            WebSocketSetOnError(DelegateOnErrorEvent);
-            WebSocketSetOnClose(DelegateOnCloseEvent);
+            AltTesterWebSocketSetOnOpen(DelegateOnOpenEvent);
+            AltTesterWebSocketSetOnMessage(DelegateOnMessageEvent);
+            AltTesterWebSocketSetOnError(DelegateOnErrorEvent);
+            AltTesterWebSocketSetOnClose(DelegateOnCloseEvent);
 
             isInitialized = true;
         }
@@ -262,7 +262,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         public static void HandleInstanceDestroy(int instanceId)
         {
             instances.Remove(instanceId);
-            WebSocketFree(instanceId);
+            AltTesterWebSocketFree(instanceId);
         }
 
         [MonoPInvokeCallback(typeof(OnOpenCallback))]

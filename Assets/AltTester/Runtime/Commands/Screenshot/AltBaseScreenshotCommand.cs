@@ -89,7 +89,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 var rectTransform = gameObject.GetComponent<UnityEngine.RectTransform>();
                 if (rectTransform != null)
                 {
-                    var panelHighlight = UnityEngine.Object.Instantiate(AltRunner._altRunner.panelHightlightPrefab, rectTransform);
+                    var panelHighlight = UnityEngine.Object.Instantiate(AltRunner._altRunner.panelHighlightPrefab, rectTransform);
                     panelHighlight.GetComponent<UnityEngine.UI.Image>().color = color;
 
                     if (Application.isBatchMode)

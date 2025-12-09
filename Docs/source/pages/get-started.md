@@ -360,7 +360,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
                 <dependency>
                     <groupId>com.alttester</groupId>
                     <artifactId>alttester</artifactId>
-                    <version>2.2.5</version>
+                    <version>2.2.6</version>
                 </dependency>
 
             .. code-block:: console

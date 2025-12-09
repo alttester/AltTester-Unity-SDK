@@ -27,7 +27,15 @@ namespace AltTester.AltTesterSDK.Driver.Commands
         public T Execute()
         {
             CommHandler.Send(cmdParams);
-            return CommHandler.Recvall<T>(cmdParams);
+            T result = CommHandler.Recvall<T>(cmdParams);
+            
+            // If the result is an AltObject, ensure its CommHandler is set
+            if (result is AltObject altObject)
+            {
+                altObject.CommHandler = CommHandler;
+            }
+            
+            return result;
         }
     }
 }

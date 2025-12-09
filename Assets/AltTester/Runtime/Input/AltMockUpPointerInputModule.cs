@@ -25,7 +25,12 @@ using static UnityEngine.EventSystems.ExecuteEvents;
 
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
-    public class AltMockUpPointerInputModule : StandaloneInputModule
+    public class AltMockUpPointerInputModule :
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+InputSystemUIInputModule
+#else
+StandaloneInputModule
+#endif
     {
         public UnityEngine.GameObject GameObjectHit;
         public PointerEventData ExecuteTouchEvent(UnityEngine.Touch touch, PointerEventData previousData = null)
@@ -161,9 +166,9 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         public void ExecuteDragPointerEvents(PointerEventData previousData)
         {
 #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
-            if (Input.monoBehaviourTargetMouseDown != null)
+            if (AltInput.MonoBehaviourTargetMouseDown != null)
             {
-                Input.monoBehaviourTargetMouseDown.SendMessage("OnMouseDrag", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                AltInput.MonoBehaviourTargetMouseDown.SendMessage("OnMouseDrag", UnityEngine.SendMessageOptions.DontRequireReceiver);
             }
 #endif
             if (previousData.pointerDrag == null)
@@ -212,11 +217,11 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         {
 #if ALTTESTER && ENABLE_LEGACY_INPUT_MANAGER
 
-            if (Input.monoBehaviourTargetMouseDown != null)
+            if (AltInput.MonoBehaviourTargetMouseDown != null)
             {
-                Input.monoBehaviourTargetMouseDown.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
-                Input.monoBehaviourTargetMouseDown.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
-                Input.monoBehaviourTargetMouseDown = null;
+                AltInput.MonoBehaviourTargetMouseDown.SendMessage("OnMouseUpAsButton", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                AltInput.MonoBehaviourTargetMouseDown.SendMessage("OnMouseUp", UnityEngine.SendMessageOptions.DontRequireReceiver);
+                AltInput.MonoBehaviourTargetMouseDown = null;
             }
 #endif
             if (previousData.pointerDrag != null)
@@ -274,5 +279,6 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             }
             return null;
         }
+
     }
 }

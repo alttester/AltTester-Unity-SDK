@@ -17,6 +17,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Security.Authentication;
 using System.Threading;
 using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Logging;
@@ -39,11 +40,13 @@ namespace AltTester.AltTesterSDK.Driver.Communication
         private readonly string deviceInstanceId;
         private string appId;
         private string driverType;
+        private readonly bool secureMode;
 
         private String error = null;
 
         private int closeCode = 0;
         private string closeReason = null;
+        private bool isCorrectProtocol = true;
 
         private ClientWebSocket wsClient = null;
         public event EventHandler<MessageEventArgs> OnMessage;
@@ -53,7 +56,9 @@ namespace AltTester.AltTesterSDK.Driver.Communication
         public string URI { get { return this.uri; } }
         public bool DriverRegisteredCalled = false;
 
-        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType)
+        private string wrongProtocolMessage = "An exception has occurred while trying to connect. The protocol might be incorrect";
+
+        public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType, bool secureMode = false)
         {
             this.host = host;
             this.port = port;
@@ -64,12 +69,13 @@ namespace AltTester.AltTesterSDK.Driver.Communication
             this.deviceInstanceId = deviceInstanceId;
             this.appId = appId;
             this.driverType = driverType;
+            this.secureMode = secureMode;
 
             this.error = null;
             this.closeCode = 0;
             this.closeReason = null;
 
-            this.uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, driverType).ToString();
+            this.uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, driverType, secureMode).ToString();
         }
 
         private void CheckCloseMessage()
@@ -109,13 +115,25 @@ namespace AltTester.AltTesterSDK.Driver.Communication
 
         protected void OnError(object sender, AltWebSocketSharp.ErrorEventArgs e)
         {
-            logger.Error(e.Message);
-            if (e.Exception != null)
-            {
-                logger.Error(e.Exception);
-            }
+            string message = e.Message;
 
-            this.error = e.Message;
+            if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
+                message.Equals("An error has occurred during a TLS handshake."))
+            {
+                isCorrectProtocol = false;
+
+                logger.Error(wrongProtocolMessage);
+                this.error = wrongProtocolMessage;
+            }
+            else
+            {
+                logger.Error(e.Message);
+                if (e.Exception != null)
+                {
+                    logger.Error(e.Exception);
+                }
+                this.error = e.Message;
+            }
         }
 
         protected void OnClose(object sender, CloseEventArgs e)
@@ -134,6 +152,10 @@ namespace AltTester.AltTesterSDK.Driver.Communication
             int delay = 100;
 
             this.wsClient = new ClientWebSocket(this.uri);
+            if (this.secureMode)
+            {
+                this.wsClient.SslConfiguration.EnabledSslProtocols = SslProtocols.Tls12;
+            }
 
             string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", this.host, this.port), this.host);
             if (proxyUri != null)
@@ -150,6 +172,11 @@ namespace AltTester.AltTesterSDK.Driver.Communication
 
             while (this.connectTimeout > watch.Elapsed.TotalSeconds)
             {
+                if (!isCorrectProtocol)
+                {
+                    break;
+                }
+
                 this.error = null;
                 this.closeCode = 0;
                 this.closeReason = null;

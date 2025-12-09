@@ -23,7 +23,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.security.cert.X509Certificate;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
@@ -34,6 +38,10 @@ import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
+
+import org.glassfish.tyrus.client.ClientManager;
+import org.glassfish.tyrus.client.ClientProperties;
+import org.glassfish.tyrus.client.SslEngineConfigurator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,6 +65,7 @@ public class WebsocketConnection {
     private String platformVersion;
     private String deviceInstanceId;
     private String appId;
+    private boolean secureMode;
 
     private String error = null;
     private CloseReason closeReason = null;
@@ -66,7 +75,7 @@ public class WebsocketConnection {
     public boolean driverRegisteredCalled = false;
 
     public WebsocketConnection(String host, int port, String appName, int connectTimeout, String platform,
-            String platformVersion, String deviceInstanceId, String appId) {
+            String platformVersion, String deviceInstanceId, String appId, boolean secureMode) {
         this.host = host;
         this.port = port;
         this.appName = appName;
@@ -75,6 +84,7 @@ public class WebsocketConnection {
         this.platformVersion = platformVersion;
         this.deviceInstanceId = deviceInstanceId;
         this.appId = appId;
+        this.secureMode = secureMode;
     }
 
     public boolean isOpen() {
@@ -98,7 +108,8 @@ public class WebsocketConnection {
                 escapeDataString(appId), AltDriver.VERSION);
 
         try {
-            return new URI("ws", null, host, port, "/altws", query, null);
+            String scheme = secureMode ? "wss" : "ws";
+            return new URI(scheme, null, host, port, "/altws", query, null);
         } catch (URISyntaxException e) {
             logger.error(e);
             throw new ConnectionException(e.getMessage(), e);
@@ -155,6 +166,29 @@ public class WebsocketConnection {
         long finish = System.currentTimeMillis();
 
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        
+        // Configure SSL to accept self-signed certificates when in secure mode
+        if (secureMode && container instanceof ClientManager) {
+            ClientManager clientManager = (ClientManager) container;
+            try {
+                SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, new TrustManager[]{
+                    new X509TrustManager() {
+                        public X509Certificate[] getAcceptedIssuers() { return null; }
+                        public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+                        public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+                    }
+                }, new java.security.SecureRandom());
+                
+                SslEngineConfigurator sslEngineConfigurator = new SslEngineConfigurator(sslContext);
+                sslEngineConfigurator.setHostnameVerifier((hostname, session) -> true);
+                clientManager.getProperties().put(ClientProperties.SSL_ENGINE_CONFIGURATOR, sslEngineConfigurator);
+                
+                logger.debug("SSL configuration set for secure connection");
+            } catch (Exception e) {
+                logger.error("Failed to configure SSL context for self-signed certificates", e);
+            }
+        }
 
         Exception connectionError = null;
 
