@@ -18,7 +18,9 @@
     "com.unity.modules.physics": "1.0.0",
     "com.unity.modules.physics2d": "1.0.0",
     "com.unity.modules.screencapture": "1.0.0",
-    "com.unity.modules.unitywebrequest": "1.0.0"
+    "com.unity.modules.unitywebrequest": "1.0.0",
+    "com.unity.modules.ui": "1.0.0",
+    "com.unity.ugui": "2.0.0"
   },
   "keywords": [
     "TestFramework",
