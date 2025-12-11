@@ -402,6 +402,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         {
             var fingerId = getFreeTouch(touches);
             touches[fingerId] = false;
+            Touchscreen.MakeCurrent();
             InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = fingerId, phase = InputTouchPhase.Began, position = screenPosition });
             endTouchScreenPos = screenPosition;
             return fingerId;
@@ -409,6 +410,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
         internal static void MoveTouch(int fingerId, Vector3 screenPosition)
         {
+            Touchscreen.MakeCurrent();
             InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = fingerId, phase = InputTouchPhase.Moved, position = screenPosition });
             endTouchScreenPos = screenPosition;
         }
@@ -422,7 +424,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             else
                 yield return new UnityEngine.WaitForEndOfFrame();
 
-
+            Touchscreen.MakeCurrent();
             InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = fingerId, phase = InputTouchPhase.Ended, position = endTouchScreenPos });
             touches[fingerId] = true;
 
