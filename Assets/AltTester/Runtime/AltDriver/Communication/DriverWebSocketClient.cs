@@ -56,7 +56,7 @@ namespace AltTester.AltTesterSDK.Driver.Communication
         public string URI { get { return this.uri; } }
         public bool DriverRegisteredCalled = false;
 
-        private string wrongProtocolMessage = "An exception has occurred while trying to connect. The protocol might be incorrect";
+        private string wrongProtocolMessage = "An exception occurred while attempting to connect. The selected protocol may be incorrect. Try choosing a different protocol from the dropdown below.";
 
         public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType, bool secureMode = false)
         {

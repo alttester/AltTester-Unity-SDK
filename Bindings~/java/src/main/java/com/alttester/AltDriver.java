@@ -133,16 +133,32 @@ public class AltDriver {
         this(host, port, false, 60, "__default__", "unknown", "unknown", "unknown", "unknown", false);
     }
 
+    public AltDriver(String host, int port, boolean secureMode) {
+        this(host, port, false, 60, "__default__", "unknown", "unknown", "unknown", "unknown", secureMode);
+    }
+
     public AltDriver(String host, int port, Boolean enableLogging) {
         this(host, port, enableLogging, 60, "__default__", "unknown", "unknown", "unknown", "unknown", false);
+    }
+
+    public AltDriver(String host, int port, Boolean enableLogging, boolean secureMode) {
+        this(host, port, enableLogging, 60, "__default__", "unknown", "unknown", "unknown", "unknown", secureMode);
     }
 
     public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout) {
         this(host, port, enableLogging, connectTimeout, "__default__", "unknown", "unknown", "unknown", "unknown", false);
     }
 
+    public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, boolean secureMode) {
+        this(host, port, enableLogging, connectTimeout, "__default__", "unknown", "unknown", "unknown", "unknown", secureMode);
+    }
+
     public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String appName) {
         this(host, port, enableLogging, connectTimeout, appName, "unknown", "unknown", "unknown", "unknown", false);
+    }
+
+    public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String appName, boolean secureMode) {
+        this(host, port, enableLogging, connectTimeout, appName, "unknown", "unknown", "unknown", "unknown", secureMode);
     }
 
     public AltDriver(String host, int port, Boolean enableLogging, int connectTimeout, String appName, String platform,
