@@ -27,7 +27,9 @@ namespace AltTester.AltTesterUnitySDK.UI
                 camera,
                 out localPoint
             );
-            if (localPoint.y > 0 && dialog.StillDisplayingNewVersionMessage)
+            if (!dialog.StillDisplayingNewVersionMessage)
+                return;
+            if (localPoint.y > 0)
             {
                 dialog.DownloadNewVersion();
             }

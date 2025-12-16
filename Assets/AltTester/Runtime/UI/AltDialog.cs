@@ -29,6 +29,8 @@ using System.Net;
 using System.Text.RegularExpressions;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Newtonsoft.Json.Linq;
+
 
 
 
@@ -724,7 +726,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private IEnumerator getRequest()
         {
 
-            using (UnityWebRequest request = UnityWebRequest.Get("https://alttester.com/alttester-desktop-versions/"))
+            using (UnityWebRequest request = UnityWebRequest.Get("https://alttester.com/app/uploads/AltTester/sdks/alttester/latest_version.json"))
             {
                 yield return request.SendWebRequest();
                 if (request.result != UnityWebRequest.Result.Success)
@@ -732,25 +734,20 @@ namespace AltTester.AltTesterUnitySDK.UI
                     UnityEngine.Debug.Log("There was a problem with the request.");
                     yield break;
                 }
-
                 string textReceived = request.downloadHandler.text;
-                Regex regex = new Regex(@"https://alttester.com/app/uploads/AltTester/sdks/AltTesterUnitySDK[\w\.]*.unitypackage");
-                Match match = regex.Match(textReceived);
-                if (match.Success)
+
+                JObject obj = JObject.Parse(textReceived);
+                string version = obj["GPL"].ToString();
+                downloadURL = obj["GPLURL"].ToString();
+                if (isCurrentVersionOlderOrEqualThanRelease(version, AltRunner.VERSION.Split("-")[0]))
                 {
-                    downloadURL = match.Value;
-                    Match match2 = Regex.Match(match.Value, @"(\d+_\d+_\d+)\.unitypackage");
-                    var releasedVersion = match2.Groups[1].Value.Replace('_', '.');
-                    if (isCurrentVersionOlderOrEqualThanRelease(releasedVersion, AltRunner.VERSION.Split("-")[0]))
-                    {
-                        isNewVersionAvailable = false;
-                        UnityEngine.Debug.Log("There is no new version available to download");
-                    }
-                    else
-                    {
-                        isNewVersionAvailable = true;
-                        newVersionMessage = $"<size=26>Version <b>{releasedVersion}</b> is available to <b><color={colorCode}>download</color></b>.</size>";
-                    }
+                    isNewVersionAvailable = false;
+                    UnityEngine.Debug.Log("There is no new version available to download");
+                }
+                else
+                {
+                    isNewVersionAvailable = true;
+                    newVersionMessage = $"<size=26>Version <b>{version}</b> is available to <b><color={colorCode}>download</color></b>.</size>";
                 }
             }
 
