@@ -59,6 +59,11 @@ An AltDriver instance will connect to the running instrumented Unity application
              - string
              - No
              - The unique ID of the Unity application. The default value is: `unknown`
+           * - secureMode
+             - boolean
+             - No
+             - Enables secure WebSocket communication (``wss://``). When set to `true`, the driver will attempt to connect to the AltTester® Server using a secure connection. The default value is: `false`.
+
 
     .. tab:: Java
 
@@ -106,6 +111,11 @@ An AltDriver instance will connect to the running instrumented Unity application
              - string
              - No
              - The unique ID of the Unity application. The default value is: `unknown`
+           * - secureMode
+             - boolean
+             - No
+             - Enables secure WebSocket communication (``wss://``). When set to `true`, the driver will attempt to connect to the AltTester® Server using a secure connection. The default value is: `false`.
+
 
     .. tab:: Python
 
@@ -132,7 +142,7 @@ An AltDriver instance will connect to the running instrumented Unity application
            * - enable_logging
              - boolean
              - No
-             - The default value is: `false`
+             - The default value is: `False`
            * - connect_timeout
              - int
              - No
@@ -153,6 +163,11 @@ An AltDriver instance will connect to the running instrumented Unity application
              - string
              - No
              - The unique ID of the Unity application. The default value is: `unknown`
+           * - secure_mode
+             - boolean
+             - No
+             - Enables secure WebSocket communication (``wss://``). When set to `True`, the driver will attempt to connect to the AltTester® Server using a secure connection. The default value is: `False`.
+
 
     .. tab:: Robot
 
@@ -179,7 +194,7 @@ An AltDriver instance will connect to the running instrumented Unity application
            * - enable_logging
              - boolean
              - No
-             - The default value is: `false`
+             - The default value is: `False`
            * - connect_timeout
              - int
              - No
@@ -200,6 +215,11 @@ An AltDriver instance will connect to the running instrumented Unity application
              - string
              - No
              - The unique ID of the Unity application. The default value is: `unknown`
+           * - secure_mode
+             - boolean
+             - No
+             - Enables secure WebSocket communication (``wss://``). When set to `True`, the driver will attempt to connect to the AltTester® Server using a secure connection. The default value is: `False`.
+
 
 ```
 

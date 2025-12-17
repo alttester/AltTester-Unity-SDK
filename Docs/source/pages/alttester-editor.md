@@ -35,7 +35,11 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 ## Build Settings
 
-![Build Settings Section Screenshot](../_static/img/alttester-editor/build-settings.png)
+```eval_rst
+        .. figure:: ../_static/img/alttester-editor/build-settings.png
+            :scale: 60 %
+
+```
 
 - *Company Name*
 
@@ -44,20 +48,6 @@ In the following sections you can see a breakdown of all the sections in the GUI
 - *Product Name*
 
     The product name (same with Unity's Player Settings).
-
-- *Hide AltTester Popup Option*
-
-    You can choose to hide the green AltTester popup by checking the "Hide Green Popup" option in the AltTester Editor. When checked, the popup will not be shown in the instrumented build.
-
-    *Toggling the Popup at Runtime*
-    
-    You can show or hide it at any time using the following platform-specific shortcuts:
-
-    - Windows: Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>
-    - MacOS: Press <kbd>Ctrl</kbd> + <kbd>Opt</kbd> + <kbd>T</kbd>
-    - Mobile (Android/iOS): Hold three fingers on the screen for one second. 
-
-![Popup Screenshot](../_static/img/alttester-editor/popup.png)
 
 -   *Append "Test" to product name for AltTester® Unity SDK builds*:
 
@@ -83,6 +73,32 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
      You can also use the shortcut:
     - Press <kbd>LeftCtrl</kbd> + <kbd>LeftShift</kbd> + <kbd>D</kbd> + <kbd>L</kbd> to reset your connection data to the default values specified in the Build Settings.
+
+- *Hide AltTester Popup Option*
+
+    You can choose to hide the green AltTester popup by checking the "Hide Green Popup" option in the AltTester Editor. When checked, the popup will not be shown in the instrumented build.
+
+    *Toggling the Popup at Runtime*
+    
+    You can show or hide it at any time using the following platform-specific shortcuts:
+
+    - Windows: Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>
+    - MacOS: Press <kbd>Ctrl</kbd> + <kbd>Opt</kbd> + <kbd>T</kbd>
+    - Mobile (Android/iOS): Hold three fingers on the screen for one second. 
+
+- *Secure Mode (WSS)*
+
+    Enables or disables secure communication between the instrumented application
+    and the AltTester® Server.
+    
+    When enabled, the app will attempt to connect to the server using a secure
+    WebSocket connection (`wss://`). This option must be enabled if the AltTester®
+    Server is running in secure mode.
+    
+    If the server is not configured for secure connections, this option should be
+    disabled to allow standard WebSocket (`ws://`) communication.
+    
+![Popup Screenshot](../_static/img/alttester-editor/popup.png)
 
 ## Test run Settings
 ![Test run Settings Screenshot](../_static/img/alttester-editor/testrun-settings.png)
