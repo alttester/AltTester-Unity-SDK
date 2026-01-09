@@ -19,6 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+        - name: Cache NuGet packages
+          uses: actions/cache@v4
+          with:
+            path: ~/.nuget/packages
+            key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+            restore-keys: |
+              ${{ runner.os }}-nuget-
       - name: Build app
         run: |
           $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WebGLBuildFromCommandLine -logFile buildWebGL.log -quit
@@ -212,6 +219,15 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            Bindings~/python/.venv
+          key: ${{ runner.os }}-pip-${{ hashFiles('Bindings~/python/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       - name: Create and activate virtual environment
         run: |
           python3 -m venv venv
@@ -280,6 +296,13 @@ jobs:
           distribution: temurin
           java-version: 11
 
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Setup Maven
         uses: stCarolas/setup-maven@v4
 
@@ -501,6 +524,7 @@ jobs:
 
   build-Windows-Unity6:
     runs-on: [self-hosted, Windows, product]
+    timeout-minutes: 60
     defaults:
       run:
         shell: bash
@@ -513,6 +537,13 @@ jobs:
           export ALTSERVER_HOST="192.168.11.35"
           $UNITY_6000_0_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WindowsBuildFromCommandLine -logFile buildWindows.log -quit
 
+      - name: Cache Unity Library (Windows)
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: ${{ runner.os }}-unity-library-windows-${{ hashFiles('**/Assets/**', '**/Packages/**', '**/ProjectSettings/**') }}
+          restore-keys: |
+            ${{ runner.os }}-unity-library-windows-
       - uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed
         with:
@@ -550,6 +581,13 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v2.1.1
 
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
       - name: Start SampleScenes
         run: |
           export ALTSERVER_PORT=13005

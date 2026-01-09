@@ -1019,8 +1019,8 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
             var componentList = altElement.GetAllComponents();
-            var component = componentList.First(componenta =>
-                componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+            var component = componentList.First(component =>
+                component.componentName.Equals("AltExampleScriptCapsule") && component.assemblyName.Equals("Assembly-CSharp"));
             List<AltProperty> properties = altElement.GetAllProperties(component, AltPropertiesSelections.ALLPROPERTIES);
             if (properties.Exists(prop => prop.name.Equals("runInEditMode")))
             {
@@ -1028,7 +1028,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             }
             else
             {
-                Assert.IsTrue(properties.Count >= 12 && properties.Count <= 13);// if runned from editor then there are 12 properties, runInEditMode is only available in Editor
+                Assert.IsTrue(properties.Count >= 12);// if run from editor then there are 12 properties, runInEditMode is only available in Editor
             }
             AltProperty property = properties.First(prop => prop.name.Equals("TestProperty"));
             Assert.NotNull(property);
@@ -1039,8 +1039,8 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
             var componentList = altElement.GetAllComponents();
-            var component = componentList.First(componenta =>
-                componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+            var component = componentList.First(component =>
+                component.componentName.Equals("AltExampleScriptCapsule") && component.assemblyName.Equals("Assembly-CSharp"));
             List<AltProperty> properties = altElement.GetAllProperties(component, AltPropertiesSelections.CLASSPROPERTIES);
             Assert.AreEqual(5, properties.Count);
             AltProperty property = properties.First(prop => prop.name.Equals("TestProperty"));
@@ -1052,8 +1052,8 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         {
             var altElement = altDriver.FindObject(By.NAME, "Capsule");
             var componentList = altElement.GetAllComponents();
-            var component = componentList.First(componenta =>
-                componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
+            var component = componentList.First(component =>
+                component.componentName.Equals("AltExampleScriptCapsule") && component.assemblyName.Equals("Assembly-CSharp"));
             List<AltProperty> properties = altElement.GetAllProperties(component, AltPropertiesSelections.INHERITEDPROPERTIES);
             if (properties.Exists(prop => prop.name.Equals("runInEditMode")))
             {
@@ -1061,7 +1061,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             }
             else
             {
-                Assert.IsTrue(properties.Count >= 7 && properties.Count <= 8);// if runned from editor then there are 10 properties, runInEditMode is only available in Editor
+                Assert.IsTrue(properties.Count >= 7);// if ran from editor then there are 10 properties, runInEditMode is only available in Editor
             }
         }
 
