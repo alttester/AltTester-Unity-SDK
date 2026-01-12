@@ -59,7 +59,8 @@ class AltDriver:
         platform="unknown",
         platform_version="unknown",
         device_instance_id="unknown",
-        app_id="unknown"
+        app_id="unknown",
+        secure_mode=False
     ):
         self.host = host
         self.port = port
@@ -70,6 +71,7 @@ class AltDriver:
         self.platform_version = platform_version
         self.device_instance_id = device_instance_id
         self.app_id = app_id
+        self.secure_mode = secure_mode
 
         self._config_logging(self.enable_logging)
 
@@ -85,6 +87,7 @@ class AltDriver:
         self._connection = WebsocketConnection(
             host=self.host,
             port=self.port,
+            secure_mode=self.secure_mode,
             timeout=self.timeout,
             path="altws",
             params={
@@ -93,7 +96,7 @@ class AltDriver:
                 "platformVersion": self.platform_version,
                 "deviceInstanceId": self.device_instance_id,
                 "appId": self.app_id,
-                "driverType": "SDK"
+                "driverType": "python_" + VERSION
             },
             command_handler=self._command_handler,
             notification_handler=self._notification_handler

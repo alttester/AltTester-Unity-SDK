@@ -46,9 +46,7 @@ check for *BuildOptions.Development* and *BuildOptions.IncludeTestAssemblies*.
 ```c#
 var buildTargetGroup = BuildTargetGroup.Android;
 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
-if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone) {
-    AltBuilder.CreateJsonFileForInputMappingOfAxis();
-}
+AltBuilder.CreateJsonFileForInputMappingOfAxis();
 var instrumentationSettings = new AltInstrumentationSettings();
 AltBuilder.InsertAltInScene(FirstSceneOfTheApp, instrumentationSettings);
 ```
@@ -93,6 +91,50 @@ You can find more information about the build command and arguments
     After building from the command line you can run the tests by using the
     commands from the `next section <#run-tests-from-the-command-line>`_.
 
+```
+
+## How to make an instrumented build using Unity Cloud Build
+
+To instrument your Unity project with AltTester® Unity SDK using Unity Cloud Build, follow these steps:
+
+1. **Create or select a build configuration**  
+   In Unity Cloud Build, either use an existing configuration or create a new one for your instrumented build.
+
+2. **Set the build to Development Mode**  
+   In the configuration settings, ensure that the build is set to Development Mode.
+
+3. **Configure Script Hooks**  
+    In the Script Hooks section, add your method name to the **Pre-Export Method** field. This method should contain the code that inserts AltTester® into your build.
+
+4. **Add Scripting Define Symbols**  
+   In the Script Hooks section, add `ALTTESTER` to the **Scripting Define Symbols** field.  
+
+```eval_rst
+    .. image:: ../_static/img/advanced-usage/unity-cloud-configuration.png
+```
+
+```c#
+         public static void OnPreExportWindows()
+        {
+            Debug.Log("Unity Cloud Build - OnPreExportWindows called");
+
+            var buildTargetGroup = BuildTargetGroup.Standalone;
+
+         
+            AltBuilder.CreateJsonFileForInputMappingOfAxis();
+            var instrumentationSettings = new AltInstrumentationSettings();
+            instrumentationSettings.AltServerHost = "127.0.0.1";
+            instrumentationSettings.AltServerPort = 13000;
+            instrumentationSettings.AppName = "__default__";
+            instrumentationSettings.ResetConnectionData = true;
+            AltBuilder.InsertAltInScene("Assets/Scenes/SampleScene.unity", instrumentationSettings);
+        }
+
+```
+
+```eval_rst
+.. note::
+     An example with a working script can be found at `Unity-Project <https://github.com/alttester/UnityCloudTestBuild>`_
 ```
 
 ## How to make a production build
@@ -567,6 +609,65 @@ Use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-i
     On mobile devices, AltDriver can interact only with a single app at a time and the app needs to be in focus. In case of 2 drivers and 2 apps, you need to switch (in your test scripts) between the applications. This is due to the fact that on Android/iOS only one application is in focus at a time, even when using split screen mode.
 ```
 
+## Secure Mode (WSS) in AltTester® Unity SDK
+
+AltTester® Unity SDK can communicate with AltTester® Server using a **secure WebSocket
+connection** (``wss://``). Secure mode encrypts all data exchanged between the
+instrumented application and the server.
+
+To successfully establish a secure connection, the Unity SDK configuration,
+AltTester® Server configuration, and client environment must match.
+
+### Enabling Secure Mode
+
+Secure mode is enabled in the instrumented application by activating the
+**Secure Mode (WSS)** option, either by enabling the toggle in the AltTester®
+Editor or by selecting the secure protocol in the AltTester® PopUp (green pop-up).
+
+When enabled:
+- The Unity application connects to the server using ``wss://``
+- The AltTester® Server must be running in secure mode
+- A valid TLS certificate must be configured on the server
+
+If secure mode is enabled in the SDK but the server is not configured for secure
+connections, the connection will fail.
+
+Likewise, if the server runs in secure mode but secure mode is disabled in the SDK,
+the connection will fail.
+
+```eval_rst
+.. note::
+   The Secure Mode (WSS) setting must always match the server configuration.
+```
+
+### Secure Mode in WebGL Builds
+
+For **WebGL instrumented builds**, secure mode has additional browser-specific
+requirements.
+
+When using secure mode (``wss://``) in WebGL:
+- The server URL must use HTTPS  
+  (for example: ``https://127.0.0.1:13000``)
+- The HTTPS endpoint must be **trusted by the browser**
+
+If the certificate is self-signed or not trusted by default, the browser will block
+the connection.
+
+To allow the connection:
+1. Open a new browser tab
+2. Navigate to ``https://<host>:<port>``  
+   (for example: ``https://127.0.0.1:13000``)
+3. Proceed through the browser security warning
+4. Confirm that you want to continue to the unsafe site
+
+Once the URL is trusted, reload the WebGL application and retry the connection.
+
+```eval_rst
+.. important::
+   This step is required only once per browser session. Without explicitly trusting
+   the HTTPS endpoint, secure WebSocket connections from WebGL builds will now work.
+```
+
 ## Execute tests concurrently
 
 In the `AltDriver` constructor you have the option to specify multiple tags. The available tags are: app name, platform, platform version, device instance id and app id. The app id can be used to uniquely identify an app. In case you specify no tags, the tests will be run on a randomly chosen app.
@@ -1018,7 +1119,7 @@ More details related to Allure can be found at the official [Allure documentatio
             <dependency>
                 <groupId>com.alttester</groupId>
                 <artifactId>alttester</artifactId>
-                <version>2.2.5</version>
+                <version>2.3.0</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

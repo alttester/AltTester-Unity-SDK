@@ -2,16 +2,19 @@ using NUnit.Framework;
 using AltTester.AltTesterSDK.Driver;
 
 public class #SCRIPTNAME#
-{   //Important! If your test file is inside a folder that contains an .asmdef file, please make sure that the assembly definition references NUnit.
+{
+    // Important! If your test file is inside a folder that contains an .asmdef file, please make sure that the assembly definition references NUnit.
+
     public AltDriver altDriver;
-    //Before any test it connects with the socket
+
+    // Before any test it connects with the socket
     [OneTimeSetUp]
     public void SetUp()
     {
-        altDriver =new AltDriver();
+        altDriver = new AltDriver();
     }
 
-    //At the end of the test closes the connection with the socket
+    // At the end of the test closes the connection with the socket
     [OneTimeTearDown]
     public void TearDown()
     {
@@ -21,7 +24,6 @@ public class #SCRIPTNAME#
     [Test]
     public void Test()
     {
-	//Here you can write the test
+        // Here you can write the test
     }
-
 }

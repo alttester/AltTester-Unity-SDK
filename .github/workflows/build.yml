@@ -1,0 +1,155 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_macos:
+        description: "Build macOS"
+        required: false
+        default: false
+        type: boolean
+      build_windows:
+        description: "Build Windows"
+        required: false
+        default: false
+        type: boolean
+      build_android:
+        description: "Build Android"
+        required: false
+        default: false
+        type: boolean
+      build_ios:
+        description: "Build iOS"
+        required: false
+        default: false
+        type: boolean
+      build_webgl:
+        description: "Build WebGL"
+        required: false
+        default: false
+        type: boolean
+      altserver_port:
+        description: "AltServer Port"
+        required: false
+        default: "13005"
+        type: string
+      altserver_host:
+        description: "AltServer Host"
+        required: false
+        default: "192.168.11.35"
+        type: string
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-macOS:
+    if: ${{ github.event.inputs.build_macos == 'true' }}
+    runs-on: [self-hosted, Windows, product]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build SampleGame
+        shell: bash
+        run: |
+          export ALTSERVER_PORT=${{ github.event.inputs.altserver_port }}
+          export ALTSERVER_HOST="${{ github.event.inputs.altserver_host }}"
+          "$UNITY_2021_3_HOME" -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
+
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildMacArtifact
+          path: |
+            sampleGame.app
+            **/*.log
+
+  build-Windows:
+    if: ${{ github.event.inputs.build_windows == 'true' }}
+    runs-on: [self-hosted, MAC37]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build SampleGame
+        run: |
+          export ALTSERVER_PORT=${{ github.event.inputs.altserver_port }}
+          export ALTSERVER_HOST="${{ github.event.inputs.altserver_host }}"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WindowsBuildFromCommandLine -logFile buildWindows.log -quit
+
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildWindowsArtifact
+          path: |
+            sampleGame/
+            **/*.log
+
+  build-android:
+    if: ${{ github.event.inputs.build_android == 'true' }}
+    runs-on: [self-hosted, MAC37]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build SampleGame apk
+        run: |
+          export ALTSERVER_PORT=${{ github.event.inputs.altserver_port }}
+          export ALTSERVER_HOST="${{ github.event.inputs.altserver_host }}"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildAndroidArtifact
+          path: |
+            sampleGame.apk
+            **/*.log
+
+  build-ipa:
+    if: ${{ github.event.inputs.build_ios == 'true' }}
+    runs-on: [self-hosted, MAC37]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build sampleGame ipa
+        run: |
+          export ALTSERVER_PORT=${{ github.event.inputs.altserver_port }}
+          export ALTSERVER_HOST="${{ github.event.inputs.altserver_host }}"
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath -executeMethod AltTesterTools.BuildAltTester.IosBuildFromCommandLine -logFile buildiOS.log -quit
+          xcodebuild -project ./sampleGame/Unity-iPhone.xcodeproj -scheme Unity-iPhone -archivePath Unity-iPhone.xcarchive archive
+          xcodebuild -exportArchive -archivePath ./Unity-iPhone.xcarchive -exportOptionsPlist $EXPORT_OPTIONS_LOCATION/export-options.plist -exportPath ./
+          osascript -e 'tell app "Xcode" to quit'
+      - uses: actions/upload-artifact@v4
+        if: always() # run this step even if one of the previous step failed
+        with:
+          name: BuildiOSArtifact
+          path: |
+            sampleGame.ipa
+            **/*.log
+  build-webgl:
+    if: ${{ github.event.inputs.build_webgl == 'true' }}
+    timeout-minutes: 60
+    runs-on: [self-hosted, MAC37]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build app
+        run: |
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.WebGLBuildFromCommandLine -logFile buildWebGL.log -quit
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: webgl-build
+          if-no-files-found: error
+          path: build/
+
+      - name: Upload build logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: webgl-build-logs
+          path: |
+            buildWebGL.log

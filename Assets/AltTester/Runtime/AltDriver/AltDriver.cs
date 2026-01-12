@@ -35,7 +35,7 @@ namespace AltTester.AltTesterSDK.Driver
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
         private static object driverLock = new object();
-        public static readonly string VERSION = "2.2.5";
+        public static readonly string VERSION = "2.3.0";
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
         public AltXRCommands XR { get; private set; }
@@ -48,7 +48,8 @@ namespace AltTester.AltTesterSDK.Driver
         /// <param name="enableLogging">If true it enables driver commands logging to log file and Unity.</param>
         /// <param name="connectTimeout">The connect timeout in seconds.</param>
         /// <param name="appName">The name of the Unity application.</param>
-        public AltDriver(string host = "127.0.0.1", int port = 13000, string appName = "__default__", bool enableLogging = false, int connectTimeout = 60, string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown", string driverType = "SDK")
+        /// <param name="secureMode">If true it enables secure mode for communication between driver and AltTester® Server.</param>
+        public AltDriver(string host = "127.0.0.1", int port = 13000, string appName = "__default__", bool enableLogging = false, int connectTimeout = 60, string platform = "unknown", string platformVersion = "unknown", string deviceInstanceId = "unknown", string appId = "unknown", string driverType = "SDK", bool secureMode = false)
         {
             lock (driverLock)
             {
@@ -78,9 +79,11 @@ namespace AltTester.AltTesterSDK.Driver
                     deviceInstanceId,
                     driverType
                 );
+                if (driverType == "SDK")
+                    driverType = "csharp_" + VERSION;
                 while (true)
                 {
-                    communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType);
+                    communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType, secureMode);
                     communicationHandler.Connect();
                     try
                     {

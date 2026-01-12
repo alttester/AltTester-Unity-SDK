@@ -24,7 +24,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         public AltGetServerVersionCommand(AltGetServerVersionParams cmdParams) : base(cmdParams) { }
         public override string Execute()
         {
-            return AltRunner.VERSION;
+            return AltRunner.VERSION.Split("-")[0];
         }
     }
 }

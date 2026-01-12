@@ -16,8 +16,8 @@
 */
 
 using System;
-using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.Editor;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using UnityEditor;
@@ -40,9 +40,33 @@ namespace AltTesterTools
                 PlayerSettings.fullScreenMode = UnityEngine.FullScreenMode.Windowed;
                 PlayerSettings.defaultScreenHeight = 1080;
                 PlayerSettings.defaultScreenWidth = 1920;
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Standalone);
 
                 logger.Debug("Starting Mac build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
                 var buildPlayerOptions = GetBuildPlayerOptions("sampleGame", BuildTarget.StandaloneOSX);
+                buildGame(buildPlayerOptions, BuildTargetGroup.Standalone);
+
+            }
+            catch (Exception exception)
+            {
+                logger.Error(exception);
+            }
+
+        }
+         [MenuItem("Build/Windows")]
+        protected static void WindowsBuildFromCommandLine()
+        {
+            try
+            {
+                SetCommonSettings(BuildTargetGroup.Standalone);
+
+                PlayerSettings.fullScreenMode = UnityEngine.FullScreenMode.Windowed;
+                PlayerSettings.defaultScreenHeight = 1080;
+                PlayerSettings.defaultScreenWidth = 1920;
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Standalone);
+
+                logger.Debug("Starting Windows build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
+                var buildPlayerOptions = GetBuildPlayerOptions("sampleGame/sampleGame.exe", BuildTarget.StandaloneWindows);
                 buildGame(buildPlayerOptions, BuildTargetGroup.Standalone);
 
             }
@@ -64,6 +88,7 @@ namespace AltTesterTools
 
                 PlayerSettings.Android.bundleVersionCode = int.Parse(PlayerSettings.bundleVersion);
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Android);
 #if UNITY_2018_1_OR_NEWER
                 PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
 #endif
@@ -88,6 +113,7 @@ namespace AltTesterTools
                 SetCommonSettings(BuildTargetGroup.iOS);
                 PlayerSettings.iOS.appleEnableAutomaticSigning = true;
                 PlayerSettings.iOS.appleDeveloperTeamID = "59ESG8ELF5";
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.iOS);
 
                 logger.Debug("Starting IOS build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
 
@@ -113,7 +139,7 @@ namespace AltTesterTools
 
                 logger.Debug("Starting WebGL build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
                 var buildPlayerOptions = GetBuildPlayerOptions("build/webgl", BuildTarget.WebGL);
-
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.WebGL);
                 AltBuilder.AddScriptingDefineSymbol("UNITY_WEBGL", BuildTargetGroup.WebGL);
                 buildGame(buildPlayerOptions, BuildTargetGroup.WebGL);
 
@@ -169,6 +195,7 @@ namespace AltTesterTools
                     "Assets/Examples/Scenes/Scene 7 New Input System Actions.unity",
                     "Assets/Examples/Scenes/Scene 11 ScrollView Scene.unity",
                     "Assets/Examples/Scenes/Sceme 12 2D Objects.unity",
+                    "Assets/Examples/Scenes/Scene 14.unity",
                     "Assets/Examples/Scenes/DragDemo.unity"
                     };
         }
