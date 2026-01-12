@@ -58,6 +58,12 @@ AltBuilder.InsertAltInScene(FirstSceneOfTheApp, instrumentationSettings);
     building.
 
 ```
+```eval_rst
+.. important::
+
+    If your custom build method sets scripting define symbols manually instead of using the list from the Unity Editor, and your project uses TextMeshPro, you must also include the **TMP_PRESENT** define. This is required for methods that interact with TextMeshPro elements to function correctly.
+
+```
 
 **2. If you create a new custom build method for your app**
 
