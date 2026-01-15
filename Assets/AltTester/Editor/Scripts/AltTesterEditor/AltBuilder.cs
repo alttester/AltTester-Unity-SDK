@@ -18,10 +18,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
-
+#if UNITY_6000_0_OR_NEWER
+using UnityEditor.Build;
+#endif
 using UnityEditor.Compilation;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -56,7 +58,11 @@ namespace AltTester.AltTesterUnitySDK.Editor
             if (AltTesterEditorWindow.EditorConfiguration.appendToName)
             {
                 UnityEditor.PlayerSettings.productName += "Test";
-                UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, $"{UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup)}Test");
+#if UNITY_6000_0_OR_NEWER
+                UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup), $"{UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup))}Test");
+#else
+                UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, $"{UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup)}Test")
+#endif
             }
             AddAltTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
             CreateJsonFileForInputMappingOfAxis();
@@ -101,8 +107,13 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 return;
             try
             {
+#if UNITY_6000_0_OR_NEWER
                 var scriptingDefineSymbolsForGroup =
+                    UnityEditor.PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup));
+#else
+                    var scriptingDefineSymbolsForGroup =
                     UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+#endif
                 string newScriptingDefineSymbolsForGroup = "";
                 if (scriptingDefineSymbolsForGroup.Contains(symbol))
                 {
@@ -116,8 +127,14 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     }
                     if (newScriptingDefineSymbolsForGroup.Length != 0)
                         newScriptingDefineSymbolsForGroup.Remove(newScriptingDefineSymbolsForGroup.Length - 1);
+#if UNITY_6000_0_OR_NEWER
+                    UnityEditor.PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup),
+                                           newScriptingDefineSymbolsForGroup);
+#else
                     UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,
                         newScriptingDefineSymbolsForGroup);
+#endif
+
                 }
             }
             catch (System.Exception e)
@@ -133,13 +150,22 @@ namespace AltTester.AltTesterUnitySDK.Editor
         }
         public static void AddScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
         {
-
+#if UNITY_6000_0_OR_NEWER
+            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup));
+#else
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+#endif
             if (!scriptingDefineSymbolsForGroup.Contains(symbol))
             {
                 scriptingDefineSymbolsForGroup += ";" + symbol;
             }
+#if UNITY_6000_0_OR_NEWER
+            UnityEditor.PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup), scriptingDefineSymbolsForGroup);
+
+#else
             UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
+
+#endif
         }
 
         [System.Obsolete("Use AddAltTesterInScriptingDefineSymbolsGroup instead.")]
@@ -150,7 +176,11 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         public static bool CheckAltTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildTargetGroup targetGroup)
         {
+#if UNITY_6000_0_OR_NEWER
+            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup));
+#else
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+#endif
             return scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE);
         }
 
@@ -301,8 +331,14 @@ namespace AltTester.AltTesterUnitySDK.Editor
             if (AltTesterEditorWindow.EditorConfiguration.appendToName)
             {
                 UnityEditor.PlayerSettings.productName = UnityEditor.PlayerSettings.productName.Remove(UnityEditor.PlayerSettings.productName.Length - 5);
-                string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Remove(UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Length - 5);
+#if UNITY_6000_0_OR_NEWER
+                string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup)).Remove(UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup)).Length - 5);
+                UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup), bundleIdentifier);
+#else
+          string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Remove(UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Length - 5);
                 UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, bundleIdentifier);
+#endif
+
             }
 
             RemoveAltTesterFromScriptingDefineSymbols(buildTargetGroup);
@@ -315,7 +351,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             UnityEditor.PlayerSettings.SetStackTraceLogType(LogType.Assert, StackTraceLogType.None);
 
 
-            buildPlayerOptions.options = UnityEditor.BuildOptions.Development | (autoRun ? UnityEditor.BuildOptions.AutoRunPlayer : UnityEditor.BuildOptions.ShowBuiltPlayer); 
+            buildPlayerOptions.options = UnityEditor.BuildOptions.Development | (autoRun ? UnityEditor.BuildOptions.AutoRunPlayer : UnityEditor.BuildOptions.ShowBuiltPlayer);
 
 
             var results = UnityEditor.BuildPipeline.BuildPlayer(buildPlayerOptions);
