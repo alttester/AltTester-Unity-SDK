@@ -30,14 +30,26 @@ public class TMPDefineSetter
             PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup), newDefines);
             UnityEngine.Debug.Log("|AltTester| TextMeshPro detected. 'TMP_PRESENT' define added.");
         }
+        else
+        if(isTMPInstalled() && defines.Contains("TMP_PRESENT"))
+        {
+            var newDefines = defines.Replace("TMP_PRESENT", "").Trim(';').Replace(";;", ";");
+             PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup), newDefines);
+        }
 #else
-  var defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+        var defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
         if (isTMPInstalled() && !defines.Contains("TMP_PRESENT"))
         {
             var newDefines = string.IsNullOrEmpty(defines) ? "TMP_PRESENT" : defines + ";TMP_PRESENT";
             PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, newDefines);
             UnityEngine.Debug.Log("|AltTester| TextMeshPro detected. 'TMP_PRESENT' define added.");
         }
+        else
+            if (isTMPInstalled() && defines.Contains("TMP_PRESENT"))
+            {
+                var newDefines = defines.Replace("TMP_PRESENT", "").Trim(';').Replace(";;", ";");
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, newDefines);
+            }
 #endif
 
     }
