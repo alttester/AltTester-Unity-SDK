@@ -61,7 +61,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
 #if UNITY_6000_0_OR_NEWER
                 UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup), $"{UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup))}Test");
 #else
-                UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, $"{UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup)}Test")
+                UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, $"{UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup)}Test");
 #endif
             }
             AddAltTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
@@ -111,8 +111,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 var scriptingDefineSymbolsForGroup =
                     UnityEditor.PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup));
 #else
-                    var scriptingDefineSymbolsForGroup =
-                    UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+                var scriptingDefineSymbolsForGroup =
+                UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
 #endif
                 string newScriptingDefineSymbolsForGroup = "";
                 if (scriptingDefineSymbolsForGroup.Contains(symbol))
@@ -335,7 +335,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup)).Remove(UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup)).Length - 5);
                 UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup), bundleIdentifier);
 #else
-          string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Remove(UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Length - 5);
+                string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Remove(UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Length - 5);
                 UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, bundleIdentifier);
 #endif
 
