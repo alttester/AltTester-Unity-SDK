@@ -1,0 +1,31 @@
+name: Notify Slack on External Issue
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  slack-notification:
+    # Run only for issues opened by external (non-member) humans
+    if: >
+      github.event.issue.author_association != 'OWNER' &&
+      github.event.issue.author_association != 'MEMBER' &&
+      github.event.issue.author_association != 'COLLABORATOR' &&
+      github.event.issue.user.type != 'Bot'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Notify Slack about external issue
+        uses: ravsamhq/notify-slack-action@2.3.0
+        with:
+          status: success
+          notification_title: "🚀 New External Issue Created"
+          message_format: >
+            👤 *User:* <https://github.com/${{ github.event.issue.user.login }}|${{ github.event.issue.user.login }}>
+            📝 *Title:* <${{ github.event.issue.html_url }}|${{ github.event.issue.title }}>
+            📦 *Repository:* <${{ github.event.repository.html_url }}|${{ github.event.repository.full_name }}>
+          footer: "GitHub Issues Monitor"
+          notify_when: "success"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
