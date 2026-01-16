@@ -100,7 +100,12 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             eventSystem = EventSystem.current;
             if (eventSystem != null)
                 return eventSystem;
+#if UNITY_6000_0_OR_NEWER
+            eventSystem = FindAnyObjectByType<EventSystem>();
+#else
             eventSystem = FindObjectOfType<EventSystem>();
+
+#endif
             if (eventSystem != null)
                 return eventSystem;
             GameObject eventSystemGameObject = new GameObject("EventSystem");

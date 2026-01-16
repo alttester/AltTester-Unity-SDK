@@ -24,6 +24,9 @@ using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.InputModule;
 using AltTester.AltTesterUnitySDK.UI;
 using UnityEditor;
+#if UNITY_6000_0_OR_NEWER
+using UnityEditor.Build;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -1241,7 +1244,11 @@ namespace AltTesterTools
             /// IMPORTANT! ALTTESTER MUST BE DEFINE TO CREATE CORRECTLY THE PREFAB
             ///
 
+#if UNITY_6000_0_OR_NEWER
+            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup));
+#else
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
+#endif
 
 
             var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(AltInput), typeof(NewInputSystem), typeof(CoroutineManager) });

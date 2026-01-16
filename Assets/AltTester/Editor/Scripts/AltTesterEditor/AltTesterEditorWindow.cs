@@ -28,6 +28,9 @@ using AltTester.AltTesterUnitySDK.Editor.Logging;
 using AltTester.AltTesterUnitySDK.Editor.Platform;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
+#if UNITY_6000_0_OR_NEWER
+using UnityEditor.Build;
+#endif
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -983,12 +986,22 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "Android Settings");
                     if (foldOutIosSettings)
                     {
-                        string androidBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android);
+#if UNITY_6000_0_OR_NEWER
+                        string androidBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.Android);
+                        labelAndInputFieldHorizontalLayout("Android Bundle Identifier", ref androidBundleIdentifier);
+                        if (androidBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.Android))
+                        {
+                            UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, androidBundleIdentifier);
+                        }
+#else
+                  string androidBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android);
                         labelAndInputFieldHorizontalLayout("Android Bundle Identifier", ref androidBundleIdentifier);
                         if (androidBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android))
                         {
                             UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android, androidBundleIdentifier);
                         }
+#endif
+
                         labelAndInputFieldHorizontalLayout("Adb Path:", ref EditorConfiguration.AdbPath);
                     }
                     break;
@@ -998,12 +1011,22 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "iOS Settings");
                     if (foldOutIosSettings)
                     {
-                        string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS);
+#if UNITY_6000_0_OR_NEWER
+                        string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.iOS);
+                        labelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
+                        if (iOSBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.iOS))
+                        {
+                            UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS, iOSBundleIdentifier);
+                        }
+#else
+                  string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS);
                         labelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
                         if (iOSBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS))
                         {
                             UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS, iOSBundleIdentifier);
                         }
+#endif
+
 
                         var appleDeveloperTeamID = UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID;
                         labelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDeveloperTeamID);

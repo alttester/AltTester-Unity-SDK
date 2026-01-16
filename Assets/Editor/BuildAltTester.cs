@@ -21,6 +21,9 @@ using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.Editor;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using UnityEditor;
+#if UNITY_6000_0_OR_NEWER
+using UnityEditor.Build;
+#endif
 using UnityEditor.Build.Reporting;
 
 namespace AltTesterTools
@@ -53,7 +56,7 @@ namespace AltTesterTools
             }
 
         }
-         [MenuItem("Build/Windows")]
+        [MenuItem("Build/Windows")]
         protected static void WindowsBuildFromCommandLine()
         {
             try
@@ -248,8 +251,13 @@ namespace AltTesterTools
             PlayerSettings.companyName = "Altom";
             PlayerSettings.productName = "sampleGame";
             PlayerSettings.bundleVersion = versionNumber;
+#if UNITY_6000_0_OR_NEWER
+            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(targetGroup), "com.altom.sampleGame");
+            PlayerSettings.SetApiCompatibilityLevel(NamedBuildTarget.FromBuildTargetGroup(targetGroup), ApiCompatibilityLevel.NET_4_6);
+#else
             PlayerSettings.SetApplicationIdentifier(targetGroup, "com.altom.sampleGame");
             PlayerSettings.SetApiCompatibilityLevel(targetGroup, ApiCompatibilityLevel.NET_4_6);
+#endif
             AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(targetGroup);
 
         }
