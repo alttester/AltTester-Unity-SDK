@@ -1041,6 +1041,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                         labelAndCheckboxHorizontalLayout("Using Location: ", ref usingLocation);
                         if (EditorConfiguration.UsingLocation != usingLocation)
                         {
+                            UnityEngine.Debug.LogWarning("Toggling location usage to: " + usingLocation);
                             EditorConfiguration.UsingLocation = usingLocation;
                             if (usingLocation)
                             {
@@ -1052,9 +1053,11 @@ namespace AltTester.AltTesterUnitySDK.Editor
                             }
                             else
                             {
+                                UnityEngine.Debug.LogWarning("Disabling location usage.");
                                 AltBuilder.RemoveScriptingDefineSymbol(LOCATION_DEFINE, UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
-                                if (PlayerSettings.iOS.locationUsageDescription == LOCATION_DESCRIPTION)
+                                if (PlayerSettings.iOS.locationUsageDescription.Equals(LOCATION_DESCRIPTION))
                                 {
+                                    UnityEngine.Debug.LogWarning("Clearing location usage description.");
                                     PlayerSettings.iOS.locationUsageDescription = "";
                                 }
                             }
