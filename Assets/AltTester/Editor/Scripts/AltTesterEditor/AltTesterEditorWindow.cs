@@ -82,6 +82,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
         public static UnityEngine.Texture2D SelectedTestsCountTexture;
 
         private const string PREFABNAME = "AltTesterPrefab";
+        private const string LOCATION_DESCRIPTION = "Description set by AltTester® to access location services during tests.";
+        private const string LOCATION_DEFINE = "USING_LOCATION";
         private static string version;
 
 
@@ -994,7 +996,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                             UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, androidBundleIdentifier);
                         }
 #else
-                  string androidBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android);
+                        string androidBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android);
                         labelAndInputFieldHorizontalLayout("Android Bundle Identifier", ref androidBundleIdentifier);
                         if (androidBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android))
                         {
@@ -1019,7 +1021,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                             UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS, iOSBundleIdentifier);
                         }
 #else
-                  string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS);
+                        string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS);
                         labelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
                         if (iOSBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS))
                         {
@@ -1035,6 +1037,29 @@ namespace AltTester.AltTesterUnitySDK.Editor
                         var appleEnableAutomaticsSigning = UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning;
                         labelAndCheckboxHorizontalLayout("Automatically Sign: ", ref appleEnableAutomaticsSigning);
                         UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning = appleEnableAutomaticsSigning;
+                        var usingLocation = EditorConfiguration.UsingLocation;
+                        labelAndCheckboxHorizontalLayout("Using Location: ", ref usingLocation);
+                        if (EditorConfiguration.UsingLocation != usingLocation)
+                        {
+                            EditorConfiguration.UsingLocation = usingLocation;
+                            if (usingLocation)
+                            {
+                                AltBuilder.AddScriptingDefineSymbol(LOCATION_DEFINE, UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                                if (PlayerSettings.iOS.locationUsageDescription == "")
+                                {
+                                    PlayerSettings.iOS.locationUsageDescription = LOCATION_DESCRIPTION;
+                                }
+                            }
+                            else
+                            {
+                                AltBuilder.RemoveScriptingDefineSymbol(LOCATION_DEFINE, UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                                if (PlayerSettings.iOS.locationUsageDescription == LOCATION_DESCRIPTION)
+                                {
+                                    PlayerSettings.iOS.locationUsageDescription = "";
+                                }
+                            }
+
+                        }
                     }
                     break;
             }
