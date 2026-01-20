@@ -726,7 +726,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private IEnumerator getRequest()
         {
 
-            using (UnityWebRequest request = UnityWebRequest.Get("https://alttester.com/app/uploads/AltTester/sdks/alttester/latest_version.json"))
+            using (UnityWebRequest request = UnityWebRequest.Get("https://alttester.com/wp-json/app/v1/latest-version"))
             {
                 yield return request.SendWebRequest();
                 if (request.result != UnityWebRequest.Result.Success)

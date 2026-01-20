@@ -99,12 +99,12 @@ namespace AltTester.AltTesterUnitySDK.Editor
         }
         public static void RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup)
         {
+            if (AltTesterEditorWindow.EditorConfiguration != null && AltTesterEditorWindow.EditorConfiguration.KeepAUTSymbolDefined)
+                return;
             RemoveScriptingDefineSymbol(ALTTESTERDEFINE, targetGroup);
         }
         public static void RemoveScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
         {
-            if (AltTesterEditorWindow.EditorConfiguration != null && AltTesterEditorWindow.EditorConfiguration.KeepAUTSymbolDefined)
-                return;
             try
             {
 #if UNITY_6000_0_OR_NEWER

@@ -47,6 +47,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
         public int assemblyTestDisplayedIndex;
         public bool ResetConnectionData = false;
         public string UID = "";
+        public bool UsingLocation = false;
 
         public bool HideGreenPopup = false;
 
