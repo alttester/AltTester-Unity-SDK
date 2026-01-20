@@ -165,14 +165,14 @@ namespace AltTester.AltTesterUnitySDK.Communication
                 {
                     this.OnConnect.Invoke();
                 }
+            };
 
-                wsClient.OnError += (string errorMsg) =>
+            wsClient.OnError += (string errorMsg) =>
+            {
+                if (this.OnError != null)
                 {
-                    if (this.OnError != null)
-                    {
-                        this.OnError.Invoke(errorMsg, null);
-                    }
-                };
+                    this.OnError.Invoke(errorMsg, null);
+                }
             };
 
             wsClient.OnClose += (int closeCode, string reason) =>
