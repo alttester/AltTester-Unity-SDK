@@ -139,7 +139,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private Coroutine runningCoroutine;
         private string downloadURL = "";
         private string colorCode = "#FFD700";
-        private string wrongProtocolMessage = "An exception has occurred while trying to connect. The protocol might be incorrect";
+        private string wrongProtocolMessage = "An exception occurred while attempting to connect. The protocol used may be incorrect. Secure connections (WSS) are supported only by the non-GPL version of the AltTester® SDK. If you are connecting to a secure WebSocket server, make sure your app is instrumented with the non-GPL SDK.";
 
         protected void Awake()
         {
@@ -657,7 +657,8 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onError(string message, Exception ex)
         {
             if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
-                message.Equals("An error has occurred during a TLS handshake."))
+                message.Equals("An error has occurred during a TLS handshake.") ||
+                message.Equals("AltTester WebSocket error."))
             {
                 isError = true;
                 isCorrectProtocol = false;
