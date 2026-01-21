@@ -89,18 +89,36 @@ private static extern void CopyToClipboard(string str);
             return;
         }
         Instance = this;
-        content = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/Scroll View/Viewport/Content").GetComponent<RectTransform>();
-        scrollRect = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/Scroll View").GetComponent<ScrollRect>();
-        filterInput = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Filter").GetComponent<InputField>();
-        clearButton = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/ClearButton").GetComponent<Button>();
-        copyButton = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/CopyButton").GetComponent<Button>();
-        closeButton = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/CloseButton").GetComponent<Button>();
-        resetFilterButton = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Filter/ResetSearchButton").GetComponent<Button>();
-        logToggle = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Log").GetComponent<Toggle>();
-        warningToggle = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Warning").GetComponent<Toggle>();
-        errorToggle = GameObject.Find("AltTesterPrefab/AltDialog/LogsPanel/LandscapeLayout/Error").GetComponent<Toggle>();
-        canvas = GameObject.Find("AltTesterPrefab/AltDialog").GetComponent<Canvas>();
-        notificationPrefab = GameObject.Find("AltTesterPrefab/AltDialog/BackgroundClipboard");
+        // Find AltTesterPrefab in the hierarchy, not just direct parent
+        Transform parent = transform;
+        while (parent != null && parent.name != "AltTesterPrefab")
+        {
+            parent = parent.parent;
+        }
+        if (parent == null)
+        {
+            Debug.LogWarning("AltTesterPrefab parent not found for AltConsoleLogViewer.");
+        }                
+        else
+        {
+
+            var altTesterPrefab = parent.gameObject;
+            if (altTesterPrefab != null)
+            {
+                content = altTesterPrefab.transform.Find("AltDialog/LogsPanel/Scroll View/Viewport/Content")?.GetComponent<RectTransform>();
+                scrollRect = altTesterPrefab.transform.Find("AltDialog/LogsPanel/Scroll View")?.GetComponent<ScrollRect>();
+                filterInput = altTesterPrefab.transform.Find("AltDialog/LogsPanel/LandscapeLayout/Filter")?.GetComponent<InputField>();
+                clearButton = altTesterPrefab.transform.Find("AltDialog/LogsPanel/LandscapeLayout/ClearButton")?.GetComponent<Button>();
+                copyButton = altTesterPrefab.transform.Find("AltDialog/LogsPanel/LandscapeLayout/CopyButton")?.GetComponent<Button>();
+                closeButton = altTesterPrefab.transform.Find("AltDialog/LogsPanel/LandscapeLayout/CloseButton")?.GetComponent<Button>();
+                resetFilterButton = altTesterPrefab.transform.Find("AltDialog/LogsPanel/LandscapeLayout/Filter/ResetSearchButton")?.GetComponent<Button>();
+                logToggle = altTesterPrefab.transform.Find("AltDialog/LogsPanel/LandscapeLayout/Log")?.GetComponent<Toggle>();
+                warningToggle = altTesterPrefab.transform.Find("AltDialog/LogsPanel/LandscapeLayout/Warning")?.GetComponent<Toggle>();
+                errorToggle = altTesterPrefab.transform.Find("AltDialog/LogsPanel/LandscapeLayout/Error")?.GetComponent<Toggle>();
+                canvas = altTesterPrefab.transform.Find("AltDialog")?.GetComponent<Canvas>();
+                notificationPrefab = altTesterPrefab.transform.Find("AltDialog/BackgroundClipboard")?.gameObject;
+            }
+        }
 
         initializePool();
         setupUIListeners();
