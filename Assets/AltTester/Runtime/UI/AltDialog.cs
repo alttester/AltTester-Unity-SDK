@@ -658,7 +658,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
                 message.Equals("An error has occurred during a TLS handshake.") ||
-                message.Equals("AltTester WebSocket error."))
+                message.Equals("[AltTester WebSocket] Protocol is incorrect (Server requires WSS)."))
             {
                 isError = true;
                 isCorrectProtocol = false;
