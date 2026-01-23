@@ -731,10 +731,10 @@ namespace AltTester.AltTesterUnitySDK.Editor
             var previousPlatform = EditorConfiguration.platform;
             EditorConfiguration.platform = (AltPlatform)Enum.Parse(typeof(AltPlatform), listOfPlatforms[selectedTarget]);
 
-            if (previousPlatform == EditorConfiguration.platform)
-                return;
+            if (previousPlatform != EditorConfiguration.platform && EditorConfiguration.platform != AltPlatform.Editor)
+                TMPDefineSetter.CheckAndSetTMPDefine();
 
-            TMPDefineSetter.CheckAndSetTMPDefine();
+
             switch (EditorConfiguration.platform)
             {
                 case AltPlatform.Android:
