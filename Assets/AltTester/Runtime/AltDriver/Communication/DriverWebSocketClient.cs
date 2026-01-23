@@ -117,9 +117,8 @@ namespace AltTester.AltTesterSDK.Driver.Communication
         {
             string message = e.Message;
 
-            if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
-                message.Equals("An error has occurred during a TLS handshake.") ||
-                message.Equals("[AltTester WebSocket] Protocol is incorrect (Server requires WSS)."))
+            if (message.Equals("[AltTester WebSocket] Protocol is incorrect (Server requires WSS).") ||
+                message.Equals("[AltTester WebSocket] Protocol is incorrect (Server requires WS)."))
             {
                 isCorrectProtocol = false;
 
