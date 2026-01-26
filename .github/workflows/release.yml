@@ -226,7 +226,7 @@ jobs:
           distribution: temurin
           java-version: 17
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Configure Maven settings
         uses: s4u/maven-settings-action@v2.8.0
@@ -255,7 +255,7 @@ jobs:
         run: |
           export GPG_TTY=$(tty)
           cd "Bindings~/java"
-          mvn -f pom-release.xml -DperformRelease=true -DskipTests \
+          mvn -f pom-release.xml -DperformRelease=true -Dmaven.test.skip=true \
             -Dgpg.passphrase="${MAVEN_GPG_PASSPHRASE}" \
             -Dgpg.pinentry-mode=loopback \
             -Dgpg.batch=true \
