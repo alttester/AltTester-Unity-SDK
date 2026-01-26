@@ -667,6 +667,12 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             else
             {
+                if (message.Equals("An exception has occurred while reading an HTTP request/response."))
+                {
+                    // This error happens when the server closes the connection abruptly. We can ignore it.
+                    return;
+                }
+                
                 logger.Error(message);
                 if (ex != null)
                 {
