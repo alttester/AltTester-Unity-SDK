@@ -31,7 +31,7 @@ sys.stdout = sys.stderr
 
 devices = [
     {"name": "Samsung Galaxy S23", "os": "android", "os_version": "13.0"},
-    {"name": "Google Pixel 6 Pro", "os": "android", "os_version": "13.0"},
+    {"name": "Google Pixel 6 Pro", "os": "android", "os_version": "12.0"},
     {"name": "iPhone 16", "os": "ios", "os_version": "18"},
     {"name": "iPhone 15 Pro Max", "os": "ios", "os_version": "17"},
     {"name": "iPhone 14 Pro Max", "os": "ios", "os_version": "16"},
