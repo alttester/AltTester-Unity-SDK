@@ -244,6 +244,19 @@ var LibraryAltTesterWebSocket = {
 					sendErrorToUnity("[AltTester WebSocket] Connection failed. Server is not running or unreachable.");
 				};
 
+			} else if (instance.url.indexOf("wss://") === 0) {
+				var insecureUrl = instance.url.replace("wss://", "ws://");
+				var probeWs = new WebSocket(insecureUrl);
+
+				probeWs.onopen = function () {
+					probeWs.close(); 
+					sendErrorToUnity("[AltTester WebSocket] Protocol is incorrect (Server requires WS).");
+				};
+
+				probeWs.onerror = function () {
+					sendErrorToUnity("[AltTester WebSocket] Connection failed. Server is not running or unreachable.");
+				};
+
 			} else {
 				sendErrorToUnity("[AltTester WebSocket] Connection failed.");
 			}

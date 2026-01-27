@@ -56,7 +56,7 @@ namespace AltTester.AltTesterSDK.Driver.Communication
         public string URI { get { return this.uri; } }
         public bool DriverRegisteredCalled = false;
 
-        private string wrongProtocolMessage = "An exception occurred while attempting to connect. The protocol used may be incorrect. Secure connections (WSS) are supported only by the non-GPL version of the AltTester® SDK. If you are connecting to a secure WebSocket server, make sure your app is instrumented with the non-GPL SDK.";
+        private string wrongProtocolMessage = "An exception occurred while attempting to connect. The protocol used may be incorrect. Try switching the protocol used.";
 
         public DriverWebSocketClient(string host, int port, string path, string appName, int connectTimeout, string platform, string platformVersion, string deviceInstanceId, string appId, string driverType, bool secureMode = false)
         {
