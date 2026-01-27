@@ -667,9 +667,12 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             else
             {
-                if (message.Equals("An exception has occurred while reading an HTTP request/response."))
+                if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
+                    message.Equals("An error has occurred during a TLS handshake.") ||
+                    message.Equals("[AltTester WebSocket] Connection failed. Server is not running or unreachable."))
                 {
-                    // This error happens when the server closes the connection abruptly. We can ignore it.
+                    // This error happens when the server closes the connection abruptly 
+                    // or the server is not running. We can ignore it.
                     return;
                 }
                 
