@@ -256,6 +256,7 @@ jobs:
           export GPG_TTY=$(tty)
           cd "Bindings~/java"
           mvn -f pom-release.xml -DperformRelease=true -Dmaven.test.skip=true \
+            -Dgpg.passphrase="${MAVEN_GPG_PASSPHRASE}" \
             -Dgpg.pinentry-mode=loopback \
             -Dgpg.batch=true \
             -Dgpg.no-tty=true \
