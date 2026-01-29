@@ -37,7 +37,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 ```eval_rst
         .. figure:: ../_static/img/alttester-editor/build-settings.png
-            :scale: 60 %
+            :scale: 70 %
 
 ```
 
