@@ -16,6 +16,7 @@
 */
 
 using AltTester.AltTesterUnitySDK.Editor;
+using UnityEditor.Build;
 
 namespace alttester.Assets.ShortCuts.Editor
 {
@@ -24,10 +25,18 @@ namespace alttester.Assets.ShortCuts.Editor
         [UnityEditor.MenuItem("AltTester®/Add AltTesterSymbol &#]", false, 80)]
         public static void AddAUTSymbol()
         {
+#if UNITY_6000_0_OR_NEWER
+            var namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
+            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
+            if (!scriptingDefineSymbolsForGroup.Contains("ALTTESTER"))
+                scriptingDefineSymbolsForGroup += ";ALTTESTER";
+            UnityEditor.PlayerSettings.SetScriptingDefineSymbols(namedBuildTarget, scriptingDefineSymbolsForGroup);
+#else
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
             if (!scriptingDefineSymbolsForGroup.Contains("ALTTESTER"))
                 scriptingDefineSymbolsForGroup += ";ALTTESTER";
-            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup, scriptingDefineSymbolsForGroup);
+            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup, scriptingDefineSymbolsForGroup); 
+#endif
         }
 
         [UnityEditor.MenuItem("AltTester®/Deselect All Tests &#[", false, 80)]

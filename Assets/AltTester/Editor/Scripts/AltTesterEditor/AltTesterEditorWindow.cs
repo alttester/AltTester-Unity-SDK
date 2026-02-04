@@ -28,6 +28,9 @@ using AltTester.AltTesterUnitySDK.Editor.Logging;
 using AltTester.AltTesterUnitySDK.Editor.Platform;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
+#if UNITY_6000_0_OR_NEWER
+using UnityEditor.Build;
+#endif
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -79,6 +82,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
         public static UnityEngine.Texture2D SelectedTestsCountTexture;
 
         private const string PREFABNAME = "AltTesterPrefab";
+        private const string LOCATION_DESCRIPTION = "Description set by AltTester® to access location services during tests.";
+        private const string LOCATION_DEFINE = "USING_LOCATION";
         private static string version;
 
 
@@ -726,10 +731,10 @@ namespace AltTester.AltTesterUnitySDK.Editor
             var previousPlatform = EditorConfiguration.platform;
             EditorConfiguration.platform = (AltPlatform)Enum.Parse(typeof(AltPlatform), listOfPlatforms[selectedTarget]);
 
-            if (previousPlatform == EditorConfiguration.platform)
-                return;
+            if (previousPlatform != EditorConfiguration.platform && EditorConfiguration.platform != AltPlatform.Editor)
+                TMPDefineSetter.CheckAndSetTMPDefine();
 
-            TMPDefineSetter.CheckAndSetTMPDefine();
+
             switch (EditorConfiguration.platform)
             {
                 case AltPlatform.Android:
@@ -983,12 +988,22 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "Android Settings");
                     if (foldOutIosSettings)
                     {
+#if UNITY_6000_0_OR_NEWER
+                        string androidBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.Android);
+                        labelAndInputFieldHorizontalLayout("Android Bundle Identifier", ref androidBundleIdentifier);
+                        if (androidBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.Android))
+                        {
+                            UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, androidBundleIdentifier);
+                        }
+#else
                         string androidBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android);
                         labelAndInputFieldHorizontalLayout("Android Bundle Identifier", ref androidBundleIdentifier);
                         if (androidBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android))
                         {
                             UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.Android, androidBundleIdentifier);
                         }
+#endif
+
                         labelAndInputFieldHorizontalLayout("Adb Path:", ref EditorConfiguration.AdbPath);
                     }
                     break;
@@ -998,12 +1013,22 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     foldOutIosSettings = UnityEditor.EditorGUILayout.Foldout(foldOutIosSettings, "iOS Settings");
                     if (foldOutIosSettings)
                     {
+#if UNITY_6000_0_OR_NEWER
+                        string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.iOS);
+                        labelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
+                        if (iOSBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.iOS))
+                        {
+                            UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS, iOSBundleIdentifier);
+                        }
+#else
                         string iOSBundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS);
                         labelAndInputFieldHorizontalLayout("iOS Bundle Identifier", ref iOSBundleIdentifier);
                         if (iOSBundleIdentifier != UnityEditor.PlayerSettings.GetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS))
                         {
                             UnityEditor.PlayerSettings.SetApplicationIdentifier(UnityEditor.BuildTargetGroup.iOS, iOSBundleIdentifier);
                         }
+#endif
+
 
                         var appleDeveloperTeamID = UnityEditor.PlayerSettings.iOS.appleDeveloperTeamID;
                         labelAndInputFieldHorizontalLayout("Signing Team Id: ", ref appleDeveloperTeamID);
@@ -1012,6 +1037,29 @@ namespace AltTester.AltTesterUnitySDK.Editor
                         var appleEnableAutomaticsSigning = UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning;
                         labelAndCheckboxHorizontalLayout("Automatically Sign: ", ref appleEnableAutomaticsSigning);
                         UnityEditor.PlayerSettings.iOS.appleEnableAutomaticSigning = appleEnableAutomaticsSigning;
+                        var usingLocation = EditorConfiguration.UsingLocation;
+                        labelAndCheckboxHorizontalLayout("Using Location: ", ref usingLocation);
+                        if (EditorConfiguration.UsingLocation != usingLocation)
+                        {
+                            EditorConfiguration.UsingLocation = usingLocation;
+                            if (usingLocation)
+                            {
+                                AltBuilder.AddScriptingDefineSymbol(LOCATION_DEFINE, UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                                if (PlayerSettings.iOS.locationUsageDescription == "")
+                                {
+                                    PlayerSettings.iOS.locationUsageDescription = LOCATION_DESCRIPTION;
+                                }
+                            }
+                            else
+                            {
+                                AltBuilder.RemoveScriptingDefineSymbol(LOCATION_DEFINE, UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+                                if (PlayerSettings.iOS.locationUsageDescription.Equals(LOCATION_DESCRIPTION))
+                                {
+                                    PlayerSettings.iOS.locationUsageDescription = "";
+                                }
+                            }
+
+                        }
                     }
                     break;
             }

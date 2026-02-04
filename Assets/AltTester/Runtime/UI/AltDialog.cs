@@ -139,7 +139,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private Coroutine runningCoroutine;
         private string downloadURL = "";
         private string colorCode = "#FFD700";
-        private string wrongProtocolMessage = "An exception has occurred while trying to connect. The protocol might be incorrect";
+        private string wrongProtocolMessage = "An exception occurred while attempting to connect. The protocol used may be incorrect. Secure connections (WSS) are supported only by the non-GPL version of the AltTester® SDK. If you are connecting to a secure WebSocket server, make sure your app is instrumented with the non-GPL SDK.";
 
         protected void Awake()
         {
@@ -656,8 +656,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onError(string message, Exception ex)
         {
-            if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
-                message.Equals("An error has occurred during a TLS handshake."))
+            if (message.Equals("[AltTester WebSocket] Protocol is incorrect (Server requires WSS).") ||
+                message.Equals("[AltTester WebSocket] Protocol is incorrect (Server requires WS)."))
             {
                 isError = true;
                 isCorrectProtocol = false;
@@ -667,6 +667,15 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             else
             {
+                if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
+                    message.Equals("An error has occurred during a TLS handshake.") ||
+                    message.Equals("[AltTester WebSocket] Connection failed. Server is not running or unreachable."))
+                {
+                    // This error happens when the server closes the connection abruptly 
+                    // or the server is not running. We can ignore it.
+                    return;
+                }
+                
                 logger.Error(message);
                 if (ex != null)
                 {
@@ -726,7 +735,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private IEnumerator getRequest()
         {
 
-            using (UnityWebRequest request = UnityWebRequest.Get("https://alttester.com/app/uploads/AltTester/sdks/alttester/latest_version.json"))
+            using (UnityWebRequest request = UnityWebRequest.Get("https://alttester.com/wp-json/app/v1/latest-version"))
             {
                 yield return request.SendWebRequest();
                 if (request.result != UnityWebRequest.Result.Success)

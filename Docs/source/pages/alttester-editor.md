@@ -69,7 +69,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 - *Reset Connection Data*
 
-    In case you are building your app on the same device but you do not want to start the new build with the connection data from the old build, you will want to check this box. Even if you managed to connect to the old build with different data, your new build will use the host, port and app name specified in the Build Settings.
+    In case you are building your app on the same device but you do not want to start the new build with the connection data from the old build, you will want to check this box. Even if you managed to connect to the old build with different data, your new build will use the host, port, app name, and secure mode specified in the Build Settings.
 
      You can also use the shortcut:
     - Press <kbd>LeftCtrl</kbd> + <kbd>LeftShift</kbd> + <kbd>D</kbd> + <kbd>L</kbd> to reset your connection data to the default values specified in the Build Settings.

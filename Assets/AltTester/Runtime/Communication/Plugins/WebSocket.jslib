@@ -206,26 +206,59 @@ var LibraryAltTesterWebSocket = {
 
 		instance.ws.onerror = function (ev) {
 			if (altTesterWebSocketState.debug) {
-				console.log("[AltTester WebSocket] Error occured.");
+				console.log("[AltTester WebSocket] Error occurred.");
 			}
 
-			if (altTesterWebSocketState.onError) {
-				var msg = "AltTester WebSocket error.";
-				var length = lengthBytesUTF8(msg) + 1;
-				var buffer = _malloc(length);
-				stringToUTF8(msg, buffer, length);
+			function sendErrorToUnity(msg) {
+				if (!altTesterWebSocketState.instances[instanceId]) return;
 
-				try {
-					if (typeof dynCall_vii !== 'undefined') {
-						dynCall_vii(altTesterWebSocketState.onError, instanceId, buffer);
-					} else if (Module.dynCall_vii) {
-						Module.dynCall_vii(altTesterWebSocketState.onError, instanceId, buffer);
-					} else {
-						wasmTable.get(altTesterWebSocketState.onError)(instanceId, buffer);
+				if (altTesterWebSocketState.onError) {
+					var length = lengthBytesUTF8(msg) + 1;
+					var buffer = _malloc(length);
+					stringToUTF8(msg, buffer, length);
+
+					try {
+						if (typeof dynCall_vii !== 'undefined') {
+							dynCall_vii(altTesterWebSocketState.onError, instanceId, buffer);
+						} else if (Module.dynCall_vii) {
+							Module.dynCall_vii(altTesterWebSocketState.onError, instanceId, buffer);
+						} else {
+							wasmTable.get(altTesterWebSocketState.onError)(instanceId, buffer);
+						}
+					} finally {
+						_free(buffer);
 					}
-				} finally {
-					_free(buffer);
 				}
+			}
+
+			if (instance.url.indexOf("ws://") === 0) {
+				var secureUrl = instance.url.replace("ws://", "wss://");
+				var probeWs = new WebSocket(secureUrl);
+
+				probeWs.onopen = function () {
+					probeWs.close(); 
+					sendErrorToUnity("[AltTester WebSocket] Protocol is incorrect (Server requires WSS).");
+				};
+
+				probeWs.onerror = function () {
+					sendErrorToUnity("[AltTester WebSocket] Connection failed. Server is not running or unreachable.");
+				};
+
+			} else if (instance.url.indexOf("wss://") === 0) {
+				var insecureUrl = instance.url.replace("wss://", "ws://");
+				var probeWs = new WebSocket(insecureUrl);
+
+				probeWs.onopen = function () {
+					probeWs.close(); 
+					sendErrorToUnity("[AltTester WebSocket] Protocol is incorrect (Server requires WS).");
+				};
+
+				probeWs.onerror = function () {
+					sendErrorToUnity("[AltTester WebSocket] Connection failed. Server is not running or unreachable.");
+				};
+
+			} else {
+				sendErrorToUnity("[AltTester WebSocket] Connection failed.");
 			}
 		};
 

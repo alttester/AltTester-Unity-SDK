@@ -46,9 +46,11 @@ public class Input
         get { return UnityEngine.Input.multiTouchEnabled; }
         set { UnityEngine.Input.multiTouchEnabled = value; }
     }
+#if USING_LOCATION
     public static UnityEngine.LocationService location => UnityEngine.Input.location;
 
     public static UnityEngine.Compass compass => UnityEngine.Input.compass;
+#endif
     public static UnityEngine.DeviceOrientation deviceOrientation => UnityEngine.Input.deviceOrientation;
 
     public static UnityEngine.IMECompositionMode imeCompositionMode
