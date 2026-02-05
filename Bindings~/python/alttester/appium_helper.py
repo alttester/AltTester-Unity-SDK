@@ -45,16 +45,16 @@ class AltAppiumHelper:
         return re.match(hostname_pattern, host) is not None
     
     @staticmethod
-    def set_connection_data(appium_driver, platform, host, port, app_name, timeout=60):
+    def set_connection_data(appium_driver, platform, host=None, port=None, app_name=None, timeout=60):
         """
         Sets connection data in the native popup dialog
 
         Args:
             appium_driver: The Appium driver instance
             platform (str): The platform ('android' or 'ios')
-            host (str): The host value to set
-            port (str or int): The port value to set
-            app_name (str): The app name value to set
+            host (str, optional): The host value to set. If not provided, the host field won't be updated
+            port (str or int, optional): The port value to set. If not provided, the port field won't be updated
+            app_name (str, optional): The app name value to set. If not provided, the app name field won't be updated
             timeout (int): Timeout in seconds for waiting for elements (default: 60)
 
         Raises:
@@ -63,16 +63,20 @@ class AltAppiumHelper:
         if appium_driver is None:
             raise ValueError("Appium driver cannot be None")
 
-        # Convert port to string if it's an integer
-        port_str = str(port) if isinstance(port, int) else port
+        # Check that at least one field is provided
+        if host is None and port is None and app_name is None:
+            raise ValueError("At least one of 'host', 'port', or 'app_name' must be provided")
 
         # Validate connection data
-        if not AltAppiumHelper._is_valid_host(host):
+        if host is not None and not AltAppiumHelper._is_valid_host(host):
             raise ValueError(f"Invalid host: {host}. The host should be a valid host.")
 
-        port_int = int(port_str)
-        if port_int <= 0 or port_int > 65535:
-            raise ValueError(f"Invalid port: {port_int}. The port number should be between 1 and 65535.")
+        port_str = None
+        if port is not None:
+            port_str = str(port) if isinstance(port, int) else port
+            port_int = int(port_str)
+            if port_int <= 0 or port_int > 65535:
+                raise ValueError(f"Invalid port: {port_int}. The port number should be between 1 and 65535.")
 
         try:
             # Set XPath based on platform
@@ -93,23 +97,26 @@ class AltAppiumHelper:
             wait = WebDriverWait(appium_driver, timeout)
             wait.until(EC.presence_of_element_located((AppiumBy.XPATH, host_xpath)))
 
-            # Find elements
-            host_field = appium_driver.find_element(AppiumBy.XPATH, host_xpath)
-            port_field = appium_driver.find_element(AppiumBy.XPATH, port_xpath)
-            app_name_field = appium_driver.find_element(AppiumBy.XPATH, app_name_xpath)
-            ok_button = appium_driver.find_element(AppiumBy.XPATH, ok_button_xpath)
+            # Update host if provided
+            if host is not None:
+                host_field = appium_driver.find_element(AppiumBy.XPATH, host_xpath)
+                host_field.clear()
+                host_field.send_keys(host)
 
-            # Set values
-            host_field.clear()
-            host_field.send_keys(host)
+            # Update port if provided
+            if port is not None:
+                port_field = appium_driver.find_element(AppiumBy.XPATH, port_xpath)
+                port_field.clear()
+                port_field.send_keys(port_str)
 
-            port_field.clear()
-            port_field.send_keys(port_str)
-
-            app_name_field.clear()
-            app_name_field.send_keys(app_name)
+            # Update app_name if provided
+            if app_name is not None:
+                app_name_field = appium_driver.find_element(AppiumBy.XPATH, app_name_xpath)
+                app_name_field.clear()
+                app_name_field.send_keys(app_name)
 
             # Press OK button
+            ok_button = appium_driver.find_element(AppiumBy.XPATH, ok_button_xpath)
             ok_button.click()
 
         except Exception as ex:
