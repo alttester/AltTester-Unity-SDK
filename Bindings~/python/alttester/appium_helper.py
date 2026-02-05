@@ -24,7 +24,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class AltAppiumHelper:
-    """API to interact with native popups using Appium"""
+    """API to interact with the native popup dialog (implemented by AltTester) using Appium"""
 
     @staticmethod
     def _is_valid_host(host):
@@ -58,6 +58,7 @@ class AltAppiumHelper:
             timeout (int): Timeout in seconds for waiting for elements (default: 60)
 
         Raises:
+            ValueError: If appium_driver is None, if none of the parameters are provided, if host is invalid, if port is out of range, or if platform is unsupported
             Exception: When an error occurs while interacting with the popup
         """
         if appium_driver is None:

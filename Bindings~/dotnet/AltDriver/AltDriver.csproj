@@ -31,5 +31,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="NLog" Version="4.7.9" />
         <PackageReference Include="AltWebSocketSharp" Version="1.0.9" />
+        <PackageReference Include="Appium.WebDriver" Version="8.0.1" />
+        <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
     </ItemGroup>
 </Project>
