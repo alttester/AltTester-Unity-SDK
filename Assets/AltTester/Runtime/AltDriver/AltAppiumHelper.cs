@@ -15,6 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+#if !UNITY_EDITOR
 using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
@@ -164,3 +165,4 @@ namespace AltTester.AltTesterSDK.Driver
         }
     }
 }
+#endif
