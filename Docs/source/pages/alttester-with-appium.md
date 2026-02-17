@@ -1,7 +1,15 @@
-# Running tests together with Appium
+# Running tests together with Appium / Selenium
 
-When it comes to mobile automation testing, there are many different choices for a test tool. One popular option is [Appium](http://appium.io), an open source project which enables running automated tests on both **Android** and **iOS** devices.
+AltTester® Unity SDK can be used together with different automation frameworks depending on your target platform:
 
+- **[Appium](http://appium.io)** for mobile automation testing on **Android** and **iOS** devices
+- **[Selenium](https://www.selenium.dev/)** for **WebGL-based** builds running in web browsers
+
+Both are open source projects that enable automated testing and can be used alongside AltTester® Unity SDK to handle platform-specific interactions and operations that AltTester® Unity SDK cannot perform directly.
+
+## Appium - Mobile Testing (Android & iOS)
+
+When it comes to mobile automation testing, [Appium](http://appium.io) is a popular choice for automating tests on both **Android** and **iOS** devices.
 No registration is needed and you can either download the latest version of the standalone app [here](https://github.com/appium/appium-desktop/releases/), or you can install the cli version by running:
 
 ```
@@ -11,16 +19,16 @@ No registration is needed and you can either download the latest version of the 
 > appium &               # start appium
 ```
 
-We've created an example python project which can be found [here](https://github.com/alttester-test-examples/Python-Android-with-Appium-AltTrashCat-) which hopefully can get you started on your own projects. Using it will also automatically install the requirements needed for running the tests. More details about it [below](#alttester-unity-sdk-with-appium-example).
+We've created an example Python project which can be found [here](https://github.com/alttester-test-examples/Python-Android-with-Appium-AltTrashCat-) which hopefully can get you started on your own projects. Using it will also automatically install the requirements needed for running the tests. More details about it [below](#alttester-unity-sdk-with-appium-example).
 
-## Why use Appium together with AltTester® Unity SDK
+### Why use Appium together with AltTester® Unity SDK
 
 There's a couple of reasons/scenarios for which you would want to use both of these frameworks:
 
 -   By itself, AltTester® Unity SDK cannot launch an app on a device. If you want to run tests in a pipeline, or by using [cloud services](./alttester-with-cloud), you can either create a script which will start your app, or you can use Appium before the tests execution;
 -   AltTester® Unity SDK cannot perform some types of actions, such as interacting with any native popups your app might have, or putting the app in the background and resuming it. In any of these cases you can use Appium to do the things that AltTester® Unity SDK can't.
 
-## AltTester® Unity SDK with Appium example
+### AltTester® Unity SDK with Appium example
 
 After you cloned our example project, there are a couple of things you need to check before running the tests:
 
@@ -60,9 +68,22 @@ The script will install any requirements that are missing from your machine (exc
 
 ```
 
-## Connection settings popup for cloud/Appium flows
+## Selenium - WebGL Testing
 
-When running AltTester® Unity SDK builds in the cloud and driving them with Appium, you might not know in advance which app name to use from your test scripts to connect to the correct instrumented instance. To address this, AltTester® Unity SDK provides an optional native connection settings popup that can be shown in the app.
+[Selenium](https://www.selenium.dev/) is a powerful automation framework for web browsers. When running AltTester® Unity SDK on WebGL builds, Selenium allows you to automate browser interactions and handle web-specific operations that complement AltTester® Unity SDK's game automation capabilities.
+
+### Why use Selenium together with AltTester® Unity SDK
+
+There are several scenarios where you would want to use Selenium with AltTester® Unity SDK for WebGL builds:
+
+- By itself, AltTester® Unity SDK cannot handle browser-specific operations such as opening new tabs, managing cookies, or interacting with browser dialogs;
+- Selenium provides robust browser management and can handle native browser popups and dialogs that AltTester® Unity SDK cannot interact with;
+- You can use Selenium to perform cross-browser testing of your WebGL builds on different browsers (Chrome, Firefox, Safari, Edge, etc.);
+- Selenium allows you to automate tasks before launching your WebGL application, such as logging in on a web page or navigating to a specific URL.
+
+## Connection settings popup for Appium / Selenium flows
+
+When running AltTester® Unity SDK builds in the cloud and driving them with Appium or Selenium, you might not know in advance which app name to use from your test scripts to connect to the correct instrumented instance. To address this, AltTester® Unity SDK provides an optional native connection settings popup that can be shown in the app.
 
 The popup allows you to:
 
@@ -70,34 +91,62 @@ The popup allows you to:
 - Enter the AltTester® Server port;
 - Enter the app name that will be used by the tests when connecting.
 
-Because the popup is built using native UI elements, you can fully interact with it from Appium: locate the fields and buttons using your preferred locator strategy (for example accessibility id, xpath, or text), type the desired host, port and app name values, and confirm the dialog before starting your AltTester® tests.
+Because the popup is built using native UI elements, you can fully interact with it from Appium or Selenium: locate the fields and buttons using your preferred locator strategy (for example accessibility id, xpath, or text), type the desired host, port and app name values, and confirm the dialog before starting your AltTester® tests.
 
-Whether this popup is shown or not is controlled by a dedicated setting in AltTester® Unity SDK. Enable this setting when you want the popup to appear (for example in cloud/Appium runs where connection details are provided dynamically), and disable it when you prefer to configure connection parameters directly in your game or test code without any additional UI.
+Whether this popup is shown or not is controlled by a dedicated setting in AltTester® Unity SDK. Enable this setting when you want the popup to appear (for example in cloud/Appium/Selenium runs where connection details are provided dynamically), and disable it when you prefer to configure connection parameters directly in your game or test code without any additional UI.
 
-### Examples: identifying and interacting with the popup in Appium
-
-Below is a simple example that shows how you can identify and fill in the connection settings popup with Appium before starting your AltTester® tests.
+### Examples: identifying and interacting with the popup in Appium / Selenium
 
 ```eval_rst
 
 .. tabs::
-    .. tab:: C#
 
-        .. literalinclude:: ../_static/examples~/appium/csharp-appium.cs
-            :language: c#
+    .. tab:: Appium
+        Below is a simple example that shows how you can identify and fill in the connection settings popup with Appium before starting your AltTester® tests.
 
-    .. tab:: Java
+        .. tabs::
+            .. tab:: C#
 
-        .. literalinclude:: ../_static/examples~/appium/java-appium.java
-            :language: java
+                .. literalinclude:: ../_static/examples~/appium/csharp-appium.cs
+                    :language: c#
 
-    .. tab:: Python
+            .. tab:: Java
 
-        .. literalinclude:: ../_static/examples~/appium/python-appium.py
-            :language: py
+                .. literalinclude:: ../_static/examples~/appium/java-appium.java
+                    :language: java
 
-    .. tab:: Robot
+            .. tab:: Python
 
-        .. literalinclude:: ../_static/examples~/appium/robot-appium.robot
-            :language: robot
+                .. literalinclude:: ../_static/examples~/appium/python-appium.py
+                    :language: py
+
+            .. tab:: Robot
+
+                .. literalinclude:: ../_static/examples~/appium/robot-appium.robot
+                    :language: robot
+
+    .. tab:: Selenium
+        Below is a simple example that shows how you can identify and fill in the connection settings popup with Selenium before starting your AltTester® tests.
+
+        .. tabs::
+            .. tab:: C#
+
+                .. literalinclude:: ../_static/examples~/selenium/csharp-selenium.cs
+                    :language: c#
+
+            .. tab:: Java
+
+                .. literalinclude:: ../_static/examples~/selenium/java-selenium.java
+                    :language: java
+
+            .. tab:: Python
+
+                .. literalinclude:: ../_static/examples~/selenium/python-selenium.py
+                    :language: py
+
+            .. tab:: Robot
+
+                .. literalinclude:: ../_static/examples~/selenium/robot-selenium.robot
+                    :language: robot
+
 ```
