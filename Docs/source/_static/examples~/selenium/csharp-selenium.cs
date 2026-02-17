@@ -1,20 +1,16 @@
-using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using AltDriver;
-using NUnit.Framework;
-using System;
+using AltTester.AltTesterSDK.Driver;
 
-public class ConnectionSettingsPopupTest
+public class MyFirstTest
 {
-    private static IWebDriver driver;
+    private static ChromeDriver driver;
     private static AltDriver altDriver;
 
     [OneTimeSetUp]
     public void SetUp()
     {
         driver = new ChromeDriver();
-        driver.Navigate().GoToUrl("http://localhost:8080/index.html");
+        driver.Navigate().GoToUrl("http://localhost:8000");
 
         // Set connection data in the app
         string appName = "my_app";
@@ -27,7 +23,7 @@ public class ConnectionSettingsPopupTest
         altDriver = new AltDriver(host: altServerHost, port: int.Parse(altServerPort), appName: appName);
     }
 
-    public void SetConnectionData(string host = null, string port = null, string appName = null, int implicitWaitTimeout = 60)
+    private void SetConnectionData(string? host = null, string? port = null, string? appName = null, int implicitWaitTimeout = 60)
     {
         if (driver == null)
         {
@@ -42,7 +38,7 @@ public class ConnectionSettingsPopupTest
             // Update host if provided
             if (host != null)
             {
-                var hostField = driver.FindElement(By.Id("AltTesterHostInputField"));
+                var hostField = driver.FindElement(OpenQA.Selenium.By.Id("AltTesterHostInputField"));
                 hostField.Clear();
                 hostField.SendKeys(host);
             }
@@ -50,7 +46,7 @@ public class ConnectionSettingsPopupTest
             // Update port if provided
             if (port != null)
             {
-                var portField = driver.FindElement(By.Id("AltTesterPortInputField"));
+                var portField = driver.FindElement(OpenQA.Selenium.By.Id("AltTesterPortInputField"));
                 portField.Clear();
                 portField.SendKeys(port);
             }
@@ -58,13 +54,13 @@ public class ConnectionSettingsPopupTest
             // Update app_name if provided
             if (appName != null)
             {
-                var appNameField = driver.FindElement(By.Id("AltTesterAppNameInputField"));
+                var appNameField = driver.FindElement(OpenQA.Selenium.By.Id("AltTesterAppNameInputField"));
                 appNameField.Clear();
                 appNameField.SendKeys(appName);
             }
 
             // Press OK button
-            var okButton = driver.FindElement(By.Id("AltTesterOkButton"));
+            var okButton = driver.FindElement(OpenQA.Selenium.By.Id("AltTesterOkButton"));
             okButton.Click();
         }
         catch (Exception ex)
@@ -76,7 +72,7 @@ public class ConnectionSettingsPopupTest
     [OneTimeTearDown]
     public void TearDown()
     {
-        altDriver?.Disconnect();
-        driver?.Quit();
+        altDriver?.Stop();
+        driver?.Dispose();
     }
 }

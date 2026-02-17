@@ -1,25 +1,15 @@
 *** Settings ***
-Library    SeleniumLibrary
 Library    AltTesterLibrary
-
-*** Test Cases ***
-Test Connection Settings Popup
-    Open Browser    http://localhost:8080/index.html    chrome
-    
-    # Set connection data in the app
-    ${app_name}=    Set Variable    my_app
-    ${altserver_host}=    Set Variable    127.0.0.1
-    ${altserver_port}=    Set Variable    13005
-    
-    Set Connection Data    ${altserver_host}    ${altserver_port}    ${app_name}
-    
-    # Initialize AltDriver
-    Initialize Altdriver    host=${altserver_host}    port=${altserver_port}    app_name=${app_name}
-    
-    Close AltDriver
-    Close Browser
+Library    SeleniumLibrary
+Suite Setup    Suite Setup Tests
+Suite Teardown    Stop Altdriver 
 
 *** Keywords ***
+Suite Setup Tests
+    Open Browser    http://localhost:8000/index.html    chrome
+    Set Connection Data    127.0.0.1    13005    my_app    60
+    Initialize Altdriver    host="127.0.0.1"  port=13005    app_name="my_app"
+
 Set Connection Data
     [Arguments]    ${host}=None    ${port}=None    ${app_name}=None    ${implicit_wait_timeout}=60
     

@@ -7,9 +7,9 @@ from selenium.webdriver.common.by import By
 class TestBase(unittest.TestCase):
 
     @classmethod
-    def setup_method(cls):
+    def setUpClass(cls):
         cls.driver = webdriver.Chrome()
-        cls.driver.get("http://localhost:8080/index.html")
+        cls.driver.get("http://localhost:8000")
 
         # Set connection data in the app
         app_name = "my_app"
@@ -55,8 +55,8 @@ class TestBase(unittest.TestCase):
             raise Exception(f"Error while setting connection data: {str(ex)}") from ex
 
     @classmethod
-    def teardown_method(self):
-        if self.altdriver:
-            self.altdriver.stop()
-        if self.driver:
-            self.driver.quit()
+    def tearDownClass(cls):
+        if cls.altdriver:
+            cls.altdriver.stop()
+        if cls.driver:
+            cls.driver.quit()
