@@ -37,7 +37,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 ```eval_rst
         .. figure:: ../_static/img/alttester-editor/build-settings.png
-            :scale: 60 %
+            :scale: 70 %
 
 ```
 
@@ -49,11 +49,11 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     The product name (same with Unity's Player Settings).
 
--   *Append "Test" to product name for AltTester® Unity SDK builds*:
+- *Append "Test" to product name for AltTester® Unity SDK builds*:
 
     Will add "Test" to the product name.
 
--   *Keep ALTTESTER symbol defined*:
+-  *Keep ALTTESTER symbol defined*:
 
     Will add "ALTTESTER" to the scripting define symbols. This is usually done automatically when entering in play mode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
@@ -66,6 +66,23 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     Refers to the port the AltTester® Server is listening on.
     You can change this value and make a new app build if you want to use another port.
+
+- *App Name*
+
+    Refers to the name used to identify the app on the AltTester® Server.
+    You can change this value and make a new app build if you want to use another app name.
+
+- *Secure Mode (WSS)*
+
+    Enables or disables secure communication between the instrumented application
+    and the AltTester® Server.
+    
+    When enabled, the app will attempt to connect to the server using a secure
+    WebSocket connection (`wss://`). This option must be enabled if the AltTester®
+    Server is running in secure mode.
+    
+    If the server is not configured for secure connections, this option should be
+    disabled to allow standard WebSocket (`ws://`) communication.
 
 - *Reset Connection Data*
 
@@ -86,17 +103,9 @@ In the following sections you can see a breakdown of all the sections in the GUI
     - MacOS: Press <kbd>Ctrl</kbd> + <kbd>Opt</kbd> + <kbd>T</kbd>
     - Mobile (Android/iOS): Hold three fingers on the screen for one second. 
 
-- *Secure Mode (WSS)*
+- *Show Native Popup Option*
 
-    Enables or disables secure communication between the instrumented application
-    and the AltTester® Server.
-    
-    When enabled, the app will attempt to connect to the server using a secure
-    WebSocket connection (`wss://`). This option must be enabled if the AltTester®
-    Server is running in secure mode.
-    
-    If the server is not configured for secure connections, this option should be
-    disabled to allow standard WebSocket (`ws://`) communication.
+    Determines whether the native popup is displayed at startup on Android and iOS platforms. This popup allows changing connection data through Appium.
     
 ![Popup Screenshot](../_static/img/alttester-editor/popup.png)
 
