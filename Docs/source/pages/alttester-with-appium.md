@@ -59,3 +59,45 @@ The script will install any requirements that are missing from your machine (exc
    3. The Appium driver needs to be created before the reverse port forwarding needed by AltTester® Unity SDK is done. This is because Appium clears any other reverse port forwarding when it starts.
 
 ```
+
+## Connection settings popup for cloud/Appium flows
+
+When running AltTester® Unity SDK builds in the cloud and driving them with Appium, you might not know in advance which app name to use from your test scripts to connect to the correct instrumented instance. To address this, AltTester® Unity SDK provides an optional native connection settings popup that can be shown in the app.
+
+The popup allows you to:
+
+- Enter the AltTester® Server host;
+- Enter the AltTester® Server port;
+- Enter the app name that will be used by the tests when connecting.
+
+Because the popup is built using native UI elements, you can fully interact with it from Appium: locate the fields and buttons using your preferred locator strategy (for example accessibility id, xpath, or text), type the desired host, port and app name values, and confirm the dialog before starting your AltTester® tests.
+
+Whether this popup is shown or not is controlled by a dedicated setting in AltTester® Unity SDK. Enable this setting when you want the popup to appear (for example in cloud/Appium runs where connection details are provided dynamically), and disable it when you prefer to configure connection parameters directly in your game or test code without any additional UI.
+
+### Examples: identifying and interacting with the popup in Appium
+
+Below is a simple example that shows how you can identify and fill in the connection settings popup with Appium before starting your AltTester® tests.
+
+```eval_rst
+
+.. tabs::
+    .. tab:: C#
+
+        .. literalinclude:: ../_static/examples~/appium/csharp-appium.cs
+            :language: c#
+
+    .. tab:: Java
+
+        .. literalinclude:: ../_static/examples~/appium/java-appium.java
+            :language: java
+
+    .. tab:: Python
+
+        .. literalinclude:: ../_static/examples~/appium/python-appium.py
+            :language: py
+
+    .. tab:: Robot
+
+        .. literalinclude:: ../_static/examples~/appium/robot-appium.robot
+            :language: robot
+```
