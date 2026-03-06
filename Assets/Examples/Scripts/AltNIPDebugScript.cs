@@ -15,13 +15,13 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System.Collections;
 using System.Collections.Generic;
 using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.InputModule;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.LowLevel;
 
 public class AltNIPDebugScript : MonoBehaviour
 {
@@ -37,80 +37,129 @@ public class AltNIPDebugScript : MonoBehaviour
     public KeyControl pressedKey;
     public ButtonControl pressedButton;
 
-    // Update is called once per frame
-    void Update()
-    {
 #if ALTTESTER && ENABLE_INPUT_SYSTEM
+    void OnEnable()
+    {
+        InputSystem.onEvent += OnInputEvent;
+    }
 
-        if (Mouse.current.scroll.ReadValue() != Vector2.zero)
-            wasScrolled = true;
-        var allKeys = Keyboard.current.allKeys;
-        foreach (var key in allKeys)
-            if (key.isPressed)
+    void OnDisable()
+    {
+        InputSystem.onEvent -= OnInputEvent;
+    }
+
+    private void OnInputEvent(InputEventPtr eventPtr, InputDevice device)
+    {
+        if (device is Keyboard keyboard && eventPtr.IsA<StateEvent>())
+            HandleKeyboardEvent(keyboard, eventPtr);
+        else if (device is Mouse mouse)
+            HandleMouseEvent(mouse, eventPtr);
+        else if (device is Gamepad gamepad && eventPtr.IsA<StateEvent>())
+            HandleGamepadEvent(gamepad, eventPtr);
+    }
+
+    private void HandleKeyboardEvent(Keyboard keyboard, InputEventPtr eventPtr)
+    {
+        foreach (var key in keyboard.allKeys)
+        {
+            float newValue = key.ReadValueFromEvent(eventPtr);
+            bool wasPressed = key.isPressed;
+            bool isNowPressed = newValue >= key.pressPoint;
+
+            if (!wasPressed && isNowPressed)
             {
                 pressedKey = key;
-                KeyPressed = new List<int>() { };
+                KeyPressed = new List<int>();
                 foreach (var e in AltKeyMapping.StringToKey)
-                {
-                    if (Keyboard.current[e.Value] == key)
-                    {
+                    if (keyboard[e.Value] == key)
                         KeyPressed.Add((int)AltKeyMapping.StringToKeyCode[e.Key]);
-                    }
-                }
             }
-            else if (key == pressedKey && !key.isPressed)
+            else if (wasPressed && !isNowPressed && key == pressedKey)
             {
-                KeyReleased = new List<int>() { };
+                KeyReleased = new List<int>();
                 foreach (var e in AltKeyMapping.StringToKey)
-                    if (Keyboard.current[e.Value] == key)
+                    if (keyboard[e.Value] == key)
                         KeyReleased.Add((int)AltKeyMapping.StringToKeyCode[e.Key]);
             }
-        var allMouseControls = new List<ButtonControl> { Mouse.current.leftButton, Mouse.current.rightButton, Mouse.current.middleButton, Mouse.current.forwardButton, Mouse.current.backButton };
+        }
+    }
+
+    private void HandleMouseEvent(Mouse mouse, InputEventPtr eventPtr)
+    {
+        // Scroll uses DeltaStateEvent
+        if (eventPtr.IsA<DeltaStateEvent>())
+        {
+            if (mouse.scroll.ReadValueFromEvent(eventPtr) != Vector2.zero)
+                wasScrolled = true;
+            return;
+        }
+
+        if (!eventPtr.IsA<StateEvent>()) return;
+
+        var allMouseControls = new List<ButtonControl>
+        {
+            mouse.leftButton, mouse.rightButton, mouse.middleButton,
+            mouse.forwardButton, mouse.backButton
+        };
+
         foreach (var mouseCtrl in allMouseControls)
-            if (mouseCtrl.wasPressedThisFrame)
+        {
+            float newValue = mouseCtrl.ReadValueFromEvent(eventPtr);
+            bool wasPressed = mouseCtrl.isPressed;
+            bool isNowPressed = newValue >= mouseCtrl.pressPoint;
+
+            if (!wasPressed && isNowPressed)
             {
                 pressedButton = mouseCtrl;
                 var altKeyMapping = new AltKeyMapping(power);
                 foreach (var e in altKeyMapping.mouseKeyCodeToButtonControl)
-                {
                     if (mouseCtrl == e.Value)
                         MousePressed = e.Key.ToString();
-                }
             }
-            else if (pressedButton == mouseCtrl && !mouseCtrl.isPressed)
+            else if (wasPressed && !isNowPressed && pressedButton == mouseCtrl)
             {
                 var altKeyMapping = new AltKeyMapping(power);
                 foreach (var e in altKeyMapping.mouseKeyCodeToButtonControl)
-                {
                     if (mouseCtrl == e.Value)
                         MouseReleased = e.Key.ToString();
-                }
             }
-        var allJoysticks = Gamepad.current.allControls;
-        foreach (var joystick in allJoysticks)
-            if (joystick.GetType() == typeof(ButtonControl) && ((ButtonControl)joystick).wasPressedThisFrame)
+        }
+    }
+
+    private void HandleGamepadEvent(Gamepad gamepad, InputEventPtr eventPtr)
+    {
+        foreach (var control in gamepad.allControls)
+        {
+            if (!(control is ButtonControl joystick)) continue;
+
+            float newValue = joystick.ReadValueFromEvent(eventPtr);
+            bool wasPressed = joystick.isPressed;
+            bool isNowPressed = newValue >= joystick.pressPoint;
+
+            if (!wasPressed && isNowPressed)
             {
-                pressedButton = (ButtonControl)joystick;
-                if (joystick.parent.ReadValueAsObject().GetType() == typeof(Vector2))
+                pressedButton = joystick;
+                if (joystick.parent.ReadValueAsObject()?.GetType() == typeof(Vector2))
                 {
                     Vector2 axis = (Vector2)joystick.parent.ReadValueAsObject();
                     power = axis.x < 0 || axis.y < 0 ? -1 : 1;
                 }
                 else
                     power = 1;
+
                 var altKeyMapping = new AltKeyMapping(power);
                 foreach (var e in altKeyMapping.joystickKeyCodeToGamepad)
                     if (joystick == e.Value)
                         JoystickPressed = e.Key.ToString();
             }
-            else if (joystick.GetType() == typeof(ButtonControl) && ((ButtonControl)joystick) == pressedButton && !((ButtonControl)joystick).isPressed)
+            else if (wasPressed && !isNowPressed && joystick == pressedButton)
             {
                 var altKeyMapping = new AltKeyMapping(power);
                 foreach (var e in altKeyMapping.joystickKeyCodeToGamepad)
                     if (joystick == e.Value)
                         JoystickReleased = e.Key.ToString();
             }
-#endif
-
+        }
     }
+#endif
 }
