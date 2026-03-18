@@ -38,10 +38,10 @@ public class MyFirstTest {
     }
     
     public static void setConnectionData(String host, String port, String appName) {
-        setConnectionData(host, port, appName, 60);
+        setConnectionData(host, port, appName, false, 60);
     }
-    
-    public static void setConnectionData(String host, String port, String appName, int implicitWaitTimeout) {
+
+    public static void setConnectionData(String host, String port, String appName, boolean dontShowThisAgain, int implicitWaitTimeout) {
         if (driver == null) {
             throw new IllegalArgumentException("Selenium driver cannot be null");
         }
@@ -71,6 +71,14 @@ public class MyFirstTest {
                 appNameField.sendKeys(appName);
             }
             
+            // Set "Don't show this again" if specified
+            if (dontShowThisAgain) {
+                WebElement dontShowAgainCheckbox = driver.findElement(By.id("AltTesterDontShowAgainCheckbox"));
+                if (!dontShowAgainCheckbox.isSelected()) {
+                    dontShowAgainCheckbox.click();
+                }
+            }
+
             // Press OK button
             WebElement okButton = driver.findElement(By.id("AltTesterOkButton"));
             okButton.click();

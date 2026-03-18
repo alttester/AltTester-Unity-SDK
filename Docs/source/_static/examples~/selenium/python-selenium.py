@@ -21,7 +21,7 @@ class TestBase(unittest.TestCase):
         cls.altdriver = AltDriver(app_name=app_name, port=int(altserver_port))
     
     @classmethod
-    def set_connection_data(cls, host=None, port=None, app_name=None, implicit_wait_timeout=60):
+    def set_connection_data(cls, host=None, port=None, app_name=None, dont_show_this_again=False, implicit_wait_timeout=60):
         if cls.driver is None:
             raise ValueError("Selenium driver cannot be None")
 
@@ -46,6 +46,12 @@ class TestBase(unittest.TestCase):
                 app_name_field = cls.driver.find_element(by=By.ID, value="AltTesterAppNameInputField")
                 app_name_field.clear()
                 app_name_field.send_keys(app_name)
+
+            # Set "Don't show this again" if specified
+            if dont_show_this_again:
+                dont_show_again_checkbox = cls.driver.find_element(by=By.ID, value="AltTesterDontShowAgainCheckbox")
+                if not dont_show_again_checkbox.is_selected():
+                    dont_show_again_checkbox.click()
 
             # Press OK button
             ok_button = cls.driver.find_element(by=By.ID, value="AltTesterOkButton")

@@ -1,4 +1,4 @@
-public static void SetConnectionData(AppiumDriver appiumDriver, string? host = null, string? port = null, string? appName = null, int timeout = 60)
+public static void SetConnectionData(AppiumDriver appiumDriver, string? host = null, string? port = null, string? appName = null, bool dontShowThisAgain = false, int timeout = 60)
 {
     if (appiumDriver == null)
     {
@@ -32,6 +32,16 @@ public static void SetConnectionData(AppiumDriver appiumDriver, string? host = n
             var appNameField = appiumDriver.FindElement(MobileBy.AccessibilityId("AltTesterAppNameInputField"));
             appNameField.Clear();
             appNameField.SendKeys(appName);
+        }
+
+        // Set "Don't show this again" if specified
+        if (dontShowThisAgain)
+        {
+            var dontShowAgainCheckbox = appiumDriver.FindElement(MobileBy.AccessibilityId("AltTesterDontShowAgainCheckbox"));
+            if (!dontShowAgainCheckbox.Selected)
+            {
+                dontShowAgainCheckbox.Click();
+            }
         }
 
         // Press OK button
