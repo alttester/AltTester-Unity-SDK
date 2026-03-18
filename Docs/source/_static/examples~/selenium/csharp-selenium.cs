@@ -13,9 +13,9 @@ public class MyFirstTest
         driver.Navigate().GoToUrl("http://localhost:8000");
 
         // Set connection data in the app
-        string appName = "my_app";
+        string appName = "__default__";
         string altServerHost = "127.0.0.1";
-        string altServerPort = "13005";
+        string altServerPort = "13000";
         
         SetConnectionData(altServerHost, altServerPort, appName);
 

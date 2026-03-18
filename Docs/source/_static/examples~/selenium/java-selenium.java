@@ -24,14 +24,14 @@ public class MyFirstTest {
             driver.navigate().to("http://localhost:8000");
 
             // Set connection data in the app
-            String appName = "my_app";
+            String appName = "__default__";
             String altServerHost = "127.0.0.1";
-            String altServerPort = "13005";
+            String altServerPort = "13000";
 
             setConnectionData(altServerHost, altServerPort, appName);
 
             // Initialize AltDriver
-            altDriver = new AltDriver(appName, Integer.parseInt(altServerPort));
+            altDriver = new AltDriver(altServerHost, Integer.parseInt(altServerPort));
         } catch (Exception ex) {
             Assumptions.assumeTrue(false, "Test environment not ready (ChromeDriver/AltTester): " + ex.getMessage());
         }

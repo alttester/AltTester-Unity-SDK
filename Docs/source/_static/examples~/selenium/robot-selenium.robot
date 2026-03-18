@@ -7,8 +7,8 @@ Suite Teardown    Stop Altdriver
 *** Keywords ***
 Suite Setup Tests
     Open Browser    http://localhost:8000/index.html    chrome
-    Set Connection Data    127.0.0.1    13005    my_app    60
-    Initialize Altdriver    host="127.0.0.1"  port=13005    app_name="my_app"
+    Set Connection Data    127.0.0.1    13000    __default__    60
+    Initialize Altdriver    host=127.0.0.1    port=13000    app_name=__default__
 
 Set Connection Data
     [Arguments]    ${host}=None    ${port}=None    ${app_name}=None    ${dont_show_this_again}=False    ${implicit_wait_timeout}=60

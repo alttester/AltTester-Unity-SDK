@@ -105,7 +105,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 - *Show Native Popup Option*
 
-    Determines whether the native popup is displayed at startup on Android and iOS platforms. This popup allows changing connection data through Appium.
+    Determines whether the native popup is displayed at startup on Android, iOS, and WebGL platforms. This popup allows changing connection data through Appium or Selenium.
     
 ![Popup Screenshot](../_static/img/alttester-editor/popup.png)
 

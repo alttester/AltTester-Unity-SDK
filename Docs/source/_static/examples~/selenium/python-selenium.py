@@ -12,13 +12,13 @@ class TestBase(unittest.TestCase):
         cls.driver.get("http://localhost:8000")
 
         # Set connection data in the app
-        app_name = "my_app"
+        app_name = "__default__"
         altserver_host = "127.0.0.1"
-        altserver_port = "13005"
+        altserver_port = "13000"
         cls.set_connection_data(host=altserver_host, port=altserver_port, app_name=app_name)
 
         # Initialize AltDriver
-        cls.altdriver = AltDriver(app_name=app_name, port=int(altserver_port))
+        cls.altdriver = AltDriver(host=altserver_host, port=int(altserver_port), app_name=app_name)
     
     @classmethod
     def set_connection_data(cls, host=None, port=None, app_name=None, dont_show_this_again=False, implicit_wait_timeout=60):
