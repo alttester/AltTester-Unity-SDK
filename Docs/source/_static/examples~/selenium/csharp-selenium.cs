@@ -13,9 +13,9 @@ public class MyFirstTest
         driver.Navigate().GoToUrl("http://localhost:8000");
 
         // Set connection data in the app
-        string appName = "my_app";
+        string appName = "__default__";
         string altServerHost = "127.0.0.1";
-        string altServerPort = "13005";
+        string altServerPort = "13000";
         
         SetConnectionData(altServerHost, altServerPort, appName);
 
@@ -23,7 +23,7 @@ public class MyFirstTest
         altDriver = new AltDriver(host: altServerHost, port: int.Parse(altServerPort), appName: appName);
     }
 
-    private void SetConnectionData(string? host = null, string? port = null, string? appName = null, int implicitWaitTimeout = 60)
+    private void SetConnectionData(string? host = null, string? port = null, string? appName = null, bool dontShowThisAgain = false, int implicitWaitTimeout = 60)
     {
         if (driver == null)
         {
@@ -57,6 +57,16 @@ public class MyFirstTest
                 var appNameField = driver.FindElement(OpenQA.Selenium.By.Id("AltTesterAppNameInputField"));
                 appNameField.Clear();
                 appNameField.SendKeys(appName);
+            }
+
+            // Set "Don't show this again" if specified
+            if (dontShowThisAgain)
+            {
+                var dontShowAgainCheckbox = driver.FindElement(OpenQA.Selenium.By.Id("AltTesterDontShowAgainCheckbox"));
+                if (!dontShowAgainCheckbox.Selected)
+                {
+                    dontShowAgainCheckbox.Click();
+                }
             }
 
             // Press OK button

@@ -2,6 +2,7 @@ public static void setConnectionData(AppiumDriver appiumDriver,
                                     String host,
                                     String port,
                                     String appName,
+                                    boolean dontShowThisAgain,
                                     int implicitWaitTimeoutSeconds) {
     if (appiumDriver == null) {
         throw new IllegalArgumentException("Appium driver cannot be null");
@@ -31,6 +32,14 @@ public static void setConnectionData(AppiumDriver appiumDriver,
             WebElement appNameField = appiumDriver.findElement(AppiumBy.accessibilityId("AltTesterAppNameInputField"));
             appNameField.clear();
             appNameField.sendKeys(appName);
+        }
+
+        // Set "Don't show this again" if specified
+        if (dontShowThisAgain) {
+            WebElement dontShowAgainCheckbox = appiumDriver.findElement(AppiumBy.accessibilityId("AltTesterDontShowAgainCheckbox"));
+            if (!dontShowAgainCheckbox.isSelected()) {
+                dontShowAgainCheckbox.click();
+            }
         }
 
         // Press OK button

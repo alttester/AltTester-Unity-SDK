@@ -24,24 +24,24 @@ public class MyFirstTest {
             driver.navigate().to("http://localhost:8000");
 
             // Set connection data in the app
-            String appName = "my_app";
+            String appName = "__default__";
             String altServerHost = "127.0.0.1";
-            String altServerPort = "13005";
+            String altServerPort = "13000";
 
             setConnectionData(altServerHost, altServerPort, appName);
 
             // Initialize AltDriver
-            altDriver = new AltDriver(appName, Integer.parseInt(altServerPort));
+            altDriver = new AltDriver(altServerHost, Integer.parseInt(altServerPort));
         } catch (Exception ex) {
             Assumptions.assumeTrue(false, "Test environment not ready (ChromeDriver/AltTester): " + ex.getMessage());
         }
     }
     
     public static void setConnectionData(String host, String port, String appName) {
-        setConnectionData(host, port, appName, 60);
+        setConnectionData(host, port, appName, false, 60);
     }
-    
-    public static void setConnectionData(String host, String port, String appName, int implicitWaitTimeout) {
+
+    public static void setConnectionData(String host, String port, String appName, boolean dontShowThisAgain, int implicitWaitTimeout) {
         if (driver == null) {
             throw new IllegalArgumentException("Selenium driver cannot be null");
         }
@@ -71,6 +71,14 @@ public class MyFirstTest {
                 appNameField.sendKeys(appName);
             }
             
+            // Set "Don't show this again" if specified
+            if (dontShowThisAgain) {
+                WebElement dontShowAgainCheckbox = driver.findElement(By.id("AltTesterDontShowAgainCheckbox"));
+                if (!dontShowAgainCheckbox.isSelected()) {
+                    dontShowAgainCheckbox.click();
+                }
+            }
+
             // Press OK button
             WebElement okButton = driver.findElement(By.id("AltTesterOkButton"));
             okButton.click();

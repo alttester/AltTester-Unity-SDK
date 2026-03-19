@@ -19,7 +19,7 @@ No registration is needed and you can either download the latest version of the 
 > appium &               # start appium
 ```
 
-We've created an example Python project which can be found [here](https://github.com/alttester-test-examples/Python-Android-with-Appium-AltTrashCat-) which hopefully can get you started on your own projects. Using it will also automatically install the requirements needed for running the tests. More details about it [below](#alttester-unity-sdk-with-appium-example).
+We've created an example Python project which can be found [here](https://github.com/alttester-test-examples/Python-Android-with-Appium-AltTrashCat-) This project demonstrates a working setup and includes the necessary dependencies. More details about it [below](#alttester-unity-sdk-with-appium-example).
 
 ### Why use Appium together with AltTester® Unity SDK
 
@@ -89,7 +89,8 @@ The popup allows you to:
 
 - Enter the AltTester® Server host;
 - Enter the AltTester® Server port;
-- Enter the app name that will be used by the tests when connecting.
+- Enter the app name that will be used by the tests when connecting;
+- Check "Don't show this again" to prevent the popup from appearing on subsequent launches.
 
 Because the popup is built using native UI elements, you can fully interact with it from Appium or Selenium: locate the fields and buttons using your preferred locator strategy (for example accessibility id, xpath, or text), type the desired host, port and app name values, and confirm the dialog before starting your AltTester® tests.
 
