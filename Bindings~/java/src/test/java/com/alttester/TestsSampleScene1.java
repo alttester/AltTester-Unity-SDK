@@ -1748,7 +1748,7 @@ public class TestsSampleScene1 extends BaseTest {
                 AltDriver.By.PATH, "/Button").build());
         assertEquals("Button", child.name);
         child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
-                AltDriver.By.ID, "049eccc5-b072-468b-83bf-119d868ca311").build());
+                AltDriver.By.ID, "632dee97-3955-47d3-b760-0eb0aa763f75").build());
         assertEquals("Button", child.name);
         child = parent.findObjectFromObject(new AltFindObjectsParams.Builder(
                 AltDriver.By.TEXT, "Change Camera Mode").build());

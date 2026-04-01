@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ namespace AltTester.AltTesterUnitySDK.Notification
     {
         public AltLoadSceneNotification(ICommandHandler commandHandler, bool isOn) : base(commandHandler)
         {
-            SceneManager.sceneLoaded -= onSceneLoaded;
+            StopSceneLoaded();
 
             if (isOn)
             {
@@ -37,6 +37,10 @@ namespace AltTester.AltTesterUnitySDK.Notification
         {
             var data = new AltLoadSceneNotificationResultParams(scene.name, (AltLoadSceneMode)mode);
             SendNotification(data, "loadSceneNotification");
+        }
+        public static void StopSceneLoaded()
+        {
+            SceneManager.sceneLoaded -= onSceneLoaded;
         }
     }
 }

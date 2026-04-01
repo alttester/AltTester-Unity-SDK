@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 using System;
 using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Commands;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -27,8 +28,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             new AltObjectProperty("UnityEngine.UI.Text", "text"),
             new AltObjectProperty("UnityEngine.UI.InputField", "text"),
+            #if TMP_PRESENT
             new AltObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
             new AltObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
+            #endif
         };
 
         public AltGetTextCommand(AltGetTextParams cmdParams) : base(cmdParams)
@@ -67,6 +70,29 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             var command = new AltGetTextCommand(new AltGetTextParams(altObject));
             return command.Execute();
+        }
+        public static string GetText(GameObject gameObject)
+        {
+
+            if (gameObject.TryGetComponent<UnityEngine.UI.Text>(out var uiText))
+            {
+                return uiText.text;
+            }
+            else if (gameObject.TryGetComponent<UnityEngine.UI.InputField>(out var uiInputField))
+            {
+                return uiInputField.text;
+            }
+#if TMP_PRESENT
+            else if (gameObject.TryGetComponent<TMPro.TMP_Text>(out var tmpText))
+            {
+                return tmpText.text;
+            }
+            else if (gameObject.TryGetComponent<TMPro.TMP_InputField>(out var tmpInputField))
+            {
+                return tmpInputField.text;
+            }
+#endif
+            throw new PropertyNotFoundException("No valid text property could be found on the target object.");
         }
     }
 }

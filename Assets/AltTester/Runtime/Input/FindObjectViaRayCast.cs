@@ -1,24 +1,13 @@
 /*
-    Copyright(C) 2025 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
+    Copyright(C) 2026 Altom Consulting
 */
 
 using System.Collections.Generic;
 using System.Linq;
+using AltTester.AltTesterSDK.Driver;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
@@ -41,7 +30,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             return clickHandler != null ? clickHandler : topMostObject;
 
         }
-        public static GameObject FindObjectAtCoordinates(Vector2 screenPosition)
+        public static (bool isGameObject, System.Object obj) FindObjectAtCoordinates(Vector2 screenPosition)
         {
             var pointerEventData = new PointerEventData(EventSystem.current)
             {
@@ -51,9 +40,9 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 pressPosition = screenPosition
             };
             var eventSystemTarget = findEventSystemObject(pointerEventData);
-            if (eventSystemTarget != null) return eventSystemTarget;
+            if (eventSystemTarget != null) return (true, eventSystemTarget);
             var monoBehaviourTarget = FindMonoBehaviourObject(screenPosition);
-            return monoBehaviourTarget;
+            return (true, monoBehaviourTarget);
         }
         /// <summary>
         /// Finds element(s) at given coordinates for which we raise MonoBehaviour input events

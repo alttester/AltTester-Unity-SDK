@@ -1,18 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
+    Copyright(C) 2026 Altom Consulting
 */
 
 using System.Collections.Generic;
@@ -21,6 +8,8 @@ using System.Linq;
 using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
+using AltTesterTools;
+using UnityEditor;
 #if UNITY_6000_0_OR_NEWER
 using UnityEditor.Build;
 #endif
@@ -42,6 +31,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
     {
         private const string ALTTESTERDEFINE = "ALTTESTER";
         private const string PREFABNAME = "AltTesterPrefab";
+        private const string PREFABNAMEWITHEXTENSION = "AltTesterPrefab.prefab";
         private const string WEBGLDEFINE = "UNITY_WEBGL";
 
         private static readonly NLog.Logger logger = EditorLogManager.Instance.GetCurrentClassLogger();
@@ -83,6 +73,16 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     target = buildTarget,
                     targetGroup = buildTargetGroup
                 };
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+                if (buildTargetGroup == UnityEditor.BuildTargetGroup.Switch)
+                {
+
+                    UnityEditor.EditorUserBuildSettings.explicitNullChecks = true;
+                    UnityEditor.EditorUserBuildSettings.explicitArrayBoundsChecks = true;
+                    UnityEditor.EditorUserBuildSettings.explicitDivideByZeroChecks = true;
+                    UnityEditor.PlayerSettings.SetManagedStrippingLevel(UnityEditor.BuildTargetGroup.Switch, UnityEditor.ManagedStrippingLevel.Minimal);
+                }
+#endif
 
                 buildGame(autoRun, buildPlayerOptions);
             }
@@ -225,31 +225,68 @@ namespace AltTester.AltTesterUnitySDK.Editor
             }
             UnityEditor.AssetDatabase.Refresh();
         }
-
+        [System.Obsolete("Use InsertAltTesterInScene instead.")]
         public static void InsertAltInScene(string scene, AltInstrumentationSettings instrumentationSettings)
         {
-            logger.Debug("Adding AltTesterPrefab into the [" + scene + "] scene.");
-            var altRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets(PREFABNAME)[0]));
+            InsertAltTesterInScene(scene, instrumentationSettings);
+        }
+        public static void InsertAltTesterInScene(string scene, AltInstrumentationSettings instrumentationSettings)
+        {
+
+            var AltPrefab = GetAltTesterPrefab();
             SceneWithAltRunner = EditorSceneManager.OpenScene(scene);
-            AltRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altRunner);
+            AltRunner = UnityEditor.PrefabUtility.InstantiatePrefab(AltPrefab);
             var altRunnerComponent = ((GameObject)AltRunner).GetComponent<AltRunner>();
             altRunnerComponent.InstrumentationSettings = instrumentationSettings;
 
             EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             EditorSceneManager.SaveOpenScenes();
-            logger.Info("AltTesterPrefab successfully modified into the [" + scene + "] scene.");
         }
 
+        public static GameObject CreateAltTesterPrefab()
+        {
+            string locationToSavePrefab = GetAltTesterPrefabLocation();
+            Directory.CreateDirectory("Assets/Prefabs/AltTester");
+            CreateAltPrefab.CreateAltPrefabForUnity6(locationToSavePrefab);
+            return UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(locationToSavePrefab);
+
+        }
+
+        public static string GetAltTesterPrefabLocation()
+        {
+            return $"Assets/Prefabs/AltTester/{PREFABNAMEWITHEXTENSION}";
+        }
+        public static GameObject GetAltTesterPrefab()
+        {
+            var AltTesterPrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(GetAltTesterPrefabLocation());
+            if (AltTesterPrefab == null)
+                return CreateAltTesterPrefab();
+            return AltTesterPrefab;
+        }
+        [System.Obsolete("Use InsertAltTesterInTheActiveScene instead.")]
         public static void InsertAltInTheActiveScene(AltInstrumentationSettings instrumentationSettings)
         {
-            var activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
-            InsertAltInScene(activeScene, instrumentationSettings);
+            InsertAltTesterInTheActiveScene(instrumentationSettings);
         }
-
+        public static void InsertAltTesterInTheActiveScene(AltInstrumentationSettings instrumentationSettings)
+        {
+            var activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects().Where(gameObject => gameObject.name.Equals(PREFABNAME)).ToList().Count > 0)
+            {
+                logger.Info("AltTester® prefab is already in the active scene.");
+                return;
+            }
+            InsertAltTesterInScene(activeScene, instrumentationSettings);
+        }
+        [System.Obsolete("Use InsertAltTesterInTheFirstScene instead.")]
         public static void InsertAltInTheFirstScene(AltInstrumentationSettings instrumentationSettings)
         {
+            InsertAltTesterInTheFirstScene(instrumentationSettings);
+        }
+        public static void InsertAltTesterInTheFirstScene(AltInstrumentationSettings instrumentationSettings)
+        {
 
-            var altRunner = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets(PREFABNAME)[0]));
+            var altRunner = GetAltTesterPrefab();
             PreviousScenePath = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
             SceneWithAltRunner = EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
 
@@ -316,6 +353,14 @@ namespace AltTester.AltTesterUnitySDK.Editor
                         outputPath += ".x86_64";
                     }
                     break;
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+                case UnityEditor.BuildTarget.Switch:
+                    if (!outputPath.EndsWith(".nspd"))
+                    {
+                        outputPath += ".nspd";
+                    }
+                    break;
+#endif
 
                 case UnityEditor.BuildTarget.iOS:
                 default:
@@ -357,18 +402,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             var results = UnityEditor.BuildPipeline.BuildPlayer(buildPlayerOptions);
 
 
-#if UNITY_2017
-            if (results.Equals(""))
-            {
-                logger.Info("Build path: " + buildPlayerOptions.locationPathName);
-                logger.Info("Build " + UnityEditor.PlayerSettings.productName + ":" + UnityEditor.PlayerSettings.bundleVersion + " Succeeded");
-            }
-            else
-            {
-                logger.Error("Build Error!");
-            }
 
-#else
             if (results.summary.totalErrors == 0 || results.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
             {
                 logger.Info($"Build path: {buildPlayerOptions.locationPathName}");
@@ -378,9 +412,11 @@ namespace AltTester.AltTesterUnitySDK.Editor
             {
                 logger.Error($"Build Error! {results.steps}\n Result: {results.summary.result}\n Stripping info: {results.strippingInfo}");
             }
-#endif
+
 
         }
+
+
 
         private static string[] getScenesForBuild()
         {
@@ -398,7 +434,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 }
             }
 
-            InsertAltInTheFirstScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
+            InsertAltTesterInTheFirstScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
 
             return sceneList.ToArray();
         }

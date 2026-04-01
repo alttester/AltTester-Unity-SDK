@@ -1,18 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
+    Copyright(C) 2026 Altom Consulting
 */
 
 using System;
@@ -27,16 +14,17 @@ namespace AltTester.AltTesterSDK.Driver.Communication
             Uri uri;
 
             string scheme = secureMode ? "wss" : "ws";
+            string capabilityTags = "";
             if (string.IsNullOrEmpty(appId))
             {
-                if (!Uri.TryCreate(string.Format("{0}://{1}:{2}{3}?appName={4}&platform={5}&platformVersion={6}&deviceInstanceId={7}&driverType={8}", scheme, host, port, path, Uri.EscapeDataString(appName), Uri.EscapeDataString(platform), Uri.EscapeDataString(platformVersion), Uri.EscapeDataString(deviceInstanceId), Uri.EscapeDataString(driverType)), UriKind.Absolute, out uri))
+                if (!Uri.TryCreate(string.Format("{0}://{1}:{2}{3}?appName={4}&platform={5}&platformVersion={6}&deviceInstanceId={7}&driverType={8}{9}", scheme, host, port, path, Uri.EscapeDataString(appName), Uri.EscapeDataString(platform), Uri.EscapeDataString(platformVersion), Uri.EscapeDataString(deviceInstanceId), Uri.EscapeDataString(driverType), capabilityTags), UriKind.Absolute, out uri))
                 {
                     throw new Exception(String.Format("Invalid host or port {0}:{1}{2}", host, port, path));
                 }
             }
             else
             {
-                if (!Uri.TryCreate(string.Format("{0}://{1}:{2}{3}?appName={4}&platform={5}&platformVersion={6}&deviceInstanceId={7}&appId={8}&driverType={9}", scheme, host, port, path, Uri.EscapeDataString(appName), Uri.EscapeDataString(platform), Uri.EscapeDataString(platformVersion), Uri.EscapeDataString(deviceInstanceId), Uri.EscapeDataString(appId), Uri.EscapeDataString(driverType)), UriKind.Absolute, out uri))
+                if (!Uri.TryCreate(string.Format("{0}://{1}:{2}{3}?appName={4}&platform={5}&platformVersion={6}&deviceInstanceId={7}&appId={8}&driverType={9}{10}", scheme, host, port, path, Uri.EscapeDataString(appName), Uri.EscapeDataString(platform), Uri.EscapeDataString(platformVersion), Uri.EscapeDataString(deviceInstanceId), Uri.EscapeDataString(appId), Uri.EscapeDataString(driverType), capabilityTags), UriKind.Absolute, out uri))
                 {
                     throw new Exception(String.Format("Invalid host or port {0}:{1}{2}", host, port, path));
                 }

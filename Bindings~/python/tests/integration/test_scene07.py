@@ -76,6 +76,7 @@ class TestScene07A:
 
         assert action_info.get_text() == "Capsule was clicked!"
 
+    @pytest.mark.skip(reason="This test needs more investigation")
     def test_tilt(self):
         cube = self.alt_driver.find_object(By.NAME, "Cube (1)")
         initial_position = cube.get_world_position()

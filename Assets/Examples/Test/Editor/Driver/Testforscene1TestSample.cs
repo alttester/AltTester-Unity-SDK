@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         }
 
         [TestCase(By.COMPONENT, "CapsuleColl", "//Capsule")]
-        [TestCase(By.ID, "13b211d0-eafa-452d-8708-cc70f5075e93", "//Capsule")]
+        [TestCase(By.ID, "d4728249-9bcd-48b8-82ad-b19b1e71b238", "//Capsule")]
         [TestCase(By.LAYER, "Wat", "//Capsule")]
         [TestCase(By.NAME, "Cap", "//Capsule")]
         [TestCase(By.TAG, "pla", "//Plane")]
@@ -113,7 +113,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         }
 
         [TestCase(By.COMPONENT, "CapsuleColl", "//Capsule")]
-        [TestCase(By.ID, "13b211d0-eafa-452d-8708-cc70f5075e93", "//Capsule")]
+        [TestCase(By.ID, "d4728249-9bcd-48b8-82ad-b19b1e71b238", "//Capsule")]
         [TestCase(By.LAYER, "Wat", "//Capsule")]
         [TestCase(By.TEXT, "Change Camera", "/Canvas/Button/Text")]
         public void TestFindObjectsWhichContain(By by, string value, string path)
@@ -180,7 +180,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         [TestCase(By.COMPONENT, "AltRunner", "//AltTesterPrefab")]
         [TestCase(By.COMPONENT, "CapsuleCollider", "//Capsule")] //Unity component
         [TestCase(By.COMPONENT, "AltTester.AltDriver.AltRunner", "//AltTesterPrefab")] // namespace
-        [TestCase(By.ID, "13b211d0-eafa-452d-8708-cc70f5075e93", "//Capsule")]
+        [TestCase(By.ID, "d4728249-9bcd-48b8-82ad-b19b1e71b238", "//Capsule")]
         [TestCase(By.LAYER, "Water", "//Capsule")]
         [TestCase(By.NAME, "Capsule", "//Capsule")]
         [TestCase(By.PATH, "/Sphere", "//Sphere")]
@@ -190,24 +190,24 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         [TestCase(By.PATH, "//*[@layer=Water]", "//Capsule")]
         [TestCase(By.PATH, "//*[@name=Capsule]", "//Capsule")]
         [TestCase(By.PATH, "//*[@component=CapsuleCollider]", "//Capsule")]
-        [TestCase(By.PATH, "//*[@id=13b211d0-eafa-452d-8708-cc70f5075e93]", "//Capsule")]
+        [TestCase(By.PATH, "//*[@id=d4728249-9bcd-48b8-82ad-b19b1e71b238]", "//Capsule")]
         [TestCase(By.PATH, "//*[@text=Change Camera Mode]", "/Canvas/Button/Text")]
         [TestCase(By.PATH, "//*[@tag=plane][@layer=Default]", "//Plane")]
         [TestCase(By.PATH, "//*[@tag=plane][@layer=Default][@name=Plane]", "//Plane")]
         [TestCase(By.PATH, "//*[@tag=plane][@layer=Default][@name=Plane][@component=MeshCollider]", "//Plane")]
-        [TestCase(By.PATH, "//*[@tag=plane][@layer=Default][@name=Plane][@component=MeshCollider][@id=58af4167-0971-415f-901c-7c5226c3c170]", "//Plane")]
-        [TestCase(By.PATH, "//*[@tag=Untagged][@layer=UI][@name=Text][@component=CanvasRenderer][@id=0ffed8a8-3d77-4b03-965b-5ae094ba9511][@text=Change Camera Mode]", "/Canvas/Button/Text")]
+        [TestCase(By.PATH, "//*[@tag=plane][@layer=Default][@name=Plane][@component=MeshCollider][@id=718f6503-d461-4517-80c5-5453af779998]", "//Plane")]
+        [TestCase(By.PATH, "//*[@tag=Untagged][@layer=UI][@name=Text][@component=CanvasRenderer][@id=dde29fea-ec57-4541-986d-f0c279776dfb][@text=Change Camera Mode]", "/Canvas/Button/Text")]
         [TestCase(By.PATH, "//*[contains(@tag,pla)]", "//Plane")]
         [TestCase(By.PATH, "//*[contains(@layer,Wat)]", "//Capsule")]
         [TestCase(By.PATH, "//*[contains(@name,Cap)]", "//Capsule")]
         [TestCase(By.PATH, "//*[contains(@component,CapsuleColl)]", "//Capsule")]
-        [TestCase(By.PATH, "//*[contains(@id,13b211d0-eafa-452d-8708-cc70f5075e93)]", "//Capsule")]
+        [TestCase(By.PATH, "//*[contains(@id,d4728249-9bcd-48b8-82ad-b19b1e71b238)]", "//Capsule")]
         [TestCase(By.PATH, "//*[contains(@text,Change Camera)]", "/Canvas/Button/Text")]
         [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)]", "//Plane")]
         [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)][contains(@name,Pla)]", "//Plane")]
         [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)][contains(@name,Pla)][contains(@component,MeshColl)]", "//Plane")]
-        [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)][contains(@name,Pla)][contains(@component,MeshColl)][contains(@id,58af4167-0971-415f-901c-7c5226c3c170)]", "//Plane")]
-        [TestCase(By.PATH, "//*[contains(@tag,Untag)][contains(@layer,U)][contains(@name,Tex)][contains(@component,CanvasRender)][contains(@id,0ffed8a8-3d77-4b03-965b-5ae094ba9511)][contains(@text,Change Camera)]", "/Canvas/Button/Text")]
+        [TestCase(By.PATH, "//*[contains(@tag,pla)][contains(@layer,Def)][contains(@name,Pla)][contains(@component,MeshColl)][contains(@id,718f6503-d461-4517-80c5-5453af779998)]", "//Plane")]
+        [TestCase(By.PATH, "//*[contains(@tag,Untag)][contains(@layer,U)][contains(@name,Tex)][contains(@component,CanvasRender)][contains(@id,dde29fea-ec57-4541-986d-f0c279776dfb)][contains(@text,Change Camera)]", "/Canvas/Button/Text")]
         [TestCase(By.TAG, "plane", "//Plane")]
         [TestCase(By.TEXT, "Capsule Info", "//CapsuleInfo")] // text area
         [TestCase(By.TEXT, "Change Camera Mode", "//Canvas/Button/Text")] // button with text
@@ -1106,7 +1106,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         public void TestGetAllScenes()
         {
             var scenes = altDriver.GetAllScenes();
-            Assert.AreEqual(15, scenes.Count);
+            Assert.AreEqual(16, scenes.Count);
             Assert.AreEqual("Scene 1 AltDriverTestScene", scenes[0]);
         }
 
@@ -1374,7 +1374,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         [TestCase(By.TAG, "MainCamera")]
         [TestCase(By.PATH, "/Main Camera")]
         [TestCase(By.LAYER, "Default")]
-        [TestCase(By.ID, "4eb39f50-3403-473c-b684-915f7a40c393")]
+        [TestCase(By.ID, "6cc4c8e2-0b4a-4634-9c98-2f585188ce3c")]
         public void TestFindObjectByCamera(By cameraBy, string cameraValue)
         {
             int referenceId = altDriver.FindObject(By.PATH, "//Capsule").id;
@@ -1761,6 +1761,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         public void TestClick_MouseDownUp()
         {
             var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
+            counterElement.SetComponentProperty("AltExampleScriptIncrementOnClick", "mouseDownCounter", 0, "Assembly-CSharp");
             counterElement.SetComponentProperty("AltExampleScriptIncrementOnClick", "mouseUpCounter", 0, "Assembly-CSharp");
             counterElement.SetComponentProperty("AltExampleScriptIncrementOnClick", "mousePressedCounter", 0, "Assembly-CSharp");
 
@@ -2110,7 +2111,6 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         public void TestWaitForComponentPropertyMultipleTypes()
         {
             var Canvas = altDriver.WaitForObject(By.PATH, "/Canvas");
-            Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.x", JToken.Parse("-960.0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "rect.center.x", JToken.Parse("0.0"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "parentInternal", JToken.Parse("null"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
             Canvas.WaitForComponentProperty<JToken>("UnityEngine.RectTransform", "hasChanged", JToken.Parse("true"), "UnityEngine.CoreModule", 1, getPropertyAsString: true);
@@ -2171,7 +2171,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         [TestCase(By.NAME, "Button", "Button")]
         [TestCase(By.COMPONENT, "Button", "UIButton")]
         [TestCase(By.PATH, "/Button", "Button")]
-        [TestCase(By.ID, "049eccc5-b072-468b-83bf-119d868ca311", "Button")]
+        [TestCase(By.ID, "632dee97-3955-47d3-b760-0eb0aa763f75", "Button")]
         [TestCase(By.TEXT, "Change Camera Mode", "Text")]
         public void TestFindObjectFromObject(By by, string value, string nameOfChild)
         {

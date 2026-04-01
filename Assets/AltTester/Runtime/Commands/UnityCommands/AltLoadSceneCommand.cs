@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 using System;
 using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.InputModule;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -49,6 +50,12 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         private void sceneLoaded(UnityEngine.AsyncOperation obj)
         {
+            AltInput.Instance.StartCoroutine(SceneLoadedCoroutine());
+        }
+
+        private System.Collections.IEnumerator SceneLoadedCoroutine()
+        {
+            yield return AltInput.DummyClickAt(new UnityEngine.Vector2(-100, -100));
             handler.Send(ExecuteAndSerialize(() => "Scene Loaded"));
         }
     }

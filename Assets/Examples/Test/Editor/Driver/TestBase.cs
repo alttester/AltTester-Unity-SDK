@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ public class TestBase
     private int defaultCommandResponseTimeout = 5;
 
     [OneTimeSetUp]
-    public void SetUp()
+    public void SetUpOneTime()
     {
         altDriver = TestsHelper.GetAltDriver();
         DriverLogManager.SetMinLogLevel(AltLogger.Console, AltLogLevel.Info);
@@ -41,7 +41,7 @@ public class TestBase
     }
 
     [SetUp]
-    protected void LoadLevel()
+    public virtual void SetUp()
     {
         altDriver.ResetInput();
 

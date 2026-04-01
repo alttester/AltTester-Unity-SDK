@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -51,6 +51,39 @@ public static class AltProxyFinderPostProcess
             // Modulemap
             project.AddBuildProperty(unityFrameworkGuid, "DEFINES_MODULE", "YES");
 
+            // Required to load all Objective-C classes from static libraries (e.g. libNativeInputDialog.a)
+            project.AddBuildProperty(unityFrameworkGuid, "OTHER_LDFLAGS", "-ObjC");
+
+            // Explicitly link libNativeInputDialog.a to UnityFramework so that IOS_ShowNativeInput
+            // is accessible at runtime. Unity links .a plugins to Unity-iPhone by default; symbols
+            // in the main executable are not exported to the embedded UnityFramework dynamic library,
+            // which causes a "missing symbol called" dyld crash when the symbol is invoked.
+            string nativeDialogLibGuid = project.FindFileGuidByProjectPath(
+                "Libraries/AltTester/Runtime/Plugins/iOS/libNativeInputDialog.a");
+            if (!string.IsNullOrEmpty(nativeDialogLibGuid))
+            {
+                project.AddFileToBuild(unityFrameworkGuid, nativeDialogLibGuid);
+            }
+            else
+            {
+                Debug.LogWarning("AltTester: Could not find libNativeInputDialog.a in Xcode project. " +
+                    "IOS_ShowNativeInput may be unavailable at runtime.");
+            }
+
+            // Explicitly link libAltProxyFinder.a to UnityFramework so that _getProxy
+            // is accessible at runtime.
+            string proxyFinderLibGuid = project.FindFileGuidByProjectPath(
+                "Libraries/AltTester/Runtime/AltDriver/Proxy/Plugins/iOS/AltProxyFinder/libAltProxyFinder.a");
+            if (!string.IsNullOrEmpty(proxyFinderLibGuid))
+            {
+                project.AddFileToBuild(unityFrameworkGuid, proxyFinderLibGuid);
+            }
+            else
+            {
+                Debug.LogWarning("AltTester: Could not find libAltProxyFinder.a in Xcode project. " +
+                    "_getProxy may be unavailable at runtime.");
+            }
+
             var moduleFile = buildPath + "/UnityFramework/UnityFramework.modulemap";
             if (!File.Exists(moduleFile))
             {
@@ -77,6 +110,21 @@ public static class AltProxyFinderPostProcess
 
             // Save project
             project.WriteToFile(projectPath);
+
+            // Allow arbitrary loads in Info.plist so the instrumented app can connect to AltTester
+            // Server on iOS 16+. Without this, ATS blocks the WebSocket connection to non-HTTPS
+            // endpoints (e.g. ws://127.0.0.1:13000) on iOS 16+ devices.
+            var plistPath = buildPath + "/Info.plist";
+            var plist = new PlistDocument();
+            plist.ReadFromFile(plistPath);
+            var atsKey = "NSAppTransportSecurity";
+            if (!plist.root.values.ContainsKey(atsKey))
+            {
+                plist.root.CreateDict(atsKey);
+            }
+            plist.root[atsKey].AsDict().SetBoolean("NSAllowsArbitraryLoads", true);
+            plist.WriteToFile(plistPath);
+            Debug.Log("AltTester: Set NSAllowsArbitraryLoads=YES in Info.plist to allow connection on iOS 16+.");
         }
 
         Debug.Log("OnPostProcessBuild: Complete");

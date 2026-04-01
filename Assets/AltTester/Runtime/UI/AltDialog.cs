@@ -1,41 +1,23 @@
 /*
-    Copyright(C) 2025 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
+    Copyright(C) 2026 Altom Consulting
 */
 
 using System;
 using System.Collections;
+using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.Communication;
-using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterUnitySDK.InputModule;
 using AltTester.AltTesterUnitySDK.Logging;
+using AltTester.AltTesterUnitySDK.Notification;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
-using System.Threading.Tasks;
-using System.Net.Http;
-using System.Net;
-using System.Text.RegularExpressions;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using Newtonsoft.Json.Linq;
-
-
-
-
-
-
 
 
 #if ENABLE_INPUT_SYSTEM
@@ -59,8 +41,10 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private const string HOST = "AltTesterHost";
         private const string PORT = "AltTesterPort";
+        private const string PROTOCOL = "AltTesterProtocol";
         private const string APP_NAME = "AltTesterAppName";
         private const string UID = "UID";
+        private const string SHOW_POPUP_ON_STARTUP = "ShowNativePopupOnStartup";
 
         private int responseCode = 0;
 
@@ -88,6 +72,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         [SerializeField]
         public Text InfoLabel = null;
 
+
         [SerializeField]
         public InputField HostInputField = null;
 
@@ -113,10 +98,9 @@ namespace AltTester.AltTesterUnitySDK.UI
         int connectedDrivers = 0;
 
         private bool isDataValid = false;
-        private bool isCorrectProtocol = true;
         private bool wasConnected = false;
         private float timeSinceLastScreenshotWasSent;
-        private string appId, platform, platformVersion, deviceInstanceId, currentHost, currentName, currentPort; //Connection parameters and tags
+        private string appId, platform, platformVersion, deviceInstanceId, currentProtocol, currentHost, currentName, currentPort; //Connection parameters and tags
 
         private bool stopClientsCalled = false;
         private bool beginCommunicationCalled = false;
@@ -139,13 +123,16 @@ namespace AltTester.AltTesterUnitySDK.UI
         private Coroutine runningCoroutine;
         private string downloadURL = "";
         private string colorCode = "#FFD700";
-        private string wrongProtocolMessage = "An exception occurred while attempting to connect. The protocol used may be incorrect. Secure connections (WSS) are supported only by the non-GPL version of the AltTester® SDK. If you are connecting to a secure WebSocket server, make sure your app is instrumented with the non-GPL SDK.";
+        private Image logButtonImage;
+
+        private bool waitingToConnect;
 
         protected void Awake()
         {
             dialogImage = Dialog.GetComponent<UnityEngine.UI.Image>();
             infoArea = InfoArea.GetComponent<UnityEngine.UI.Image>();
             restartButton = RestartButton.GetComponent<UnityEngine.UI.Image>();
+            logButtonImage = LogButton.GetComponent<UnityEngine.UI.Image>();
 
         }
 
@@ -157,7 +144,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             }
             foreach (var inputField in gameObject.GetComponentsInChildren<InputField>())
             {
-                inputField.enabled = !inputField.enabled;
+                inputField.enabled = false;
             }
             foreach (var text in gameObject.GetComponentsInChildren<Text>())
             {
@@ -208,17 +195,36 @@ namespace AltTester.AltTesterUnitySDK.UI
 
             //Connection
             if (isDataValid)
-                beginCommunication();
+                StartCoroutine(ReconnectAfterDelay(2f));
             InvokeRepeating(nameof(CheckAlive), 5, 5);
+
             if (AltRunner._altRunner.InstrumentationSettings != null)
             {
                 if (AltRunner._altRunner.InstrumentationSettings.hideGreenPopup)
                 {
                     hideGreenPopup();
                 }
+
             }
         }
+        private IEnumerator ReconnectAfterDelay(float delay)
+        {
+            // Prevent multiple pending reconnect coroutines from overlapping.
+            // If a reconnect is already scheduled or in progress, exit early.
+            if (waitingToConnect)
+            {
+                yield break;
+            }
 
+            waitingToConnect = true;
+            yield return new WaitForSecondsRealtime(delay);
+            waitingToConnect = false;
+
+            if (!isEditing && isDataValid)
+            {
+                beginCommunication();
+            }
+        }
 
 
         protected void CheckAlive() // This method is just to see if sending a ping will keep client from disconnecting .
@@ -237,7 +243,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             updateQueue.Cycle();
             checkIfPlayerPrefNeedsToBeDeleted();
-            setIntractabilityForRestartButton(isEditing);
+            setRestartButtonInteractable(isEditing);
             if (InputMisc.TogglePopup())
             {
                 ToggleGreenPopup();
@@ -323,7 +329,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             dialogImage.color = primaryColor;
             restartButton.color = secondaryColor;
             infoArea.color = secondaryColor;
-            LogButton.GetComponent<Image>().color = secondaryColor;
+            logButtonImage.color = secondaryColor;
             MessageText.text = message;
         }
 
@@ -353,7 +359,9 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void resetConnectionDataBasedOnUID()
         {
-            if (InstrumentationSettings.ResetConnectionData && (InstrumentationSettings.UID != PlayerPrefs.GetString(UID, "")))
+            if (InstrumentationSettings.UID == PlayerPrefs.GetString(UID, ""))
+                return;
+            if (InstrumentationSettings.ResetConnectionData)
             {
                 PlayerPrefs.SetString(HOST, InstrumentationSettings.AltServerHost);
                 PlayerPrefs.SetInt(PORT, InstrumentationSettings.AltServerPort);
@@ -397,12 +405,30 @@ namespace AltTester.AltTesterUnitySDK.UI
             setMessage(message, color: successColor, visible: Dialog.activeSelf);
         }
 
+
+        private void restartConnection(string host, string port, string appName)
+        {
+            Debug.Log($"Restarting connection with new values - Host: {host}, Port: {port}, App Name: {appName}");
+            if (!string.IsNullOrEmpty(host))
+            {
+                HostInputField.text = host;
+            }
+            if (!string.IsNullOrEmpty(port))
+            {
+                PortInputField.text = port;
+            }
+            if (!string.IsNullOrEmpty(appName))
+            {
+                AppNameInputField.text = appName;
+            }
+
+            onRestartButtonPress();
+        }
+
         private void onRestartButtonPress()
         {
             appId = null;
-
             responseCode = 0;
-            isCorrectProtocol = true;
             isError = false;
             validateFields();
             if (isDataValid)
@@ -483,9 +509,10 @@ namespace AltTester.AltTesterUnitySDK.UI
             communicationClient.Init();
         }
 
-        private void setIntractabilityForRestartButton(bool isInteractable)
+        private void setRestartButtonInteractable(bool isInteractable)
         {
-            RestartButton.interactable = isInteractable;
+            if (RestartButton.interactable != isInteractable)
+                RestartButton.interactable = isInteractable;
         }
 
         private void startClient(BaseCommunicationHandler communicationHandler)
@@ -513,7 +540,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             catch (Exception ex)
             {
 
-                setMessage("An unexpected error occurred while starting the AltTester(R) client.", color: errorColor, true);
+                setMessage("An unexpected error occurred while starting the AltTester(R) client.", color: errorColor, visible: true);
                 logger.Error(ex, "An unexpected error occurred while starting the AltTester(R) client.");
                 stopClient(communicationHandler);
                 communicationHandler.waitingToConnect = false;
@@ -542,7 +569,8 @@ namespace AltTester.AltTesterUnitySDK.UI
                 }
 
                 wasConnected = false;
-                if ((responseCode > 4000 && responseCode < 5000) || !isCorrectProtocol)
+                if ((responseCode > 4000 && responseCode < 5000)
+                )
                 {
                     isEditing = true;
                     stopClientsCalled = false;
@@ -553,7 +581,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 {
                     updateQueue.Clear();
                     onStart();
-                    beginCommunication();
+                    StartCoroutine(ReconnectAfterDelay(2f));
                 }
             }
             catch (Exception e)
@@ -589,12 +617,23 @@ namespace AltTester.AltTesterUnitySDK.UI
             communicationHandler.OnDisconnect = null;
             communicationHandler.OnError = null;
 
+            StopNotifications();
             if (communicationHandler.IsConnected)
                 communicationHandler.Close();
         }
 
+        private static void StopNotifications()
+        {
+            AltLoadSceneNotification.StopSceneLoaded();
+            AltUnloadSceneNotification.StopSceneUnloaded();
+            AltTesterApplicationPausedNotification.StopApplicationPaused();
+            AltLogNotification.StopLogReceived();
+        }
+
         private void onDisconnect(int code, string reason)
         {
+            StopNotifications();
+
             responseCode = code;
             if (code >= 4000 && code < 5000)
             {
@@ -614,12 +653,12 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             if (isEditing)
             {
-                var aux = $"Editing the app name, protocol, host, or port.";
+                var aux = $"Editing the app name, host, or port.";
                 return aux + $"{Environment.NewLine}Press the <b>Restart</b> button to start connection with the new values.";
             }
 
             string message = wasConnected ? "Connected to " : "Waiting to connect to ";
-            message += $"<b>AltTester® Server</b> on <b>{currentHost}:{currentPort}</b> with: {Environment.NewLine}";
+            message += $"<b>AltTester® Server</b> on <b>ws://{currentHost}:{currentPort}</b> with: {Environment.NewLine}";
 
             message += $"{Environment.NewLine}<b>App Name</b>{Environment.NewLine}{currentName}" +
                        $"{Environment.NewLine}<b>Platform</b>{Environment.NewLine}{platform}" +
@@ -656,31 +695,19 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onError(string message, Exception ex)
         {
-            if (message.Equals("[AltTester WebSocket] Protocol is incorrect (Server requires WSS).") ||
-                message.Equals("[AltTester WebSocket] Protocol is incorrect (Server requires WS)."))
+            if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
+                message.Equals("An error has occurred during a TLS handshake.") ||
+                message.Equals("[AltTester WebSocket] Connection failed. Server is not running or unreachable."))
             {
-                isError = true;
-                isCorrectProtocol = false;
-                updateQueue.ScheduleResponse(() => setMessage(wrongProtocolMessage, errorColor, true));
-                updateQueue.ScheduleResponse(() => stopClients());
-                logger.Error(wrongProtocolMessage);
+                // This error happens when the server closes the connection abruptly 
+                // or the server is not running. We can ignore it.
+                return;
             }
-            else
+
+            logger.Error(message);
+            if (ex != null)
             {
-                if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
-                    message.Equals("An error has occurred during a TLS handshake.") ||
-                    message.Equals("[AltTester WebSocket] Connection failed. Server is not running or unreachable."))
-                {
-                    // This error happens when the server closes the connection abruptly 
-                    // or the server is not running. We can ignore it.
-                    return;
-                }
-                
-                logger.Error(message);
-                if (ex != null)
-                {
-                    logger.Error(ex);
-                }
+                logger.Error(ex);
             }
         }
 
@@ -703,6 +730,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                     PlayerPrefs.SetString(HOST, currentHost);
                     PlayerPrefs.SetString(PORT, currentPort);
                     PlayerPrefs.SetString(APP_NAME, currentName);
+                    PlayerPrefs.Save();
                     ToggleCustomInput(true);
                     setMessage(message, color: successColor, visible: false);
                 });
@@ -713,6 +741,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             this.appId = appId;
             updateQueue.ScheduleResponse(() => beginLiveUpdate());
+
         }
 
         private void onDriverDisconnect(string driverId)
@@ -732,6 +761,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         }
 
 
+
         private IEnumerator getRequest()
         {
 
@@ -748,6 +778,7 @@ namespace AltTester.AltTesterUnitySDK.UI
                 JObject obj = JObject.Parse(textReceived);
                 string version = obj["GPL"].ToString();
                 downloadURL = obj["GPLURL"].ToString();
+
                 if (isCurrentVersionOlderOrEqualThanRelease(version, AltRunner.VERSION.Split("-")[0]))
                 {
                     isNewVersionAvailable = false;

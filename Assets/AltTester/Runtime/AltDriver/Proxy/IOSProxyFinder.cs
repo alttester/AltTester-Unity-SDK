@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
 
         public string GetProxy(string uri, string host)
         {
+            Debug.Log("[AltTester][IOSProxyFinder] GetProxy called");
             var result = _getProxy(uri, host);
 
             if (string.IsNullOrEmpty(result))

@@ -1,0 +1,22 @@
+.draggable {
+}
+
+.unity-button {
+}
+
+.button {
+    width: 300px;
+    height: 90px;
+    background-color: rgb(41, 44, 53);
+    color: rgb(224, 145, 69);
+    font-size: 35px;
+    -unity-text-align: middle-center;
+    border-left-color: rgb(224, 145, 69);
+    border-right-color: rgb(224, 145, 69);
+    border-top-color: rgb(224, 145, 69);
+    border-bottom-color: rgb(224, 145, 69);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+}

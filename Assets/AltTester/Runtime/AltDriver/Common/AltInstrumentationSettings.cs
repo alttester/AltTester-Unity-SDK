@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -49,5 +49,10 @@ namespace AltTester.AltTesterSDK.Driver
         ///  Gets or sets a value indicating whether to use secure WebSocket connection (WSS).
         /// </summary>
         public bool SecureMode = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show the native popup at startup on Android and iOS platforms. This popup allows changing connection data through Appium.
+        /// </summary>
+        public bool ShowNativePopup = false;
     }
 }

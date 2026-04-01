@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ using UnityEngine.InputSystem;
 
 public class AltCubeNIS : MonoBehaviour
 {
-
+#if UNITY_ANDROID || UNITY_IOS
     public Vector3 previousAcceleration = Vector3.zero;
     public bool isMoved = false;
 
@@ -47,4 +47,5 @@ public class AltCubeNIS : MonoBehaviour
         }
 
     }
+#endif
 }

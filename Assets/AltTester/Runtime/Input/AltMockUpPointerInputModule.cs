@@ -1,18 +1,6 @@
 /*
-    Copyright(C) 2025 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
+    Copyright(C) 2026 Altom Consulting
+    
 */
 
 using System.Linq;
@@ -33,6 +21,16 @@ StandaloneInputModule
 #endif
     {
         public UnityEngine.GameObject GameObjectHit;
+
+        private static bool ShouldHandleEventsManually
+        {
+#if ENABLE_INPUT_SYSTEM
+            get => !(EventSystem.current?.currentInputModule is InputSystemUIInputModule);
+#else
+            get => true;
+#endif
+        }
+
         public PointerEventData ExecuteTouchEvent(UnityEngine.Touch touch, PointerEventData previousData = null)
         {
             if (EventSystem.current != null)
@@ -56,20 +54,16 @@ StandaloneInputModule
                         GetFirstRaycastResult(pointerEventData, out raycastResult);
                         pointerEventData.pointerCurrentRaycast = raycastResult;
                         pointerEventData.pointerPressRaycast = pointerEventData.pointerCurrentRaycast;
-#if ENABLE_INPUT_SYSTEM
-                        if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                        if (ShouldHandleEventsManually && (raycastResult.gameObject ?? false))
                         {
-#endif
-                            if (raycastResult.gameObject ?? false) pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                            pointerEventData.pointerEnter = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                                 ExecuteEvents.pointerEnterHandler);
-                            if (raycastResult.gameObject ?? false) pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                            pointerEventData.pointerPress = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                                 ExecuteEvents.pointerDownHandler);
                             pointerEventData.selectedObject = pointerEventData.pointerPress;
-                            if (raycastResult.gameObject ?? false) pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
+                            pointerEventData.pointerDrag = ExecuteEvents.ExecuteHierarchy(raycastResult.gameObject, pointerEventData,
                                 ExecuteEvents.dragHandler);
-#if ENABLE_INPUT_SYSTEM
                         }
-#endif
 
 
                         var monoBehaviourTarget = FindObjectViaRayCast.FindMonoBehaviourObject(pointerEventData.position);
@@ -93,28 +87,23 @@ StandaloneInputModule
 
                             if (previousData.pointerEnter != previousData.pointerCurrentRaycast.gameObject)
                             {
-#if ENABLE_INPUT_SYSTEM
-                                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                                if (ShouldHandleEventsManually)
                                 {
-#endif
-
                                     if (previousData.pointerEnter ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerEnter, previousData,
                                             ExecuteEvents.pointerExitHandler);
                                     if (previousData.pointerCurrentRaycast.gameObject ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                                         ExecuteEvents.pointerEnterHandler);
-#if ENABLE_INPUT_SYSTEM
                                 }
-#endif
                                 previousData.pointerEnter = previousData.pointerCurrentRaycast.gameObject;
                             }
 
                             if (previousData.delta != UnityEngine.Vector2.zero)
                             {
-#if ENABLE_INPUT_SYSTEM
-                                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
-#endif
+                                if (ShouldHandleEventsManually)
+                                {
                                     if (previousData.pointerDrag ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
                                         ExecuteEvents.dragHandler);
+                                }
                             }
 
                             return previousData;
@@ -127,31 +116,22 @@ StandaloneInputModule
                             GameObjectHit = getGameObjectHit(touch);
                             GetFirstRaycastResult(previousData, out raycastResult);
                             previousData.pointerCurrentRaycast = raycastResult;
-#if ENABLE_INPUT_SYSTEM
-                            if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
-#endif
-                                if (previousData.pointerPress ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
+                            if (ShouldHandleEventsManually && (previousData.pointerPress ?? false))
+                                ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
                                     ExecuteEvents.pointerUpHandler);
                             var currentOverGo = previousData.pointerCurrentRaycast.gameObject;
-                            var pointerUpHandler = ExecuteEvents.GetEventHandler<IPointerClickHandler>(currentOverGo);
-
-                            ;
-                            if (previousData.pointerPress == pointerUpHandler && previousData.eligibleForClick)
+                            var clickTarget = ExecuteEvents.GetEventHandler<IPointerClickHandler>(currentOverGo);
+                            if (previousData.pointerPress == clickTarget && previousData.eligibleForClick)
                             {
-#if ENABLE_INPUT_SYSTEM
-                                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
-#endif
-                                    if (previousData.pointerPress ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
+                                if (ShouldHandleEventsManually && (previousData.pointerPress ?? false))
+                                    ExecuteEvents.ExecuteHierarchy(previousData.pointerPress, previousData,
                                           ExecuteEvents.pointerClickHandler);
                                 previousData.eligibleForClick = false;
                             }
 
-
                             ExecuteEndDragPointerEvents(previousData);
-#if ENABLE_INPUT_SYSTEM
-                            if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
-#endif
-                                if (previousData.pointerCurrentRaycast.gameObject ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                            if (ShouldHandleEventsManually && (previousData.pointerCurrentRaycast.gameObject ?? false))
+                                ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                                     ExecuteEvents.pointerExitHandler);
                             return previousData;
                         }
@@ -174,32 +154,21 @@ StandaloneInputModule
             if (previousData.pointerDrag == null)
             {
                 previousData.dragging = true;
-#if ENABLE_INPUT_SYSTEM
-                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                if (ShouldHandleEventsManually && (previousData.pointerCurrentRaycast.gameObject ?? false))
                 {
-#endif
-                    if (previousData.pointerCurrentRaycast.gameObject ?? false) previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                    previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                             ExecuteEvents.beginDragHandler);
                     if (previousData.pointerDrag != null)
-                    {
-                        if (previousData.pointerDrag ?? false) ExecuteEvents.Execute(previousData.pointerDrag, previousData,
-                            ExecuteEvents.dragHandler);
-                    }
+                        ExecuteEvents.Execute(previousData.pointerDrag, previousData, ExecuteEvents.dragHandler);
                     else
-
-                        if (previousData.pointerCurrentRaycast.gameObject ?? false) previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                        previousData.pointerDrag = ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                             ExecuteEvents.dragHandler);
-#if ENABLE_INPUT_SYSTEM
                 }
-#endif
             }
             else
             {
-#if ENABLE_INPUT_SYSTEM
-                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                if (ShouldHandleEventsManually)
                 {
-#endif
-
                     if (!previousData.dragging)
                     {
                         if (previousData.pointerDrag ?? false) ExecuteEvents.Execute(previousData.pointerDrag, previousData,
@@ -207,9 +176,7 @@ StandaloneInputModule
                         previousData.dragging = true;
                     }
                     if (previousData.pointerDrag ?? false) ExecuteEvents.Execute(previousData.pointerDrag, previousData, ExecuteEvents.dragHandler);
-#if ENABLE_INPUT_SYSTEM
                 }
-#endif
             }
         }
 
@@ -226,17 +193,13 @@ StandaloneInputModule
 #endif
             if (previousData.pointerDrag != null)
             {
-#if ENABLE_INPUT_SYSTEM
-                if (EventSystem.current.currentInputModule.GetType().Name != typeof(InputSystemUIInputModule).Name)
+                if (ShouldHandleEventsManually)
                 {
-#endif
                     if (previousData.pointerDrag ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
                             ExecuteEvents.endDragHandler);
                     if (previousData.pointerCurrentRaycast.gameObject ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
                         ExecuteEvents.dropHandler);
-#if ENABLE_INPUT_SYSTEM
                 }
-#endif
                 previousData.dragging = false;
             }
         }
@@ -251,7 +214,7 @@ StandaloneInputModule
             }
             raycastResult = FindFirstRaycast(raycastResults);
         }
-        public void GetAllRaycastResults(PointerEventData pointerEventData, out System.Collections.Generic.List<RaycastResult> raycastResults)
+        public static void GetAllRaycastResults(PointerEventData pointerEventData, out System.Collections.Generic.List<RaycastResult> raycastResults)
         {
             raycastResults = new System.Collections.Generic.List<RaycastResult>();
             if (EventSystem.current != null)
@@ -279,6 +242,5 @@ StandaloneInputModule
             }
             return null;
         }
-
     }
 }

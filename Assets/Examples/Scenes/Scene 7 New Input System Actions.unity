@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -213,7 +212,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 278086294}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 314d553e2d2704844be3e7a9d332eb4f, type: 3}
+  m_Script: {fileID: 11500000, guid: fd24f30562e523046adbbb7d9d929b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   previousAcceleration: {x: 0, y: 0, z: 0}
@@ -407,7 +406,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 662202621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 314d553e2d2704844be3e7a9d332eb4f, type: 3}
+  m_Script: {fileID: 11500000, guid: fd24f30562e523046adbbb7d9d929b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   previousAcceleration: {x: 0, y: 0, z: 0}
@@ -490,6 +489,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -718,7 +718,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1060015537}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecddd06872cb99c4e9e824d0959f7709, type: 3}
+  m_Script: {fileID: 11500000, guid: b4bf33d1f61ce6245bfecab5113fb632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   previousAcceleration: {x: 0, y: 0, z: 0}
@@ -734,6 +734,7 @@ GameObject:
   - component: {fileID: 1166003050}
   - component: {fileID: 1166003049}
   - component: {fileID: 1166003048}
+  - component: {fileID: 1166003051}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -807,6 +808,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 33.783, y: 0, z: 0}
+--- !u!114 &1166003051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166003047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8c703681f6dd2e45bb5760551e7c014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseSensitivity: 100
+  useMouseDelta: 0
+  playerBody: {fileID: 1166003050}
 --- !u!1 &1330760082
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,7 +835,7 @@ GameObject:
   - component: {fileID: 1330760087}
   - component: {fileID: 1330760086}
   - component: {fileID: 1330760085}
-  - component: {fileID: 1330760084}
+  - component: {fileID: 1330760088}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -848,19 +864,6 @@ RectTransform:
   m_AnchoredPosition: {x: 80, y: 15}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1330760084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1330760082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e88939aaa3caab46b94cfee092e3c36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  counterText: {fileID: 2033988573}
 --- !u!114 &1330760085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -905,7 +908,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1330760084}
+      - m_Target: {fileID: 1330760088}
         m_TargetAssemblyTypeName: AltExampleScriptIncrementOnClick, Assembly-CSharp
         m_MethodName: ButtonPressed
         m_Mode: 1
@@ -955,6 +958,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1330760082}
   m_CullTransparentMesh: 1
+--- !u!114 &1330760088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330760082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206e0c93b2db51345b26bc7f3396cdb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counterText: {fileID: 2033988573}
 --- !u!1 &1393322421
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,33 +1001,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_PointAction: {fileID: 1054132383583890850, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_MoveAction: {fileID: 3710738434707379630, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_SubmitAction: {fileID: 2064916234097673511, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_CancelAction: {fileID: -1967631576421560919, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_LeftClickAction: {fileID: 8056856818456041789, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_MiddleClickAction: {fileID: 3279352641294131588, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_RightClickAction: {fileID: 3837173908680883260, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_ScrollWheelAction: {fileID: 4502412055082496612, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_TrackedDevicePositionAction: {fileID: 4754684134866288074, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_PointAction: {fileID: 1054132383583890850, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MoveAction: {fileID: 3710738434707379630, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_SubmitAction: {fileID: 2064916234097673511, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_CancelAction: {fileID: -1967631576421560919, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_LeftClickAction: {fileID: 8056856818456041789, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MiddleClickAction: {fileID: 3279352641294131588, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_RightClickAction: {fileID: 3837173908680883260, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_ScrollWheelAction: {fileID: 4502412055082496612, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 4754684134866288074, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!114 &1393322423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1251,8 +1258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 97210cd740af04df697b1fa71c9c9623,
-    type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: ab424fe2b736cc345a9272994d8a4b00, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -1284,7 +1290,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2118580006}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: AltExampleNewInputSystem, Assembly-CSharp
         m_MethodName: Jump
         m_Mode: 0
         m_Arguments:
@@ -1311,7 +1317,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2118579998}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 314d553e2d2704844be3e7a9d332eb4f, type: 3}
+  m_Script: {fileID: 11500000, guid: fd24f30562e523046adbbb7d9d929b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   previousAcceleration: {x: 0, y: 0, z: 0}

@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Commands;
 
 namespace AltTester.AltTesterUnitySDK.Commands
@@ -29,13 +30,18 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override string Execute()
         {
-            var gameObject = AltRunner.GetGameObject(CommandParams.altObjectId);
-
+            var gameObject = AltRunner.GetGameObject(CommandParams.altObjectId, false);
+            AltObject altGameObject = null;
             if (gameObject != null)
+            {
+                altGameObject = AltRunner._altRunner.GameObjectToAltObject(gameObject);
+            }
+
+            if (altGameObject != null)
             {
                 var color = new UnityEngine.Color(CommandParams.color.r, CommandParams.color.g, CommandParams.color.b, CommandParams.color.a);
 
-                AltRunner._altRunner.StartCoroutine(SendScreenshotObjectHighlightedCoroutine(new UnityEngine.Vector2(CommandParams.size.x, CommandParams.size.y), CommandParams.quality, gameObject, color, CommandParams.width));
+                AltRunner._altRunner.StartCoroutine(SendScreenshotObjectHighlightedCoroutine(new UnityEngine.Vector2(CommandParams.size.x, CommandParams.size.y), CommandParams.quality, altGameObject, color, CommandParams.width));
             }
             else
             {
