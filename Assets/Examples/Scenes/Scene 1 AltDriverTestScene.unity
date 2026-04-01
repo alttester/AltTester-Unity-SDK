@@ -4772,7 +4772,7 @@ GameObject:
   - component: {fileID: 1842093776}
   - component: {fileID: 1842093780}
   - component: {fileID: 1842093781}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Button
   m_TagString: Finish
   m_Icon: {fileID: 0}
@@ -5154,7 +5154,7 @@ GameObject:
   - component: {fileID: 2129674224}
   - component: {fileID: 2129674227}
   - component: {fileID: 2129674228}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: UIButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
