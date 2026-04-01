@@ -1,3 +1,4 @@
+#if UNITY_ANDROID || UNITY_IOS
 /*
     Copyright(C) 2026 Altom Consulting
 
@@ -20,7 +21,6 @@ using UnityEngine.InputSystem;
 
 public class AltCubeNIS : MonoBehaviour
 {
-#if UNITY_ANDROID || UNITY_IOS
     public Vector3 previousAcceleration = Vector3.zero;
     public bool isMoved = false;
 
@@ -47,5 +47,5 @@ public class AltCubeNIS : MonoBehaviour
         }
 
     }
-#endif
 }
+#endif
