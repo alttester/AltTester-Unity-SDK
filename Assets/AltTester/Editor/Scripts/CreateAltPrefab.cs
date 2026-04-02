@@ -405,12 +405,12 @@ namespace AltTesterTools
             var InputFieldTransform = InputFieldGameObject.GetComponent<RectTransform>();
             InputFieldTransform.SetParent(parent, false);
 
-            InputFieldTransform.localPosition = new Vector3(-25, -196, 0);
+            InputFieldTransform.localPosition = new Vector3(-77, -196, 0);
             InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            InputFieldTransform.sizeDelta = new Vector2(170, 34);
+            InputFieldTransform.sizeDelta = new Vector2(200, 34);
             InputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
-            InputFieldTransform.anchoredPosition = new Vector2(-25, -196);
+            InputFieldTransform.anchoredPosition = new Vector2(-77, -196);
 
 
             var InputFieldTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -464,11 +464,11 @@ namespace AltTesterTools
             var InputFieldTransform = InputFieldGameObject.GetComponent<RectTransform>();
             InputFieldTransform.SetParent(parent, false);
 
-            InputFieldTransform.localPosition = new Vector3(120, -196, 0);
+            InputFieldTransform.localPosition = new Vector3(102.5f, -198, 0);
             InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            InputFieldTransform.anchoredPosition = new Vector2(120, -196);
-            InputFieldTransform.sizeDelta = new Vector2(110, 34);
+            InputFieldTransform.anchoredPosition = new Vector2(102.5f, -196);
+            InputFieldTransform.sizeDelta = new Vector2(141, 34);
             InputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var InputFieldTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
