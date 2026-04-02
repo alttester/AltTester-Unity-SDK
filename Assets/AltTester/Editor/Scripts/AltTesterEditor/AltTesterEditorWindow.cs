@@ -178,9 +178,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         public static void CreatePackages()
         {
-#if ALTTESTER_DEVELOPMENT
             CreateAltTesterPackage();
-#endif
             CreateSampleScenesPackage();
         }
 
