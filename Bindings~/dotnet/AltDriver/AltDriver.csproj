@@ -21,7 +21,7 @@
         <PackageProjectUrl>https://github.com/alttester/AltTester-Unity-SDK</PackageProjectUrl>
     </PropertyGroup>
     <ItemGroup>
-        <None Include="../../../Assets/LICENSE" Pack="true" PackagePath="" />
+        <None Include="../../../LICENSE" Pack="true" PackagePath="" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="../../../Assets/AltTester/Runtime/AltDriver/**/*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
