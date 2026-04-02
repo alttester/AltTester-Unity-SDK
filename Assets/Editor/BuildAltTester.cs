@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -199,14 +199,15 @@ namespace AltTesterTools
                     "Assets/Examples/Scenes/Scene 11 ScrollView Scene.unity",
                     "Assets/Examples/Scenes/Sceme 12 2D Objects.unity",
                     "Assets/Examples/Scenes/Scene 14.unity",
-                    "Assets/Examples/Scenes/DragDemo.unity"
+                    "Assets/Examples/Scenes/DragDemo.unity",
                     };
         }
         private static void buildGame(BuildPlayerOptions buildPlayerOptions, BuildTargetGroup targetGroup)
         {
             var instrumentationSettings = getInstrumentationSettings();
+            AltBuilder.AddScriptingDefineSymbol("ALTTESTER_NONGPL", targetGroup);
 
-            AltBuilder.InsertAltInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+            AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
             AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(targetGroup);

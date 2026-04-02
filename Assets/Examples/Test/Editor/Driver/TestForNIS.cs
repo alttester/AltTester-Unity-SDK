@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -70,6 +70,8 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         }
 
         [Test]
+        // [Ignore("This needs more investigation")]
+
         public void TestScroll()
         {
             altDriver.LoadScene(scene10);
@@ -175,7 +177,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             var player = altDriver.FindObject(By.NAME, "Player");
             var initialPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position", "UnityEngine.CoreModule");
             AltKeyCode[] keys = { AltKeyCode.W, AltKeyCode.Mouse0 };
-            altDriver.PressKeys(keys);
+            altDriver.PressKeys(keys, duration: 0.1f);
             var finalPos = player.GetComponentProperty<AltVector3>("UnityEngine.Transform", "position", "UnityEngine.CoreModule");
             altDriver.WaitForObject(By.NAME, "SimpleProjectile(Clone)");
             Assert.AreNotEqual(initialPos, finalPos);
@@ -236,6 +238,8 @@ namespace AltTester.AltTesterSDK.Driver.Tests
 
 
         [Test]
+        [Category("Mobile")]
+        [Ignore("Test made for mobile")]
         public void TestTilt()
         {
             altDriver.LoadScene(scene11);
@@ -357,6 +361,17 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             altDriver.Swipe(stick.GetScreenPosition(), stick.GetScreenPosition() * 2, 1);
             var finalPlayerPos = altDriver.FindObject(By.NAME, "Player").GetWorldPosition();
             Assert.AreNotEqual(playerPos, finalPlayerPos);
+        }
+        [Test]
+        public void TestMoveMouseDelta()
+        {
+            altDriver.LoadScene(scene11);
+            altDriver.PressKey(AltKeyCode.L);
+            var initialRotation = altDriver.FindObject(By.NAME, "Main Camera").GetComponentProperty<AltVector3>("UnityEngine.Transform", "eulerAngles", "UnityEngine.CoreModule");
+            altDriver.MoveMouse(new AltVector2(100, 100), 1);
+            var finalRotation = altDriver.FindObject(By.NAME, "Main Camera").GetComponentProperty<AltVector3>("UnityEngine.Transform", "eulerAngles", "UnityEngine.CoreModule");
+            Assert.AreNotEqual(initialRotation, finalRotation);
+            altDriver.PressKey(AltKeyCode.L);
         }
     }
 }

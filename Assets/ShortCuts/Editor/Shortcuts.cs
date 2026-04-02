@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,7 +22,8 @@ namespace alttester.Assets.ShortCuts.Editor
 {
     public class Shortcuts
     {
-        [UnityEditor.MenuItem("AltTester®/Add AltTesterSymbol &#]", false, 80)]
+#if ALTTESTER_DEVELOPMENT
+        [UnityEditor.MenuItem("AltTester®/Shortcuts/Add AltTesterSymbol &#]", false, 80)]
         public static void AddAUTSymbol()
         {
 #if UNITY_6000_0_OR_NEWER
@@ -35,11 +36,11 @@ namespace alttester.Assets.ShortCuts.Editor
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
             if (!scriptingDefineSymbolsForGroup.Contains("ALTTESTER"))
                 scriptingDefineSymbolsForGroup += ";ALTTESTER";
-            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup, scriptingDefineSymbolsForGroup); 
+            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup, scriptingDefineSymbolsForGroup);
 #endif
         }
 
-        [UnityEditor.MenuItem("AltTester®/Deselect All Tests &#[", false, 80)]
+        [UnityEditor.MenuItem("AltTester®/Shortcuts/Deselect All Tests &#[", false, 80)]
         public static void DeselectAllTests()
         {
             foreach (var test in AltTesterEditorWindow.EditorConfiguration.MyTests)
@@ -47,6 +48,7 @@ namespace alttester.Assets.ShortCuts.Editor
                 test.Selected = false;
             }
         }
+#endif
 
     }
 }

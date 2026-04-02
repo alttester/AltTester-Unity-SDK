@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,12 +20,14 @@ using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.InputModule;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltHighlightObjectFromCoordinatesCommand : AltBaseScreenshotCommand<AltHighlightObjectFromCoordinatesScreenshotParams, string>
     {
         private static List<GameObject> previousResults = null;
+        private static VisualElement previousSelectedVisualElement = null;
         private static Vector2 previousScreenCoordinates;
 
 
@@ -37,11 +39,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             var color = new UnityEngine.Color(CommandParams.color.r, CommandParams.color.g, CommandParams.color.b, CommandParams.color.a);
 
-            GameObject selectedObject = getObjectAtCoordinates();
 
+            AltObject selectedObject = getObjectAtCoordinates();
             if (selectedObject != null)
             {
-                Handler.Send(ExecuteAndSerialize(() => AltRunner._altRunner.GameObjectToAltObject(selectedObject)));
+                Handler.Send(ExecuteAndSerialize(() => selectedObject));
                 AltRunner._altRunner.StartCoroutine(SendScreenshotObjectHighlightedCoroutine(new UnityEngine.Vector2(CommandParams.size.x, CommandParams.size.y), CommandParams.quality, selectedObject, color, CommandParams.width));
             }
             else
@@ -52,18 +54,24 @@ namespace AltTester.AltTesterUnitySDK.Commands
             return "Ok";
         }
 
-        private GameObject getObjectAtCoordinates()//TODO refactor this to use FindObjectViaRaycast class
+        private AltObject getObjectAtCoordinates()//TODO refactor this to use FindObjectViaRaycast class
         {
             GameObject selectedObject = null;
-            AltMockUpPointerInputModule mockUp = new AltMockUpPointerInputModule();
             var screenCoordinates = new Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y);
+            bool sameScreenPosition = previousScreenCoordinates == screenCoordinates;
+            if (!sameScreenPosition)
+            {
+                previousSelectedVisualElement = null;
+            }
+            previousSelectedVisualElement = null;
+
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
             {
                 position = screenCoordinates
             };
             List<GameObject> currentResults = new List<GameObject>();
             List<UnityEngine.EventSystems.RaycastResult> hitUI;
-            mockUp.GetAllRaycastResults(pointerEventData, out hitUI);
+            AltMockUpPointerInputModule.GetAllRaycastResults(pointerEventData, out hitUI);
             for (int i = 0; i < hitUI.Count; i++)
             {
                 currentResults.Add(hitUI[i].gameObject);
@@ -122,7 +130,9 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 previousResults.Add(selectedObject);
             }
 
-            return selectedObject;
+            if (selectedObject != null)
+                return AltRunner._altRunner.GameObjectToAltObject(selectedObject);
+            return null;
         }
     }
 }

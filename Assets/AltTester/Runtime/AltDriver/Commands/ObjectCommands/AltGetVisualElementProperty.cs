@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,13 +28,13 @@ namespace AltTester.AltTesterSDK.Driver.Commands
         {
             CommHandler.Send(cmdParams);
             T result = CommHandler.Recvall<T>(cmdParams);
-            
+
             // If the result is an AltObject, ensure its CommHandler is set
             if (result is AltObject altObject)
             {
                 altObject.CommHandler = CommHandler;
             }
-            
+
             return result;
         }
     }

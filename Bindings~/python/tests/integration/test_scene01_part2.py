@@ -1,5 +1,5 @@
 ﻿"""
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -506,7 +506,7 @@ class TestScene01Part2:
     def test_find_object_in_object_by_id(self):
         parent = self.alt_driver.find_object(By.NAME, "Canvas")
         child = parent.find_object_from_object(
-            By.ID, "049eccc5-b072-468b-83bf-119d868ca311")
+            By.ID, "632dee97-3955-47d3-b760-0eb0aa763f75")
         assert child.name == "Button"
 
     def test_find_object_in_object_by_text(self):

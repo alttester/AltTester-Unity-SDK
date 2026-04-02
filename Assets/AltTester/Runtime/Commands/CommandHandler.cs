@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -399,7 +399,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
             {
                 return new AltGetAllLoadedScenesAndObjectsCommand(cmdParams as AltGameGetAllLoadedScenesAndObjectsParams).ExecuteAndSerialize;
             }
-
             return new AltInvalidCommand(cmdParams, new CommandNotFoundException(string.Format("Command {0} not handled", cmdParams.commandName))).ExecuteAndSerialize;
         }
 

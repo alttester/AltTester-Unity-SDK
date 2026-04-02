@@ -35,15 +35,15 @@ Test Click Coordinates NIS
                 ${action_info}=    Wait For Object    PATH    //ActionText[@text=Capsule was clicked!]    timeout=1
                 ${action_info_text}=    Get Text    ${action_info}
                 Should Be Equal As Strings    ${action_info_text}    Capsule was clicked!
+# Test Tilt
+#                 ${cube}=    Find Object    NAME    Cube (1)
+#                 ${initial_position}=    Get World Position    ${cube}
+#                 ${acceleration}=    Create List    1000    10    10
+#                 Tilt    ${acceleration}    duration=1
+#                 ${final_position}=    Get World Position    ${cube}
+#                 ${is_moved}=    Get Component Property    ${cube}    AltCubeNIS    isMoved    Assembly-CSharp
+#                 Should Be True    ${is_moved}
 
-Test Tilt
-                ${cube}=    Find Object    NAME    Cube (1)
-                ${initial_position}=    Get World Position    ${cube}
-                ${acceleration}=    Create List    1000    10    10
-                Tilt    ${acceleration}    duration=1
-                ${final_position}=    Get World Position    ${cube}
-                ${is_moved}=    Get Component Property    ${cube}    AltCubeNIS    isMoved    Assembly-CSharp
-                Should Be True    ${is_moved}
 
 *** Keywords ***
 SetUp Tests

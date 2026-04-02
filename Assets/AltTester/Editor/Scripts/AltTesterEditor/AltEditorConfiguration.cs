@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -60,10 +60,11 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 AppName = AppName,
                 ResetConnectionData = ResetConnectionData,
                 UID = SystemInfo.deviceUniqueIdentifier.ToString() + DateTimeOffset.Now.ToUnixTimeSeconds().ToString(),
-                hideGreenPopup = HideGreenPopup
-
+                hideGreenPopup = HideGreenPopup,
             };
         }
         public bool KeepAUTSymbolDefined = true;
+        public bool KeepAltTesterPrefabInScene = false;
+        public bool CreatedPrefab { get; internal set; }
     }
 }

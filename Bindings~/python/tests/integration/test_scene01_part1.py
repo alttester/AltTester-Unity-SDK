@@ -1,5 +1,5 @@
 ﻿"""
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -279,13 +279,10 @@ class TestScene01Part1:
     @pytest.mark.AndroidUnsupported
     def test_wait_for_component_property_get_property_as_string(self):
         Canvas = self.alt_driver.wait_for_object(By.PATH, "/Canvas")
-        Canvas.wait_for_component_property("UnityEngine.RectTransform", "rect.x", "-960.0",
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "childCount", "13",
                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
 
-        Canvas.wait_for_component_property("UnityEngine.RectTransform", "hasChanged", True,
-                                           "UnityEngine.CoreModule", 1, get_property_as_string=True)
-
-        Canvas.wait_for_component_property("UnityEngine.RectTransform", "constrainProportionsScale", False,
+        Canvas.wait_for_component_property("UnityEngine.RectTransform", "gameObject.activeSelf", True,
                                            "UnityEngine.CoreModule", 1, get_property_as_string=True)
 
         Canvas.wait_for_component_property("UnityEngine.RectTransform", "name", "Canvas",

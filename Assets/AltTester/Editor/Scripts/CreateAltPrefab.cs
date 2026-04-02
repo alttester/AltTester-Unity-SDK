@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,15 +18,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.InputModule;
 using AltTester.AltTesterUnitySDK.UI;
 using UnityEditor;
-#if UNITY_6000_0_OR_NEWER
-using UnityEditor.Build;
-#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -95,6 +93,11 @@ namespace AltTesterTools
                 if (newComponent.GetType() == typeof(AltRunner))
                 {
                     checkAltRunnerEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as AltRunner, newComponent as AltRunner);
+                    continue;
+                }
+                if (newComponent.GetType() == typeof(Dropdown))
+                {
+                    checkDropdownEquality(originalObjectComponents.First(Component => Component.GetType() == newComponent.GetType()) as Dropdown, newComponent as Dropdown);
                     continue;
                 }
             }
@@ -220,13 +223,32 @@ namespace AltTesterTools
             {
                 throw new System.Exception("OutlineShader object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.outlineShader + " and new: " + newRunner.outlineShader);
             }
-            if (originalRunner.panelHighlightPrefab.name != newRunner.panelHighlightPrefab.name)
+            if (originalRunner.panelHightlightPrefab.name != newRunner.panelHightlightPrefab.name)
             {
-                throw new System.Exception("PanelHighlightPrefab object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.panelHighlightPrefab.name + " and new: " + newRunner.panelHighlightPrefab.name);
+                throw new System.Exception("PanelHighlightPrefab object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.panelHightlightPrefab.name + " and new: " + newRunner.panelHightlightPrefab.name);
             }
             if (originalRunner.RunOnlyInDebugMode != newRunner.RunOnlyInDebugMode)
             {
                 throw new System.Exception("RunOnlyInDebugMode object for: " + originalRunner.gameObject + " is different. Original: " + originalRunner.RunOnlyInDebugMode + " and new: " + newRunner.RunOnlyInDebugMode);
+            }
+        }
+
+        private static void checkDropdownEquality(Dropdown originalDropdown, Dropdown newDropdown)
+        {
+            if (originalDropdown.options.Count != newDropdown.options.Count)
+            {
+                throw new System.Exception("Dropdown options count for: " + originalDropdown.gameObject + " is different. Original: " + originalDropdown.options.Count + " and new: " + newDropdown.options.Count);
+            }
+            for (int i = 0; i < originalDropdown.options.Count; i++)
+            {
+                if (originalDropdown.options[i].text != newDropdown.options[i].text)
+                {
+                    throw new System.Exception("Dropdown option text at index " + i + " for: " + originalDropdown.gameObject + " is different. Original: " + originalDropdown.options[i].text + " and new: " + newDropdown.options[i].text);
+                }
+            }
+            if (originalDropdown.value != newDropdown.value)
+            {
+                throw new System.Exception("Dropdown value for: " + originalDropdown.gameObject + " is different. Original: " + originalDropdown.value + " and new: " + newDropdown.value);
             }
         }
 
@@ -252,16 +274,17 @@ namespace AltTesterTools
         public static Color DarkGreenColor = new Color(0, 0.4509804f, 0.09803922f, 1);
         public static Color LightGreenColor = new Color(0, 0.6470588f, 0.1411765f, 1);
         public static Color ActiveToggleColor = new Color(0, 0.6698113f, 0.1456111f, 1);
-        public static Sprite LogIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/LogIcon.png");
-        public static Sprite WarningIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/WarningIcon.png");
-        public static Sprite ErrorIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/ErrorIcon.png");
-        public static Sprite InfoIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/InformationIcon.png");
-        public static Sprite CloseIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/CloseIcon.png");
-        public static Sprite CopyIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/CopyIcon.png");
-        public static Sprite ClearIcon = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/DeleteIcon.png");
+        public static Sprite LogIcon = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_LogIcon")[0]));
+        public static Sprite WarningIcon = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_WarningIcon")[0]));
+        public static Sprite ErrorIcon = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_ErrorIcon")[0]));
+        public static Sprite InfoIcon = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_InformationIcon")[0]));
+        public static Sprite CloseIcon = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_CloseIcon")[0]));
+        public static Sprite CopyIcon = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_CopyIcon")[0]));
+        public static Sprite ClearIcon = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_DeleteIcon")[0]));
         public static GameObject CreateAltDialog(Transform parent)
         {
             var AltDialogGameObject = new GameObject("AltDialog", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster), typeof(AltDialog) });
+
             var AltDialogTransform = AltDialogGameObject.GetComponent<RectTransform>();
             AltDialogTransform.SetParent(parent, false);
 
@@ -274,7 +297,7 @@ namespace AltTesterTools
 
             var AltDialogCanvas = AltDialogGameObject.GetComponent<Canvas>();
             AltDialogCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            AltDialogCanvas.sortingOrder = 32767;
+            AltDialogCanvas.sortingOrder = 32766; // Lowered by 1 to allow dropdown template to be on top
 
             var AltDialogCanvasScaler = AltDialogGameObject.GetComponent<CanvasScaler>();
             AltDialogCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -298,7 +321,7 @@ namespace AltTesterTools
 
             var DialogImage = DialogGameObject.GetComponent<Image>();
             DialogImage.color = LightGreenColor;
-            DialogImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded20px.png");
+            DialogImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_Rounded20px")[0]));
             DialogImage.type = Image.Type.Sliced;
             DialogImage.fillCenter = true;
             DialogImage.pixelsPerUnitMultiplier = 1;
@@ -426,7 +449,7 @@ namespace AltTesterTools
 
             var InputFieldImage = InputFieldGameObject.GetComponent<Image>();
             InputFieldImage.color = Color.white;
-            InputFieldImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded5px.png");
+            InputFieldImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_Rounded5px")[0]));
             InputFieldImage.type = Image.Type.Sliced;
             InputFieldImage.fillCenter = true;
             InputFieldImage.pixelsPerUnitMultiplier = 1;
@@ -485,7 +508,7 @@ namespace AltTesterTools
 
             var InputFieldImage = InputFieldGameObject.GetComponent<Image>();
             InputFieldImage.color = Color.white;
-            InputFieldImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded5px.png");
+            InputFieldImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_Rounded5px")[0]));
             InputFieldImage.type = Image.Type.Sliced;
             InputFieldImage.fillCenter = true;
             InputFieldImage.pixelsPerUnitMultiplier = 1;
@@ -501,10 +524,10 @@ namespace AltTesterTools
 
 
 
-            InputFieldTransform.localPosition = new Vector3(-2, -154, 0);
+            InputFieldTransform.localPosition = new Vector3(0, -154, 0);
             InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            InputFieldTransform.anchoredPosition = new Vector2(-2, -154);
+            InputFieldTransform.anchoredPosition = new Vector2(0, -154);
             InputFieldTransform.sizeDelta = new Vector2(350, 34);
             InputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
 
@@ -543,7 +566,7 @@ namespace AltTesterTools
 
             var InputFieldImage = InputFieldGameObject.GetComponent<Image>();
             InputFieldImage.color = Color.white;
-            InputFieldImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded5px.png");
+            InputFieldImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_Rounded5px")[0]));
             InputFieldImage.type = Image.Type.Sliced;
             InputFieldImage.fillCenter = true;
             InputFieldImage.pixelsPerUnitMultiplier = 1;
@@ -581,7 +604,7 @@ namespace AltTesterTools
 
             var RestartButtonImage = RestartButtonGameObject.GetComponent<Image>();
             RestartButtonImage.color = DarkGreenColor;
-            RestartButtonImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded10px.png");
+            RestartButtonImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_Rounded10px")[0]));
             RestartButtonImage.type = Image.Type.Sliced;
             RestartButtonImage.fillCenter = true;
             RestartButtonImage.pixelsPerUnitMultiplier = 1;
@@ -619,7 +642,7 @@ namespace AltTesterTools
 
             var logsButtonImage = logsButtonGameObject.GetComponent<Image>();
             logsButtonImage.color = DarkGreenColor;
-            logsButtonImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded10px.png");
+            logsButtonImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_Rounded10px")[0]));
             logsButtonImage.type = Image.Type.Sliced;
             logsButtonImage.fillCenter = true;
             logsButtonImage.pixelsPerUnitMultiplier = 1;
@@ -666,7 +689,7 @@ namespace AltTesterTools
             IconTransform.pivot = new Vector2(1f, 0f);
 
             var IconImage = Icon.GetComponent<Image>();
-            IconImage.sprite = AssetDatabase.LoadAssetAtPath("Assets/AltTester/altTester-512x512.png", typeof(Sprite)) as Sprite;
+            IconImage.sprite = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("altTester-512x512")[0]), typeof(Sprite)) as Sprite;
 
             return IconImage;
         }
@@ -851,7 +874,7 @@ namespace AltTesterTools
 
             var text = textObject.GetComponent<Text>();
             text.fontSize = 32;
-            text.horizontalOverflow = HorizontalWrapMode.Overflow;
+            text.horizontalOverflow = HorizontalWrapMode.Wrap;
             text.verticalOverflow = VerticalWrapMode.Truncate;
             text.alignment = TextAnchor.MiddleLeft;
             textObject.SetActive(false);
@@ -882,7 +905,7 @@ namespace AltTesterTools
         }
         public static Scrollbar CreateScrollBarHorizontal(RectTransform parent)
         {
-            var scrollBarHorizontal = new GameObject("Scrollbar Horizontal", new System.Type[] { typeof(RectTransform), typeof(Image), typeof(CanvasRenderer), typeof(Scrollbar) });
+            var scrollBarHorizontal = new GameObject("Scrollbar Horizontal", new System.Type[] { typeof(RectTransform), typeof(Image), typeof(Scrollbar) });
             var scrollBarTransform = scrollBarHorizontal.GetComponent<RectTransform>();
             scrollBarTransform.SetParent(parent, false);
             scrollBarTransform.anchorMin = new Vector2(0, 0);
@@ -893,7 +916,6 @@ namespace AltTesterTools
             var scrollImage = scrollBarHorizontal.GetComponent<Image>();
             scrollImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd"); ;
             scrollImage.type = Image.Type.Sliced;
-            scrollImage.color = LightGreenColor;
 
 
 
@@ -905,7 +927,7 @@ namespace AltTesterTools
             slidingAreaTransform.sizeDelta = new Vector2(-20, -20);
             slidingAreaTransform.pivot = new Vector2(0.5f, 0.5f);
 
-            var handle = new GameObject("Handle", new System.Type[] { typeof(RectTransform), typeof(Image), typeof(CanvasRenderer) });
+            var handle = new GameObject("Handle", new System.Type[] { typeof(RectTransform), typeof(Image) });
 
             var handleTransform = handle.GetComponent<RectTransform>();
             handleTransform.SetParent(slidingAreaTransform, false);
@@ -917,7 +939,6 @@ namespace AltTesterTools
             var handleImage = handle.GetComponent<Image>();
             handleImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
             handleImage.type = Image.Type.Sliced;
-            handleImage.color = DarkGreenColor;
 
 
             var scroll = scrollBarHorizontal.GetComponent<Scrollbar>();
@@ -929,7 +950,7 @@ namespace AltTesterTools
         }
         public static Scrollbar CreateScrollBarVertical(RectTransform parent)
         {
-            var vertical = new GameObject("Scrollbar Vertical", new System.Type[] { typeof(RectTransform), typeof(Image), typeof(CanvasRenderer), typeof(Scrollbar) });
+            var vertical = new GameObject("Scrollbar Vertical", new System.Type[] { typeof(RectTransform), typeof(Image), typeof(Scrollbar) });
 
             var scrollBarTransform = vertical.GetComponent<RectTransform>();
             scrollBarTransform.SetParent(parent, false);
@@ -952,7 +973,7 @@ namespace AltTesterTools
             slidingAreaTransform.sizeDelta = new Vector2(20, 0);
             slidingAreaTransform.pivot = new Vector2(0.5f, 0.5f);
 
-            var handle = new GameObject("Handle", new System.Type[] { typeof(RectTransform), typeof(Image), typeof(CanvasRenderer) });
+            var handle = new GameObject("Handle", new System.Type[] { typeof(RectTransform), typeof(Image) });
 
             var handleTransform = handle.GetComponent<RectTransform>();
             handleTransform.SetParent(slidingAreaTransform, false);
@@ -1129,11 +1150,11 @@ namespace AltTesterTools
             toggleImage.color = DarkGreenColor;
             toggleImage.type = Image.Type.Sliced;
 
-            CreateIcon(logTransform, "IconToggle", icon);
+            createIcon(logTransform, "IconToggle", icon);
 
         }
 
-        private static void CreateIcon(RectTransform parent, string iconName, Sprite icon)
+        private static void createIcon(RectTransform parent, string iconName, Sprite icon)
         {
             var iconObject = new GameObject(iconName, new System.Type[] { typeof(RectTransform), typeof(Image) });
             var iconTransform = iconObject.GetComponent<RectTransform>();
@@ -1168,7 +1189,7 @@ namespace AltTesterTools
             buttonImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
             buttonImage.color = DarkGreenColor;
             buttonImage.type = Image.Type.Sliced;
-            CreateIcon(buttonTransform, "IconButton", icon);
+            createIcon(buttonTransform, "IconButton", icon);
         }
         public static void CreateTextWithIcon(RectTransform parent, string name, string icon)
         {
@@ -1188,55 +1209,83 @@ namespace AltTesterTools
 
         public static void SetUpAltRunnerVariables(AltRunner altRunnerComponent)
         {
-            var outlineShader = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Runtime/Shader/OutlineShader.shader", typeof(Shader));
+            var outlineShader = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_OutlineShader")[0]), typeof(Shader));
             altRunnerComponent.outlineShader = outlineShader as Shader;
 
-            var panelHighlightPrefab = AssetDatabase.LoadAssetAtPath("Assets/AltTester/Runtime/Prefab/Panel.prefab", typeof(GameObject));
-            altRunnerComponent.panelHighlightPrefab = panelHighlightPrefab as GameObject;
+            var panelHighlightPrefab = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_Panel")[0]), typeof(GameObject));
+            altRunnerComponent.panelHightlightPrefab = panelHighlightPrefab as GameObject;
 
             altRunnerComponent.RunOnlyInDebugMode = true;
         }
 
-        public static void SavePrefab(GameObject prefab, bool checkEquality = true)
+        public static void SavePrefab(GameObject prefab, bool checkEquality = true, string Path = "Assets/AltTester/Runtime/Prefab/AltTesterPrefab.prefab", string TestPath = "Assets/Editor/AltTesterPrefab.prefab")
         {
-            string Path = "Assets/AltTester/Runtime/Prefab/AltTesterPrefab.prefab";
-            string TestPath = "Assets/Editor/AltTesterPrefab.prefab";
-
-            PrefabUtility.SaveAsPrefabAsset(prefab, TestPath);
-
-            var OldPrefab = PrefabUtility.LoadPrefabContents(Path);
-            var NewPrefab = PrefabUtility.LoadPrefabContents(TestPath);
 
             if (checkEquality)
+            {
+                PrefabUtility.SaveAsPrefabAsset(prefab, TestPath);
+
+                var OldPrefab = PrefabUtility.LoadPrefabContents(Path);
+                var NewPrefab = PrefabUtility.LoadPrefabContents(TestPath);
+
+
                 AltTesterPrefabChecker.CheckObjectEquality(OldPrefab, NewPrefab);
 
-            AssetDatabase.DeleteAsset(Path);
+                AssetDatabase.DeleteAsset(Path);
 
-            var message = AssetDatabase.MoveAsset(TestPath, Path);
+                var message = AssetDatabase.MoveAsset(TestPath, Path);
 
-            if (!String.IsNullOrEmpty(message))
-            {
-                Debug.LogError(message);
+                if (!String.IsNullOrEmpty(message))
+                {
+                    Debug.LogError(message);
+                }
+                else
+                {
+                    Debug.Log("Successfully updated AltTesterPrefab.");
+                }
             }
             else
             {
-                Debug.Log("Successfully updated AltTesterPrefab.");
+                AssetDatabase.DeleteAsset(Path);
+                PrefabUtility.SaveAsPrefabAsset(prefab, Path);
             }
+
+        }
+        public static void SavePrefab(GameObject prefab, string Path)
+        {
+            if (File.Exists(Path))
+            {
+                File.Delete(Path);
+            }
+            var directory = Path.Substring(0, Path.LastIndexOf('/'));
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            PrefabUtility.SaveAsPrefabAsset(prefab, Path);
         }
 
-        [UnityEditor.MenuItem("AltTester®/Create AltTester® Prefab", false, 80)]
+        [UnityEditor.MenuItem("AltTester®/Create AltTester® Prefab", false, 800)]
         public static void CreateAltTesterPrefab()
         {
 
             var prefab = CreatePrefab();
             SavePrefab(prefab);
         }
+#if ALTTESTER_DEVELOPMENT
         [UnityEditor.MenuItem("AltTester®/Create AltTester® Prefab Without Checking Equality", false, 90)]
+#endif
         public static void CreateAltTesterPrefabWithoutCheck()
         {
 
             var prefab = CreatePrefab();
             SavePrefab(prefab, false);
+        }
+        public static void CreateAltPrefabForUnity6(string path)
+        {
+            var prefab = CreatePrefab();
+            SavePrefab(prefab, path);
+            DestroyImmediate(prefab);
         }
         public static GameObject CreatePrefab()
         {
@@ -1244,17 +1293,16 @@ namespace AltTesterTools
             /// IMPORTANT! ALTTESTER MUST BE DEFINE TO CREATE CORRECTLY THE PREFAB
             ///
 
-#if UNITY_6000_0_OR_NEWER
-            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup));
-#else
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
-#endif
 
 
-            var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(Transform), typeof(AltRunner), typeof(AltInput), typeof(NewInputSystem), typeof(CoroutineManager) });
+            var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(AltRunner), typeof(AltInput), typeof(NewInputSystem), typeof(CoroutineManager) });
             var RectTransform = Prefab.GetComponent<Transform>();
             var AltRunnerComponent = Prefab.GetComponent<AltRunner>();
+
             SetUpAltRunnerVariables(AltRunnerComponent);
+            var Canvas = CreateCanvas(RectTransform);
+            AltRunnerComponent.panelHightlightCanvas = Canvas.GetComponent<Canvas>();
 
             var AltDialogGameObject = CreateAltDialog(RectTransform);
             var AltDialogTransform = AltDialogGameObject.GetComponent<RectTransform>();
@@ -1281,6 +1329,16 @@ namespace AltTesterTools
 
             return Prefab;
         }
+        private static GameObject CreateCanvas(Transform parent)
+        {
+            var Canvas = new GameObject("AltCanvas", new System.Type[] { typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster) });
+            var AltCanvasTransform = Canvas.GetComponent<RectTransform>();
+            AltCanvasTransform.SetParent(parent, false);
+            var canvasComponent = Canvas.GetComponent<Canvas>();
+            canvasComponent.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasComponent.sortingOrder = 32767;//max sortOrder
+            return Canvas;
+        }
 
         private static GameObject createInfoArea(Transform parent)
         {
@@ -1298,7 +1356,7 @@ namespace AltTesterTools
 
             var InfoAreaImage = InfoArea.GetComponent<Image>();
             InfoAreaImage.color = DarkGreenColor;
-            InfoAreaImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/AltTester/Editor/Sprites/Rounded Corners/AltTester_Rounded10px.png");
+            InfoAreaImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(AssetDatabase.FindAssets("AltTester_Rounded10px")[0]));
             InfoAreaImage.type = Image.Type.Sliced;
             InfoAreaImage.fillCenter = true;
             InfoAreaImage.pixelsPerUnitMultiplier = 1;
@@ -1306,6 +1364,7 @@ namespace AltTesterTools
 
             return InfoArea;
         }
+
 
         private static Text createSubtitle(RectTransform parent)
         {

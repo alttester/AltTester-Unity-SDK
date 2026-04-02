@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,9 @@
 */
 
 using System;
+#if UNITY_IOS || UNITY_ANDROID
+using UnityEngine;
+#endif
 
 namespace AltTester.AltTesterSDK.Driver.Proxy
 {
@@ -34,22 +37,28 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
 #if !UNITY_EDITOR && UNITY_ANDROID
             try
             {
+                Debug.Log("[AltTester][ProxyFinder] Trying AndroidProxyFinder");
                 Finder = new AndroidProxyFinder();
                 ProxyUri = Finder.GetProxy(uri, host);
+                Debug.Log("[AltTester][ProxyFinder] AndroidProxyFinder result: " + (ProxyUri != null ? "proxy found" : "no proxy"));
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.LogError("[AltTester][ProxyFinder] AndroidProxyFinder threw: " + e);
             }
 #endif
 
 #if !UNITY_EDITOR && UNITY_IOS
             try
             {
+                Debug.Log("[AltTester][ProxyFinder] Trying IOSProxyFinder");
                 Finder = new IOSProxyFinder();
                 ProxyUri = Finder.GetProxy(uri, host);
+                Debug.Log("[AltTester][ProxyFinder] IOSProxyFinder result: " + (ProxyUri != null ? "proxy found" : "no proxy"));
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.LogError("[AltTester][ProxyFinder] IOSProxyFinder threw: " + e);
             }
 #endif
 
