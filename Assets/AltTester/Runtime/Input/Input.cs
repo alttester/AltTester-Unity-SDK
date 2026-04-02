@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -107,21 +107,7 @@ public class Input
         get
         {
             return UnityEngine.Input.inputString;
-            //TODO
-            // if (AltInput.UseCustomInput)
-            // {
-            //     string charactersPressedCurrentFrame = "";
-            //     foreach (var keyCode in AltInput.KeyCodesPressedDown)
-            //     {
-            //         //need a Parser from keycode to character every character from keyboard + backspace and enter
-            //     }
-            //     return charactersPressedCurrentFrame;
 
-            // }
-            // else
-            // {
-
-            // }
         }
     }
 

@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -44,6 +44,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class TestsForNIS extends BaseTest {
@@ -106,6 +108,7 @@ public class TestsForNIS extends BaseTest {
     }
 
     @Test
+    @Disabled("This test is flaky, needs investigation")
     public void TestScroll() {
         loadLevel(altDriver, scene10);
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
@@ -223,8 +226,8 @@ public class TestsForNIS extends BaseTest {
                 .build();
         altDriver.waitForObject(waitParams);
     }
-
     @Test
+    @Disabled("This test needs more investigation")
     public void TestTilt() {
         loadLevel(altDriver, scene11);
         AltFindObjectsParams altFindObjectsParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,

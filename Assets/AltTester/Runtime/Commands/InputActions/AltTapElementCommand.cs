@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,11 +29,12 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override AltObject Execute()
         {
-            UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject.id);
 
-            InputController.TapElement(gameObject, CommandParams.count, CommandParams.interval, onFinish);
+                UnityEngine.GameObject gameObject = AltRunner.GetGameObject(CommandParams.altObject.id);
 
-            return AltRunner._altRunner.GameObjectToAltObject(gameObject);
+                InputController.TapElement(gameObject, CommandParams.count, CommandParams.interval, onFinish);
+
+                return AltRunner._altRunner.GameObjectToAltObject(gameObject);
         }
     }
 }

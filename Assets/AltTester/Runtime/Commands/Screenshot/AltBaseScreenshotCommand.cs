@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@ using AltTester.AltTesterSDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -60,26 +62,31 @@ namespace AltTester.AltTesterUnitySDK.Commands
             Handler.Send(response);
         }
 
-        protected System.Collections.IEnumerator SendScreenshotObjectHighlightedCoroutine(UnityEngine.Vector2 size, int quality, UnityEngine.GameObject gameObject, UnityEngine.Color color, float width)
+        protected System.Collections.IEnumerator SendScreenshotObjectHighlightedCoroutine(UnityEngine.Vector2 size, int quality, AltObject altObject, UnityEngine.Color color, float width)
         {
+
+            var gameObject = AltRunner.GetGameObject(altObject.id);
+
             UnityEngine.Renderer renderer = gameObject.GetComponent<UnityEngine.Renderer>();
+
             if (renderer != null)
             {
                 var originalMaterials = renderer.materials.ToArray();
+
                 renderer.materials = new UnityEngine.Material[renderer.materials.Length];
                 for (int i = 0; i < renderer.materials.Length; i++)
                 {
+                    // We create a new material and set it to the outline shader
                     renderer.materials[i] = new UnityEngine.Material(originalMaterials[i]);
                     renderer.materials[i].shader = AltRunner._altRunner.outlineShader;
+
+                    // Then, we set the color and width of the outline
                     renderer.materials[i].SetColor("_OutlineColor", color);
                     renderer.materials[i].SetFloat("_OutlineWidth", width);
                 }
-                if (Application.isBatchMode)
-                {
-                    yield return null;
-                }
-                else
-                    yield return new UnityEngine.WaitForEndOfFrame();
+
+                yield return Application.isBatchMode ? null : new UnityEngine.WaitForEndOfFrame();
+
                 sendTexturedScreenshotResponse(size, quality);
 
                 renderer.materials = originalMaterials;
@@ -87,33 +94,28 @@ namespace AltTester.AltTesterUnitySDK.Commands
             else
             {
                 var rectTransform = gameObject.GetComponent<UnityEngine.RectTransform>();
+
                 if (rectTransform != null)
                 {
-                    var panelHighlight = UnityEngine.Object.Instantiate(AltRunner._altRunner.panelHighlightPrefab, rectTransform);
+                    var panelHighlight = UnityEngine.Object.Instantiate(AltRunner._altRunner.panelHightlightPrefab, rectTransform);
+
                     panelHighlight.GetComponent<UnityEngine.UI.Image>().color = color;
 
-                    if (Application.isBatchMode)
-                    {
-                        yield return null;
-                    }
-                    else
-                        yield return new UnityEngine.WaitForEndOfFrame();
+                    yield return Application.isBatchMode ? null : new UnityEngine.WaitForEndOfFrame();
+
                     sendTexturedScreenshotResponse(size, quality);
 
                     UnityEngine.Object.Destroy(panelHighlight);
                 }
                 else
                 {
-                    if (Application.isBatchMode)
-                    {
-                        yield return null;
-                    }
-                    else
-                        yield return new UnityEngine.WaitForEndOfFrame();
+                    yield return Application.isBatchMode ? null : new UnityEngine.WaitForEndOfFrame();
                     sendTexturedScreenshotResponse(size, quality);
                 }
             }
+
         }
+
 
         private void sendTexturedScreenshotResponse(UnityEngine.Vector2 size, int quality)
         {
@@ -147,5 +149,9 @@ namespace AltTester.AltTesterUnitySDK.Commands
             UnityEngine.Object.DestroyImmediate(screenShot);
             return pngAsString;
         }
+
+
+
+
     }
 }

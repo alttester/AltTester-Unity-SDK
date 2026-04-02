@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using AltTester.AltTesterSDK.Driver.Commands;
-using UnityEngine;
-using AltTester.AltTesterUnitySDK.InputModule;
 using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterSDK.Driver.Commands;
+using AltTester.AltTesterUnitySDK.InputModule;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {

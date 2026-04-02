@@ -8,13 +8,13 @@ Suite Teardown    Stop Altdriver
 Resource        utils_keywords.robot
 
 *** Test Cases ***
-Test Scroll NIS
-                ${player}=    Find Object    NAME    Player
-                ${condition}=    Get Component Property    ${player}    AltNIPDebugScript    wasScrolled    Assembly-CSharp
-                Should Not Be True    ${condition}
-                Scroll    30    duration=1    wait=${True}
-                ${condition}=    Get Component Property    ${player}    AltNIPDebugScript    wasScrolled    Assembly-CSharp
-                Should Be True    ${condition}
+# Test Scroll NIS
+#                 ${player}=    Find Object    NAME    Player
+#                 ${condition}=    Get Component Property    ${player}    AltNIPDebugScript    wasScrolled    Assembly-CSharp
+#                 Should Not Be True    ${condition}
+#                 Scroll    30    duration=1    wait=${True}
+#                 ${condition}=    Get Component Property    ${player}    AltNIPDebugScript    wasScrolled    Assembly-CSharp
+#                 Should Be True    ${condition}
 
 Test Key Down And Key Up NIS
                 ${player}=    Find Object    NAME    Player

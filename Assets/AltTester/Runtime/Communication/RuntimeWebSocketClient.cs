@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,6 +37,19 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string platformVersion;
         private readonly string deviceInstanceId;
         private readonly string appId;
+        private readonly bool secureMode;
+        private ProxyFinder proxyFinder;
+        private ProxyFinder ProxyFinder
+        {
+            get
+            {
+                if (proxyFinder == null)
+                {
+                    proxyFinder = new ProxyFinder();
+                }
+                return proxyFinder;
+            }
+        }
 
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationDisconnectHandler OnDisconnect { get; set; }
@@ -47,7 +60,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public WebSocketState ReadyState { get { return this.wsClient.ReadyState; } }
 
-        public RuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId = null)
+        public RuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId = null, bool secureMode = false)
         {
             this.host = host;
             this.port = port;
@@ -56,9 +69,15 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.platformVersion = platformVersion;
             this.deviceInstanceId = deviceInstanceId;
             this.appId = appId;
+            this.secureMode = secureMode;
 
-            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId);
+            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, secureMode: secureMode);
             wsClient = new ClientWebSocket(uri.ToString());
+            if (secureMode)
+            {
+                wsClient.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+            }
+
             // To see websocket logs just uncomment the following lines
             // wsClient.Log.Level = LogLevel.Trace;
             // wsClient.Log.Output = (logData, output) =>
@@ -66,7 +85,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             //    UnityEngine.Debug.Log($"[{logData.Level}] {logData.Date.ToString("yyyy-MM-dd HH:mm:ss.ffff")} - {logData.Message}");
             // };
 
-            string proxyUri = new ProxyFinder().GetProxy(string.Format("http://{0}:{1}", host, port), host);
+            string proxyUri = ProxyFinder.GetProxy(string.Format("http://{0}:{1}", host, port), host);
             if (proxyUri != null)
             {
                 wsClient.SetProxy(proxyUri, null, null);
@@ -124,7 +143,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
             this.wsClient.Send(message);
         }
     }
-#if UNITY_WEBGL
+#if UNITY_WEBGL && !UNITY_EDITOR
     public class WebGLRuntimeWebSocketClient : IRuntimeWebSocketClient
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
@@ -134,6 +153,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
         private readonly string host;
         private readonly int port;
         private readonly string appName;
+        private readonly bool secureMode;
 
         public CommunicationHandler OnConnect { get; set; }
         public CommunicationDisconnectHandler OnDisconnect { get; set; }
@@ -150,13 +170,14 @@ namespace AltTester.AltTesterUnitySDK.Communication
             }
         }
 
-        public WebGLRuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId)
+        public WebGLRuntimeWebSocketClient(string host, int port, string path, string appName, string platform, string platformVersion, string deviceInstanceId, string appId, bool secureMode = false)
         {
             this.host = host;
             this.port = port;
             this.appName = appName;
+            this.secureMode = secureMode;
 
-            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, "SDK");
+            Uri uri = Utils.CreateURI(host, port, path, appName, platform, platformVersion, deviceInstanceId, appId, "SDK", secureMode: secureMode);
             wsClient = new WebGLWebSocket(uri.ToString());
 
             wsClient.OnOpen += () =>

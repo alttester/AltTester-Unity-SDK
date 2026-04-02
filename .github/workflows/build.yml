@@ -45,7 +45,7 @@ concurrency:
 jobs:
   build-macOS:
     if: ${{ github.event.inputs.build_macos == 'true' }}
-    runs-on: [self-hosted, Windows, product]
+    runs-on: [self-hosted, MAC37]
     steps:
       - uses: actions/checkout@v3
 
@@ -54,7 +54,7 @@ jobs:
         run: |
           export ALTSERVER_PORT=${{ github.event.inputs.altserver_port }}
           export ALTSERVER_HOST="${{ github.event.inputs.altserver_host }}"
-          "$UNITY_2021_3_HOME" -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
+          $UNITY_2021_3_HOME -batchmode -stackTraceLogType None -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.MacBuildFromCommandLine -logFile buildMac.log -quit
 
       - uses: actions/upload-artifact@v4
         if: always() # run this step even if one of the previous step failed

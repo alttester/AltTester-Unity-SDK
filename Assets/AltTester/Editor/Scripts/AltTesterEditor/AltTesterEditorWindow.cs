@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterUnitySDK.Commands;
 using AltTester.AltTesterUnitySDK.Editor.Logging;
 using AltTester.AltTesterUnitySDK.Editor.Platform;
+using AltTesterTools;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 #if UNITY_6000_0_OR_NEWER
@@ -123,7 +124,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         private bool playInEditorPressed;
         #region UnityEditor MenuItems
-        // Add menu item named "My Window" to the Window menu
         [UnityEditor.MenuItem("AltTester®/AltTester® Editor", false, 80)]
         public static void ShowWindow()
         {
@@ -148,8 +148,10 @@ namespace AltTester.AltTesterUnitySDK.Editor
             UnityEditor.ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath, newFilePath);
 
         }
-
+#if ALTTESTER_DEVELOPMENT
         [UnityEditor.MenuItem("AltTester®/Create AltTester® Package", false, 800)]
+#endif
+
         public static void CreateAltTesterPackage()
         {
             UnityEngine.Debug.Log("AltTester® - Unity Package creation started...");
@@ -195,7 +197,40 @@ namespace AltTester.AltTesterUnitySDK.Editor
         protected void OnEnable()
         {
             Window = this;
+            if (EditorConfiguration == null)
+            {
+                InitEditorConfiguration();
+            }
+
+            if (!EditorConfiguration.CreatedPrefab)
+            {
+                EditorConfiguration.CreatedPrefab = true;
+                RecreateAltTesterPrefab();
+
+            }
         }
+        public static void RecreateAltTesterPrefab()
+        {
+            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
+            if (!scriptingDefineSymbolsForGroup.Contains("ALTTESTER"))
+            {
+                AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
+            }
+            AltBuilder.GetAltTesterPrefab();
+        }
+
+#if ALTTESTER_DEVELOPMENT
+        [UnityEditor.MenuItem("AltTester®/SetCreatePrefabToFalse", false, 500)]
+        public static void SetCreatePrefabToFalse()
+        {
+            if (EditorConfiguration == null)
+            {
+                InitEditorConfiguration();
+            }
+            EditorConfiguration.CreatedPrefab = false;
+
+        }
+#endif
 
         [UnityEditor.MenuItem("AltTester®/AltId/Add AltId to every object", false, 800)]
         public static void AddIdComponentToEveryObjectInTheProject()
@@ -272,6 +307,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             {
                 InitEditorConfiguration();
             }
+            checkAltTesterPrefabInScene();
 
             if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources/AltTester"))
             {
@@ -764,6 +800,12 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
                     showSettings(UnityEditor.BuildTargetGroup.WebGL, AltPlatform.WebGL);
                     break;
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+                case AltPlatform.Switch:
+                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Switch, BuildTarget.Switch);
+                    showSettings(UnityEditor.BuildTargetGroup.Switch, AltPlatform.Switch);
+                    break;
+#endif
             }
             checkAltTesterSymbol();
 
@@ -806,8 +848,16 @@ namespace AltTester.AltTesterUnitySDK.Editor
             }
             else
             {
+                string assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(
+     UnityEditor.AssetDatabase.FindAssets("AltTesterEditorSettings")[0]);
                 EditorConfiguration = UnityEditor.AssetDatabase.LoadAssetAtPath<AltEditorConfiguration>(
-                    UnityEditor.AssetDatabase.GUIDToAssetPath(UnityEditor.AssetDatabase.FindAssets("AltTesterEditorSettings")[0]));
+                    assetPath);
+                if (EditorConfiguration == null)
+                {
+                    UnityEditor.AssetDatabase.DeleteAsset(assetPath);
+                    InitEditorConfiguration();
+                    return;
+                }
             }
             UnityEditor.EditorUtility.SetDirty(EditorConfiguration);
         }
@@ -916,6 +966,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         private static void removeAltTesterPrefab()
         {
+            if (EditorConfiguration.KeepAltTesterPrefabInScene)
+                return;
             var activeScene = EditorSceneManager.GetActiveScene();
             var altRunners = activeScene.GetRootGameObjects()
                 .Where(gameObject => gameObject.name.Equals(PREFABNAME)).ToList();
@@ -933,7 +985,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         private void runInEditor()
         {
-            AltBuilder.InsertAltInTheActiveScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
+            AltBuilder.InsertAltTesterInTheActiveScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
             AltBuilder.CreateJsonFileForInputMappingOfAxis();
             AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             playInEditorPressed = true;
@@ -965,6 +1017,10 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 var keepATSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTTESTER symbol defined", ref EditorConfiguration.KeepAUTSymbolDefined);
                 if (keepATSymbolChanged)
                     checkAltTesterSymbol();
+
+                var keepPrefabInSceneChanged = labelAndCheckboxHorizontalLayout("Keep AltTester® prefab in scene", ref EditorConfiguration.KeepAltTesterPrefabInScene);
+                if (keepPrefabInSceneChanged)
+                    checkAltTesterPrefabInScene();
                 labelAndInputFieldHorizontalLayout("AltTester® Server Host*", ref EditorConfiguration.AltServerHost);
                 labelAndInputFieldHorizontalLayout("AltTester® Server Port*", ref EditorConfiguration.AltServerPort);
 
@@ -1064,7 +1120,40 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     break;
             }
         }
+        private static void checkAltTesterPrefabInScene()
+        {
+            if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling || Window.playInEditorPressed)
+                return;
+            var activeScene = EditorSceneManager.GetActiveScene();
+            var altRunners = activeScene.GetRootGameObjects()
+                .Where(gameObject => gameObject.name.Equals(PREFABNAME)).ToList();
+            if (EditorConfiguration.KeepAltTesterPrefabInScene)
+            {
+                if (altRunners.Count != 0)
+                {
+                    return;
+                }
+                var saveScene = EditorSceneManager.GetActiveScene().isDirty;
 
+                AltBuilder.InsertAltTesterInTheActiveScene(EditorConfiguration.GetInstrumentationSettings());
+                EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+                if (!saveScene)
+                    EditorSceneManager.SaveOpenScenes();
+                return;
+            }
+            if (altRunners.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var altRunner in altRunners)
+            {
+                DestroyImmediate(altRunner);
+
+            }
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            EditorSceneManager.SaveOpenScenes();
+        }
         private static void checkAltTesterSymbol()
         {
             if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling || Window.playInEditorPressed)

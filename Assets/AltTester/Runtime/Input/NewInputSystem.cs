@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,6 +39,9 @@ namespace AltTester.AltTesterUnitySDK.InputModule
     {
         private static Vector2 endTouchScreenPos;
         private static float keyDownPower;
+        private static Dictionary<int, Vector2> touchPositions = new Dictionary<int, Vector2>();
+        private static Dictionary<int, Vector2> touchStartPositions = new Dictionary<int, Vector2>();
+        private static Dictionary<int, double> touchStartTimes = new Dictionary<int, double>();
 
         public static NewInputSystem Instance;
         public static Keyboard Keyboard;
@@ -126,6 +129,9 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             initiateDevices();
 #endif
             touches = new bool[] { false, true, true, true, true, true, true, true, true, true, true };
+            touchPositions.Clear();
+            touchStartPositions.Clear();
+            touchStartTimes.Clear();
 
 
         }
@@ -209,12 +215,15 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                     break;
                 }
                 currentMouseState.position = mousePosition;
+                currentMouseState.delta = delta;
                 InputSystem.QueueStateEvent(Mouse, currentMouseState);
+                currentMouseState.delta = Vector2.zero;
             }
             if (deltaUnchanged)
             {
 
                 currentMouseState.position = mousePosition * 1.01f;
+                currentMouseState.delta = Vector2.zero;
                 InputSystem.QueueStateEvent(Mouse, currentMouseState);
                 currentMouseState.position = mousePosition;
                 InputSystem.QueueStateEvent(Mouse, currentMouseState);
@@ -360,7 +369,6 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             InputSystem.QueueDeltaStateEvent(Accelerometer, Vector3.zero);
         }
 
-
         internal static IEnumerator MultipointSwipeLifeCycle(UnityEngine.Vector2[] positions, float duration)
         {
 
@@ -403,7 +411,25 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             var fingerId = getFreeTouch(touches);
             touches[fingerId] = false;
             Touchscreen.MakeCurrent();
-            InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = fingerId, phase = InputTouchPhase.Began, position = screenPosition });
+
+            touchPositions[fingerId] = screenPosition;
+            touchStartPositions[fingerId] = screenPosition;
+            touchStartTimes[fingerId] = Time.realtimeSinceStartupAsDouble;
+
+            InputSystem.QueueStateEvent(Touchscreen, new TouchState
+            {
+                touchId = fingerId,
+                phase = InputTouchPhase.Began,
+                position = screenPosition,
+                startPosition = screenPosition,
+                delta = Vector2.zero,
+                pressure = 1.0f,
+                radius = new Vector2(10f, 10f),
+                startTime = Time.realtimeSinceStartupAsDouble,
+                tapCount = 1,
+                isPrimaryTouch = true,
+                displayIndex = 0
+            });
             endTouchScreenPos = screenPosition;
             return fingerId;
         }
@@ -411,7 +437,27 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         internal static void MoveTouch(int fingerId, Vector3 screenPosition)
         {
             Touchscreen.MakeCurrent();
-            InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = fingerId, phase = InputTouchPhase.Moved, position = screenPosition });
+
+            Vector2 previousPosition = touchPositions.ContainsKey(fingerId) ? touchPositions[fingerId] : (Vector2)screenPosition;
+            Vector2 delta = (Vector2)screenPosition - previousPosition;
+            Vector2 startPosition = touchStartPositions.ContainsKey(fingerId) ? touchStartPositions[fingerId] : (Vector2)screenPosition;
+            double startTime = touchStartTimes.ContainsKey(fingerId) ? touchStartTimes[fingerId] : Time.realtimeSinceStartupAsDouble;
+            touchPositions[fingerId] = screenPosition;
+
+            InputSystem.QueueStateEvent(Touchscreen, new TouchState
+            {
+                touchId = fingerId,
+                phase = InputTouchPhase.Moved,
+                position = screenPosition,
+                startPosition = startPosition,
+                delta = delta,
+                pressure = 1.0f,
+                radius = new Vector2(10f, 10f),
+                startTime = startTime,
+                tapCount = 1,
+                isPrimaryTouch = true,
+                displayIndex = 0
+            });
             endTouchScreenPos = screenPosition;
         }
 
@@ -425,7 +471,28 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 yield return new UnityEngine.WaitForEndOfFrame();
 
             Touchscreen.MakeCurrent();
-            InputSystem.QueueStateEvent(Touchscreen, new TouchState { touchId = fingerId, phase = InputTouchPhase.Ended, position = endTouchScreenPos });
+
+            Vector2 startPosition = touchStartPositions.ContainsKey(fingerId) ? touchStartPositions[fingerId] : endTouchScreenPos;
+            double startTime = touchStartTimes.ContainsKey(fingerId) ? touchStartTimes[fingerId] : Time.realtimeSinceStartupAsDouble;
+
+            InputSystem.QueueStateEvent(Touchscreen, new TouchState
+            {
+                touchId = fingerId,
+                phase = InputTouchPhase.Ended,
+                position = endTouchScreenPos,
+                startPosition = startPosition,
+                delta = Vector2.zero,
+                pressure = 0f,
+                radius = new Vector2(10f, 10f),
+                startTime = startTime,
+                tapCount = 1,
+                isPrimaryTouch = true,
+                displayIndex = 0
+            });
+
+            touchPositions.Remove(fingerId);
+            touchStartPositions.Remove(fingerId);
+            touchStartTimes.Remove(fingerId);
             touches[fingerId] = true;
 
         }

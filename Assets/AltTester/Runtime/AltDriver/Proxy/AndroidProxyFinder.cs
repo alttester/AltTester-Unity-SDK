@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,7 +25,10 @@ namespace AltTester.AltTesterSDK.Driver.Proxy
     {
         public string GetProxy(string uri, string host)
         {
-            return CallJavaGetProxy(uri);
+            Debug.Log("[AltTester][AndroidProxyFinder] GetProxy called");
+            var result = CallJavaGetProxy(uri);
+            Debug.Log("[AltTester][AndroidProxyFinder] GetProxy result: " + (result != null ? "proxy found" : "no proxy"));
+            return result;
         }
 
         private string CallJavaGetProxy(string uri)

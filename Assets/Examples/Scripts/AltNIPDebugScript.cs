@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System.Collections;
 using System.Collections.Generic;
 using AltTester.AltTesterUnitySDK;
 using AltTester.AltTesterUnitySDK.InputModule;
@@ -37,80 +36,106 @@ public class AltNIPDebugScript : MonoBehaviour
     public KeyControl pressedKey;
     public ButtonControl pressedButton;
 
-    // Update is called once per frame
-    void Update()
-    {
 #if ALTTESTER && ENABLE_INPUT_SYSTEM
-
-        if (Mouse.current.scroll.ReadValue() != Vector2.zero)
-            wasScrolled = true;
-        var allKeys = Keyboard.current.allKeys;
-        foreach (var key in allKeys)
-            if (key.isPressed)
-            {
-                pressedKey = key;
-                KeyPressed = new List<int>() { };
-                foreach (var e in AltKeyMapping.StringToKey)
-                {
-                    if (Keyboard.current[e.Value] == key)
-                    {
-                        KeyPressed.Add((int)AltKeyMapping.StringToKeyCode[e.Key]);
-                    }
-                }
-            }
-            else if (key == pressedKey && !key.isPressed)
-            {
-                KeyReleased = new List<int>() { };
-                foreach (var e in AltKeyMapping.StringToKey)
-                    if (Keyboard.current[e.Value] == key)
-                        KeyReleased.Add((int)AltKeyMapping.StringToKeyCode[e.Key]);
-            }
-        var allMouseControls = new List<ButtonControl> { Mouse.current.leftButton, Mouse.current.rightButton, Mouse.current.middleButton, Mouse.current.forwardButton, Mouse.current.backButton };
-        foreach (var mouseCtrl in allMouseControls)
-            if (mouseCtrl.wasPressedThisFrame)
-            {
-                pressedButton = mouseCtrl;
-                var altKeyMapping = new AltKeyMapping(power);
-                foreach (var e in altKeyMapping.mouseKeyCodeToButtonControl)
-                {
-                    if (mouseCtrl == e.Value)
-                        MousePressed = e.Key.ToString();
-                }
-            }
-            else if (pressedButton == mouseCtrl && !mouseCtrl.isPressed)
-            {
-                var altKeyMapping = new AltKeyMapping(power);
-                foreach (var e in altKeyMapping.mouseKeyCodeToButtonControl)
-                {
-                    if (mouseCtrl == e.Value)
-                        MouseReleased = e.Key.ToString();
-                }
-            }
-        var allJoysticks = Gamepad.current.allControls;
-        foreach (var joystick in allJoysticks)
-            if (joystick.GetType() == typeof(ButtonControl) && ((ButtonControl)joystick).wasPressedThisFrame)
-            {
-                pressedButton = (ButtonControl)joystick;
-                if (joystick.parent.ReadValueAsObject().GetType() == typeof(Vector2))
-                {
-                    Vector2 axis = (Vector2)joystick.parent.ReadValueAsObject();
-                    power = axis.x < 0 || axis.y < 0 ? -1 : 1;
-                }
-                else
-                    power = 1;
-                var altKeyMapping = new AltKeyMapping(power);
-                foreach (var e in altKeyMapping.joystickKeyCodeToGamepad)
-                    if (joystick == e.Value)
-                        JoystickPressed = e.Key.ToString();
-            }
-            else if (joystick.GetType() == typeof(ButtonControl) && ((ButtonControl)joystick) == pressedButton && !((ButtonControl)joystick).isPressed)
-            {
-                var altKeyMapping = new AltKeyMapping(power);
-                foreach (var e in altKeyMapping.joystickKeyCodeToGamepad)
-                    if (joystick == e.Value)
-                        JoystickReleased = e.Key.ToString();
-            }
-#endif
-
+    void OnEnable()
+    {
+        InputSystem.onAfterUpdate += OnAfterInputUpdate;
     }
+
+    void OnDisable()
+    {
+        InputSystem.onAfterUpdate -= OnAfterInputUpdate;
+    }
+
+    private void OnAfterInputUpdate()
+    {
+        var keyboard = NewInputSystem.Keyboard;
+        if (keyboard != null)
+        {
+            foreach (var key in keyboard.allKeys)
+            {
+                if (key.wasPressedThisFrame)
+                {
+                    pressedKey = key;
+                    KeyPressed = new List<int>();
+                    foreach (var e in AltKeyMapping.StringToKey)
+                        if (keyboard[e.Value] == key)
+                            KeyPressed.Add((int)AltKeyMapping.StringToKeyCode[e.Key]);
+                }
+                if (key.wasReleasedThisFrame && key == pressedKey)
+                {
+                    KeyReleased = new List<int>();
+                    foreach (var e in AltKeyMapping.StringToKey)
+                        if (keyboard[e.Value] == key)
+                            KeyReleased.Add((int)AltKeyMapping.StringToKeyCode[e.Key]);
+                }
+            }
+        }
+
+        var mouse = NewInputSystem.Mouse;
+        if (mouse != null)
+        {
+            if (mouse.scroll.ReadValue() != Vector2.zero)
+                wasScrolled = true;
+
+            var allMouseControls = new List<ButtonControl>
+            {
+                mouse.leftButton, mouse.rightButton, mouse.middleButton,
+                mouse.forwardButton, mouse.backButton
+            };
+
+            foreach (var mouseCtrl in allMouseControls)
+            {
+                if (mouseCtrl.wasPressedThisFrame)
+                {
+                    pressedButton = mouseCtrl;
+                    var altKeyMapping = new AltKeyMapping(power);
+                    foreach (var e in altKeyMapping.mouseKeyCodeToButtonControl)
+                        if (mouseCtrl == e.Value)
+                            MousePressed = e.Key.ToString();
+                }
+                else if (mouseCtrl.wasReleasedThisFrame && pressedButton == mouseCtrl)
+                {
+                    var altKeyMapping = new AltKeyMapping(power);
+                    foreach (var e in altKeyMapping.mouseKeyCodeToButtonControl)
+                        if (mouseCtrl == e.Value)
+                            MouseReleased = e.Key.ToString();
+                }
+            }
+        }
+
+        var gamepad = NewInputSystem.Gamepad;
+        if (gamepad != null)
+        {
+            foreach (var control in gamepad.allControls)
+            {
+                if (!(control is ButtonControl joystick)) continue;
+
+                if (joystick.wasPressedThisFrame)
+                {
+                    pressedButton = joystick;
+                    if (joystick.parent.ReadValueAsObject()?.GetType() == typeof(Vector2))
+                    {
+                        Vector2 axis = (Vector2)joystick.parent.ReadValueAsObject();
+                        power = axis.x < 0 || axis.y < 0 ? -1 : 1;
+                    }
+                    else
+                        power = 1;
+
+                    var altKeyMapping = new AltKeyMapping(power);
+                    foreach (var e in altKeyMapping.joystickKeyCodeToGamepad)
+                        if (joystick == e.Value)
+                            JoystickPressed = e.Key.ToString();
+                }
+                else if (joystick.wasReleasedThisFrame && joystick == pressedButton)
+                {
+                    var altKeyMapping = new AltKeyMapping(power);
+                    foreach (var e in altKeyMapping.joystickKeyCodeToGamepad)
+                        if (joystick == e.Value)
+                            JoystickReleased = e.Key.ToString();
+                }
+            }
+        }
+    }
+#endif
 }

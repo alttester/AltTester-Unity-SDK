@@ -57,6 +57,10 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     Will add "ALTTESTER" to the scripting define symbols. This is usually done automatically when entering in play mode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
+-  *Keep AltTester® prefab in scene*:
+
+    When enabled, if the AltTester® Prefab is already present as a root object in the active scene it will be kept untouched — no new prefab is created. If the prefab is not present in the scene, it will be inserted automatically. When this option is disabled (default), the prefab is removed and recreated on each Play/Stop cycle, matching the previous behavior.
+
 - *AltTester® Server Host*
 
     Refers to the host the AltTester® Server is listening on.

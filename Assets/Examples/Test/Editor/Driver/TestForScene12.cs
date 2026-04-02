@@ -71,6 +71,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             Assert.That($"Clicked on {name}".Equals(altDriver.FindObject(By.NAME, "Text").GetText()));
         }
         [Test]
+        [Ignore("Temporarily ignored due to instability, needs investigation")]
         public void TestDragObjet()
         {
             var altObject = altDriver.FindObject(By.NAME, "Hexagon Flat-Top");

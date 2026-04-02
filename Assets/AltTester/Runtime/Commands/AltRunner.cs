@@ -1,28 +1,18 @@
 /*
-    Copyright(C) 2025 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
+    Copyright(C) 2026 Altom Consulting
+    
 */
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.InputModule;
 using AltTester.AltTesterUnitySDK.Logging;
 using AltTester.AltTesterUnitySDK.Notification;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -30,16 +20,17 @@ namespace AltTester.AltTesterUnitySDK.Commands
     {
         private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "2.3.0";
+        public static readonly string VERSION = "2.3.1";
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
         public AltInstrumentationSettings InstrumentationSettings = null;
+        public Canvas panelHightlightCanvas;
 
 
         [UnityEngine.Space]
         public bool RunOnlyInDebugMode = true;
         public UnityEngine.Shader outlineShader;
-        public UnityEngine.GameObject panelHighlightPrefab;
+        public UnityEngine.GameObject panelHightlightPrefab;
 
 
         #region MonoBehaviour
@@ -144,12 +135,85 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 transformParentId: transformParentId);
             return altObject;
         }
+        public static Vector2 GetScreenPosition(VisualElement visualElement)
+        {
+            var screenCenterPos = visualElement.worldBound.center;
+
+            UIDocument[] uIDocuments = GameObject.FindObjectsOfType<UIDocument>();
+
+            Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
+
+            float scaleFactor = ScaleFactor(uIDocuments[0].panelSettings, currentResolution);
+            if (uIDocuments[0].panelSettings.scaleMode == PanelScaleMode.ConstantPixelSize)
+            {
+                scaleFactor = 1f / scaleFactor;
+            }
+            screenCenterPos *= scaleFactor;
+            screenCenterPos.y = Screen.height - screenCenterPos.y;
+            return screenCenterPos;
+        }
+
+        public static float ScaleFactor(PanelSettings panelSettings, Vector2 screenSize)
+        {
+            var screenDpi = Screen.dpi;
+            float num = 1f;
+            switch (panelSettings.scaleMode)
+            {
+                case PanelScaleMode.ConstantPhysicalSize:
+                    {
+                        float num3 = (screenDpi == 0f) ? 96f : screenDpi;
+                        if (num3 != 0f)
+                        {
+                            num = panelSettings.referenceDpi / num3;
+                        }
+
+                        break;
+                    }
+                case PanelScaleMode.ScaleWithScreenSize:
+                    if (panelSettings.referenceResolution.x * panelSettings.referenceResolution.y != 0)
+                    {
+                        Vector2 vector = panelSettings.referenceResolution;
+                        Vector2 vector2 = new Vector2(screenSize.x / vector.x, screenSize.y / vector.y);
+                        float num2 = 0f;
+                        switch (panelSettings.screenMatchMode)
+                        {
+                            case PanelScreenMatchMode.Expand:
+                                num2 = Mathf.Min(vector2.x, vector2.y);
+                                break;
+                            case PanelScreenMatchMode.Shrink:
+                                num2 = Mathf.Max(vector2.x, vector2.y);
+                                break;
+                            default:
+                                {
+                                    float t = Mathf.Clamp01(panelSettings.match);
+                                    num2 = Mathf.Lerp(vector2.x, vector2.y, t);
+                                    break;
+                                }
+                        }
+
+                        if (num2 != 0f)
+                        {
+                            num = num2;
+                        }
+                    }
+
+                    break;
+            }
+
+            if (panelSettings.scale > 0f)
+            {
+                return num / panelSettings.scale;
+            }
+
+            return 0f;
+        }
 
         public AltObjectLight GameObjectToAltObjectLight(UnityEngine.GameObject altGameObject)
         {
             int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
             AltObjectLight altObject = new AltObjectLight(
                 name: altGameObject.name,
+                type: "GameObject",
                 id: altGameObject.GetInstanceID(),
                 enabled: altGameObject.activeSelf,
                 idCamera: 0,
@@ -179,14 +243,17 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
         }
 
-        public static UnityEngine.GameObject GetGameObject(int objectId)
+        public static UnityEngine.GameObject GetGameObject(int altObjectID, bool throwError = true)
         {
+
             foreach (UnityEngine.GameObject gameObject in UnityEngine.Resources.FindObjectsOfTypeAll<UnityEngine.GameObject>())
             {
-                if (gameObject.GetInstanceID() == objectId)
+                if (gameObject.GetInstanceID() == altObjectID)
                     return gameObject;
             }
-            throw new NotFoundException("Object not found");
+            if (throwError)
+                throw new NotFoundException("Object not found");
+            return null;
         }
 
         public UnityEngine.Camera FoundCameraById(int id)

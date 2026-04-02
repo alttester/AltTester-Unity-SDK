@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,8 +17,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using AltTester.AltTesterSDK.Driver;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
@@ -41,7 +43,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             return clickHandler != null ? clickHandler : topMostObject;
 
         }
-        public static GameObject FindObjectAtCoordinates(Vector2 screenPosition)
+        public static (bool isGameObject, System.Object obj) FindObjectAtCoordinates(Vector2 screenPosition)
         {
             var pointerEventData = new PointerEventData(EventSystem.current)
             {
@@ -51,9 +53,9 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 pressPosition = screenPosition
             };
             var eventSystemTarget = findEventSystemObject(pointerEventData);
-            if (eventSystemTarget != null) return eventSystemTarget;
+            if (eventSystemTarget != null) return (true, eventSystemTarget);
             var monoBehaviourTarget = FindMonoBehaviourObject(screenPosition);
-            return monoBehaviourTarget;
+            return (true, monoBehaviourTarget);
         }
         /// <summary>
         /// Finds element(s) at given coordinates for which we raise MonoBehaviour input events

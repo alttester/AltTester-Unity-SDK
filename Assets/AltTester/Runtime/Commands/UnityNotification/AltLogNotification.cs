@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ namespace AltTester.AltTesterUnitySDK.Notification
     {
         public AltLogNotification(ICommandHandler commandHandler, bool isOn) : base(commandHandler)
         {
-            Application.logMessageReceived -= onLogReceived;
+            StopLogReceived();
 
             if (isOn)
             {
@@ -47,6 +47,10 @@ namespace AltTester.AltTesterUnitySDK.Notification
             else if ((int)type == (int)LogType.Assert || (int)type == (int)LogType.Log)
                 return AltLogLevel.Debug;
             return AltLogLevel.Warn;
+        }
+        public static void StopLogReceived()
+        {
+            Application.logMessageReceived -= onLogReceived;
         }
     }
 }

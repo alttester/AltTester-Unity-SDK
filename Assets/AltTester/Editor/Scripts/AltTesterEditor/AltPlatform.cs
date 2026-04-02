@@ -1,5 +1,18 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
@@ -13,7 +26,10 @@ namespace AltTester.AltTesterUnitySDK.Editor.Platform
         iOS,
         Editor,
         Standalone,
-        WebGL
+        WebGL,
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+        Switch
+#endif
     }
     public static class AltPlatformExtensions
     {
@@ -30,6 +46,10 @@ namespace AltTester.AltTesterUnitySDK.Editor.Platform
                     return BuildTargetGroup.iOS;
                 case AltPlatform.WebGL:
                     return BuildTargetGroup.WebGL;
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+                case AltPlatform.Switch:
+                    return BuildTargetGroup.Switch;
+#endif
                 default:
                     throw new NotImplementedException();
 
@@ -48,9 +68,14 @@ namespace AltTester.AltTesterUnitySDK.Editor.Platform
                     return AltPlatform.WebGL;
                 case BuildTargetGroup.iOS:
                     return AltPlatform.iOS;
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+                case BuildTargetGroup.Switch:
+                    return AltPlatform.Switch;
+#endif
                 default:
                     return AltPlatform.Editor;
-            };
+            }
+
         }
         public static BuildTarget[] GetBuildTargetFromAltPlatform(AltPlatform altPlatform)
         {
@@ -64,8 +89,13 @@ namespace AltTester.AltTesterUnitySDK.Editor.Platform
                     return new BuildTarget[] { BuildTarget.iOS };
                 case AltPlatform.WebGL:
                     return new BuildTarget[] { BuildTarget.WebGL };
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+                case AltPlatform.Switch:
+                    return new BuildTarget[] { BuildTarget.Switch };
+#endif
                 default:
                     throw new NotImplementedException();
+
             }
         }
 
@@ -81,6 +111,10 @@ namespace AltTester.AltTesterUnitySDK.Editor.Platform
                     return BuildTarget.iOS;
                 case AltPlatform.WebGL:
                     return BuildTarget.WebGL;
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+                case AltPlatform.Switch:
+                    return BuildTarget.Switch;
+#endif
                 default:
                     throw new NotImplementedException();
 

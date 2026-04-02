@@ -145,7 +145,7 @@ To instrument your Unity project with AltTester® Unity SDK using Unity Cloud Bu
 
 ## How to make a production build
 
-There is no need to remove the AltTester® package entirely from the project, only the `ALTTESTER` Scripting Define Symbol should be deleted from the Player Settings. Also, make sure that the `Keep ALTTESTER symbol defined` checkbox is unchecked. After that, you can build your app normally as you would do in Unity.
+There is no need to remove the AltTester® package entirely from the project, only the `ALTTESTER` Scripting Define Symbol should be deleted from the Player Settings. Also, make sure that the `Keep ALTTESTER symbol defined` checkbox is unchecked. If you have enabled the `Keep AltTester® prefab in scene` option, make sure that is also unchecked so the AltTester® Prefab is not left in the scene. After that, you can build your app normally as you would do in Unity.
 
 ## Run tests from the command line
 
@@ -1125,7 +1125,7 @@ More details related to Allure can be found at the official [Allure documentatio
             <dependency>
                 <groupId>com.alttester</groupId>
                 <artifactId>alttester</artifactId>
-                <version>2.3.0</version>
+                <version>2.3.1</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

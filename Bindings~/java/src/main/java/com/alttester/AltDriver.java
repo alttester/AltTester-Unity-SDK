@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ import com.alttester.altTesterExceptions.InvalidParameterException;
 
 public class AltDriver {
     private static final Logger logger = LogManager.getLogger(AltDriver.class);
-    public static final String VERSION = "2.3.0";
+    public static final String VERSION = "2.3.1";
 
     static {
         ConfigurationFactory custom = new AltDriverConfigFactory();

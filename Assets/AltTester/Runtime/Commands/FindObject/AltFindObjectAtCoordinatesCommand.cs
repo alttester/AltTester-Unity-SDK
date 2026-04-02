@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.InputModule;
+using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
@@ -27,11 +28,16 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override AltObject Execute()
         {
-            UnityEngine.GameObject gameObject = FindObjectViaRayCast.FindObjectAtCoordinates(new UnityEngine.Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y));
+            var result = FindObjectViaRayCast.FindObjectAtCoordinates(new UnityEngine.Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y));
 
-            if (gameObject == null) return null;
+            if (result.obj == null) return null;
 
-            return AltRunner._altRunner.GameObjectToAltObject(gameObject);
+            if (result.isGameObject)
+            {
+                return AltRunner._altRunner.GameObjectToAltObject(result.obj as GameObject);
+            }
+
+            return null;
         }
 
 

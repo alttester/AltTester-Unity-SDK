@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -83,7 +83,11 @@ namespace AltTester.AltTesterUnitySDK.Logging
 
         private static void addFileLogger(LogLevel minLevel, LogLevel maxLevel)
         {
-            if (Application.platform == RuntimePlatform.WebGLPlayer)
+            if (Application.platform == RuntimePlatform.WebGLPlayer
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+            || Application.platform == RuntimePlatform.Switch
+#endif
+)
                 return;
             logsFilePath = UnityEngine.Application.persistentDataPath + "/AltTester-Server.log";
             var logfile = new FileTarget("AltServerFileTarget")

@@ -51,7 +51,7 @@ Documentation
    :caption: Table of contents:
    :hidden:
 
-   Home Page <https://alttester.com/docs/sdk/2.3.0/index.html>
+   Home Page <https://alttester.com/docs/sdk/2.3.1/index.html>
    home
    AltTester® Unreal SDK <https://alttester.com/docs/unreal-sdk/latest/home.html>
    AltTester® Desktop <https://alttester.com/docs/desktop/v.2.2.4/home.html>

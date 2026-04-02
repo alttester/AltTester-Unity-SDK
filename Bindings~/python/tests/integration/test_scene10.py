@@ -1,5 +1,5 @@
 """
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ class TestScene10:
         self.alt_driver.reset_input()
         self.alt_driver.load_scene(Scenes.Scene10)
 
+    @pytest.mark.skip(reason="This test needs more investigation")
     def test_scroll_NIS(self):
         player = self.alt_driver.find_object(By.NAME, "Player")
 

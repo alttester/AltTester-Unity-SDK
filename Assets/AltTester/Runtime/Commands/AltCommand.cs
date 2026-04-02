@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2025 Altom Consulting
+    Copyright(C) 2026 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -178,7 +178,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
             if (response != null)
             {
                 int maxDepth = MAX_DEPTH_REPONSE_DATA_SERIALIZATION;
-
+                if (CommandParams.commandName.Equals("getAllVisualElementProperty"))
+                {
+                    maxDepth++;
+                }
                 if (CommandParams is AltGetObjectComponentPropertyParams)
                 {
                     maxDepth = (CommandParams as AltGetObjectComponentPropertyParams).maxDepth;
