@@ -1,38 +1,29 @@
-def set_connection_data(cls, host=None, port=None, app_name=None, dont_show_this_again=False, implicit_wait_timeout=60):
-    if cls.appium_driver is None:
-        raise ValueError("Appium driver cannot be None")
+*** Settings ***
+Library    AppiumLibrary
 
-    # Set a longer implicit wait to ensure elements are found during connection setup
-    cls.appium_driver.implicitly_wait(implicit_wait_timeout)
-        
-    try:
-        # Update host if provided
-        if host is not None:
-            host_field = cls.appium_driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="AltTesterHostInputField")
-            host_field.clear()
-            host_field.send_keys(host)
 
-        # Update port if provided
-        if port is not None:
-            port_field = cls.appium_driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="AltTesterPortInputField")
-            port_field.clear()
-            port_field.send_keys(port)
+*** Keywords ***
+Set Connection Data
+	[Arguments]    ${host}=    ${port}=    ${app_name}=    ${dont_show_this_again}=False    ${implicit_wait_timeout}=60
 
-        # Update app_name if provided
-        if app_name is not None:
-            app_name_field = cls.appium_driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="AltTesterAppNameInputField")
-            app_name_field.clear()
-            app_name_field.send_keys(app_name)
+	# Wait to ensure elements are found during connection setup
+    Wait Until Page Contains Element  accessibility_id=AltTesterHostInputField  timeout=${implicit_wait_timeout}
 
-        # Set "Don't show this again" if specified
-        if dont_show_this_again:
-            dont_show_again_checkbox = cls.appium_driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="AltTesterDontShowAgainCheckbox")
-            if not dont_show_again_checkbox.is_selected():
-                dont_show_again_checkbox.click()
+	# Update host if provided
+	Run Keyword If    '${host}' != ''    Clear Text    accessibility_id=AltTesterHostInputField
+	Run Keyword If    '${host}' != ''    Input Text    accessibility_id=AltTesterHostInputField    ${host}
 
-        # Press OK button
-        ok_button = cls.appium_driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="AltTesterOkButton")
-        ok_button.click()
+	# Update port if provided
+	Run Keyword If    '${port}' != ''    Clear Text    accessibility_id=AltTesterPortInputField
+	Run Keyword If    '${port}' != ''    Input Text    accessibility_id=AltTesterPortInputField    ${port}
 
-    except Exception as ex:
-        raise Exception(f"Error while setting connection data: {str(ex)}") from ex
+	# Update app name if provided
+	Run Keyword If    '${app_name}' != ''    Clear Text    accessibility_id=AltTesterAppNameInputField
+	Run Keyword If    '${app_name}' != ''    Input Text    accessibility_id=AltTesterAppNameInputField    ${app_name}
+
+	# Set "Don't show this again" if specified
+	${checkbox_selected}=    Run Keyword If    '${dont_show_this_again}' == 'True'    Get Element Attribute    accessibility_id=AltTesterDontShowAgainCheckbox    checked
+	Run Keyword If    '${dont_show_this_again}' == 'True' and '${checkbox_selected}' != 'true'    Click Element    accessibility_id=AltTesterDontShowAgainCheckbox
+
+	# Press OK button
+	Click Element    accessibility_id=AltTesterOkButton
