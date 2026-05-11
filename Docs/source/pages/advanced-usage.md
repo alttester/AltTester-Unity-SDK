@@ -41,7 +41,7 @@ built from the command line:
 
 If you already have a custom build method for your app, you can add the
 following lines to your build method. Also, the BuildPlayerOptions should
-check for *BuildOptions.Development* and *BuildOptions.IncludeTestAssemblies*.
+check for *BuildOptions.Development*.
 
 ```c#
 var buildTargetGroup = BuildTargetGroup.Android;
