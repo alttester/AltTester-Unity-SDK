@@ -130,8 +130,8 @@ class AltObject:
             tuple: A tuple containing ``x`` and ``y``.
 
         """
-
-        return self.x, self.y
+        position = (self.x, self.y)
+        return position
 
     def get_world_position(self):
         """Returns the world position.
@@ -140,8 +140,8 @@ class AltObject:
             tuple: A tuple containing ``worldX``, ``worldY`` and ``worldZ``.
 
         """
-
-        return self.worldX, self.worldY, self.worldZ
+        position = (self.worldX, self.worldY, self.worldZ)
+        return position
 
     def get_parent(self):
         """Returns the parent object.
@@ -286,7 +286,7 @@ class AltObject:
 
         """
 
-        return commands.GetText.run(self._connection, self)
+        return commands.FetchText.run(self._connection, self)
 
     def set_text(self, text, submit=False):
         """Sets text value for a Button, Text or InputField. This also works with TextMeshPro elements.
@@ -300,7 +300,7 @@ class AltObject:
 
         """
 
-        data = commands.SetText.run(self._connection, text, self, submit)
+        data = commands.UpdateText.run(self._connection, text, self, submit)
         return AltObject(self._altdriver, data)
 
     def pointer_up(self):

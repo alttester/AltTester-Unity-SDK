@@ -18,7 +18,7 @@
 from alttester.commands.base_command import BaseCommand
 
 
-class GetText(BaseCommand):
+class FetchText(BaseCommand):
 
     def __init__(self, connection, alt_object):
         super().__init__(connection, "getText")

@@ -18,13 +18,12 @@
 from alttester.commands.base_command import BaseCommand
 
 
-class SetText(BaseCommand):
+class UpdateText(BaseCommand):
 
-    def __init__(self, connection, text_value, alt_object, submit):
+    def __init__(self, connection, new_text, target_object, submit):
         super().__init__(connection, "setText")
-
-        self.alt_object = alt_object
-        self.text = text_value
+        self.alt_object = target_object
+        self.text = new_text
         self.submit = submit
 
     @property
