@@ -32,7 +32,6 @@ public class AltGetText extends AltBaseCommand {
         super(messageHandler);
         this.params = params;
         params.setCommandName("getText");
-        ;
     }
 
     public String Execute() {

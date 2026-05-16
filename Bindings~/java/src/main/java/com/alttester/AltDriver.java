@@ -19,9 +19,8 @@ package com.alttester;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.ConfigurationFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alttester.Commands.AltCallStaticMethod;
 import com.alttester.Commands.AltCallStaticMethodParams;
@@ -101,13 +100,8 @@ import com.alttester.UnityStruct.AltKeyCode;
 import com.alttester.altTesterExceptions.InvalidParameterException;
 
 public class AltDriver {
-    private static final Logger logger = LogManager.getLogger(AltDriver.class);
+    private static final Logger logger = LoggerFactory.getLogger(AltDriver.class);
     public static final String VERSION = "2.3.1";
-
-    static {
-        ConfigurationFactory custom = new AltDriverConfigFactory();
-        ConfigurationFactory.setConfigurationFactory(custom);
-    }
 
     public static enum PlayerPrefsKeyType {
         Int(1), String(2), Float(3);
@@ -836,7 +830,13 @@ public class AltDriver {
     }
 
     public enum By {
-        TAG, LAYER, NAME, COMPONENT, PATH, ID, TEXT
+        TAG,
+        LAYER,
+        NAME,
+        COMPONENT,
+        PATH,
+        ID,
+        TEXT;
     }
 
     public void setImplicitTimeout(double timeout) {

@@ -17,15 +17,15 @@
 
 package com.alttester.Commands;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alttester.IMessageHandler;
 import com.alttester.AltMessage;
 import com.alttester.altTesterExceptions.*;
 
 public class AltBaseCommand {
-    protected static final Logger logger = LogManager.getLogger(AltBaseCommand.class);
+    protected static final Logger logger = LoggerFactory.getLogger(AltBaseCommand.class);
 
     protected IMessageHandler messageHandler;
 

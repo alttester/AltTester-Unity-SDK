@@ -17,12 +17,12 @@
 
 package com.alttester.Notifications;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.alttester.Logging.AltLogLevel;
 
 public class BaseNotificationCallbacks implements INotificationCallbacks {
-    protected static final Logger logger = LogManager.getLogger(BaseNotificationCallbacks.class);
+    protected static final Logger logger = LoggerFactory.getLogger(BaseNotificationCallbacks.class);
 
     @Override
     public void SceneLoadedCallBack(

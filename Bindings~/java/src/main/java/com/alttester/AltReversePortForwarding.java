@@ -19,13 +19,13 @@ package com.alttester;
 
 import java.nio.file.Paths;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alttester.altTesterExceptions.ReversePortForwardingException;
 
 public class AltReversePortForwarding {
-    private static final Logger log = LogManager.getLogger(AltReversePortForwarding.class);
+    private static final Logger log = LoggerFactory.getLogger(AltReversePortForwarding.class);
 
     public static String getAdbPath(String adbPath) {
         if (adbPath != null && !adbPath.isEmpty())

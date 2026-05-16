@@ -43,8 +43,8 @@ import org.glassfish.tyrus.client.ClientManager;
 import org.glassfish.tyrus.client.ClientProperties;
 import org.glassfish.tyrus.client.SslEngineConfigurator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alttester.altTesterExceptions.ConnectionException;
 import com.alttester.altTesterExceptions.ConnectionTimeoutException;
@@ -55,7 +55,7 @@ import com.alttester.altTesterExceptions.MultipleDriversTryingToConnectException
 
 @ClientEndpoint
 public class WebsocketConnection {
-    private static final Logger logger = LogManager.getLogger(AltDriver.class);
+    private static final Logger logger = LoggerFactory.getLogger(AltDriver.class);
 
     private String host;
     private int port;
@@ -111,7 +111,7 @@ public class WebsocketConnection {
             String scheme = secureMode ? "wss" : "ws";
             return new URI(scheme, null, host, port, "/altws", query, null);
         } catch (URISyntaxException e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw new ConnectionException(e.getMessage(), e);
         }
     }
@@ -203,7 +203,7 @@ public class WebsocketConnection {
 
                 this.session = container.connectToServer(this, uri);
             } catch (IllegalStateException e) {
-                logger.error(e);
+                logger.error(e.getMessage(), e);
                 throw new ConnectionException(e.getMessage(), e);
             } catch (DeploymentException | IOException e) {
                 connectionError = e;
@@ -293,8 +293,7 @@ public class WebsocketConnection {
 
     @OnError
     public void onError(Throwable th) {
-        logger.error(th.getMessage());
-        logger.error(th);
+        logger.error(th.getMessage(), th);
 
         this.error = th.getMessage();
     }

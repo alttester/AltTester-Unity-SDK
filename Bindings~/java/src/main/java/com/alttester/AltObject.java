@@ -17,8 +17,6 @@
 
 package com.alttester;
 
-import lombok.Getter;
-
 import com.alttester.Commands.ObjectCommand.*;
 import com.alttester.Commands.UnityCommand.AltGetVisualElementProperty;
 import com.alttester.Commands.UnityCommand.AltGetVisualElementProperyParams;
@@ -33,7 +31,6 @@ import com.alttester.Commands.FindObject.AltWaitForVisualElementProperty;
 import com.alttester.Commands.FindObject.AltWaitForVisualElementPropertyParams;
 import com.alttester.Commands.FindObject.AltFindObject;
 
-@Getter
 public class AltObject {
 
     public String name;
@@ -137,7 +134,8 @@ public class AltObject {
      * @return - The screen position
      */
     public Vector2 getScreenPosition() {
-        return new Vector2(this.x, this.y);
+        Vector2 position = new Vector2(x, y);
+        return position;
     }
 
     /**
@@ -146,7 +144,8 @@ public class AltObject {
      * @return - The world position
      */
     public Vector3 getWorldPosition() {
-        return new Vector3(this.worldX, this.worldY, this.worldZ);
+        Vector3 position = new Vector3(worldX, worldY, worldZ);
+        return position;
     }
 
     /**
