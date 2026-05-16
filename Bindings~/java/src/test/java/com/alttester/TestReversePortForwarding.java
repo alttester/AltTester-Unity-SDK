@@ -70,6 +70,6 @@ public class TestReversePortForwarding {
         new AltWaitForObjectsParams.Builder(panelObjectsParameters).build();
     AltObject panelElement = altDriver.waitForObject(panelWaitForObjectsParameters);
 
-    Assertions.assertTrue(panelElement.isEnabled());
+    Assertions.assertTrue(panelElement.enabled);
   }
 }
