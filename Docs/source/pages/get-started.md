@@ -536,6 +536,19 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
             - After running the test the Robot will generate 3 files: ``report.html``, ``log.html`` and ``output.xml`` - the  html files can be opened in the browser and for every test in ``log.html`` there will be a status highlight, the keywords used, as well as a potential error that might have occured during the test
 
+        **Connecting to multiple app instances:**
+            - To drive more than one instrumented app from the same suite, import ``AltTesterLibrary`` once per instance using ``WITH NAME`` and initialize each alias with its own ``app_name`` (and ``port`` if needed). Each alias holds its own driver, so keywords stay isolated.
+            .. code-block:: robot
+
+                *** Settings ***
+                Library    AltTesterLibrary    WITH NAME    P1
+                Library    AltTesterLibrary    WITH NAME    P2
+
+                *** Test Cases ***
+                Two Players Connect Independently
+                    P1.Initialize Altdriver    host=127.0.0.1    port=13000    app_name=player-one
+                    P2.Initialize Altdriver    host=127.0.0.1    port=13000    app_name=player-two
+                    [Teardown]    Run Keywords    P1.Stop Altdriver    AND    P2.Stop Altdriver
 
         Example test file:
 
