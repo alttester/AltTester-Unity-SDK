@@ -21,48 +21,47 @@ import com.alttester.AltMessage;
 import com.alttester.UnityStruct.AltKeyCode;
 
 public class AltKeyDownParams extends AltMessage {
-    public static class Builder {
-        private AltKeyCode keyCode = AltKeyCode.NoKey;
-        private float power = 1;
+  public static class Builder {
+    private AltKeyCode keyCode = AltKeyCode.NoKey;
+    private float power = 1;
 
-        public Builder(AltKeyCode keyCode) {
-            this.keyCode = keyCode;
-        }
-
-        public AltKeyDownParams.Builder withPower(float power) {
-            this.power = power;
-            return this;
-        }
-
-        public AltKeyDownParams build() {
-            AltKeyDownParams params = new AltKeyDownParams();
-            params.keyCode = this.keyCode;
-            params.power = this.power;
-            return params;
-        }
+    public Builder(AltKeyCode keyCode) {
+      this.keyCode = keyCode;
     }
 
-    private AltKeyDownParams() {
-        this.setCommandName("keyDown");
+    public AltKeyDownParams.Builder withPower(float power) {
+      this.power = power;
+      return this;
     }
 
-    private AltKeyCode keyCode;
-    private float power;
-
-    public AltKeyCode getKeyCode() {
-        return keyCode;
+    public AltKeyDownParams build() {
+      AltKeyDownParams params = new AltKeyDownParams();
+      params.keyCode = this.keyCode;
+      params.power = this.power;
+      return params;
     }
+  }
 
-    public void setKeyCode(AltKeyCode keyCode) {
-        this.keyCode = keyCode;
-    }
+  private AltKeyDownParams() {
+    this.setCommandName("keyDown");
+  }
 
-    public float getPower() {
-        return power;
-    }
+  private AltKeyCode keyCode;
+  private float power;
 
-    public void setPower(float power) {
-        this.power = power;
-    }
+  public AltKeyCode getKeyCode() {
+    return keyCode;
+  }
 
+  public void setKeyCode(AltKeyCode keyCode) {
+    this.keyCode = keyCode;
+  }
+
+  public float getPower() {
+    return power;
+  }
+
+  public void setPower(float power) {
+    this.power = power;
+  }
 }

@@ -17,6 +17,12 @@
 
 package com.alttester;
 
+import com.alttester.altTesterExceptions.AppDisconnectedException;
+import com.alttester.altTesterExceptions.ConnectionException;
+import com.alttester.altTesterExceptions.ConnectionTimeoutException;
+import com.alttester.altTesterExceptions.MultipleDriversException;
+import com.alttester.altTesterExceptions.MultipleDriversTryingToConnectException;
+import com.alttester.altTesterExceptions.NoAppConnectedException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -24,7 +30,6 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.cert.X509Certificate;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -32,276 +37,289 @@ import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
-
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
 import org.glassfish.tyrus.client.ClientManager;
 import org.glassfish.tyrus.client.ClientProperties;
 import org.glassfish.tyrus.client.SslEngineConfigurator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alttester.altTesterExceptions.ConnectionException;
-import com.alttester.altTesterExceptions.ConnectionTimeoutException;
-import com.alttester.altTesterExceptions.NoAppConnectedException;
-import com.alttester.altTesterExceptions.AppDisconnectedException;
-import com.alttester.altTesterExceptions.MultipleDriversException;
-import com.alttester.altTesterExceptions.MultipleDriversTryingToConnectException;
-
 @ClientEndpoint
 public class WebsocketConnection {
-    private static final Logger logger = LoggerFactory.getLogger(AltDriver.class);
+  private static final Logger logger = LoggerFactory.getLogger(AltDriver.class);
 
-    private String host;
-    private int port;
-    private String appName;
-    private int connectTimeout;
-    private String platform;
-    private String platformVersion;
-    private String deviceInstanceId;
-    private String appId;
-    private boolean secureMode;
+  private String host;
+  private int port;
+  private String appName;
+  private int connectTimeout;
+  private String platform;
+  private String platformVersion;
+  private String deviceInstanceId;
+  private String appId;
+  private boolean secureMode;
 
-    private String error = null;
-    private CloseReason closeReason = null;
+  private String error = null;
+  private CloseReason closeReason = null;
 
-    public Session session = null;
-    public IMessageHandler messageHandler = null;
-    public boolean driverRegisteredCalled = false;
+  public Session session = null;
+  public IMessageHandler messageHandler = null;
+  public boolean driverRegisteredCalled = false;
 
-    public WebsocketConnection(String host, int port, String appName, int connectTimeout, String platform,
-            String platformVersion, String deviceInstanceId, String appId, boolean secureMode) {
-        this.host = host;
-        this.port = port;
-        this.appName = appName;
-        this.connectTimeout = connectTimeout;
-        this.platform = platform;
-        this.platformVersion = platformVersion;
-        this.deviceInstanceId = deviceInstanceId;
-        this.appId = appId;
-        this.secureMode = secureMode;
+  public WebsocketConnection(
+      String host,
+      int port,
+      String appName,
+      int connectTimeout,
+      String platform,
+      String platformVersion,
+      String deviceInstanceId,
+      String appId,
+      boolean secureMode) {
+    this.host = host;
+    this.port = port;
+    this.appName = appName;
+    this.connectTimeout = connectTimeout;
+    this.platform = platform;
+    this.platformVersion = platformVersion;
+    this.deviceInstanceId = deviceInstanceId;
+    this.appId = appId;
+    this.secureMode = secureMode;
+  }
+
+  public boolean isOpen() {
+    return this.session.isOpen();
+  }
+
+  public static String escapeDataString(String value) {
+    try {
+      return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+    } catch (UnsupportedEncodingException e) {
+      return null;
     }
+  }
 
-    public boolean isOpen() {
-        return this.session.isOpen();
+  private URI getURI() {
+
+    String query =
+        String.format(
+            "appName=%s&platform=%s&platformVersion=%s&deviceInstanceId=%s&appId=%s&driverType=java_%s",
+            escapeDataString(appName),
+            escapeDataString(platform),
+            escapeDataString(platformVersion),
+            escapeDataString(deviceInstanceId),
+            escapeDataString(appId),
+            AltDriver.VERSION);
+
+    try {
+      String scheme = secureMode ? "wss" : "ws";
+      return new URI(scheme, null, host, port, "/altws", query, null);
+    } catch (URISyntaxException e) {
+      logger.error(e.getMessage(), e);
+      throw new ConnectionException(e.getMessage(), e);
     }
+  }
 
-    public static String escapeDataString(String value) {
-        try {
-            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
-        } catch (UnsupportedEncodingException e) {
-            return null;
-        }
+  private void checkErrors() {
+    if (this.error != null) {
+      throw new ConnectionException(this.error);
     }
+  }
 
-    private URI getURI() {
+  private void checkCloseReason() {
+    if (closeReason != null) {
+      int code = closeReason.getCloseCode().getCode();
+      String reason = closeReason.getReasonPhrase();
 
-        String query = String.format(
-                "appName=%s&platform=%s&platformVersion=%s&deviceInstanceId=%s&appId=%s&driverType=java_%s",
-                escapeDataString(appName), escapeDataString(platform),
-                escapeDataString(platformVersion), escapeDataString(deviceInstanceId),
-                escapeDataString(appId), AltDriver.VERSION);
+      if (code == 4001) {
+        throw new NoAppConnectedException(reason);
+      }
 
-        try {
-            String scheme = secureMode ? "wss" : "ws";
-            return new URI(scheme, null, host, port, "/altws", query, null);
-        } catch (URISyntaxException e) {
-            logger.error(e.getMessage(), e);
-            throw new ConnectionException(e.getMessage(), e);
-        }
+      if (code == 4002) {
+        throw new AppDisconnectedException(reason);
+      }
+
+      if (code == 4005) {
+        throw new MultipleDriversException(reason);
+      }
+      if (code == 4007) {
+        throw new MultipleDriversTryingToConnectException(reason);
+      }
+      throw new ConnectionException(
+          String.format("Connection closed by AltTester(R) Server with reason: %s.", reason));
     }
+  }
 
-    private void checkErrors() {
-        if (this.error != null) {
-            throw new ConnectionException(this.error);
-        }
+  private void ensureConnectionIsOpen() {
+    this.checkCloseReason();
+    this.checkErrors();
+
+    if (!this.isOpen()) {
+      throw new ConnectionException("Connection closed. An unexpected error ocurred.");
     }
+  }
 
-    private void checkCloseReason() {
-        if (closeReason != null) {
-            int code = closeReason.getCloseCode().getCode();
-            String reason = closeReason.getReasonPhrase();
+  public void connect() {
+    URI uri = getURI();
+    logger.info("Connecting to: '{}'.", uri.toString());
 
-            if (code == 4001) {
-                throw new NoAppConnectedException(reason);
-            }
+    int delay = 100;
+    int retries = 0;
+    long timeout = connectTimeout * 1000;
+    long start = System.currentTimeMillis();
+    long finish = System.currentTimeMillis();
 
-            if (code == 4002) {
-                throw new AppDisconnectedException(reason);
-            }
+    WebSocketContainer container = ContainerProvider.getWebSocketContainer();
 
-            if (code == 4005) {
-                throw new MultipleDriversException(reason);
-            }
-            if (code == 4007) {
-                throw new MultipleDriversTryingToConnectException(reason);
-            }
-            throw new ConnectionException(
-                    String.format("Connection closed by AltTester(R) Server with reason: %s.", reason));
-        }
-    }
-
-    private void ensureConnectionIsOpen() {
-        this.checkCloseReason();
-        this.checkErrors();
-
-        if (!this.isOpen()) {
-            throw new ConnectionException("Connection closed. An unexpected error ocurred.");
-        }
-    }
-
-    public void connect() {
-        URI uri = getURI();
-        logger.info("Connecting to: '{}'.", uri.toString());
-
-        int delay = 100;
-        int retries = 0;
-        long timeout = connectTimeout * 1000;
-        long start = System.currentTimeMillis();
-        long finish = System.currentTimeMillis();
-
-        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-        
-        // Configure SSL to accept self-signed certificates when in secure mode
-        if (secureMode && container instanceof ClientManager) {
-            ClientManager clientManager = (ClientManager) container;
-            try {
-                SSLContext sslContext = SSLContext.getInstance("TLS");
-                sslContext.init(null, new TrustManager[]{
-                    new X509TrustManager() {
-                        public X509Certificate[] getAcceptedIssuers() { return null; }
-                        public void checkClientTrusted(X509Certificate[] certs, String authType) {}
-                        public void checkServerTrusted(X509Certificate[] certs, String authType) {}
-                    }
-                }, new java.security.SecureRandom());
-                
-                SslEngineConfigurator sslEngineConfigurator = new SslEngineConfigurator(sslContext);
-                sslEngineConfigurator.setHostnameVerifier((hostname, session) -> true);
-                clientManager.getProperties().put(ClientProperties.SSL_ENGINE_CONFIGURATOR, sslEngineConfigurator);
-                
-                logger.debug("SSL configuration set for secure connection");
-            } catch (Exception e) {
-                logger.error("Failed to configure SSL context for self-signed certificates", e);
-            }
-        }
-
-        Exception connectionError = null;
-
-        while (finish - start < timeout) {
-            this.error = null;
-            this.closeReason = null;
-
-            try {
-                if (retries > 0) {
-                    logger.debug("Retrying #{} to: '{}'.", retries, uri);
+    // Configure SSL to accept self-signed certificates when in secure mode
+    if (secureMode && container instanceof ClientManager) {
+      ClientManager clientManager = (ClientManager) container;
+      try {
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(
+            null,
+            new TrustManager[] {
+              new X509TrustManager() {
+                public X509Certificate[] getAcceptedIssuers() {
+                  return null;
                 }
 
-                this.session = container.connectToServer(this, uri);
-            } catch (IllegalStateException e) {
-                logger.error(e.getMessage(), e);
-                throw new ConnectionException(e.getMessage(), e);
-            } catch (DeploymentException | IOException e) {
-                connectionError = e;
-            }
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {}
 
-            float waitForNotification = 0;
-            try {
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+              }
+            },
+            new java.security.SecureRandom());
 
-                while (waitForNotification < 5000) {
-                    if (driverRegisteredCalled) {
-                        logger.debug("Connected to: '{}'.", uri);
-                        return;
-                    }
-                    try {
-                        Thread.sleep(delay);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    checkCloseReason();
+        SslEngineConfigurator sslEngineConfigurator = new SslEngineConfigurator(sslContext);
+        sslEngineConfigurator.setHostnameVerifier((hostname, session) -> true);
+        clientManager
+            .getProperties()
+            .put(ClientProperties.SSL_ENGINE_CONFIGURATOR, sslEngineConfigurator);
 
-                    waitForNotification += delay;
-                }
-            } catch (Exception e) {
+        logger.debug("SSL configuration set for secure connection");
+      } catch (Exception e) {
+        logger.error("Failed to configure SSL context for self-signed certificates", e);
+      }
+    }
 
-            }
+    Exception connectionError = null;
 
-            if (session.isOpen()) {// Added this to be also backward compatible but it will be slower
-                break;
-            }
+    while (finish - start < timeout) {
+      this.error = null;
+      this.closeReason = null;
 
-            retries++;
-            finish = System.currentTimeMillis();
+      try {
+        if (retries > 0) {
+          logger.debug("Retrying #{} to: '{}'.", retries, uri);
         }
 
-        this.checkCloseReason();
-        this.checkErrors();
+        this.session = container.connectToServer(this, uri);
+      } catch (IllegalStateException e) {
+        logger.error(e.getMessage(), e);
+        throw new ConnectionException(e.getMessage(), e);
+      } catch (DeploymentException | IOException e) {
+        connectionError = e;
+      }
 
-        if (this.session == null || (!this.session.isOpen() && finish - start >= timeout)) {
-            throw new ConnectionTimeoutException(
-                    String.format("Failed to connect to AltTester(R) on host: %s port: %s.", host, port),
-                    connectionError);
+      float waitForNotification = 0;
+      try {
+
+        while (waitForNotification < 5000) {
+          if (driverRegisteredCalled) {
+            logger.debug("Connected to: '{}'.", uri);
+            return;
+          }
+          try {
+            Thread.sleep(delay);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          checkCloseReason();
+
+          waitForNotification += delay;
         }
+      } catch (Exception e) {
 
-        if (!this.session.isOpen()) {
-            throw new ConnectionException(
-                    String.format("Failed to connect to AltTester(R) on host: %s port: %s.", host, port),
-                    connectionError);
-        }
+      }
+
+      if (session.isOpen()) { // Added this to be also backward compatible but it will be slower
+        break;
+      }
+
+      retries++;
+      finish = System.currentTimeMillis();
     }
 
-    public void close() {
-        logger.info("Closing connection to AltTester(R) on host: {} port: {}.", host, port);
+    this.checkCloseReason();
+    this.checkErrors();
 
-        if (this.session != null) {
-            try {
-                this.session.close();
-            } catch (Exception e) {
-                throw new ConnectionException("An unexpected error occurred while closing the connection.", e);
-            }
-        }
+    if (this.session == null || (!this.session.isOpen() && finish - start >= timeout)) {
+      throw new ConnectionTimeoutException(
+          String.format("Failed to connect to AltTester(R) on host: %s port: %s.", host, port),
+          connectionError);
     }
 
-    public void send(String message) {
-        this.ensureConnectionIsOpen();
-
-        if (this.session != null) {
-            session.getAsyncRemote().sendText(message);
-        }
+    if (!this.session.isOpen()) {
+      throw new ConnectionException(
+          String.format("Failed to connect to AltTester(R) on host: %s port: %s.", host, port),
+          connectionError);
     }
+  }
 
-    @OnOpen
-    public void onOpen(Session session) {
-        logger.debug("Connected to: {}.", session.getRequestURI().toString());
+  public void close() {
+    logger.info("Closing connection to AltTester(R) on host: {} port: {}.", host, port);
 
-        this.session = session;
-        this.messageHandler = new MessageHandler(this);
+    if (this.session != null) {
+      try {
+        this.session.close();
+      } catch (Exception e) {
+        throw new ConnectionException(
+            "An unexpected error occurred while closing the connection.", e);
+      }
     }
+  }
 
-    @OnMessage
-    public void onMessage(String message) {
-        if (message.contains("driverRegistered")) {
-            driverRegisteredCalled = true;
-        } else {
-            messageHandler.onMessage(message);
-        }
+  public void send(String message) {
+    this.ensureConnectionIsOpen();
+
+    if (this.session != null) {
+      session.getAsyncRemote().sendText(message);
     }
+  }
 
-    @OnError
-    public void onError(Throwable th) {
-        logger.error(th.getMessage(), th);
+  @OnOpen
+  public void onOpen(Session session) {
+    logger.debug("Connected to: {}.", session.getRequestURI().toString());
 
-        this.error = th.getMessage();
+    this.session = session;
+    this.messageHandler = new MessageHandler(this);
+  }
+
+  @OnMessage
+  public void onMessage(String message) {
+    if (message.contains("driverRegistered")) {
+      driverRegisteredCalled = true;
+    } else {
+      messageHandler.onMessage(message);
     }
+  }
 
-    @OnClose
-    public void onClose(Session session, CloseReason reason) {
-        logger.debug("Connection to AltTester(R) closed: {}.", reason.toString());
+  @OnError
+  public void onError(Throwable th) {
+    logger.error(th.getMessage(), th);
 
-        this.closeReason = reason;
-    }
+    this.error = th.getMessage();
+  }
+
+  @OnClose
+  public void onClose(Session session, CloseReason reason) {
+    logger.debug("Connection to AltTester(R) closed: {}.", reason.toString());
+
+    this.closeReason = reason;
+  }
 }

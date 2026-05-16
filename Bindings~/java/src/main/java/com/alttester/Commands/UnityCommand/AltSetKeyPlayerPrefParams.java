@@ -17,32 +17,32 @@
 
 package com.alttester.Commands.UnityCommand;
 
-import com.alttester.AltMessage;
 import com.alttester.AltDriver;
+import com.alttester.AltMessage;
 
 public class AltSetKeyPlayerPrefParams extends AltMessage {
 
-    String keyName;
-    int intValue;
-    float floatValue;
-    String stringValue;
-    int keyType;
+  String keyName;
+  int intValue;
+  float floatValue;
+  String stringValue;
+  int keyType;
 
-    AltSetKeyPlayerPrefParams(String keyName, int intValue) {
-        this.keyName = keyName;
-        this.intValue = intValue;
-        this.keyType = AltDriver.PlayerPrefsKeyType.Int.getVal();
-    }
+  AltSetKeyPlayerPrefParams(String keyName, int intValue) {
+    this.keyName = keyName;
+    this.intValue = intValue;
+    this.keyType = AltDriver.PlayerPrefsKeyType.Int.getVal();
+  }
 
-    AltSetKeyPlayerPrefParams(String keyName, float floatValue) {
-        this.keyName = keyName;
-        this.floatValue = floatValue;
-        this.keyType = AltDriver.PlayerPrefsKeyType.Float.getVal();
-    }
+  AltSetKeyPlayerPrefParams(String keyName, float floatValue) {
+    this.keyName = keyName;
+    this.floatValue = floatValue;
+    this.keyType = AltDriver.PlayerPrefsKeyType.Float.getVal();
+  }
 
-    AltSetKeyPlayerPrefParams(String keyName, String stringValue) {
-        this.keyName = keyName;
-        this.stringValue = stringValue;
-        this.keyType = AltDriver.PlayerPrefsKeyType.String.getVal();
-    }
+  AltSetKeyPlayerPrefParams(String keyName, String stringValue) {
+    this.keyName = keyName;
+    this.stringValue = stringValue;
+    this.keyType = AltDriver.PlayerPrefsKeyType.String.getVal();
+  }
 }

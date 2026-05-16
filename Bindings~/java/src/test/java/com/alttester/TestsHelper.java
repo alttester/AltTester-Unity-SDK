@@ -18,27 +18,27 @@
 package com.alttester;
 
 public class TestsHelper {
-    public static int getAltDriverPort() {
-        String port = System.getenv("ALTSERVER_PORT");
+  public static int getAltDriverPort() {
+    String port = System.getenv("ALTSERVER_PORT");
 
-        if (port != null && port != "") {
-            return Integer.parseInt(port);
-        }
-
-        return 13000;
+    if (port != null && port != "") {
+      return Integer.parseInt(port);
     }
 
-    public static String getAltDriverHost() {
-        String host = System.getenv("ALTSERVER_HOST");
+    return 13000;
+  }
 
-        if (host != null && host != "") {
-            return host;
-        }
+  public static String getAltDriverHost() {
+    String host = System.getenv("ALTSERVER_HOST");
 
-        return "127.0.0.1";
+    if (host != null && host != "") {
+      return host;
     }
 
-    public static AltDriver getAltDriver() {
-        return new AltDriver(TestsHelper.getAltDriverHost(), TestsHelper.getAltDriverPort(), true, 60);
-    }
+    return "127.0.0.1";
+  }
+
+  public static AltDriver getAltDriver() {
+    return new AltDriver(TestsHelper.getAltDriverHost(), TestsHelper.getAltDriverPort(), true, 60);
+  }
 }
