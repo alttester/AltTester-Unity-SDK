@@ -32,11 +32,12 @@ class AltObject:
         self._altdriver = altdriver
         self._data = data
 
-    def __repr__(self):
-        return "{}(altdriver, {!r})".format(self.__class__.__name__, self.to_json())
-
     def __str__(self):
         return json.dumps(self.to_json())
+
+    def __repr__(self):
+        cls_name = self.__class__.__name__
+        return f"{cls_name}(altdriver, {self.to_json()!r})"
 
     @property
     def _connection(self):
@@ -123,25 +124,21 @@ class AltObject:
         )
         return AltObject(self._altdriver, altObject)
 
-    def get_screen_position(self):
+    def get_screen_position(self) -> tuple:
         """Returns the screen position.
 
         Returns:
             tuple: A tuple containing ``x`` and ``y``.
-
         """
-        position = (self.x, self.y)
-        return position
+        return (self.x, self.y)
 
-    def get_world_position(self):
+    def get_world_position(self) -> tuple:
         """Returns the world position.
 
         Returns:
             tuple: A tuple containing ``worldX``, ``worldY`` and ``worldZ``.
-
         """
-        position = (self.worldX, self.worldY, self.worldZ)
-        return position
+        return (self.worldX, self.worldY, self.worldZ)
 
     def get_parent(self):
         """Returns the parent object.
@@ -171,13 +168,12 @@ class AltObject:
 
         return alt_object
 
-    def get_all_components(self):
+    def get_all_components(self) -> list:
         """Returns all components."""
-
         return commands.GetAllComponents.run(self._connection, self)
 
     def wait_for_component_property(self, component_name, property_name,
-                                    property_value, assembly,  timeout=20, interval=0.5,
+                                    property_value, assembly, timeout=20, interval=0.5,
                                     get_property_as_string=False, max_depth=2):
         """Wait until a property has a specific value and returns the value of the given component property.
 
@@ -278,14 +274,12 @@ class AltObject:
             assembly=assembly
         )
 
-    def get_text(self):
+    def get_text(self) -> str:
         """Returns text value from a Button, Text, InputField. This also works with TextMeshPro elements.
 
         Returns:
             str: The text value of the AltObject.
-
         """
-
         return commands.FetchText.run(self._connection, self)
 
     def set_text(self, text, submit=False):

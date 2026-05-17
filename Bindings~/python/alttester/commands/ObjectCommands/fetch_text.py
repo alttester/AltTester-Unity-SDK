@@ -19,20 +19,19 @@ from alttester.commands.base_command import BaseCommand
 
 
 class FetchText(BaseCommand):
+    """Returns the text value of a Button, Text or InputField (and TextMeshPro)."""
 
     def __init__(self, connection, alt_object):
         super().__init__(connection, "getText")
-
         self.alt_object = alt_object
 
     @property
     def _parameters(self):
         parameters = super()._parameters
-        parameters.update(**{
+        parameters.update({
             "altObject": self.alt_object.to_json(),
         })
-
         return parameters
 
-    def execute(self):
+    def execute(self) -> str:
         return self.send()
