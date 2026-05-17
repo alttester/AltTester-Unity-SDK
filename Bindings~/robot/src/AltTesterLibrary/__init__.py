@@ -33,5 +33,5 @@ class AltTesterLibrary(AltTesterKeywords):
 
     """
 
-    ROBOT_LIBRARY_SCOPE = 'GLOBAL'
+    ROBOT_LIBRARY_SCOPE = 'SUITE'
     ROBOT_LIBRARY_VERSION = __version__
