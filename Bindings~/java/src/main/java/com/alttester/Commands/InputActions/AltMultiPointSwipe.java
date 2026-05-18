@@ -17,30 +17,30 @@
 
 package com.alttester.Commands.InputActions;
 
-import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
+import com.alttester.IMessageHandler;
 
 /**
- * Similar command like swipe but instead of swipe from point A to point B you
- * are able to give list a points.
+ * Similar command like swipe but instead of swipe from point A to point B you are able to give list
+ * a points.
  */
 public class AltMultiPointSwipe extends AltBaseCommand {
 
-    private AltMultiPointSwipeParams params;
+  private AltMultiPointSwipeParams params;
 
-    public AltMultiPointSwipe(IMessageHandler messageHandler, AltMultiPointSwipeParams params) {
-        super(messageHandler);
-        this.params = params;
+  public AltMultiPointSwipe(IMessageHandler messageHandler, AltMultiPointSwipeParams params) {
+    super(messageHandler);
+    this.params = params;
+  }
+
+  public void Execute() {
+    SendCommand(params);
+    String data = recvall(params, String.class);
+    validateResponse("Ok", data);
+
+    if (params.getWait()) {
+      data = recvall(params, String.class);
+      validateResponse("Finished", data);
     }
-
-    public void Execute() {
-        SendCommand(params);
-        String data = recvall(params, String.class);
-        validateResponse("Ok", data);
-
-        if (params.getWait()) {
-            data = recvall(params, String.class);
-            validateResponse("Finished", data);
-        }
-    }
+  }
 }

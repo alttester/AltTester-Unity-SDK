@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="ALT_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n%throwable" />
+
+    <appender name="AltConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+        <encoder>
+            <pattern>${ALT_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="AltFileAppender" class="ch.qos.logback.core.FileAppender">
+        <file>./AltTester.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>${ALT_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.alttester" level="DEBUG" additivity="false">
+        <appender-ref ref="AltConsoleAppender" />
+        <appender-ref ref="AltFileAppender" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="AltConsoleAppender" />
+    </root>
+
+</configuration>

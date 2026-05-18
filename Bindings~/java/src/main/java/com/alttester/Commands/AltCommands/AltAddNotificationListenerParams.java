@@ -21,48 +21,47 @@ import com.alttester.AltMessage;
 import com.alttester.Notifications.INotificationCallbacks;
 
 public class AltAddNotificationListenerParams extends AltMessage {
-    private NotificationType notificationType;
-    private INotificationCallbacks notificationCallbacks;
-    private boolean overwrite;
+  private NotificationType notificationType;
+  private INotificationCallbacks notificationCallbacks;
+  private boolean overwrite;
 
-    public static class Builder {
-        NotificationType notificationType;
-        INotificationCallbacks notificationCallbacks;
-        boolean overwrite = false;
+  public static class Builder {
+    NotificationType notificationType;
+    INotificationCallbacks notificationCallbacks;
+    boolean overwrite = false;
 
-        public Builder(NotificationType notificationType, INotificationCallbacks callbacks) {
-            this.notificationType = notificationType;
-            this.notificationCallbacks = callbacks;
-
-        }
-
-        public Builder Overwrite(boolean overwrite) {
-            this.overwrite = overwrite;
-            return this;
-        }
-
-        public AltAddNotificationListenerParams build() {
-            return new AltAddNotificationListenerParams(notificationType, notificationCallbacks, overwrite);
-        }
-
+    public Builder(NotificationType notificationType, INotificationCallbacks callbacks) {
+      this.notificationType = notificationType;
+      this.notificationCallbacks = callbacks;
     }
 
-    AltAddNotificationListenerParams(NotificationType notificationType, INotificationCallbacks callbacks,
-            boolean overwrite) {
-        this.notificationType = notificationType;
-        this.notificationCallbacks = callbacks;
-        this.overwrite = overwrite;
+    public Builder Overwrite(boolean overwrite) {
+      this.overwrite = overwrite;
+      return this;
     }
 
-    public INotificationCallbacks getNotificationCallbacks() {
-        return notificationCallbacks;
+    public AltAddNotificationListenerParams build() {
+      return new AltAddNotificationListenerParams(
+          notificationType, notificationCallbacks, overwrite);
     }
+  }
 
-    public NotificationType GetNotificationType() {
-        return notificationType;
-    }
+  AltAddNotificationListenerParams(
+      NotificationType notificationType, INotificationCallbacks callbacks, boolean overwrite) {
+    this.notificationType = notificationType;
+    this.notificationCallbacks = callbacks;
+    this.overwrite = overwrite;
+  }
 
-    public boolean getOverwrite() {
-        return overwrite;
-    }
+  public INotificationCallbacks getNotificationCallbacks() {
+    return notificationCallbacks;
+  }
+
+  public NotificationType GetNotificationType() {
+    return notificationType;
+  }
+
+  public boolean getOverwrite() {
+    return overwrite;
+  }
 }

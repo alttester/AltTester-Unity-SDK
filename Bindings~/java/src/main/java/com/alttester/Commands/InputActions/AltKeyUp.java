@@ -17,20 +17,20 @@
 
 package com.alttester.Commands.InputActions;
 
-import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
+import com.alttester.IMessageHandler;
 
 public class AltKeyUp extends AltBaseCommand {
 
-    private AltKeyUpParams params;
+  private AltKeyUpParams params;
 
-    public AltKeyUp(IMessageHandler messageHandler, AltKeyUpParams params) {
-        super(messageHandler);
-        this.params = params;
-    }
+  public AltKeyUp(IMessageHandler messageHandler, AltKeyUpParams params) {
+    super(messageHandler);
+    this.params = params;
+  }
 
-    public void Execute() {
-        SendCommand(params);
-        recvall(params, String.class);
-    }
+  public void Execute() {
+    SendCommand(params);
+    recvall(params, String.class);
+  }
 }

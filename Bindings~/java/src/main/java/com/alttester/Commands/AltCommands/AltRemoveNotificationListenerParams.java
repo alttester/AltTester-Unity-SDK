@@ -20,28 +20,25 @@ package com.alttester.Commands.AltCommands;
 import com.alttester.AltMessage;
 
 public class AltRemoveNotificationListenerParams extends AltMessage {
-    private NotificationType notificationType;
+  private NotificationType notificationType;
 
-    public static class Builder {
-        NotificationType notificationType;
+  public static class Builder {
+    NotificationType notificationType;
 
-        public Builder(NotificationType notificationType) {
-            this.notificationType = notificationType;
-
-        }
-
-        public AltRemoveNotificationListenerParams build() {
-            return new AltRemoveNotificationListenerParams(notificationType);
-        }
-
+    public Builder(NotificationType notificationType) {
+      this.notificationType = notificationType;
     }
 
-    AltRemoveNotificationListenerParams(NotificationType notificationType) {
-        this.notificationType = notificationType;
+    public AltRemoveNotificationListenerParams build() {
+      return new AltRemoveNotificationListenerParams(notificationType);
     }
+  }
 
-    public NotificationType GetNotificationType() {
-        return notificationType;
-    }
+  AltRemoveNotificationListenerParams(NotificationType notificationType) {
+    this.notificationType = notificationType;
+  }
 
+  public NotificationType GetNotificationType() {
+    return notificationType;
+  }
 }

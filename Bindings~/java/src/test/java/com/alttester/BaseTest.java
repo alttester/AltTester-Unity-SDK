@@ -22,24 +22,23 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 public class BaseTest {
-    static AltDriver altDriver;
+  static AltDriver altDriver;
 
-    @BeforeAll
-    public static void setUp() throws Exception {
-        altDriver = TestsHelper.getAltDriver();
+  @BeforeAll
+  public static void setUp() throws Exception {
+    altDriver = TestsHelper.getAltDriver();
+  }
+
+  @AfterAll
+  public static void tearDown() throws Exception {
+    if (altDriver != null) {
+      altDriver.stop();
     }
+    Thread.sleep(1000);
+  }
 
-    @AfterAll
-    public static void tearDown() throws Exception {
-        if (altDriver != null) {
-            altDriver.stop();
-        }
-        Thread.sleep(1000);
-    }
-
-    @BeforeEach
-    public void resetInput() throws Exception {
-        altDriver.resetInput();
-    }
-
+  @BeforeEach
+  public void resetInput() throws Exception {
+    altDriver.resetInput();
+  }
 }

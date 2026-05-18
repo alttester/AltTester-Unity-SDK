@@ -22,22 +22,24 @@ import com.alttester.Notifications.INotificationCallbacks;
 
 public interface IMessageHandler {
 
-    public <T> T receive(AltMessage altMessage, Class<T> type);
+  public <T> T receive(AltMessage altMessage, Class<T> type);
 
-    public void send(AltMessage altMessage);
+  public void send(AltMessage altMessage);
 
-    public void onMessage(String message);
+  public void onMessage(String message);
 
-    public void setCommandTimeout(int timeout);
+  public void setCommandTimeout(int timeout);
 
-    public void addNotificationListener(NotificationType notificationType, INotificationCallbacks callbacks,
-            boolean overwrite);
+  public void addNotificationListener(
+      NotificationType notificationType, INotificationCallbacks callbacks, boolean overwrite);
 
-    public void removeNotificationListener(NotificationType notificationType);
+  public void removeNotificationListener(NotificationType notificationType);
 
-    public double getDelayAfterCommand();
+  public double getDelayAfterCommand();
 
-    public void setDelayAfterCommand(double delay);
-    public  void setImplicitTimeout(double value);
-    public double getImplicitTimeout();
+  public void setDelayAfterCommand(double delay);
+
+  public void setImplicitTimeout(double value);
+
+  public double getImplicitTimeout();
 }

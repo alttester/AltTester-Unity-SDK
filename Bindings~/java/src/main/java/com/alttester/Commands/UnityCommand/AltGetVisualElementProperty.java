@@ -17,23 +17,24 @@
 
 package com.alttester.Commands.UnityCommand;
 
-import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
+import com.alttester.IMessageHandler;
 
 public class AltGetVisualElementProperty extends AltBaseCommand {
 
-    private AltGetVisualElementProperyParams params;
+  private AltGetVisualElementProperyParams params;
 
-    public AltGetVisualElementProperty(IMessageHandler messageHandler,
-            AltGetVisualElementProperyParams altGetVisualElementProperyParams) {
-        super(messageHandler);
-        this.params = altGetVisualElementProperyParams;
-        this.params.setCommandName("getVisualElementProperty");
-    }
+  public AltGetVisualElementProperty(
+      IMessageHandler messageHandler,
+      AltGetVisualElementProperyParams altGetVisualElementProperyParams) {
+    super(messageHandler);
+    this.params = altGetVisualElementProperyParams;
+    this.params.setCommandName("getVisualElementProperty");
+  }
 
-    public <T> T Execute(Class<T> returnType) {
+  public <T> T Execute(Class<T> returnType) {
 
-        SendCommand(params);
-        return recvall(params, returnType);
-    }
+    SendCommand(params);
+    return recvall(params, returnType);
+  }
 }

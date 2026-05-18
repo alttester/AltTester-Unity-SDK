@@ -22,31 +22,31 @@ import com.alttester.UnityStruct.AltKeyCode;
 
 public class AltKeyUpParams extends AltMessage {
 
-    private AltKeyCode keyCode;
+  private AltKeyCode keyCode;
 
-    public static class Builder {
-        private AltKeyCode keyCode = AltKeyCode.NoKey;
+  public static class Builder {
+    private AltKeyCode keyCode = AltKeyCode.NoKey;
 
-        public Builder(AltKeyCode keyCode) {
-            this.keyCode = keyCode;
-        }
-
-        public AltKeyUpParams build() {
-            AltKeyUpParams params = new AltKeyUpParams();
-            params.keyCode = this.keyCode;
-            return params;
-        }
+    public Builder(AltKeyCode keyCode) {
+      this.keyCode = keyCode;
     }
 
-    private AltKeyUpParams() {
-        this.setCommandName("keyUp");
+    public AltKeyUpParams build() {
+      AltKeyUpParams params = new AltKeyUpParams();
+      params.keyCode = this.keyCode;
+      return params;
     }
+  }
 
-    public AltKeyCode getKeyCode() {
-        return keyCode;
-    }
+  private AltKeyUpParams() {
+    this.setCommandName("keyUp");
+  }
 
-    public void setKeyCode(AltKeyCode keyCode) {
-        this.keyCode = keyCode;
-    }
+  public AltKeyCode getKeyCode() {
+    return keyCode;
+  }
+
+  public void setKeyCode(AltKeyCode keyCode) {
+    this.keyCode = keyCode;
+  }
 }
