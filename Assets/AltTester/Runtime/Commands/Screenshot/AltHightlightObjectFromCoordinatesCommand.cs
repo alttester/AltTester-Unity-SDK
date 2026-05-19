@@ -20,14 +20,12 @@ using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Commands;
 using AltTester.AltTesterUnitySDK.InputModule;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltHighlightObjectFromCoordinatesCommand : AltBaseScreenshotCommand<AltHighlightObjectFromCoordinatesScreenshotParams, string>
     {
         private static List<GameObject> previousResults = null;
-        private static VisualElement previousSelectedVisualElement = null;
         private static Vector2 previousScreenCoordinates;
 
 
