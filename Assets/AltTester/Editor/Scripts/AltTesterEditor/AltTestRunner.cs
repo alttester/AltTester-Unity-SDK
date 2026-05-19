@@ -398,15 +398,12 @@ namespace AltTester.AltTesterUnitySDK.Editor
         }
 
 
-        private static void setCorrectCheck(List<AltMyTest> myTests)
-        {
+        private static void setCorrectCheck(List<AltMyTest> myTests){
             bool classCheck = true;
             bool assemblyCheck = true;
-            for (int i = myTests.Count - 1; i >= 0; i--)
-            {
+            for (int i = myTests.Count - 1; i >= 0; i--){
                 AltMyTest test = myTests[i];
-                switch (test.Type.ToString())
-                {
+                switch (test.Type.ToString()){
                     case "NUnit.Framework.Internal.TestMethod":
                         if (!test.Selected)//test not selected then the class which the test belong must be not selected
                         {
@@ -431,20 +428,10 @@ namespace AltTester.AltTesterUnitySDK.Editor
                         classCheck = true;//Reset value for new class
                         break;
                     case "NUnit.Framework.Internal.TestAssembly":
-                        if (assemblyCheck)
-                        {
-                            test.Selected = true;
-                        }
-                        else
-                        {
-                            test.Selected = false;
-                        }
-                        assemblyCheck = true;//Reset value for new assembly
-                        break;
-                }
-            }
-        }
-
+                        test.Selected = assemblyCheck;
+                        assemblyCheck = true;//Value reset for new assembly
+                        break;//default value for new assembly
+                }}}
         private static IEnumerator addTestSuiteToMyTestCoroutine(NUnit.Framework.Interfaces.ITest testSuite, List<AltMyTest> newMyTests, string assembly)
         {
             addCurrentSuiteToTestList(testSuite, newMyTests, assembly);
@@ -474,12 +461,9 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 if (indexOfParenthesis > -1)
                     fullName = testSuite.FullName.Substring(0, indexOfParenthesis);
                 var hierarchyNames = fullName.Split('.');
-                var className = hierarchyNames[hierarchyNames.Length - 2];
-                var assets = UnityEditor.AssetDatabase.FindAssets(className);
+                var assets = UnityEditor.AssetDatabase.FindAssets(hierarchyNames[hierarchyNames.Length - 2]);
                 if (assets.Length != 0)
-                {
                     path = UnityEditor.AssetDatabase.GUIDToAssetPath(assets[0]);
-                }
             }
             var parentName = string.Empty;
             if (testSuite.Parent != null)
@@ -498,7 +482,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                    index.ParentName, testSuite.TestCaseCount, index.FoldOut, index.TestResultMessage, index.TestStackTrace, index.TestDuration, path, index.TestSelectedCount));
             }
         }
-
         public static void RunTestFromCommandLine()
         {
             var arguments = System.Environment.GetCommandLineArgs();

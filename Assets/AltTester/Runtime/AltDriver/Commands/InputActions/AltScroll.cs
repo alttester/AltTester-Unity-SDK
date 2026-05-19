@@ -15,10 +15,8 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace AltTester.AltTesterSDK.Driver.Commands
-{
-    public class AltScroll : AltBaseCommand
-    {
+namespace AltTester.AltTesterSDK.Driver.Commands{
+    public class AltScroll : AltBaseCommand{
         AltScrollParams cmdParams;
         public AltScroll(IDriverCommunication commHandler, float speed, float speedHorizontal, float duration, bool wait) : base(commHandler)
         {
@@ -36,5 +34,5 @@ namespace AltTester.AltTesterSDK.Driver.Commands
                 ValidateResponse("Finished", data);
             }
         }
-    }
+    }//End of class
 }
