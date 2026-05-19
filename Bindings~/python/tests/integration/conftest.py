@@ -21,7 +21,7 @@ import os
 import sys
 import pytest
 import time
-from alttester import AltDriver
+from alttester import AltDriver, exceptions
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
 from appium.options.android import UiAutomator2Options
@@ -213,7 +213,7 @@ def appium_driver(request, current_device, worker_id):
 
 
 @pytest.fixture(autouse=True)
-def do_something_with_appium(request):
+def do_something_with_appium(request, current_device, worker_id):
     if os.environ.get("RUN_IN_BROWSERSTACK", "") != "true":
         return
     # browserstack has an idle timeout of max 300 seconds
@@ -223,4 +223,24 @@ def do_something_with_appium(request):
         request.cls.appium_driver.get_window_size()
     except Exception as e:
         print("Could not get window size: {}".format(type(e).__name__))
-        pass
+    try:
+        request.cls.alt_driver.get_current_scene()
+    except (exceptions.ConnectionError, exceptions.NoAppConnected, exceptions.AppDisconnectedError) as e:
+        print("Reconnecting alt_driver because connection was lost: {}".format(type(e).__name__))
+        try:
+            request.cls.alt_driver.stop()
+        except Exception:
+            pass
+        platform = current_device["os"]
+        if current_device["os"] == "ios":
+            platform = "iphone"
+        request.cls.alt_driver = AltDriver(
+            host=get_host(),
+            port=get_port(),
+            app_name=get_app_name(),
+            platform=platform,
+            platform_version=current_device["os_version"].split(".")[0],
+            timeout=180
+        )
+        print("Reconnected alt_driver (worker {})".format(worker_id) +
+              " with device: {}".format(current_device))
