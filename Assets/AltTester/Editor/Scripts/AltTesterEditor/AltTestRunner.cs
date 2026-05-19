@@ -464,7 +464,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 var assets = UnityEditor.AssetDatabase.FindAssets(hierarchyNames[hierarchyNames.Length - 2]);
                 if (assets.Length != 0)
                     path = UnityEditor.AssetDatabase.GUIDToAssetPath(assets[0]);
-            }
+            }// We add the test to the list of tests to be displayed in the editor. We check if the test is already in the list to keep the selected and foldout values, this is for when we refresh the list of tests after running them.
             var parentName = string.Empty;
             if (testSuite.Parent != null)
                 parentName = testSuite.Parent.FullName;
