@@ -216,23 +216,19 @@ class WebsocketConnection:
 
     def _check_close_message(self, close_message):
         if close_message:
-            reason = close_message[1]
-
-            if close_message[0] == 4001:
-                raise exceptions.NoAppConnected(reason)
-            if close_message[0] == 4002:
-                raise exceptions.AppDisconnectedError(reason)
-            if close_message[0] == 4005:
-                raise exceptions.MultipleDriverError(reason)
-            if close_message[0] == 4007:
-                raise exceptions.MultipleDriversTryingToConnectException(
-                    reason)
-            if close_message[0] == 4009:
-                raise exceptions.MaxNoOfConnectionsDriversExceededException(
-                    reason)
-
+            code, reason = close_message[0], close_message[1]
+            error_map = {
+                4001: exceptions.NoAppConnected,
+                4002: exceptions.AppDisconnectedError,
+                4005: exceptions.MultipleDriverError,
+                4007: exceptions.MultipleDriversTryingToConnectException,
+                4009: exceptions.MaxNoOfConnectionsDriversExceededException
+            }
+            exc = error_map.get(code)
+            if exc:
+                raise exc(reason)
             raise exceptions.ConnectionError(
-                "Connection closed by AltTester(R) Server with reason: {}.".format(reason))
+                f"Connection closed by AltTester(R) Server with reason: {reason}.")
 
     def _check_errors(self):
         if self._errors:

@@ -18,21 +18,22 @@
 from alttester.commands.base_command import BaseCommand
 
 
-class GetAllComponents(BaseCommand):
+class GetAllComponents(
+    BaseCommand,
+):
+    """Returns the list of components for an AltObject."""
 
     def __init__(self, connection, alt_object):
-        super(GetAllComponents, self).__init__(connection, "getAllComponents")
-
+        super().__init__(connection, "getAllComponents")
         self.alt_object = alt_object
 
     @property
     def _parameters(self):
         parameters = super()._parameters
-        parameters.update(**{
-            "altObjectId": self.alt_object.id
+        parameters.update({
+            "altObjectId": self.alt_object.id,
         })
-
         return parameters
 
-    def execute(self):
+    def execute(self) -> list:
         return self.send()
