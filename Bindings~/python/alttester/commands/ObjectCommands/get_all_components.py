@@ -16,6 +16,8 @@
 """
 
 from alttester.commands.base_command import BaseCommand
+
+
 class GetAllComponents(
     BaseCommand,
 ):
