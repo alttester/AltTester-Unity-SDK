@@ -56,12 +56,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             GameObject selectedObject = null;
             var screenCoordinates = new Vector2(CommandParams.coordinates.x, CommandParams.coordinates.y);
-            bool sameScreenPosition = previousScreenCoordinates == screenCoordinates;
-            if (!sameScreenPosition)
-            {
-                previousSelectedVisualElement = null;
-            }
-            previousSelectedVisualElement = null;
+
 
             var pointerEventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
             {
