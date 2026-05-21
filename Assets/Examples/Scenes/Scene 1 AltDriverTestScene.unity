@@ -5226,7 +5226,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1602664135}
         m_TargetAssemblyTypeName: AltExampleScriptCapsule, Assembly-CSharp
         m_MethodName: UIButtonClicked
         m_Mode: 1
