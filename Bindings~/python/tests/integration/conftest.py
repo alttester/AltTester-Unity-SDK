@@ -249,6 +249,8 @@ def do_something_with_appium(request, current_device, worker_id):
         request.cls.appium_driver.get_window_size()
     except Exception as e:
         print("Could not get window size: {}".format(type(e).__name__))
+    if not hasattr(request.cls, 'alt_driver'):
+        return
     try:
         request.cls.alt_driver.get_current_scene()
     except (exceptions.ConnectionError, exceptions.NoAppConnected, exceptions.AppDisconnectedError) as e:
