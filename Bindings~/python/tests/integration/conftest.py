@@ -215,14 +215,27 @@ def appium_driver(request, current_device, worker_id):
 def restart_app(appium_driver, current_device):
     """Terminate and relaunch the app via Appium."""
     try:
+        capabilities = getattr(appium_driver, "capabilities", {}) or {}
         if current_device["os"] == "android":
-            package = appium_driver.current_package
+            package = (
+                capabilities.get("appPackage")
+                or capabilities.get("appium:appPackage")
+                or appium_driver.current_package
+            )
+            if not package:
+                print("Could not determine package name to restart app")
+                return False
             appium_driver.terminate_app(package)
             time.sleep(2)
             appium_driver.activate_app(package)
         else:
-            app_info = appium_driver.execute_script("mobile: activeAppInfo")
-            bundle_id = app_info.get("bundleId") if app_info else None
+            bundle_id = (
+                capabilities.get("bundleId")
+                or capabilities.get("appium:bundleId")
+            )
+            if not bundle_id:
+                app_info = appium_driver.execute_script("mobile: activeAppInfo")
+                bundle_id = app_info.get("bundleId") if app_info else None
             if bundle_id:
                 appium_driver.terminate_app(bundle_id)
                 time.sleep(2)
