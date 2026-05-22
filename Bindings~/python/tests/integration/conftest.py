@@ -282,7 +282,7 @@ def do_something_with_appium(request, current_device, worker_id):
                 app_name=get_app_name(),
                 platform=platform,
                 platform_version=current_device["os_version"].split(".")[0],
-                timeout=30
+                timeout=180
             )
             print("Reconnected alt_driver (worker {})".format(worker_id) +
                   " with device: {}".format(current_device))
