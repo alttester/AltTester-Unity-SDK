@@ -266,6 +266,9 @@ def do_something_with_appium(request, current_device, worker_id):
         return
     try:
         request.cls.alt_driver.get_current_scene()
+    except exceptions.CommandResponseTimeoutException as e:
+        print("get_current_scene timed out ({}), skipping reconnect check".format(type(e).__name__))
+        return
     except (exceptions.ConnectionError, exceptions.NoAppConnected, exceptions.AppDisconnectedError) as e:
         print("Reconnecting alt_driver because connection was lost: {}".format(type(e).__name__))
         try:
