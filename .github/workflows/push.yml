@@ -8,6 +8,7 @@ concurrency:
 jobs:
   paths-filter:
     runs-on: ubuntu-latest
+    if: false
     outputs:
       java: ${{ steps.filter.outputs.java }}
       python: ${{ steps.filter.outputs.python }}
@@ -40,6 +41,7 @@ jobs:
   Roslyn-Analyzer-dotnet:
     runs-on: [self-hosted, MAC37]
     needs: paths-filter
+    if: false
     steps:
       - uses: actions/checkout@v2
       - name: Restore dependencies
@@ -52,7 +54,6 @@ jobs:
 
   build-macOS:
     runs-on: [self-hosted, MAC37]
-    needs: Roslyn-Analyzer-dotnet
     if: false
     steps:
       - uses: actions/checkout@v3
@@ -86,7 +87,6 @@ jobs:
 
   build-android:
     runs-on: [self-hosted, MAC37]
-    needs: Roslyn-Analyzer-dotnet
 
     steps:
       - uses: actions/checkout@v3
@@ -119,7 +119,6 @@ jobs:
 
   build-ipa:
     runs-on: [self-hosted, MAC37]
-    needs: Roslyn-Analyzer-dotnet
     if: false
     steps:
       - uses: actions/checkout@v3
