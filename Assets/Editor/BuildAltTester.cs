@@ -92,9 +92,7 @@ namespace AltTesterTools
                 PlayerSettings.Android.bundleVersionCode = int.Parse(PlayerSettings.bundleVersion);
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
                 AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Android);
-#if UNITY_2018_1_OR_NEWER
-                PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
-#endif
+
                 logger.Debug("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
                 var buildPlayerOptions = GetBuildPlayerOptions("sampleGame.apk", BuildTarget.Android, false);
 
@@ -209,6 +207,11 @@ namespace AltTesterTools
             AltBuilder.AddScriptingDefineSymbol("ALTTESTER_NONGPL", targetGroup);
 
             AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
+
+#if UNITY_2018_1_OR_NEWER
+            if (buildPlayerOptions.target == BuildTarget.Android)
+                PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+#endif
 
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
             AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(targetGroup);
