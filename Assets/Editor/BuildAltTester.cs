@@ -210,7 +210,10 @@ namespace AltTesterTools
 
 #if UNITY_2018_1_OR_NEWER
             if (buildPlayerOptions.target == BuildTarget.Android)
+            {
                 PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+                AssetDatabase.SaveAssets();
+            }
 #endif
 
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
