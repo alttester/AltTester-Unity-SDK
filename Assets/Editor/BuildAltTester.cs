@@ -93,7 +93,7 @@ namespace AltTesterTools
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
                 AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Android);
 #if UNITY_2018_1_OR_NEWER
-                PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
+                PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
 #endif
                 logger.Debug("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
                 var buildPlayerOptions = GetBuildPlayerOptions("sampleGame.apk", BuildTarget.Android, false);
@@ -104,6 +104,7 @@ namespace AltTesterTools
             catch (Exception exception)
             {
                 logger.Error(exception);
+                EditorApplication.Exit(1);
             }
 
         }
