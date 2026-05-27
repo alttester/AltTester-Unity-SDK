@@ -17,7 +17,7 @@ jobs:
           export ALTSERVER_HOST="192.168.11.35"
           rm -f sampleGame.apk
           git checkout -- ProjectSettings/ProjectSettings.asset
-          $UNITY_2021_3_HOME -batchmode -stackTraceLogType Full -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
+          $UNITY_2021_3_HOME -batchmode -buildTarget Android -stackTraceLogType Full -projectPath $CI_PROJECT_DIR -executeMethod AltTesterTools.BuildAltTester.AndroidBuildFromCommandLine -logFile buildAndroid.log -quit
           if [ ! -f sampleGame.apk ]; then echo "APK not found after build"; exit 1; fi
           echo "APK size: $(du -sh sampleGame.apk)"
 
