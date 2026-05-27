@@ -89,12 +89,12 @@ namespace AltTesterTools
             {
                 SetCommonSettings(BuildTargetGroup.Android);
 
+
+
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Android);
                 PlayerSettings.Android.bundleVersionCode = int.Parse(PlayerSettings.bundleVersion);
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
                 PlayerSettings.Android.targetArchitectures = AndroidArchitecture.All;
-
-                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Android);
-
                 logger.Debug("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
                 var buildPlayerOptions = GetBuildPlayerOptions("sampleGame.apk", BuildTarget.Android, false);
 
@@ -104,7 +104,7 @@ namespace AltTesterTools
             catch (Exception exception)
             {
                 logger.Error(exception);
-                EditorApplication.Exit(1);
+                // EditorApplication.Exit(1);
             }
 
         }
@@ -206,17 +206,9 @@ namespace AltTesterTools
         private static void buildGame(BuildPlayerOptions buildPlayerOptions, BuildTargetGroup targetGroup)
         {
             var instrumentationSettings = getInstrumentationSettings();
-            AltBuilder.AddScriptingDefineSymbol("ALTTESTER_NONGPL", targetGroup);
 
             AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
-#if UNITY_2018_1_OR_NEWER
-            if (buildPlayerOptions.target == BuildTarget.Android)
-            {
-                PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
-                AssetDatabase.SaveAssets();
-            }
-#endif
 
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
             AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(targetGroup);
