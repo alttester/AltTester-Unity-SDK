@@ -21,7 +21,7 @@ import os
 import sys
 import pytest
 import time
-from alttester import AltDriver
+from alttester import AltDriver, exceptions
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
 from appium.options.android import UiAutomator2Options
@@ -212,8 +212,47 @@ def appium_driver(request, current_device, worker_id):
         request.cls.appium_driver.quit()
 
 
+def restart_app(appium_driver, current_device):
+    """Terminate and relaunch the app via Appium."""
+    try:
+        capabilities = getattr(appium_driver, "capabilities", {}) or {}
+        if current_device["os"] == "android":
+            package = (
+                capabilities.get("appPackage")
+                or capabilities.get("appium:appPackage")
+                or appium_driver.current_package
+            )
+            if not package:
+                print("Could not determine package name to restart app")
+                return False
+            appium_driver.terminate_app(package)
+            time.sleep(2)
+            appium_driver.activate_app(package)
+        else:
+            bundle_id = (
+                capabilities.get("bundleId")
+                or capabilities.get("appium:bundleId")
+            )
+            if not bundle_id:
+                app_info = appium_driver.execute_script("mobile: activeAppInfo")
+                bundle_id = app_info.get("bundleId") if app_info else None
+            if bundle_id:
+                appium_driver.terminate_app(bundle_id)
+                time.sleep(2)
+                appium_driver.activate_app(bundle_id)
+            else:
+                print("Could not determine bundle ID to restart app")
+                return False
+        time.sleep(5)
+        print("App restarted successfully")
+        return True
+    except Exception as e:
+        print("Failed to restart app: {}".format(type(e).__name__))
+        return False
+
+
 @pytest.fixture(autouse=True)
-def do_something_with_appium(request):
+def do_something_with_appium(request, current_device, worker_id):
     if os.environ.get("RUN_IN_BROWSERSTACK", "") != "true":
         return
     # browserstack has an idle timeout of max 300 seconds
@@ -223,4 +262,47 @@ def do_something_with_appium(request):
         request.cls.appium_driver.get_window_size()
     except Exception as e:
         print("Could not get window size: {}".format(type(e).__name__))
-        pass
+    if not hasattr(request.cls, 'alt_driver'):
+        return
+    try:
+        request.cls.alt_driver.get_current_scene()
+    except exceptions.CommandResponseTimeoutException as e:
+        print("get_current_scene timed out ({}), skipping reconnect check".format(type(e).__name__))
+        return
+    except (exceptions.ConnectionError, exceptions.NoAppConnected, exceptions.AppDisconnectedError) as e:
+        print("Reconnecting alt_driver because connection was lost: {}".format(type(e).__name__))
+        try:
+            request.cls.alt_driver.stop()
+        except Exception:
+            pass
+        platform = current_device["os"]
+        if current_device["os"] == "ios":
+            platform = "iphone"
+        try:
+            request.cls.alt_driver = AltDriver(
+                host=get_host(),
+                port=get_port(),
+                app_name=get_app_name(),
+                platform=platform,
+                platform_version=current_device["os_version"].split(".")[0],
+                timeout=180
+            )
+            print("Reconnected alt_driver (worker {})".format(worker_id) +
+                  " with device: {}".format(current_device))
+        except Exception:
+            print("App appears to have crashed — attempting restart")
+            if restart_app(request.cls.appium_driver, current_device):
+                try:
+                    request.cls.alt_driver = AltDriver(
+                        host=get_host(),
+                        port=get_port(),
+                        app_name=get_app_name(),
+                        platform=platform,
+                        platform_version=current_device["os_version"].split(".")[0],
+                        timeout=180
+                    )
+                    print("Reconnected alt_driver after restart (worker {})".format(worker_id) +
+                          " with device: {}".format(current_device))
+                except Exception as reconnect_error:
+                    print("Failed to reconnect alt_driver after restart: {}".format(
+                        type(reconnect_error).__name__))

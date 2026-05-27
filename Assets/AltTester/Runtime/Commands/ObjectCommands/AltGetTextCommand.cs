@@ -20,30 +20,20 @@ using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Commands;
 using UnityEngine;
 
-namespace AltTester.AltTesterUnitySDK.Commands
-{
-    class AltGetTextCommand : AltReflectionMethodsCommand<AltGetTextParams, string>
-    {
-        static readonly AltObjectProperty[] textProperties =
-        {
+namespace AltTester.AltTesterUnitySDK.Commands{
+    class AltGetTextCommand : AltReflectionMethodsCommand<AltGetTextParams, string>    {
+        static readonly AltObjectProperty[] textProperties =        {
             new AltObjectProperty("UnityEngine.UI.Text", "text"),
             new AltObjectProperty("UnityEngine.UI.InputField", "text"),
             #if TMP_PRESENT
             new AltObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
             new AltObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
             #endif
-        };
-
-        public AltGetTextCommand(AltGetTextParams cmdParams) : base(cmdParams)
-        {
-        }
-
-        public override string Execute()
-        {
+        };// The order of the properties in the array determines the order in which they will be checked. The first one found will be used.
+        public AltGetTextCommand(AltGetTextParams cmdParams) : base(cmdParams){}
+        public override string Execute(){
             Exception exception = null;
-
-            foreach (var property in textProperties)
-            {
+            foreach (var property in textProperties){
                 try
                 {
                     System.Type type = GetType(property.Component, property.Assembly);
@@ -61,11 +51,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 {
                     exception = ex;
                 }
-            }
-
+            }// If we reach this point, it means that none of the properties were found. We throw the last exception encountered, which will give more context about why the text could not be retrieved.
             if (exception != null) throw exception;
             throw new Exception("Something went wrong"); // should not reach this point
-        }
+        }//End of method
         public static string GetText(AltObject altObject)
         {
             var command = new AltGetTextCommand(new AltGetTextParams(altObject));
@@ -93,6 +82,6 @@ namespace AltTester.AltTesterUnitySDK.Commands
             }
 #endif
             throw new PropertyNotFoundException("No valid text property could be found on the target object.");
-        }
-    }
+        }//End of method
+    }//End of class
 }

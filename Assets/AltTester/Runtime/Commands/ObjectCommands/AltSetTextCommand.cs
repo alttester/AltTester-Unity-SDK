@@ -21,33 +21,22 @@ using AltTester.AltTesterSDK.Driver.Commands;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace AltTester.AltTesterUnitySDK.Commands
-{
-    class AltSetTextCommand : AltReflectionMethodsCommand<AltSetTextParams, AltObject>
-    {
-        static readonly AltObjectProperty[] textProperties =
-        {
+namespace AltTester.AltTesterUnitySDK.Commands{
+    class AltSetTextCommand : AltReflectionMethodsCommand<AltSetTextParams, AltObject>{
+        static readonly AltObjectProperty[] textProperties = new AltObjectProperty[]{
             new AltObjectProperty("UnityEngine.UI.Text", "text"),
             new AltObjectProperty("UnityEngine.UI.InputField", "text"),
 #if TMP_PRESENT
             new AltObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
             new AltObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
 #endif
-        };
-
-        public AltSetTextCommand(AltSetTextParams cmdParams) : base(cmdParams)
-        {
-        }
-
-        public override AltObject Execute()
-        {
+        };// The order of the properties in the array determines the order in which they will be checked. The first one found will be used.
+        public AltSetTextCommand(AltSetTextParams cmdParams) : base(cmdParams){}
+        public override AltObject Execute(){
 
             var targetObject = AltRunner.GetGameObject(CommandParams.altObject.id);
-
-            foreach (var property in textProperties)
-            {
-                try
-                {
+            foreach (var property in textProperties){
+                try{
                     var type = GetType(property.Component, property.Assembly);
                     string valueText = Newtonsoft.Json.JsonConvert.SerializeObject(CommandParams.value); // Ensure Newtonsoft.Json is correctly referenced
                     SetValueForMember(CommandParams.altObject, property.Property.Split('.'), type, valueText);
@@ -74,18 +63,18 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     }
 #endif
                     return AltRunner._altRunner.GameObjectToAltObject(targetObject);
-                }
+                    }// If the property is not found, we catch the exception and continue to the next one in the list.
                 catch (PropertyNotFoundException) { continue; }
                 catch (ComponentNotFoundException) { continue; }
                 catch (AssemblyNotFoundException) { continue; }
             }
             throw new PropertyNotFoundException("No valid text property could be found or set on the target object.");
-        }
+        }//End of method
 
         private void checkSubmit(GameObject obj)
         {
             if (CommandParams.submit)
                 ExecuteEvents.Execute(obj, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
         }
-    }
+    }//End of class
 }
