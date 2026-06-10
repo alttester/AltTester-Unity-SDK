@@ -15,8 +15,10 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace AltTester.AltTesterSDK.Driver.Commands{
-    public class AltMoveMouse : AltBaseCommand{
+namespace AltTester.AltTesterSDK.Driver.Commands
+{
+    public class AltMoveMouse : AltBaseCommand
+    {
         AltMoveMouseParams cmdParams;
         public AltMoveMouse(IDriverCommunication commHandler, AltVector2 coordinates, float duration, bool wait) : base(commHandler)
         {

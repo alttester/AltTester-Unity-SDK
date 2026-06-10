@@ -15,8 +15,10 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace AltTester.AltTesterSDK.Driver.Commands{
-    public class AltMultipointSwipe : AltBaseCommand{
+namespace AltTester.AltTesterSDK.Driver.Commands
+{
+    public class AltMultipointSwipe : AltBaseCommand
+    {
         AltMultipointSwipeParams cmdParams;
 
         public AltMultipointSwipe(IDriverCommunication commHandler, AltVector2[] positions, float duration, bool wait) : base(commHandler)
@@ -36,5 +38,5 @@ namespace AltTester.AltTesterSDK.Driver.Commands{
                 ValidateResponse("Finished", data);
             }
         }
-    }//End of class
+    }
 }

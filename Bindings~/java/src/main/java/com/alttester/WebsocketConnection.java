@@ -66,6 +66,7 @@ public class WebsocketConnection {
   private String error = null;
   private CloseReason closeReason = null;
 
+  private WebSocketContainer container = null;
   public Session session = null;
   public IMessageHandler messageHandler = null;
   public boolean driverRegisteredCalled = false;
@@ -173,7 +174,7 @@ public class WebsocketConnection {
     long start = System.currentTimeMillis();
     long finish = System.currentTimeMillis();
 
-    WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+    this.container = ContainerProvider.getWebSocketContainer();
 
     // Configure SSL to accept self-signed certificates when in secure mode
     if (secureMode && container instanceof ClientManager) {
@@ -281,6 +282,10 @@ public class WebsocketConnection {
         throw new ConnectionException(
             "An unexpected error occurred while closing the connection.", e);
       }
+    }
+
+    if (this.container instanceof ClientManager) {
+      ((ClientManager) this.container).shutdown();
     }
   }
 

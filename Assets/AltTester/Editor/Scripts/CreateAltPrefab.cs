@@ -1,18 +1,5 @@
 /*
     Copyright(C) 2026 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
@@ -404,13 +391,12 @@ namespace AltTesterTools
 
             var InputFieldTransform = InputFieldGameObject.GetComponent<RectTransform>();
             InputFieldTransform.SetParent(parent, false);
-
             InputFieldTransform.localPosition = new Vector3(-77, -196, 0);
+            InputFieldTransform.sizeDelta = new Vector2(200, 34);
+            InputFieldTransform.anchoredPosition = new Vector2(-77, -196);
             InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
             InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            InputFieldTransform.sizeDelta = new Vector2(200, 34);
             InputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
-            InputFieldTransform.anchoredPosition = new Vector2(-77, -196);
 
 
             var InputFieldTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });
@@ -463,12 +449,12 @@ namespace AltTesterTools
 
             var InputFieldTransform = InputFieldGameObject.GetComponent<RectTransform>();
             InputFieldTransform.SetParent(parent, false);
-
-            InputFieldTransform.localPosition = new Vector3(102.5f, -198, 0);
-            InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            InputFieldTransform.localPosition = new Vector3(102.5f, -196, 0);
             InputFieldTransform.anchoredPosition = new Vector2(102.5f, -196);
             InputFieldTransform.sizeDelta = new Vector2(141, 34);
+
+            InputFieldTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            InputFieldTransform.anchorMax = new Vector2(0.5f, 0.5f);
             InputFieldTransform.pivot = new Vector2(0.5f, 0.5f);
 
             var InputFieldTextGameObject = new GameObject("Text", new System.Type[] { typeof(RectTransform), typeof(CanvasRenderer), typeof(Text) });

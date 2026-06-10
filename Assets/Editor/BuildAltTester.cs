@@ -1,5 +1,5 @@
 /*
-    Copyright(C) 2026 Altom Consulting
+    Copyright(C) 2025 Altom Consulting
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -89,12 +89,12 @@ namespace AltTesterTools
             {
                 SetCommonSettings(BuildTargetGroup.Android);
 
-
-
-                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Android);
                 PlayerSettings.Android.bundleVersionCode = int.Parse(PlayerSettings.bundleVersion);
                 PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel23;
-                PlayerSettings.Android.targetArchitectures = AndroidArchitecture.All;
+                AltBuilder.AddScriptingDefineSymbol("TMP_PRESENT", BuildTargetGroup.Android);
+#if UNITY_2018_1_OR_NEWER
+                PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
+#endif
                 logger.Debug("Starting Android build..." + PlayerSettings.productName + " : " + PlayerSettings.bundleVersion);
                 var buildPlayerOptions = GetBuildPlayerOptions("sampleGame.apk", BuildTarget.Android, false);
 
@@ -104,7 +104,6 @@ namespace AltTesterTools
             catch (Exception exception)
             {
                 logger.Error(exception);
-                // EditorApplication.Exit(1);
             }
 
         }
@@ -206,9 +205,9 @@ namespace AltTesterTools
         private static void buildGame(BuildPlayerOptions buildPlayerOptions, BuildTargetGroup targetGroup)
         {
             var instrumentationSettings = getInstrumentationSettings();
+            AltBuilder.AddScriptingDefineSymbol("ALTTESTER_NONGPL", targetGroup);
 
             AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
-
 
             var results = BuildPipeline.BuildPlayer(buildPlayerOptions);
             AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(targetGroup);

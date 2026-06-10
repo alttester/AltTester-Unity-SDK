@@ -1,18 +1,5 @@
 /*
     Copyright(C) 2026 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
@@ -58,6 +45,8 @@ namespace AltTester.AltTesterUnitySDK.UI
         private const string APP_NAME = "AltTesterAppName";
         private const string UID = "UID";
         private const string SHOW_POPUP_ON_STARTUP = "ShowNativePopupOnStartup";
+
+        public static AltDialog Instance { get; private set; }
 
         private int responseCode = 0;
 
@@ -142,6 +131,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         protected void Awake()
         {
+            Instance = this;
             dialogImage = Dialog.GetComponent<UnityEngine.UI.Image>();
             infoArea = InfoArea.GetComponent<UnityEngine.UI.Image>();
             restartButton = RestartButton.GetComponent<UnityEngine.UI.Image>();
@@ -219,6 +209,16 @@ namespace AltTester.AltTesterUnitySDK.UI
                 }
 
             }
+        }
+
+        public bool IsConnectedToServer()
+        {
+            return isCommunicationConnected;
+        }
+
+        private void checkInputSystem()
+        {
+            UnityEngine.Debug.Log($"AltTester| Active input system: {InputMisc.GetInputSystemType()}");
         }
         private IEnumerator ReconnectAfterDelay(float delay)
         {
@@ -534,6 +534,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             {
                 communicationHandler.waitingToConnect = true;
                 communicationHandler.Connect();
+                isCommunicationConnected = true;
             }
             catch (InvalidOperationException e)
             {
@@ -610,6 +611,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         {
             stopClient(communicationClient);
             communicationClient = null;
+            isCommunicationConnected = false;
         }
 
         private void stopLiveUpdateClient()

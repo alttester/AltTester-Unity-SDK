@@ -1,18 +1,5 @@
 """
     Copyright(C) 2026 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 import json
@@ -32,12 +19,11 @@ class AltObject:
         self._altdriver = altdriver
         self._data = data
 
+    def __repr__(self):
+        return "{}(altdriver, {!r})".format(self.__class__.__name__, self.to_json())
+
     def __str__(self):
         return json.dumps(self.to_json())
-
-    def __repr__(self):
-        cls_name = self.__class__.__name__
-        return f"{cls_name}(altdriver, {self.to_json()!r})"
 
     @property
     def _connection(self):
@@ -124,21 +110,25 @@ class AltObject:
         )
         return AltObject(self._altdriver, altObject)
 
-    def get_screen_position(self) -> tuple:
+    def get_screen_position(self):
         """Returns the screen position.
 
         Returns:
             tuple: A tuple containing ``x`` and ``y``.
-        """
-        return (self.x, self.y)
 
-    def get_world_position(self) -> tuple:
+        """
+        position = (self.x, self.y)
+        return position
+
+    def get_world_position(self):
         """Returns the world position.
 
         Returns:
             tuple: A tuple containing ``worldX``, ``worldY`` and ``worldZ``.
+
         """
-        return (self.worldX, self.worldY, self.worldZ)
+        position = (self.worldX, self.worldY, self.worldZ)
+        return position
 
     def get_parent(self):
         """Returns the parent object.
@@ -168,12 +158,13 @@ class AltObject:
 
         return alt_object
 
-    def get_all_components(self) -> list:
+    def get_all_components(self):
         """Returns all components."""
+
         return commands.GetAllComponents.run(self._connection, self)
 
     def wait_for_component_property(self, component_name, property_name,
-                                    property_value, assembly, timeout=20, interval=0.5,
+                                    property_value, assembly,  timeout=20, interval=0.5,
                                     get_property_as_string=False, max_depth=2):
         """Wait until a property has a specific value and returns the value of the given component property.
 
@@ -274,12 +265,14 @@ class AltObject:
             assembly=assembly
         )
 
-    def get_text(self) -> str:
+    def get_text(self):
         """Returns text value from a Button, Text, InputField. This also works with TextMeshPro elements.
 
         Returns:
             str: The text value of the AltObject.
+
         """
+
         return commands.FetchText.run(self._connection, self)
 
     def set_text(self, text, submit=False):
