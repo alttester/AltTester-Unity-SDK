@@ -25,83 +25,83 @@ class AltObject:
     def __str__(self):
         return json.dumps(self.to_json())
 
-    @property  # _
-    def _connection(self):  # _
-        return self._altdriver._connection  # _
+    @property
+    def _connection(self):
+        return self._altdriver._connection
 
-    @property  # _
-    def name(self):  # _
-        return self._data.get("name", "")  # _
+    @property
+    def name(self):
+        return self._data.get("name", "")
 
-    @property  # _
-    def id(self):  # _
-        return self._data.get("id", 0)  # _
+    @property
+    def id(self):
+        return self._data.get("id", 0)
 
-    @property  # _
-    def x(self):  # _
-        return self._data.get("x", 0)  # _
+    @property
+    def x(self):
+        return self._data.get("x", 0)
 
-    @property  # _
-    def y(self):  # _
-        return self._data.get("y", 0)  # _
+    @property
+    def y(self):
+        return self._data.get("y", 0)
 
-    @property  # _
-    def z(self):  # _
-        return self._data.get("z", 0)  # _
+    @property
+    def z(self):
+        return self._data.get("z", 0)
 
-    @property  # _
-    def mobileY(self):  # _
-        return self._data.get("mobileY", 0)  # _
+    @property
+    def mobileY(self):
+        return self._data.get("mobileY", 0)
 
-    @property  # _
-    def type(self):  # _
-        return self._data.get("type", "")  # _
+    @property
+    def type(self):
+        return self._data.get("type", "")
 
-    @property  # _
-    def enabled(self):  # _
-        return self._data.get("enabled", True)  # _
+    @property
+    def enabled(self):
+        return self._data.get("enabled", True)
 
-    @property  # _
-    def worldX(self):  # _
-        return self._data.get("worldX", 0.0)  # _
+    @property
+    def worldX(self):
+        return self._data.get("worldX", 0.0)
 
-    @property  # _
-    def worldY(self):  # _
-        return self._data.get("worldY", 0.0)  # _
+    @property
+    def worldY(self):
+        return self._data.get("worldY", 0.0)
 
-    @property  # _
-    def worldZ(self):  # _
-        return self._data.get("worldZ", 0.0)  # _
+    @property
+    def worldZ(self):
+        return self._data.get("worldZ", 0.0)
 
-    @property  # _
-    def idCamera(self):  # _
-        return self._data.get("idCamera", 0)  # _
+    @property
+    def idCamera(self):
+        return self._data.get("idCamera", 0)
 
-    @property  # _
-    def transformParentId(self):  # _
-        return self._data.get("transformParentId", 0)  # _
+    @property
+    def transformParentId(self):
+        return self._data.get("transformParentId", 0)
 
-    @property  # _
-    def transformId(self):  # _
-        return self._data.get("transformId", 0)  # _
+    @property
+    def transformId(self):
+        return self._data.get("transformId", 0)
 
-    def to_json(self):  # _
-        return {  # _
-            "name": self.name,  # _
-            "id": self.id,  # _
-            "x": self.x,  # _
-            "y": self.y,  # _
-            "z": self.z,  # _
-            "mobileY": self.mobileY,  # _
-            "type": self.type,  # _
-            "enabled": self.enabled,  # _
-            "worldX": self.worldX,  # _
-            "worldY": self.worldY,  # _
-            "worldZ": self.worldZ,  # _
-            "transformParentId": self.transformParentId,  # _
-            "transformId": self.transformId,  # _
-            "idCamera": self.idCamera  # _
-        }  # _
+    def to_json(self):
+        return {
+            "name": self.name,
+            "id": self.id,
+            "x": self.x,
+            "y": self.y,
+            "z": self.z,
+            "mobileY": self.mobileY,
+            "type": self.type,
+            "enabled": self.enabled,
+            "worldX": self.worldX,
+            "worldY": self.worldY,
+            "worldZ": self.worldZ,
+            "transformParentId": self.transformParentId,
+            "transformId": self.transformId,
+            "idCamera": self.idCamera
+        }
 
     def update_object(self):
         altObject = commands.FindObject.run(

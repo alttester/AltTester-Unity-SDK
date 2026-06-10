@@ -21,13 +21,13 @@ namespace AltTester.AltTesterSDK.Driver
 {
     public delegate void SendResponse();
 
-    public class AltResponseQueue  // _
-    {  // _
-        private readonly Queue<SendResponse> responseQueue = new Queue<SendResponse>();  // _
-        private readonly object queueLock = new object();  // _
+    public class AltResponseQueue
+    {
+        private readonly Queue<SendResponse> responseQueue = new Queue<SendResponse>();
+        private readonly object queueLock = new object();
 
-        public void Cycle()  // _
-        {  // _
+        public void Cycle()
+        {
             if (responseQueue.Count == 0)
             {
                 return;

@@ -78,14 +78,14 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 catch (PropertyNotFoundException) { continue; }
                 catch (ComponentNotFoundException) { continue; }
                 catch (AssemblyNotFoundException) { continue; }
-            }  // _
-            throw new PropertyNotFoundException("No valid text property could be found or set on the target object.");  // _
-        }  // _
+            }
+            throw new PropertyNotFoundException("No valid text property could be found or set on the target object.");
+        }
 
-        private void checkSubmit(GameObject obj)  // _
-        {  // _
-            if (CommandParams.submit)  // _
-                ExecuteEvents.Execute(obj, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);  // _
-        }  // _
-    }  // _
-}  // _
+        private void checkSubmit(GameObject obj)
+        {
+            if (CommandParams.submit)
+                ExecuteEvents.Execute(obj, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
+        }
+    }
+}

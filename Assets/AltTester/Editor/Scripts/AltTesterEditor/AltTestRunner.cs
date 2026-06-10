@@ -464,15 +464,15 @@ namespace AltTester.AltTesterUnitySDK.Editor
         }
 
         private static void addCurrentSuiteToTestList(ITest testSuite, List<AltMyTest> newMyTests, string assembly)
-        {  // _
-            string path = null;  // _
+        {
+            string path = null;
 
-            if (testSuite.GetType() == typeof(NUnit.Framework.Internal.TestMethod))  // _
-            {  // _
-                string fullName = testSuite.FullName;  // _
-                int indexOfParenthesis = fullName.IndexOf("(");  // _
-                if (indexOfParenthesis > -1)  // _
-                    fullName = testSuite.FullName.Substring(0, indexOfParenthesis);  // _
+            if (testSuite.GetType() == typeof(NUnit.Framework.Internal.TestMethod))
+            {
+                string fullName = testSuite.FullName;
+                int indexOfParenthesis = fullName.IndexOf("(");
+                if (indexOfParenthesis > -1)
+                    fullName = testSuite.FullName.Substring(0, indexOfParenthesis);
                 var hierarchyNames = fullName.Split('.');
                 var className = hierarchyNames[hierarchyNames.Length - 2];
                 var assets = UnityEditor.AssetDatabase.FindAssets(className);
@@ -563,81 +563,81 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
 
 
-        private static void addAssemblyTestsToFilter(OrFilter filter, List<string> assemblyList, List<string> AssemblyToTest, List<AltMyTest> tests, List<Assembly> allAssemblies)  // _
-        {  // _
-            foreach (var assembly in AssemblyToTest)  // _
-            {  // _
-                if (!allAssemblies.Exists(a => a.GetName().Name == assembly))  // _
-                    throw new System.Exception("Assembly: " + assembly + " not found");  // _
-            }  // _
-            if (AssemblyToTest.Count != 0)  // _
-                foreach (var test in tests)  // _
-                    if (AssemblyToTest.Contains(test.TestAssembly))  // _
-                        addTestToRun(filter, assemblyList, test);  // _
-        }  // _
+        private static void addAssemblyTestsToFilter(OrFilter filter, List<string> assemblyList, List<string> AssemblyToTest, List<AltMyTest> tests, List<Assembly> allAssemblies)
+        {
+            foreach (var assembly in AssemblyToTest)
+            {
+                if (!allAssemblies.Exists(a => a.GetName().Name == assembly))
+                    throw new System.Exception("Assembly: " + assembly + " not found");
+            }
+            if (AssemblyToTest.Count != 0)
+                foreach (var test in tests)
+                    if (AssemblyToTest.Contains(test.TestAssembly))
+                        addTestToRun(filter, assemblyList, test);
+        }
 
-        private static void addClassTestsToFilter(OrFilter filter, List<string> assemblyList, List<string> ClassToTest, List<AltMyTest> tests)  // _
-        {  // _
-            foreach (var className in ClassToTest)  // _
-            {  // _
-                var classIndex = tests.FindIndex(test => test.TestName.Equals(className));  // _
-                if (classIndex == -1)  // _
-                    throw new System.Exception("Class name: " + className + " not found");  // _
+        private static void addClassTestsToFilter(OrFilter filter, List<string> assemblyList, List<string> ClassToTest, List<AltMyTest> tests)
+        {
+            foreach (var className in ClassToTest)
+            {
+                var classIndex = tests.FindIndex(test => test.TestName.Equals(className));
+                if (classIndex == -1)
+                    throw new System.Exception("Class name: " + className + " not found");
 
-                var classFoundInList = tests[classIndex];  // _
-                for (int i = 0; i < classFoundInList.TestCaseCount; i++)  // _
-                {  // _
-                    var index = i + classIndex + 1;  // _
-                    addTestToRun(filter, assemblyList, tests[index]);  // _
-                }  // _
-            }  // _
-        }  // _
+                var classFoundInList = tests[classIndex];
+                for (int i = 0; i < classFoundInList.TestCaseCount; i++)
+                {
+                    var index = i + classIndex + 1;
+                    addTestToRun(filter, assemblyList, tests[index]);
+                }
+            }
+        }
 
-        private static void addAllTestsToFilter(OrFilter filter, List<string> assemblyList, List<AltMyTest> tests)  // _
-        {  // _
-            foreach (var test in tests)  // _
-                if (!test.IsSuite)  // _
-                    addTestToRun(filter, assemblyList, test);  // _
-        }  // _
+        private static void addAllTestsToFilter(OrFilter filter, List<string> assemblyList, List<AltMyTest> tests)
+        {
+            foreach (var test in tests)
+                if (!test.IsSuite)
+                    addTestToRun(filter, assemblyList, test);
+        }
 
-        private static void addTestToRun(OrFilter filter, List<string> assemblyList, AltMyTest test)  // _
-        {  // _
-            filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(test.TestName));  // _
-            if (!assemblyList.Contains(test.TestAssembly))  // _
-                assemblyList.Add(test.TestAssembly);  // _
-        }  // _
+        private static void addTestToRun(OrFilter filter, List<string> assemblyList, AltMyTest test)
+        {
+            filter.Add(new NUnit.Framework.Internal.Filters.FullNameFilter(test.TestName));
+            if (!assemblyList.Contains(test.TestAssembly))
+                assemblyList.Add(test.TestAssembly);
+        }
 
-        private static void checkCommandLineArguments(string[] arguments, ref bool runAllTests, ref bool createReport, ref string reportPath, ref List<string> ClassToTest, ref List<string> Tests, ref List<string> AssemblyToTest)  // _
-        {  // _
-            for (int i = 0; i < arguments.Length; i++)  // _
-            {  // _
-                switch (arguments[i])  // _
-                {  // _
-                    case "-reportPath":  // _
-                        if (i == arguments.Length - 1 || arguments[i + 1].StartsWith("-") || !arguments[i + 1].EndsWith(".xml"))  // _
-                            throw new InvalidPathException("Invalid path for report, please add a valid path after -reportPath that ends with .xml");  // _
-                        createReport = true;  // _
-                        reportPath = arguments[i + 1];  // _
-                        break;  // _
-                    case "-testsClass":  // _
-                        runAllTests = false;  // _
-                        addArgumentsToList(arguments, ClassToTest, i);  // _
-                        break;  // _
-                    case "-tests":  // _
-                        runAllTests = false;  // _
-                        addArgumentsToList(arguments, Tests, i);  // _
-                        break;  // _
-                    case "-testsAssembly":  // _
-                        runAllTests = false;  // _
-                        addArgumentsToList(arguments, AssemblyToTest, i);  // _
-                        break;  // _
-                }  // _
-            }  // _
-        }  // _
+        private static void checkCommandLineArguments(string[] arguments, ref bool runAllTests, ref bool createReport, ref string reportPath, ref List<string> ClassToTest, ref List<string> Tests, ref List<string> AssemblyToTest)
+        {
+            for (int i = 0; i < arguments.Length; i++)
+            {
+                switch (arguments[i])
+                {
+                    case "-reportPath":
+                        if (i == arguments.Length - 1 || arguments[i + 1].StartsWith("-") || !arguments[i + 1].EndsWith(".xml"))
+                            throw new InvalidPathException("Invalid path for report, please add a valid path after -reportPath that ends with .xml");
+                        createReport = true;
+                        reportPath = arguments[i + 1];
+                        break;
+                    case "-testsClass":
+                        runAllTests = false;
+                        addArgumentsToList(arguments, ClassToTest, i);
+                        break;
+                    case "-tests":
+                        runAllTests = false;
+                        addArgumentsToList(arguments, Tests, i);
+                        break;
+                    case "-testsAssembly":
+                        runAllTests = false;
+                        addArgumentsToList(arguments, AssemblyToTest, i);
+                        break;
+                }
+            }
+        }
 
-        private static void addArgumentsToList(string[] arguments, List<string> testsList, int i)  // _
-        {  // _
-            int j = i + 1;  // _
+        private static void addArgumentsToList(string[] arguments, List<string> testsList, int i)
+        {
+            int j = i + 1;
             while (j < arguments.Length - 1 && !arguments[j].StartsWith("-"))
             {
                 testsList.Add(arguments[j]);

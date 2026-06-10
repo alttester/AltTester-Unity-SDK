@@ -12,10 +12,10 @@ class FetchText(BaseCommand):
 
         self.alt_object = alt_object
 
-    @property  # _
-    def _parameters(self):  # _
-        parameters = super()._parameters  # _
-        parameters.update(**{  # _
+    @property
+    def _parameters(self):
+        parameters = super()._parameters
+        parameters.update(**{
             "altObject": self.alt_object.to_json(),
         })
 

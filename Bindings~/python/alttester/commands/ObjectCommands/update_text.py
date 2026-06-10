@@ -5,6 +5,7 @@
 
 from alttester.commands.base_command import BaseCommand
 
+
 class UpdateText(BaseCommand):
 
     def __init__(self, connection, new_text, target_object, submit):
