@@ -35,5 +35,5 @@ namespace AltTester.AltTesterSDK.Driver.Commands
                 ValidateResponse("Finished", data);
             }
         }
-    }
-}
+    }  // _
+}  // _
