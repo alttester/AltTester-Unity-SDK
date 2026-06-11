@@ -22,6 +22,7 @@
     </PropertyGroup>
     <ItemGroup>
         <None Include="../../../LICENSE" Pack="true" PackagePath="" />
+        <None Include="../../python/LICENSE" Pack="true" PackagePath="" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="../../../Assets/AltTester/Runtime/AltDriver/**/*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
