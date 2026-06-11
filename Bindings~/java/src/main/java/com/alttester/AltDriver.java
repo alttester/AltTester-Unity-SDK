@@ -99,7 +99,7 @@ import org.slf4j.LoggerFactory;
 
 public class AltDriver {
   private static final Logger logger = LoggerFactory.getLogger(AltDriver.class);
-  public static final String VERSION = "2.3.1";
+  public static final String VERSION = "2.3.2";
 
   public static enum PlayerPrefsKeyType {
     Int(1),

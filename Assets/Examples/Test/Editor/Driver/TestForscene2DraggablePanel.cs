@@ -46,7 +46,8 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         }
 
         [Test]
-        public void TestResizePanelWithMultipointSwipe(){
+        public void TestResizePanelWithMultipointSwipe()
+        {
             var altElement = altDriver.FindObject(By.NAME, "Resize Zone");
             var position = new AltVector2(altElement.x, altElement.y);
             var pos = new[]
@@ -55,7 +56,8 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             new AltVector2(altElement.x - 200, altElement.y - 200),
             new AltVector2(altElement.x - 300, altElement.y - 100),
             new AltVector2(altElement.x - 50, altElement.y - 100),
-            new AltVector2(altElement.x - 100, altElement.y - 100)};
+            new AltVector2(altElement.x - 100, altElement.y - 100)
+        };
             altDriver.MultipointSwipe(pos, 4);
 
             altElement = altDriver.FindObject(By.NAME, "Resize Zone");

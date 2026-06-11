@@ -103,6 +103,10 @@ StandaloneInputModule
                                 {
                                     if (previousData.pointerDrag ?? false) ExecuteEvents.ExecuteHierarchy(previousData.pointerDrag, previousData,
                                         ExecuteEvents.dragHandler);
+                                   
+                                    if (previousData.pointerCurrentRaycast.gameObject ?? false)
+                                        ExecuteEvents.ExecuteHierarchy(previousData.pointerCurrentRaycast.gameObject, previousData,
+                                            ExecuteEvents.pointerMoveHandler);
                                 }
                             }
 

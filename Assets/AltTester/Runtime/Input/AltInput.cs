@@ -39,8 +39,19 @@ using UnityEngine.UIElements;
 namespace AltTester.AltTesterUnitySDK.InputModule
 {
     [Preserve]
+    [DefaultExecutionOrder(-32000)] // must run before all user scripts
     public class AltInput : MonoBehaviour
     {
+        private static readonly Queue<Action> _pendingInputActions = new Queue<Action>();
+
+        public static void EnqueueInputAction(Action action) => _pendingInputActions.Enqueue(action);
+
+        private void Update()
+        {
+            while (_pendingInputActions.Count > 0)
+                _pendingInputActions.Dequeue().Invoke();
+        }
+
         public static bool UseCustomInput;
         public static Vector3 Acceleration;
         public static AccelerationEvent[] AccelerationEvents;
@@ -228,7 +239,8 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                     if (eventSystemTarget != null) ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerEnterHandler);
                     PreviousEventSystemTarget = eventSystemTarget;
                 }
-                if (eventSystemTarget != null) ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerMoveHandler);
+                // Skip mouse pointer move when touches are active; ExecuteTouchEvent handles pointer move for those.
+                if (eventSystemTarget != null && TouchCount == 0) ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerMoveHandler);
             }
 
             PreviousMousePosition = MousePosition;
@@ -309,6 +321,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         }
         public static void MoveTouch(Touch touch, Vector3 screenPosition)
         {
+            Debug.LogWarning("Moving touch: " + touch.fingerId + " to position: " + screenPosition);
             var previousPointerEventData = PointerEventsDataDictionary[touch.fingerId];
             var previousPosition = touch.position;
             touch.phase = TouchPhase.Moved;
@@ -331,12 +344,18 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         {
             yield return WaitForEndOfFrame();
 
-            var previousPointerEventData = PointerEventsDataDictionary[touch.fingerId];
-            PointerEventsDataDictionary.Remove(touch.fingerId);
-
             var keyStructure = new KeyStructure(KeyCode.Mouse0, 1);
             beginKeyUpTouchEndedLifecycle(keyStructure, true, ref touch);
-            AltMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
+
+            // Enqueue so the end event fires after any pending MoveTouch calls in AltInput.Update().
+            // The dictionary removal is also inside the action to keep the key alive for those moves.
+            var touchSnapshot = touch;
+            EnqueueInputAction(() =>
+            {
+                var previousPointerEventData = PointerEventsDataDictionary[touchSnapshot.fingerId];
+                PointerEventsDataDictionary.Remove(touchSnapshot.fingerId);
+                AltMockUpPointerInputModule.ExecuteTouchEvent(touchSnapshot, previousPointerEventData);
+            });
 
             yield return null;
             endKeyUpTouchEndedLifecycle(keyStructure, true, touch);
@@ -347,27 +366,32 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         public static IEnumerator MultipointSwipeLifeCycle(Vector2[] positions, float duration)
         {
             int touchId = BeginTouch(positions[0]);
-            var touch = findTouch(touchId);
             yield return null;
 
             var oneInputDuration = duration / (positions.Length - 1);
+            // Track position locally so delta calculations don't depend on Touches[] being up-to-date.
+            // MoveTouch is enqueued rather than called directly so it fires in AltInput.Update()
+            // (execution order -32000), before any user script Update() reads the resulting flags.
+            var currentPosition = positions[0];
             for (var i = 1; i < positions.Length; i++)
             {
-                var wholeDelta = positions[i] - touch.position;
+                var wholeDelta = positions[i] - currentPosition;
                 var deltaPerSecond = wholeDelta / oneInputDuration;
                 float time = 0;
                 do
                 {
                     yield return null;
                     time += Time.unscaledDeltaTime;
-                    var newPosition = time < oneInputDuration ? touch.position + deltaPerSecond * Time.unscaledDeltaTime : positions[i];
-                    MoveTouch(touch, newPosition);
-                    touch = findTouch(touchId);
+                    var newPosition = time < oneInputDuration ? currentPosition + deltaPerSecond * Time.unscaledDeltaTime : positions[i];
+                    UnityEngine.Debug.LogWarning("Moving touch to: " + touchId);
+                    var pos = newPosition;
+                    var id = touchId;
+                    EnqueueInputAction(() => MoveTouch(id, pos));
+                    currentPosition = newPosition;
                 } while (time <= oneInputDuration);
             }
 
             yield return CoroutineManager.Instance.StartCoroutine(EndTouch(touchId));
-
         }
 
         public static IEnumerator MoveMouseCycle(Vector2 location, float duration)
@@ -383,20 +407,22 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             do
             {
                 if (time + Time.unscaledDeltaTime < duration)
-                {
                     MouseDelta = distance * Time.unscaledDeltaTime / duration;
-                }
                 else
-                {
-                    MouseDelta = location - new Vector2(MousePosition.x, MousePosition.y);
-                }
+                    MouseDelta = location - (Vector2)MousePosition;
                 MousePosition += MouseDelta;
                 if (MouseDownPointerEventData != null)
                 {
-                    MockUpPointerInputModule.ExecuteDragPointerEvents(MouseDownPointerEventData);
-                    MouseDownPointerEventData.position = MousePosition;
-                    MouseDownPointerEventData.delta = MouseDelta;
-                    findEventSystemObject(MouseDownPointerEventData);
+                    var data = MouseDownPointerEventData;
+                    var pos = (Vector2)MousePosition;
+                    var delta = (Vector2)MouseDelta;
+                    EnqueueInputAction(() =>
+                    {
+                        data.position = pos;
+                        data.delta = delta;
+                        MockUpPointerInputModule.ExecuteDragPointerEvents(data);
+                        findEventSystemObject(data);
+                    });
                 }
                 time += Time.unscaledDeltaTime;
                 yield return null;
@@ -414,19 +440,25 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 float scrollVerticalStep = scrollVertical * Time.unscaledDeltaTime / duration;
                 float scrollHorizontalStep = scrollHorizontal * Time.unscaledDeltaTime / duration;
 
+                var scrollDelta = new Vector2(scrollHorizontalStep, scrollVerticalStep);
+                MouseScrollDelta = scrollDelta;
+
                 var pointerEventData = new PointerEventData(GetEventSystem())
                 {
                     position = MousePosition,
                     button = PointerEventData.InputButton.Left,
                     eligibleForClick = true,
+                    scrollDelta = scrollDelta
                 };
                 var eventSystemTarget = findEventSystemObject(pointerEventData);
-                MouseScrollDelta = new Vector2(scrollHorizontalStep, scrollVerticalStep);
-                pointerEventData.scrollDelta = MouseScrollDelta;
                 if (ShouldHandleEventsManually && eventSystemTarget != null)
-                    ExecuteEvents.ExecuteHierarchy(eventSystemTarget, pointerEventData, scrollHandler);
+                {
+                    var pData = pointerEventData;
+                    var eTarget = eventSystemTarget;
+                    EnqueueInputAction(() => ExecuteEvents.ExecuteHierarchy(eTarget, pData, scrollHandler));
+                }
             }
-            MouseScrollDelta = Vector2.zero;//reset the value after scroll ended
+            MouseScrollDelta = Vector2.zero;
         }
 
         internal static IEnumerator runThrowingIterator( //TODO Remove this method when all the input methods were implemented in InputController
@@ -472,6 +504,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         }
         private static Touch createTouch(Vector3 screenPosition)
         {
+            UnityEngine.Debug.LogWarning("Creating touch at: " + screenPosition);
             var touch = new Touch
             {
                 phase = TouchPhase.Began,
@@ -602,39 +635,47 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 KeyCodesPressedDown.Add(keyStructure);
                 KeyCodesPressed.Add(keyStructure);
 
-                if (ShouldHandleEventsManually && eventSystemTarget != null)
+                EnqueueInputAction(() =>
                 {
-                    ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerEnterHandler);
-                    ExecuteHierarchy(eventSystemTarget, pointerEventData, initializePotentialDrag);
-                    pointerEventData.pointerPress = ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerDownHandler);
-                }
-                // When targeting a specific element, ensure pointerPress is set even if the handler returned null
-                if (target != null)
-                    pointerEventData.pointerPress = target;
-                if (monoBehaviourTarget != null)
-                    monoBehaviourTarget.SendMessage("OnMouseDown", SendMessageOptions.DontRequireReceiver);
+                    if (ShouldHandleEventsManually && eventSystemTarget != null)
+                    {
+                        ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerEnterHandler);
+                        ExecuteHierarchy(eventSystemTarget, pointerEventData, initializePotentialDrag);
+                        pointerEventData.pointerPress = ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerDownHandler);
+                    }
+                    // When targeting a specific element, ensure pointerPress is set even if the handler returned null
+                    if (target != null)
+                        pointerEventData.pointerPress = target;
+                    if (monoBehaviourTarget != null)
+                        monoBehaviourTarget.SendMessage("OnMouseDown", SendMessageOptions.DontRequireReceiver);
+                });
 
                 time += Time.unscaledDeltaTime;
                 yield return null;
 
                 KeyCodesPressedDown.Remove(keyStructure);
                 beginKeyUpTouchEndedLifecycle(keyStructure, tap, ref touch);
+                var touchSnapshot = touch;
+                var ks = keyStructure;
 
-                if (ShouldHandleEventsManually && eventSystemTarget != null)
+                EnqueueInputAction(() =>
                 {
-                    ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerUpHandler);
-                    ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerClickHandler);
-                }
-                if (monoBehaviourTarget != null)
-                {
-                    monoBehaviourTarget.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
-                    monoBehaviourTarget.SendMessage("OnMouseUpAsButton", SendMessageOptions.DontRequireReceiver);
-                }
+                    if (ShouldHandleEventsManually && eventSystemTarget != null)
+                    {
+                        ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerUpHandler);
+                        ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerClickHandler);
+                    }
+                    if (monoBehaviourTarget != null)
+                    {
+                        monoBehaviourTarget.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
+                        monoBehaviourTarget.SendMessage("OnMouseUpAsButton", SendMessageOptions.DontRequireReceiver);
+                    }
+                });
 
                 time += Time.unscaledDeltaTime;
                 yield return null;
 
-                endKeyUpTouchEndedLifecycle(keyStructure, tap, touch);
+                endKeyUpTouchEndedLifecycle(ks, tap, touchSnapshot);
 
                 if (i != count - 1 && time < interval)
                 {
@@ -647,14 +688,18 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 }
             }
 
-            if (ShouldHandleEventsManually && eventSystemTarget != null)
-                ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerExitHandler);
-            if (monoBehaviourTarget != null)
-                monoBehaviourTarget.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
+            EnqueueInputAction(() =>
+            {
+                if (ShouldHandleEventsManually && eventSystemTarget != null)
+                    ExecuteHierarchy(eventSystemTarget, pointerEventData, pointerExitHandler);
+                if (monoBehaviourTarget != null)
+                    monoBehaviourTarget.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
+            });
         }
 
         private static void updateTouchInTouchList(Touch touch)
         {
+            UnityEngine.Debug.LogWarning("Updating touch in touch list: " + touch.fingerId);
             for (var t = 0; t < Touches.Length; t++)
             {
                 if (Touches[t].fingerId == touch.fingerId)
@@ -841,7 +886,11 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 yield return null;
             }
 
-            mouseUpTrigger(mouseButton, pointerEventData, eventSystemTarget, monoBehaviourTarget);
+            var pData = pointerEventData;
+            var eTarget = eventSystemTarget;
+            var mTarget = monoBehaviourTarget;
+            var btn = mouseButton;
+            EnqueueInputAction(() => mouseUpTrigger(btn, pData, eTarget, mTarget));
         }
 
         public static IEnumerator AccelerationLifeCycle(Vector3 accelarationValue, float duration)

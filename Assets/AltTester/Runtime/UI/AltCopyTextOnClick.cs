@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using AltTester.AltTesterUnitySDK.InputModule;
+using AltTester.AltTesterUnitySDK.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

@@ -30,15 +30,6 @@ resolution until this issue is fixed.
 
 **Affects**: AltUnity Tester v1.7.* and AltTester® Unity SDK v1.8.* with .NET 6
 
-Fatal error: Cannot access a disposed object 'System.Net.Sockets.NetworkStream'
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**Problem**: While running tests, the app unexpectedly disconnects from AltTester® Server and a ``[Fatal] Cannot access a disposed object. Object name: 'System.Net.Sockets.NetworkStream'.`` error is logged. This happens due to a race condition when the server attempts to send data to a client that has recently disconnected, often triggered by a "reconnection storm" from older versions of the C# Bindings.
-
-**Workaround**: Update your C# Bindings to version 2.3.1 or higher. This version includes a fix that stabilizes the connection and prevents the reconnection loops that trigger this error.
-
-**Affects**: AltTester® Unity SDK v2.3.1 (when used with C# Bindings < 2.3.1)
-
 New Input System
 ----------------
 
