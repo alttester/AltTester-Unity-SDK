@@ -7,7 +7,7 @@ from setuptools import setup
 NAME = "alttester-robotframework-library"
 DESCRIPTION = (
     "Robot Framework Library for the AltTester® framework. "
-    "AltTester® is an open-source UI driven test "
+    "AltTester® is an UI driven test "
     "automation tool that helps you find objects in your game "
     "and interacts with them."
 )
@@ -15,7 +15,7 @@ URL = "https://alttester.com/docs/sdk/latest/"
 EMAIL = "contact@alttester.com"
 AUTHOR = "Altom Consulting"
 REQUIRES_PYTHON = ">=3.4.0"
-LICENSE = "GNU GPLv3"
+LICENSE = "Proprietary"
 
 with open("src/AltTesterLibrary/version.py") as f:
     for line in f.readlines():
@@ -57,7 +57,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "Intended Audience :: Other Audience",
-        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+        "License :: Other/Proprietary License",
         "Programming Language :: Python :: 3.10",
         "Operating System :: OS Independent",
         "Topic :: Games/Entertainment",
