@@ -51,36 +51,39 @@ public static class AltProxyFinderPostProcess
             // Modulemap
             project.AddBuildProperty(unityFrameworkGuid, "DEFINES_MODULE", "YES");
 
-            // Required to load all Objective-C classes from static libraries (e.g. libNativeInputDialog.a)
+            // Required to load all Objective-C classes from static libraries (e.g. libNativeInputDialog.xcframework)
             project.AddBuildProperty(unityFrameworkGuid, "OTHER_LDFLAGS", "-ObjC");
 
-            // Explicitly link libNativeInputDialog.a to UnityFramework so that IOS_ShowNativeInput
-            // is accessible at runtime. Unity links .a plugins to Unity-iPhone by default; symbols
+            // libAltProxyFinder uses CFNetwork APIs (CFNetworkCopySystemProxySettings, etc.)
+            project.AddFrameworkToProject(unityFrameworkGuid, "CFNetwork.framework", false);
+
+            // Explicitly link libNativeInputDialog.xcframework to UnityFramework so that IOS_ShowNativeInput
+            // is accessible at runtime. Unity links plugins to Unity-iPhone by default; symbols
             // in the main executable are not exported to the embedded UnityFramework dynamic library,
             // which causes a "missing symbol called" dyld crash when the symbol is invoked.
             string nativeDialogLibGuid = project.FindFileGuidByProjectPath(
-                "Libraries/AltTester/Runtime/Plugins/iOS/libNativeInputDialog.a");
+                "Libraries/AltTester/Runtime/Plugins/iOS/libNativeInputDialog.xcframework");
             if (!string.IsNullOrEmpty(nativeDialogLibGuid))
             {
                 project.AddFileToBuild(unityFrameworkGuid, nativeDialogLibGuid);
             }
             else
             {
-                Debug.LogWarning("AltTester: Could not find libNativeInputDialog.a in Xcode project. " +
+                Debug.LogWarning("AltTester: Could not find libNativeInputDialog.xcframework in Xcode project. " +
                     "IOS_ShowNativeInput may be unavailable at runtime.");
             }
 
-            // Explicitly link libAltProxyFinder.a to UnityFramework so that _getProxy
+            // Explicitly link libAltProxyFinder.xcframework to UnityFramework so that _getProxy
             // is accessible at runtime.
             string proxyFinderLibGuid = project.FindFileGuidByProjectPath(
-                "Libraries/AltTester/Runtime/AltDriver/Proxy/Plugins/iOS/AltProxyFinder/libAltProxyFinder.a");
+                "Libraries/AltTester/Runtime/AltDriver/Proxy/Plugins/iOS/AltProxyFinder/libAltProxyFinder.xcframework");
             if (!string.IsNullOrEmpty(proxyFinderLibGuid))
             {
                 project.AddFileToBuild(unityFrameworkGuid, proxyFinderLibGuid);
             }
             else
             {
-                Debug.LogWarning("AltTester: Could not find libAltProxyFinder.a in Xcode project. " +
+                Debug.LogWarning("AltTester: Could not find libAltProxyFinder.xcframework in Xcode project. " +
                     "_getProxy may be unavailable at runtime.");
             }
 

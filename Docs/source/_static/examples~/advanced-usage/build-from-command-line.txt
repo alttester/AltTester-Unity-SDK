@@ -18,7 +18,7 @@ static void BuildFromCommandLine () {
 
         buildPlayerOptions.locationPathName = "sampleGame.apk";
         buildPlayerOptions.target = BuildTarget.Android;
-        buildPlayerOptions.options = BuildOptions.Development;
+        buildPlayerOptions.options = BuildOptions.Development | BuildOptions.IncludeTestAssemblies | BuildOptions.AutoRunPlayer;
 
         // Setup for AltTester
         var buildTargetGroup = BuildTargetGroup.Android;
