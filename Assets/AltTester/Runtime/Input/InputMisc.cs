@@ -15,6 +15,7 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -142,6 +143,19 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             }
 #endif
             return false;
+        }
+
+        public static string GetInputSystemType()
+        {
+#if ENABLE_LEGACY_INPUT_MANAGER && ENABLE_INPUT_SYSTEM
+            return "Both Legacy Input Manager and New Input System are enabled";
+#elif ENABLE_LEGACY_INPUT_MANAGER
+            return "Legacy Input Manager";
+#elif ENABLE_INPUT_SYSTEM
+            return "New Input System";
+#else
+            return "Unknown Input System";
+#endif
         }
     }
 }

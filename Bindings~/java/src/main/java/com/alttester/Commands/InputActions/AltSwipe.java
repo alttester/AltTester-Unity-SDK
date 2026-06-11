@@ -17,30 +17,29 @@
 
 package com.alttester.Commands.InputActions;
 
-import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
+import com.alttester.IMessageHandler;
 
 /**
- * Simulate scroll mouse action in your application. This command does not wait
- * for the
- * action to finish.
+ * Simulate scroll mouse action in your application. This command does not wait for the action to
+ * finish.
  */
 public class AltSwipe extends AltBaseCommand {
 
-    private AltSwipeParams params;
+  private AltSwipeParams params;
 
-    public AltSwipe(IMessageHandler messageHandler, AltSwipeParams params) {
-        super(messageHandler);
-        this.params = params;
-    }
+  public AltSwipe(IMessageHandler messageHandler, AltSwipeParams params) {
+    super(messageHandler);
+    this.params = params;
+  }
 
-    public void Execute() {
-        SendCommand(params);
-        String data = recvall(params, String.class);
-        validateResponse("Ok", data);
-        if (params.getWait()) {
-            data = recvall(params, String.class);
-            validateResponse("Finished", data);
-        }
+  public void Execute() {
+    SendCommand(params);
+    String data = recvall(params, String.class);
+    validateResponse("Ok", data);
+    if (params.getWait()) {
+      data = recvall(params, String.class);
+      validateResponse("Finished", data);
     }
+  }
 }

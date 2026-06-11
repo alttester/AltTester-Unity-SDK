@@ -17,30 +17,27 @@
 
 package com.alttester.Commands.InputActions;
 
-import com.alttester.IMessageHandler;
 import com.alttester.Commands.AltBaseCommand;
+import com.alttester.IMessageHandler;
 
-/**
- * Simulate scroll mouse action in your application.
- */
+/** Simulate scroll mouse action in your application. */
 public class AltScroll extends AltBaseCommand {
-    private AltScrollParams params;
+  private AltScrollParams params;
 
-    public AltScroll(IMessageHandler messageHandler, AltScrollParams params) {
-        super(messageHandler);
-        this.params = params;
-        this.params.setCommandName("scroll");
+  public AltScroll(IMessageHandler messageHandler, AltScrollParams params) {
+    super(messageHandler);
+    this.params = params;
+    this.params.setCommandName("scroll");
+  }
+
+  public void Execute() {
+    SendCommand(params);
+    String data = recvall(params, String.class);
+    validateResponse("Ok", data);
+
+    if (params.getWait()) {
+      data = recvall(params, String.class);
+      validateResponse("Finished", data);
     }
-
-    public void Execute() {
-        SendCommand(params);
-        String data = recvall(params, String.class);
-        validateResponse("Ok", data);
-
-        if (params.getWait()) {
-            data = recvall(params, String.class);
-            validateResponse("Finished", data);
-        }
-
-    }
+  }
 }

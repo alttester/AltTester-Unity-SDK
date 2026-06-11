@@ -1,18 +1,5 @@
 """
     Copyright(C) 2026 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 import json
@@ -130,8 +117,8 @@ class AltObject:
             tuple: A tuple containing ``x`` and ``y``.
 
         """
-
-        return self.x, self.y
+        position = (self.x, self.y)
+        return position
 
     def get_world_position(self):
         """Returns the world position.
@@ -140,8 +127,8 @@ class AltObject:
             tuple: A tuple containing ``worldX``, ``worldY`` and ``worldZ``.
 
         """
-
-        return self.worldX, self.worldY, self.worldZ
+        position = (self.worldX, self.worldY, self.worldZ)
+        return position
 
     def get_parent(self):
         """Returns the parent object.
@@ -286,7 +273,7 @@ class AltObject:
 
         """
 
-        return commands.GetText.run(self._connection, self)
+        return commands.FetchText.run(self._connection, self)
 
     def set_text(self, text, submit=False):
         """Sets text value for a Button, Text or InputField. This also works with TextMeshPro elements.
@@ -300,7 +287,7 @@ class AltObject:
 
         """
 
-        data = commands.SetText.run(self._connection, text, self, submit)
+        data = commands.UpdateText.run(self._connection, text, self, submit)
         return AltObject(self._altdriver, data)
 
     def pointer_up(self):

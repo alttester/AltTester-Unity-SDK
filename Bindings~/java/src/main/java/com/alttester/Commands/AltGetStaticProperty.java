@@ -17,29 +17,27 @@
 
 package com.alttester.Commands;
 
-import com.alttester.IMessageHandler;
 import com.alttester.Commands.ObjectCommand.AltGetComponentPropertyParams;
+import com.alttester.IMessageHandler;
 
-/**
- * Get the value of a property from one of the component of the object.
- */
+/** Get the value of a property from one of the component of the object. */
 public class AltGetStaticProperty extends AltBaseCommand {
-    /**
-     * @param altGetComponentPropertyParameters builder for getting components'
-     *                                          property
-     */
-    private AltGetComponentPropertyParams altGetComponentPropertyParameters;
+  /**
+   * @param altGetComponentPropertyParameters builder for getting components' property
+   */
+  private AltGetComponentPropertyParams altGetComponentPropertyParameters;
 
-    public AltGetStaticProperty(IMessageHandler messageHandler,
-            AltGetComponentPropertyParams altGetComponentPropertyParameters) {
-        super(messageHandler);
-        this.altGetComponentPropertyParameters = altGetComponentPropertyParameters;
-        altGetComponentPropertyParameters.setAltObject(null);
-        this.altGetComponentPropertyParameters.setCommandName("getObjectComponentProperty");
-    }
+  public AltGetStaticProperty(
+      IMessageHandler messageHandler,
+      AltGetComponentPropertyParams altGetComponentPropertyParameters) {
+    super(messageHandler);
+    this.altGetComponentPropertyParameters = altGetComponentPropertyParameters;
+    altGetComponentPropertyParameters.setAltObject(null);
+    this.altGetComponentPropertyParameters.setCommandName("getObjectComponentProperty");
+  }
 
-    public <T> T Execute(Class<T> returnType) {
-        SendCommand(altGetComponentPropertyParameters);
-        return recvall(altGetComponentPropertyParameters, returnType);
-    }
+  public <T> T Execute(Class<T> returnType) {
+    SendCommand(altGetComponentPropertyParameters);
+    return recvall(altGetComponentPropertyParameters, returnType);
+  }
 }

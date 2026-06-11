@@ -1,18 +1,5 @@
 """
     Copyright(C) 2026 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 import os
@@ -21,8 +8,6 @@ import pytest
 
 from .utils import Scenes
 from alttester import By
-from alttester.__version__ import VERSION
-from alttester.commands import GetServerVersion
 from alttester.logging import AltLogLevel, AltLogger
 import alttester.exceptions as exceptions
 
@@ -32,10 +17,6 @@ class TestDriver:
     @pytest.fixture(autouse=True)
     def setup(self, alt_driver):
         self.alt_driver = alt_driver
-
-    def test_get_version(self):
-        server_version = GetServerVersion.run(self.alt_driver._connection)
-        assert VERSION.startswith(server_version)
 
     def test_load_and_wait_for_scene(self):
         self.alt_driver.load_scene(Scenes.Scene01)

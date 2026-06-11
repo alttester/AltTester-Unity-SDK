@@ -22,31 +22,31 @@ import com.alttester.position.Vector2;
 
 public class AltBeginTouchParams extends AltMessage {
 
+  private Vector2 coordinates;
+
+  public static class Builder {
     private Vector2 coordinates;
 
-    public static class Builder {
-        private Vector2 coordinates;
-
-        public Builder(Vector2 coordinates) {
-            this.coordinates = coordinates;
-        }
-
-        public AltBeginTouchParams build() {
-            AltBeginTouchParams params = new AltBeginTouchParams();
-            params.coordinates = this.coordinates;
-            return params;
-        }
+    public Builder(Vector2 coordinates) {
+      this.coordinates = coordinates;
     }
 
-    private AltBeginTouchParams() {
-        this.setCommandName("beginTouch");
+    public AltBeginTouchParams build() {
+      AltBeginTouchParams params = new AltBeginTouchParams();
+      params.coordinates = this.coordinates;
+      return params;
     }
+  }
 
-    public Vector2 getCoordinates() {
-        return coordinates;
-    }
+  private AltBeginTouchParams() {
+    this.setCommandName("beginTouch");
+  }
 
-    public void setCoordinates(Vector2 coordinates) {
-        this.coordinates = coordinates;
-    }
+  public Vector2 getCoordinates() {
+    return coordinates;
+  }
+
+  public void setCoordinates(Vector2 coordinates) {
+    this.coordinates = coordinates;
+  }
 }

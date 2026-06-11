@@ -21,30 +21,29 @@ import com.alttester.AltMessage;
 
 public class AltSetTimeScaleParams extends AltMessage {
 
+  private float timeScale;
+
+  public static class Builder {
     private float timeScale;
 
-    public static class Builder {
-        private float timeScale;
-
-        public Builder(float timeScale) {
-            this.timeScale = timeScale;
-        }
-
-        public AltSetTimeScaleParams build() {
-            AltSetTimeScaleParams params = new AltSetTimeScaleParams();
-            params.timeScale = this.timeScale;
-            return params;
-        }
+    public Builder(float timeScale) {
+      this.timeScale = timeScale;
     }
 
-    private AltSetTimeScaleParams() {
+    public AltSetTimeScaleParams build() {
+      AltSetTimeScaleParams params = new AltSetTimeScaleParams();
+      params.timeScale = this.timeScale;
+      return params;
     }
+  }
 
-    public float getTimeScale() {
-        return timeScale;
-    }
+  private AltSetTimeScaleParams() {}
 
-    public void setTimeScale(float timeScale) {
-        this.timeScale = timeScale;
-    }
+  public float getTimeScale() {
+    return timeScale;
+  }
+
+  public void setTimeScale(float timeScale) {
+    this.timeScale = timeScale;
+  }
 }

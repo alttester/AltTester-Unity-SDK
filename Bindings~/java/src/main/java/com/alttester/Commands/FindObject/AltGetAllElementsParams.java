@@ -17,67 +17,65 @@
 
 package com.alttester.Commands.FindObject;
 
-import com.alttester.AltMessage;
 import com.alttester.AltDriver.By;
+import com.alttester.AltMessage;
 
 public class AltGetAllElementsParams extends AltMessage {
 
-    public static class Builder {
-        private By cameraBy = By.NAME;
-        private String cameraValue = "";
-        private boolean enabled = true;
+  public static class Builder {
+    private By cameraBy = By.NAME;
+    private String cameraValue = "";
+    private boolean enabled = true;
 
-        public Builder() {
-        }
+    public Builder() {}
 
-        public AltGetAllElementsParams.Builder isEnabled(boolean enabled) {
-            this.enabled = enabled;
-            return this;
-        }
-
-        public AltGetAllElementsParams.Builder withCamera(By cameraBy, String cameraValue) {
-            this.cameraValue = cameraValue;
-            this.cameraBy = cameraBy;
-            return this;
-        }
-
-        public AltGetAllElementsParams build() {
-            AltGetAllElementsParams altGetAllElementsParameters = new AltGetAllElementsParams();
-            altGetAllElementsParameters.cameraBy = this.cameraBy;
-            altGetAllElementsParameters.cameraValue = this.cameraValue;
-            altGetAllElementsParameters.enabled = this.enabled;
-            return altGetAllElementsParameters;
-        }
+    public AltGetAllElementsParams.Builder isEnabled(boolean enabled) {
+      this.enabled = enabled;
+      return this;
     }
 
-    private AltGetAllElementsParams() {
+    public AltGetAllElementsParams.Builder withCamera(By cameraBy, String cameraValue) {
+      this.cameraValue = cameraValue;
+      this.cameraBy = cameraBy;
+      return this;
     }
 
-    public String getCameraValue() {
-        return cameraValue;
+    public AltGetAllElementsParams build() {
+      AltGetAllElementsParams altGetAllElementsParameters = new AltGetAllElementsParams();
+      altGetAllElementsParameters.cameraBy = this.cameraBy;
+      altGetAllElementsParameters.cameraValue = this.cameraValue;
+      altGetAllElementsParameters.enabled = this.enabled;
+      return altGetAllElementsParameters;
     }
+  }
 
-    public void setCameraValue(String cameraValue) {
-        this.cameraValue = cameraValue;
-    }
+  private AltGetAllElementsParams() {}
 
-    private By cameraBy;
-    private boolean enabled;
-    private String cameraValue;
+  public String getCameraValue() {
+    return cameraValue;
+  }
 
-    public By getCameraBy() {
-        return cameraBy;
-    }
+  public void setCameraValue(String cameraValue) {
+    this.cameraValue = cameraValue;
+  }
 
-    public void setCameraBy(By cameraBy) {
-        this.cameraBy = cameraBy;
-    }
+  private By cameraBy;
+  private boolean enabled;
+  private String cameraValue;
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+  public By getCameraBy() {
+    return cameraBy;
+  }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  public void setCameraBy(By cameraBy) {
+    this.cameraBy = cameraBy;
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 }

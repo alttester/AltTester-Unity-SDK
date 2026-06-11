@@ -18,11 +18,12 @@
 package com.alttester.Notifications;
 
 public interface INotificationCallbacks {
-    void SceneLoadedCallBack(AltLoadSceneNotificationResultParams altLoadSceneNotificationResultParams);
+  void SceneLoadedCallBack(
+      AltLoadSceneNotificationResultParams altLoadSceneNotificationResultParams);
 
-    void SceneUnloadedCallBack(String sceneName);
+  void SceneUnloadedCallBack(String sceneName);
 
-    void LogCallBack(AltLogNotificationResultParams altLogNotificationResultParams);
+  void LogCallBack(AltLogNotificationResultParams altLogNotificationResultParams);
 
-    void ApplicationPausedCallBack(boolean applicationPaused);
+  void ApplicationPausedCallBack(boolean applicationPaused);
 }

@@ -21,15 +21,15 @@ import com.alttester.AltObject;
 
 public class AltSendActionAndEvaluateResultParams extends AltObjectParams {
 
-    AltSendActionAndEvaluateResultParams(AltObject altObject) {
-        super.altObject = altObject;
-    }
+  AltSendActionAndEvaluateResultParams(AltObject altObject) {
+    super.altObject = altObject;
+  }
 
-    public AltObject getAltObject() {
-        return altObject;
-    }
+  public AltObject getAltObject() {
+    return altObject;
+  }
 
-    public void setAltObject(AltObject altObject) {
-        this.altObject = altObject;
-    }
+  public void setAltObject(AltObject altObject) {
+    this.altObject = altObject;
+  }
 }
