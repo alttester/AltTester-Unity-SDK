@@ -517,15 +517,145 @@ SauceLabs provides **automated testing solutions** for web and mobile applicatio
 
 You can create a free trial SauceLabs account where you get 2000 credits per week (which is enough to run some test suites multiple times on their free devices and emulators).
 
-One of the [architectural changes from v2.0.0](https://alttester.com/alttester-desktop-2-0-0-alttester-unity-sdk-2-0-0-recorder-support-for-webgl-and-architectural-changes/) is that the AltTester® Server module is incorporated in AltTester® Desktop. In order to be able to execute tests, we need to have an **AltTester® Desktop app running and publicly reachable**/accessible so that the AltDriver that is instantiated in the tests and **the instrumented app can connect to the AltTester® Server**.
+One of the [architectural changes from v2.0.0](https://alttester.com/alttester-desktop-2-0-0-alttester-unity-sdk-2-0-0-recorder-support-for-webgl-and-architectural-changes/) is that the AltTester® Server module is incorporated in AltTester® Desktop. In order to be able to execute tests, both the AltDriver instantiated in the tests and the instrumented app need to connect to the **AltTester® Server**.
 
-### SauceLabs C# project example
+There are two ways to set up this connection between your tests, the AltTester® Server and the Sauce Labs cloud device:
+
+- **Sauce Connect Proxy tunnel (recommended)** — run AltTester® Desktop locally and let the Sauce Connect tunnel forward the cloud device's `localhost` back to your machine. No public VM is required and the build keeps the default AltTester® connection settings.
+- **AltTester® Desktop on a public VM** — host AltTester® Desktop on a publicly reachable virtual machine that the cloud device connects to directly.
+
+### SauceLabs C# project example using Sauce Connect Proxy (recommended)
 
 You can download our example project from [here](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/tree/saucelabs_example). Also, for more details check [this article](https://alttester.com/sauce-labs-integration-execute-alttester-based-c-tests/) from our Blog.
 
-<!-- To update here when there are updates -->
-At the moment of creating this section of the documentation for the case of having the AltTester® Desktop app running on the same machine where the tests are running the instrumented app was not able to connect to localhost successfully, due to the fact that the 
-[Sauce Connect Tunnel Proxy](https://docs.saucelabs.com/secure-connections/sauce-connect/setup-configuration/basic-setup/) implementation was not yet compatible with the WebSocket used in AltTester® Server. But more recently, SauceLabs confirmed that WebSocket communication is now working for tunnel connections between tests and cloud devices. For this reason, we are now working on running the tests using **Sauce Connect Tunnel Proxy** and we will provide setup instructions shortly.
+With this setup you run **AltTester® Desktop locally** and use [Sauce Connect Proxy](https://docs.saucelabs.com/secure-connections/sauce-connect-5/) to bridge the cloud device to your machine. You do **not** need a public virtual machine and you do **not** need to rebuild your app with a specific IP — the build keeps the default AltTester® connection settings (host `127.0.0.1`, port `13000`).
+
+This works because Sauce Connect is started with the `--proxy-localhost allow` flag, which lets the instrumented app on the cloud device reach `localhost:13000` on your machine through the tunnel. Both the instrumented app and the `AltDriver` in your tests then connect to the same AltTester® Server.
+
+```eval_rst
+.. note::
+    The ``--proxy-localhost allow`` flag is essential. Without it the cloud device cannot reach the AltTester® Server running on your machine and the driver will not connect.
+```
+
+#### **Prerequisites**
+
+- An active SauceLabs account
+- [Sauce Connect Proxy](https://docs.saucelabs.com/secure-connections/sauce-connect-5/installation/) installed and available in your `PATH` (the `sc` command)
+- **AltTester® Desktop** installed and running locally, with the AltTester® Server listening on port `13000`
+- A set of C# tests that use AltTester® Unity SDK
+- A build instrumented with AltTester® Unity SDK using the **default** connection settings (host `127.0.0.1`, port `13000`)
+- .NET and the `Appium.WebDriver` NuGet package
+
+#### **Steps for running tests on Android and iOS**
+
+**1. Upload the instrumented build on SauceLabs**
+
+Upload your instrumented `.apk` / `.ipa` to [Sauce App Storage](https://app.eu-central-1.saucelabs.com/app-management). Note the file name — you will reference it in the `appium:app` capability as `storage:filename=<your-build>`.
+
+**2. Set your SauceLabs credentials as environment variables**
+
+```
+export SAUCE_USERNAME="yourUsername"
+export SAUCE_ACCESS_KEY="yourAccessKey"
+export SAUCE_APP_URL="storage:filename=<your-build>"
+export SAUCE_REGION="eu-central-1"
+```
+
+**3. Start the Sauce Connect tunnel with `--proxy-localhost allow`**
+
+```
+sc run --username $SAUCE_USERNAME --access-key $SAUCE_ACCESS_KEY --region $SAUCE_REGION --tunnel-name alttester-tunnel --proxy-localhost allow
+```
+
+You can also start and stop the tunnel from your test code — see the `StartTunnel` method in the example project's [BaseTest.cs](https://github.com/alttester/EXAMPLES-CSharp-Cloud-Services-AltTrashCat/blob/saucelabs_example/tests/BaseTest.cs).
+
+**4. Configure Appium capabilities and Sauce Labs options**
+
+Route the session through your tunnel by passing the tunnel name in `sauce:options`:
+
+```eval_rst
+.. tabs::
+
+    .. tab:: Android
+
+        .. code-block:: C#
+
+            AppiumOptions capabilities = new AppiumOptions();
+            capabilities.AddAdditionalCapability("platformName", "Android");
+            capabilities.AddAdditionalCapability("appium:app", SAUCE_APP_URL);
+            capabilities.AddAdditionalCapability("appium:deviceName", "Google Pixel.*");
+            capabilities.AddAdditionalCapability("appium:automationName", "UiAutomator2");
+
+            var sauceOptions = new Dictionary<string, object>();
+            sauceOptions.Add("username", SAUCE_USERNAME);
+            sauceOptions.Add("accessKey", SAUCE_ACCESS_KEY);
+            sauceOptions.Add("tunnelIdentifier", "alttester-tunnel");
+            sauceOptions.Add("tunnelOwner", SAUCE_USERNAME);
+            sauceOptions.Add("appiumVersion", "latest");
+            capabilities.AddAdditionalCapability("sauce:options", sauceOptions);
+
+    .. tab:: iOS
+
+        .. code-block:: C#
+
+            AppiumOptions capabilities = new AppiumOptions();
+            capabilities.AddAdditionalCapability("platformName", "iOS");
+            capabilities.AddAdditionalCapability("appium:app", SAUCE_APP_URL);
+            capabilities.AddAdditionalCapability("appium:deviceName", "iPhone 1[5-9].*");
+            capabilities.AddAdditionalCapability("appium:platformVersion", "18");
+            capabilities.AddAdditionalCapability("appium:automationName", "XCUITest");
+
+            var sauceOptions = new Dictionary<string, object>();
+            sauceOptions.Add("username", SAUCE_USERNAME);
+            sauceOptions.Add("accessKey", SAUCE_ACCESS_KEY);
+            sauceOptions.Add("tunnelIdentifier", "alttester-tunnel");
+            sauceOptions.Add("tunnelOwner", SAUCE_USERNAME);
+            sauceOptions.Add("appiumVersion", "latest");
+            capabilities.AddAdditionalCapability("sauce:options", sauceOptions);
+```
+
+**5. Start the Appium driver**
+
+Point the driver at the Sauce Labs hub for your region:
+
+```eval_rst
+.. tabs::
+
+    .. tab:: Android
+
+        .. code-block:: C#
+
+            appiumDriver = new AndroidDriver<AndroidElement>(new Uri($"https://ondemand.{SAUCE_REGION}.saucelabs.com:443/wd/hub"), capabilities);
+
+    .. tab:: iOS
+
+        .. code-block:: C#
+
+            appiumDriver = new IOSDriver<IOSElement>(new Uri($"https://ondemand.{SAUCE_REGION}.saucelabs.com:443/wd/hub"), capabilities);
+```
+
+**6. Connect the AltDriver**
+
+Because the tunnel forwards localhost, the `AltDriver` connects with its **default** host and port — no custom IP needed:
+
+```c#
+altDriver = new AltDriver();
+```
+
+```eval_rst
+.. note::
+    On a freshly installed build the app needs a few seconds to launch and register with the AltTester® Server before the driver can attach. If you get a ``NoAppConnectedException``, increase the connect timeout (for example ``new AltDriver(connectTimeout: 10)``) or retry the connection in a loop until the app connects.
+```
+
+**7. Run the tests**
+
+Make sure AltTester® Desktop is running locally and the tunnel is up, then run:
+
+```
+dotnet test
+```
+
+### SauceLabs C# project example using AltTester® Desktop on a public VM
 
 In this example, the AltTester® Desktop app is running on a **public virtual machine**, which **can be accessed by the instrumented app** installed on a device in the cloud.
 
@@ -701,7 +831,7 @@ In this file add code that will:
     ```
 
 - add method to keep Appium alive
-    - in this context, Appium is only used to install the application and access it on the BrowserStack test device - after that, AltTester® SDK picks up the connection and carries out the tests
+    - in this context, Appium is only used to install the application and access it on the Sauce Labs test device - after that, AltTester® SDK picks up the connection and carries out the tests
     - you should add an action that keeps Appium alive in the `TearDown` method of the framework to ensure that Appium is used after every test. Here is an example:
 
     ```eval_rst
