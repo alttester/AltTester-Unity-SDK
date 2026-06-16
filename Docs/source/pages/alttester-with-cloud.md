@@ -129,10 +129,10 @@ In this file add code that will:
                 browserstackOptions.Add("userName", BROWSERSTACK_USERNAME);
                 browserstackOptions.Add("accessKey", BROWSERSTACK_ACCESS_KEY);
                 capabilities.AddAdditionalAppiumOption("bstack:options", browserstackOptions);
-                capabilities.AddAdditionalAppiumOption("platformName", "android");
+                capabilities.PlatformName = "android";
                 capabilities.AddAdditionalAppiumOption("platformVersion", "11.0");
-                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Samsung Galaxy S21");
-                capabilities.AddAdditionalAppiumOption("appium:app", BROWSERSTACK_APP_ID_SDK_201);
+                capabilities.DeviceName = "Samsung Galaxy S21";
+                capabilities.App = BROWSERSTACK_APP_ID_SDK_201;
 
         .. tab:: iOS
 
@@ -148,10 +148,10 @@ In this file add code that will:
                 browserstackOptions.Add("userName", BROWSERSTACK_USERNAME);
                 browserstackOptions.Add("accessKey", BROWSERSTACK_ACCESS_KEY);
                 capabilities.AddAdditionalAppiumOption("bstack:options", browserstackOptions);
-                capabilities.AddAdditionalAppiumOption("platformName", "ios");
+                capabilities.PlatformName = "ios";
                 capabilities.AddAdditionalAppiumOption("platformVersion", "16");
-                capabilities.AddAdditionalAppiumOption("appium:deviceName", "iPhone 14");
-                capabilities.AddAdditionalAppiumOption("appium:app", BROWSERSTACK_APP_ID_SDK_201);
+                capabilities.DeviceName = "iPhone 14";
+                capabilities.App = BROWSERSTACK_APP_ID_SDK_201;
     ```
 
 - configure the local testing connection
@@ -353,10 +353,10 @@ In this file add code that will:
                 browserstackOptions.Add("userName", BROWSERSTACK_USERNAME);
                 browserstackOptions.Add("accessKey", BROWSERSTACK_ACCESS_KEY);
                 capabilities.AddAdditionalAppiumOption("bstack:options", browserstackOptions);
-                capabilities.AddAdditionalAppiumOption("platformName", "android");
+                capabilities.PlatformName = "android";
                 capabilities.AddAdditionalAppiumOption("platformVersion", "11.0");
-                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Samsung Galaxy S21");
-                capabilities.AddAdditionalAppiumOption("appium:app", BROWSERSTACK_APP_ID_SDK_201);
+                capabilities.DeviceName = "Samsung Galaxy S21";
+                capabilities.App = BROWSERSTACK_APP_ID_SDK_201;
 
         .. tab:: iOS
 
@@ -372,10 +372,10 @@ In this file add code that will:
                 browserstackOptions.Add("userName", BROWSERSTACK_USERNAME);
                 browserstackOptions.Add("accessKey", BROWSERSTACK_ACCESS_KEY);
                 capabilities.AddAdditionalAppiumOption("bstack:options", browserstackOptions);
-                capabilities.AddAdditionalAppiumOption("platformName", "ios");
+                capabilities.PlatformName = "ios";
                 capabilities.AddAdditionalAppiumOption("platformVersion", "16");
-                capabilities.AddAdditionalAppiumOption("appium:deviceName", "iPhone 14");
-                capabilities.AddAdditionalAppiumOption("appium:app", BROWSERSTACK_APP_ID_SDK_201);
+                capabilities.DeviceName = "iPhone 14";
+                capabilities.App = BROWSERSTACK_APP_ID_SDK_201;
 
     ```
 
@@ -581,10 +581,10 @@ Route the session through your tunnel by passing the tunnel name in `sauce:optio
         .. code-block:: C#
 
             AppiumOptions capabilities = new AppiumOptions();
-            capabilities.AddAdditionalAppiumOption("platformName", "Android");
-            capabilities.AddAdditionalAppiumOption("appium:app", SAUCE_APP_URL);
-            capabilities.AddAdditionalAppiumOption("appium:deviceName", "Google Pixel.*");
-            capabilities.AddAdditionalAppiumOption("appium:automationName", "UiAutomator2");
+            capabilities.PlatformName = "Android";
+            capabilities.App = SAUCE_APP_URL;
+            capabilities.DeviceName = "Google Pixel.*";
+            capabilities.AutomationName = "UiAutomator2";
 
             var sauceOptions = new Dictionary<string, object>();
             sauceOptions.Add("username", SAUCE_USERNAME);
@@ -599,11 +599,11 @@ Route the session through your tunnel by passing the tunnel name in `sauce:optio
         .. code-block:: C#
 
             AppiumOptions capabilities = new AppiumOptions();
-            capabilities.AddAdditionalAppiumOption("platformName", "iOS");
-            capabilities.AddAdditionalAppiumOption("appium:app", SAUCE_APP_URL);
-            capabilities.AddAdditionalAppiumOption("appium:deviceName", "iPhone 1[5-9].*");
-            capabilities.AddAdditionalAppiumOption("appium:platformVersion", "18");
-            capabilities.AddAdditionalAppiumOption("appium:automationName", "XCUITest");
+            capabilities.PlatformName = "iOS";
+            capabilities.App = SAUCE_APP_URL;
+            capabilities.DeviceName = "iPhone 1[5-9].*";
+            capabilities.PlatformVersion = "18";
+            capabilities.AutomationName = "XCUITest";
 
             var sauceOptions = new Dictionary<string, object>();
             sauceOptions.Add("username", SAUCE_USERNAME);
@@ -745,14 +745,14 @@ In this file add code that will:
             .. code-block:: C#
 
                 AppiumOptions options = new AppiumOptions();
-                options.AddAdditionalAppiumOption("platformName", "Android");
-                options.AddAdditionalAppiumOption("appium:app","storage:filename=<buildName.apk>");
+                options.PlatformName = "Android";
+                options.App = "storage:filename=<buildName.apk>";
 
-                options.AddAdditionalAppiumOption("appium:deviceName", "Samsung Galaxy S10 WQHD GoogleAPI Emulator");
+                options.DeviceName = "Samsung Galaxy S10 WQHD GoogleAPI Emulator";
 
-                options.AddAdditionalAppiumOption("appium:platformVersion", "11.0");
+                options.PlatformVersion = "11.0";
                 options.AddAdditionalAppiumOption("appium:deviceOrientation", "portrait");
-                options.AddAdditionalAppiumOption("appium:automationName", "UiAutomator2");
+                options.AutomationName = "UiAutomator2";
 
                 var sauceOptions = new Dictionary<string, object>();
                 sauceOptions.Add("appiumVersion", "2.0.0");
@@ -769,17 +769,17 @@ In this file add code that will:
 
                 AppiumOptions options = new AppiumOptions();
                 
-                options.AddAdditionalAppiumOption("platformName", "iOS");
-                options.AddAdditionalAppiumOption("appium:app", "storage:filename=<builName.ipa>");
+                options.PlatformName = "iOS";
+                options.App = "storage:filename=<builName.ipa>";
                         
-                options.AddAdditionalAppiumOption("appium:deviceName", "iPhone XR");
+                options.DeviceName = "iPhone XR";
                     
 
-                options.AddAdditionalAppiumOption("appium:platformVersion", "16");
+                options.PlatformVersion = "16";
                     
                 options.AddAdditionalAppiumOption("appium:deviceOrientation", "portrait");
 
-                options.AddAdditionalAppiumOption("appium:automationName", "XCUITest");
+                options.AutomationName = "XCUITest";
 
                 var sauceOptions = new Dictionary<string, object>();
                 sauceOptions.Add("appiumVersion", "2.0.0");
@@ -1065,7 +1065,7 @@ Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws
                     .. code-block:: C#
 
                         capabilities.AddAdditionalAppiumOption("device", "Android");
-                        capabilities.AddAdditionalAppiumOption("platformName", "Android");
+                        capabilities.PlatformName = "Android";
                         capabilities.AddAdditionalAppiumOption("appActivity", "com.unity3d.player.UnityPlayerActivity");
                     
                 .. tab:: iOS
@@ -1073,7 +1073,7 @@ Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws
                     .. code-block:: C#
 
                         capabilities.AddAdditionalAppiumOption("device", "iOS");
-                        capabilities.AddAdditionalAppiumOption("platformName", "iOS");
+                        capabilities.PlatformName = "iOS";
                         capabilities.AddAdditionalAppiumOption("appPackage", "fi.altom.trashcat");
                         capabilities.AddAdditionalAppiumOption("autoAcceptAlerts" ,true);
         ```
@@ -1404,9 +1404,9 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
             .. code-block:: C#
 
                 string appPath = System.Environment.CurrentDirectory + "/../../../application.apk";
-                capabilities.AddAdditionalAppiumOption("appium:app", appPath);
-                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Android Phone");
-                capabilities.AddAdditionalAppiumOption("platformName", "Android");
+                capabilities.App = appPath;
+                capabilities.DeviceName = "Android Phone";
+                capabilities.PlatformName = "Android";
                 capabilities.AddAdditionalAppiumOption("automationName", "UIAutomator2");
                 capabilities.AddAdditionalAppiumOption("newCommandTimeout", 2000);
 
@@ -1426,9 +1426,9 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
 
             .. code-block:: C#
 
-                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Apple iPhone SE 2020 A2296 13.4.1");
-                capabilities.AddAdditionalAppiumOption("platformName", "iOS");
-                capabilities.AddAdditionalAppiumOption("appium:automationName", "XCUITest");
+                capabilities.DeviceName = "Apple iPhone SE 2020 A2296 13.4.1";
+                capabilities.PlatformName = "iOS";
+                capabilities.AutomationName = "XCUITest";
                 capabilities.AddAdditionalAppiumOption("appium:bundleId", "fi.altom.trashcat");
                 capabilities.AddAdditionalAppiumOption("platformVersion", "13.4");
                 capabilities.AddAdditionalAppiumOption("autoAcceptAlerts","true");
@@ -1639,8 +1639,8 @@ After you finish setting up the build, you need to use the **Archive** option to
 
             .. code-block:: C#
 
-                capabilities.AddAdditionalAppiumOption("platformName", "Android");
-                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Android");                
+                capabilities.PlatformName = "Android";
+                capabilities.DeviceName = "Android";                
                 capabilities.AddAdditionalAppiumOption("automationName", "UIAutomator2");
                 capabilities.AddAdditionalAppiumOption("newCommandTimeout", 2000);
 
@@ -1667,9 +1667,9 @@ After you finish setting up the build, you need to use the **Archive** option to
 
             .. code-block:: C#
 
-                capabilities.AddAdditionalAppiumOption("platformName", "iOS");
-                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Apple iPhone SE 2020 A2296 13.4.1");
-                capabilities.AddAdditionalAppiumOption("appium:automationName", "XCUITest");
+                capabilities.PlatformName = "iOS";
+                capabilities.DeviceName = "Apple iPhone SE 2020 A2296 13.4.1";
+                capabilities.AutomationName = "XCUITest";
                 capabilities.AddAdditionalAppiumOption("appium:bundleId", "fi.altom.trashcat");
 
             .. code-block:: C#
