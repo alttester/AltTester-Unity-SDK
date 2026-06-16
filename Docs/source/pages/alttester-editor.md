@@ -57,6 +57,10 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     Will add "ALTTESTER" to the scripting define symbols. This is usually done automatically when entering in play mode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
+-  *Keep AltTester® prefab in scene*:
+
+    When enabled, if the AltTester® Prefab is already present as a root object in the active scene it will be kept untouched — no new prefab is created. If the prefab is not present in the scene, it will be inserted automatically. When this option is disabled (default), the prefab is removed and recreated on each Play/Stop cycle, matching the previous behavior.
+
 - *AltTester® Server Host*
 
     Refers to the host the AltTester® Server is listening on.
@@ -66,6 +70,11 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
     Refers to the port the AltTester® Server is listening on.
     You can change this value and make a new app build if you want to use another port.
+
+- *App Name*
+
+    Refers to the name used to identify the app on the AltTester® Server.
+    You can change this value and make a new app build if you want to use another app name.
 
 - *Reset Connection Data*
 
@@ -85,6 +94,10 @@ In the following sections you can see a breakdown of all the sections in the GUI
     - Windows: Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>
     - MacOS: Press <kbd>Ctrl</kbd> + <kbd>Opt</kbd> + <kbd>T</kbd>
     - Mobile (Android/iOS): Hold three fingers on the screen for one second. 
+
+- *Show Native Popup Option*
+
+    Determines whether the native popup is displayed at startup on Android, iOS, and WebGL platforms. This popup allows changing connection data through Appium or Selenium.
 
 - *Secure Mode (WSS)*
 
