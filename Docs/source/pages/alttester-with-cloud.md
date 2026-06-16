@@ -92,7 +92,7 @@ set BROWSERSTACK_APP_ID_SDK_201="yourAppId"
 In your code project, you need to install a Selenium WebDriver extension for Appium and C# Bindings for BrowserStack Local. Example:
 
 ```
-dotnet add package Appium.WebDriver --version 4.4.0
+dotnet add package Appium.WebDriver --version 8.2.0
 dotnet add package BrowserStackLocal --version 2.3.0
 ```
 
@@ -176,13 +176,13 @@ In this file add code that will:
 
             .. code-block:: C#
 
-                appiumDriver = new AndroidDriver<AndroidElement>(new Uri("https://hub-cloud.browserstack.com/wd/hub/"), capabilities);
+                appiumDriver = new AndroidDriver(new Uri("https://hub-cloud.browserstack.com/wd/hub/"), capabilities);
 
         .. tab:: iOS
 
             .. code-block:: C#
 
-                appiumDriver = new IOSDriver<IOSElement>(new Uri("https://hub-cloud.browserstack.com/wd/hub/"), capabilities);
+                appiumDriver = new IOSDriver(new Uri("https://hub-cloud.browserstack.com/wd/hub/"), capabilities);
     ```
 
 - initialize AltDriver
@@ -400,13 +400,13 @@ In this file add code that will:
 
             .. code-block:: C#
 
-                appiumDriver = new AndroidDriver<AndroidElement>(new Uri("https://hub-cloud.browserstack.com/wd/hub/"), capabilities);
+                appiumDriver = new AndroidDriver(new Uri("https://hub-cloud.browserstack.com/wd/hub/"), capabilities);
 
         .. tab:: iOS
 
             .. code-block:: C#
 
-                appiumDriver = new IOSDriver<IOSElement>(new Uri("https://hub-cloud.browserstack.com/wd/hub/"), capabilities);
+                appiumDriver = new IOSDriver(new Uri("https://hub-cloud.browserstack.com/wd/hub/"), capabilities);
 
     ```
 
@@ -625,13 +625,13 @@ Point the driver at the Sauce Labs hub for your region:
 
         .. code-block:: C#
 
-            appiumDriver = new AndroidDriver<AndroidElement>(new Uri($"https://ondemand.{SAUCE_REGION}.saucelabs.com:443/wd/hub"), capabilities);
+            appiumDriver = new AndroidDriver(new Uri($"https://ondemand.{SAUCE_REGION}.saucelabs.com:443/wd/hub"), capabilities);
 
     .. tab:: iOS
 
         .. code-block:: C#
 
-            appiumDriver = new IOSDriver<IOSElement>(new Uri($"https://ondemand.{SAUCE_REGION}.saucelabs.com:443/wd/hub"), capabilities);
+            appiumDriver = new IOSDriver(new Uri($"https://ondemand.{SAUCE_REGION}.saucelabs.com:443/wd/hub"), capabilities);
 ```
 
 **6. Connect the AltDriver**
@@ -712,7 +712,7 @@ Before running any tests, you are required to [upload the build to the designate
 
 - install Appium WebDriver
     ```
-    dotnet add package Appium.WebDriver --version 4.4.0
+    dotnet add package Appium.WebDriver --version 8.2.0
     ```
 
 **3. Set your SauceLabs credentials as environment variables**
@@ -802,13 +802,13 @@ In this file add code that will:
 
             .. code-block:: C#
 
-                appiumDriver = new AndroidDriver<AndroidElement>(new Uri("https://ondemand.eu-central-1.saucelabs.com:443/wd/hub"), options);
+                appiumDriver = new AndroidDriver(new Uri("https://ondemand.eu-central-1.saucelabs.com:443/wd/hub"), options);
 
         .. tab:: iOS
 
             .. code-block:: C#
 
-                appiumDriver = new IOSDriver<IOSElement>(new Uri("https://ondemand.eu-central-1.saucelabs.com:443/wd/hub"), options);
+                appiumDriver = new IOSDriver(new Uri("https://ondemand.eu-central-1.saucelabs.com:443/wd/hub"), options);
 
     ```
 
@@ -1029,7 +1029,7 @@ Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws
     ```
 - install necessary packages - run the following commands in your project`s terminal:
     ```c#
-    dotnet add package Appium.WebDriver --version 4.4.0 
+    dotnet add package Appium.WebDriver --version 8.2.0 
     dotnet add package Selenium.WebDriver --version 3.141.0
     ```
 - add Namespaces specific to Appium
@@ -1048,13 +1048,13 @@ Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws
 
                     .. code-block:: C#
 
-                        AndroidDriver<AndroidElement> appiumDriver;
+                        AndroidDriver appiumDriver;
                     
                 .. tab:: iOS
 
                     .. code-block:: C#
 
-                        IOSDriver<IOSElement> appiumDriver;
+                        IOSDriver appiumDriver;
         ```
     - define Appium Capabilities
         ```eval_rst
@@ -1089,7 +1089,7 @@ Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws
 
                     .. code-block:: C#
 
-                        appiumDriver = new AndroidDriver<AndroidElement>(appiumUri, capabilities, TimeSpan.FromSeconds(300));
+                        appiumDriver = new AndroidDriver(appiumUri, capabilities, TimeSpan.FromSeconds(300));
                     
                 .. tab:: iOS
 
@@ -1099,7 +1099,7 @@ Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws
 
                     .. code-block:: C#
 
-                        appiumDriver = new IOSDriver<IOSElement>(appiumUri, capabilities, TimeSpan.FromSeconds(300));
+                        appiumDriver = new IOSDriver(appiumUri, capabilities, TimeSpan.FromSeconds(300));
         ```
     - cleanup - the `DisposeAppium()` teardown method is called after the tests are complete. It quits the Appium driver
 - if using the **remote connection** in order to connect to AltTester® Desktop, don`t forget to add the IP/URL of the remote VM when defining AltDriver: 
@@ -1360,7 +1360,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
     - we need the Selenium Webdriver extension for Appium to establish a connection between our test script and the target mobile application
     - the other package, JunitXml.TestLogger is required to have test results generated and parsed nicely in BitBar’s UI.
     ```
-    dotnet add package Appium.WebDriver --version 4.3.1
+    dotnet add package Appium.WebDriver --version 8.2.0
     dotnet add package JunitXml.TestLogger --version 3.0.134
     ```
     - after installing the packages, you can see them in `.csproj` (check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/server-side-android-localhost/TestAlttrashCSharp.csproj))
@@ -1399,7 +1399,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
 
             .. code-block:: C#
 
-                public AndroidDriver<AndroidElement> appiumDriver;
+                public AndroidDriver appiumDriver;
 
             .. code-block:: C#
 
@@ -1412,7 +1412,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
 
             .. code-block:: C#
 
-                appiumDriver = new AndroidDriver<AndroidElement>(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(36000));
+                appiumDriver = new AndroidDriver(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(36000));
 
         .. tab:: iOS
 
@@ -1422,7 +1422,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
 
             .. code-block:: C#
 
-                public IOSDriver<IOSElement> appiumDriver;
+                public IOSDriver appiumDriver;
 
             .. code-block:: C#
 
@@ -1436,7 +1436,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
 
             .. code-block:: C#
 
-                appiumDriver = new IOSDriver<IOSElement>(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(36000));
+                appiumDriver = new IOSDriver(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(36000));
     ```
 
     - initialize AltDriver:
@@ -1584,7 +1584,7 @@ After you finish setting up the build, you need to use the **Archive** option to
     - we need the Selenium Webdriver extension for Appium to establish a connection between our test script and the target mobile application
     - in case you have not done it so far, add the AltTester-Driver package as well
     ```c#
-    dotnet add package Appium.WebDriver --version 4.3.1
+    dotnet add package Appium.WebDriver --version 8.2.0
     dotnet add package AltTester-Driver --version 2.2.6
     ```
     - after installing the packages, you can see them in `.csproj` (check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/client-side-ios/TestAlttrashCSharp.csproj))
@@ -1635,7 +1635,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 
             .. code-block:: C#
 
-                public AndroidDriver<AndroidElement> appiumDriver;
+                public AndroidDriver appiumDriver;
 
             .. code-block:: C#
 
@@ -1653,7 +1653,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 
             .. code-block:: C#
 
-                appiumDriver = new AndroidDriver<AndroidElement>(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(36000));
+                appiumDriver = new AndroidDriver(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(36000));
 
         .. tab:: iOS
 
@@ -1663,7 +1663,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 
             .. code-block:: C#
 
-                public IOSDriver<IOSElement> appiumDriver;
+                public IOSDriver appiumDriver;
 
             .. code-block:: C#
 
@@ -1681,7 +1681,7 @@ After you finish setting up the build, you need to use the **Archive** option to
 
             .. code-block:: C#
 
-                appiumDriver = new IOSDriver<IOSElement>(new Uri(""http://localhost:4723/wd/hub""), capabilities)
+                appiumDriver = new IOSDriver(new Uri(""http://localhost:4723/wd/hub""), capabilities)
 
     ```
     ```eval_rst
