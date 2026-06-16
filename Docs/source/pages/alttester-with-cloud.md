@@ -128,11 +128,11 @@ In this file add code that will:
                 browserstackOptions.Add("local", "true");
                 browserstackOptions.Add("userName", BROWSERSTACK_USERNAME);
                 browserstackOptions.Add("accessKey", BROWSERSTACK_ACCESS_KEY);
-                capabilities.AddAdditionalCapability("bstack:options", browserstackOptions);
-                capabilities.AddAdditionalCapability("platformName", "android");
-                capabilities.AddAdditionalCapability("platformVersion", "11.0");
-                capabilities.AddAdditionalCapability("appium:deviceName", "Samsung Galaxy S21");
-                capabilities.AddAdditionalCapability("appium:app", BROWSERSTACK_APP_ID_SDK_201);
+                capabilities.AddAdditionalAppiumOption("bstack:options", browserstackOptions);
+                capabilities.AddAdditionalAppiumOption("platformName", "android");
+                capabilities.AddAdditionalAppiumOption("platformVersion", "11.0");
+                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Samsung Galaxy S21");
+                capabilities.AddAdditionalAppiumOption("appium:app", BROWSERSTACK_APP_ID_SDK_201);
 
         .. tab:: iOS
 
@@ -147,11 +147,11 @@ In this file add code that will:
                 browserstackOptions.Add("local", "true");
                 browserstackOptions.Add("userName", BROWSERSTACK_USERNAME);
                 browserstackOptions.Add("accessKey", BROWSERSTACK_ACCESS_KEY);
-                capabilities.AddAdditionalCapability("bstack:options", browserstackOptions);
-                capabilities.AddAdditionalCapability("platformName", "ios");
-                capabilities.AddAdditionalCapability("platformVersion", "16");
-                capabilities.AddAdditionalCapability("appium:deviceName", "iPhone 14");
-                capabilities.AddAdditionalCapability("appium:app", BROWSERSTACK_APP_ID_SDK_201);
+                capabilities.AddAdditionalAppiumOption("bstack:options", browserstackOptions);
+                capabilities.AddAdditionalAppiumOption("platformName", "ios");
+                capabilities.AddAdditionalAppiumOption("platformVersion", "16");
+                capabilities.AddAdditionalAppiumOption("appium:deviceName", "iPhone 14");
+                capabilities.AddAdditionalAppiumOption("appium:app", BROWSERSTACK_APP_ID_SDK_201);
     ```
 
 - configure the local testing connection
@@ -352,11 +352,11 @@ In this file add code that will:
                 browserstackOptions.Add("local", "true");
                 browserstackOptions.Add("userName", BROWSERSTACK_USERNAME);
                 browserstackOptions.Add("accessKey", BROWSERSTACK_ACCESS_KEY);
-                capabilities.AddAdditionalCapability("bstack:options", browserstackOptions);
-                capabilities.AddAdditionalCapability("platformName", "android");
-                capabilities.AddAdditionalCapability("platformVersion", "11.0");
-                capabilities.AddAdditionalCapability("appium:deviceName", "Samsung Galaxy S21");
-                capabilities.AddAdditionalCapability("appium:app", BROWSERSTACK_APP_ID_SDK_201);
+                capabilities.AddAdditionalAppiumOption("bstack:options", browserstackOptions);
+                capabilities.AddAdditionalAppiumOption("platformName", "android");
+                capabilities.AddAdditionalAppiumOption("platformVersion", "11.0");
+                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Samsung Galaxy S21");
+                capabilities.AddAdditionalAppiumOption("appium:app", BROWSERSTACK_APP_ID_SDK_201);
 
         .. tab:: iOS
 
@@ -371,11 +371,11 @@ In this file add code that will:
                 browserstackOptions.Add("local", "true");
                 browserstackOptions.Add("userName", BROWSERSTACK_USERNAME);
                 browserstackOptions.Add("accessKey", BROWSERSTACK_ACCESS_KEY);
-                capabilities.AddAdditionalCapability("bstack:options", browserstackOptions);
-                capabilities.AddAdditionalCapability("platformName", "ios");
-                capabilities.AddAdditionalCapability("platformVersion", "16");
-                capabilities.AddAdditionalCapability("appium:deviceName", "iPhone 14");
-                capabilities.AddAdditionalCapability("appium:app", BROWSERSTACK_APP_ID_SDK_201);
+                capabilities.AddAdditionalAppiumOption("bstack:options", browserstackOptions);
+                capabilities.AddAdditionalAppiumOption("platformName", "ios");
+                capabilities.AddAdditionalAppiumOption("platformVersion", "16");
+                capabilities.AddAdditionalAppiumOption("appium:deviceName", "iPhone 14");
+                capabilities.AddAdditionalAppiumOption("appium:app", BROWSERSTACK_APP_ID_SDK_201);
 
     ```
 
@@ -581,10 +581,10 @@ Route the session through your tunnel by passing the tunnel name in `sauce:optio
         .. code-block:: C#
 
             AppiumOptions capabilities = new AppiumOptions();
-            capabilities.AddAdditionalCapability("platformName", "Android");
-            capabilities.AddAdditionalCapability("appium:app", SAUCE_APP_URL);
-            capabilities.AddAdditionalCapability("appium:deviceName", "Google Pixel.*");
-            capabilities.AddAdditionalCapability("appium:automationName", "UiAutomator2");
+            capabilities.AddAdditionalAppiumOption("platformName", "Android");
+            capabilities.AddAdditionalAppiumOption("appium:app", SAUCE_APP_URL);
+            capabilities.AddAdditionalAppiumOption("appium:deviceName", "Google Pixel.*");
+            capabilities.AddAdditionalAppiumOption("appium:automationName", "UiAutomator2");
 
             var sauceOptions = new Dictionary<string, object>();
             sauceOptions.Add("username", SAUCE_USERNAME);
@@ -592,18 +592,18 @@ Route the session through your tunnel by passing the tunnel name in `sauce:optio
             sauceOptions.Add("tunnelIdentifier", "alttester-tunnel");
             sauceOptions.Add("tunnelOwner", SAUCE_USERNAME);
             sauceOptions.Add("appiumVersion", "latest");
-            capabilities.AddAdditionalCapability("sauce:options", sauceOptions);
+            capabilities.AddAdditionalAppiumOption("sauce:options", sauceOptions);
 
     .. tab:: iOS
 
         .. code-block:: C#
 
             AppiumOptions capabilities = new AppiumOptions();
-            capabilities.AddAdditionalCapability("platformName", "iOS");
-            capabilities.AddAdditionalCapability("appium:app", SAUCE_APP_URL);
-            capabilities.AddAdditionalCapability("appium:deviceName", "iPhone 1[5-9].*");
-            capabilities.AddAdditionalCapability("appium:platformVersion", "18");
-            capabilities.AddAdditionalCapability("appium:automationName", "XCUITest");
+            capabilities.AddAdditionalAppiumOption("platformName", "iOS");
+            capabilities.AddAdditionalAppiumOption("appium:app", SAUCE_APP_URL);
+            capabilities.AddAdditionalAppiumOption("appium:deviceName", "iPhone 1[5-9].*");
+            capabilities.AddAdditionalAppiumOption("appium:platformVersion", "18");
+            capabilities.AddAdditionalAppiumOption("appium:automationName", "XCUITest");
 
             var sauceOptions = new Dictionary<string, object>();
             sauceOptions.Add("username", SAUCE_USERNAME);
@@ -611,7 +611,7 @@ Route the session through your tunnel by passing the tunnel name in `sauce:optio
             sauceOptions.Add("tunnelIdentifier", "alttester-tunnel");
             sauceOptions.Add("tunnelOwner", SAUCE_USERNAME);
             sauceOptions.Add("appiumVersion", "latest");
-            capabilities.AddAdditionalCapability("sauce:options", sauceOptions);
+            capabilities.AddAdditionalAppiumOption("sauce:options", sauceOptions);
 ```
 
 **5. Start the Appium driver**
@@ -745,14 +745,14 @@ In this file add code that will:
             .. code-block:: C#
 
                 AppiumOptions options = new AppiumOptions();
-                options.AddAdditionalCapability("platformName", "Android");
-                options.AddAdditionalCapability("appium:app","storage:filename=<buildName.apk>");
+                options.AddAdditionalAppiumOption("platformName", "Android");
+                options.AddAdditionalAppiumOption("appium:app","storage:filename=<buildName.apk>");
 
-                options.AddAdditionalCapability("appium:deviceName", "Samsung Galaxy S10 WQHD GoogleAPI Emulator");
+                options.AddAdditionalAppiumOption("appium:deviceName", "Samsung Galaxy S10 WQHD GoogleAPI Emulator");
 
-                options.AddAdditionalCapability("appium:platformVersion", "11.0");
-                options.AddAdditionalCapability("appium:deviceOrientation", "portrait");
-                options.AddAdditionalCapability("appium:automationName", "UiAutomator2");
+                options.AddAdditionalAppiumOption("appium:platformVersion", "11.0");
+                options.AddAdditionalAppiumOption("appium:deviceOrientation", "portrait");
+                options.AddAdditionalAppiumOption("appium:automationName", "UiAutomator2");
 
                 var sauceOptions = new Dictionary<string, object>();
                 sauceOptions.Add("appiumVersion", "2.0.0");
@@ -760,7 +760,7 @@ In this file add code that will:
                 sauceOptions.Add("accessKey", SAUCE_ACCESS_KEY); 
                 sauceOptions.Add("build", "<name of the build / any name you want for your test>");
                 sauceOptions.Add("name", "Test " + DateTime.Now.ToString("dd.MM - HH:mm"));
-                options.AddAdditionalCapability("sauce:options", sauceOptions);
+                options.AddAdditionalAppiumOption("sauce:options", sauceOptions);
 
 
         .. tab:: iOS
@@ -769,17 +769,17 @@ In this file add code that will:
 
                 AppiumOptions options = new AppiumOptions();
                 
-                options.AddAdditionalCapability("platformName", "iOS");
-                options.AddAdditionalCapability("appium:app", "storage:filename=<builName.ipa>");
+                options.AddAdditionalAppiumOption("platformName", "iOS");
+                options.AddAdditionalAppiumOption("appium:app", "storage:filename=<builName.ipa>");
                         
-                options.AddAdditionalCapability("appium:deviceName", "iPhone XR");
+                options.AddAdditionalAppiumOption("appium:deviceName", "iPhone XR");
                     
 
-                options.AddAdditionalCapability("appium:platformVersion", "16");
+                options.AddAdditionalAppiumOption("appium:platformVersion", "16");
                     
-                options.AddAdditionalCapability("appium:deviceOrientation", "portrait");
+                options.AddAdditionalAppiumOption("appium:deviceOrientation", "portrait");
 
-                options.AddAdditionalCapability("appium:automationName", "XCUITest");
+                options.AddAdditionalAppiumOption("appium:automationName", "XCUITest");
 
                 var sauceOptions = new Dictionary<string, object>();
                 sauceOptions.Add("appiumVersion", "2.0.0");
@@ -787,7 +787,7 @@ In this file add code that will:
                 sauceOptions.Add("accessKey", SAUCE_ACCESS_KEY); 
                 sauceOptions.Add("build", "<name of the build / any name you want for your test>");
                 sauceOptions.Add("name", "Test " + DateTime.Now.ToString("dd.MM - HH:mm"));
-                options.AddAdditionalCapability("sauce:options", sauceOptions);
+                options.AddAdditionalAppiumOption("sauce:options", sauceOptions);
 
     ```
 
@@ -1064,18 +1064,18 @@ Check [this article](https://alttester.com/running-c-tests-with-alttester-on-aws
 
                     .. code-block:: C#
 
-                        capabilities.AddAdditionalCapability("device", "Android");
-                        capabilities.AddAdditionalCapability("platformName", "Android");
-                        capabilities.AddAdditionalCapability("appActivity", "com.unity3d.player.UnityPlayerActivity");
+                        capabilities.AddAdditionalAppiumOption("device", "Android");
+                        capabilities.AddAdditionalAppiumOption("platformName", "Android");
+                        capabilities.AddAdditionalAppiumOption("appActivity", "com.unity3d.player.UnityPlayerActivity");
                     
                 .. tab:: iOS
 
                     .. code-block:: C#
 
-                        capabilities.AddAdditionalCapability("device", "iOS");
-                        capabilities.AddAdditionalCapability("platformName", "iOS");
-                        capabilities.AddAdditionalCapability("appPackage", "fi.altom.trashcat");
-                        capabilities.AddAdditionalCapability("autoAcceptAlerts" ,true);
+                        capabilities.AddAdditionalAppiumOption("device", "iOS");
+                        capabilities.AddAdditionalAppiumOption("platformName", "iOS");
+                        capabilities.AddAdditionalAppiumOption("appPackage", "fi.altom.trashcat");
+                        capabilities.AddAdditionalAppiumOption("autoAcceptAlerts" ,true);
         ```
     - driver initialization and wait
         ```eval_rst
@@ -1136,7 +1136,7 @@ Keep in mind that the setup is different for Android and iOS.
     - install necessary packages for running the C# tests
         ```
         - dotnet add package NUnit --version 3.13.3
-        - dotnet add package AltTester-Driver -- version 2.2.6 
+        - dotnet add package AltTester-Driver --version 2.3.2 
         - dotnet add package Selenium.WebDriver -- version 3.141.0
         - dotnet add package NUnit3TestAdapter --version 4.4.2
         ```
@@ -1404,11 +1404,11 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
             .. code-block:: C#
 
                 string appPath = System.Environment.CurrentDirectory + "/../../../application.apk";
-                capabilities.AddAdditionalCapability("appium:app", appPath);
-                capabilities.AddAdditionalCapability("appium:deviceName", "Android Phone");
-                capabilities.AddAdditionalCapability("platformName", "Android");
-                capabilities.AddAdditionalCapability("automationName", "UIAutomator2");
-                capabilities.AddAdditionalCapability("newCommandTimeout", 2000);
+                capabilities.AddAdditionalAppiumOption("appium:app", appPath);
+                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Android Phone");
+                capabilities.AddAdditionalAppiumOption("platformName", "Android");
+                capabilities.AddAdditionalAppiumOption("automationName", "UIAutomator2");
+                capabilities.AddAdditionalAppiumOption("newCommandTimeout", 2000);
 
             .. code-block:: C#
 
@@ -1426,13 +1426,13 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
 
             .. code-block:: C#
 
-                capabilities.AddAdditionalCapability("appium:deviceName", "Apple iPhone SE 2020 A2296 13.4.1");
-                capabilities.AddAdditionalCapability("platformName", "iOS");
-                capabilities.AddAdditionalCapability("appium:automationName", "XCUITest");
-                capabilities.AddAdditionalCapability("appium:bundleId", "fi.altom.trashcat");
-                capabilities.AddAdditionalCapability("platformVersion", "13.4");
-                capabilities.AddAdditionalCapability("autoAcceptAlerts","true");
-                capabilities.AddAdditionalCapability("newCommandTimeout", 2000);                
+                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Apple iPhone SE 2020 A2296 13.4.1");
+                capabilities.AddAdditionalAppiumOption("platformName", "iOS");
+                capabilities.AddAdditionalAppiumOption("appium:automationName", "XCUITest");
+                capabilities.AddAdditionalAppiumOption("appium:bundleId", "fi.altom.trashcat");
+                capabilities.AddAdditionalAppiumOption("platformVersion", "13.4");
+                capabilities.AddAdditionalAppiumOption("autoAcceptAlerts","true");
+                capabilities.AddAdditionalAppiumOption("newCommandTimeout", 2000);                
 
             .. code-block:: C#
 
@@ -1585,7 +1585,7 @@ After you finish setting up the build, you need to use the **Archive** option to
     - in case you have not done it so far, add the AltTester-Driver package as well
     ```c#
     dotnet add package Appium.WebDriver --version 8.2.0
-    dotnet add package AltTester-Driver --version 2.2.6
+    dotnet add package AltTester-Driver --version 2.3.2
     ```
     - after installing the packages, you can see them in `.csproj` (check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/client-side-ios/TestAlttrashCSharp.csproj))
 
@@ -1639,17 +1639,17 @@ After you finish setting up the build, you need to use the **Archive** option to
 
             .. code-block:: C#
 
-                capabilities.AddAdditionalCapability("platformName", "Android");
-                capabilities.AddAdditionalCapability("appium:deviceName", "Android");                
-                capabilities.AddAdditionalCapability("automationName", "UIAutomator2");
-                capabilities.AddAdditionalCapability("newCommandTimeout", 2000);
+                capabilities.AddAdditionalAppiumOption("platformName", "Android");
+                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Android");                
+                capabilities.AddAdditionalAppiumOption("automationName", "UIAutomator2");
+                capabilities.AddAdditionalAppiumOption("newCommandTimeout", 2000);
 
             .. code-block:: C#
 
-                capabilities.AddAdditionalCapability("bitbar_apiKey", BITBAR_APIKEY);
-                capabilities.AddAdditionalCapability("bitbar_project", "client-side: AltTester® Server on custom host; Android");
-                capabilities.AddAdditionalCapability("bitbar_testrun", "Start Page Tests on Samsung");
-                capabilities.AddAdditionalCapability("bitbar_app", BITBAR_APP_ID_SDK_202);
+                capabilities.AddAdditionalAppiumOption("bitbar_apiKey", BITBAR_APIKEY);
+                capabilities.AddAdditionalAppiumOption("bitbar_project", "client-side: AltTester® Server on custom host; Android");
+                capabilities.AddAdditionalAppiumOption("bitbar_testrun", "Start Page Tests on Samsung");
+                capabilities.AddAdditionalAppiumOption("bitbar_app", BITBAR_APP_ID_SDK_202);
 
             .. code-block:: C#
 
@@ -1667,17 +1667,17 @@ After you finish setting up the build, you need to use the **Archive** option to
 
             .. code-block:: C#
 
-                capabilities.AddAdditionalCapability("platformName", "iOS");
-                capabilities.AddAdditionalCapability("appium:deviceName", "Apple iPhone SE 2020 A2296 13.4.1");
-                capabilities.AddAdditionalCapability("appium:automationName", "XCUITest");
-                capabilities.AddAdditionalCapability("appium:bundleId", "fi.altom.trashcat");
+                capabilities.AddAdditionalAppiumOption("platformName", "iOS");
+                capabilities.AddAdditionalAppiumOption("appium:deviceName", "Apple iPhone SE 2020 A2296 13.4.1");
+                capabilities.AddAdditionalAppiumOption("appium:automationName", "XCUITest");
+                capabilities.AddAdditionalAppiumOption("appium:bundleId", "fi.altom.trashcat");
 
             .. code-block:: C#
 
-                capabilities.AddAdditionalCapability("bitbar_apiKey", BITBAR_APIKEY);
-                capabilities.AddAdditionalCapability("bitbar_project", "client-side: AltTester® Server on custom host; iOS");
-                capabilities.AddAdditionalCapability("bitbar_testrun", "Start Page Tests on Apple iPhone SE 2020 A2296 13.4.1");
-                capabilities.AddAdditionalCapability("bitbar_app", BITBAR_APP_ID_SDK_202_IPA);
+                capabilities.AddAdditionalAppiumOption("bitbar_apiKey", BITBAR_APIKEY);
+                capabilities.AddAdditionalAppiumOption("bitbar_project", "client-side: AltTester® Server on custom host; iOS");
+                capabilities.AddAdditionalAppiumOption("bitbar_testrun", "Start Page Tests on Apple iPhone SE 2020 A2296 13.4.1");
+                capabilities.AddAdditionalAppiumOption("bitbar_app", BITBAR_APP_ID_SDK_202_IPA);
 
             .. code-block:: C#
 
