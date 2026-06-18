@@ -95,11 +95,11 @@ In the following sections you can see a breakdown of all the sections in the GUI
     - MacOS: Press <kbd>Ctrl</kbd> + <kbd>Opt</kbd> + <kbd>T</kbd>
     - Mobile (Android/iOS): Hold three fingers on the screen for one second. 
 
-- *Show Native Popup Option*
+- *Show Native Popup Option* [Non-GPL]
 
     Determines whether the native popup is displayed at startup on Android, iOS, and WebGL platforms. This popup allows changing connection data through Appium or Selenium.
 
-- *Secure Mode (WSS)*
+- *Secure Mode (WSS)* [Non-GPL]
 
     Enables or disables secure communication between the instrumented application
     and the AltTester® Server.
