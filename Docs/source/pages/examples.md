@@ -42,7 +42,7 @@ We plan to add more examples in the near future.
 * C# tests [LeanTouch](https://github.com/alttester/EXAMPLES-NewInputSystem--LeanTouch-CSharp)
 * C# tests [RollABall](https://github.com/alttester/EXAMPLES-NewInputSystem--RollABall-CSharp)  
 
-**4.** Example test projects for AltTester® Unity SDK for a project that uses UIToolkit:
+**4.** Example test projects for AltTester® Unity SDK for a project that uses UIToolkit [Non-GPL]:
 
 * C# tests [DragonCrasher](https://github.com/alttester/Example-CSharp-Standalone-DragonCrasher): This project demonstrates how to write and run automated tests using AltTester® in a Unity project that utilizes UI Toolkit. It includes pre-written tests that interact with Unity UI elements and validate behaviors. Follow the provided setup instructions to build the project and execute the tests.
 

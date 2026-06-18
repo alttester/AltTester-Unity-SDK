@@ -152,8 +152,8 @@ In BrowserStack can't connect iOS devices with version greater than 16 to AltTes
 
 **Affects**: AltTester® Unity SDK v2.x
 
-UI Toolkit
-----------
+UI Toolkit [Non-GPL]
+--------------------
 
 Input actions become unresponsive after using modifier keys and shifting application focus.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
