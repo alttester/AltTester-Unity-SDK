@@ -58,11 +58,13 @@ public static class AltProxyFinderPostProcess
             project.AddFrameworkToProject(unityFrameworkGuid, "CFNetwork.framework", false);
 
             // Explicitly link libNativeInputDialog.xcframework to UnityFramework so that IOS_ShowNativeInput
-            // is accessible at runtime. Unity links plugins to Unity-iPhone by default; symbols
+            // is accessible at runtime. Unity links xcframeworks to Unity-iPhone by default; symbols
             // in the main executable are not exported to the embedded UnityFramework dynamic library,
             // which causes a "missing symbol called" dyld crash when the symbol is invoked.
-            string nativeDialogLibGuid = project.FindFileGuidByProjectPath(
-                "Libraries/AltTester/Runtime/Plugins/iOS/libNativeInputDialog.xcframework");
+            // xcframeworks land under Frameworks/ (not Libraries/); path varies by install method.
+            string nativeDialogLibGuid = FindLibGuid(project,
+                "Frameworks/AltTester/Runtime/Plugins/iOS/libNativeInputDialog.xcframework",
+                "Frameworks/com.alttester.sdk/Runtime/Plugins/iOS/libNativeInputDialog.xcframework");
             if (!string.IsNullOrEmpty(nativeDialogLibGuid))
             {
                 project.AddFileToBuild(unityFrameworkGuid, nativeDialogLibGuid);
@@ -75,8 +77,9 @@ public static class AltProxyFinderPostProcess
 
             // Explicitly link libAltProxyFinder.xcframework to UnityFramework so that _getProxy
             // is accessible at runtime.
-            string proxyFinderLibGuid = project.FindFileGuidByProjectPath(
-                "Libraries/AltTester/Runtime/AltDriver/Proxy/Plugins/iOS/AltProxyFinder/libAltProxyFinder.xcframework");
+            string proxyFinderLibGuid = FindLibGuid(project,
+                "Frameworks/AltTester/Runtime/AltDriver/Proxy/Plugins/iOS/AltProxyFinder/libAltProxyFinder.xcframework",
+                "Frameworks/com.alttester.sdk/Runtime/AltDriver/Proxy/Plugins/iOS/AltProxyFinder/libAltProxyFinder.xcframework");
             if (!string.IsNullOrEmpty(proxyFinderLibGuid))
             {
                 project.AddFileToBuild(unityFrameworkGuid, proxyFinderLibGuid);
@@ -131,6 +134,17 @@ public static class AltProxyFinderPostProcess
         }
 
         Debug.Log("OnPostProcessBuild: Complete");
+    }
+
+    private static string FindLibGuid(PBXProject project, params string[] candidatePaths)
+    {
+        foreach (var path in candidatePaths)
+        {
+            string guid = project.FindFileGuidByProjectPath(path);
+            if (!string.IsNullOrEmpty(guid))
+                return guid;
+        }
+        return null;
     }
 }
 #endif
