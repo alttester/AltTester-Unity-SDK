@@ -1,18 +1,5 @@
 /*
     Copyright(C) 2026 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 package com.alttester;
@@ -62,14 +49,10 @@ public class MessageHandler implements IMessageHandler {
 
   private Queue<AltMessageResponse> responses = new LinkedList<AltMessageResponse>();
 
-  private List<INotificationCallbacks> loadSceneNotificationList =
-      new ArrayList<INotificationCallbacks>();
-  private List<INotificationCallbacks> unloadSceneNotificationList =
-      new ArrayList<INotificationCallbacks>();
-  private List<INotificationCallbacks> logNotificationList =
-      new ArrayList<INotificationCallbacks>();
-  private List<INotificationCallbacks> applicationPausedNotificationList =
-      new ArrayList<INotificationCallbacks>();
+  private List<INotificationCallbacks> loadSceneNotificationList = new ArrayList<INotificationCallbacks>();
+  private List<INotificationCallbacks> unloadSceneNotificationList = new ArrayList<INotificationCallbacks>();
+  private List<INotificationCallbacks> logNotificationList = new ArrayList<INotificationCallbacks>();
+  private List<INotificationCallbacks> applicationPausedNotificationList = new ArrayList<INotificationCallbacks>();
 
   private List<String> messageIdTimeout = new ArrayList<String>();
 
@@ -94,7 +77,8 @@ public class MessageHandler implements IMessageHandler {
   }
 
   public void setImplicitTimeout(double value) {
-    if (value < 0) throw new IllegalArgumentException("Timeout cannot be negative");
+    if (value < 0)
+      throw new IllegalArgumentException("Timeout cannot be negative");
     implicitTimeout = value;
   }
 
@@ -129,7 +113,7 @@ public class MessageHandler implements IMessageHandler {
       }
 
       if ((responseMessage.error == null
-              || responseMessage.error.type != AltErrors.errorInvalidCommand)
+          || responseMessage.error.type != AltErrors.errorInvalidCommand)
           && (!responseMessage.messageId.equals(data.messageId())
               || !responseMessage.commandName.equals(data.getCommandName()))) {
         throw new AltRecvallException(
@@ -171,8 +155,8 @@ public class MessageHandler implements IMessageHandler {
   private void handleNotification(AltMessageResponse message) {
     switch (message.commandName) {
       case "loadSceneNotification":
-        AltLoadSceneNotificationResultParams data =
-            new Gson().fromJson(message.data, AltLoadSceneNotificationResultParams.class);
+        AltLoadSceneNotificationResultParams data = new Gson().fromJson(message.data,
+            AltLoadSceneNotificationResultParams.class);
         for (INotificationCallbacks callback : loadSceneNotificationList) {
           callback.SceneLoadedCallBack(data);
         }
@@ -184,8 +168,7 @@ public class MessageHandler implements IMessageHandler {
         }
         break;
       case "logNotification":
-        AltLogNotificationResultParams data1 =
-            new Gson().fromJson(message.data, AltLogNotificationResultParams.class);
+        AltLogNotificationResultParams data1 = new Gson().fromJson(message.data, AltLogNotificationResultParams.class);
         for (INotificationCallbacks callback : logNotificationList) {
           callback.LogCallBack(data1);
         }

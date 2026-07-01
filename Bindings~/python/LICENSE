@@ -15,8 +15,8 @@ The Software Product is owned exclusively by Licensor and is proprietary in natu
 (b) deliver a copy of the Software Product to a single client as part of a proof-of-concept or reference implementation, provided that (i) Licensee ensures that the client holds, or will obtain, a valid AltTester® software subscription covering their use of the Software Product; (ii) the Software Product is delivered unmodified; and (iii) the delivery is not made through any public channel described in §3.2(c).
 (c) integrate the Software Product into your own internal software tools or test automation pipelines. Any distribution, bundling, or making available of such integration to third parties outside the scope of Section 3.1(a) or Section 3.1(b) requires the prior written consent of Licensor.
 3.2 You may not:
-(a) use the Software Product without a valid AltTester® software subscription — Community,
-Pro or Enterprise — obtained from Licensor;
+(a) use the Software Product without a valid AltTester® software subscription — Lite or
+Pro — obtained from Licensor;
 (b) sublicense, rent, lease, give or transfer any rights in the Software Product or
 accompanying documentation in any form to any person or entity without the prior written
 consent of Licensor;
@@ -39,7 +39,7 @@ termination of this License and will make available to Licensor any and all othe
 whether in law or in equity.
 4. Term of License
 This License will be effective from the date you obtain a valid AltTester® software subscription
-(Community, Pro, or Enterprise) from Licensor and shall remain in force until (a) the expiration
+(Lite or Pro) from Licensor and shall remain in force until (a) the expiration
 or termination of your AltTester® software subscription; or (b) Licensor otherwise terminates this
 agreement, whichever is earlier. Upon termination you agree to destroy all copies of the
 Software Product and its documentation including any Software Products stored on the hard

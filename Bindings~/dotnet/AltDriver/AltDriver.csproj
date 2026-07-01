@@ -4,7 +4,7 @@
         <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
         <RootNamespace>AltTester.AltTester-Driver</RootNamespace>
         <IsPackable>true</IsPackable>
-        <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">2.3.2</PackageVersion>
+        <PackageVersion Condition="'$(PACKAGE_VERSION)' == ''">2.3.3</PackageVersion>
         <PackageVersion Condition="'$(PACKAGE_VERSION)' != ''">$(PACKAGE_VERSION)</PackageVersion>
         <Title>AltTester-Driver</Title>
         <Description>
@@ -16,6 +16,7 @@
         <Authors> Altom </Authors>
 
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageLicenseUrl>https://alttester.com/app/uploads/AltTester/sdks/alttester/LICENSE</PackageLicenseUrl>
         <copyright>© Altom</copyright>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <PackageProjectUrl>https://github.com/alttester/AltTester-Unity-SDK</PackageProjectUrl>

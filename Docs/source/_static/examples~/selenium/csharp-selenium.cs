@@ -1,5 +1,5 @@
-using AltTester.AltTesterSDK.Driver;
 using OpenQA.Selenium.Chrome;
+using AltTester.AltTesterSDK.Driver;
 
 public class MyFirstTest
 {
@@ -16,7 +16,7 @@ public class MyFirstTest
         string appName = "__default__";
         string altServerHost = "127.0.0.1";
         string altServerPort = "13000";
-
+        
         SetConnectionData(altServerHost, altServerPort, appName);
 
         // Initialize AltDriver

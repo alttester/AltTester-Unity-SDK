@@ -1,18 +1,5 @@
 /*
     Copyright(C) 2026 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 package com.alttester.Commands.FindObject;
@@ -23,13 +10,15 @@ import com.alttester.Utils;
 import com.alttester.altTesterExceptions.AltException;
 
 /**
- * Wait until the object in the scene that respect the given criteria is no longer in the scene or
+ * Wait until the object in the scene that respect the given criteria is no
+ * longer in the scene or
  * times run out and will throw an error.
  */
 public class AltWaitForObjectToNotBePresent extends AltBaseFindObject {
 
   /**
-   * @param altWaitForObjectsParameters the properties parameter for finding the objects in a scene.
+   * @param altWaitForObjectsParameters the properties parameter for finding the
+   *                                    objects in a scene.
    */
   private AltWaitForObjectsParams altWaitForObjectsParameters;
 
@@ -49,10 +38,9 @@ public class AltWaitForObjectToNotBePresent extends AltBaseFindObject {
               + altWaitForObjectsParameters.getAltFindObjectsParameters().getPath()
               + " not to be present");
       try {
-        altElement =
-            new AltFindObject(
-                    messageHandler, altWaitForObjectsParameters.getAltFindObjectsParameters())
-                .Execute();
+        altElement = new AltFindObject(
+            messageHandler, altWaitForObjectsParameters.getAltFindObjectsParameters())
+            .Execute();
         if (altElement == null) {
           return;
         }
