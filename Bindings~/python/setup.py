@@ -53,6 +53,7 @@ setup(
     install_requires=REQUIRED,
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
+    license_files=[],
 
     classifiers=[
         "Development Status :: 5 - Production/Stable",
