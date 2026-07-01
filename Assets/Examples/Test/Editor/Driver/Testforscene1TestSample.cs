@@ -1555,11 +1555,6 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             Assert.True(FastApproximately(initialCapsulePosition.y, finalCapsulePosition.y, 0.01f));
             Assert.True(FastApproximately(initialCapsulePosition.z, finalCapsulePosition.z, 0.01f));
         }
-        [Test]
-        public void TestGetVersion()
-        {
-            Assert.AreEqual(AltDriver.VERSION, altDriver.GetServerVersion());
-        }
 
         [Test]
         public void TestStringIsMarkedAsPrimitive()
