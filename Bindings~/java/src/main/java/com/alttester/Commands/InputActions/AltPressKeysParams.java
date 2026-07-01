@@ -1,18 +1,5 @@
 /*
     Copyright(C) 2026 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 package com.alttester.Commands.InputActions;
@@ -35,8 +22,9 @@ public class AltPressKeysParams extends AltMessage {
     }
 
     /**
-     * @param duration The time measured in seconds from the key press to the key release. Defaults
-     *     to <code>0.1</code>
+     * @param duration The time measured in seconds from the key press to the key
+     *                 release. Defaults
+     *                 to <code>0.1</code>
      */
     public AltPressKeysParams.Builder withDuration(float duration) {
       this.duration = duration;
@@ -44,8 +32,9 @@ public class AltPressKeysParams extends AltMessage {
     }
 
     /**
-     * @param power A value between [-1,1] used for joysticks to indicate how hard the button was
-     *     pressed. Defaults to <code>1</code>
+     * @param power A value between [-1,1] used for joysticks to indicate how hard
+     *              the button was
+     *              pressed. Defaults to <code>1</code>
      */
     public AltPressKeysParams.Builder withPower(float power) {
       this.power = power;
@@ -71,7 +60,8 @@ public class AltPressKeysParams extends AltMessage {
     }
   }
 
-  private AltPressKeysParams() {}
+  private AltPressKeysParams() {
+  }
 
   private AltKeyCode[] keyCodes;
   private float power;

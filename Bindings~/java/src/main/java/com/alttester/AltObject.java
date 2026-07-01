@@ -1,18 +1,5 @@
 /*
     Copyright(C) 2026 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 package com.alttester;
@@ -57,7 +44,8 @@ public class AltObject {
     this.messageHandler = messageHandler;
   }
 
-  public AltObject() {}
+  public AltObject() {
+  }
 
   public AltObject(
       String name,
@@ -91,8 +79,8 @@ public class AltObject {
   }
 
   public AltObject UpdateObject() {
-    AltFindObjectsParams altFindObjectsParameters =
-        new AltFindObjectsParams.Builder(By.ID, String.valueOf(this.id)).build();
+    AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(By.ID, String.valueOf(this.id))
+        .build();
     AltObject altObject = new AltFindObject(messageHandler, altFindObjectsParameters).Execute();
     this.x = altObject.x;
     this.y = altObject.y;
@@ -119,21 +107,21 @@ public class AltObject {
    * @return - The parent object
    */
   public AltObject getParent() {
-    AltFindObjectsParams altFindObjectsParameters =
-        new AltFindObjectsParams.Builder(By.PATH, "//*[@id=" + this.id + "]/..").build();
+    AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(By.PATH,
+        "//*[@id=" + this.id + "]/..").build();
     AltObject response = new AltFindObject(messageHandler, altFindObjectsParameters).Execute();
     Utils.sleepFor(messageHandler.getDelayAfterCommand());
     return response;
   }
 
   /**
-   * Returns the child that satisfies the conditions of the AltTester® object on which it is called
+   * Returns the child that satisfies the conditions of the AltTester® object on
+   * which it is called
    *
    * @return - The child object
    */
   public AltObject findObjectFromObject(AltFindObjectsParams altFindObjectsParams) {
-    AltObject response =
-        new AltFindObjectFromObject(messageHandler, altFindObjectsParams, this).Execute();
+    AltObject response = new AltFindObjectFromObject(messageHandler, altFindObjectsParams, this).Execute();
     Utils.sleepFor(messageHandler.getDelayAfterCommand());
     return response;
   }
@@ -161,29 +149,32 @@ public class AltObject {
   /**
    * Returns the value of the given component property.
    *
-   * @param altGetComponentPropertyParameters - String componentName* , String propertyName* ,
-   *     String assembly , int maxDepth
+   * @param altGetComponentPropertyParameters - String componentName* , String
+   *                                          propertyName* ,
+   *                                          String assembly , int maxDepth
    * @return - The value of the given component property
    */
   public <T> T getComponentProperty(
       AltGetComponentPropertyParams altGetComponentPropertyParameters, Class<T> returnType) {
     altGetComponentPropertyParameters.setAltObject(this);
-    T response =
-        new AltGetComponentProperty(messageHandler, altGetComponentPropertyParameters)
-            .Execute(returnType);
+    T response = new AltGetComponentProperty(messageHandler, altGetComponentPropertyParameters)
+        .Execute(returnType);
     Utils.sleepFor(messageHandler.getDelayAfterCommand());
     return response;
   }
 
   /**
-   * Wait until a property has a specific value and returns the value of the given component
+   * Wait until a property has a specific value and returns the value of the given
+   * component
    * property.
    *
    * @param altWaitForComponentPropertyParams -AltGetComponentPropertyParams
-   *     altGetComponentPropertyParams* , double timeout , double interval , T propertyValue* ,
-   *     AltObject obj*.
-   * @param propertyValue - The value of the property expected
-   * @param returnType - The type of the property
+   *                                          altGetComponentPropertyParams* ,
+   *                                          double timeout , double interval , T
+   *                                          propertyValue* ,
+   *                                          AltObject obj*.
+   * @param propertyValue                     - The value of the property expected
+   * @param returnType                        - The type of the property
    * @return - The value of the given component property
    */
   @Deprecated
@@ -203,10 +194,9 @@ public class AltObject {
     if (this.messageHandler.getImplicitTimeout() != -1
         && altWaitForComponentPropertyParams.getTimeout() == 20)
       altWaitForComponentPropertyParams.setTimeout(this.messageHandler.getImplicitTimeout());
-    T response =
-        new AltWaitForComponentProperty<T>(
-                messageHandler, altWaitForComponentPropertyParams, propertyValue, this)
-            .Execute(returnType);
+    T response = new AltWaitForComponentProperty<T>(
+        messageHandler, altWaitForComponentPropertyParams, propertyValue, this)
+        .Execute(returnType);
     Utils.sleepFor(messageHandler.getDelayAfterCommand());
     return response;
   }
@@ -221,14 +211,13 @@ public class AltObject {
     if (this.messageHandler.getImplicitTimeout() != -1
         && altWaitForComponentPropertyParams.getTimeout() == 20)
       altWaitForComponentPropertyParams.setTimeout(this.messageHandler.getImplicitTimeout());
-    T response =
-        new AltWaitForComponentProperty<T>(
-                messageHandler,
-                altWaitForComponentPropertyParams,
-                propertyValue,
-                getPropertyAsString,
-                this)
-            .Execute(returnType);
+    T response = new AltWaitForComponentProperty<T>(
+        messageHandler,
+        altWaitForComponentPropertyParams,
+        propertyValue,
+        getPropertyAsString,
+        this)
+        .Execute(returnType);
     Utils.sleepFor(messageHandler.getDelayAfterCommand());
     return response;
   }
@@ -236,8 +225,9 @@ public class AltObject {
   /**
    * Sets value of the given component property.
    *
-   * @param altSetComponentPropertyParameters - String componentName* , String propertyName* ,
-   *     String assembly , String value*
+   * @param altSetComponentPropertyParameters - String componentName* , String
+   *                                          propertyName* ,
+   *                                          String assembly , String value*
    */
   public void setComponentProperty(
       AltSetComponentPropertyParams altSetComponentPropertyParameters) {
@@ -249,23 +239,25 @@ public class AltObject {
   /**
    * Invokes a method from an existing component of the object.
    *
-   * @param altCallComponentMethodParameters - String componentName* , String methodName* , Object[]
-   *     parameters*, String[] typeOfParameters , String assembly
+   * @param altCallComponentMethodParameters - String componentName* , String
+   *                                         methodName* , Object[]
+   *                                         parameters*, String[]
+   *                                         typeOfParameters , String assembly
    * @param returnType
    * @return Actions of the method invoked
    */
   public <T> T callComponentMethod(
       AltCallComponentMethodParams altCallComponentMethodParameters, Class<T> returnType) {
     altCallComponentMethodParameters.setAltObject(this);
-    T response =
-        new AltCallComponentMethod(messageHandler, altCallComponentMethodParameters)
-            .Execute(returnType);
+    T response = new AltCallComponentMethod(messageHandler, altCallComponentMethodParameters)
+        .Execute(returnType);
     Utils.sleepFor(messageHandler.getDelayAfterCommand());
     return response;
   }
 
   /**
-   * Returns text value from a Button, Text, InputField. This also works with TextMeshPro elements.
+   * Returns text value from a Button, Text, InputField. This also works with
+   * TextMeshPro elements.
    *
    * @return Text value
    */
@@ -277,7 +269,8 @@ public class AltObject {
   }
 
   /**
-   * Sets text value for a Button, Text, InputField. This also works with TextMeshPro elements.
+   * Sets text value for a Button, Text, InputField. This also works with
+   * TextMeshPro elements.
    *
    * @param text
    * @return Element that have text value changed
@@ -292,7 +285,8 @@ public class AltObject {
   }
 
   /**
-   * Sets text value for a Button, Text, InputField. This also works with TextMeshPro elements.
+   * Sets text value for a Button, Text, InputField. This also works with
+   * TextMeshPro elements.
    *
    * @param parameters
    * @return Element that have text value changed
@@ -384,8 +378,7 @@ public class AltObject {
   }
 
   private AltObject sendActionAndEvaluateResult(String command) {
-    AltObject response =
-        new AltSendActionAndEvaluateResult(messageHandler, this, command).Execute();
+    AltObject response = new AltSendActionAndEvaluateResult(messageHandler, this, command).Execute();
     Utils.sleepFor(messageHandler.getDelayAfterCommand());
     return response;
   }
@@ -394,8 +387,8 @@ public class AltObject {
    * Retrieves the specified property value of a VisualElement object.
    *
    * @param propertyName The name of the property to retrieve.
-   * @param returnType The expected return type of the property value.
-   * @param <T> The type of the property value.
+   * @param returnType   The expected return type of the property value.
+   * @param <T>          The type of the property value.
    * @return The value of the specified property.
    * @throws WrongAltObjectTypeException if the object type is not "UIToolkit".
    */
@@ -404,12 +397,11 @@ public class AltObject {
       throw new WrongAltObjectTypeException(
           "This method is only available for VisualElement objects");
     }
-    AltGetVisualElementProperyParams altGetVisualElementPropertyParams =
-        new AltGetVisualElementProperyParams.Builder(propertyName).build();
+    AltGetVisualElementProperyParams altGetVisualElementPropertyParams = new AltGetVisualElementProperyParams.Builder(
+        propertyName).build();
     altGetVisualElementPropertyParams.setAltObject(this);
-    T propertyValue =
-        new AltGetVisualElementProperty(messageHandler, altGetVisualElementPropertyParams)
-            .Execute(returnType);
+    T propertyValue = new AltGetVisualElementProperty(messageHandler, altGetVisualElementPropertyParams)
+        .Execute(returnType);
 
     Utils.sleepFor(messageHandler.getDelayAfterCommand());
     return propertyValue;
@@ -435,14 +427,13 @@ public class AltObject {
     if (this.messageHandler.getImplicitTimeout() != -1
         && altWaitForVisualElementPropertyParams.getTimeout() == 20)
       altWaitForVisualElementPropertyParams.setTimeout(this.messageHandler.getImplicitTimeout());
-    T response =
-        new AltWaitForVisualElementProperty<T>(
-                messageHandler,
-                altWaitForVisualElementPropertyParams,
-                propertyValue,
-                getPropertyAsString,
-                this)
-            .Execute(returnType);
+    T response = new AltWaitForVisualElementProperty<T>(
+        messageHandler,
+        altWaitForVisualElementPropertyParams,
+        propertyValue,
+        getPropertyAsString,
+        this)
+        .Execute(returnType);
     Utils.sleepFor(messageHandler.getDelayAfterCommand());
     return response;
   }

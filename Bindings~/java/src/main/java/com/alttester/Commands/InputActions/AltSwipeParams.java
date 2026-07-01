@@ -1,18 +1,5 @@
 /*
     Copyright(C) 2026 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 package com.alttester.Commands.InputActions;
@@ -29,7 +16,7 @@ public class AltSwipeParams extends AltMessage {
 
     /**
      * @param start Coordinates of the screen where the swipe begins.
-     * @param end Coordinates of the screen where the swipe ends.
+     * @param end   Coordinates of the screen where the swipe ends.
      */
     public Builder(Vector2 start, Vector2 end) {
       this.start = start;
@@ -53,7 +40,8 @@ public class AltSwipeParams extends AltMessage {
     }
 
     /**
-     * @param duration The time measured in seconds to move the mouse from start to end location
+     * @param duration The time measured in seconds to move the mouse from start to
+     *                 end location
      */
     public AltSwipeParams.Builder withDuration(float duration) {
       this.duration = duration;

@@ -1,18 +1,5 @@
 /*
     Copyright(C) 2026 Altom Consulting
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
 package com.alttester.Commands.InputActions;
@@ -26,10 +13,12 @@ public class AltScrollParams extends AltMessage {
     private float duration = 0.1f;
     private boolean wait = true;
 
-    public Builder() {}
+    public Builder() {
+    }
 
     /**
-     * @param duration The duration of the scroll in seconds. Defaults to <code> 0.1 </code>
+     * @param duration The duration of the scroll in seconds. Defaults to
+     *                 <code> 0.1 </code>
      */
     public AltScrollParams.Builder withDuration(float duration) {
       this.duration = duration;
@@ -37,8 +26,9 @@ public class AltScrollParams extends AltMessage {
     }
 
     /**
-     * @param speed Set how fast to scroll. Positive values will scroll up and negative values will
-     *     scroll down. Defaults to <code> 1 </code>
+     * @param speed Set how fast to scroll. Positive values will scroll up and
+     *              negative values will
+     *              scroll down. Defaults to <code> 1 </code>
      */
     public AltScrollParams.Builder withSpeed(float speed) {
       this.speed = speed;
@@ -46,7 +36,8 @@ public class AltScrollParams extends AltMessage {
     }
 
     /**
-     * @param speed Set how fast to scroll right or left. Defaults to <code> 1 </code>
+     * @param speed Set how fast to scroll right or left. Defaults to
+     *              <code> 1 </code>
      */
     public AltScrollParams.Builder withHorizontalSpeed(float speed) {
       this.speedHorizontal = speed;
@@ -71,7 +62,8 @@ public class AltScrollParams extends AltMessage {
     }
   }
 
-  private AltScrollParams() {}
+  private AltScrollParams() {
+  }
 
   public float getSpeedHorizontal() {
     return speedHorizontal;
