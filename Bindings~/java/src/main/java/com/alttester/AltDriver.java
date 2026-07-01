@@ -99,7 +99,7 @@ import org.slf4j.LoggerFactory;
 
 public class AltDriver {
   private static final Logger logger = LoggerFactory.getLogger(AltDriver.class);
-  public static final String VERSION = "2.3.2";
+  public static final String VERSION = "2.3.3";
 
   public static enum PlayerPrefsKeyType {
     Int(1),
@@ -290,17 +290,16 @@ public class AltDriver {
         host,
         port,
         appName);
-    this.connection =
-        new WebsocketConnection(
-            host,
-            port,
-            appName,
-            connectTimeout,
-            platform,
-            platformVersion,
-            deviceInstanceId,
-            appId,
-            secureMode);
+    this.connection = new WebsocketConnection(
+        host,
+        port,
+        appName,
+        connectTimeout,
+        platform,
+        platformVersion,
+        deviceInstanceId,
+        appId,
+        secureMode);
     this.connection.connect();
 
     checkServerVersion();
@@ -308,23 +307,21 @@ public class AltDriver {
 
   public int[] getApplicationScreenSize() {
 
-    AltCallStaticMethodParams altCallStaticMethodParamsWidth =
-        new AltCallStaticMethodParams.Builder(
-                "UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new Object[] {})
-            .build();
+    AltCallStaticMethodParams altCallStaticMethodParamsWidth = new AltCallStaticMethodParams.Builder(
+        "UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new Object[] {})
+        .build();
     int screenWidth = callStaticMethod(altCallStaticMethodParamsWidth, Integer.class);
-    AltCallStaticMethodParams altCallStaticMethodParamsHeight =
-        new AltCallStaticMethodParams.Builder(
-                "UnityEngine.Screen", "get_height", "UnityEngine.CoreModule", new Object[] {})
-            .build();
+    AltCallStaticMethodParams altCallStaticMethodParamsHeight = new AltCallStaticMethodParams.Builder(
+        "UnityEngine.Screen", "get_height", "UnityEngine.CoreModule", new Object[] {})
+        .build();
     int screenHeight = callStaticMethod(altCallStaticMethodParamsHeight, Integer.class);
 
-    return new int[] {screenWidth, screenHeight};
+    return new int[] { screenWidth, screenHeight };
   }
 
   private String[] splitVersion(String version) {
     String[] parts = version.split("\\.");
-    return new String[] {parts[0], (parts.length > 1) ? parts[1] : ""};
+    return new String[] { parts[0], (parts.length > 1) ? parts[1] : "" };
   }
 
   private void checkServerVersion() {
@@ -334,22 +331,19 @@ public class AltDriver {
     int serverMajor = Integer.parseInt(serverParts[0]);
     int serverMinor = Integer.parseInt(serverParts[1]);
 
-    boolean isSupported =
-        (serverMajor == 2 && serverMinor == 2) || (serverMajor == 1 && serverMinor == 1);
+    boolean isSupported = (serverMajor == 2 && serverMinor == 2) || (serverMajor == 1 && serverMinor == 1);
 
     if (!isSupported) {
       String message = "";
       if (serverMajor == 1) {
-        message =
-            String.format(
-                "Version mismatch. AltDriver version is %s. AltTester(R) version is %s."
-                    + " AltTester(R) should be at least version 1.1.",
-                AltDriver.VERSION, serverVersion);
+        message = String.format(
+            "Version mismatch. AltDriver version is %s. AltTester(R) version is %s."
+                + " AltTester(R) should be at least version 1.1.",
+            AltDriver.VERSION, serverVersion);
       } else {
-        message =
-            String.format(
-                "Version mismatch. AltDriver version is %s. AltTester(R) version is %s.",
-                AltDriver.VERSION, serverVersion);
+        message = String.format(
+            "Version mismatch. AltDriver version is %s. AltTester(R) version is %s.",
+            AltDriver.VERSION, serverVersion);
       }
       logger.warn(message);
       System.out.println(message);
@@ -451,7 +445,7 @@ public class AltDriver {
   /**
    * Sets the value for a given key in PlayerPrefs.
    *
-   * @param keyName - String
+   * @param keyName   - String
    * @param valueName - int
    */
   public void setKeyPlayerPref(String keyName, int valueName) {
@@ -462,7 +456,7 @@ public class AltDriver {
   /**
    * Sets the value for a given key in PlayerPrefs.
    *
-   * @param keyName - String
+   * @param keyName   - String
    * @param valueName - float
    */
   public void setKeyPlayerPref(String keyName, float valueName) {
@@ -473,7 +467,7 @@ public class AltDriver {
   /**
    * Sets the value for a given key in PlayerPrefs.
    *
-   * @param keyName - String
+   * @param keyName   - String
    * @param valueName - String
    */
   public void setKeyPlayerPref(String keyName, String valueName) {
@@ -500,8 +494,7 @@ public class AltDriver {
    * @return The value for a given key from PlayerPrefs
    */
   public float getFloatKeyPlayerPref(String keyName) {
-    float response =
-        new AltFloatGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
+    float response = new AltFloatGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }
@@ -513,8 +506,7 @@ public class AltDriver {
    * @return The value for a given key from PlayerPrefs
    */
   public String getStringKeyPlayerPref(String keyName) {
-    String response =
-        new AltStringGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
+    String response = new AltStringGetKeyPlayerPref(this.connection.messageHandler, keyName).Execute();
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }
@@ -554,16 +546,16 @@ public class AltDriver {
   /**
    * Invokes static methods from your application.
    *
-   * @param altCallStaticMethodParams - String component* , String method* , Object[] parameters* ,
-   *     String[] typeOfParameters , String assembly
+   * @param altCallStaticMethodParams - String component* , String method* ,
+   *                                  Object[] parameters* ,
+   *                                  String[] typeOfParameters , String assembly
    * @param returnType
    * @return Static methods from your application
    */
   public <T> T callStaticMethod(
       AltCallStaticMethodParams altCallStaticMethodParams, Class<T> returnType) {
-    T response =
-        new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParams)
-            .Execute(returnType);
+    T response = new AltCallStaticMethod(this.connection.messageHandler, altCallStaticMethodParams)
+        .Execute(returnType);
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }
@@ -571,7 +563,8 @@ public class AltDriver {
   /**
    * Simulates a swipe action between two points.
    *
-   * @param swipeParams - Vector2 start* , Vector2 end* , float duration , boolean wait = true
+   * @param swipeParams - Vector2 start* , Vector2 end* , float duration , boolean
+   *                    wait = true
    */
   public void swipe(AltSwipeParams swipeParams) {
     new AltSwipe(this.connection.messageHandler, swipeParams).Execute();
@@ -589,7 +582,8 @@ public class AltDriver {
   }
 
   /**
-   * Simulates holding left click button down for a specified amount of time at given coordinates.
+   * Simulates holding left click button down for a specified amount of time at
+   * given coordinates.
    *
    * @param holdParams - Vector2 coordinates* , float duration , boolean wait
    */
@@ -600,7 +594,8 @@ public class AltDriver {
   /**
    * Simulates device rotation action in your application.
    *
-   * @param altTiltParameter - Vector3 acceleration* , float duration , boolean wait
+   * @param altTiltParameter - Vector3 acceleration* , float duration , boolean
+   *                         wait
    */
   public void tilt(AltTiltParams altTiltParameter) {
     new AltTilt(this.connection.messageHandler, altTiltParameter).Execute();
@@ -610,25 +605,26 @@ public class AltDriver {
   /**
    * Simulates key press action in your application.
    *
-   * @param altPressKeyParameters - AltKeyCode keyCode* , float power , float duration , boolean
-   *     wait
+   * @param altPressKeyParameters - AltKeyCode keyCode* , float power , float
+   *                              duration , boolean
+   *                              wait
    */
   public void pressKey(AltPressKeyParams altPressKeyParameters) {
-    AltKeyCode[] keyCodes = {altPressKeyParameters.getKeyCode()};
-    AltPressKeysParams params =
-        new AltPressKeysParams.Builder(keyCodes)
-            .withPower(altPressKeyParameters.getPower())
-            .withDuration(altPressKeyParameters.getDuration())
-            .withWait(altPressKeyParameters.getWait())
-            .build();
+    AltKeyCode[] keyCodes = { altPressKeyParameters.getKeyCode() };
+    AltPressKeysParams params = new AltPressKeysParams.Builder(keyCodes)
+        .withPower(altPressKeyParameters.getPower())
+        .withDuration(altPressKeyParameters.getDuration())
+        .withWait(altPressKeyParameters.getWait())
+        .build();
     this.pressKeys(params);
   }
 
   /**
    * Simulates multiple keys pressed action in your application.
    *
-   * @param altPressKeysParameters - AltKeyCode[] keyCodes* , float power , float duration , boolean
-   *     wait
+   * @param altPressKeysParameters - AltKeyCode[] keyCodes* , float power , float
+   *                               duration , boolean
+   *                               wait
    */
   public void pressKeys(AltPressKeysParams altPressKeysParameters) {
     new AltPressKeys(this.connection.messageHandler, altPressKeysParameters).Execute();
@@ -642,9 +638,8 @@ public class AltDriver {
    * @throws InterruptedException
    */
   public void keyDown(AltKeyDownParams keyDownParams) throws InterruptedException {
-    AltKeyCode[] keys = {keyDownParams.getKeyCode()};
-    AltKeysDownParams params =
-        new AltKeysDownParams.Builder(keys).withPower(keyDownParams.getPower()).build();
+    AltKeyCode[] keys = { keyDownParams.getKeyCode() };
+    AltKeysDownParams params = new AltKeysDownParams.Builder(keys).withPower(keyDownParams.getPower()).build();
     this.keysDown(params);
   }
 
@@ -664,7 +659,7 @@ public class AltDriver {
    * @param keyUpParams - keyCode
    */
   public void keyUp(AltKeyUpParams keyUpParams) {
-    AltKeyCode[] keyCodes = {keyUpParams.getKeyCode()};
+    AltKeyCode[] keyCodes = { keyUpParams.getKeyCode() };
     AltKeysUpParams params = new AltKeysUpParams.Builder(keyCodes).build();
     this.keysUp(params);
   }
@@ -682,7 +677,8 @@ public class AltDriver {
   /**
    * Simulate mouse movement in your application.
    *
-   * @param altMoveMouseParams - Vector2 coordinates* , float duration , boolean wait
+   * @param altMoveMouseParams - Vector2 coordinates* , float duration , boolean
+   *                           wait
    */
   public void moveMouse(AltMoveMouseParams altMoveMouseParams) {
     new AltMoveMouse(this.connection.messageHandler, altMoveMouseParams).Execute();
@@ -692,7 +688,8 @@ public class AltDriver {
   /**
    * Simulate scroll action in your application.
    *
-   * @param altScrollParams - float speed , float speedHorizontal , float duration , boolean wait
+   * @param altScrollParams - float speed , float speedHorizontal , float duration
+   *                        , boolean wait
    */
   public void scroll(AltScrollParams altScrollParams) {
     new AltScroll(this.connection.messageHandler, altScrollParams).Execute();
@@ -700,38 +697,38 @@ public class AltDriver {
   }
 
   /**
-   * @param altFindObjectsParams - By by* , String value* , By cameraBy , String cameraValue ,
-   *     boolean enabled
+   * @param altFindObjectsParams - By by* , String value* , By cameraBy , String
+   *                             cameraValue ,
+   *                             boolean enabled
    * @return The first object in the scene that respects the given criteria.
    */
   public AltObject findObject(AltFindObjectsParams altFindObjectsParams) {
-    AltObject response =
-        new AltFindObject(this.connection.messageHandler, altFindObjectsParams).Execute();
+    AltObject response = new AltFindObject(this.connection.messageHandler, altFindObjectsParams).Execute();
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }
 
   /**
-   * @param altFindObjectsParams - By by* , String value* , By cameraBy , String cameraValue ,
-   *     boolean enabled
+   * @param altFindObjectsParams - By by* , String value* , By cameraBy , String
+   *                             cameraValue ,
+   *                             boolean enabled
    * @return The first object containing the given criteria
    */
   public AltObject findObjectWhichContains(AltFindObjectsParams altFindObjectsParams) {
-    AltObject response =
-        new AltFindObjectWhichContains(this.connection.messageHandler, altFindObjectsParams)
-            .Execute();
+    AltObject response = new AltFindObjectWhichContains(this.connection.messageHandler, altFindObjectsParams)
+        .Execute();
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }
 
   /**
-   * @param altFindObjectsParams - By by* , String value* , By cameraBy , String cameraValue ,
-   *     boolean enabled
+   * @param altFindObjectsParams - By by* , String value* , By cameraBy , String
+   *                             cameraValue ,
+   *                             boolean enabled
    * @return All the objects respecting the given criteria
    */
   public AltObject[] findObjects(AltFindObjectsParams altFindObjectsParams) {
-    AltObject[] response =
-        new AltFindObjects(this.connection.messageHandler, altFindObjectsParams).Execute();
+    AltObject[] response = new AltFindObjects(this.connection.messageHandler, altFindObjectsParams).Execute();
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }
@@ -739,38 +736,41 @@ public class AltDriver {
   /**
    * Finds all objects in the scene that respects the given criteria.
    *
-   * @param altFindObjectsParams - By by* , String value* , By cameraBy , String cameraValue ,
-   *     boolean enabled
+   * @param altFindObjectsParams - By by* , String value* , By cameraBy , String
+   *                             cameraValue ,
+   *                             boolean enabled
    * @return All objects containing the given criteria
    */
   public AltObject[] findObjectsWhichContain(AltFindObjectsParams altFindObjectsParams) {
-    AltObject[] response =
-        new AltFindObjectsWhichContain(this.connection.messageHandler, altFindObjectsParams)
-            .Execute();
+    AltObject[] response = new AltFindObjectsWhichContain(this.connection.messageHandler, altFindObjectsParams)
+        .Execute();
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }
 
   /**
-   * Returns information about every objects loaded in the currently loaded scenes. This also means
+   * Returns information about every objects loaded in the currently loaded
+   * scenes. This also means
    * objects that are set as DontDestroyOnLoad.
    *
-   * @param altGetAllElementsParams - By cameraBy , String cameraValue , boolean enabled
+   * @param altGetAllElementsParams - By cameraBy , String cameraValue , boolean
+   *                                enabled
    * @return Information about every object loaded in the currently loaded scenes.
    */
   public AltObject[] getAllElements(AltGetAllElementsParams altGetAllElementsParams) {
-    AltObject[] response =
-        new AltGetAllElements(this.connection.messageHandler, altGetAllElementsParams).Execute();
+    AltObject[] response = new AltGetAllElements(this.connection.messageHandler, altGetAllElementsParams).Execute();
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }
 
   /**
-   * Waits for the scene to be loaded for a specified amount of time. It returns the name of the
+   * Waits for the scene to be loaded for a specified amount of time. It returns
+   * the name of the
    * current scene.
    *
-   * @param altWaitForCurrentSceneToBeParameters - String sceneName* , double timeout , double
-   *     interval
+   * @param altWaitForCurrentSceneToBeParameters - String sceneName* , double
+   *                                             timeout , double
+   *                                             interval
    */
   public void waitForCurrentSceneToBe(
       AltWaitForCurrentSceneToBeParams altWaitForCurrentSceneToBeParameters) {
@@ -779,35 +779,38 @@ public class AltDriver {
       altWaitForCurrentSceneToBeParameters.setTimeout(
           this.connection.messageHandler.getImplicitTimeout());
     new AltWaitForCurrentSceneToBe(
-            this.connection.messageHandler, altWaitForCurrentSceneToBeParameters)
+        this.connection.messageHandler, altWaitForCurrentSceneToBeParameters)
         .Execute();
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
   }
 
   /**
-   * Wait until there are no longer any objects that respect the given criteria or times run out and
+   * Wait until there are no longer any objects that respect the given criteria or
+   * times run out and
    * will throw an error.
    *
-   * @param altWaitForObjectsParams - AltFindObjectsParams altFindObjectsParameters* , double
-   *     timeout , double interval
+   * @param altWaitForObjectsParams - AltFindObjectsParams
+   *                                altFindObjectsParameters* , double
+   *                                timeout , double interval
    * @return Error if time runs out
    */
   public AltObject waitForObject(AltWaitForObjectsParams altWaitForObjectsParams) {
     if (this.connection.messageHandler.getImplicitTimeout() != -1
         && altWaitForObjectsParams.getTimeout() == 20)
       altWaitForObjectsParams.setTimeout(this.connection.messageHandler.getImplicitTimeout());
-    AltObject response =
-        new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParams).Execute();
+    AltObject response = new AltWaitForObject(this.connection.messageHandler, altWaitForObjectsParams).Execute();
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }
 
   /**
-   * Wait until the object in the scene that respect the given criteria is no longer in the scene or
+   * Wait until the object in the scene that respect the given criteria is no
+   * longer in the scene or
    * times run out and will throw an error.
    *
-   * @param altWaitForObjectsParams - AltFindObjectsParams altFindObjectsParameters* , double
-   *     timeout , double interval
+   * @param altWaitForObjectsParams - AltFindObjectsParams
+   *                                altFindObjectsParameters* , double
+   *                                timeout , double interval
    */
   public void waitForObjectToNotBePresent(AltWaitForObjectsParams altWaitForObjectsParams) {
     if (this.connection.messageHandler.getImplicitTimeout() != -1
@@ -819,20 +822,21 @@ public class AltDriver {
   }
 
   /**
-   * Waits until it finds an object that respects the given criteria or time runs out and will throw
+   * Waits until it finds an object that respects the given criteria or time runs
+   * out and will throw
    * an error.
    *
-   * @param altWaitForObjectsParams - AltFindObjectsParams altFindObjectsParameters* , double
-   *     timeout , double interval
+   * @param altWaitForObjectsParams - AltFindObjectsParams
+   *                                altFindObjectsParameters* , double
+   *                                timeout , double interval
    * @return The object that respects the given criteria/Error if time runs out
    */
   public AltObject waitForObjectWhichContains(AltWaitForObjectsParams altWaitForObjectsParams) {
     if (this.connection.messageHandler.getImplicitTimeout() != -1
         && altWaitForObjectsParams.getTimeout() == 20)
       altWaitForObjectsParams.setTimeout(this.connection.messageHandler.getImplicitTimeout());
-    AltObject response =
-        new AltWaitForObjectWhichContains(this.connection.messageHandler, altWaitForObjectsParams)
-            .Execute();
+    AltObject response = new AltWaitForObjectWhichContains(this.connection.messageHandler, altWaitForObjectsParams)
+        .Execute();
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }
@@ -892,7 +896,8 @@ public class AltDriver {
   /**
    * Tap at screen coordinates.
    *
-   * @param parameters - Vector2 coordinates* , int count , float interval , boolean wait
+   * @param parameters - Vector2 coordinates* , int count , float interval ,
+   *                   boolean wait
    */
   public void tap(AltTapClickCoordinatesParams parameters) {
     new AltTapCoordinates(this.connection.messageHandler, parameters).Execute();
@@ -902,7 +907,8 @@ public class AltDriver {
   /**
    * Click at screen coordinates.
    *
-   * @param parameters - Vector2 coordinates* , int count , float interval , boolean wait
+   * @param parameters - Vector2 coordinates* , int count , float interval ,
+   *                   boolean wait
    */
   public void click(AltTapClickCoordinatesParams parameters) {
     new AltClickCoordinates(this.connection.messageHandler, parameters).Execute();
@@ -912,14 +918,14 @@ public class AltDriver {
   /**
    * Gets the value of the static field or property.
    *
-   * @param parameters - String componentName* , String propertyName* , String assembly , int
-   *     maxDept
+   * @param parameters - String componentName* , String propertyName* , String
+   *                   assembly , int
+   *                   maxDept
    * @param returnType
    * @return value of the static field or property
    */
   public <T> T getStaticProperty(AltGetComponentPropertyParams parameters, Class<T> returnType) {
-    T response =
-        new AltGetStaticProperty(this.connection.messageHandler, parameters).Execute(returnType);
+    T response = new AltGetStaticProperty(this.connection.messageHandler, parameters).Execute(returnType);
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }
@@ -927,7 +933,8 @@ public class AltDriver {
   /**
    * Sets the value of the static field or property.
    *
-   * @param parameters - String componentName* , String propertyName* , String assembly
+   * @param parameters - String componentName* , String propertyName* , String
+   *                   assembly
    */
   public void setStaticProperty(AltSetComponentPropertyParams parameters) {
     new AltSetStaticProperty(this.connection.messageHandler, parameters).Execute();
@@ -935,16 +942,17 @@ public class AltDriver {
   }
 
   /**
-   * Retrieves the Unity object at given coordinates. Uses EventSystem.RaycastAll to find object. If
-   * no object is found then it uses UnityEngine.Physics.Raycast and UnityEngine.Physics2D.Raycast
+   * Retrieves the Unity object at given coordinates. Uses EventSystem.RaycastAll
+   * to find object. If
+   * no object is found then it uses UnityEngine.Physics.Raycast and
+   * UnityEngine.Physics2D.Raycast
    * and returns the one closer to the camera.
    *
    * @param parameters - Vector2 coordinates
    * @return The UI object hit by event system Raycast, null otherwise
    */
   public AltObject findObjectAtCoordinates(AltFindObjectAtCoordinatesParams parameters) {
-    AltObject response =
-        new AltFindObjectAtCoordinates(this.connection.messageHandler, parameters).Execute();
+    AltObject response = new AltFindObjectAtCoordinates(this.connection.messageHandler, parameters).Execute();
     Utils.sleepFor(this.connection.messageHandler.getDelayAfterCommand());
     return response;
   }

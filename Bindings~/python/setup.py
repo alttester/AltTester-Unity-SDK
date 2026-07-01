@@ -41,6 +41,7 @@ setup(
         "Bug Tracker": "https://github.com/alttester/AltTester-Unity-SDK/issues",
         "Documentation": "https://alttester.com/docs/sdk/latest",
         "Source": "https://github.com/alttester/AltTester-Unity-SDK",
+        "License": "https://alttester.com/app/uploads/AltTester/sdks/alttester/LICENSE",
     },
 
     author=AUTHOR,
