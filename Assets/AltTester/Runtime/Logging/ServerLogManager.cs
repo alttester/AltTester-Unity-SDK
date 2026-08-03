@@ -80,7 +80,7 @@ namespace AltTester.AltTesterUnitySDK.Logging
             var logfile = new FileTarget("AltServerFileTarget")
             {
                 FileName = logsFilePath,
-                Layout = Layout.FromString("${longdate}|${level:uppercase=true}|${message}"),
+                Layout = Layout.FromString("${longdate}|Tester|${level:uppercase=true}|${message}"),
                 DeleteOldFileOnStartup = true, //overwrite existing log file.
                 KeepFileOpen = true,
                 ConcurrentWrites = false
