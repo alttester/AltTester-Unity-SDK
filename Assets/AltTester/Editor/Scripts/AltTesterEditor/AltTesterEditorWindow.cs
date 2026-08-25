@@ -198,7 +198,11 @@ namespace AltTester.AltTesterUnitySDK.Editor
         }
         public static void RecreateAltTesterPrefab()
         {
+#if UNITY_6000_0_OR_NEWER
+            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup));
+#else
             var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
+#endif
             if (!scriptingDefineSymbolsForGroup.Contains("ALTTESTER"))
             {
                 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));

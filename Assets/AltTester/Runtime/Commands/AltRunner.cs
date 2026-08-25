@@ -139,7 +139,13 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             var screenCenterPos = visualElement.worldBound.center;
 
+#if UNITY_6000_4_OR_NEWER
+            UIDocument[] uIDocuments = GameObject.FindObjectsByType<UIDocument>();
+#elif UNITY_6000_0_OR_NEWER
+            UIDocument[] uIDocuments = GameObject.FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+#else
             UIDocument[] uIDocuments = GameObject.FindObjectsOfType<UIDocument>();
+#endif
 
             Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
 
