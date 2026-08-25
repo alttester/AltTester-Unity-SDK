@@ -97,7 +97,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 else
                 {
                     position = FindObjectViaRayCast.GetObjectScreenPosition(altGameObject, camera);
-                    cameraId = camera.GetInstanceID();
+                    cameraId = camera.GetAltInstanceId();
                 }
             }
             catch (Exception)
@@ -106,11 +106,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 cameraId = -1;
             }
 
-            int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
+            int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetAltInstanceId();
 
             var altObject = new AltObject(
                 name: altGameObject.name,
-                id: altGameObject.GetInstanceID(),
+                id: altGameObject.GetAltInstanceId(),
                 x: (position.x < int.MinValue) ? int.MinValue :
                    (position.x > int.MaxValue) ? int.MaxValue :
                    Convert.ToInt32(Mathf.Round(position.x)),
@@ -131,7 +131,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 worldY: altGameObject.transform.position.y,
                 worldZ: altGameObject.transform.position.z,
                 idCamera: cameraId,
-                transformId: altGameObject.transform.GetInstanceID(),
+                transformId: altGameObject.transform.GetAltInstanceId(),
                 transformParentId: transformParentId);
             return altObject;
         }
@@ -210,14 +210,14 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public AltObjectLight GameObjectToAltObjectLight(UnityEngine.GameObject altGameObject)
         {
-            int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
+            int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetAltInstanceId();
             AltObjectLight altObject = new AltObjectLight(
                 name: altGameObject.name,
                 type: "GameObject",
-                id: altGameObject.GetInstanceID(),
+                id: altGameObject.GetAltInstanceId(),
                 enabled: altGameObject.activeSelf,
                 idCamera: 0,
-                transformId: altGameObject.transform.GetInstanceID(),
+                transformId: altGameObject.transform.GetAltInstanceId(),
                 transformParentId: transformParentId);
 
             return altObject;
@@ -248,7 +248,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
             foreach (UnityEngine.GameObject gameObject in UnityEngine.Resources.FindObjectsOfTypeAll<UnityEngine.GameObject>())
             {
-                if (gameObject.GetInstanceID() == altObjectID)
+                if (gameObject.GetAltInstanceId() == altObjectID)
                     return gameObject;
             }
             if (throwError)
@@ -260,7 +260,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             foreach (var camera in UnityEngine.Camera.allCameras)
             {
-                if (camera.GetInstanceID() == id)
+                if (camera.GetAltInstanceId() == id)
                     return camera;
             }
 

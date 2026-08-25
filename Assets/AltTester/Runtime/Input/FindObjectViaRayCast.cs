@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AltTester.AltTesterSDK.Driver;
+using AltTester.AltTesterUnitySDK.Commands;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
@@ -137,7 +138,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             foreach (var camera1 in Camera.allCameras)
             {
                 position = GetObjectScreenPosition(gameObject, camera1);
-                cameraId = camera1.GetInstanceID();
+                cameraId = camera1.GetAltInstanceId();
                 if (position.x > 0 &&
                     position.y > 0 &&
                     position.x < Screen.width &&
