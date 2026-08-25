@@ -146,6 +146,10 @@ namespace AltTester.AltTesterUnitySDK.Commands
 #else
             UIDocument[] uIDocuments = GameObject.FindObjectsOfType<UIDocument>();
 #endif
+            // FindObjectsOfType returned its results ordered by instance id and the code below reads
+            // the first of them; FindObjectsByType leaves the order unspecified. Restore the ordering
+            // so the element picked does not depend on what the lookup happens to return first.
+            System.Array.Sort(uIDocuments, (first, second) => first.GetAltInstanceId().CompareTo(second.GetAltInstanceId()));
 
             Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
 
