@@ -1279,9 +1279,6 @@ namespace AltTesterTools
             /// IMPORTANT! ALTTESTER MUST BE DEFINE TO CREATE CORRECTLY THE PREFAB
             ///
 
-            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
-
-
             var Prefab = new GameObject("AltTesterPrefab", new System.Type[] { typeof(AltRunner), typeof(AltInput), typeof(NewInputSystem), typeof(CoroutineManager) });
             var RectTransform = Prefab.GetComponent<Transform>();
             var AltRunnerComponent = Prefab.GetComponent<AltRunner>();
