@@ -91,6 +91,8 @@ namespace AltTester.AltTesterUnitySDK.Logging
 
         private static LogFactory buildLogFactory()
         {
+            DriverLogManager.EnsureConfigurationItemFactory();
+
             var config = new LoggingConfiguration();
 
 #if UNITY_EDITOR || ALTTESTER

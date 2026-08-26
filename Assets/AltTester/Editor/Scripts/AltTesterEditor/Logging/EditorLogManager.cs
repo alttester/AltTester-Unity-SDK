@@ -29,6 +29,8 @@ namespace AltTester.AltTesterUnitySDK.Editor.Logging
 
         private static LogFactory buildLogFactory()
         {
+            DriverLogManager.EnsureConfigurationItemFactory();
+
             var config = new NLog.Config.LoggingConfiguration();
             var unitylog = new UnityTarget("AltEditorUnityTarget")
             {

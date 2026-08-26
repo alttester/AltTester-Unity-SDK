@@ -20,6 +20,33 @@ namespace AltTester.AltTesterSDK.Driver.Logging
 
         private static readonly Lazy<LogFactory> instance = new Lazy<LogFactory>(buildLogFactory);
 
+#if UNITY_6000_5_OR_NEWER
+        private static bool configurationItemFactoryInitialized;
+#endif
+
+        /// <summary>
+        /// Registers NLog's built-in configuration items before the first layout or target is created.
+        ///
+        /// Unity 6000.5 resolves NLog's assembly location to the host executable path, so NLog's scan
+        /// for optional NLog.*.dll extension assemblies calls Directory.GetFiles on a file and throws
+        /// IOException while building ConfigurationItemFactory.Default. Creating any layout or target
+        /// resolves that factory implicitly, so the exception escapes the static constructors that
+        /// reach the log managers (AltRunner, AltBuilder) and permanently poisons those types.
+        ///
+        /// The SDK ships no NLog extension assemblies, so nothing is lost by registering the built-in
+        /// items directly. No-op on every other Unity version and outside Unity.
+        /// </summary>
+        public static void EnsureConfigurationItemFactory()
+        {
+#if UNITY_6000_5_OR_NEWER
+            if (configurationItemFactoryInitialized)
+                return;
+
+            configurationItemFactoryInitialized = true;
+            ConfigurationItemFactory.Default = new ConfigurationItemFactory(typeof(LogManager).Assembly);
+#endif
+        }
+
         internal static void SetupAltDriverLogging(Dictionary<AltLogger, AltLogLevel> minLogLevels)
         {
             foreach (var key in minLogLevels.Keys)
@@ -81,6 +108,8 @@ namespace AltTester.AltTesterSDK.Driver.Logging
 
         private static LogFactory buildLogFactory()
         {
+            EnsureConfigurationItemFactory();
+
             var config = new LoggingConfiguration();
 
 #if UNITY_EDITOR || ALTTESTER
