@@ -41,9 +41,15 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             return "127.0.0.1";
         }
 
+        public static string GetAltDriverPlatformVersion()
+        {
+            string platformVersion = System.Environment.GetEnvironmentVariable("ALTSERVER_PLATFORM_VERSION");
+            return !string.IsNullOrEmpty(platformVersion) ? platformVersion : "unknown";
+        }
+
         public static AltDriver GetAltDriver()
         {
-            return new AltDriver(host: GetAltDriverHost(), port: GetAltDriverPort(), enableLogging: true);
+            return new AltDriver(host: GetAltDriverHost(), port: GetAltDriverPort(), enableLogging: true, platformVersion: GetAltDriverPlatformVersion());
         }
 
     }

@@ -122,7 +122,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             try
             {
-                return AltGetTextCommand.GetText(new AltObject(objectToCheck.name, id: objectToCheck.GetInstanceID()));
+                return AltGetTextCommand.GetText(new AltObject(objectToCheck.name, id: objectToCheck.GetObjectInstanceId()));
 
             }
             catch (Exception)
@@ -184,7 +184,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     if (System.Text.RegularExpressions.Regex.Match(PropertyValue, "^([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)$").Success)
                     {
                         var id = System.Convert.ToInt32(PropertyValue);
-                        return gameObjectToCheck.GetInstanceID() == id ? gameObjectToCheck : null;
+                        return gameObjectToCheck.GetObjectInstanceId() == id ? gameObjectToCheck : null;
                     }
                     var component = gameObjectToCheck.GetComponent<AltId>();
                     if (component != null)
@@ -272,7 +272,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                         case PropertyType.id:
                             if (System.Text.RegularExpressions.Regex.Match(PropertyValue, "^([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)$").Success)
                             {
-                                return gameObjectToCheck.GetInstanceID().ToString().Contains(PropertyValue) ? gameObjectToCheck : null;
+                                return gameObjectToCheck.GetObjectInstanceId().ToString().Contains(PropertyValue) ? gameObjectToCheck : null;
                             }
                             var component = gameObjectToCheck.GetComponent<AltId>();
                             if (component != null)

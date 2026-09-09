@@ -28,7 +28,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         public override string Execute()
         {
-            ServerLogManager.SetMinLogLevel(CommandParams.logger, CommandParams.logLevel);
+            AltTesterLogManager.SetMinLogLevel(CommandParams.logger, CommandParams.logLevel);
             return "Ok";
         }
     }

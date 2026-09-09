@@ -37,7 +37,9 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
         public override List<AltObject> Execute()
         {
-#if UNITY_6000_0_OR_NEWER
+#if UNITY_6000_4_OR_NEWER
+            var cameras = Object.FindObjectsByType<Camera>();
+#elif UNITY_6000_0_OR_NEWER
             var cameras = Object.FindObjectsByType<Camera>(FindObjectsSortMode.None);
 #else
             var cameras = Object.FindObjectsOfType<Camera>();
