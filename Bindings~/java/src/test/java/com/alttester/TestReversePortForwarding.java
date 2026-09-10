@@ -33,26 +33,28 @@ public class TestReversePortForwarding {
   public void openClosePanelTest() {
     altDriver.loadScene(new AltLoadSceneParams.Builder("Scene 2 Draggable Panel").build());
 
-    AltFindObjectsParams altFindObjectsParametersCamera = new AltFindObjectsParams.Builder(AltDriver.By.PATH,
-        "//Main Camera").build();
+    AltFindObjectsParams altFindObjectsParametersCamera =
+        new AltFindObjectsParams.Builder(AltDriver.By.PATH, "//Main Camera").build();
     AltObject camera = altDriver.findObject(altFindObjectsParametersCamera);
 
-    AltFindObjectsParams closeButtonObjectsParameters = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-        "Close Button")
-        .withCamera(AltDriver.By.ID, String.valueOf(camera.id))
-        .build();
+    AltFindObjectsParams closeButtonObjectsParameters =
+        new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Close Button")
+            .withCamera(AltDriver.By.ID, String.valueOf(camera.id))
+            .build();
     altDriver.findObject(closeButtonObjectsParameters).tap();
 
-    AltFindObjectsParams buttonObjectsParameters = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Button")
-        .withCamera(AltDriver.By.ID, String.valueOf(camera.id))
-        .build();
+    AltFindObjectsParams buttonObjectsParameters =
+        new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Button")
+            .withCamera(AltDriver.By.ID, String.valueOf(camera.id))
+            .build();
     altDriver.findObject(buttonObjectsParameters).tap();
 
-    AltFindObjectsParams panelObjectsParameters = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Panel")
-        .withCamera(AltDriver.By.ID, String.valueOf(camera.id))
-        .build();
-    AltWaitForObjectsParams panelWaitForObjectsParameters = new AltWaitForObjectsParams.Builder(panelObjectsParameters)
-        .build();
+    AltFindObjectsParams panelObjectsParameters =
+        new AltFindObjectsParams.Builder(AltDriver.By.NAME, "Panel")
+            .withCamera(AltDriver.By.ID, String.valueOf(camera.id))
+            .build();
+    AltWaitForObjectsParams panelWaitForObjectsParameters =
+        new AltWaitForObjectsParams.Builder(panelObjectsParameters).build();
     AltObject panelElement = altDriver.waitForObject(panelWaitForObjectsParameters);
 
     Assertions.assertTrue(panelElement.enabled);

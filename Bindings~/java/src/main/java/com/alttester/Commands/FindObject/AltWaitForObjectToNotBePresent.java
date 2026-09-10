@@ -10,15 +10,13 @@ import com.alttester.Utils;
 import com.alttester.altTesterExceptions.AltException;
 
 /**
- * Wait until the object in the scene that respect the given criteria is no
- * longer in the scene or
+ * Wait until the object in the scene that respect the given criteria is no longer in the scene or
  * times run out and will throw an error.
  */
 public class AltWaitForObjectToNotBePresent extends AltBaseFindObject {
 
   /**
-   * @param altWaitForObjectsParameters the properties parameter for finding the
-   *                                    objects in a scene.
+   * @param altWaitForObjectsParameters the properties parameter for finding the objects in a scene.
    */
   private AltWaitForObjectsParams altWaitForObjectsParameters;
 
@@ -38,9 +36,10 @@ public class AltWaitForObjectToNotBePresent extends AltBaseFindObject {
               + altWaitForObjectsParameters.getAltFindObjectsParameters().getPath()
               + " not to be present");
       try {
-        altElement = new AltFindObject(
-            messageHandler, altWaitForObjectsParameters.getAltFindObjectsParameters())
-            .Execute();
+        altElement =
+            new AltFindObject(
+                    messageHandler, altWaitForObjectsParameters.getAltFindObjectsParameters())
+                .Execute();
         if (altElement == null) {
           return;
         }

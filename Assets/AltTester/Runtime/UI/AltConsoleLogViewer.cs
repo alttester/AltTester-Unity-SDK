@@ -35,6 +35,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         [SerializeField] private int maxLogCount = 1000;
         [SerializeField] private float verticalPadding = 5f;
         [SerializeField] private float topBottomPadding = 10f;
+        [SerializeField] private int maxWidthMeasurementsPerUpdate = 25;
 
 
         private Canvas canvas;
@@ -306,8 +307,10 @@ private static extern void CopyToClipboard(string str);
         {
             if (!needsRefresh)
                 return;
-            refreshLogDisplay();
+            // Reset before refreshing (not after) so that getMaxWidth() can re-arm needsRefresh
+            // when it still has width measurements pending, without that flag being clobbered below.
             needsRefresh = false;
+            refreshLogDisplay();
         }
 
         private void refreshLogDisplay()
@@ -342,19 +345,27 @@ private static extern void CopyToClipboard(string str);
         }
         private float getMaxWidth()
         {
-
             float longestWidth = scrollRect.viewport.rect.width;
+            int measuredThisUpdate = 0;
             foreach (var log in filteredLogs)
             {
                 if (log.Width == -1)
                 {
+                    // Cap how many never-before-seen lines get measured (a real, synchronous
+                    // TextGenerator layout call) in a single frame, so a burst of logs (e.g. from
+                    // a scene load) can't spike a single frame. Remaining lines are measured on
+                    // the following frames instead.
+                    if (measuredThisUpdate >= maxWidthMeasurementsPerUpdate)
+                    {
+                        needsRefresh = true;
+                        continue;
+                    }
                     log.Width = getWidth(RemoveNewlines(log.FullText));
+                    measuredThisUpdate++;
                 }
-                string singleLineText = RemoveNewlines(log.FullText);
                 if (log.Width > longestWidth) longestWidth = log.Width;
             }
             return longestWidth + (longestWidth > scrollRect.viewport.rect.width - 200 ? 200 : 0);
-
         }
         private void updateVisibleItems()
         {

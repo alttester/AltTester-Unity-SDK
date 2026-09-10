@@ -7,10 +7,7 @@ package com.alttester.Commands.ObjectCommand;
 import com.alttester.Commands.AltBaseCommand;
 import com.alttester.IMessageHandler;
 
-/**
- * Get text value from a Button, Text, InputField. This also works with
- * TextMeshPro elements.
- */
+/** Get text value from a Button, Text, InputField. This also works with TextMeshPro elements. */
 public class AltGetText extends AltBaseCommand {
   private AltGetTextParams params;
 

@@ -30,9 +30,8 @@ public class AltMultiPointSwipeParams extends AltMessage {
     }
 
     /**
-     * @param duration The time measured in seconds to swipe from first position to
-     *                 the last
-     *                 position. Defaults to <code>0.1</code>.
+     * @param duration The time measured in seconds to swipe from first position to the last
+     *     position. Defaults to <code>0.1</code>.
      */
     public AltMultiPointSwipeParams.Builder withDuration(float duration) {
       this.duration = duration;

@@ -52,39 +52,43 @@ public class TestsSampleScene3 extends BaseTest {
     AltObject dropLocation = FindObject(AltDriver.By.NAME, dropLocationName);
     altDriver.swipe(
         new AltSwipeParams.Builder(
-            dragLocation.getScreenPosition(), dropLocation.getScreenPosition())
+                dragLocation.getScreenPosition(), dropLocation.getScreenPosition())
             .withDuration(duration)
             .withWait(wait)
             .build());
   }
 
   private void waitForSwipeToFinish() {
-    AltFindObjectsParams swipeImageFindObject = new AltFindObjectsParams.Builder(AltDriver.By.NAME, "icon").build();
-    AltWaitForObjectsParams swipeImageParam = new AltWaitForObjectsParams.Builder(swipeImageFindObject).build();
+    AltFindObjectsParams swipeImageFindObject =
+        new AltFindObjectsParams.Builder(AltDriver.By.NAME, "icon").build();
+    AltWaitForObjectsParams swipeImageParam =
+        new AltWaitForObjectsParams.Builder(swipeImageFindObject).build();
     altDriver.waitForObjectToNotBePresent(swipeImageParam);
   }
 
   private ImagesDrop getSpriteName(String sourceImageName, String imageSourceDropZoneName) {
 
-    AltFindObjectsParams imageSourceParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, sourceImageName)
-        .build();
-    AltFindObjectsParams imageSourceDropZoneParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-        imageSourceDropZoneName).build();
+    AltFindObjectsParams imageSourceParams =
+        new AltFindObjectsParams.Builder(AltDriver.By.NAME, sourceImageName).build();
+    AltFindObjectsParams imageSourceDropZoneParams =
+        new AltFindObjectsParams.Builder(AltDriver.By.NAME, imageSourceDropZoneName).build();
 
-    String imageSource = altDriver
-        .findObject(imageSourceParams)
-        .getComponentProperty(
-            new AltGetComponentPropertyParams.Builder(
-                "UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI")
-                .build(),
-            String.class);
-    String imageSourceDropZone = altDriver
-        .findObject(imageSourceDropZoneParams)
-        .getComponentProperty(
-            new AltGetComponentPropertyParams.Builder(
-                "UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI")
-                .build(),
-            String.class);
+    String imageSource =
+        altDriver
+            .findObject(imageSourceParams)
+            .getComponentProperty(
+                new AltGetComponentPropertyParams.Builder(
+                        "UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI")
+                    .build(),
+                String.class);
+    String imageSourceDropZone =
+        altDriver
+            .findObject(imageSourceDropZoneParams)
+            .getComponentProperty(
+                new AltGetComponentPropertyParams.Builder(
+                        "UnityEngine.UI.Image", "sprite.name", "UnityEngine.UI")
+                    .build(),
+                String.class);
 
     return new ImagesDrop(imageSource, imageSourceDropZone);
   }
@@ -131,24 +135,27 @@ public class TestsSampleScene3 extends BaseTest {
   public void testTestPointerEnterAndExit() throws Exception {
 
     AltObject altElement = FindObject(By.NAME, "Drop Image");
-    AltColor color1 = altElement.getComponentProperty(
-        new AltGetComponentPropertyParams.Builder(
-            "AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp")
-            .build(),
-        AltColor.class);
+    AltColor color1 =
+        altElement.getComponentProperty(
+            new AltGetComponentPropertyParams.Builder(
+                    "AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp")
+                .build(),
+            AltColor.class);
     FindObject(By.NAME, "Drop Image").pointerEnter();
-    AltColor color2 = altElement.getComponentProperty(
-        new AltGetComponentPropertyParams.Builder(
-            "AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp")
-            .build(),
-        AltColor.class);
+    AltColor color2 =
+        altElement.getComponentProperty(
+            new AltGetComponentPropertyParams.Builder(
+                    "AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp")
+                .build(),
+            AltColor.class);
     assertNotEquals(color1, color2);
     FindObject(By.NAME, "Drop Image").pointerEnter();
-    AltColor color3 = altElement.getComponentProperty(
-        new AltGetComponentPropertyParams.Builder(
-            "AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp")
-            .build(),
-        AltColor.class);
+    AltColor color3 =
+        altElement.getComponentProperty(
+            new AltGetComponentPropertyParams.Builder(
+                    "AltExampleScriptDropMe", "highlightColor", "Assembly-CSharp")
+                .build(),
+            AltColor.class);
 
     assertNotEquals(color3, color2);
     assertNotEquals(color1, color3);
@@ -159,8 +166,8 @@ public class TestsSampleScene3 extends BaseTest {
 
     List<Vector2> listPositions = new ArrayList<Vector2>();
     for (int i = 0; i < objectNames.size(); i++) {
-      AltFindObjectsParams elementParams = new AltFindObjectsParams.Builder(AltDriver.By.NAME, objectNames.get(i))
-          .build();
+      AltFindObjectsParams elementParams =
+          new AltFindObjectsParams.Builder(AltDriver.By.NAME, objectNames.get(i)).build();
       AltObject element = altDriver.findObject(elementParams);
       listPositions.add(element.getScreenPosition());
     }

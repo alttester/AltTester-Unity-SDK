@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using AltTester;
 using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Logging;
 using AltTester.AltTesterUnitySDK.InputModule;
@@ -18,9 +19,9 @@ namespace AltTester.AltTesterUnitySDK.Commands
 {
     public class AltRunner : UnityEngine.MonoBehaviour
     {
-        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = AltTesterLogManager.Instance.GetCurrentClassLogger();
 
-        public static readonly string VERSION = "2.3.2";
+        public static string VERSION => AltTesterVersion.VERSION;
         public static AltRunner _altRunner;
         public static AltResponseQueue _responseQueue;
         public AltInstrumentationSettings InstrumentationSettings = null;
@@ -39,12 +40,20 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
 #if !ALTTESTER
             logger.Error("ALTTESTER needs to be added to 'Scripting Define Symbols'");
+            // Deactivate immediately (Destroy only takes effect at end of frame): this skips
+            // Start() on every component under this object (AltDialog's reconnect/version-check
+            // coroutines, InvokeRepeating, etc.) instead of letting them run once before cleanup.
+            this.gameObject.SetActive(false);
             Destroy(this.gameObject);
             return;
 
 #else
             if (_altRunner != null)
             {
+                // Duplicate instance (e.g. the prefab is present in more than one scene). Deactivate
+                // immediately so no component under it runs its (potentially expensive) Start() logic
+                // before the deferred Destroy below actually removes it.
+                this.gameObject.SetActive(false);
                 Destroy(this.gameObject);
                 return;
             }
@@ -52,11 +61,12 @@ namespace AltTester.AltTesterUnitySDK.Commands
             if (RunOnlyInDebugMode && !UnityEngine.Debug.isDebugBuild)
             {
                 logger.Error("AltTester(R) runs only on Debug build");
+                this.gameObject.SetActive(false);
                 Destroy(this.gameObject);
                 return;
             }
 
-            ServerLogManager.SetupAltServerLogging(new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Unity, AltLogLevel.Debug } });
+            AltTesterLogManager.SetupAltServerLogging(new Dictionary<AltLogger, AltLogLevel> { { AltLogger.File, AltLogLevel.Debug }, { AltLogger.Unity, AltLogLevel.Debug } });
 
             _altRunner = this;
             DontDestroyOnLoad(this);
@@ -97,7 +107,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 else
                 {
                     position = FindObjectViaRayCast.GetObjectScreenPosition(altGameObject, camera);
-                    cameraId = camera.GetInstanceID();
+                    cameraId = camera.GetObjectInstanceId();
                 }
             }
             catch (Exception)
@@ -106,11 +116,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 cameraId = -1;
             }
 
-            int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
+            int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetObjectInstanceId();
 
             var altObject = new AltObject(
                 name: altGameObject.name,
-                id: altGameObject.GetInstanceID(),
+                id: altGameObject.GetObjectInstanceId(),
                 x: (position.x < int.MinValue) ? int.MinValue :
                    (position.x > int.MaxValue) ? int.MaxValue :
                    Convert.ToInt32(Mathf.Round(position.x)),
@@ -131,93 +141,22 @@ namespace AltTester.AltTesterUnitySDK.Commands
                 worldY: altGameObject.transform.position.y,
                 worldZ: altGameObject.transform.position.z,
                 idCamera: cameraId,
-                transformId: altGameObject.transform.GetInstanceID(),
+                transformId: altGameObject.transform.GetObjectInstanceId(),
                 transformParentId: transformParentId);
             return altObject;
         }
-        public static Vector2 GetScreenPosition(VisualElement visualElement)
-        {
-            var screenCenterPos = visualElement.worldBound.center;
 
-            UIDocument[] uIDocuments = GameObject.FindObjectsOfType<UIDocument>();
-
-            Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
-
-            float scaleFactor = ScaleFactor(uIDocuments[0].panelSettings, currentResolution);
-            if (uIDocuments[0].panelSettings.scaleMode == PanelScaleMode.ConstantPixelSize)
-            {
-                scaleFactor = 1f / scaleFactor;
-            }
-            screenCenterPos *= scaleFactor;
-            screenCenterPos.y = Screen.height - screenCenterPos.y;
-            return screenCenterPos;
-        }
-
-        public static float ScaleFactor(PanelSettings panelSettings, Vector2 screenSize)
-        {
-            var screenDpi = Screen.dpi;
-            float num = 1f;
-            switch (panelSettings.scaleMode)
-            {
-                case PanelScaleMode.ConstantPhysicalSize:
-                    {
-                        float num3 = (screenDpi == 0f) ? 96f : screenDpi;
-                        if (num3 != 0f)
-                        {
-                            num = panelSettings.referenceDpi / num3;
-                        }
-
-                        break;
-                    }
-                case PanelScaleMode.ScaleWithScreenSize:
-                    if (panelSettings.referenceResolution.x * panelSettings.referenceResolution.y != 0)
-                    {
-                        Vector2 vector = panelSettings.referenceResolution;
-                        Vector2 vector2 = new Vector2(screenSize.x / vector.x, screenSize.y / vector.y);
-                        float num2 = 0f;
-                        switch (panelSettings.screenMatchMode)
-                        {
-                            case PanelScreenMatchMode.Expand:
-                                num2 = Mathf.Min(vector2.x, vector2.y);
-                                break;
-                            case PanelScreenMatchMode.Shrink:
-                                num2 = Mathf.Max(vector2.x, vector2.y);
-                                break;
-                            default:
-                                {
-                                    float t = Mathf.Clamp01(panelSettings.match);
-                                    num2 = Mathf.Lerp(vector2.x, vector2.y, t);
-                                    break;
-                                }
-                        }
-
-                        if (num2 != 0f)
-                        {
-                            num = num2;
-                        }
-                    }
-
-                    break;
-            }
-
-            if (panelSettings.scale > 0f)
-            {
-                return num / panelSettings.scale;
-            }
-
-            return 0f;
-        }
 
         public AltObjectLight GameObjectToAltObjectLight(UnityEngine.GameObject altGameObject)
         {
-            int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetInstanceID();
+            int transformParentId = altGameObject.transform.parent == null ? 0 : altGameObject.transform.parent.GetObjectInstanceId();
             AltObjectLight altObject = new AltObjectLight(
                 name: altGameObject.name,
                 type: "GameObject",
-                id: altGameObject.GetInstanceID(),
+                id: altGameObject.GetObjectInstanceId(),
                 enabled: altGameObject.activeSelf,
                 idCamera: 0,
-                transformId: altGameObject.transform.GetInstanceID(),
+                transformId: altGameObject.transform.GetObjectInstanceId(),
                 transformParentId: transformParentId);
 
             return altObject;
@@ -248,7 +187,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
             foreach (UnityEngine.GameObject gameObject in UnityEngine.Resources.FindObjectsOfTypeAll<UnityEngine.GameObject>())
             {
-                if (gameObject.GetInstanceID() == altObjectID)
+                if (gameObject.GetObjectInstanceId() == altObjectID)
                     return gameObject;
             }
             if (throwError)
@@ -260,7 +199,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             foreach (var camera in UnityEngine.Camera.allCameras)
             {
-                if (camera.GetInstanceID() == id)
+                if (camera.GetObjectInstanceId() == id)
                     return camera;
             }
 

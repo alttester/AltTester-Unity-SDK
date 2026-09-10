@@ -10,8 +10,7 @@ import com.alttester.IMessageHandler;
 /** Get the value of a property from one of the component of the object. */
 public class AltGetComponentProperty extends AltBaseCommand {
   /**
-   * @param altGetComponentPropertyParameters builder for getting components'
-   *                                          property
+   * @param altGetComponentPropertyParameters builder for getting components' property
    */
   private AltGetComponentPropertyParams altGetComponentPropertyParameters;
 

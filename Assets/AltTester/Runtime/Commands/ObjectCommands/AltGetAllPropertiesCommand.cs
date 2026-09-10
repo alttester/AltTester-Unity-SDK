@@ -28,7 +28,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltGetAllPropertiesCommand : AltReflectionMethodsCommand<AltGetAllPropertiesParams, List<AltProperty>>
     {
-        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = AltTesterLogManager.Instance.GetCurrentClassLogger();
 
         public AltGetAllPropertiesCommand(AltGetAllPropertiesParams cmdParams) : base(cmdParams)
         {

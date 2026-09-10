@@ -44,8 +44,7 @@ public class AltCallStaticMethodParams extends AltMessage {
     }
   }
 
-  private AltCallStaticMethodParams() {
-  }
+  private AltCallStaticMethodParams() {}
 
   public String getComponent() {
     return component;

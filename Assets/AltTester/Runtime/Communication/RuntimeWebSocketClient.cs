@@ -146,7 +146,7 @@ namespace AltTester.AltTesterUnitySDK.Communication
 #if UNITY_WEBGL && !UNITY_EDITOR
     public class WebGLRuntimeWebSocketClient : IRuntimeWebSocketClient
     {
-        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = AltTesterLogManager.Instance.GetCurrentClassLogger();
 
         private WebGLWebSocket wsClient;
 

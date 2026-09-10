@@ -30,8 +30,7 @@ public class AltSetTextParams extends AltObjectParams {
     }
   }
 
-  private AltSetTextParams() {
-  }
+  private AltSetTextParams() {}
 
   public String getNewText() {
     return value;

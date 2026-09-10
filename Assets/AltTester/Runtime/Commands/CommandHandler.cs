@@ -12,12 +12,13 @@ using AltTester.AltTesterSDK.Driver.Communication;
 using AltTester.AltTesterUnitySDK.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using AltTester.AltTesterUnitySDK.Communication.Handshake;
 
 namespace AltTester.AltTesterUnitySDK.Commands
 {
     public class CommandHandler : ICommandHandler
     {
-        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = AltTesterLogManager.Instance.GetCurrentClassLogger();
         private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
         {
             ContractResolver = new DefaultContractResolver(),
@@ -31,6 +32,36 @@ namespace AltTester.AltTesterUnitySDK.Commands
         public NotificationHandler OnDriverDisconnect { get; set; }
         public NotificationHandler OnAppConnect { get; set; }
 
+        private HandshakeStatus _handshakeStatus = HandshakeStatus.Unlicensed;
+        private string _pendingNonce;
+
+        public HandshakeStatus CurrentHandshakeStatus => _handshakeStatus;
+        public Action OnHandshakeFailed { get; set; }
+
+        public void InitiateHandshake(string appName, string deviceInstanceId, string sdkVersion)
+        {
+            _pendingNonce = GenerateNonce();
+            _handshakeStatus = HandshakeStatus.AwaitingToken;
+
+            var challenge = new HandshakeChallengeMessage
+            {
+                nonce = _pendingNonce,
+                appName = appName,
+                deviceInstanceId = deviceInstanceId,
+                sdkVersion = sdkVersion
+            };
+            this.Send(JsonConvert.SerializeObject(challenge, jsonSerializerSettings));
+            logger.Debug("Connecting to AltTester® Server…");
+        }
+
+        private static string GenerateNonce()
+        {
+            var bytes = new byte[16];
+            using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
+                rng.GetBytes(bytes);
+            // base64url-encode without padding
+            return Convert.ToBase64String(bytes).Replace('+', '-').Replace('/', '_').TrimEnd('=');
+        }
 
         public CommandHandler()
         {
@@ -48,6 +79,13 @@ namespace AltTester.AltTesterUnitySDK.Commands
         public void OnMessage(string data)
         {
             logger.Debug(string.Format("command received: {0}", Utils.TrimLog(data)));
+
+            // Gate: until LICENSED only handshakeToken is processed; all other messages are dropped.
+            if (_handshakeStatus != HandshakeStatus.Licensed)
+            {
+                HandleUnlicensedMessage(data);
+                return;
+            }
 
             Func<string> executeAndSerialize = null;
             CommandParams cmdParams = null;
@@ -117,6 +155,43 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     this.OnDriverDisconnect.Invoke(cmdParams.driverId);
                 }
             }
+        }
+
+        private void HandleUnlicensedMessage(string data)
+        {
+            try
+            {
+                var cmdParams = JsonConvert.DeserializeObject<CommandParams>(data, jsonSerializerSettings);
+                if (cmdParams?.commandName == "handshakeToken")
+                {
+                    var token = JsonConvert.DeserializeObject<HandshakeTokenMessage>(data, jsonSerializerSettings);
+                    var result = HandshakeVerifier.Verify(token, _pendingNonce);
+                    if (result == HandshakeResult.Valid)
+                    {
+                        _handshakeStatus = HandshakeStatus.Licensed;
+                        logger.Info("Connected to AltTester® Server.");
+                    }
+                    else
+                    {
+                        _handshakeStatus = HandshakeStatus.Failed;
+                        // Technical reason kept at Debug for support; users see a clean message.
+                        logger.Debug("Connection verification failed: " + result);
+                        logger.Error("Connection to AltTester® Server was refused.");
+                        OnHandshakeFailed?.Invoke();
+                    }
+                    return;
+                }
+            }
+            catch (JsonException) { }
+            catch (Exception ex)
+            {
+                _handshakeStatus = HandshakeStatus.Failed;
+                logger.Debug("Connection verification failed: " + ex.Message);
+                logger.Error("Connection to AltTester® Server was refused.");
+                OnHandshakeFailed?.Invoke();
+            }
+
+            // Not connected yet: drop this message silently until the connection is established.
         }
 
         private Func<string> createCommand(CommandParams cmdParams)

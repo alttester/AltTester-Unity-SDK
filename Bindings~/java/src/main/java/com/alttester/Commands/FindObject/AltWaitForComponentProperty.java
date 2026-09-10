@@ -13,18 +13,16 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 
 /**
- * Wait until there are no longer any objects that respect the given criteria or
- * times run out and
+ * Wait until there are no longer any objects that respect the given criteria or times run out and
  * will throw an error.
  */
 public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
   /**
-   * @param waitParams          the properties parameter for waiting the object
-   * @param altObject           the AltObject element
-   * @param property            the wanted value of the property
-   * @param getPropertyAsString if true compares the property's value and the
-   *                            actual value as
-   *                            strings
+   * @param waitParams the properties parameter for waiting the object
+   * @param altObject the AltObject element
+   * @param property the wanted value of the property
+   * @param getPropertyAsString if true compares the property's value and the actual value as
+   *     strings
    */
   private AltObject altObject;
 
@@ -63,17 +61,18 @@ public class AltWaitForComponentProperty<T> extends AltBaseFindObject {
   public T Execute(Class<T> returnType) {
     double time = 0;
     String jsonElementToString = "";
-    AltGetComponentPropertyParams getComponentPropertyParams = waitParams.getAltGetComponentPropertyParams();
+    AltGetComponentPropertyParams getComponentPropertyParams =
+        waitParams.getAltGetComponentPropertyParams();
     while (time < waitParams.getTimeout()) {
       logger.debug(
           "Waiting for element where name contains "
               + getComponentPropertyParams.getPropertyName()
               + "....");
       T propertyFound = altObject.getComponentProperty(getComponentPropertyParams, returnType);
-      if (!getPropertyAsString && propertyFound.equals(property))
-        return propertyFound;
+      if (!getPropertyAsString && propertyFound.equals(property)) return propertyFound;
       if (!(propertyFound instanceof JsonArray)) {
-        String str = new GsonBuilder().serializeNulls().create().toJsonTree(propertyFound).toString();
+        String str =
+            new GsonBuilder().serializeNulls().create().toJsonTree(propertyFound).toString();
         jsonElementToString = str.contains("\"") ? str : "\"" + str + "\"";
       } else {
         jsonElementToString = propertyFound.toString();

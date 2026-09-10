@@ -3,7 +3,7 @@
 """
 
 from AltTesterLibrary.AltTesterKeywords import AltTesterKeywords
-from AltTesterLibrary.version import VERSION
+from AltTesterLibrary.__version__ import VERSION
 
 __version__ = VERSION
 

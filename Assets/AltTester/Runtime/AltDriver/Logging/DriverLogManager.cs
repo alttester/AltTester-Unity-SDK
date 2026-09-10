@@ -17,8 +17,22 @@ namespace AltTester.AltTesterSDK.Driver.Logging
         const string LOGSFILEPATH = "AltTester.log";
 
         public static LogFactory Instance { get { return instance.Value; } }
+#if UNITY_6000_5_OR_NEWER
+        private static readonly Lazy<bool> nlogBuiltinItemsRegistered = new Lazy<bool>(() =>
+        {
+            ConfigurationItemFactory.Default = new ConfigurationItemFactory(typeof(LogManager).Assembly);
+            return true;
+        });
+#endif
 
         private static readonly Lazy<LogFactory> instance = new Lazy<LogFactory>(buildLogFactory);
+
+        public static void EnsureConfigurationItemFactory()
+        {
+#if UNITY_6000_5_OR_NEWER
+            _ = nlogBuiltinItemsRegistered.Value;
+#endif
+        }
 
         internal static void SetupAltDriverLogging(Dictionary<AltLogger, AltLogLevel> minLogLevels)
         {
@@ -81,6 +95,7 @@ namespace AltTester.AltTesterSDK.Driver.Logging
 
         private static LogFactory buildLogFactory()
         {
+            EnsureConfigurationItemFactory();
             var config = new LoggingConfiguration();
 
 #if UNITY_EDITOR || ALTTESTER

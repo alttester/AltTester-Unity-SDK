@@ -37,8 +37,7 @@ public class AltMessage {
 
   public static class AltMessageEncoder implements Encoder.Text<AltMessage> {
     @Override
-    public void init(final EndpointConfig config) {
-    }
+    public void init(final EndpointConfig config) {}
 
     @Override
     public String encode(final AltMessage altMessage) throws EncodeException {
@@ -46,14 +45,12 @@ public class AltMessage {
     }
 
     @Override
-    public void destroy() {
-    }
+    public void destroy() {}
   }
 
   public static class AltMessageDecoder implements Decoder.Text<AltMessage> {
     @Override
-    public void init(final EndpointConfig config) {
-    }
+    public void init(final EndpointConfig config) {}
 
     @Override
     public AltMessage decode(final String str) throws DecodeException {
@@ -66,7 +63,6 @@ public class AltMessage {
     }
 
     @Override
-    public void destroy() {
-    }
+    public void destroy() {}
   }
 }

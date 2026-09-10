@@ -17,42 +17,44 @@ import org.junit.jupiter.api.Test;
 
 public class TestsAltCommands {
 
-    class Rule {
-        public List<String> Levels;
-    }
+  class Rule {
+    public List<String> Levels;
+  }
 
-    @Test
-    @Tag("WebGLUnsupported")
-    public void testSetServerLogging() {
-        AltDriver altDriver = TestsHelper.getAltDriver();
-        altDriver.setServerLogging(
-                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
-        Rule rule = altDriver.callStaticMethod(
-                new AltCallStaticMethodParams.Builder(
-                        "Altom.AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
-                        "Instance.Configuration.FindRuleByName",
-                        "Assembly-CSharp",
-                        new Object[] { "AltServerFileRule" })
-                        .build(),
-                Rule.class);
+  @Test
+  @Tag("WebGLUnsupported")
+  public void testSetServerLogging() {
+    AltDriver altDriver = TestsHelper.getAltDriver();
+    altDriver.setServerLogging(
+        new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
+    Rule rule =
+        altDriver.callStaticMethod(
+            new AltCallStaticMethodParams.Builder(
+                    "Altom.AltTester.AltTesterUnitySDK.Logging.AltTesterLogManager",
+                    "Instance.Configuration.FindRuleByName",
+                    "Assembly-CSharp",
+                    new Object[] {"AltServerFileRule"})
+                .build(),
+            Rule.class);
 
-        assertEquals(5, rule.Levels.size());
+    assertEquals(5, rule.Levels.size());
 
-        altDriver.setServerLogging(
-                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Off).build());
-        rule = altDriver.callStaticMethod(
-                new AltCallStaticMethodParams.Builder(
-                        "Altom.AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
-                        "Instance.Configuration.FindRuleByName",
-                        "Assembly-CSharp",
-                        new Object[] { "AltServerFileRule" })
-                        .build(),
-                Rule.class);
+    altDriver.setServerLogging(
+        new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Off).build());
+    rule =
+        altDriver.callStaticMethod(
+            new AltCallStaticMethodParams.Builder(
+                    "Altom.AltTester.AltTesterUnitySDK.Logging.AltTesterLogManager",
+                    "Instance.Configuration.FindRuleByName",
+                    "Assembly-CSharp",
+                    new Object[] {"AltServerFileRule"})
+                .build(),
+            Rule.class);
 
-        assertEquals(0, rule.Levels.size());
+    assertEquals(0, rule.Levels.size());
 
-        // Reset logging level
-        altDriver.setServerLogging(
-                new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
-    }
+    // Reset logging level
+    altDriver.setServerLogging(
+        new AltSetServerLoggingParams.Builder(AltLogger.File, AltLogLevel.Debug).build());
+  }
 }

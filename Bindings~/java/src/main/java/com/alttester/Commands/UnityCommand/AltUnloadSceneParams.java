@@ -23,8 +23,7 @@ public class AltUnloadSceneParams extends AltMessage {
     }
   }
 
-  private AltUnloadSceneParams() {
-  }
+  private AltUnloadSceneParams() {}
 
   public String getSceneName() {
     return sceneName;

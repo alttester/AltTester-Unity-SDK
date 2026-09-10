@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using AltTester;
 using AltTester.AltTesterSDK.Driver.Commands;
 using AltTester.AltTesterSDK.Driver.Communication;
 using AltTester.AltTesterSDK.Driver.Logging;
@@ -22,7 +23,7 @@ namespace AltTester.AltTesterSDK.Driver
         private static readonly NLog.Logger logger = DriverLogManager.Instance.GetCurrentClassLogger();
         private readonly IDriverCommunication communicationHandler;
         private static object driverLock = new object();
-        public static readonly string VERSION = "2.3.3";
+        public static string VERSION => AltTesterVersion.VERSION;
 
         public IDriverCommunication CommunicationHandler { get { return communicationHandler; } }
 

@@ -13,8 +13,7 @@ public class AltReversePortForwarding {
   private static final Logger log = LoggerFactory.getLogger(AltReversePortForwarding.class);
 
   public static String getAdbPath(String adbPath) {
-    if (adbPath != null && !adbPath.isEmpty())
-      return adbPath;
+    if (adbPath != null && !adbPath.isEmpty()) return adbPath;
 
     String androidSdkRoot = System.getenv("ANDROID_SDK_ROOT");
 
@@ -50,8 +49,7 @@ public class AltReversePortForwarding {
             + localPort);
 
     String command;
-    if (deviceId.equals(""))
-      command = adbPath + " reverse tcp:" + remotePort + " tcp:" + localPort;
+    if (deviceId.equals("")) command = adbPath + " reverse tcp:" + remotePort + " tcp:" + localPort;
     else
       command = adbPath + " -s " + deviceId + " reverse  tcp:" + remotePort + " tcp:" + localPort;
 

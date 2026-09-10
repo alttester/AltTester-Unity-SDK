@@ -10,8 +10,7 @@ import com.alttester.IMessageHandler;
 /** Set the value of a property from one of the component of the object. */
 public class AltSetStaticProperty extends AltBaseCommand {
   /**
-   * @param altSetComponentPropertyParameters builder for setting components'
-   *                                          property
+   * @param altSetComponentPropertyParameters builder for setting components' property
    */
   private AltSetComponentPropertyParams altSetComponentPropertyParameters;
 

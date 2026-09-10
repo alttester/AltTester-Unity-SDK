@@ -44,8 +44,7 @@ public class AltFindObjectsParams extends AltMessage {
     }
   }
 
-  private AltFindObjectsParams() {
-  }
+  private AltFindObjectsParams() {}
 
   public String getValue() {
     return value;

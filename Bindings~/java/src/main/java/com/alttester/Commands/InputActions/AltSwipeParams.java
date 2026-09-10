@@ -16,7 +16,7 @@ public class AltSwipeParams extends AltMessage {
 
     /**
      * @param start Coordinates of the screen where the swipe begins.
-     * @param end   Coordinates of the screen where the swipe ends.
+     * @param end Coordinates of the screen where the swipe ends.
      */
     public Builder(Vector2 start, Vector2 end) {
       this.start = start;
@@ -40,8 +40,7 @@ public class AltSwipeParams extends AltMessage {
     }
 
     /**
-     * @param duration The time measured in seconds to move the mouse from start to
-     *                 end location
+     * @param duration The time measured in seconds to move the mouse from start to end location
      */
     public AltSwipeParams.Builder withDuration(float duration) {
       this.duration = duration;

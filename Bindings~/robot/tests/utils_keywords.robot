@@ -39,4 +39,5 @@ Initialize AltDriver With Custom Host And Port
     [Arguments]
     ${host} =  Get Environment Variable  ALTSERVER_HOST
     ${port} =  Get Environment Variable  ALTSERVER_PORT
-    Initialize AltDriver    ${host}    ${port}
+    ${platform_version} =  Get Environment Variable  ALTSERVER_PLATFORM_VERSION  default=unknown
+    Initialize AltDriver    ${host}    ${port}    platform_version=${platform_version}

@@ -29,7 +29,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 {
     public abstract class AltBaseScreenshotCommand<TParams, TResult> : AltCommand<TParams, TResult> where TParams : CommandParams
     {
-        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = AltTesterLogManager.Instance.GetCurrentClassLogger();
         protected readonly ICommandHandler Handler;
 
         protected AltBaseScreenshotCommand(ICommandHandler handler, TParams cmdParams) : base(cmdParams)

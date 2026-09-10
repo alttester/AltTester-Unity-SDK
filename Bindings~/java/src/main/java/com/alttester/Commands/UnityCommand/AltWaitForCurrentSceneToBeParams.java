@@ -27,7 +27,8 @@ public class AltWaitForCurrentSceneToBeParams extends AltMessage {
     }
 
     public AltWaitForCurrentSceneToBeParams build() {
-      AltWaitForCurrentSceneToBeParams altWaitForCurrentSceneToBeParameters = new AltWaitForCurrentSceneToBeParams();
+      AltWaitForCurrentSceneToBeParams altWaitForCurrentSceneToBeParameters =
+          new AltWaitForCurrentSceneToBeParams();
       altWaitForCurrentSceneToBeParameters.timeout = this.timeout;
       altWaitForCurrentSceneToBeParameters.interval = this.interval;
       altWaitForCurrentSceneToBeParameters.sceneName = this.sceneName;
@@ -35,8 +36,7 @@ public class AltWaitForCurrentSceneToBeParams extends AltMessage {
     }
   }
 
-  private AltWaitForCurrentSceneToBeParams() {
-  }
+  private AltWaitForCurrentSceneToBeParams() {}
 
   private double timeout = 20;
   private double interval = 0.5;

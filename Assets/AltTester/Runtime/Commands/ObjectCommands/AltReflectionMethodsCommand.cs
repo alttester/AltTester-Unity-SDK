@@ -31,7 +31,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltReflectionMethodsCommand<TParam, TResult> : AltCommand<TParam, TResult> where TParam : CommandParams
     {
-        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = AltTesterLogManager.Instance.GetCurrentClassLogger();
 
         protected AltReflectionMethodsCommand(TParam cmdParams) : base(cmdParams) { }
 

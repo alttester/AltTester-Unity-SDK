@@ -10,8 +10,7 @@ import com.alttester.IMessageHandler;
 /** Find all the objects in the scene which respect the given criteria. */
 public class AltFindObjectsWhichContain extends AltBaseFindObject {
   /**
-   * @param altFindObjectsParameters the properties parameter for finding the
-   *                                 objects in a scene.
+   * @param altFindObjectsParameters the properties parameter for finding the objects in a scene.
    */
   private AltFindObjectsParams altFindObjectsParameters;
 

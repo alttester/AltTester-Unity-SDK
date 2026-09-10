@@ -5,8 +5,7 @@
 package com.alttester.altTesterExceptions;
 
 public class AltException extends RuntimeException {
-  public AltException() {
-  }
+  public AltException() {}
 
   public AltException(String message) {
     super(message);

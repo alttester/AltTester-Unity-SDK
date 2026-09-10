@@ -93,14 +93,15 @@ public class WebsocketConnection {
 
   private URI getURI() {
 
-    String query = String.format(
-        "appName=%s&platform=%s&platformVersion=%s&deviceInstanceId=%s&appId=%s&driverType=java_%s",
-        escapeDataString(appName),
-        escapeDataString(platform),
-        escapeDataString(platformVersion),
-        escapeDataString(deviceInstanceId),
-        escapeDataString(appId),
-        AltDriver.VERSION);
+    String query =
+        String.format(
+            "appName=%s&platform=%s&platformVersion=%s&deviceInstanceId=%s&appId=%s&driverType=java_%s",
+            escapeDataString(appName),
+            escapeDataString(platform),
+            escapeDataString(platformVersion),
+            escapeDataString(deviceInstanceId),
+            escapeDataString(appId),
+            AltDriver.VERSION);
 
     try {
       String scheme = secureMode ? "wss" : "ws";
@@ -170,17 +171,15 @@ public class WebsocketConnection {
         sslContext.init(
             null,
             new TrustManager[] {
-                new X509TrustManager() {
-                  public X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                  }
-
-                  public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                  }
-
-                  public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                  }
+              new X509TrustManager() {
+                public X509Certificate[] getAcceptedIssuers() {
+                  return null;
                 }
+
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+              }
             },
             new java.security.SecureRandom());
 

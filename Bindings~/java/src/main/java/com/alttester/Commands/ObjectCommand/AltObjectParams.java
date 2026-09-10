@@ -11,8 +11,7 @@ public class AltObjectParams extends AltMessage {
 
   protected AltObject altObject;
 
-  protected AltObjectParams() {
-  }
+  protected AltObjectParams() {}
 
   public void setAltObject(AltObject altObject) {
     this.altObject = altObject;

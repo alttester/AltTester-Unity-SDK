@@ -1106,7 +1106,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         public void TestGetAllScenes()
         {
             var scenes = altDriver.GetAllScenes();
-            Assert.AreEqual(15, scenes.Count);
+            Assert.AreEqual(16, scenes.Count);
             Assert.AreEqual("Scene 1 AltDriverTestScene", scenes[0]);
         }
 
@@ -1554,6 +1554,11 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             Assert.True(FastApproximately(initialCapsulePosition.x, finalCapsulePosition.x, 0.01f));
             Assert.True(FastApproximately(initialCapsulePosition.y, finalCapsulePosition.y, 0.01f));
             Assert.True(FastApproximately(initialCapsulePosition.z, finalCapsulePosition.z, 0.01f));
+        }
+        [Test]
+        public void TestGetVersion()
+        {
+            Assert.AreEqual(AltDriver.VERSION, altDriver.GetServerVersion());
         }
 
         [Test]

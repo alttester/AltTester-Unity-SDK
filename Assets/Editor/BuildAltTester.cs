@@ -137,6 +137,7 @@ namespace AltTesterTools
             {
                 SetCommonSettings(BuildTargetGroup.WebGL);
 
+                PlayerSettings.colorSpace = UnityEngine.ColorSpace.Gamma;
                 PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
                 PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.FullWithStacktrace;
 
@@ -178,6 +179,12 @@ namespace AltTesterTools
             }
             instrumentationSettings.ResetConnectionData = true;
             instrumentationSettings.UID = UnityEngine.SystemInfo.deviceUniqueIdentifier.ToString() + DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+
+            var showNativePopup = System.Environment.GetEnvironmentVariable("SHOW_NATIVE_POPUP");
+            if (!string.IsNullOrEmpty(showNativePopup))
+            {
+                instrumentationSettings.ShowNativePopup = bool.Parse(showNativePopup);
+            }
 
             return instrumentationSettings;
         }
