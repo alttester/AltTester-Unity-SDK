@@ -39,9 +39,20 @@ jobs:
 
   Roslyn-Analyzer-dotnet:
     runs-on: [self-hosted, MAC37]
+    timeout-minutes: 60
     needs: paths-filter
     steps:
       - uses: actions/checkout@v2
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-${{ runner.os }}-
+            Library-
+
       - name: Restore dependencies
         run: |
           $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -logFile buildForDotnetClean.log -quit
@@ -52,10 +63,20 @@ jobs:
 
   build-macOS:
     runs-on: [self-hosted, MAC37]
+    timeout-minutes: 60
     needs: Roslyn-Analyzer-dotnet
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true' || needs.paths-filter.outputs.robot == 'true'
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-${{ runner.os }}-
+            Library-
 
       - name: Build SampleGame
         run: |
@@ -86,10 +107,20 @@ jobs:
 
   test-CSharp-Editor:
     runs-on: [self-hosted, MAC37]
+    timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-${{ runner.os }}-
+            Library-
 
       - uses: actions/download-artifact@v4
         with:
@@ -128,6 +159,7 @@ jobs:
 
   test-DotNet:
     runs-on: [self-hosted, MAC37]
+    timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
@@ -169,6 +201,7 @@ jobs:
 
   test-Python:
     runs-on: [self-hosted, MAC37]
+    timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
@@ -242,6 +275,7 @@ jobs:
 
   test-Robot:
     runs-on: [self-hosted, MAC37]
+    timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.robot == 'true'
     steps:
@@ -290,6 +324,7 @@ jobs:
 
   test-Java:
     runs-on: [self-hosted, MAC37]
+    timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.java == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:

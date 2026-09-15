@@ -1,0 +1,90 @@
+name: Bug Report
+description: Something is broken or behaves differently than documented.
+labels: ["bug"]
+body:
+  - type: checkboxes
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I have searched existing issues and this is not a duplicate.
+          required: true
+
+  - type: input
+    attributes:
+      label: AltTester Unity SDK version
+      placeholder: "e.g. 2.3.2"
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Unity version
+      placeholder: "e.g. 2021.3.45f1"
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Platform
+      multiple: true
+      options:
+        - Android
+        - iOS
+        - Windows
+        - macOS
+        - WebGL
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Binding language
+      multiple: true
+      options:
+        - C# / .NET
+        - Python
+        - Java
+        - Robot Framework
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Current behavior
+      description: What is happening?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: What should happen instead?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Minimal reproduction
+      description: Code snippet or project that reproduces the issue.
+      render: csharp
+
+  - type: textarea
+    attributes:
+      label: Logs
+      description: Relevant Unity logs, AltTester logs, or stack traces.
+      render: text
+
+  - type: textarea
+    attributes:
+      label: Additional context
