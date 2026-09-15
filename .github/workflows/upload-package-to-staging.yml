@@ -8,7 +8,7 @@ on:
 
 jobs:
   create-unity-package:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     steps:
       - uses: actions/checkout@v3
       - name: Create Unity Package

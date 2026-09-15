@@ -42,7 +42,7 @@ jobs:
               - 'Bindings~/robot/**'
 
   Roslyn-Analyzer-dotnet:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     timeout-minutes: 60
     needs: paths-filter
     steps:
@@ -66,7 +66,7 @@ jobs:
         run: dotnet build AltTester-Unity-SDK.sln --no-restore -warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
 
   build-macOS:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     timeout-minutes: 60
     needs: Roslyn-Analyzer-dotnet
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true' || needs.paths-filter.outputs.robot == 'true'
