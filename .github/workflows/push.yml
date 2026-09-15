@@ -110,7 +110,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-CSharp-Editor:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
@@ -162,7 +162,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-DotNet:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
@@ -204,7 +204,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-Python:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
@@ -278,7 +278,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-Robot:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.robot == 'true'
@@ -327,7 +327,7 @@ jobs:
             **/output.xml
 
   test-Java:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.java == 'true' || needs.paths-filter.outputs.scenes == 'true'
