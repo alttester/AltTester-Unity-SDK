@@ -1,0 +1,26 @@
+name: Documentation Issue
+description: Something in the docs is wrong, missing, or unclear.
+labels: ["documentation"]
+body:
+  - type: input
+    attributes:
+      label: Affected page or section
+      placeholder: "e.g. https://alttester.com/docs/... or 'Getting Started / iOS setup'"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: What is wrong or missing?
+      description: Describe the issue with the current documentation.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Suggested fix
+      description: If you have a suggested correction or addition, add it here.
+
+  - type: textarea
+    attributes:
+      label: Additional context

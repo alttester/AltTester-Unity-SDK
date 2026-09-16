@@ -48,7 +48,7 @@ on:
 
 jobs:
   publish-python-pip-package:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     if: github.event_name == 'release' || github.event.inputs.publish-python-pip == 'true'
 
     steps:
@@ -71,7 +71,7 @@ jobs:
           python3 -m twine upload dist/*
 
   publish-robot-pip-package:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     if: github.event_name == 'release' || github.event.inputs.publish-robot-pip == 'true'
 
     steps:
@@ -109,10 +109,10 @@ jobs:
         run: |
           cd "Bindings~/dotnet"
           dotnet pack AltDriver/AltDriver.csproj -c release
-          dotnet nuget push AltDriver/bin/release/AltTester-Driver.2.3.1.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
+          dotnet nuget push AltDriver/bin/release/*.nupkg --api-key $NUGET_DEPLOY_KEY --source https://api.nuget.org/v3/index.json
 
   create-unity-package:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     if: github.event_name == 'release' || github.event.inputs.create-unity-package == 'true'
     steps:
       - uses: actions/checkout@v3
