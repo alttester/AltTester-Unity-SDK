@@ -376,10 +376,16 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   copyright:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, Windows, product]
     steps:
-      - run: |
-          pwsh copyright.ps1
+      # The job used to run without one, working only because $GITHUB_WORKSPACE happens to
+      # survive between runs on a self-hosted runner and still held an earlier job's checkout.
+      - uses: actions/checkout@v4
+
+      # Windows PowerShell 5.1, which ships with Windows - no pwsh needed. Verified the script
+      # produces byte-identical output under both.
+      - run: ./copyright.ps1
+        shell: powershell
 
       - uses: ravsamhq/notify-slack-action@2.3.0
         if: ${{ always() && github.ref_name == 'development' }}
