@@ -42,7 +42,7 @@ Because our tests are written in C# using the NUnit framework, we used the [Appi
 An important aspect of running tests on BrowserStack is that there’s a [local testing connection](https://www.browserstack.com/docs/app-automate/appium/getting-started/c-sharp/nunit/local-testing#3-configure-and-run-your-local-test) needed. **Local Testing**, a BrowserStack option, allows us to conduct automated test execution for mobile apps that access resources hosted in development or testing environments.
 
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/browserstack-local-diagram.png
+.. image:: ../../_static/img/alttester-with-cloud/browserstack-local-diagram.png
 ```
 
 #### **Prerequisites**
@@ -59,7 +59,7 @@ There are [two options](https://www.browserstack.com/docs/app-automate/appium/ge
 
 a. you can upload the file (.apk or .ipa) from your local file system, as shown below - use the UI button available on the [Dashboard](https://app-automate.browserstack.com/dashboard/v2/quick-start/get-started)
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/browserstack-upload-build.png
+.. image:: ../../_static/img/alttester-with-cloud/browserstack-upload-build.png
 ```
 
 - a unique app ID, formatted as **bs://{app_id}** will be generated if the upload was successful - take note of this value because you will use it to specify the app capability for the application under test
@@ -72,7 +72,7 @@ b. use the BrowserStack REST API endpoint
 Once you are logged into your BrowserStack account, you can find the credentials in the AccessKey section in the [BrowserStack Dashboard](https://app-automate.browserstack.com/dashboard/v2/quick-start/get-started).
 
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/browserstack-credentials.png
+.. image:: ../../_static/img/alttester-with-cloud/browserstack-credentials.png
 ```
 
 **3. Set the BrowserStack credentials and app ID as environment variables**
@@ -269,7 +269,7 @@ An important aspect of running tests on BrowserStack is that there’s a [local 
 In this case we need a connection between the self-hosted runner that executes the tests and the BrowserStack device.
 
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/browserstack-local-github-diagram.png
+.. image:: ../../_static/img/alttester-with-cloud/browserstack-local-github-diagram.png
 ```
 
 #### **Prerequisites**
@@ -293,7 +293,7 @@ For creating this testing context a Windows machine was defined as runner, but i
 
 Once you are logged into your BrowserStack account, upload your build instrumented with AltTester® Unity SDK using the UI button available on Dashboard.
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/browserstack-upload-build.png
+.. image:: ../../_static/img/alttester-with-cloud/browserstack-upload-build.png
 ```
 
 **3. Set credentials and app id as GitHub Secrets**
@@ -506,7 +506,7 @@ on:
 ```
 After the job is picked up by the runner (depending on its availability), and the flow reaches the step *“Running tests on BrowserStack”*, you’ll see in your BrowserStack Dashboard that a new session has started. This is how a successfully running workflow looks like:
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/browserstack-github-actions-workflow.png
+.. image:: ../../_static/img/alttester-with-cloud/browserstack-github-actions-workflow.png
 ```
 
 ## SauceLabs
@@ -672,17 +672,17 @@ For this purpose, an [Azure virtual machine](https://azure.microsoft.com/en-us/p
     - besides the default port rules created, in order to make AltTester® Server visible by external devices, it was needed to create an Inbound port rule for *Protocol*: **TCP**, *Port*: **13000** and *Source*: **Any** (destination)
 
     ```eval_rst
-    .. image:: ../_static/img/alttester-with-cloud/sauce-labs-virtual-machine-settings1.png
+    .. image:: ../../_static/img/alttester-with-cloud/sauce-labs-virtual-machine-settings1.png
     ```
     <br>
 
     ```eval_rst
-    .. image:: ../_static/img/alttester-with-cloud/sauce-labs-virtual-machine-settings2.png
+    .. image:: ../../_static/img/alttester-with-cloud/sauce-labs-virtual-machine-settings2.png
     ```
     - another necessary setting: [turn Microsoft Defender Firewall off](https://support.microsoft.com/en-us/windows/turn-microsoft-defender-firewall-on-or-off-ec0844f7-aebd-0583-67fe-601ecf5d774f) on the virtual machine
 - [download AltTester® Desktop](https://alttester.com/downloads/) on your virtual machine, install it, launch it and leave it running and listening on port `13000`
     ```eval_rst
-    .. image:: ../_static/img/alttester-with-cloud/sauce-labs-alttester-desktop.png
+    .. image:: ../../_static/img/alttester-with-cloud/sauce-labs-alttester-desktop.png
     ```
 
 **2. Have a set of C# tests that use AltTester® Unity SDK v2.2.\***
@@ -860,7 +860,7 @@ Now trigger the test execution from the terminal with `dotnet test`.
 
 You can find your tests results in the designated section **Tests Results**
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/sauce-labs-tests-results.png
+.. image:: ../../_static/img/alttester-with-cloud/sauce-labs-tests-results.png
 ```
 
 ## AWS Device Farm
@@ -961,20 +961,20 @@ Keep in mind that the setup is different for Android and iOS.
 - **for remote connection** - a way to connect to AltTester® Server, within the AltTester® Desktop application is by installing AltTester® Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
     - create a [Windows instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2Win_Infrastructure.html) 
     ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/aws-windows-instance.png
+        .. image:: ../../_static/img/alttester-with-cloud/aws-windows-instance.png
     ```
     - add [Inbound rule to Security Group](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/working-with-security-groups.html#changing-security-group) to make port `13000` accessible - the custom TCP on port `13000` is needed to have the connection to AltTester® Desktop default `13000` port  
     ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/aws-inbound-rule-to-security-group.png
+        .. image:: ../../_static/img/alttester-with-cloud/aws-inbound-rule-to-security-group.png
     ``` 
     - [Connect to the Instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html) through Remote Access Connection  
     ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/aws-connect-to-instance.png
+        .. image:: ../../_static/img/alttester-with-cloud/aws-connect-to-instance.png
     ```  
     - [Download AltTester® Desktop for Windows](https://alttester.com/downloads/) and install it on the Instance  
     - [Associate an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating), so that the IP remains constant after each opening of the instance
     ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
+        .. image:: ../../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
     ```
 ```eval_rst
 
@@ -1177,20 +1177,20 @@ Keep in mind that the setup is different for Android and iOS.
 - **for remote connection** - a way to connect to AltTester® Server, within the AltTester® Desktop application is by installing AltTester® Desktop on an [Amazon EC2 Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Instances.html). The details of creating an EC2 Instance are out of scope, however, these are the main things to take into account for a successful connection: 
     - create a [Windows instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2Win_Infrastructure.html) 
     ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/aws-windows-instance.png
+        .. image:: ../../_static/img/alttester-with-cloud/aws-windows-instance.png
     ```
     - add [Inbound rule to Security Group](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/working-with-security-groups.html#changing-security-group) to make port `13000` accessible - the custom TCP on port `13000` is needed to have the connection to AltTester® Desktop default `13000` port  
     ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/aws-inbound-rule-to-security-group.png
+        .. image:: ../../_static/img/alttester-with-cloud/aws-inbound-rule-to-security-group.png
     ``` 
     - [Connect to the Instance](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html) through Remote Access Connection  
     ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/aws-connect-to-instance.png
+        .. image:: ../../_static/img/alttester-with-cloud/aws-connect-to-instance.png
     ```  
     - [Download AltTester® Desktop for Windows](https://alttester.com/downloads/) and install it on the Instance  
     - [Associate an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating), so that the IP remains constant after each opening of the instance
     ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
+        .. image:: ../../_static/img/alttester-with-cloud/aws-associate-elastic-ip.png
     ```
     ```eval_rst
 
@@ -1246,7 +1246,7 @@ You can create a free account at <https://cloud.bitbar.com> and try out the test
 In this dashboard you can have an overview of the setup combinations we tried and which were successful:
 
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-connectivity-dashboard.png
+.. image:: ../../_static/img/alttester-with-cloud/bitbar-serverside-connectivity-dashboard.png
 ```
 *because IProxy does not offer the possibility to do a reverse proxy (similar to how it is possible on adb reverse proxy) the instrumented game build cannot connect to AltTester® Server on localhost.
 
@@ -1294,7 +1294,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
     - virtual machine  **network settings** required in order to have this machine publicly reachable by the devices from BitBar:
         - define an **Inbound port rule for protocol TCP on port 13000: Allow connection from Any source**
         ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-network-settings.png
+        .. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-network-settings.png
         ```
         - another necessary setting: [Turn off Firewall on the VM](https://support.microsoft.com/en-us/windows/turn-microsoft-defender-firewall-on-or-off-ec0844f7-aebd-0583-67fe-601ecf5d774f)
 
@@ -1308,7 +1308,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
     - since in our example we chose the batchmode option, we have to set up the path of the AltTester® Desktop app executable in the system **PATH environment variable**
     - then from *Azure portal Operations* > *Run Command* option we choose: *RunPowerShellScript*
         ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-azur-portal-operations.png
+        .. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-azur-portal-operations.png
         ```
         
         - run command:
@@ -1463,13 +1463,13 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
 - **for local connection**
     - here is what the archived package contains to be able to execute tests server-side when AltTester® Server is running on the machine offered by BitBar:
     ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-remote-connection-zip-archive.png
+        .. image:: ../../_static/img/alttester-with-cloud/bitbar-serverside-remote-connection-zip-archive.png
     ```
 
 - **for remote connection**
     - here is what the archived package contains to be able to execute tests server-side when AltTester® Server is running on a separate machine, not on the one offered by BitBar:
     ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-local-connection-zip-archive.png
+        .. image:: ../../_static/img/alttester-with-cloud/bitbar-serverside-local-connection-zip-archive.png
     ```
 
 
@@ -1509,7 +1509,7 @@ If you are using [free trial version](https://smartbear.com/product/bitbar/free-
 An automated test session starts **simultaneously** on all the devices from the group selected.
 
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-test-run.png
+.. image:: ../../_static/img/alttester-with-cloud/bitbar-serverside-test-run.png
 ```
 
 ### BitBar C# project example running client-side
@@ -1520,7 +1520,7 @@ For more details check [this article](https://alttester.com/integrate-appium-and
 
 In this dashboard you can have an overview of the setup combinations we tried and which were successful:
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-connectivity-dashboard.png
+.. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-connectivity-dashboard.png
 ```
 *we used **SmartBear SecureTunnel** for this case
 
@@ -1544,7 +1544,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
 - virtual machine  **network settings** required in order to have this machine publicly reachable by the devices from BitBar:
     - define an **Inbound port rule for protocol TCP on port 13000: Allow connection from Any source**
     ```eval_rst
-    .. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-network-settings.png
+    .. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-network-settings.png
     ```
     - another necessary setting: [Turn off Firewall on the VM](https://support.microsoft.com/en-us/windows/turn-microsoft-defender-firewall-on-or-off-ec0844f7-aebd-0583-67fe-601ecf5d774f)
 
@@ -1558,7 +1558,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
 - since in our example we chose the batchmode option, we have to set up the path of the AltTester® Desktop app executable in the system **PATH environment variable**
 - then from *Azure portal Operations* > *Run Command* option we choose: *RunPowerShellScript*
     ```eval_rst
-    .. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-azur-portal-operations.png
+    .. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-azur-portal-operations.png
     ```
     
     - run command:
@@ -1725,7 +1725,7 @@ dotnet test --filter <test_class_name>
 ```
 
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-test-run.png
+.. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-test-run.png
 ```
 
 ### BitBar Python project example running server-side
@@ -1754,7 +1754,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
     - virtual machine  **network settings** required in order to have this machine publicly reachable by the devices from BitBar:
         - define an **Inbound port rule for protocol TCP on port 13000: Allow connection from Any source**
         ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-network-settings.png
+        .. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-network-settings.png
         ```
         - another necessary setting: [Turn off Firewall on the VM](https://support.microsoft.com/en-us/windows/turn-microsoft-defender-firewall-on-or-off-ec0844f7-aebd-0583-67fe-601ecf5d774f)
 
@@ -1768,7 +1768,7 @@ You can connect to AltTester® Desktop in two ways in order to run the tests ser
     - since in our example we chose the batchmode option, we have to set up the path of the AltTester® Desktop app executable in the system **PATH environment variable**
     - then from *Azure portal Operations* > *Run Command* option we choose: *RunPowerShellScript*
         ```eval_rst
-        .. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-azur-portal-operations.png
+        .. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-azur-portal-operations.png
         ```
         
         - run command:
@@ -1958,7 +1958,7 @@ If you are using [free trial version](https://smartbear.com/product/bitbar/free-
 An automated test session starts **simultaneously** on all the devices from the group selected.
 
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/bitbar-serverside-test-run.png
+.. image:: ../../_static/img/alttester-with-cloud/bitbar-serverside-test-run.png
 ```
 
 ### BitBar Python project example running client-side
@@ -1967,7 +1967,7 @@ Running the tests from your machine offers better control over the environment. 
 
 In this dashboard you can have an overview of the setup combinations we tried and which were successful:
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-connectivity-dashboard.png
+.. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-connectivity-dashboard.png
 ```
 *we used **SmartBear SecureTunnel** for this case
 
@@ -1991,7 +1991,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
 - virtual machine  **network settings** required in order to have this machine publicly reachable by the devices from BitBar:
     - define an **Inbound port rule for protocol TCP on port 13000: Allow connection from Any source**
     ```eval_rst
-    .. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-network-settings.png
+    .. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-network-settings.png
     ```
     - another necessary setting: [Turn off Firewall on the VM](https://support.microsoft.com/en-us/windows/turn-microsoft-defender-firewall-on-or-off-ec0844f7-aebd-0583-67fe-601ecf5d774f)
 
@@ -2005,7 +2005,7 @@ We used [Azure](https://azure.microsoft.com/en-us/products/virtual-machines/) to
 - since in our example we chose the batchmode option, we have to set up the path of the AltTester® Desktop app executable in the system **PATH environment variable**
 - then from *Azure portal Operations* > *Run Command* option we choose: *RunPowerShellScript*
     ```eval_rst
-    .. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-azur-portal-operations.png
+    .. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-remote-connection-azur-portal-operations.png
     ```
     
     - run command:
@@ -2161,7 +2161,7 @@ From your machine trigger execution for tests.
 ```
 
 ```eval_rst
-.. image:: ../_static/img/alttester-with-cloud/bitbar-clientside-test-run.png
+.. image:: ../../_static/img/alttester-with-cloud/bitbar-clientside-test-run.png
 ```
 
 ## GitHub

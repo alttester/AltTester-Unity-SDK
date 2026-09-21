@@ -3,13 +3,13 @@
 The GUI refers to the AltTester® Editor window that is displayed when
 adding the AltTester® package in Unity.
 
-![AltTester® Editor Screenshot](../_static/img/alttester-editor/editor-screenshot.png)
+![AltTester® Editor Screenshot](../../_static/img/alttester-editor/editor-screenshot.png)
 
 In the following sections you can see a breakdown of all the sections in the GUI.
 
 ## Tests List
 
-![Tests List Section Screenshot](../_static/img/alttester-editor/test-list.png)
+![Tests List Section Screenshot](../../_static/img/alttester-editor/test-list.png)
 -   displays all the available tests from the project folder
 -   user can use the Refresh button to update the tests list after making some changes in the test script
 -   user can select what tests to run by checking the checkbox next to their name
@@ -36,7 +36,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 ## Build Settings
 
 ```eval_rst
-        .. figure:: ../_static/img/alttester-editor/build-settings.png
+        .. figure:: ../../_static/img/alttester-editor/build-settings.png
             :scale: 60 %
 
 ```
@@ -111,10 +111,10 @@ In the following sections you can see a breakdown of all the sections in the GUI
     If the server is not configured for secure connections, this option should be
     disabled to allow standard WebSocket (`ws://`) communication.
     
-![Popup Screenshot](../_static/img/alttester-editor/popup.png)
+![Popup Screenshot](../../_static/img/alttester-editor/popup.png)
 
 ## Test run Settings
-![Test run Settings Screenshot](../_static/img/alttester-editor/testrun-settings.png)
+![Test run Settings Screenshot](../../_static/img/alttester-editor/testrun-settings.png)
 
 - *Create XML Report*
 
@@ -134,7 +134,7 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 ## Scene Manager
 
-![Scene Manager Screenshot](../_static/img/alttester-editor/scene-manager.png)
+![Scene Manager Screenshot](../../_static/img/alttester-editor/scene-manager.png)
 
 - The Scene Manager pane displays a list of the Scenes from your Project. Checked scenes are included in the build.
 - Unity uses the list of Scenes to determine the order that it loads the Scenes in. To adjust the order of the Scenes use the action buttons   associated to each scene to move them up or down the list.
@@ -151,7 +151,7 @@ _Platform Settings_
 
         .. tab:: Android
 
-            .. image:: ../_static/img/alttester-editor/settings-android.png
+            .. image:: ../../_static/img/alttester-editor/settings-android.png
                 :alt: Android Settings Section
 
             The **Android Bundle Identifier** field: fill in a valid bundle ID.
@@ -162,7 +162,7 @@ _Platform Settings_
 
         .. tab:: iOS
 
-            .. image:: ../_static/img/alttester-editor/settings-ios.png
+            .. image:: ../../_static/img/alttester-editor/settings-ios.png
                 :alt: iOS Settings Section
 
             The **iOS Bundle Identifier** field: fill in a valid bundle ID.
@@ -177,12 +177,12 @@ _Platform Settings_
 
         .. tab:: Editor
 
-            .. image:: ../_static/img/alttester-editor/settings-editor.png
+            .. image:: ../../_static/img/alttester-editor/settings-editor.png
                 :alt: Editor Settings Section
 
         .. tab:: Standalone
 
-            .. image:: ../_static/img/alttester-editor/settings-standalone.png
+            .. image:: ../../_static/img/alttester-editor/settings-standalone.png
                 :alt: Standalone Settings Section
 
             The **Build Target** field: choose build mode according to platform.
@@ -193,7 +193,7 @@ _Platform Settings_
 
         .. tab:: WebGL
 
-            .. image:: ../_static/img/alttester-editor/settings-webgl.png
+            .. image:: ../../_static/img/alttester-editor/settings-webgl.png
                 :alt: WebGL Settings Section
 
             The **Build Location** field: the build path for the instrumented Unity application.

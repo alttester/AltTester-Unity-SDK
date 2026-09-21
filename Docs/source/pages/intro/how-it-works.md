@@ -1,10 +1,7 @@
-# Overview
+# How it works
 
-AltTester® Unity SDK is part of the AltTester® test automation framework for games.  Combined with the AltTester® Desktop, AltTester® Unity SDK helps you find objects in your Unity application and interact with them using tests written in C#, Python, Java or Robot Framework.
-
-You can run your tests on real devices (mobile, PCs, etc.) or inside the Unity Editor.
-
-## How it works
+Testing an app with AltTester® means assembling three pieces. Most setup problems are
+one of the three missing, or the three not agreeing with each other.
 
 AltTester® framework contains the following components:
 
@@ -13,7 +10,7 @@ AltTester® framework contains the following components:
 * AltTester® Bindings / Clients (for C#, Python, Java, Robot Framework, illustrated on the right)
 
 ```eval_rst
-        .. figure:: ../_static/img/overview/architecture1.svg
+        .. figure:: ../../_static/img/overview/architecture1.svg
             :scale: 150 %
 
 ```
@@ -34,21 +31,20 @@ AltTester® framework contains the following components:
 
     The AltDriver module inside each of the clients / bindings, similar to Appium Driver for mobile apps or Selenium WebDriver for web apps, is used to connect to the instrumented Unity game / app, access all the game objects and interact with them through tests written in C#, Python, Java and Robot Framework.
 
-![Architecture](../_static/img/overview/architecture2.png)
+![Architecture](../../_static/img/overview/architecture2.png)
 
-* **AltTester® Server in the Cloud** - (COMING SOON) is a cloud implementation of the AltTester® Server that will allow you to write and execute tests without needing an instance of the AltTester® Desktop running locally, thus simplifying both local development environments and CI setups. 
+## Their versions have to agree
 
-## Key features
+The three are released on independent schedules, so the combination matters. Check the
+[compatibility matrix](compatibility.md) before upgrading any one of them.
 
-- find elements and get all their (public) properties: coordinates, text, values, Unity components, etc.
-- use and modify any of the (public) methods and properties of a Unity element
-- simulate any kind of device input (support for Input Manager and Input System)
-- manipulate and generate test data
-- get screenshots from your Unity App
-- instrument your app and run C# tests from within the Unity Editor using the AltTester® Editor window
-- run C#, Python, Java or Robot Framework tests using your favorite IDE and against the app running on a device or inside the Unity Editor
-- integrate with Appium tests for the ability to interact with native elements
-- support for Browserstack on Android and iOS
-- see test results and reports inside the Unity Editor
-- generate XML test report from the Editor Window
-- run tests concurrently on different devices
+A mismatch does not always announce itself clearly. Two symptoms worth recognising:
+
+- The app connects but live update never refreshes -- usually an older SDK against a newer Desktop.
+- The app appears in the Connected Apps list and immediately disappears -- usually a licence that
+  does not cover that app's engine.
+
+## What to read next
+
+[Requirements](../get-started/requirements.md), then
+[instrument your app](../get-started/install-the-package.md).

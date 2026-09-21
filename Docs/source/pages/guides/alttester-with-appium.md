@@ -109,22 +109,22 @@ Whether this popup is shown or not is controlled by a dedicated setting in AltTe
         .. tabs::
             .. tab:: C#
 
-                .. literalinclude:: ../_static/examples~/appium/csharp-appium.cs
+                .. literalinclude:: ../../_static/examples~/appium/csharp-appium.cs
                     :language: c#
 
             .. tab:: Java
 
-                .. literalinclude:: ../_static/examples~/appium/java-appium.java
+                .. literalinclude:: ../../_static/examples~/appium/java-appium.java
                     :language: java
 
             .. tab:: Python
 
-                .. literalinclude:: ../_static/examples~/appium/python-appium.py
+                .. literalinclude:: ../../_static/examples~/appium/python-appium.py
                     :language: py
 
             .. tab:: Robot
 
-                .. literalinclude:: ../_static/examples~/appium/robot-appium.robot
+                .. literalinclude:: ../../_static/examples~/appium/robot-appium.robot
                     :language: robot
 
     .. tab:: Selenium
@@ -133,22 +133,22 @@ Whether this popup is shown or not is controlled by a dedicated setting in AltTe
         .. tabs::
             .. tab:: C#
 
-                .. literalinclude:: ../_static/examples~/selenium/csharp-selenium.cs
+                .. literalinclude:: ../../_static/examples~/selenium/csharp-selenium.cs
                     :language: c#
 
             .. tab:: Java
 
-                .. literalinclude:: ../_static/examples~/selenium/java-selenium.java
+                .. literalinclude:: ../../_static/examples~/selenium/java-selenium.java
                     :language: java
 
             .. tab:: Python
 
-                .. literalinclude:: ../_static/examples~/selenium/python-selenium.py
+                .. literalinclude:: ../../_static/examples~/selenium/python-selenium.py
                     :language: py
 
             .. tab:: Robot
 
-                .. literalinclude:: ../_static/examples~/selenium/robot-selenium.robot
+                .. literalinclude:: ../../_static/examples~/selenium/robot-selenium.robot
                     :language: robot
 
 ```

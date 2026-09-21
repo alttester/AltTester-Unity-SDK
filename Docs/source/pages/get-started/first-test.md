@@ -1,232 +1,4 @@
-# Get Started
-
-To run the first test for your Unity app you need to:
-
-```eval_rst
-
-.. contents::
-    :local:
-    :depth: 1
-    :backlinks: none
-    :class: custom-table-of-contents
-
-.. note::
-
-    If you don't have access to source code of the app you need to ask a person with access to give you an instrumented version of the app.
-
-```
-
-## Import AltTester® package in Unity Editor
-
-To instrument your Unity application with AltTester® Unity SDK you first need to import the AltTester® package into Unity. This can be done either by downloading from the AltTester® website, or by following the steps from the OpenUPM website.
-
-```eval_rst
-
-.. tabs::
-
-    .. tab:: UnityPackage from AltTester® website
-
-        1. Download from :alttesterpage:`AltTester® <downloads/>`.
-        2. Import it by drag and drop inside your Unity project.
-
-    .. tab:: UnityPackage from OpenUPM website
-
-        1. Go to `OpenUPM <https://openupm.com/packages/com.alttester.sdk/>`_.
-        2. Follow the instructions from the `Install via Package Manager` section on the right to install via Unity's Package Manager or via Command-Line Interface.
-
-```
-
-### Resolve dependencies
-
--   Newtonsoft.Json
-
-In order for AltTester® Unity SDK to work you need dependency for Newtonsoft.Json. Add `"com.unity.nuget.newtonsoft-json": "3.1.0"` to your project `manifest.json`, inside `dependencies`.
-
-```json
-{
-    "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.1.0"
-    }
-}
-```
-
--   Input System
-
-AltTester® Unity SDK has support for Input System starting with version 1.7.1. To enable Input System in AltTester® Unity SDK you need to add `"com.unity.inputsystem"` to your `manifest.json`, inside `testables.`
-
-```json
-{
-    "testables": ["com.unity.inputsystem"]
-}
-```
-
--   Editor Coroutines
-
-In order for AltTester® Unity SDK to work with your project you need the dependency for Editor Coroutines. Add `"com.unity.editorcoroutines": "1.0.0` to your project `manifest.json`, inside `dependencies`.
-
-```json
-{
-    "dependencies": {
-        "com.unity.editorcoroutines": "1.0.0"
-    }
-}
-```
-
-<!--
-To instrument your Unity application with AltTester® Unity SDK you first need to import the AltTester® package into Unity.
-
-```eval_rst
-
-    1. Download `AltTester® Unity SDK <https://alttester.com/app/uploads/altUnityProAlpha/AltUnityTesterUnityPackage>`_.
-
-    2. Import it by drag and drop inside your Unity project.
-
-```
--->
-
-```eval_rst
-
-.. important::
-
-    To make sure the import was correct, check if you can open the AltTester® Editor window from Unity Editor -> AltTester® -> AltTester® Editor.
-
-```
-
-![Window menu with AltTester® Unity SDK Options](../_static/img/get-started/downloading-importing-alttester-editor.png)
-
-## Instrument your app with AltTester® Unity SDK
-
-Steps:
-
-1. Open the AltTester® Editor window from Unity Editor -> AltTester® -> AltTester® Editor <!--2. In the Build Settings section set the **AltTester® Server host** to the IP/hostname of the device where the AltTester® Server is running. Set the **AltTester® Server port** to the port configured in the AltTester® Server. -->
-2. In the Build Settings section set **AltTester® Port** to 13000
-3. In the Scene Manager section select the scenes you want to include in your build
-4. In the Platform section select desired platform and set the path to where you want to save the build
-5. Press "Build Only" to instrument the app or "Build & Run" to start your instrumented app
-   after the build succeeded
-6. Check the console to see if the build was successful.
-
-```eval_rst
-
-.. important::
-
-    AltTester® Unity SDK is intended to be used only in debug builds, and it will not work in release mode out of the box. You need to make sure you don't release a production build instrumented with AltTester® Unity SDK.
-
-.. note::
-
-    If you want to build your intrumented app from outside the AltTester® Editor window you will have to make sure to uncheck the `Development Build` setting from the Build Settings menu in Unity (go to File -> Build Settings) after selecting your Scenes, as seen bellow.
-```
-
-![Build Settings menu from Unity](../_static/img/get-started/create-build-outside-alttestereditor.png)
-
-```eval_rst
-.. note::
-
-    Your build files are available in the configured Output path. By default, the Output path is a folder with the same name as your game.
-.. note::
-
-    If you have a custom build, check how you can build from the command line using the instructions in the :ref:`Advanced Usage<pages/advanced-usage:Build apps from the command line>` section.
-
-.. note::
-
-    If changes are made inside a test, rebuilding the application is not necessary.
-    A rebuild is needed only if changes are made inside the Unity project.
-
-.. note::
-
-    To be able to run your instrumented app in the background, go to File -> Build Settings -> Player Settings -> Project Settings -> Player -> Resolution and presentation and check the box next to Run in background.
-
-.. note::
-
-    To make sure you can catch possible exceptions thrown from your tests, you'll have to go to `Edit -> Project Settings -> Player -> Publishing Settings` and set `Enable Exceptions` to `Full With Stacktrace`.
-
-.. note::
-
-    When running the WebGL build of your app in browser, even with the Run in background setting enabled, you still might experience slow performance if the tab with your content is not on focus. Make sure that the tab with your app is visible, otherwise your content will only update once per second in most browsers.
-
-.. note::
-
-    If you are building your instrumented app using the `IL2CPP` Scripting Backend configuration, you may also want to set the Managed Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization. Otherwise, AltTester® Desktop will throw an exception and will not be able to connect to the game.
-
-```
-
-## Start the AltTester® Server Module
-
-The AltTester® Server Module is incorporated in AltTester® Desktop. In order to start it, all you have to do is to open AltTester® Desktop.
-
-## Run your app in Unity or on desired platform
-
-Before running your tests you need to start the instrumented Unity application. Upon startup, your instrumented Unity app should display a popup with the message: "Waiting for connections on port: {Port}". The popup disappears when your app has successfully connected to the tests.
-
-```eval_rst
-
-.. tabs::
-
-    .. tab:: Unity Editor
-
-        1. Open AltTester® Editor
-        2. In platform section select Editor
-        3. Click Play in Editor
-
-    .. tab:: PC
-
-        1. Open AltTester® Editor
-        2. In platform section select Standalone
-        3. Choose your build target
-        4. Click Build & Run
-
-        .. important::
-
-            Make sure to set the "Api Compatibility Level" to ".NET 4.x" in Unity versions lower than 2021 when building using the Standalone option.
-
-            This setting can be found under Edit menu -> Project Settings -> Player -> Other Settings -> Configuration.
-
-    .. tab:: Android
-
-        Prerequisites:
-
-        * Use the Unity Hub to install Android Build Support and the required dependencies: Android SDK & NDK tools, and OpenJDK
-
-        Steps:
-
-        1. Open AltTester® Editor
-        2. In platform section select Android
-        3. Click Build & Run
-
-
-    .. tab:: iOS
-
-        Prerequisites:
-
-        * Use the Unity Hub to install iOS Build Support
-
-        Steps:
-
-        1. Open AltTester® Editor
-        2. In platform section select iOS
-        3. Click Build & Run
-
-        .. note::
-
-            Check the following link to see how to build and run your app for iOS (.ipa file) -- :alttesteriphoneblog:`link <>`
-
-    .. tab:: WebGL
-
-        Prerequisites:
-
-        * Use the Unity Hub to install WebGL Build Support
-
-        Steps:
-
-        1. Open AltTester® Editor
-        2. In platform section select WebGL
-        3. Click Build & Run
-
-.. note::
-
-    You can switch between the regular and the AltTester® input by toggling the box with the `AltTester® Input` label. Take into consideration that if you are using the New Input System, then after activating the AltTester® input, you will only be able to interact with the instrumented build via your automated tests or the AltTester® Desktop.
-
-```
+# Write your first test
 
 ## Write and execute first test for your app
 
@@ -255,18 +27,18 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
             .. tab:: Unity Editor, PC & WebGL
 
-                .. literalinclude:: ../_static/examples~/get-started/csharp-test.cs
+                .. literalinclude:: ../../_static/examples~/get-started/csharp-test.cs
                     :language: c#
 
             .. tab:: Android
 
-                .. literalinclude:: ../_static/examples~/common/csharp-android-test.cs
+                .. literalinclude:: ../../_static/examples~/common/csharp-android-test.cs
                     :language: c#
                     :emphasize-lines: 12,20
 
             .. tab:: iOS
 
-                .. literalinclude:: ../_static/examples~/common/csharp-ios-test.cs
+                .. literalinclude:: ../../_static/examples~/common/csharp-ios-test.cs
                     :language: c#
 
 
@@ -322,18 +94,18 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
             .. tab:: Unity Editor, PC & WebGL
 
-                .. literalinclude:: ../_static/examples~/get-started/csharp-test.cs
+                .. literalinclude:: ../../_static/examples~/get-started/csharp-test.cs
                     :language: c#
 
             .. tab:: Android
 
-                .. literalinclude:: ../_static/examples~/common/csharp-android-test.cs
+                .. literalinclude:: ../../_static/examples~/common/csharp-android-test.cs
                     :language: c#
                     :emphasize-lines: 12,20
 
             .. tab:: iOS
 
-                .. literalinclude:: ../_static/examples~/common/csharp-ios-test.cs
+                .. literalinclude:: ../../_static/examples~/common/csharp-ios-test.cs
                     :language: c#
 
     .. tab:: Java
@@ -388,18 +160,18 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
             .. tab:: Unity Editor, PC & WebGL
 
-                .. literalinclude:: ../_static/examples~/get-started/java-test.java
+                .. literalinclude:: ../../_static/examples~/get-started/java-test.java
                     :language: java
 
             .. tab:: Android
 
-                .. literalinclude:: ../_static/examples~/common/java-android-test.java
+                .. literalinclude:: ../../_static/examples~/common/java-android-test.java
                     :language: java
                     :emphasize-lines: 19,26
 
             .. tab:: iOS
 
-                .. literalinclude:: ../_static/examples~/common/java-ios-test.java
+                .. literalinclude:: ../../_static/examples~/common/java-ios-test.java
                     :language: java
 
 
@@ -470,18 +242,18 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
             .. tab:: Unity Editor, PC & WebGL
 
-                .. literalinclude:: ../_static/examples~/get-started/python-test.py
+                .. literalinclude:: ../../_static/examples~/get-started/python-test.py
                     :language: py
 
             .. tab:: Android
 
-                .. literalinclude:: ../_static/examples~/common/python-android-test.py
+                .. literalinclude:: ../../_static/examples~/common/python-android-test.py
                     :language: py
                     :emphasize-lines: 12,18
 
             .. tab:: iOS
 
-                .. literalinclude:: ../_static/examples~/common/python-ios-test.py
+                .. literalinclude:: ../../_static/examples~/common/python-ios-test.py
                     :language: py
 
     .. tab:: robot
@@ -556,12 +328,12 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
             .. tab:: Unity Editor, PC & WebGL
 
-                .. literalinclude:: ../_static/examples~/get-started/robot-test.robot
+                .. literalinclude:: ../../_static/examples~/get-started/robot-test.robot
                     :language: robot
 
             .. tab:: Android
 
-                .. literalinclude:: ../_static/examples~/common/robot-android-test.robot
+                .. literalinclude:: ../../_static/examples~/common/robot-android-test.robot
                     :language: robot
                     :emphasize-lines: 26, 31
 
@@ -569,7 +341,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
 
 ```
 
-Now your project can use all the [AltDriver Commands](./commands.md).
+Now your project can use all the [AltDriver commands](../reference/altdriver.md).
 
 <!--
 ```eval_rst
