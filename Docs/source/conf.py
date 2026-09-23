@@ -54,11 +54,9 @@ smv_rename_latest_version = 'latest'
 version = TAGS[len(TAGS) - 1]
 release = version
 
-desktop_release_version = 'v.' + release
 sdk_release_version = version.replace('.', '_')
 
-alttester_sdk_docs_link = "https://alttester.com/docs/desktop/" + \
-    desktop_release_version + "/%s"
+alttester_sdk_docs_link = "https://alttester.com/docs/desktop/latest/%s"
 alttester_unreal_docs_link = "https://alttester.com/docs/unreal-sdk/latest/%s"
 
 extlinks = {
