@@ -14,9 +14,12 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 import os
+import sys
 from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
 from pygments.lexers.robotframework import RobotFrameworkLexer
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '_ext'))
 
 # -- Project information -----------------------------------------------------
 
@@ -76,7 +79,8 @@ extensions = ['sphinx.ext.autosectionlabel',
               'sphinx_rtd_theme',
               'recommonmark',
               'sphinx_multiversion',
-              'sphinx.ext.extlinks']
+              'sphinx.ext.extlinks',
+              'legacy_redirects']
 
 
 source_suffix = {'.rst': 'restructuredtext', '.md': 'markdown'}
