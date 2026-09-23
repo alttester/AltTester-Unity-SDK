@@ -61,6 +61,7 @@ alttester_unreal_docs_link = "https://alttester.com/docs/unreal-sdk/latest/%s"
 
 extlinks = {
     "alttesterpage":                    ("https://alttester.com/%s", None),
+    "alttestersdkdownload":             ("https://alttester.com/downloads/%s", None),
     "alttesterdesktopdocumentation":    (alttester_sdk_docs_link, None),
     "alttesterunrealdocumentation":     (alttester_unreal_docs_link, None),
     "alttesteriphoneblog":              ("https://alttester.com/testing-ios-applications-using-java-and-altunity-tester/%s", None)
