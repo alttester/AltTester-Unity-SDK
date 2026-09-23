@@ -17,7 +17,7 @@ PC, Mac, Android, iOS, WebGL, Console and Unity Editor.
 <details>
 <summary> Can AltTester® Unity SDK be integrated with Appium?</summary>
 <br>
-Yes, AltTester® Unity SDK can be used alongside Appium. Appium allows you to access the native objects and AltTester® Unity SDK can be used to access the Unity objects.  For more info regarding how to run tests together with appium check <em><a href="alttester-with-appium.html">Running tests together with Appium</a></em>.
+Yes, AltTester® Unity SDK can be used alongside Appium. Appium allows you to access the native objects and AltTester® Unity SDK can be used to access the Unity objects.  For more info regarding how to run tests together with appium check <em><a href="../guides/alttester-with-appium.html">Running tests together with Appium</a></em>.
 </details>
 <br>
 
@@ -32,14 +32,14 @@ AltTester® Unity SDK works with Unity 2021.3 LTS or higher. We no longer suppor
 <summary>Can I use AltTester® Unity SDK to run tests using device cloud services? </summary>
 <br>
 It works with some of the cloud services. We tried it with Bitbar, AWS Device Farm, BrowserStack and SauceLabs.
-These give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. Some of these cloud services allow running Appium automated tests by giving you access to an Appium server running in the cloud that has access to all their mobile devices. More info about this here:<em><a href="alttester-with-cloud.html"> Running tests using device cloud services.</a></em>
+These give you access to a virtual machine or a Docker container that has a cloud device attached, where you upload your tests, configure your environment and run your tests. Some of these cloud services allow running Appium automated tests by giving you access to an Appium server running in the cloud that has access to all their mobile devices. More info about this here:<em><a href="../guides/alttester-with-cloud.html"> Running tests using device cloud services.</a></em>
 </details>
 <br>
 
 <details>
 <summary> Do I need access to the source code of the Unity App to write tests?</summary>
 <br>
-In order to run tests using AltTester® Unity SDK you require an <a href="get-started.html#instrument-your-app-with-alttester-unity-sdk">instrumented build</a> of the Unity App. To create an instrumented build of the Unity App you need to <a href="get-started.html#import-alttester-package-in-unity-editor">import</a> the AltTester® package in Unity Editor.
+In order to run tests using AltTester® Unity SDK you require an <a href="../get-started/instrument-your-app.html#instrument-your-app-with-alttester-unity-sdk">instrumented build</a> of the Unity App. To create an instrumented build of the Unity App you need to <a href="../get-started/install-the-package.html#import-alttester-package-in-unity-editor">import</a> the AltTester® package in Unity Editor.
 </details>
 <br>
 
@@ -56,7 +56,7 @@ We’ve published AltTester® Desktop, which allows you to inspect the app objec
 ## Troubleshooting
 
 <details>
-<summary> I get <strong>`waiting for connection on port 13000`</strong> popup message when i start my Unity App </summary>
+<summary> I get <strong><code>waiting for connection on port 13000</code></strong> popup message when i start my Unity App </summary>
 <br>
 The popup message shows up when you start your instrumented Unity App. It tells you that the AltTester® Unity SDK is ready and you can start running your tests.
 </details>
@@ -185,7 +185,7 @@ You get this error because you are using an older binding. (Eg: You use the AltT
 
 
 <details>
-<summary>Xcode build fails with `cannot find protocol 'SKPaymentTransactionObserver'` when using Unity IAP</summary>
+<summary>Xcode build fails with <code>cannot find protocol 'SKPaymentTransactionObserver'</code> when using Unity IAP</summary>
 <br>
 
 **Symptom**

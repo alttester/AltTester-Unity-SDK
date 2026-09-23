@@ -98,7 +98,7 @@ When you do need `By.PATH`, keep it as short as it can be. `//Grid/Item` is far 
 a path anchored at the root, because `//` matches at any depth.
 
 The full path syntax — including `..`, `*`, indexers and attribute selectors such as `@tag` and
-`@text` — is in [BY-Selector](commands.html#by-selector).
+`@text` — is in [BY-Selector](../reference/by-selector.html#by-selector).
 
 ## Selectors and inactive objects
 

@@ -33,8 +33,8 @@ Documentation
 
 *  :doc:`home`
 
-   *  :doc:`/pages/overview`
-   *  :doc:`/pages/get-started`
+   *  :doc:`/pages/intro/overview`
+   *  :doc:`/pages/get-started/requirements`
 
 *  :alttesterunrealdocumentation:`AltTester® Unreal SDK <home.html>`
 

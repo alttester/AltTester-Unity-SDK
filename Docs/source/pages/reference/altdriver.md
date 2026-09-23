@@ -86,7 +86,7 @@ and copy them straight into your tests.
    * - ``enableLogging``
      - boolean
      - ``false``
-     - Turns on driver-side logging. See `AltDriver logging <advanced-usage.html#altdriver-logging>`_.
+     - Turns on driver-side logging. See `AltDriver logging <../guides/logging.html#altdriver-logging>`_.
    * - ``timeout``
      - int, float
      - ``60``

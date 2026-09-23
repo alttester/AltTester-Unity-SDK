@@ -112,7 +112,7 @@ All of these derive from `ConnectionError`.
      - The property was found but its value could not be updated.
    * - ``InvalidPathException``
      - A ``By.PATH`` selector could not be parsed. See the path syntax in
-       `BY-Selector <commands.html#by-selector>`_.
+       `BY-Selector <by-selector.html#by-selector>`_.
    * - ``InvalidCommandException``
      - The command itself was not valid for this app.
    * - ``FailedToParseArgumentsException``
@@ -153,7 +153,7 @@ Python's `TypeError` and `ValueError` respectively, so existing handlers still c
      - A value could not be formatted as required.
    * - ``UnknownErrorException``
      - An unexpected error occurred. If you can reproduce this one, please report it — see
-       `Contributing <contributing.html>`_.
+       `Contributing <../project/contributing.html>`_.
 ```
 
 ## Catching them
