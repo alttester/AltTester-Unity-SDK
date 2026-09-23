@@ -91,7 +91,7 @@ commands:
 
 ## Run tests on a Continuous Integration Server
 
-1. Instrument your app build with AltTester® Unity SDK from Unity or by [building from the command line](#build-apps-from-the-command-line).
+1. Instrument your app build with AltTester® Unity SDK from Unity or by [building from the command line](building-from-command-line.html#build-apps-from-the-command-line).
 2. Start the app build on a device.
 3. Run your tests - see commands in the ["Run tests from the command line" section](#run-tests-from-the-command-line).
 

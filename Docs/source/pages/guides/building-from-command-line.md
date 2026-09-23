@@ -20,7 +20,7 @@ built from the command line:
     build script to insert AltTester® Prefab only in Debug mode.
 
     If you do want to use AltTester® Unity SDK in release mode see
-    `Using AltTester® Unity SDK in Release mode section <#using-alttester-unity-sdk-in-release-mode>`_.
+    `Using AltTester® Unity SDK in Release mode section <release-mode-and-stripping.html#using-alttester-unity-sdk-in-release-mode>`_.
 
 ```
 
@@ -83,7 +83,7 @@ You can find more information about the build command and arguments
 .. note::
 
     After building from the command line you can run the tests by using the
-    commands from the `next section <#run-tests-from-the-command-line>`_.
+    commands from the `next section <running-tests-in-ci.html#run-tests-from-the-command-line>`_.
 
 ```
 

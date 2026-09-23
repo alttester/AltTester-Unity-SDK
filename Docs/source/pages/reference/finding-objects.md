@@ -4,7 +4,7 @@
 
 ### FindObject
 
-Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+Finds the first object in the scene that respects the given criteria. Check [By](by-selector.html#by-selector) for more information about criteria.
 
 ```eval_rst
 
@@ -26,7 +26,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
      - Description
    * - ``by``
        *Python, Robot:* ``locator_strategy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - Yes
      - Set what criteria to use in order to find the object.
    * - ``value``
@@ -35,7 +35,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
      - Yes
      - The value to which the object will be compared to see if it respects the criteria or not.
    * - ``cameraBy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - No
      - Set what criteria to use in order to find the camera.
    * - ``cameraValue``
@@ -51,7 +51,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 **_Returns_**
 
-- [AltObject](#altobject)
+- [AltObject](altobject.html#altobject)
 
 **_Examples_**
 
@@ -99,7 +99,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 ### FindObjects
 
-Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+Finds all objects in the scene that respects the given criteria. Check [By](by-selector.html#by-selector) for more information about criteria.
 ```eval_rst
 
 .. important::
@@ -120,7 +120,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
      - Description
    * - ``by``
        *Python, Robot:* ``locator_strategy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - Yes
      - Set what criteria to use in order to find the object.
    * - ``value``
@@ -129,7 +129,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
      - Yes
      - The value to which the object will be compared to see if it respects the criteria or not.
    * - ``cameraBy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - No
      - Set what criteria to use in order to find the camera.
    * - ``cameraValue``
@@ -144,7 +144,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 **_Returns_**
 
-- List of [AltObjects](#altobject) or an empty list if no objects were found.
+- List of [AltObjects](altobject.html#altobject) or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -195,7 +195,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 ### FindObjectWhichContains
 
-Finds the first object in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+Finds the first object in the scene that respects the given criteria. Check [By](by-selector.html#by-selector) for more information about criteria.
 
 ```eval_rst
 
@@ -217,7 +217,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
      - Description
    * - ``by``
        *Python, Robot:* ``locator_strategy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - Yes
      - Set what criteria to use in order to find the object.
    * - ``value``
@@ -226,7 +226,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
      - Yes
      - The value to which the object will be compared to see if it respects the criteria or not.
    * - ``cameraBy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - No
      - Set what criteria to use in order to find the camera.
    * - ``cameraValue``
@@ -241,7 +241,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 **_Returns_**
 
-- [AltObject](#altobject)
+- [AltObject](altobject.html#altobject)
 
 **_Examples_**
 
@@ -286,7 +286,7 @@ Finds the first object in the scene that respects the given criteria. Check [By]
 
 ### FindObjectsWhichContain
 
-Finds all objects in the scene that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+Finds all objects in the scene that respects the given criteria. Check [By](by-selector.html#by-selector) for more information about criteria.
 
 ```eval_rst
 
@@ -308,7 +308,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
      - Description
    * - ``by``
        *Python, Robot:* ``locator_strategy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - Yes
      - Set what criteria to use in order to find the object.
    * - ``value``
@@ -317,7 +317,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
      - Yes
      - The value to which the object will be compared to see if it respects the criteria or not.
    * - ``cameraBy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - No
      - Set what criteria to use in order to find the camera.
    * - ``cameraValue``
@@ -332,7 +332,7 @@ Finds all objects in the scene that respects the given criteria. Check [By](#by-
 
 **_Returns_**
 
-- List of [AltObjects](#altobject) or an empty list if no objects were found.
+- List of [AltObjects](altobject.html#altobject) or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -419,7 +419,7 @@ Uses `EventSystem.RaycastAll` to find object. If no object is found then it uses
 
 **_Returns_**
 
-- [AltObject](#altobject) - The UI object hit by event system Raycast, nothing otherwise.
+- [AltObject](altobject.html#altobject) - The UI object hit by event system Raycast, nothing otherwise.
 
 **_Examples_**
 
@@ -489,7 +489,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
      - Required
      - Description
    * - ``cameraBy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - No
      - Set what criteria to use in order to find the camera.
    * - ``cameraValue``
@@ -504,7 +504,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 **_Returns_**
 
-- List of [AltObjects](#altobject) or an empty list if no objects were found.
+- List of [AltObjects](altobject.html#altobject) or an empty list if no objects were found.
 
 **_Examples_**
 
@@ -557,7 +557,7 @@ Returns information about every objects loaded in the currently loaded scenes. T
 
 ### WaitForObject
 
-Waits until it finds an object that respects the given criteria or until the timeout limit is reached. Check [By](#by-selector) for more information about criteria.
+Waits until it finds an object that respects the given criteria or until the timeout limit is reached. Check [By](by-selector.html#by-selector) for more information about criteria.
 
 ```eval_rst
 
@@ -579,7 +579,7 @@ Waits until it finds an object that respects the given criteria or until the tim
      - Description
    * - ``by``
        *Python, Robot:* ``locator_type``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - Yes
      - Set what criteria to use in order to find the object.
    * - ``value``
@@ -588,7 +588,7 @@ Waits until it finds an object that respects the given criteria or until the tim
      - Yes
      - The value to which the object will be compared to see if it meets the criteria.
    * - ``cameraBy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - No
      - Set what criteria to use in order to find the camera.
    * - ``cameraValue``
@@ -611,7 +611,7 @@ Waits until it finds an object that respects the given criteria or until the tim
 
 **_Returns_**
 
-- [AltObject](#altobject)
+- [AltObject](altobject.html#altobject)
 
 **_Examples_**
 
@@ -653,7 +653,7 @@ Waits until it finds an object that respects the given criteria or until the tim
 
 ### WaitForObjectWhichContains
 
-Waits until it finds an object that respects the given criteria or time runs out and will throw an error. Check [By](#by-selector) for more information about criteria.
+Waits until it finds an object that respects the given criteria or time runs out and will throw an error. Check [By](by-selector.html#by-selector) for more information about criteria.
 
 ```eval_rst
 
@@ -675,7 +675,7 @@ Waits until it finds an object that respects the given criteria or time runs out
      - Description
    * - ``by``
        *Python, Robot:* ``locator_strategy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - Yes
      - Set what criteria to use in order to find the object.
    * - ``value``
@@ -684,7 +684,7 @@ Waits until it finds an object that respects the given criteria or time runs out
      - Yes
      - The value to which the object will be compared to determine if it meets the criteria.
    * - ``cameraBy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - No
      - Set what criteria to use in order to find the camera.
    * - ``cameraValue``
@@ -707,7 +707,7 @@ Waits until it finds an object that respects the given criteria or time runs out
 
 **_Returns_**
 
-- [AltObject](#altobject)
+- [AltObject](altobject.html#altobject)
 
 **_Examples_**
 
@@ -746,7 +746,7 @@ Waits until it finds an object that respects the given criteria or time runs out
 
 ### WaitForObjectNotBePresent
 
-Waits until the object in the scene that respects the given criteria is no longer in the scene or until the timeout limit is reached. Check [By](#by-selector) for more information about criteria.
+Waits until the object in the scene that respects the given criteria is no longer in the scene or until the timeout limit is reached. Check [By](by-selector.html#by-selector) for more information about criteria.
 
 ```eval_rst
 
@@ -768,7 +768,7 @@ Waits until the object in the scene that respects the given criteria is no longe
      - Description
    * - ``by``
        *Python, Robot:* ``locator_strategy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - Yes
      - Set what criteria to use in order to find the object.
    * - ``value``
@@ -777,7 +777,7 @@ Waits until the object in the scene that respects the given criteria is no longe
      - Yes
      - The value to which the object will be compared to determine if it meets the criteria.
    * - ``cameraBy``
-     - `By <#by-selector>`_
+     - `By <by-selector.html#by-selector>`_
      - No
      - Set what criteria to use in order to find the camera.
    * - ``cameraValue``

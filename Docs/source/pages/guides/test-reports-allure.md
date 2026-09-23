@@ -21,11 +21,11 @@
 * Other versions: https://www.nuget.org/packages/Allure.NUnit/
 2. Create two folders called `allure-report` and `allure-results` under your project.
 3. Add an `allureConfig.json` file at the following path `/bin/Debug/netcoreappX` (where X is the version of your dotnet)
-    - Config file [example](https://github.com/allure-framework/allure-csharp/blob/main/Allure.NUnit.Examples/allureConfig.json).
+    - Config file [example](https://github.com/allure-framework/allure-csharp/blob/main/examples/Allure.NUnit.Examples/allureConfig.json).
     - the value of the `directory` property should be the full path to the `allure-results` previously created folder.
 4. In the tests files, import the AllureNUnit adapter `using NUnit.Allure.Core`.
 5. Use the attribute `[TestFixture]` and the `[AllureNUnit]` under it. 
-    - Additionally, you can add more attributes that increase the diversity of your report. See more examples [here](https://github.com/allure-framework/allure-csharp/tree/main/Allure.NUnit.Examples).
+    - Additionally, you can add more attributes that increase the diversity of your report. See more examples [here](https://github.com/allure-framework/allure-csharp/tree/main/examples/Allure.NUnit.Examples).
 
 #### How to run the tests to obtain an Allure report
 

@@ -1,6 +1,6 @@
 # AltObject
 
-The **AltObject** class represents the objects present in the app and it allows you through the methods listed below to interact with them. It is the return type of the methods in the [FindObjects](#findobjects) category.
+The **AltObject** class represents the objects present in the app and it allows you through the methods listed below to interact with them. It is the return type of the methods in the [FindObjects](finding-objects.html#findobjects) category.
 
 **_Fields_**
 
@@ -220,7 +220,7 @@ The available methods are the following:
 
 #### FindObjectFromObject
 
-Finds the first child of the object that respects the given criteria. Check [By](#by-selector) for more information about criteria.
+Finds the first child of the object that respects the given criteria. Check [By](by-selector.html#by-selector) for more information about criteria.
 
 **_Parameters_**
 

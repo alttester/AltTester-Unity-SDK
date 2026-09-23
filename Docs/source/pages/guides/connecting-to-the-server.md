@@ -45,7 +45,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
 
 1. Start AltTester® Server on your machine by opening AltTester® Desktop. The server will be listening on port 13000 by default.
 2. Open your instrumented app on your device.
-3. Use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) to direct the data traffic from the device's port to the computer's port. After this, your app will be connected to AltTester® Server. The server identifies the app using the **appName**.
+3. Use [Reverse Port Forwarding](reverse-port-forwarding.html#what-is-reverse-port-forwarding-and-when-to-use-it) to direct the data traffic from the device's port to the computer's port. After this, your app will be connected to AltTester® Server. The server identifies the app using the **appName**.
 4. Connect your tests to AltTester® Server using the line below in your **OneTimeSetup()**. Start your tests on the machine used before. Make sure that AltTester® Server, the instrumented app and your tests are using **the same port**. Data transmission happens on localhost.
 
 ```eval_rst
@@ -95,7 +95,7 @@ In this case **reverse port forwarding** is not needed as both the app and tests
             Initialize Altdriver    host=127.0.0.1    port=13000    app_name=MyApp
 ```
 
-In this case [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it) is not needed. **Despite that**, it is recommended to use reverse port forwarding since IP addresses could change and would need to be updated more frequently.
+In this case [Reverse Port Forwarding](reverse-port-forwarding.html#what-is-reverse-port-forwarding-and-when-to-use-it) is not needed. **Despite that**, it is recommended to use reverse port forwarding since IP addresses could change and would need to be updated more frequently.
 
 ### Establish connection when different instances of the same app are running on multiple devices
 
@@ -176,7 +176,7 @@ Ex. with 2 Android devices:
 
 #### Connection through USB
 
-Use [Reverse Port Forwarding](#what-is-reverse-port-forwarding-and-when-to-use-it). Data transmission happens exclusively on localhost.
+Use [Reverse Port Forwarding](reverse-port-forwarding.html#what-is-reverse-port-forwarding-and-when-to-use-it). Data transmission happens exclusively on localhost.
 
 ```eval_rst
 .. important::

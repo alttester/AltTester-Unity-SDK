@@ -13,8 +13,8 @@ test code by using the methods available in the AltTester® SDK classes.
 
 The following are some cases when reverse port forwarded is needed:
 
-1. [Connect to the app running on a USB connected device](#connect-to-the-app-running-on-a-usb-connected-device)
-2. [Connect to multiple devices running the app](#connect-to-multiple-devices-running-the-app)
+1. [Connect to the app running on a USB connected device](connecting-to-the-server.html#establish-connection-when-the-app-is-running-on-a-device-connected-via-usb)
+2. [Connect to multiple devices running the app](connecting-to-the-server.html#establish-connection-when-different-instances-of-the-same-app-are-running-on-multiple-devices)
 
 ### How to setup reverse port forwarding
 

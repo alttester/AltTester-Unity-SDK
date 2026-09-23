@@ -98,7 +98,7 @@ dotnet add package BrowserStackLocal --version 2.3.0
 
 **5. Create and configure new file**
 
-In your repository, create a new file that will hold the required settings for the integration. This file will hold all of the **Appium** and **BrowserstackLocal** settings that ensure the connection between the local environment and the cloud device. For future reference it will be called [**BaseTest**](https://github.com/alttester/EXAMPLES-CSharp-BrowserStack-AltTrashCat/blob/main/tests/BaseTest.cs). Every test file in this project inherits this C# class. 
+In your repository, create a new file that will hold the required settings for the integration. This file will hold all of the **Appium** and **BrowserstackLocal** settings that ensure the connection between the local environment and the cloud device. For future reference it will be called [**BaseTest**](https://github.com/alttester/EXAMPLES-CSharp-BrowserStack-AltTrashCat/blob/browserstack-example/tests/BaseTest.cs). Every test file in this project inherits this C# class. 
 
 In this file add code that will:
 - access the environment variables set in the previous steps using the `GetEnvironmentVariable` method like so:
@@ -322,7 +322,7 @@ env:
 
 **5. Create a new file for BrowserStack and Appium configuration**
 
-In your repository, create a new file that will hold the required settings for the integration. This file will hold all of the **Appium** and **BrowserStackLocal** settings that ensure the connection between the local environment and the cloud device. For future reference it will be called [BaseTest](https://github.com/alttester/EXAMPLES-CSharp-BrowserStack-AltTrashCat/blob/main/tests/BaseTest.cs). Every test file in this project inherits this C# class.
+In your repository, create a new file that will hold the required settings for the integration. This file will hold all of the **Appium** and **BrowserStackLocal** settings that ensure the connection between the local environment and the cloud device. For future reference it will be called [BaseTest](https://github.com/alttester/EXAMPLES-CSharp-BrowserStack-AltTrashCat/blob/browserstack-example/tests/BaseTest.cs). Every test file in this project inherits this C# class.
 
 In this file add code that will:
 - access the environment variables for BrowserStack credentials and app ID
@@ -1266,7 +1266,7 @@ When starting a server-side running test session with **Android devices**, BitBa
     In order to start the **AltTester® Desktop in batchmode**, it is required you have an **AltTester® Pro license**.
 ```
 
-For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltTester® Server can not be made, so please setup a machine of your choice and install AltTester® Desktop for that OS, as you can find packages for [macOS](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageMac__v2.2.4.zip), [Windows](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopPackageWindows__v2.2.4.zip) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
+For the testing session with iOS devices, BitBar offers a macOS machine. As we detailed above, the connectivity between the instrumented game and AltTester® Server can not be made, so please setup a machine of your choice and install AltTester® Desktop for that OS, as you can find packages for [macOS](https://alttester.com/downloads/), [Windows](https://alttester.com/downloads/) and [batchmode Linux build](https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip).
 
 ### BitBar C# project example running server-side
 
@@ -1381,7 +1381,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
     ```
     - depending on the device's OS you will use similar commands for declaring, adding capabilities and initializing the Appium driver:
         - for Android capabilities please consult the `README.md` from [Appium UiAutomator2 Driver](https://github.com/appium/appium-uiautomator2-driver)
-        - for iOS capabilities please consult this list from [Appium XCUITest Driver documentation](https://appium.github.io/appium-xcuitest-driver/4.16/capabilities/)
+        - for iOS capabilities please consult this list from [Appium XCUITest Driver documentation](https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/)
 
     ```eval_rst
     .. note::
@@ -1475,7 +1475,7 @@ In this `.zip` you need to add all tests and the `run-test.sh` script to launch 
 
 ```eval_rst
 .. note::
-    We recommend using ``wget`` in order to install the `batchmode Linux build for AltTester® Desktop <https://alttester.com/app/uploads/AltTester®/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and not put it in the archive because that increases the running time for the entire flow.
+    We recommend using ``wget`` in order to install the `batchmode Linux build for AltTester® Desktop <https://alttester.com/app/uploads/AltTester/desktop/AltTesterDesktopLinuxBatchmode.zip>`_ and not put it in the archive because that increases the running time for the entire flow.
 
     An important note for this setup is that both running in batchmode and using the Linux build require `AltTester® Pro License <https://alttester.com/alttester/#pricing>`_.
 ```
@@ -1502,7 +1502,7 @@ Upload the app you instrumented earlier (see **1. Prepare the application** from
 
 There are a few important observations here as well. Please consult the [BitBar steps summary](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/automated-testing/appium-support/running-cloud-side-appium-tests.html#UUID-64e75ca6-080d-3c13-5cee-3f673df86b94_id_upload-and-execute) and [the devices and device groups available](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/organizing-your-projects-and-devices/managing-devices-and-device-groups.html).
 
-If you are using [free trial version](https://smartbear.com/product/bitbar/free-trial/) (14 days) you will get:
+If you are using [free trial version](https://smartbear.com/product/bitbar/) (14 days) you will get:
 - [Trial Android devices](https://cloud.bitbar.com/#testing/devices?group=14) with 4 devices
 - [Trial iOS devices](https://cloud.bitbar.com/#testing/devices?group=4127) with 2 devices
 
@@ -1616,7 +1616,7 @@ After you finish setting up the build, you need to use the **Archive** option to
     ```
     - depending on the device's OS you will use similar commands for declaring, adding capabilities and initializing the Appium driver:
         - for Android capabilities please consult the `README.md` from [Appium UiAutomator2 Driver](https://github.com/appium/appium-uiautomator2-driver)
-        - for iOS capabilities please consult this list from [Appium XCUITest Driver documentation](https://appium.github.io/appium-xcuitest-driver/4.16/capabilities/)
+        - for iOS capabilities please consult this list from [Appium XCUITest Driver documentation](https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/)
     - BitBar offers a [‘capabilities creator’](https://cloud.bitbar.com/#public/capabilities-creator) to help with these
     
     ```eval_rst
@@ -1827,7 +1827,7 @@ Based on your option to connect to AltTester® Desktop you need to set the AltTe
     ```
     - depending on the device's OS you will use similar commands for declaring, adding capabilities and initializing the Appium driver:
         - for Android capabilities please consult the `README.md` from [Appium UiAutomator2 Driver](https://github.com/appium/appium-uiautomator2-driver)
-        - for iOS capabilities please consult this list from [Appium XCUITest Driver documentation](https://appium.github.io/appium-xcuitest-driver/4.16/capabilities/)
+        - for iOS capabilities please consult this list from [Appium XCUITest Driver documentation](https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/)
 
     ```eval_rst
     .. note::
@@ -1951,7 +1951,7 @@ Upload the app you instrumented earlier (see **1. Prepare the application** from
 
 There are a few important observations here as well. Please consult the [BitBar steps summary](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/automated-testing/appium-support/running-cloud-side-appium-tests.html#UUID-64e75ca6-080d-3c13-5cee-3f673df86b94_id_upload-and-execute) and [the devices and device groups available](https://support.smartbear.com/bitbar/docs/en/mobile-app-tests/organizing-your-projects-and-devices/managing-devices-and-device-groups.html).
 
-If you are using [free trial version](https://smartbear.com/product/bitbar/free-trial/) (14 days) you will get:
+If you are using [free trial version](https://smartbear.com/product/bitbar/) (14 days) you will get:
 - [Trial Android devices](https://cloud.bitbar.com/#testing/devices?group=14) with 4 devices
 - [Trial iOS devices](https://cloud.bitbar.com/#testing/devices?group=4127) with 2 devices
 
@@ -2055,7 +2055,7 @@ After you finish setting up the build, you need to use the **Archive** option to
     ```
     - depending on the device's OS you will use similar commands for declaring, adding capabilities and initializing the Appium driver:
         - for Android capabilities please consult the `README.md` from [Appium UiAutomator2 Driver](https://github.com/appium/appium-uiautomator2-driver)
-        - for iOS capabilities please consult this list from [Appium XCUITest Driver documentation](https://appium.github.io/appium-xcuitest-driver/4.16/capabilities/)
+        - for iOS capabilities please consult this list from [Appium XCUITest Driver documentation](https://appium.github.io/appium-xcuitest-driver/latest/reference/capabilities/)
     - BitBar offers a [‘capabilities creator’](https://cloud.bitbar.com/#public/capabilities-creator) to help with these
     
     ```eval_rst
