@@ -25,7 +25,7 @@
         <None Include="../../python/LICENSE" Pack="true" PackagePath="" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="../../../sdk-package/Assets/AltTester/Runtime/AltDriver/**/*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+        <Compile Include="../../../Assets/AltTester/Runtime/AltDriver/**/*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
