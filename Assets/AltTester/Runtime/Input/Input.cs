@@ -155,13 +155,9 @@ public class Input
     {
         if (AltInput.UseCustomInput)
         {
-            if (AltInput.AxisList == null)
+            if (AltInput.AxisList == null && !AltInput.LoadAxisList())
             {
-                if (AltInput.LoadAxisList())
-                {
-                    return UnityEngine.Input.GetAxis(axisName);
-                }
-
+                return UnityEngine.Input.GetAxis(axisName);
             }
             var axis = AltInput.AxisList.FirstOrDefault(axle => axle.name == axisName);
             if (axis == null)
@@ -209,6 +205,10 @@ public class Input
 
     private static Func<List<KeyStructure>, string, bool> checkButton = (_keyCodes, buttonName) =>
            {
+               if (AltInput.AxisList == null && !AltInput.LoadAxisList())
+               {
+                   return false;
+               }
                var axes = AltInput.AxisList.FindAll(axle => axle.name == buttonName);
                if (axes.Count == 0)
                {
@@ -246,14 +246,37 @@ public class Input
         return AltInput.UseCustomInput ? checkButton(AltInput.KeyCodesPressedUp, buttonName) : UnityEngine.Input.GetButtonUp(buttonName);
     }
 
+    private static readonly Dictionary<string, UnityEngine.KeyCode> keyCodesByName = new Dictionary<string, UnityEngine.KeyCode>();
+
+    /// <summary>
+    /// Converts a key name the way UnityEngine.Input does ("space", "left shift", "[1]"). KeyCode names ("Space")
+    /// are accepted too, as before. Game code calls this every frame, so the result is cached.
+    /// </summary>
+    private static UnityEngine.KeyCode keyCodeFromName(string name)
+    {
+        if (keyCodesByName.TryGetValue(name, out var keyCode))
+            return keyCode;
+        try
+        {
+            keyCode = AltInput.ConvertStringToKeyCode(name);
+        }
+        catch (NotFoundException)
+        {
+            if (!Enum.IsDefined(typeof(UnityEngine.KeyCode), name))
+                throw new ArgumentException($"Input Key named: {name} is unknown");
+            keyCode = (UnityEngine.KeyCode)Enum.Parse(typeof(UnityEngine.KeyCode), name);
+        }
+        keyCodesByName[name] = keyCode;
+        return keyCode;
+    }
+
     public static bool GetKey(string name)
     {
         if (!AltInput.UseCustomInput)
         {
             return UnityEngine.Input.GetKey(name);
         }
-        UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), name);
-        return 0 != AltInput.KeyCodesPressed.FindAll(key => key.KeyCode == keyCode).Count;
+        return GetKey(keyCodeFromName(name));
     }
 
     public static bool GetKey(UnityEngine.KeyCode key) => AltInput.UseCustomInput
@@ -271,8 +294,7 @@ public class Input
         {
             return UnityEngine.Input.GetKeyDown(name);
         }
-        UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), name);
-        return 0 != AltInput.KeyCodesPressedDown.FindAll(key => key.KeyCode == keyCode).Count;
+        return GetKeyDown(keyCodeFromName(name));
     }
 
     public static bool GetKeyUp(UnityEngine.KeyCode key) => AltInput.UseCustomInput
@@ -285,8 +307,7 @@ public class Input
         {
             return UnityEngine.Input.GetKeyUp(name);
         }
-        UnityEngine.KeyCode keyCode = (UnityEngine.KeyCode)System.Enum.Parse(typeof(UnityEngine.KeyCode), name);
-        return 0 != AltInput.KeyCodesPressedUp.FindAll(key => key.KeyCode == keyCode).Count;
+        return GetKeyUp(keyCodeFromName(name));
     }
 
     public static bool GetMouseButton(int button)

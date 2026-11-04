@@ -16,6 +16,7 @@
 */
 
 using System;
+using System.Linq;
 using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Commands;
 using UnityEngine;
@@ -25,15 +26,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltSetTextCommand : AltReflectionMethodsCommand<AltSetTextParams, AltObject>
     {
-        static readonly AltObjectProperty[] textProperties =
+        static readonly AltObjectProperty[] textProperties = new[]
         {
             new AltObjectProperty("UnityEngine.UI.Text", "text"),
-            new AltObjectProperty("UnityEngine.UI.InputField", "text"),
-#if TMP_PRESENT
-            new AltObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
-            new AltObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
-#endif
-        };
+            new AltObjectProperty("UnityEngine.UI.InputField", "text")
+        }.Concat(AltTextMeshPro.TextProperties).ToArray();
 
         public AltSetTextCommand(AltSetTextParams cmdParams) : base(cmdParams)
         {
@@ -61,18 +58,13 @@ namespace AltTester.AltTesterUnitySDK.Commands
 #endif
                         uiInputFieldComp.onEndEdit.Invoke(CommandParams.value);
                     }
-#if TMP_PRESENT
-                    else
+                    else if (AltTextMeshPro.TryGetInputField(targetObject, out var tMPInputFieldComp))
                     {
-                        if (targetObject.TryGetComponent<TMPro.TMP_InputField>(out var tMPInputFieldComp))
-                        {
-                            tMPInputFieldComp.onValueChanged.Invoke(CommandParams.value);
-                            checkSubmit(tMPInputFieldComp.gameObject);
-                            tMPInputFieldComp.onSubmit.Invoke(CommandParams.value);
-                            tMPInputFieldComp.onEndEdit.Invoke(CommandParams.value);
-                        }
+                        AltTextMeshPro.GetInputFieldEvent(tMPInputFieldComp, "onValueChanged")?.Invoke(CommandParams.value);
+                        checkSubmit(tMPInputFieldComp.gameObject);
+                        AltTextMeshPro.GetInputFieldEvent(tMPInputFieldComp, "onSubmit")?.Invoke(CommandParams.value);
+                        AltTextMeshPro.GetInputFieldEvent(tMPInputFieldComp, "onEndEdit")?.Invoke(CommandParams.value);
                     }
-#endif
                     return AltRunner._altRunner.GameObjectToAltObject(targetObject);
                 }
                 catch (PropertyNotFoundException) { continue; }

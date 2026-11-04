@@ -16,17 +16,38 @@
 */
 
 #if UNITY_IOS
+using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 
 public static class AltProxyFinderPostProcess
 {
+    private const string ALTTESTER_DEFINE = "ALTTESTER";
+
+    private static string[] extraScriptingDefines = new string[0];
+
     [PostProcessBuild]
     public static void OnPostProcessBuild(BuildTarget buildTarget, string buildPath)
     {
+        if (buildTarget != BuildTarget.iOS)
+            return;
+
+        bool instrumented = isInstrumentedBuild();
+        extraScriptingDefines = new string[0];
+        // The Xcode project changes below (ATS exception, modulemap, public headers, -ObjC) are only needed
+        // to connect an instrumented build to AltTester Server; leave production builds untouched.
+        if (!instrumented)
+        {
+            Debug.Log("AltTester: ALTTESTER is not defined for this build, skipping the iOS post-process.");
+            return;
+        }
+
         Debug.Log("OnPostProcessBuild: " + buildTarget);
 
         string modulemapContent = "framework module UnityFramework {\n"
@@ -39,7 +60,6 @@ public static class AltProxyFinderPostProcess
             + "    }\n"
             + "}\n";
 
-        if (buildTarget == BuildTarget.iOS)
         {
             var projectPath = buildPath + "/Unity-iPhone.xcodeproj/project.pbxproj";
 
@@ -135,6 +155,50 @@ public static class AltProxyFinderPostProcess
 
         Debug.Log("OnPostProcessBuild: Complete");
     }
+
+    // This file is shipped as source (it needs UnityEditor.iOS.Xcode) and can't reference the AltTester editor
+    // assembly, so it checks the build defines itself; keep in sync with AltBuildInstrumentation.
+    private static bool isInstrumentedBuild()
+    {
+#if UNITY_6000_0_OR_NEWER
+        string playerSettingsDefines = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.iOS);
+#else
+        string playerSettingsDefines = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS);
+#endif
+        return playerSettingsDefines.Split(';').Select(define => define.Trim())
+            .Concat(extraScriptingDefines)
+            .Concat(getActiveBuildProfileDefines())
+            .Contains(ALTTESTER_DEFINE);
+    }
+
+    private static string[] getActiveBuildProfileDefines()
+    {
+        // Build profiles (Unity 6) add their own scripting defines on top of Player Settings.
+        try
+        {
+            var buildProfileType = Type.GetType("UnityEditor.Build.Profile.BuildProfile, UnityEditor.CoreModule");
+            var activeProfile = buildProfileType?.GetMethod("GetActiveBuildProfile", BindingFlags.Public | BindingFlags.Static)?.Invoke(null, null);
+            if (activeProfile == null)
+                return new string[0];
+            return buildProfileType.GetProperty("scriptingDefines", BindingFlags.Public | BindingFlags.Instance)?.GetValue(activeProfile) as string[] ?? new string[0];
+        }
+        catch (Exception)
+        {
+            return new string[0];
+        }
+    }
+
+#if UNITY_2021_2_OR_NEWER
+    // Captures BuildPlayerOptions.extraScriptingDefines for builds started from scripts or CI.
+    // BuildPlayerProcessor exists from Unity 2021.2; older versions only see the Player Settings defines.
+    private class ExtraScriptingDefinesCollector : BuildPlayerProcessor
+    {
+        public override void PrepareForBuild(BuildPlayerContext buildPlayerContext)
+        {
+            extraScriptingDefines = buildPlayerContext.BuildPlayerOptions.extraScriptingDefines ?? new string[0];
+        }
+    }
+#endif
 
     private static string FindLibGuid(PBXProject project, params string[] candidatePaths)
     {

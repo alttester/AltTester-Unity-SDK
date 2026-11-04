@@ -1,5 +1,6 @@
 /*
     Copyright(C) 2026 Altom Consulting
+  
 */
 
 using System;
@@ -40,7 +41,8 @@ namespace AltTester.AltTesterSDK.Driver.Communication
         private readonly string appId;
         private readonly string driverType;
         private readonly bool secureMode;
-        private static readonly object _lock = new object();
+        private readonly object messagesLock = new object();
+        private long messageIdCounter = 0;
 
         bool retryConnection = false;
 
@@ -106,8 +108,19 @@ namespace AltTester.AltTesterSDK.Driver.Communication
             Stopwatch watch = Stopwatch.StartNew();
             while (true)
             {
-                while (!messages.ContainsKey(param.messageId) && commandTimeout >= watch.Elapsed.TotalSeconds && !websocketClosedCalled)
+                while (true)
                 {
+                    bool hasMessage;
+                    lock (messagesLock)
+                    {
+                        hasMessage = messages.ContainsKey(param.messageId);
+                    }
+
+                    if (hasMessage || commandTimeout < watch.Elapsed.TotalSeconds || websocketClosedCalled)
+                    {
+                        break;
+                    }
+
                     Thread.Sleep(10);
                 }
 
@@ -117,24 +130,36 @@ namespace AltTester.AltTesterSDK.Driver.Communication
                 }
                 if (commandTimeout < watch.Elapsed.TotalSeconds)
                 {
-
-                    messageIdTimeouts.Add(param.messageId);
+                    lock (messagesLock)
+                    {
+                        messageIdTimeouts.Add(param.messageId);
+                    }
                     throw new CommandResponseTimeoutException();
                 }
-                Queue<CommandResponse> queue;
-                messages.TryGetValue(param.messageId, out queue);
-                if (queue == null)
-                {
-                    throw new AltException(" Could not find the message");
-                }
-                var message = queue.Dequeue();
 
-                if (queue.Count == 0)
+                CommandResponse message;
+                lock (messagesLock)
                 {
-                    messages.Remove(param.messageId);
+                    Queue<CommandResponse> queue;
+                    messages.TryGetValue(param.messageId, out queue);
+                    if (queue == null)
+                    {
+                        throw new AltException(" Could not find the message");
+                    }
+                    message = queue.Dequeue();
+
+                    if (queue.Count == 0)
+                    {
+                        messages.Remove(param.messageId);
+                    }
                 }
 
-                if (messageIdTimeouts.Contains(message.messageId))
+                bool isTimedOut;
+                lock (messagesLock)
+                {
+                    isTimedOut = messageIdTimeouts.Contains(message.messageId);
+                }
+                if (isTimedOut)
                 {
                     continue;
                 }
@@ -163,10 +188,7 @@ namespace AltTester.AltTesterSDK.Driver.Communication
 
         public void Send(CommandParams param)
         {
-            lock (_lock)
-            {
-                param.messageId = DateTime.UtcNow.Ticks.ToString();
-            }
+            param.messageId = Interlocked.Increment(ref messageIdCounter).ToString(CultureInfo.InvariantCulture);
             string message = JsonConvert.SerializeObject(param, jsonSerializerSettings);
             this.wsClient.Send(message);
         }
@@ -188,24 +210,32 @@ namespace AltTester.AltTesterSDK.Driver.Communication
         {
             var message = JsonConvert.DeserializeObject<CommandResponse>(data, jsonSerializerSettings);
 
+            // The server sends driverConnected only to CLI and MCP drivers, which wait for it in
+            // their own handler. It has no messageId, so it must not reach the response queue.
+            if (message.commandName == "driverConnected")
+            {
+                return;
+            }
+
             if (message.isNotification)
             {
                 handleNotification(message);
             }
             else
             {
-                if (messages.ContainsKey(message.messageId))
+                lock (messagesLock)
                 {
-
                     Queue<CommandResponse> queue;
-                    messages.TryGetValue(message.messageId, out queue);
-                    queue.Enqueue(message);
-                }
-                else
-                {
-                    var queue = new Queue<CommandResponse>();
-                    queue.Enqueue(message);
-                    messages.Add(message.messageId, queue);
+                    if (messages.TryGetValue(message.messageId, out queue))
+                    {
+                        queue.Enqueue(message);
+                    }
+                    else
+                    {
+                        queue = new Queue<CommandResponse>();
+                        queue.Enqueue(message);
+                        messages.Add(message.messageId, queue);
+                    }
                 }
             }
         }

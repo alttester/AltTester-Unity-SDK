@@ -34,7 +34,7 @@ AltTester® framework contains the following components:
 
     The AltDriver module inside each of the clients / bindings, similar to Appium Driver for mobile apps or Selenium WebDriver for web apps, is used to connect to the instrumented Unity game / app, access all the game objects and interact with them through tests written in C#, Python, Java and Robot Framework.
 
-![Architecture](../_static/img/overview/architecture2.png)
+![Architecture](../_static/img/overview/architecture.svg)
 
 * **AltTester® Server in the Cloud** - (COMING SOON) is a cloud implementation of the AltTester® Server that will allow you to write and execute tests without needing an instance of the AltTester® Desktop running locally, thus simplifying both local development environments and CI setups. 
 

@@ -60,7 +60,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                         if (System.Text.RegularExpressions.Regex.Match(propertyEqualsCondition.PropertyValue, "^([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)$").Success)
                         {
                             var id = System.Convert.ToInt32(propertyEqualsCondition.PropertyValue);
-                            return gameObjectToCheck.GetInstanceID() == id ? gameObjectToCheck : null;
+                            return gameObjectToCheck.GetObjectInstanceId() == id ? gameObjectToCheck : null;
                         }
                         var component = gameObjectToCheck.GetComponent<AltId>();
                         if (component != null)
@@ -123,7 +123,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                             case PropertyType.id:
                                 if (System.Text.RegularExpressions.Regex.Match(functionCondition.PropertyValue, "^([1-9]{1}[0-9]*|-[1-9]{1}[0-9]*|0)$").Success)
                                 {
-                                    return gameObjectToCheck.GetInstanceID().ToString().Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
+                                    return gameObjectToCheck.GetObjectInstanceId().ToString().Contains(functionCondition.PropertyValue) ? gameObjectToCheck : null;
                                 }
                                 var component = gameObjectToCheck.GetComponent<AltId>();
                                 if (component != null)
@@ -179,8 +179,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         {
             try
             {
-                return AltGetTextCommand.GetText(objectToCheck);
-
+                return AltGetTextCommand.TryGetText(objectToCheck, out var text) ? text : "";
             }
             catch (Exception)
             {

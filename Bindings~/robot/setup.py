@@ -17,7 +17,7 @@ AUTHOR = "Altom Consulting"
 REQUIRES_PYTHON = ">=3.4.0"
 LICENSE = "GNU GPLv3"
 
-with open("src/AltTesterLibrary/version.py") as f:
+with open("src/AltTesterLibrary/__version__.py") as f:
     for line in f.readlines():
         if "VERSION = " in line:
             VERSION = line.replace("VERSION = ", "") \

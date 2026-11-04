@@ -95,6 +95,15 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         [Test]
         public void TestLogNotification()
         {
+            // The SDK logs "response sent" for loadScene only after sending the response, so LoadScene can
+            // return before that log's notification arrives. Until then the last log is from the scene load
+            // (e.g. the dummy click's "Creating touch at" warning).
+            float timeout = 10;
+            while (!MockNotificationCallBacks.LogMessage.Contains("\"commandName\":\"loadScene") && timeout > 0)
+            {
+                Thread.Sleep(200);
+                timeout -= 0.2f;
+            }
             StringAssert.Contains("\"commandName\":\"loadScene", MockNotificationCallBacks.LogMessage);
             Assert.AreEqual(AltLogLevel.Debug, MockNotificationCallBacks.LogLevel);
         }

@@ -114,7 +114,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
         protected UnityEngine.Camera GetCamera(List<BoundCondition> cameraConditons)
         {
             var gameObjectsCameraFound = FindObjects(null, cameraConditons, 0, false, true);
-            return UnityEngine.Camera.allCameras.ToList().Find(c => gameObjectsCameraFound.Find(d => c.gameObject.GetInstanceID() == d.GetInstanceID()));
+            return UnityEngine.Camera.allCameras.ToList().Find(c => gameObjectsCameraFound.Find(d => c.gameObject.GetObjectInstanceId() == d.GetObjectInstanceId()));
 
         }
         private bool checkValidVisibility(GameObject objectToCheck, bool enabled)

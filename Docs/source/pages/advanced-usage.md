@@ -17,7 +17,9 @@ AltTester®'s custom input is active, by default, in any instrumented build. Thi
 To build your Unity application from command line you need a static method in
 your project that handles the build logic. To instrument your Unity application
 with AltTester® Unity SDK, your build method must define `ALTTESTER` scripting
-symbol and must insert AltTester® Prefab in the first scene of the app.
+symbol and must insert AltTester® Prefab in the first scene of the app. Inserting
+the prefab saves it into the scene, so the build method should remove it again
+once the build is done.
 
 Depending on your project's setup, there are two ways in which apps can be
 built from the command line:
@@ -46,9 +48,17 @@ check for *BuildOptions.Development* and *BuildOptions.IncludeTestAssemblies*.
 ```c#
 var buildTargetGroup = BuildTargetGroup.Android;
 AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
-AltBuilder.CreateJsonFileForInputMappingOfAxis();
 var instrumentationSettings = new AltInstrumentationSettings();
-AltBuilder.InsertAltInScene(FirstSceneOfTheApp, instrumentationSettings);
+AltBuilder.InsertAltTesterInScene(FirstSceneOfTheApp, instrumentationSettings);
+try
+{
+    BuildPipeline.BuildPlayer(buildPlayerOptions);
+}
+finally
+{
+    AltBuilder.RemoveAltTesterFromScene(FirstSceneOfTheApp);
+    AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(buildTargetGroup);
+}
 ```
 
 ```eval_rst
@@ -58,17 +68,27 @@ AltBuilder.InsertAltInScene(FirstSceneOfTheApp, instrumentationSettings);
     building.
 
 ```
+
 ```eval_rst
 .. important::
 
-    If your custom build method sets scripting define symbols manually instead of using the list from the Unity Editor, and your project uses TextMeshPro, you must also include the **TMP_PRESENT** define. This is required for methods that interact with TextMeshPro elements to function correctly.
+    ``InsertAltTesterInScene`` saves the AltTester® Prefab into the scene file.
+    Call ``RemoveAltTesterFromScene`` after the build, also when it fails, so
+    that builds made without AltTester® don't contain the prefab.
+
+    If a build method doesn't remove it, AltTester® removes the prefab when the
+    build is done, or the next time the project is opened if the editor quit
+    right after the build (for example with ``-quit`` or
+    ``EditorApplication.Exit``). If the scene already contains the prefab,
+    ``InsertAltTesterInScene`` updates its settings instead of adding a second
+    one, and that prefab is only removed by ``RemoveAltTesterFromScene``.
 
 ```
 
 **2. If you create a new custom build method for your app**
 
 The following example script can be used. It sets all the project settings
-needed and uses the same two important lines from point 1 above.
+needed and uses the same AltBuilder calls as point 1 above.
 
 This example method is configured for the Android platform, so make sure to
 update it based on your target platform.
@@ -126,14 +146,24 @@ To instrument your Unity project with AltTester® Unity SDK using Unity Cloud Bu
 
             var buildTargetGroup = BuildTargetGroup.Standalone;
 
-         
-            AltBuilder.CreateJsonFileForInputMappingOfAxis();
             var instrumentationSettings = new AltInstrumentationSettings();
             instrumentationSettings.AltServerHost = "127.0.0.1";
             instrumentationSettings.AltServerPort = 13000;
             instrumentationSettings.AppName = "__default__";
             instrumentationSettings.ResetConnectionData = true;
-            AltBuilder.InsertAltInScene("Assets/Scenes/SampleScene.unity", instrumentationSettings);
+            AltBuilder.InsertAltTesterInScene("Assets/Scenes/SampleScene.unity", instrumentationSettings);
+        }
+
+```
+
+The pre-export method saves the AltTester® Prefab into the scene. If the build
+machine keeps the project between builds, add a **Post-Export Method** that
+removes it again, so the next build of the same project doesn't contain it:
+
+```c#
+        public static void OnPostExport(string exportPath)
+        {
+            AltBuilder.RemoveAltTesterFromScene("Assets/Scenes/SampleScene.unity");
         }
 
 ```
@@ -145,7 +175,7 @@ To instrument your Unity project with AltTester® Unity SDK using Unity Cloud Bu
 
 ## How to make a production build
 
-There is no need to remove the AltTester® package entirely from the project, only the `ALTTESTER` Scripting Define Symbol should be deleted from the Player Settings. Also, make sure that the `Keep ALTTESTER symbol defined` checkbox is unchecked. After that, you can build your app normally as you would do in Unity.
+There is no need to remove the AltTester® package entirely from the project, only the `ALTTESTER` Scripting Define Symbol should be deleted from the Player Settings. Also, make sure that the `Keep ALTTESTER symbol defined` checkbox is unchecked and that no scene contains the AltTester® Prefab (`AltTesterPrefab`), for example one left by a build method that didn't call `AltBuilder.RemoveAltTesterFromScene`. After that, you can build your app normally as you would do in Unity.
 
 ## Run tests from the command line
 
@@ -798,7 +828,7 @@ There are two types of logging that can be configured in AltTester® Unity SDK. 
 
 ### AltTester® Unity SDK logging
 
-Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `AltTester.AltTesterUnitySDK.Logging.ServerLogManager.Instance`
+Logging inside the instrumented Unity application is handled using a custom NLog LogFactory. The Server LogFactory can be accessed here: `AltTester.AltTesterUnitySDK.Logging.AltTesterLogManager.Instance`
 
 There are two logger targets that you can configure on the server:
 
@@ -941,7 +971,7 @@ The logs for a WebGL instrumented build are displaied in the browser's console. 
 
 ## Code Stripping
 
-AltTester® Unity SDK is using reflection in some of the commands to get information from the instrumented application. If you application is using IL2CPP scripting backend then it might strip code that you would use in your tests. If this is the case we recommend creating an `link.xml` file. More information on how to manage code stripping and create an `link.xml` file is found in [Unity documentation](https://docs.unity3d.com/Manual/ManagedCodeStripping.html)
+AltTester® Unity SDK is using reflection in some of the commands to get information from the instrumented application. In instrumented builds, AltTester® keeps its own code from being stripped at every Managed Stripping Level. Your own code isn't covered: the linker can strip components, properties and methods of your app that only your tests use, for example through `GetComponentProperty` or `CallComponentMethod`. If this is the case we recommend creating an `link.xml` file. More information on how to manage code stripping and create an `link.xml` file is found in [Unity documentation](https://docs.unity3d.com/Manual/ManagedCodeStripping.html)
 
 ## Generate testing reports using Allure
 
@@ -1125,7 +1155,7 @@ More details related to Allure can be found at the official [Allure documentatio
             <dependency>
                 <groupId>com.alttester</groupId>
                 <artifactId>alttester</artifactId>
-                <version>2.3.2</version>
+                <version>2.4.0</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

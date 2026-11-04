@@ -28,6 +28,8 @@ namespace AltTester.AltTesterUnitySDK.Communication
 {
     public class RuntimeWebSocketClient : IRuntimeWebSocketClient
     {
+        private static readonly NLog.Logger logger = AltTesterLogManager.Instance.GetCurrentClassLogger();
+
         private ClientWebSocket wsClient;
 
         private readonly string host;
@@ -135,18 +137,36 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public void Send(string message)
         {
-            this.wsClient.Send(message);
+            send(() => this.wsClient.Send(message));
         }
 
         public void Send(byte[] message)
         {
-            this.wsClient.Send(message);
+            send(() => this.wsClient.Send(message));
+        }
+
+        private void send(Action sendMessage)
+        {
+            if (this.wsClient.ReadyState != WebSocketState.Open)
+            {
+                logger.Debug("Message not sent, the connection is not open.");
+                return;
+            }
+
+            try
+            {
+                sendMessage();
+            }
+            catch (InvalidOperationException ex)
+            {
+                logger.Debug(ex.Message);
+            }
         }
     }
 #if UNITY_WEBGL && !UNITY_EDITOR
     public class WebGLRuntimeWebSocketClient : IRuntimeWebSocketClient
     {
-        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = AltTesterLogManager.Instance.GetCurrentClassLogger();
 
         private WebGLWebSocket wsClient;
 
@@ -239,12 +259,30 @@ namespace AltTester.AltTesterUnitySDK.Communication
 
         public void Send(string message)
         {
-            this.wsClient.SendText(message).ConfigureAwait(false).GetAwaiter().GetResult();
+            send(() => this.wsClient.SendText(message).ConfigureAwait(false).GetAwaiter().GetResult());
         }
 
         public void Send(byte[] message)
         {
-            this.wsClient.Send(message).ConfigureAwait(false).GetAwaiter().GetResult();
+            send(() => this.wsClient.Send(message).ConfigureAwait(false).GetAwaiter().GetResult());
+        }
+
+        private void send(Action sendMessage)
+        {
+            if (this.wsClient.State != WebSocketState.Open)
+            {
+                logger.Debug("Message not sent, the connection is not open.");
+                return;
+            }
+
+            try
+            {
+                sendMessage();
+            }
+            catch (WebSocketException ex)
+            {
+                logger.Debug(ex.Message);
+            }
         }
     }
 #endif

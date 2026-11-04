@@ -33,6 +33,7 @@ class AltDriver:
         enable_logging (:obj:`bool`, optional): If set to ``True`` will turn on logging, by default logging is disabled.
         timeout (:obj:`int`, :obj:`float`, optional): The timeout duration for establishing a connection, in seconds.
             If set to ``None``, the connection attempt will wait indefinitely. The default value is ``60`` seconds.
+        driver_type (:obj:`str`, optional): The driver type reported to the AltTester® Server. Defaults to ``python``.
 
     """
 
@@ -47,7 +48,8 @@ class AltDriver:
         platform_version="unknown",
         device_instance_id="unknown",
         app_id="unknown",
-        secure_mode=False
+        secure_mode=False,
+        driver_type="python"
     ):
         self.host = host
         self.port = port
@@ -59,6 +61,7 @@ class AltDriver:
         self.device_instance_id = device_instance_id
         self.app_id = app_id
         self.secure_mode = secure_mode
+        self.driver_type = driver_type
 
         self._config_logging(self.enable_logging)
 
@@ -83,7 +86,7 @@ class AltDriver:
                 "platformVersion": self.platform_version,
                 "deviceInstanceId": self.device_instance_id,
                 "appId": self.app_id,
-                "driverType": "python_" + VERSION
+                "driverType": self.driver_type + "_" + VERSION
             },
             command_handler=self._command_handler,
             notification_handler=self._notification_handler

@@ -55,14 +55,15 @@ namespace AltTester.AltTesterUnitySDK.Editor
 #endif
             }
             AddAltTesterInScriptingDefineSymbolsGroup(buildTargetGroup);
-            CreateJsonFileForInputMappingOfAxis();
-
         }
+
         public static void BuildGameFromUI(UnityEditor.BuildTarget buildTarget, UnityEditor.BuildTargetGroup buildTargetGroup, bool autoRun = false)
         {
+            // Everything the build changes in Player Settings is restored afterwards, also when the build fails,
+            // so the next build made outside the AltTester Editor doesn't inherit it.
+            var playerSettings = new PlayerSettingsSnapshot(buildTargetGroup);
             try
             {
-
                 InitBuildSetup(buildTargetGroup);
                 logger.Debug($"Starting {buildTarget} build...{UnityEditor.PlayerSettings.productName}:{UnityEditor.PlayerSettings.bundleVersion}");
 
@@ -93,9 +94,10 @@ namespace AltTester.AltTesterUnitySDK.Editor
             finally
             {
                 Built = true;
-                resetBuildSetup(buildTargetGroup);
+                AltInputAxesProcessor.DeleteAxesFile();
+                resetBuildSetup(buildTargetGroup, playerSettings);
+                AltPrefabCleanup.QueueCleanup();
             }
-
         }
         public static void RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup)
         {
@@ -103,38 +105,32 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 return;
             RemoveScriptingDefineSymbol(ALTTESTERDEFINE, targetGroup);
         }
+        /// <summary>
+        /// Adds ALTTESTER to every build target: the Player Settings of each platform, Dedicated Server included,
+        /// and on Unity 6 each build profile's scripting defines and Player Settings override.
+        /// </summary>
+        public static void AddAltTesterToAllScriptingDefineSymbols()
+        {
+            AltScriptingDefineSymbols.AddEverywhere(ALTTESTERDEFINE);
+        }
+
+        /// <summary>
+        /// Removes ALTTESTER from every build target: the Player Settings of each platform, Dedicated Server included,
+        /// and on Unity 6 each build profile's scripting defines and Player Settings override.
+        /// </summary>
+        public static void RemoveAltTesterFromAllScriptingDefineSymbols()
+        {
+            AltScriptingDefineSymbols.RemoveEverywhere(ALTTESTERDEFINE);
+        }
+
         public static void RemoveScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
         {
             try
             {
-#if UNITY_6000_0_OR_NEWER
-                var scriptingDefineSymbolsForGroup =
-                    UnityEditor.PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup));
-#else
-                var scriptingDefineSymbolsForGroup =
-                UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-#endif
-                string newScriptingDefineSymbolsForGroup = "";
-                if (scriptingDefineSymbolsForGroup.Contains(symbol))
+                var defines = AltBuildInstrumentation.SplitDefines(AltBuildInstrumentation.GetPlayerSettingsDefines(targetGroup));
+                if (defines.Contains(symbol))
                 {
-                    var split = scriptingDefineSymbolsForGroup.Split(';');
-                    foreach (var define in split)
-                    {
-                        if (define != symbol)
-                        {
-                            newScriptingDefineSymbolsForGroup += define + ";";
-                        }
-                    }
-                    if (newScriptingDefineSymbolsForGroup.Length != 0)
-                        newScriptingDefineSymbolsForGroup.Remove(newScriptingDefineSymbolsForGroup.Length - 1);
-#if UNITY_6000_0_OR_NEWER
-                    UnityEditor.PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup),
-                                           newScriptingDefineSymbolsForGroup);
-#else
-                    UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup,
-                        newScriptingDefineSymbolsForGroup);
-#endif
-
+                    setScriptingDefineSymbols(targetGroup, string.Join(";", defines.Where(define => define != symbol)));
                 }
             }
             catch (System.Exception e)
@@ -150,21 +146,19 @@ namespace AltTester.AltTesterUnitySDK.Editor
         }
         public static void AddScriptingDefineSymbol(string symbol, UnityEditor.BuildTargetGroup targetGroup)
         {
-#if UNITY_6000_0_OR_NEWER
-            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup));
-#else
-            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-#endif
-            if (!scriptingDefineSymbolsForGroup.Contains(symbol))
+            var defines = AltBuildInstrumentation.SplitDefines(AltBuildInstrumentation.GetPlayerSettingsDefines(targetGroup));
+            if (!defines.Contains(symbol))
             {
-                scriptingDefineSymbolsForGroup += ";" + symbol;
+                setScriptingDefineSymbols(targetGroup, string.Join(";", defines.Append(symbol)));
             }
+        }
+
+        private static void setScriptingDefineSymbols(UnityEditor.BuildTargetGroup targetGroup, string defines)
+        {
 #if UNITY_6000_0_OR_NEWER
-            UnityEditor.PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup), scriptingDefineSymbolsForGroup);
-
+            UnityEditor.PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup), defines);
 #else
-            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, scriptingDefineSymbolsForGroup);
-
+            UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, defines);
 #endif
         }
 
@@ -176,17 +170,20 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         public static bool CheckAltTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildTargetGroup targetGroup)
         {
-#if UNITY_6000_0_OR_NEWER
-            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.FromBuildTargetGroup(targetGroup));
-#else
-            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-#endif
-            return scriptingDefineSymbolsForGroup.Contains(ALTTESTERDEFINE);
+            return AltBuildInstrumentation.SplitDefines(AltBuildInstrumentation.GetPlayerSettingsDefines(targetGroup)).Contains(ALTTESTERDEFINE);
         }
 
+        [System.Obsolete("The Input Manager axes are added to instrumented builds automatically.")]
         public static void CreateJsonFileForInputMappingOfAxis()
         {
-            string gameDataProjectFilePath = "/Resources/AltTester/AltTesterInputAxisData.json";
+            logger.Warn("CreateJsonFileForInputMappingOfAxis no longer creates a file: the Input Manager axes are added to instrumented builds automatically.");
+        }
+
+        /// <summary>
+        /// The Input Manager axes as JSON, as AltInput reads them.
+        /// </summary>
+        public static string GetInputAxesData()
+        {
             var inputManager = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/InputManager.asset")[0];
             var obj = new UnityEditor.SerializedObject(inputManager);
 
@@ -209,21 +206,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 axisList.Add(new AltAxis(name, inputType, negativeButton, positiveButton, altPositiveButton, altNegativeButton, axisDirection));
             }
 
-            string dataAsJson = Newtonsoft.Json.JsonConvert.SerializeObject(axisList);
-            string filePath = Application.dataPath + gameDataProjectFilePath;
-            if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources/AltTester"))
-            {
-                if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources"))
-                {
-                    UnityEditor.AssetDatabase.CreateFolder("Assets", "Resources");
-                }
-                UnityEditor.AssetDatabase.CreateFolder("Assets/Resources", "AltTester");
-            }
-            using (StreamWriter sw = new StreamWriter(filePath))
-            {
-                sw.Write(dataAsJson);
-            }
-            UnityEditor.AssetDatabase.Refresh();
+            return Newtonsoft.Json.JsonConvert.SerializeObject(axisList);
         }
         [System.Obsolete("Use InsertAltTesterInScene instead.")]
         public static void InsertAltInScene(string scene, AltInstrumentationSettings instrumentationSettings)
@@ -235,12 +218,37 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
             var AltPrefab = GetAltTesterPrefab();
             SceneWithAltRunner = EditorSceneManager.OpenScene(scene);
-            AltRunner = UnityEditor.PrefabUtility.InstantiatePrefab(AltPrefab);
+            insertAltTesterInSceneWithAltRunner(AltPrefab, instrumentationSettings);
+        }
+
+        /// <summary>
+        /// Adds the AltTester® prefab to SceneWithAltRunner and saves the scene. When the scene already has one, e.g.
+        /// placed by hand or by "Keep AltTester® prefab in scene", only its settings are updated, so the build has a
+        /// single AltRunner. That prefab isn't tracked, so it stays in the scene after the build.
+        /// </summary>
+        private static void insertAltTesterInSceneWithAltRunner(GameObject altTesterPrefab, AltInstrumentationSettings instrumentationSettings)
+        {
+            var existingAltRunner = SceneWithAltRunner.GetRootGameObjects().FirstOrDefault(gameObject => gameObject.GetComponent<AltRunner>() != null);
+            AltRunner = existingAltRunner != null ? existingAltRunner : UnityEditor.PrefabUtility.InstantiatePrefab(altTesterPrefab);
             var altRunnerComponent = ((GameObject)AltRunner).GetComponent<AltRunner>();
             altRunnerComponent.InstrumentationSettings = instrumentationSettings;
+            // Without this, a change made from code to a prefab instance loaded from the scene isn't saved.
+            UnityEditor.PrefabUtility.RecordPrefabInstancePropertyModifications(altRunnerComponent);
 
-            EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+            EditorSceneManager.MarkSceneDirty(SceneWithAltRunner);
             EditorSceneManager.SaveOpenScenes();
+            if (existingAltRunner == null)
+                AltPrefabCleanup.Track(SceneWithAltRunner.path, (GameObject)AltRunner);
+        }
+
+        /// <summary>
+        /// Removes the AltTester® prefab from <paramref name="scene"/> and saves the scene. Call it once a build made
+        /// with InsertAltTesterInScene is done, so builds made without AltTester® don't contain the prefab.
+        /// </summary>
+        public static void RemoveAltTesterFromScene(string scene)
+        {
+            if (!AltPrefabCleanup.RemoveFromScene(scene))
+                logger.Warn($"The AltTester® prefab was not removed from {scene} because the scene has unsaved changes or could not be saved. Save or discard the changes and remove it again.");
         }
 
         public static GameObject CreateAltTesterPrefab()
@@ -261,7 +269,20 @@ namespace AltTester.AltTesterUnitySDK.Editor
             var AltTesterPrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(GetAltTesterPrefabLocation());
             if (AltTesterPrefab == null)
                 return CreateAltTesterPrefab();
+            // A prefab generated with another setup, e.g. another Active Input Handling, can reference scripts that
+            // aren't compiled now. AltTesterImportErrorChecker removes it in delayCall, which never runs with
+            // -batchmode -quit, so check it here too. Regenerating it in place keeps its GUID, and the scenes using it.
+            if (HasMissingScripts(AltTesterPrefab))
+            {
+                logger.Info($"{GetAltTesterPrefabLocation()} has missing scripts, so it is generated again.");
+                return CreateAltTesterPrefab();
+            }
             return AltTesterPrefab;
+        }
+
+        internal static bool HasMissingScripts(GameObject prefab)
+        {
+            return prefab.GetComponentsInChildren<Component>(true).Any(component => component == null);
         }
         [System.Obsolete("Use InsertAltTesterInTheActiveScene instead.")]
         public static void InsertAltInTheActiveScene(AltInstrumentationSettings instrumentationSettings)
@@ -271,9 +292,9 @@ namespace AltTester.AltTesterUnitySDK.Editor
         public static void InsertAltTesterInTheActiveScene(AltInstrumentationSettings instrumentationSettings)
         {
             var activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects().Where(gameObject => gameObject.name.Equals(PREFABNAME)).ToList().Count > 0)
+            if (string.IsNullOrEmpty(activeScene))
             {
-                logger.Info("AltTester® prefab is already in the active scene.");
+                logger.Warn("The active scene is not saved, so the AltTester® prefab can't be added to it. Save the scene first.");
                 return;
             }
             InsertAltTesterInScene(activeScene, instrumentationSettings);
@@ -289,12 +310,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             var altRunner = GetAltTesterPrefab();
             PreviousScenePath = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
             SceneWithAltRunner = EditorSceneManager.OpenScene(GetFirstSceneWhichWillBeBuilt());
-
-            AltRunner = UnityEditor.PrefabUtility.InstantiatePrefab(altRunner);
-            AltRunner altRunnerComponent = ((GameObject)AltRunner).GetComponent<AltRunner>();
-            altRunnerComponent.InstrumentationSettings = instrumentationSettings;
-            EditorSceneManager.MarkSceneDirty(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-            EditorSceneManager.SaveOpenScenes();
+            insertAltTesterInSceneWithAltRunner(altRunner, instrumentationSettings);
             try
             {
                 EditorSceneManager.OpenScene(PreviousScenePath);
@@ -371,22 +387,88 @@ namespace AltTester.AltTesterUnitySDK.Editor
             return outputPath;
         }
 
-        private static void resetBuildSetup(UnityEditor.BuildTargetGroup buildTargetGroup)
+        private static void resetBuildSetup(UnityEditor.BuildTargetGroup buildTargetGroup, PlayerSettingsSnapshot playerSettings)
         {
-            if (AltTesterEditorWindow.EditorConfiguration.appendToName)
+            bool keepAltTesterDefined = AltTesterEditorWindow.EditorConfiguration != null && AltTesterEditorWindow.EditorConfiguration.KeepAUTSymbolDefined;
+            playerSettings.Restore(keepAltTesterDefined ? ALTTESTERDEFINE : null);
+
+            if (CheckAltTesterIsDefineAsAScriptingSymbol(buildTargetGroup))
             {
-                UnityEditor.PlayerSettings.productName = UnityEditor.PlayerSettings.productName.Remove(UnityEditor.PlayerSettings.productName.Length - 5);
-#if UNITY_6000_0_OR_NEWER
-                string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup)).Remove(UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup)).Length - 5);
-                UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup), bundleIdentifier);
-#else
-                string bundleIdentifier = UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Remove(UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup).Length - 5);
-                UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, bundleIdentifier);
+                logger.Warn($"{ALTTESTERDEFINE} is still defined for {buildTargetGroup}, so builds made outside the AltTester® Editor are instrumented too. " +
+                    "Turn off \"Keep ALTTESTER symbol defined\" in the AltTester® Editor, or remove the symbol from the Player Settings, before making a production build.");
+            }
+        }
+
+        /// <summary>
+        /// The Player Settings an AltTester Editor build changes, saved before the build so they can be restored after it.
+        /// </summary>
+        private class PlayerSettingsSnapshot
+        {
+            private readonly UnityEditor.BuildTargetGroup buildTargetGroup;
+            private readonly string productName;
+            private readonly string applicationIdentifier;
+            private readonly string scriptingDefines;
+            private readonly Dictionary<LogType, StackTraceLogType> stackTraceLogTypes = new Dictionary<LogType, StackTraceLogType>();
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+            private readonly UnityEditor.ManagedStrippingLevel switchStrippingLevel;
 #endif
 
+            public PlayerSettingsSnapshot(UnityEditor.BuildTargetGroup buildTargetGroup)
+            {
+                this.buildTargetGroup = buildTargetGroup;
+                productName = UnityEditor.PlayerSettings.productName;
+                applicationIdentifier = getApplicationIdentifier(buildTargetGroup);
+                scriptingDefines = AltBuildInstrumentation.GetPlayerSettingsDefines(buildTargetGroup);
+                foreach (LogType logType in System.Enum.GetValues(typeof(LogType)))
+                {
+                    stackTraceLogTypes[logType] = UnityEditor.PlayerSettings.GetStackTraceLogType(logType);
+                }
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+                switchStrippingLevel = UnityEditor.PlayerSettings.GetManagedStrippingLevel(UnityEditor.BuildTargetGroup.Switch);
+#endif
             }
 
-            RemoveAltTesterFromScriptingDefineSymbols(buildTargetGroup);
+            /// <param name="keepDefined">A symbol to leave defined even if it wasn't defined before the build.</param>
+            public void Restore(string keepDefined)
+            {
+                if (UnityEditor.PlayerSettings.productName != productName)
+                    UnityEditor.PlayerSettings.productName = productName;
+                if (getApplicationIdentifier(buildTargetGroup) != applicationIdentifier)
+                    setApplicationIdentifier(buildTargetGroup, applicationIdentifier);
+                foreach (var stackTraceLogType in stackTraceLogTypes)
+                {
+                    UnityEditor.PlayerSettings.SetStackTraceLogType(stackTraceLogType.Key, stackTraceLogType.Value);
+                }
+#if NINTENDO_ENABLED && ALTTESTER_NONGPL
+                UnityEditor.PlayerSettings.SetManagedStrippingLevel(UnityEditor.BuildTargetGroup.Switch, switchStrippingLevel);
+#endif
+
+                var defines = AltBuildInstrumentation.SplitDefines(scriptingDefines);
+                if (keepDefined != null && !defines.Contains(keepDefined))
+                    defines = defines.Append(keepDefined).ToArray();
+                var restoredDefines = string.Join(";", defines);
+                // Setting the defines recompiles the scripts, so only do it when they changed.
+                if (string.Join(";", AltBuildInstrumentation.SplitDefines(AltBuildInstrumentation.GetPlayerSettingsDefines(buildTargetGroup))) != restoredDefines)
+                    setScriptingDefineSymbols(buildTargetGroup, restoredDefines);
+            }
+
+            private static string getApplicationIdentifier(UnityEditor.BuildTargetGroup buildTargetGroup)
+            {
+#if UNITY_6000_0_OR_NEWER
+                return UnityEditor.PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup));
+#else
+                return UnityEditor.PlayerSettings.GetApplicationIdentifier(buildTargetGroup);
+#endif
+            }
+
+            private static void setApplicationIdentifier(UnityEditor.BuildTargetGroup buildTargetGroup, string identifier)
+            {
+#if UNITY_6000_0_OR_NEWER
+                UnityEditor.PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup), identifier);
+#else
+                UnityEditor.PlayerSettings.SetApplicationIdentifier(buildTargetGroup, identifier);
+#endif
+            }
         }
 
         private static void buildGame(bool autoRun, UnityEditor.BuildPlayerOptions buildPlayerOptions)

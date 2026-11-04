@@ -70,7 +70,8 @@ class AltTesterKeywords(object):
             platform_version=platform_version,
             device_instance_id=device_instance_id,
             app_id=app_id,
-            secure_mode=secure_mode
+            secure_mode=secure_mode,
+            driver_type="robot"
         )
         return self._driver
 

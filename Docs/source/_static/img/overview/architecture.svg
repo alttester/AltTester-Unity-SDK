@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 508" width="980" height="508" role="img" aria-labelledby="title desc">
+  <title id="title">AltTester® architecture, with a legend</title>
+  <desc id="desc">The instrumented app and every driver — AltTester® Desktop, tests written with an AltDriver, the AltTester® CLI and the AltTester® AI Extension — connect over WebSockets to the AltTester® Server, which runs as its own process. AltTester® Desktop also starts and stops that server.</desc>
+
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#595959"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#13B716"/>
+    </marker>
+    <style>
+      .card { fill: #FFFFFF; stroke: #D9D9D9; stroke-width: 1.5; }
+      .cardAlt { fill: #F5F5F5; stroke: #D9D9D9; stroke-width: 1.5; }
+      .server { fill: #F4FBF4; stroke: #13B716; stroke-width: 2.5; }
+      .t { font-family: 'Fira Sans','Segoe UI',Helvetica,Arial,sans-serif; fill: #434343; }
+      .h1 { font-size: 19px; font-weight: 600; }
+      .h2 { font-size: 15px; font-weight: 600; }
+      .sub { font-size: 11.5px; fill: #595959; }
+      .small { font-size: 10.5px; fill: #595959; }
+      .eyebrow { font-size: 10px; fill: #595959; letter-spacing: 1.6px; }
+      .link { stroke: #595959; stroke-width: 1.6; fill: none; }
+      .legend { font-size: 12px; fill: #595959; }
+      .control { stroke: #13B716; stroke-width: 1.6; stroke-dasharray: 6 4; fill: none; }
+    </style>
+  </defs>
+
+  <rect width="980" height="508" fill="#FFFFFF"/>
+
+  <!-- ── Instrumented app ───────────────────────────────────────────── -->
+  <text class="t eyebrow" x="20" y="158">APP UNDER TEST</text>
+  <rect class="card" x="20" y="175" width="232" height="120" rx="8"/>
+  <text class="t h2" x="136" y="215" text-anchor="middle">Instrumented app</text>
+  <text class="t sub" x="136" y="243" text-anchor="middle">AltTester® Unity SDK</text>
+  <text class="t sub" x="136" y="261" text-anchor="middle">or AltTester® Unreal SDK</text>
+
+  <!-- app ↔ server -->
+  <line class="link" x1="254" y1="235" x2="338" y2="235" marker-start="url(#arrowGray)" marker-end="url(#arrowGray)"/>
+  <text class="t small" x="296" y="221" text-anchor="middle">ws:// or wss://</text>
+
+  <!-- ── Server ─────────────────────────────────────────────────────── -->
+  <rect class="server" x="340" y="70" width="250" height="340" rx="10"/>
+  <text class="t h1" x="465" y="146" text-anchor="middle">AltTester® Server</text>
+  <text class="t sub" x="465" y="169" text-anchor="middle">a process of its own</text>
+  <line x1="372" y1="191" x2="558" y2="191" stroke="#D9D9D9" stroke-width="1"/>
+  <text class="t small" x="372" y="220">• routes commands between</text>
+  <text class="t small" x="382" y="236">the app and its drivers</text>
+  <text class="t small" x="372" y="262">• carries the live update stream</text>
+  <text class="t small" x="372" y="288">• enforces the connection limits</text>
+  <text class="t small" x="382" y="304">of your license</text>
+  <text class="t small" x="372" y="330">• can secure the connections</text>
+  <text class="t small" x="382" y="346">with WSS</text>
+
+  <!-- ── Drivers ────────────────────────────────────────────────────── -->
+  <text class="t eyebrow" x="690" y="46">DRIVERS</text>
+
+  <rect class="cardAlt" x="690" y="60" width="270" height="76" rx="8"/>
+  <text class="t h2" x="710" y="92">AltTester® Desktop</text>
+  <text class="t sub" x="710" y="114">Inspector and Recorder</text>
+
+  <rect class="cardAlt" x="690" y="152" width="270" height="76" rx="8"/>
+  <text class="t h2" x="710" y="184">Tests</text>
+  <text class="t sub" x="710" y="206">AltDriver — C#, Python, Java, Robot Framework</text>
+
+  <rect class="cardAlt" x="690" y="244" width="270" height="76" rx="8"/>
+  <text class="t h2" x="710" y="276">AltTester® CLI</text>
+  <text class="t sub" x="710" y="298">test runs from the command line</text>
+
+  <rect class="cardAlt" x="690" y="336" width="270" height="76" rx="8"/>
+  <text class="t h2" x="710" y="368">AltTester® AI Extension</text>
+  <text class="t sub" x="710" y="390">drives the app from your AI tools</text>
+
+  <!-- driver ↔ server -->
+  <line class="link" x1="592" y1="88" x2="688" y2="88" marker-start="url(#arrowGray)" marker-end="url(#arrowGray)"/>
+  <line class="link" x1="592" y1="190" x2="688" y2="190" marker-start="url(#arrowGray)" marker-end="url(#arrowGray)"/>
+  <line class="link" x1="592" y1="282" x2="688" y2="282" marker-start="url(#arrowGray)" marker-end="url(#arrowGray)"/>
+  <line class="link" x1="592" y1="374" x2="688" y2="374" marker-start="url(#arrowGray)" marker-end="url(#arrowGray)"/>
+
+  <!-- Desktop manages the server -->
+  <line class="control" x1="688" y1="120" x2="592" y2="120" marker-end="url(#arrowGreen)"/>
+
+
+  <!-- ── Legend ─────────────────────────────────────────────────────── -->
+  <line x1="20" y1="444" x2="960" y2="444" stroke="#EDEDED" stroke-width="1"/>
+
+  <line class="link" x1="24" y1="478" x2="86" y2="478" marker-start="url(#arrowGray)" marker-end="url(#arrowGray)"/>
+  <text class="t legend" x="100" y="482">WebSocket connection — commands and responses travel both ways</text>
+
+  <line class="control" x1="574" y1="478" x2="512" y2="478" marker-end="url(#arrowGreen)"/>
+  <text class="t legend" x="588" y="482">AltTester® Desktop starts and stops the server</text>
+</svg>
+

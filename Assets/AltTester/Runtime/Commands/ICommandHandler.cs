@@ -20,6 +20,8 @@ namespace AltTester.AltTesterUnitySDK.Commands
     public delegate void SendMessageHandler(string message);
     public delegate void NotificationHandler(string driverId);
 
+    public enum HandshakeStatus { Unlicensed, AwaitingToken, Licensed, Failed }
+
     public interface ICommandHandler
     {
         SendMessageHandler OnSendMessage { get; set; }
@@ -30,5 +32,9 @@ namespace AltTester.AltTesterUnitySDK.Commands
 
         void Send(string data);
         void OnMessage(string data);
+
+        HandshakeStatus CurrentHandshakeStatus { get; }
+        System.Action OnHandshakeFailed { get; set; }
+        void InitiateHandshake(string appName, string deviceInstanceId, string sdkVersion);
     }
 }
