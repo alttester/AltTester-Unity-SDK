@@ -14,9 +14,6 @@ namespace AltTester.AltTesterUnitySDK.Editor.Platform
         Editor,
         Standalone,
         WebGL,
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-        Switch
-#endif
     }
     public static class AltPlatformExtensions
     {
@@ -33,10 +30,6 @@ namespace AltTester.AltTesterUnitySDK.Editor.Platform
                     return BuildTargetGroup.iOS;
                 case AltPlatform.WebGL:
                     return BuildTargetGroup.WebGL;
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-                case AltPlatform.Switch:
-                    return BuildTargetGroup.Switch;
-#endif
                 default:
                     throw new NotImplementedException();
 
@@ -55,10 +48,6 @@ namespace AltTester.AltTesterUnitySDK.Editor.Platform
                     return AltPlatform.WebGL;
                 case BuildTargetGroup.iOS:
                     return AltPlatform.iOS;
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-                case BuildTargetGroup.Switch:
-                    return AltPlatform.Switch;
-#endif
                 default:
                     return AltPlatform.Editor;
             }
@@ -76,10 +65,6 @@ namespace AltTester.AltTesterUnitySDK.Editor.Platform
                     return new BuildTarget[] { BuildTarget.iOS };
                 case AltPlatform.WebGL:
                     return new BuildTarget[] { BuildTarget.WebGL };
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-                case AltPlatform.Switch:
-                    return new BuildTarget[] { BuildTarget.Switch };
-#endif
                 default:
                     throw new NotImplementedException();
 
@@ -98,10 +83,6 @@ namespace AltTester.AltTesterUnitySDK.Editor.Platform
                     return BuildTarget.iOS;
                 case AltPlatform.WebGL:
                     return BuildTarget.WebGL;
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-                case AltPlatform.Switch:
-                    return BuildTarget.Switch;
-#endif
                 default:
                     throw new NotImplementedException();
 

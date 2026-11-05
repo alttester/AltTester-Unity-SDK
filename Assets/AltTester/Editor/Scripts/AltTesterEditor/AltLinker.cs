@@ -29,7 +29,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
     <assembly fullname=""AltTesterDriverModule"" preserve=""all"" ignoreIfMissing=""1"" />
     <assembly fullname=""AltTesterInputModule"" preserve=""all"" ignoreIfMissing=""1"" />
     <assembly fullname=""AltTesterLoggingModule"" preserve=""all"" ignoreIfMissing=""1"" />
-    <assembly fullname=""AltTesterNintendoModule"" preserve=""all"" ignoreIfMissing=""1"" />
     <assembly fullname=""AltTesterProxyModule"" preserve=""all"" ignoreIfMissing=""1"" />
     <assembly fullname=""AltTesterUIModule"" preserve=""all"" ignoreIfMissing=""1"" />
     <assembly fullname=""AltTester.AltTesterUnitySDK"" preserve=""all"" ignoreIfMissing=""1"" />

@@ -769,12 +769,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
                     showSettings(UnityEditor.BuildTargetGroup.WebGL, AltPlatform.WebGL);
                     break;
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-                case AltPlatform.Switch:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Switch, BuildTarget.Switch);
-                    showSettings(UnityEditor.BuildTargetGroup.Switch, AltPlatform.Switch);
-                    break;
-#endif
             }
         }
 

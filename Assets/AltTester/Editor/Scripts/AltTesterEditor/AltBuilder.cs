@@ -74,16 +74,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     target = buildTarget,
                     targetGroup = buildTargetGroup
                 };
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-                if (buildTargetGroup == UnityEditor.BuildTargetGroup.Switch)
-                {
-
-                    UnityEditor.EditorUserBuildSettings.explicitNullChecks = true;
-                    UnityEditor.EditorUserBuildSettings.explicitArrayBoundsChecks = true;
-                    UnityEditor.EditorUserBuildSettings.explicitDivideByZeroChecks = true;
-                    UnityEditor.PlayerSettings.SetManagedStrippingLevel(UnityEditor.BuildTargetGroup.Switch, UnityEditor.ManagedStrippingLevel.Minimal);
-                }
-#endif
 
                 buildGame(autoRun, buildPlayerOptions);
             }
@@ -369,14 +359,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                         outputPath += ".x86_64";
                     }
                     break;
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-                case UnityEditor.BuildTarget.Switch:
-                    if (!outputPath.EndsWith(".nspd"))
-                    {
-                        outputPath += ".nspd";
-                    }
-                    break;
-#endif
 
                 case UnityEditor.BuildTarget.iOS:
                 default:
@@ -409,9 +391,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
             private readonly string applicationIdentifier;
             private readonly string scriptingDefines;
             private readonly Dictionary<LogType, StackTraceLogType> stackTraceLogTypes = new Dictionary<LogType, StackTraceLogType>();
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-            private readonly UnityEditor.ManagedStrippingLevel switchStrippingLevel;
-#endif
 
             public PlayerSettingsSnapshot(UnityEditor.BuildTargetGroup buildTargetGroup)
             {
@@ -423,9 +402,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 {
                     stackTraceLogTypes[logType] = UnityEditor.PlayerSettings.GetStackTraceLogType(logType);
                 }
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-                switchStrippingLevel = UnityEditor.PlayerSettings.GetManagedStrippingLevel(UnityEditor.BuildTargetGroup.Switch);
-#endif
             }
 
             /// <param name="keepDefined">A symbol to leave defined even if it wasn't defined before the build.</param>
@@ -439,9 +415,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 {
                     UnityEditor.PlayerSettings.SetStackTraceLogType(stackTraceLogType.Key, stackTraceLogType.Value);
                 }
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-                UnityEditor.PlayerSettings.SetManagedStrippingLevel(UnityEditor.BuildTargetGroup.Switch, switchStrippingLevel);
-#endif
 
                 var defines = AltBuildInstrumentation.SplitDefines(scriptingDefines);
                 if (keepDefined != null && !defines.Contains(keepDefined))

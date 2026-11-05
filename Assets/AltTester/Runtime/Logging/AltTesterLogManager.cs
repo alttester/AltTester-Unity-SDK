@@ -70,11 +70,7 @@ namespace AltTester.AltTesterUnitySDK.Logging
 
         private static void addFileLogger(LogLevel minLevel, LogLevel maxLevel)
         {
-            if (Application.platform == RuntimePlatform.WebGLPlayer
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-            || Application.platform == RuntimePlatform.Switch
-#endif
-)
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
                 return;
             logsFilePath = UnityEngine.Application.persistentDataPath + "/AltTester-Server.log";
             var logfile = new FileTarget("AltServerFileTarget")
