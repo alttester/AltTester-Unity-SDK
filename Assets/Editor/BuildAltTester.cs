@@ -207,7 +207,6 @@ namespace AltTesterTools
         private static void buildGame(BuildPlayerOptions buildPlayerOptions, BuildTargetGroup targetGroup)
         {
             var instrumentationSettings = getInstrumentationSettings();
-            AltBuilder.AddScriptingDefineSymbol("ALTTESTER_NONGPL", targetGroup);
 
             AltBuilder.InsertAltTesterInScene(buildPlayerOptions.scenes[0], instrumentationSettings);
 
