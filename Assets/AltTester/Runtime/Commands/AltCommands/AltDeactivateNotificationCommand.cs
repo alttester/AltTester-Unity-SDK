@@ -40,7 +40,7 @@ namespace AltTester.AltTesterUnitySDK.Commands
                     new AltUnloadSceneNotification(commandHandler, false);
                     break;
                 case NotificationType.LOG:
-                    new AltLogNotification(commandHandler, true);
+                    new AltLogNotification(commandHandler, false);
                     break;
                 case NotificationType.APPLICATION_PAUSED:
                     new AltTesterApplicationPausedNotification(commandHandler, false);

@@ -880,7 +880,6 @@ PlayerSettings:
     EmbeddedLinux: UNITY_POST_PROCESSING_STACK_V2
     GameCoreXboxOne: UNITY_POST_PROCESSING_STACK_V2
     Lumin: UNITY_POST_PROCESSING_STACK_V2
-    Nintendo Switch: UNITY_POST_PROCESSING_STACK_V2
     PS4: UNITY_POST_PROCESSING_STACK_V2
     PS5: UNITY_POST_PROCESSING_STACK_V2
     Stadia: UNITY_POST_PROCESSING_STACK_V2
@@ -906,7 +905,6 @@ PlayerSettings:
     GameCoreScarlett: 1
     GameCoreXboxOne: 1
     Lumin: 1
-    Nintendo Switch: 1
     PS4: 1
     PS5: 1
     Stadia: 1

@@ -21,9 +21,8 @@ public class AltMoveMouseParams extends AltMessage {
     }
 
     /**
-     * @param duration The time measured in seconds to move the mouse from the
-     *                 current position to
-     *                 the set location. Defaults to <code>0.1</code>
+     * @param duration The time measured in seconds to move the mouse from the current position to
+     *     the set location. Defaults to <code>0.1</code>
      */
     public AltMoveMouseParams.Builder withDuration(float duration) {
       this.duration = duration;

@@ -1555,6 +1555,11 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             Assert.True(FastApproximately(initialCapsulePosition.y, finalCapsulePosition.y, 0.01f));
             Assert.True(FastApproximately(initialCapsulePosition.z, finalCapsulePosition.z, 0.01f));
         }
+        [Test]
+        public void TestGetVersion()
+        {
+            Assert.AreEqual(AltDriver.VERSION, altDriver.GetServerVersion());
+        }
 
         [Test]
         public void TestStringIsMarkedAsPrimitive()
@@ -1579,6 +1584,19 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             var pressUpCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "keyPressUpCounter", "Assembly-CSharp");
             Assert.AreEqual(1, pressDownCounter);
             Assert.AreEqual(1, pressUpCounter);
+        }
+        [Test]
+        public void TestKeyPressReadByUnityKeyName()
+        {
+            var counterElement = altDriver.FindObject(By.NAME, "ButtonCounter");
+            altDriver.PressKey(AltKeyCode.LeftArrow);
+
+            var pressDownCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "keyNamePressDownCounter", "Assembly-CSharp");
+            var pressUpCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "keyNamePressUpCounter", "Assembly-CSharp");
+            var pressedCounter = counterElement.GetComponentProperty<int>("AltExampleScriptIncrementOnClick", "keyNamePressedCounter", "Assembly-CSharp");
+            Assert.AreEqual(1, pressDownCounter);
+            Assert.AreEqual(1, pressUpCounter);
+            Assert.Greater(pressedCounter, 0);
         }
         [Test]
         public void TestSwipeClickWhenMovedButRemainsOnTheSameObject()
@@ -1918,13 +1936,34 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");
             var id = altDriver.BeginTouch(capsule.GetScreenPosition());
+            // BeginTouch returns before the touch is applied at the start of the next frame, so wait
+            // for the capsule to see it; until then it still holds the phase from an earlier test.
+            Thread.Sleep(100);
+            // Like a real finger, Began and Moved are only reported for about a frame before the
+            // touch decays to Stationary, so the capsule may already have observed Stationary.
             var phase = capsule.GetComponentProperty<int>("AltExampleScriptCapsule", "TouchPhase", "Assembly-CSharp");
-            Assert.AreEqual(0, phase);
+            Assert.Contains(phase, new[] { 0, 2 }); // Began or Stationary
             altDriver.MoveTouch(id, capsule.GetScreenPosition());
             Thread.Sleep(100);
             phase = capsule.GetComponentProperty<int>("AltExampleScriptCapsule", "TouchPhase", "Assembly-CSharp");
-            Assert.AreEqual(1, phase);
+            Assert.Contains(phase, new[] { 1, 2 }); // Moved or Stationary
             altDriver.EndTouch(id);
+        }
+
+        [Test]
+        public void TestTapReportsCompleteTouchDataToPollingScripts()
+        {
+            // A game that polls Input.GetTouch in Update() must see a tap the way a real device reports it (issue #315).
+            var capsule = altDriver.FindObject(By.NAME, "Capsule");
+            // Tap waits for the tap to finish, so the capsule has already polled the Began and the Ended frame.
+            altDriver.Tap(capsule.GetScreenPosition());
+
+            Assert.AreEqual(1, capsule.GetComponentProperty<int>("AltExampleScriptCapsule", "BeganTouchTapCount", "Assembly-CSharp"),
+                "tapCount on Began must be 1, as on a real device");
+            Assert.AreEqual(1, capsule.GetComponentProperty<int>("AltExampleScriptCapsule", "EndedTouchTapCount", "Assembly-CSharp"),
+                "tapCount on Ended must be 1, as on a real device");
+            Assert.Greater(capsule.GetComponentProperty<float>("AltExampleScriptCapsule", "EndedTouchDeltaTime", "Assembly-CSharp"), 0f,
+                "deltaTime on Ended must be the time since Began, not 0");
         }
 
         [Test]

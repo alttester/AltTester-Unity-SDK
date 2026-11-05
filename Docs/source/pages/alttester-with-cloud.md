@@ -1136,7 +1136,7 @@ Keep in mind that the setup is different for Android and iOS.
     - install necessary packages for running the C# tests
         ```
         - dotnet add package NUnit --version 3.13.3
-        - dotnet add package AltTester-Driver --version 2.3.2 
+        - dotnet add package AltTester-Driver --version 2.4.0 
         - dotnet add package Selenium.WebDriver -- version 3.141.0
         - dotnet add package NUnit3TestAdapter --version 4.4.2
         ```
@@ -1585,7 +1585,7 @@ After you finish setting up the build, you need to use the **Archive** option to
     - in case you have not done it so far, add the AltTester-Driver package as well
     ```c#
     dotnet add package Appium.WebDriver --version 8.2.0
-    dotnet add package AltTester-Driver --version 2.3.2
+    dotnet add package AltTester-Driver --version 2.4.0
     ```
     - after installing the packages, you can see them in `.csproj` (check the [example repository](https://github.com/alttester/EXAMPLES-CSharp-BitBar-AltTrashCat/blob/client-side-ios/TestAlttrashCSharp.csproj))
 

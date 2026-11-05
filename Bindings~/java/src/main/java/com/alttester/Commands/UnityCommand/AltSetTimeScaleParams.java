@@ -24,8 +24,7 @@ public class AltSetTimeScaleParams extends AltMessage {
     }
   }
 
-  private AltSetTimeScaleParams() {
-  }
+  private AltSetTimeScaleParams() {}
 
   public float getTimeScale() {
     return timeScale;

@@ -28,6 +28,9 @@ public class AltExampleScriptIncrementOnClick : MonoBehaviour, IPointerDownHandl
 
     int keyPressDownCounter = 0;
     int keyPressUpCounter = 0;
+    int keyNamePressDownCounter = 0;
+    int keyNamePressUpCounter = 0;
+    int keyNamePressedCounter = 0;
 
     private int mouseDownCounter = 0;
     private int mouseUpCounter = 0;
@@ -54,6 +57,22 @@ public class AltExampleScriptIncrementOnClick : MonoBehaviour, IPointerDownHandl
         if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
             keyPressUpCounter++;
+        }
+
+        // The same key by its Unity key name, which goes through the string overloads.
+        if (Input.GetKeyDown("left"))
+        {
+            keyNamePressDownCounter++;
+        }
+
+        if (Input.GetKeyUp("left"))
+        {
+            keyNamePressUpCounter++;
+        }
+
+        if (Input.GetKey("left"))
+        {
+            keyNamePressedCounter++;
         }
 
         if (Input.GetMouseButton(0))

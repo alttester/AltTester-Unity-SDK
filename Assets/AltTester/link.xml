@@ -1,17 +1,7 @@
 <linker>
-    <assembly fullname="System.Core">
-        <type fullname="System.Linq.Expressions.Interpreter.LightLambda" preserve="all" />
-    </assembly>
-
-    <assembly fullname="NLog">
-        <type fullname="NLog.*" preserve="all" />
-    </assembly>
-
-    <assembly fullname="AltTester.AltTesterUnitySDK">
-        <type fullname="AltTester.*" preserve="all" />
-    </assembly>
-
-    <assembly fullname="AltTester.AltTesterUnitySDK.Driver">
-        <type fullname="AltTester.*" preserve="all" />
-    </assembly>
+    <!--
+        Empty on purpose. The AltTester assemblies, NLog and the other code AltTester needs are preserved only in
+        instrumented builds, through the link.xml AltLinker (Editor/Scripts/AltTesterEditor/AltLinker.cs) generates
+        at build time. The file is kept so that importing a new package version replaces an older link.xml.
+    -->
 </linker>

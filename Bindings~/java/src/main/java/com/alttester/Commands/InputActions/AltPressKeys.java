@@ -8,8 +8,7 @@ import com.alttester.Commands.AltBaseCommand;
 import com.alttester.IMessageHandler;
 
 /**
- * Similar command like swipe but instead of swipe from point A to point B you
- * are able to give list
+ * Similar command like swipe but instead of swipe from point A to point B you are able to give list
  * a points.
  */
 public class AltPressKeys extends AltBaseCommand {

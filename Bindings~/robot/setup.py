@@ -17,7 +17,7 @@ AUTHOR = "Altom Consulting"
 REQUIRES_PYTHON = ">=3.4.0"
 LICENSE = "Proprietary"
 
-with open("src/AltTesterLibrary/version.py") as f:
+with open("src/AltTesterLibrary/__version__.py") as f:
     for line in f.readlines():
         if "VERSION = " in line:
             VERSION = line.replace("VERSION = ", "") \
@@ -42,6 +42,7 @@ setup(
         "Issues": "https://github.com/alttester/AltTester-Unity-SDK/issues",
         "Documentation": "https://alttester.com/docs/sdk/latest",
         "Source": "https://github.com/alttester/AltTester-Unity-SDK",
+        "License": "https://alttester.com/app/uploads/AltTester/sdks/alttester/LICENSE",
     },
     author=AUTHOR,
     author_email=EMAIL,

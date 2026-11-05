@@ -55,7 +55,9 @@ In the following sections you can see a breakdown of all the sections in the GUI
 
 -   *Keep ALTTESTER symbol defined*:
 
-    Will add "ALTTESTER" to the scripting define symbols. This is usually done automatically when entering in play mode or building the application. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
+    The AltTester® Editor adds "ALTTESTER" to the scripting define symbols of the selected platform only when you build, build & run or play in editor from it. When this option is enabled (default), "ALTTESTER" stays defined after that, so builds made from Unity's Build Settings or Build Profiles are instrumented too. When it is disabled, "ALTTESTER" is removed again after each build or play mode session.
+
+    This setting is shared between platforms. Enabling it adds "ALTTESTER" to the scripting define symbols of every platform, and disabling it removes "ALTTESTER" from all of them. This includes Dedicated Server and, in Unity 6, every build profile: both its Scripting Defines and its Player Settings override. Disable it before making a production build. This option is not recommended if you are developing your application but can be used if you are on a branch where you only write tests.
 
 -  *Keep AltTester® prefab in scene*:
 

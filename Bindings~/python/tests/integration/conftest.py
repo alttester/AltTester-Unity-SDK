@@ -76,6 +76,10 @@ def get_app_name():
     return os.environ.get("ALTSERVER_APP_NAME", "__default__")
 
 
+def get_platform_version():
+    return os.environ.get("ALTSERVER_PLATFORM_VERSION", "unknown")
+
+
 def get_browserstack_username():
     return os.environ.get("BROWSERSTACK_USERNAME", "")
 
@@ -143,7 +147,9 @@ def alt_driver(request, appium_driver, worker_id, current_device):
         port=get_port(),
         app_name=get_app_name(),
         platform=platform,
-        platform_version=current_device["os_version"].split(".")[0],
+        platform_version=get_platform_version()
+        if current_device["os_version"] == "unknown"
+        else current_device["os_version"].split(".")[0],
         timeout=180
     )
     if alt_driver is None:
@@ -189,13 +195,6 @@ def log_to_report(message):
 
 @pytest.fixture(autouse=True, scope="session")
 def current_device(request, worker_id):
-    global devices
-    global local_run_device
-    global android_devices
-    global ios_devices
-    global saucelabs_devices
-    global saucelabs_android_devices
-    global saucelabs_ios_devices
     current_device = None
     selected_devices = []
     if os.environ.get("RUN_IN_SAUCELABS", "") == "true":

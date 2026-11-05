@@ -14,8 +14,7 @@ public class AltTapClickElementParams extends AltObjectParams {
     private float interval = 0.1f;
     private boolean wait = true;
 
-    public Builder() {
-    }
+    public Builder() {}
 
     public Builder(int count) {
       this.count = count;
@@ -51,8 +50,7 @@ public class AltTapClickElementParams extends AltObjectParams {
     }
   }
 
-  private AltTapClickElementParams() {
-  }
+  private AltTapClickElementParams() {}
 
   public int getCount() {
     return this.count;

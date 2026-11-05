@@ -21,7 +21,8 @@ public class AltSetComponentPropertyParams extends AltObjectParams {
     }
 
     public AltSetComponentPropertyParams build() {
-      AltSetComponentPropertyParams altSetComponentPropertyParameters = new AltSetComponentPropertyParams();
+      AltSetComponentPropertyParams altSetComponentPropertyParameters =
+          new AltSetComponentPropertyParams();
       altSetComponentPropertyParameters.assembly = this.assembly;
       altSetComponentPropertyParameters.property = this.propertyName;
       altSetComponentPropertyParameters.component = this.componentName;
@@ -31,8 +32,7 @@ public class AltSetComponentPropertyParams extends AltObjectParams {
     }
   }
 
-  private AltSetComponentPropertyParams() {
-  }
+  private AltSetComponentPropertyParams() {}
 
   public String getComponentName() {
     return component;

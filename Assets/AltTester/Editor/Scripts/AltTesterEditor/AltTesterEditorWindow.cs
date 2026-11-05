@@ -110,6 +110,11 @@ namespace AltTester.AltTesterUnitySDK.Editor
         UnityEngine.Rect availableRectHorizontal;
 
         private bool playInEditorPressed;
+        /// <summary>
+        /// True between pressing Play in Editor and entering play mode, while ALTTESTER is compiled in and the
+        /// inserted prefab must stay in the scene.
+        /// </summary>
+        internal static bool IsPlayInEditorPending => Window != null && Window.playInEditorPressed;
         #region UnityEditor MenuItems
         [UnityEditor.MenuItem("AltTester®/AltTester® Editor", false, 80)]
         public static void ShowWindow()
@@ -179,7 +184,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
             EditorConfiguration.MyTests = null;
             LoadTestCompleted = false;
             this.StartCoroutine(AltTestRunner.SetUpListTestCoroutine());
-            TMPDefineSetter.CheckAndSetTMPDefine();
         }
         protected void OnEnable()
         {
@@ -198,11 +202,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
         }
         public static void RecreateAltTesterPrefab()
         {
-            var scriptingDefineSymbolsForGroup = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup);
-            if (!scriptingDefineSymbolsForGroup.Contains("ALTTESTER"))
-            {
-                AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
-            }
             AltBuilder.GetAltTesterPrefab();
         }
 
@@ -296,10 +295,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
             }
             checkAltTesterPrefabInScene();
 
-            if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources/AltTester"))
-            {
-                AltBuilder.CreateJsonFileForInputMappingOfAxis();
-            }
             if (failIcon == null)
             {
                 var findIcon = UnityEditor.AssetDatabase.FindAssets("16px-indicator-fail");
@@ -358,7 +353,18 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 NeedsRepainting = false;
                 Repaint();
             }
-            DrawGUI();
+            // Mark the settings dirty when they are changed in the window, so File > Save Project writes them.
+            // The check also ends when DrawGUI exits through GUIUtility.ExitGUI, e.g. after a build.
+            UnityEditor.EditorGUI.BeginChangeCheck();
+            try
+            {
+                DrawGUI();
+            }
+            finally
+            {
+                if (UnityEditor.EditorGUI.EndChangeCheck() && EditorConfiguration != null)
+                    UnityEditor.EditorUtility.SetDirty(EditorConfiguration);
+            }
 
             if (EditorConfiguration != null)
             {
@@ -504,30 +510,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
             UnityEditor.EditorGUILayout.Separator();
             UnityEditor.EditorGUILayout.Separator();
 
-
-            if (AltBuilder.Built)
-            {
-                var found = false;
-
-                UnityEngine.SceneManagement.Scene scene = EditorSceneManager.OpenScene(AltBuilder.GetFirstSceneWhichWillBeBuilt());
-                if (scene.path.Equals(AltBuilder.GetFirstSceneWhichWillBeBuilt()))
-                {
-                    if (scene.GetRootGameObjects()
-                        .Any(gameObject => gameObject.name.Equals(PREFABNAME)))
-                    {
-                        UnityEngine.SceneManagement.SceneManager.SetActiveScene(scene);
-                        var altRunner = scene.GetRootGameObjects()
-                            .First(a => a.name.Equals(PREFABNAME));
-                        destroyAltRunner(altRunner);
-                        found = true;
-                    }
-
-                    if (found == false)
-                        AltBuilder.Built = false;
-                }
-
-            }
-
             UnityEditor.EditorGUILayout.LabelField("Build", UnityEditor.EditorStyles.boldLabel);
             if (EditorConfiguration.platform != AltPlatform.Editor)
             {
@@ -547,7 +529,11 @@ namespace AltTester.AltTesterUnitySDK.Editor
             if (EditorConfiguration.platform == AltPlatform.Editor && !UnityEditor.EditorApplication.isCompiling && !UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
             {
                 if (UnityEngine.GUILayout.Button("Play in Editor"))
+                {
                     runInEditor();
+                    // The save panel for an Untitled scene interrupts the GUI layout.
+                    UnityEngine.GUIUtility.ExitGUI();
+                }
             }
             else
             {
@@ -751,11 +737,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
             selectedTarget = GUILayout.SelectionGrid(selectedTarget, listOfPlatforms, size <= 300 ? 1 : listOfPlatforms.Length, guiStyleRadioButton);
             UnityEditor.EditorGUILayout.EndHorizontal();
             EditorGUI.EndDisabledGroup();
-            var previousPlatform = EditorConfiguration.platform;
             EditorConfiguration.platform = (AltPlatform)Enum.Parse(typeof(AltPlatform), listOfPlatforms[selectedTarget]);
-
-            if (previousPlatform != EditorConfiguration.platform && EditorConfiguration.platform != AltPlatform.Editor)
-                TMPDefineSetter.CheckAndSetTMPDefine();
 
 
             switch (EditorConfiguration.platform)
@@ -787,15 +769,7 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
                     showSettings(UnityEditor.BuildTargetGroup.WebGL, AltPlatform.WebGL);
                     break;
-#if NINTENDO_ENABLED && ALTTESTER_NONGPL
-                case AltPlatform.Switch:
-                    EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Switch, BuildTarget.Switch);
-                    showSettings(UnityEditor.BuildTargetGroup.Switch, AltPlatform.Switch);
-                    break;
-#endif
             }
-            checkAltTesterSymbol();
-
         }
 
         private void showSettings(BuildTargetGroup targetGroup, AltPlatform platform)
@@ -846,7 +820,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                     return;
                 }
             }
-            UnityEditor.EditorUtility.SetDirty(EditorConfiguration);
         }
 
         public static UnityEngine.Texture2D MakeTexture(int width, int height, UnityEngine.Color col)
@@ -962,8 +935,8 @@ namespace AltTester.AltTesterUnitySDK.Editor
             {
                 foreach (var altRunner in altRunners)
                 {
+                    AltPrefabCleanup.Untrack(altRunner);
                     DestroyImmediate(altRunner);
-
                 }
                 EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
                 EditorSceneManager.SaveOpenScenes();
@@ -972,10 +945,25 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
         private void runInEditor()
         {
+            if (!saveUntitledActiveScene())
+                return;
             AltBuilder.InsertAltTesterInTheActiveScene(AltTesterEditorWindow.EditorConfiguration.GetInstrumentationSettings());
-            AltBuilder.CreateJsonFileForInputMappingOfAxis();
             AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
             playInEditorPressed = true;
+        }
+
+        /// <summary>
+        /// The AltTester® prefab is saved into the active scene, so an unsaved (Untitled) scene has to be saved first.
+        /// </summary>
+        /// <returns>False when the user cancels saving it.</returns>
+        private static bool saveUntitledActiveScene()
+        {
+            var activeScene = EditorSceneManager.GetActiveScene();
+            if (!string.IsNullOrEmpty(activeScene.path))
+                return true;
+            var path = UnityEditor.EditorUtility.SaveFilePanelInProject("Save Scene", "Untitled", "unity",
+                "Play in Editor adds the AltTester® prefab to the active scene and saves it. Choose where to save the Untitled scene.");
+            return !string.IsNullOrEmpty(path) && EditorSceneManager.SaveScene(activeScene, path);
         }
         private void displayTestRunSettings()
         {
@@ -1001,9 +989,11 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 UnityEditor.PlayerSettings.productName = productName;
 
                 labelAndCheckboxHorizontalLayout("Append \"Test\" to product name for AltTester® builds*", ref EditorConfiguration.appendToName);
-                var keepATSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTTESTER symbol defined", ref EditorConfiguration.KeepAUTSymbolDefined);
+                var keepATSymbolChanged = labelAndCheckboxHorizontalLayout("Keep ALTTESTER symbol defined*", ref EditorConfiguration.KeepAUTSymbolDefined);
                 if (keepATSymbolChanged)
-                    checkAltTesterSymbol();
+                    onKeepAltTesterSymbolChanged();
+                if (EditorConfiguration.KeepAUTSymbolDefined)
+                    UnityEditor.EditorGUILayout.HelpBox("ALTTESTER stays defined after AltTester® builds and Play in Editor, and turning this on adds it to every platform, Dedicated Server and build profiles included, so builds made from Unity's Build Settings/Profiles are instrumented too. Turn this off before making a production build: it removes ALTTESTER from all of them.", UnityEditor.MessageType.Warning);
 
                 var keepPrefabInSceneChanged = labelAndCheckboxHorizontalLayout("Keep AltTester® prefab in scene", ref EditorConfiguration.KeepAltTesterPrefabInScene);
                 if (keepPrefabInSceneChanged)
@@ -1109,7 +1099,10 @@ namespace AltTester.AltTesterUnitySDK.Editor
         }
         private static void checkAltTesterPrefabInScene()
         {
-            if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling || Window.playInEditorPressed)
+            // Window is assigned in ShowWindow()/OnEnable(). While Unity restores the saved layout it
+            // calls OnFocus before OnEnable has run, so the static is still null here; skip the check
+            // rather than dereference it (or edit scenes) mid-deserialization. It reruns on next focus.
+            if (Window == null || UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling || Window.playInEditorPressed)
                 return;
             var activeScene = EditorSceneManager.GetActiveScene();
             var altRunners = activeScene.GetRootGameObjects()
@@ -1135,26 +1128,24 @@ namespace AltTester.AltTesterUnitySDK.Editor
 
             foreach (var altRunner in altRunners)
             {
+                AltPrefabCleanup.Untrack(altRunner);
                 DestroyImmediate(altRunner);
-
             }
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
             EditorSceneManager.SaveOpenScenes();
         }
-        private static void checkAltTesterSymbol()
+        /// <summary>
+        /// The setting is shared between platforms: turning it on adds ALTTESTER to every build target, Dedicated
+        /// Server and Unity 6 build profiles included, and turning it off removes it from all of them.
+        /// </summary>
+        private static void onKeepAltTesterSymbolChanged()
         {
-            if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling || Window.playInEditorPressed)
+            if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode || UnityEditor.EditorApplication.isCompiling || (Window != null && Window.playInEditorPressed))
                 return;
-            if (EditorConfiguration.KeepAUTSymbolDefined && !AltBuilder.CheckAltTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
-            {
-                AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
-                return;
-            }
-            if (!EditorConfiguration.KeepAUTSymbolDefined && AltBuilder.CheckAltTesterIsDefineAsAScriptingSymbol(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget)))
-            {
-                AltBuilder.RemoveAltTesterFromScriptingDefineSymbols(UnityEditor.BuildPipeline.GetBuildTargetGroup(UnityEditor.EditorUserBuildSettings.activeBuildTarget));
-                return;
-            }
+            if (EditorConfiguration.KeepAUTSymbolDefined)
+                AltBuilder.AddAltTesterToAllScriptingDefineSymbols();
+            else
+                AltBuilder.RemoveAltTesterFromAllScriptingDefineSymbols();
         }
 
         private static bool labelAndCheckboxHorizontalLayout(string labelText, ref bool editorConfigVariable)
@@ -1852,15 +1843,6 @@ namespace AltTester.AltTesterUnitySDK.Editor
                 path = path.Replace(System.IO.Path.GetFileName(UnityEditor.AssetDatabase.GetAssetPath(UnityEditor.Selection.activeObject)), "");
             }
             return path;
-        }
-
-        private static void destroyAltRunner(UnityEngine.Object altRunner)
-        {
-
-            DestroyImmediate(altRunner);
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-            EditorSceneManager.SaveOpenScenes();
-            EditorSceneManager.OpenScene(AltBuilder.PreviousScenePath);
         }
 
         private static void addComponentToObjectAndHisChildren(UnityEngine.GameObject gameObject)

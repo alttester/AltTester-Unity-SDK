@@ -49,10 +49,14 @@ public class MessageHandler implements IMessageHandler {
 
   private Queue<AltMessageResponse> responses = new LinkedList<AltMessageResponse>();
 
-  private List<INotificationCallbacks> loadSceneNotificationList = new ArrayList<INotificationCallbacks>();
-  private List<INotificationCallbacks> unloadSceneNotificationList = new ArrayList<INotificationCallbacks>();
-  private List<INotificationCallbacks> logNotificationList = new ArrayList<INotificationCallbacks>();
-  private List<INotificationCallbacks> applicationPausedNotificationList = new ArrayList<INotificationCallbacks>();
+  private List<INotificationCallbacks> loadSceneNotificationList =
+      new ArrayList<INotificationCallbacks>();
+  private List<INotificationCallbacks> unloadSceneNotificationList =
+      new ArrayList<INotificationCallbacks>();
+  private List<INotificationCallbacks> logNotificationList =
+      new ArrayList<INotificationCallbacks>();
+  private List<INotificationCallbacks> applicationPausedNotificationList =
+      new ArrayList<INotificationCallbacks>();
 
   private List<String> messageIdTimeout = new ArrayList<String>();
 
@@ -77,8 +81,7 @@ public class MessageHandler implements IMessageHandler {
   }
 
   public void setImplicitTimeout(double value) {
-    if (value < 0)
-      throw new IllegalArgumentException("Timeout cannot be negative");
+    if (value < 0) throw new IllegalArgumentException("Timeout cannot be negative");
     implicitTimeout = value;
   }
 
@@ -113,7 +116,7 @@ public class MessageHandler implements IMessageHandler {
       }
 
       if ((responseMessage.error == null
-          || responseMessage.error.type != AltErrors.errorInvalidCommand)
+              || responseMessage.error.type != AltErrors.errorInvalidCommand)
           && (!responseMessage.messageId.equals(data.messageId())
               || !responseMessage.commandName.equals(data.getCommandName()))) {
         throw new AltRecvallException(
@@ -155,8 +158,8 @@ public class MessageHandler implements IMessageHandler {
   private void handleNotification(AltMessageResponse message) {
     switch (message.commandName) {
       case "loadSceneNotification":
-        AltLoadSceneNotificationResultParams data = new Gson().fromJson(message.data,
-            AltLoadSceneNotificationResultParams.class);
+        AltLoadSceneNotificationResultParams data =
+            new Gson().fromJson(message.data, AltLoadSceneNotificationResultParams.class);
         for (INotificationCallbacks callback : loadSceneNotificationList) {
           callback.SceneLoadedCallBack(data);
         }
@@ -168,7 +171,8 @@ public class MessageHandler implements IMessageHandler {
         }
         break;
       case "logNotification":
-        AltLogNotificationResultParams data1 = new Gson().fromJson(message.data, AltLogNotificationResultParams.class);
+        AltLogNotificationResultParams data1 =
+            new Gson().fromJson(message.data, AltLogNotificationResultParams.class);
         for (INotificationCallbacks callback : logNotificationList) {
           callback.LogCallBack(data1);
         }

@@ -46,10 +46,58 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
         public static void EnqueueInputAction(Action action) => _pendingInputActions.Enqueue(action);
 
+        // True while AltInput.Update() runs, i.e. before any user script Update() in this frame.
+        private static bool applyingBeforeUserScripts;
+
         private void Update()
         {
-            while (_pendingInputActions.Count > 0)
-                _pendingInputActions.Dequeue().Invoke();
+            applyingBeforeUserScripts = true;
+            try
+            {
+                // Actions queued while draining (e.g. clearing a key-down flag) run next frame, so user scripts
+                // see this frame's state first.
+                for (var pending = _pendingInputActions.Count; pending > 0; pending--)
+                    _pendingInputActions.Dequeue().Invoke();
+
+                ageTouches();
+            }
+            finally
+            {
+                applyingBeforeUserScripts = false;
+            }
+        }
+
+        /// <summary>
+        /// A real finger that stays down reports Began for a single frame and Stationary for every
+        /// frame after that. Injected touches only change phase when a command moves or ends them,
+        /// so without this sweep a held touch reports Began for its whole lifetime and never
+        /// refreshes deltaTime. Runs before user scripts (execution order -32000).
+        /// </summary>
+        private static void ageTouches()
+        {
+            for (var t = 0; t < Touches.Length; t++)
+            {
+                var touch = Touches[t];
+                if (!TouchMetadata.TryGetValue(touch.fingerId, out TouchMeta meta))
+                    continue;
+
+                if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved)
+                {
+                    // Keep the phase readable for exactly one full user Update pass before it decays. A change
+                    // applied from the input queue is already visible to user scripts in the frame it was made.
+                    var lastVisibleFrame = meta.lastChangeFrame + (meta.changedBeforeUserScripts ? 0 : 1);
+                    if (Time.frameCount <= lastVisibleFrame)
+                        continue;
+                    touch.phase = TouchPhase.Stationary;
+                }
+                else if (touch.phase != TouchPhase.Stationary)
+                {
+                    continue; // Ended and Canceled are removed by their own lifecycle.
+                }
+
+                touch.deltaPosition = Vector2.zero;
+                updateTouchInTouchList(ref touch);
+            }
         }
 
         public static bool UseCustomInput;
@@ -61,11 +109,37 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         public static Vector3 MousePosition = new Vector3();
         public static Vector3 MouseDelta = new Vector3();
         public static List<AltAxis> AxisList;
+        /// <summary>
+        /// The Input Manager axes as JSON. Set by the AltTester editor in Play Mode, and from the scene in builds.
+        /// </summary>
+        public static string InputAxesData;
+        private static bool missingAxesReported;
         public static GameObject EventSystemTargetMouseDown;
         public static GameObject MonoBehaviourTargetMouseDown;
         public static Vector3 PreviousMousePosition = new Vector3();
         public static GameObject MonoBehaviourPreviousTarget = null;
         public static GameObject PreviousEventSystemTarget = null;
+
+        private struct TouchMeta
+        {
+            public float lastChangeTime;
+            public int lastChangeFrame;
+            public bool changedBeforeUserScripts;
+
+            public static TouchMeta Now()
+            {
+                return new TouchMeta
+                {
+                    lastChangeTime = Time.unscaledTime,
+                    lastChangeFrame = Time.frameCount,
+                    changedBeforeUserScripts = applyingBeforeUserScripts
+                };
+            }
+        }
+
+        private static readonly Dictionary<int, TouchMeta> TouchMetadata = new Dictionary<int, TouchMeta>();
+        // Finger ids handed out by BeginTouch whose touch is still waiting in the input queue.
+        private static readonly HashSet<int> ReservedFingerIds = new HashSet<int>();
 
         public static AltMockUpPointerInputModule MockUpPointerInputModule;
         public static AltInput Instance;
@@ -118,6 +192,8 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             Acceleration = Vector3.zero;
             AccelerationEvents = new AccelerationEvent[0];
             PointerEventsDataDictionary.Clear();
+            TouchMetadata.Clear();
+            ReservedFingerIds.Clear();
             MouseDownPointerEventData = null;
             EventSystemTargetMouseDown = null;
             MonoBehaviourTargetMouseDown = null;
@@ -175,6 +251,23 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
         public static string SimulatedInputString { get; private set; }
 
+        // Written into the scene by the AltTester editor when an instrumented build is made, so the axes ship only
+        // in instrumented builds.
+#pragma warning disable CS0649 // Assigned through SerializedObject by AltInputAxesProcessor.
+        [SerializeField, HideInInspector]
+        private string inputAxesData;
+#pragma warning restore CS0649
+
+        // A prefab instantiated at runtime isn't in a built scene, so it falls back to this Resources file, which the
+        // AltTester editor adds for the duration of instrumented builds only.
+        private const string inputAxesResourcePath = "AltTester/AltTesterInputAxisData";
+
+        private void Awake()
+        {
+            if (!string.IsNullOrEmpty(inputAxesData))
+                InputAxesData = inputAxesData;
+        }
+
         public void Start()
         {
             Instance = this;
@@ -184,13 +277,25 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
         public static bool LoadAxisList()
         {
+            if (string.IsNullOrEmpty(InputAxesData))
+            {
+                var axesResource = UnityEngine.Resources.Load<UnityEngine.TextAsset>(inputAxesResourcePath);
+                if (axesResource != null)
+                    InputAxesData = axesResource.text;
+            }
+            if (string.IsNullOrEmpty(InputAxesData))
+            {
+                if (!missingAxesReported)
+                {
+                    missingAxesReported = true;
+                    UnityEngine.Debug.LogWarning("AltTester: the Input Manager axes are not available, so simulated input can't drive GetAxis or GetButton. " +
+                        "They are added to instrumented builds made with the AltTester editor.");
+                }
+                return false;
+            }
             try
             {
-                string filePath = "AltTester/AltTesterInputAxisData";
-
-                UnityEngine.TextAsset targetFile = UnityEngine.Resources.Load<UnityEngine.TextAsset>(filePath);
-                string dataAsJson = targetFile.text;
-                AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltAxis>>(dataAsJson, new JsonSerializerSettings
+                AxisList = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.List<AltAxis>>(InputAxesData, new JsonSerializerSettings
                 {
                     ContractResolver = new DefaultContractResolver(),
                     Culture = CultureInfo.InvariantCulture,
@@ -293,9 +398,25 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         }
 
         #region public commands interface
+        /// <summary>
+        /// The finger id is returned right away, but the touch is created in AltInput.Update() (execution order
+        /// -32000), before any user script Update() reads it, so a polling game sees Began for exactly one frame.
+        /// </summary>
         public static int BeginTouch(Vector3 screenPosition)
         {
-            var touch = createTouch(screenPosition);
+            var fingerId = nextFreeFingerId();
+            ReservedFingerIds.Add(fingerId);
+            EnqueueInputAction(() =>
+            {
+                ReservedFingerIds.Remove(fingerId);
+                beginTouch(fingerId, screenPosition);
+            });
+            return fingerId;
+        }
+
+        private static void beginTouch(int fingerId, Vector3 screenPosition)
+        {
+            var touch = createTouch(screenPosition, fingerId);
 
             var pointerEventData = AltMockUpPointerInputModule.ExecuteTouchEvent(touch);
             if (touch.fingerId == 0)
@@ -306,18 +427,16 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                 MouseDownPointerEventData = pointerEventData;
             }
             PointerEventsDataDictionary.Add(touch.fingerId, pointerEventData);
-            Instance.StartCoroutine(setMouse0KeyCodePressedDown());
-
-
-
-            return touch.fingerId;
+            pressMouse0();
         }
 
+        /// <summary>
+        /// Applied in AltInput.Update(), after any pending BeginTouch for this finger and before user scripts.
+        /// </summary>
         public static void MoveTouch(int fingerId, Vector3 screenPosition)
         {
-            var touch = findTouch(fingerId);
-            MoveTouch(touch, screenPosition);
-
+            ensureTouchExists(fingerId);
+            EnqueueInputAction(() => MoveTouch(findTouch(fingerId), screenPosition));
         }
         public static void MoveTouch(Touch touch, Vector3 screenPosition)
         {
@@ -332,33 +451,56 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             {
                 MousePosition = screenPosition;
             }
-            updateTouchInTouchList(touch);
+            updateTouchInTouchList(ref touch);
             AltMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
         }
 
+        /// <summary>
+        /// Ends the touch in AltInput.Update(), after any pending BeginTouch/MoveTouch for this finger, and removes it
+        /// in the next frame's AltInput.Update(), so user scripts see Ended for exactly one frame.
+        /// </summary>
         public static IEnumerator EndTouch(int fingerId)
         {
-            yield return Instance.StartCoroutine(EndTouch(findTouch(fingerId)));
+            ensureTouchExists(fingerId);
+            var keyStructure = new KeyStructure(KeyCode.Mouse0, 1);
+            var touch = new Touch();
+            var ended = false;
+            Exception error = null;
+            EnqueueInputAction(() =>
+            {
+                try
+                {
+                    touch = findTouch(fingerId);
+                    beginKeyUpTouchEndedLifecycle(keyStructure, true, ref touch);
+                    // The dictionary removal is inside the action to keep the key alive for any pending moves.
+                    var previousPointerEventData = PointerEventsDataDictionary[fingerId];
+                    PointerEventsDataDictionary.Remove(fingerId);
+                    AltMockUpPointerInputModule.ExecuteTouchEvent(touch, previousPointerEventData);
+                }
+                catch (Exception e)
+                {
+                    error = e; // rethrown below; ended must still be set or the EndTouch command never finishes
+                }
+                ended = true;
+            });
+            while (!ended)
+                yield return null;
+            if (error != null)
+                throw error;
+
+            // Coroutines resume after the user Update() pass, so the removal is queued for the next frame.
+            var removed = false;
+            EnqueueInputAction(() =>
+            {
+                endKeyUpTouchEndedLifecycle(keyStructure, true, touch);
+                removed = true;
+            });
+            while (!removed)
+                yield return null;
         }
         public static IEnumerator EndTouch(Touch touch)
         {
-            yield return WaitForEndOfFrame();
-
-            var keyStructure = new KeyStructure(KeyCode.Mouse0, 1);
-            beginKeyUpTouchEndedLifecycle(keyStructure, true, ref touch);
-
-            // Enqueue so the end event fires after any pending MoveTouch calls in AltInput.Update().
-            // The dictionary removal is also inside the action to keep the key alive for those moves.
-            var touchSnapshot = touch;
-            EnqueueInputAction(() =>
-            {
-                var previousPointerEventData = PointerEventsDataDictionary[touchSnapshot.fingerId];
-                PointerEventsDataDictionary.Remove(touchSnapshot.fingerId);
-                AltMockUpPointerInputModule.ExecuteTouchEvent(touchSnapshot, previousPointerEventData);
-            });
-
-            yield return null;
-            endKeyUpTouchEndedLifecycle(keyStructure, true, touch);
+            yield return Instance.StartCoroutine(EndTouch(touch.fingerId));
         }
 
 
@@ -370,8 +512,8 @@ namespace AltTester.AltTesterUnitySDK.InputModule
 
             var oneInputDuration = duration / (positions.Length - 1);
             // Track position locally so delta calculations don't depend on Touches[] being up-to-date.
-            // MoveTouch is enqueued rather than called directly so it fires in AltInput.Update()
-            // (execution order -32000), before any user script Update() reads the resulting flags.
+            // MoveTouch(int) enqueues itself, so it fires in AltInput.Update() (execution order -32000),
+            // before any user script Update() reads the resulting flags.
             var currentPosition = positions[0];
             for (var i = 1; i < positions.Length; i++)
             {
@@ -384,13 +526,13 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                     time += Time.unscaledDeltaTime;
                     var newPosition = time < oneInputDuration ? currentPosition + deltaPerSecond * Time.unscaledDeltaTime : positions[i];
                     UnityEngine.Debug.LogWarning("Moving touch to: " + touchId);
-                    var pos = newPosition;
-                    var id = touchId;
-                    EnqueueInputAction(() => MoveTouch(id, pos));
+                    MoveTouch(touchId, newPosition);
                     currentPosition = newPosition;
                 } while (time <= oneInputDuration);
             }
 
+            // Let user scripts see the last move for a frame; otherwise it is applied together with Ended.
+            yield return null;
             yield return CoroutineManager.Instance.StartCoroutine(EndTouch(touchId));
         }
 
@@ -502,19 +644,9 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             else
                 yield return new WaitForEndOfFrame();
         }
-        private static Touch createTouch(Vector3 screenPosition)
+        private static int nextFreeFingerId()
         {
-            UnityEngine.Debug.LogWarning("Creating touch at: " + screenPosition);
-            var touch = new Touch
-            {
-                phase = TouchPhase.Began,
-                position = screenPosition,
-                rawPosition = screenPosition,
-                pressure = 1.0f,
-                maximumPossiblePressure = 1.0f,
-            };
-
-            List<int> fingerIds = Touches.Select(t => t.fingerId).ToList();
+            List<int> fingerIds = Touches.Select(t => t.fingerId).Concat(ReservedFingerIds).ToList();
             fingerIds.Sort();
             int fingerId = 0;
             foreach (var iter in fingerIds)
@@ -523,7 +655,29 @@ namespace AltTester.AltTesterUnitySDK.InputModule
                     break;
                 fingerId++;
             }
+            return fingerId;
+        }
+
+        private static Touch createTouch(Vector3 screenPosition)
+        {
+            return createTouch(screenPosition, nextFreeFingerId());
+        }
+
+        private static Touch createTouch(Vector3 screenPosition, int fingerId)
+        {
+            var touch = new Touch
+            {
+                phase = TouchPhase.Began,
+                position = screenPosition,
+                rawPosition = screenPosition,
+                pressure = 1.0f,
+                maximumPossiblePressure = 1.0f,
+                tapCount = 1,
+                deltaTime = 0f,
+            };
+
             touch.fingerId = fingerId;
+            TouchMetadata[fingerId] = TouchMeta.Now();
 
             TouchCount++;
             var touchListCopy = new Touch[Touches.Length + 1];
@@ -536,18 +690,21 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         private static void destroyTouch(Touch touch)
         {
             Touches = Touches.Where(t => t.fingerId != touch.fingerId).ToArray();
+            TouchMetadata.Remove(touch.fingerId);
             TouchCount--;
         }
 
-        private static IEnumerator setMouse0KeyCodePressedDown()
+        /// <summary>
+        /// Pressed together with the queued touch begin, so GetMouseButtonDown(0) is true for the same single frame
+        /// as Began, and a queued EndTouch can never release Mouse0 before this press lands.
+        /// </summary>
+        private static void pressMouse0()
         {
             var keyStructure = new KeyStructure(KeyCode.Mouse0, 1.0f);
-            yield return WaitForEndOfFrame();
             KeyCodesPressedDown.Add(keyStructure);
             KeyCodesPressed.Add(keyStructure);
-
-            yield return null;
-            KeyCodesPressedDown.Remove(keyStructure);
+            // Queued during the drain, so it runs at the start of the next frame.
+            EnqueueInputAction(() => KeyCodesPressedDown.Remove(keyStructure));
         }
 
         private static void beginKeyUpTouchEndedLifecycle(KeyStructure keyStructure, bool tap, ref Touch touch)
@@ -555,7 +712,7 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             if (tap)
             {
                 touch.phase = TouchPhase.Ended;
-                updateTouchInTouchList(touch);
+                updateTouchInTouchList(ref touch);
             }
             KeyCodesPressed.Remove(keyStructure);
             KeyCodesPressedUp.Add(keyStructure);
@@ -573,6 +730,16 @@ namespace AltTester.AltTesterUnitySDK.InputModule
         private static Touch findTouch(int fingerId)
         {
             return Touches.First(touch => touch.fingerId == fingerId);
+        }
+
+        /// <summary>
+        /// Fails the command right away for an unknown finger, the same way findTouch did before touch commands
+        /// were queued. A finger whose BeginTouch is still queued counts as existing.
+        /// </summary>
+        private static void ensureTouchExists(int fingerId)
+        {
+            if (!ReservedFingerIds.Contains(fingerId))
+                findTouch(fingerId);
         }
 
         public static IEnumerator DummyClickAt(Vector2 screenPosition)
@@ -697,9 +864,21 @@ namespace AltTester.AltTesterUnitySDK.InputModule
             });
         }
 
-        private static void updateTouchInTouchList(Touch touch)
+        /// <summary>
+        /// Touch.deltaTime is the time since this touch last changed, not its total lifetime.
+        /// </summary>
+        private static void stampTouchChange(ref Touch touch)
         {
-            UnityEngine.Debug.LogWarning("Updating touch in touch list: " + touch.fingerId);
+            touch.deltaTime = TouchMetadata.TryGetValue(touch.fingerId, out TouchMeta meta)
+                ? Time.unscaledTime - meta.lastChangeTime
+                : 0f;
+
+            TouchMetadata[touch.fingerId] = TouchMeta.Now();
+        }
+
+        private static void updateTouchInTouchList(ref Touch touch)
+        {
+            stampTouchChange(ref touch);
             for (var t = 0; t < Touches.Length; t++)
             {
                 if (Touches[t].fingerId == touch.fingerId)

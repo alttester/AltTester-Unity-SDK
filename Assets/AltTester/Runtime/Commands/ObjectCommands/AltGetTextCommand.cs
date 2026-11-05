@@ -16,6 +16,7 @@
 */
 
 using System;
+using System.Linq;
 using AltTester.AltTesterSDK.Driver;
 using AltTester.AltTesterSDK.Driver.Commands;
 using UnityEngine;
@@ -24,15 +25,11 @@ namespace AltTester.AltTesterUnitySDK.Commands
 {
     class AltGetTextCommand : AltReflectionMethodsCommand<AltGetTextParams, string>
     {
-        static readonly AltObjectProperty[] textProperties =
+        static readonly AltObjectProperty[] textProperties = new[]
         {
             new AltObjectProperty("UnityEngine.UI.Text", "text"),
-            new AltObjectProperty("UnityEngine.UI.InputField", "text"),
-            #if TMP_PRESENT
-            new AltObjectProperty("TMPro.TMP_Text", "text", "Unity.TextMeshPro"),
-            new AltObjectProperty("TMPro.TMP_InputField", "text", "Unity.TextMeshPro")
-            #endif
-        };
+            new AltObjectProperty("UnityEngine.UI.InputField", "text")
+        }.Concat(AltTextMeshPro.TextProperties).ToArray();
 
         public AltGetTextCommand(AltGetTextParams cmdParams) : base(cmdParams)
         {
@@ -73,26 +70,30 @@ namespace AltTester.AltTesterUnitySDK.Commands
         }
         public static string GetText(GameObject gameObject)
         {
+            if (TryGetText(gameObject, out var text))
+            {
+                return text;
+            }
+            throw new PropertyNotFoundException("No valid text property could be found on the target object.");
+        }
 
+        /// <summary>
+        /// Like GetText, but returns false instead of throwing when the object has no text component.
+        /// Use it when checking many objects, e.g. find by text, where throwing for each object without text is slow.
+        /// </summary>
+        public static bool TryGetText(GameObject gameObject, out string text)
+        {
             if (gameObject.TryGetComponent<UnityEngine.UI.Text>(out var uiText))
             {
-                return uiText.text;
+                text = uiText.text;
+                return true;
             }
-            else if (gameObject.TryGetComponent<UnityEngine.UI.InputField>(out var uiInputField))
+            if (gameObject.TryGetComponent<UnityEngine.UI.InputField>(out var uiInputField))
             {
-                return uiInputField.text;
+                text = uiInputField.text;
+                return true;
             }
-#if TMP_PRESENT
-            else if (gameObject.TryGetComponent<TMPro.TMP_Text>(out var tmpText))
-            {
-                return tmpText.text;
-            }
-            else if (gameObject.TryGetComponent<TMPro.TMP_InputField>(out var tmpInputField))
-            {
-                return tmpInputField.text;
-            }
-#endif
-            throw new PropertyNotFoundException("No valid text property could be found on the target object.");
+            return AltTextMeshPro.TryGetText(gameObject, out text);
         }
     }
 }

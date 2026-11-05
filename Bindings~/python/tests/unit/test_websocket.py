@@ -9,6 +9,7 @@ import pytest
 
 from alttester._websocket import Store, WebsocketConnection, CommandHandler, NotificationHandler
 from alttester.exceptions import ConnectionError
+from alttester.commands.Notifications.notification_type import NotificationType
 
 
 class TestStore:
@@ -182,3 +183,50 @@ class TestWebsocketConnection:
 
         assert self.connection._command_handler.get_current_command() != (
             command["messageId"], command["commandName"])
+
+
+class TestNotificationHandler:
+
+    @pytest.fixture(autouse=True)
+    def setup(self):
+        self.notification_handler = NotificationHandler()
+        self.paused_message = {
+            "commandName": "applicationPausedNotification",
+            "data": json.dumps(True)
+        }
+
+    def test_add_notification_listener_with_overwrite(self):
+        first_callback = mock.Mock()
+        second_callback = mock.Mock()
+
+        self.notification_handler.add_notification_listener(
+            NotificationType.APPLICATION_PAUSED, first_callback, overwrite=True)
+        self.notification_handler.add_notification_listener(
+            NotificationType.APPLICATION_PAUSED, second_callback, overwrite=True)
+        self.notification_handler.handle_notification(self.paused_message)
+
+        first_callback.assert_not_called()
+        second_callback.assert_called_once_with(True)
+
+    def test_add_notification_listener_without_overwrite(self):
+        first_callback = mock.Mock()
+        second_callback = mock.Mock()
+
+        self.notification_handler.add_notification_listener(
+            NotificationType.APPLICATION_PAUSED, first_callback, overwrite=False)
+        self.notification_handler.add_notification_listener(
+            NotificationType.APPLICATION_PAUSED, second_callback, overwrite=False)
+        self.notification_handler.handle_notification(self.paused_message)
+
+        first_callback.assert_called_once_with(True)
+        second_callback.assert_called_once_with(True)
+
+    def test_remove_notification_listener(self):
+        callback = mock.Mock()
+
+        self.notification_handler.add_notification_listener(
+            NotificationType.APPLICATION_PAUSED, callback, overwrite=True)
+        self.notification_handler.remove_notification_listener(NotificationType.APPLICATION_PAUSED)
+        self.notification_handler.handle_notification(self.paused_message)
+
+        callback.assert_not_called()

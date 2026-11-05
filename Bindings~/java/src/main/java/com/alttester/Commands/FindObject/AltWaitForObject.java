@@ -10,14 +10,12 @@ import com.alttester.Utils;
 import com.alttester.altTesterExceptions.WaitTimeOutException;
 
 /**
- * Wait until there are no longer any objects that respect the given criteria or
- * times run out and
+ * Wait until there are no longer any objects that respect the given criteria or times run out and
  * will throw an error.
  */
 public class AltWaitForObject extends AltBaseFindObject {
   /**
-   * @param altFindObjectsParameters the properties parameter for finding the
-   *                                 objects in a scene.
+   * @param altFindObjectsParameters the properties parameter for finding the objects in a scene.
    */
   private AltWaitForObjectsParams altWaitForObjectsParameters;
 
@@ -36,9 +34,10 @@ public class AltWaitForObject extends AltBaseFindObject {
               + altWaitForObjectsParameters.getAltFindObjectsParameters().getPath()
               + "....");
       try {
-        altElement = new AltFindObject(
-            messageHandler, altWaitForObjectsParameters.getAltFindObjectsParameters())
-            .Execute();
+        altElement =
+            new AltFindObject(
+                    messageHandler, altWaitForObjectsParameters.getAltFindObjectsParameters())
+                .Execute();
         if (altElement != null) {
           return altElement;
         }

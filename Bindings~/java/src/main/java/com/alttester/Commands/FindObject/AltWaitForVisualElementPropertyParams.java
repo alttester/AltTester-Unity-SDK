@@ -29,7 +29,8 @@ public class AltWaitForVisualElementPropertyParams extends AltMessage {
     }
 
     public AltWaitForVisualElementPropertyParams build() {
-      AltWaitForVisualElementPropertyParams AltWaitForVisualElementPropertyParams = new AltWaitForVisualElementPropertyParams();
+      AltWaitForVisualElementPropertyParams AltWaitForVisualElementPropertyParams =
+          new AltWaitForVisualElementPropertyParams();
       AltWaitForVisualElementPropertyParams.propertyName = this.propertyName;
       AltWaitForVisualElementPropertyParams.timeout = this.timeout;
       AltWaitForVisualElementPropertyParams.interval = this.interval;
@@ -39,8 +40,7 @@ public class AltWaitForVisualElementPropertyParams extends AltMessage {
     }
   }
 
-  private AltWaitForVisualElementPropertyParams() {
-  }
+  private AltWaitForVisualElementPropertyParams() {}
 
   private String propertyName;
   private double timeout = 20;

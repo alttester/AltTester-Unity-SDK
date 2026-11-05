@@ -132,12 +132,16 @@ WegGL app disconnects
 
 **Affects**: AltTester® Unity SDK v2.x
 
-Impossibility to connect to AltTester® Desktop an ``IL2CPP`` instrumented app built with Managed Stripping Level higher than ``Minimal`` which throws ``InvalidCommandException: Unable to find a constructor to use for type AltTester.AltTesterSDK.Driver.Commands.AltGetServerVersionParams. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Instrumented app built with Managed Stripping Level higher than ``Minimal`` can't connect
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Workaround**: Set the Managed Stripping Level setting to ``Minimal`` from Player Settings -> Other Settings -> Optimization 
+**Problem**: An instrumented app built with Managed Stripping Level ``Low``, ``Medium`` or ``High`` can't be driven by AltTester®. This happens with both the ``IL2CPP`` and the ``Mono`` scripting backends. The ``link.xml`` file shipped with the AltTester® Unity SDK named assemblies the package doesn't contain, so the linker stripped code AltTester® creates through reflection. The app logs:
 
-**Affects**: AltTester® Unity SDK v2.x
+``Unable to find a constructor to use for type AltTester.AltTesterSDK.Driver.Commands.AltGetServerVersionParams. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute``
+
+**Workaround**: Set the Managed Stripping Level setting to ``Minimal`` from Player Settings -> Other Settings -> Optimization or upgrade to AltTester® Unity SDK 2.4.0 or newer
+
+**Affects**: AltTester® Unity SDK v2.x up to v2.3.2. Fixed in v2.4.0.
 
 In BrowserStack can't connect iOS devices with version greater than 16 to AltTester® Server  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

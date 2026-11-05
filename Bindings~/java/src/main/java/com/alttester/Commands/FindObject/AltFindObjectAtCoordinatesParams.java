@@ -25,8 +25,7 @@ public class AltFindObjectAtCoordinatesParams extends AltMessage {
 
   private Vector2 coordinates;
 
-  private AltFindObjectAtCoordinatesParams() {
-  }
+  private AltFindObjectAtCoordinatesParams() {}
 
   public Vector2 getCoordinates() {
     return coordinates;

@@ -23,7 +23,8 @@ public class AltGetComponentPropertyParams extends AltObjectParams {
     }
 
     public AltGetComponentPropertyParams build() {
-      AltGetComponentPropertyParams altGetComponentPropertyParameters = new AltGetComponentPropertyParams();
+      AltGetComponentPropertyParams altGetComponentPropertyParameters =
+          new AltGetComponentPropertyParams();
       altGetComponentPropertyParameters.component = this.componentName;
       altGetComponentPropertyParameters.property = this.propertyName;
       altGetComponentPropertyParameters.assembly = this.assembly;
@@ -32,8 +33,7 @@ public class AltGetComponentPropertyParams extends AltObjectParams {
     }
   }
 
-  private AltGetComponentPropertyParams() {
-  }
+  private AltGetComponentPropertyParams() {}
 
   public String getAssembly() {
     return assembly;
