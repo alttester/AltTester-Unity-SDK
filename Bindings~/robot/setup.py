@@ -15,7 +15,7 @@ URL = "https://alttester.com/docs/sdk/latest/"
 EMAIL = "contact@alttester.com"
 AUTHOR = "Altom Consulting"
 REQUIRES_PYTHON = ">=3.4.0"
-LICENSE = "GNU GPLv3"
+LICENSE = "Proprietary"
 
 with open("src/AltTesterLibrary/__version__.py") as f:
     for line in f.readlines():
@@ -42,6 +42,7 @@ setup(
         "Issues": "https://github.com/alttester/AltTester-Unity-SDK/issues",
         "Documentation": "https://alttester.com/docs/sdk/latest",
         "Source": "https://github.com/alttester/AltTester-Unity-SDK",
+        "License": "https://alttester.com/app/uploads/AltTester/sdks/alttester/LICENSE",
     },
     author=AUTHOR,
     author_email=EMAIL,
@@ -57,7 +58,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "Intended Audience :: Other Audience",
-        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+        "License :: Other/Proprietary License",
         "Programming Language :: Python :: 3.10",
         "Operating System :: OS Independent",
         "Topic :: Games/Entertainment",
