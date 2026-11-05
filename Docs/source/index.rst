@@ -54,7 +54,7 @@ Documentation
    Home Page <https://alttester.com/docs/sdk/2.4.0/index.html>
    home
    AltTester® Unreal SDK <https://alttester.com/docs/unreal-sdk/latest/home.html>
-   AltTester® Desktop <https://alttester.com/docs/desktop/v.2.2.4/home.html>
+   AltTester® Desktop <https://alttester.com/docs/desktop/v.2.4.0/home.html>
 
 
 .. toctree::

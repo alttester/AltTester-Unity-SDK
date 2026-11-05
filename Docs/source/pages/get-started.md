@@ -154,6 +154,14 @@ Steps:
 
 The AltTester® Server Module is incorporated in AltTester® Desktop. In order to start it, all you have to do is to open AltTester® Desktop.
 
+```eval_rst
+
+.. important::
+
+    AltTester® Unity SDK v2.4.0 works only with AltTester® Desktop v2.4.0 or later (see :doc:`upgrade-guides/v-2-4-0`).
+
+```
+
 ## Run your app in Unity or on desired platform
 
 Before running your tests you need to start the instrumented Unity application. Upon startup, your instrumented Unity app should display a popup with the message: "Waiting for connections on port: {Port}". The popup disappears when your app has successfully connected to the tests.
