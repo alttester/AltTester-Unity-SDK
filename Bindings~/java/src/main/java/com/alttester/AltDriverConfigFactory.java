@@ -14,8 +14,7 @@ public final class AltDriverConfigFactory {
 
   private static final String ALTTESTER_LOGGER_NAME = "com.alttester";
 
-  private AltDriverConfigFactory() {
-  }
+  private AltDriverConfigFactory() {}
 
   public static void DisableLogging() {
     ILoggerFactory factory = LoggerFactory.getILoggerFactory();

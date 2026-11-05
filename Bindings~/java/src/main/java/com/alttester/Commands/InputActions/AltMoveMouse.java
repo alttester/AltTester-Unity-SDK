@@ -8,8 +8,7 @@ import com.alttester.Commands.AltBaseCommand;
 import com.alttester.IMessageHandler;
 
 /**
- * Simulate mouse movement in your application. This command does not wait for
- * the movement to
+ * Simulate mouse movement in your application. This command does not wait for the movement to
  * finish.
  */
 public class AltMoveMouse extends AltBaseCommand {

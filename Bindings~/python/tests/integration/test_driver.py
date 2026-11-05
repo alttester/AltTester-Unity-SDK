@@ -91,7 +91,7 @@ class TestDriver:
     @pytest.mark.WebGLUnsupported
     def test_set_server_logging(self):
         rule = self.alt_driver.call_static_method(
-            "AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
+            "AltTester.AltTesterUnitySDK.Logging.AltTesterLogManager",
             "Instance.Configuration.FindRuleByName",
             "Assembly-CSharp",
             parameters=["AltServerFileRule"],
@@ -102,7 +102,7 @@ class TestDriver:
 
         self.alt_driver.set_server_logging(AltLogger.File, AltLogLevel.Off)
         rule = self.alt_driver.call_static_method(
-            "AltTester.AltTesterUnitySDK.Logging.ServerLogManager",
+            "AltTester.AltTesterUnitySDK.Logging.AltTesterLogManager",
             "Instance.Configuration.FindRuleByName",
             "Assembly-CSharp",
             parameters=["AltServerFileRule"],

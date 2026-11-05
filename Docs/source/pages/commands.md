@@ -7484,12 +7484,12 @@ Sets the level of logging on AltTester® Unity SDK.
 
         Test Set Server Logging
             ${param}=    Create List    AltServerFileRule
-            ${rule}=    Call Static Method    AltTester.AltTesterUnitySDK.Logging.ServerLogManager    Instance.Configuration.FindRuleByName    Assembly-CSharp    parameters=${param}
+            ${rule}=    Call Static Method    AltTester.AltTesterUnitySDK.Logging.AltTesterLogManager    Instance.Configuration.FindRuleByName    Assembly-CSharp    parameters=${param}
             ${levels}=    Get From Dictionary    ${rule}    Levels
             ${levels_number}=    Get Length    ${levels}
             Should Be Equal As Integers    ${levels_number}    5
             Set Server Logging    File    Off
-            ${rule}=    Call Static Method    AltTester.AltTesterUnitySDK.Logging.ServerLogManager    Instance.Configuration.FindRuleByName    Assembly-CSharp    parameters=${param}
+            ${rule}=    Call Static Method    AltTester.AltTesterUnitySDK.Logging.AltTesterLogManager    Instance.Configuration.FindRuleByName    Assembly-CSharp    parameters=${param}
             ${levels}=    Get From Dictionary    ${rule}    Levels
             ${levels_number}=    Get Length    ${levels}
             Should Be Equal As Integers    ${levels_number}    0

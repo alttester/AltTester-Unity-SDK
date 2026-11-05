@@ -13,21 +13,17 @@ public class AltTesterImportErrorChecker : EditorWindow
         EditorApplication.delayCall += DeleteAltTesterPrefabIfExists;
     }
 
+    /// <summary>
+    /// Repairs the generated AltTester prefab when it has missing scripts, e.g. after Active Input Handling changed.
+    /// It is generated again in place instead of deleted, so it keeps its GUID and the scenes using it keep working.
+    /// </summary>
     public static void DeleteAltTesterPrefabIfExists()
     {
-        var AltTesterPrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(AltBuilder.GetAltTesterPrefabLocation());
-        if (AltTesterPrefab != null)
-        {
-            Component[] components = AltTesterPrefab.GetComponents<Component>();
-            bool hasMissingReferences = Array.Exists(components, component => component == null);
-            if (!hasMissingReferences)
-            {
-                EditorApplication.delayCall -= DeleteAltTesterPrefabIfExists;
-                return;
-            }
-            UnityEditor.AssetDatabase.DeleteAsset(AltBuilder.GetAltTesterPrefabLocation());
-        }
         EditorApplication.delayCall -= DeleteAltTesterPrefabIfExists;
+        var AltTesterPrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(AltBuilder.GetAltTesterPrefabLocation());
+        // GetAltTesterPrefab regenerates a prefab with missing scripts.
+        if (AltTesterPrefab != null && AltBuilder.HasMissingScripts(AltTesterPrefab))
+            AltBuilder.GetAltTesterPrefab();
     }
 
     public static void CheckLogsForImportErrors()

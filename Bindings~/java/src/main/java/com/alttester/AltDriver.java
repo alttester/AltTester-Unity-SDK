@@ -86,7 +86,7 @@ import org.slf4j.LoggerFactory;
 
 public class AltDriver {
   private static final Logger logger = LoggerFactory.getLogger(AltDriver.class);
-  public static final String VERSION = "2.3.3";
+  public static final String VERSION = "2.4.0";
 
   public static enum PlayerPrefsKeyType {
     Int(1),

@@ -22,9 +22,8 @@ public class AltPressKeyParams extends AltMessage {
     }
 
     /**
-     * @param duration The time measured in seconds from the key press to the key
-     *                 release. Defaults
-     *                 to <code>0.1</code>
+     * @param duration The time measured in seconds from the key press to the key release. Defaults
+     *     to <code>0.1</code>
      */
     public AltPressKeyParams.Builder withDuration(float duration) {
       this.duration = duration;
@@ -32,9 +31,8 @@ public class AltPressKeyParams extends AltMessage {
     }
 
     /**
-     * @param power A value between [-1,1] used for joysticks to indicate how hard
-     *              the button was
-     *              pressed. Defaults to <code>1</code>
+     * @param power A value between [-1,1] used for joysticks to indicate how hard the button was
+     *     pressed. Defaults to <code>1</code>
      */
     public AltPressKeyParams.Builder withPower(float power) {
       this.power = power;
@@ -59,8 +57,7 @@ public class AltPressKeyParams extends AltMessage {
     }
   }
 
-  private AltPressKeyParams() {
-  }
+  private AltPressKeyParams() {}
 
   private AltKeyCode keyCode;
   private float power;

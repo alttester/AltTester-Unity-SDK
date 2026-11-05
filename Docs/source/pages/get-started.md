@@ -146,7 +146,7 @@ Steps:
 
 .. note::
 
-    If you are building your instrumented app using the `IL2CPP` Scripting Backend configuration, you may also want to set the Managed Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization. Otherwise, AltTester® Desktop will throw an exception and will not be able to connect to the game.
+    AltTester® keeps its own code from being stripped in instrumented builds, so any Managed Stripping Level works. With AltTester® Unity SDK v2.3.2 and older, set the Managed Stripping Level to `Minimal` from Player Settings -> Other Settings -> Optimization. Otherwise the app can't connect (see :doc:`known-issues`).
 
 ```
 
@@ -360,7 +360,7 @@ AltTester® package contains AltDriver class used to connect to the instrumented
                 <dependency>
                     <groupId>com.alttester</groupId>
                     <artifactId>alttester</artifactId>
-                    <version>2.3.2</version>
+                    <version>2.4.0</version>
                 </dependency>
 
             .. code-block:: console

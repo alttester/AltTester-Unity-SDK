@@ -13,12 +13,10 @@ public class AltScrollParams extends AltMessage {
     private float duration = 0.1f;
     private boolean wait = true;
 
-    public Builder() {
-    }
+    public Builder() {}
 
     /**
-     * @param duration The duration of the scroll in seconds. Defaults to
-     *                 <code> 0.1 </code>
+     * @param duration The duration of the scroll in seconds. Defaults to <code> 0.1 </code>
      */
     public AltScrollParams.Builder withDuration(float duration) {
       this.duration = duration;
@@ -26,9 +24,8 @@ public class AltScrollParams extends AltMessage {
     }
 
     /**
-     * @param speed Set how fast to scroll. Positive values will scroll up and
-     *              negative values will
-     *              scroll down. Defaults to <code> 1 </code>
+     * @param speed Set how fast to scroll. Positive values will scroll up and negative values will
+     *     scroll down. Defaults to <code> 1 </code>
      */
     public AltScrollParams.Builder withSpeed(float speed) {
       this.speed = speed;
@@ -36,8 +33,7 @@ public class AltScrollParams extends AltMessage {
     }
 
     /**
-     * @param speed Set how fast to scroll right or left. Defaults to
-     *              <code> 1 </code>
+     * @param speed Set how fast to scroll right or left. Defaults to <code> 1 </code>
      */
     public AltScrollParams.Builder withHorizontalSpeed(float speed) {
       this.speedHorizontal = speed;
@@ -62,8 +58,7 @@ public class AltScrollParams extends AltMessage {
     }
   }
 
-  private AltScrollParams() {
-  }
+  private AltScrollParams() {}
 
   public float getSpeedHorizontal() {
     return speedHorizontal;

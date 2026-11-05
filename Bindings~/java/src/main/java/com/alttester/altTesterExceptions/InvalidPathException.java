@@ -5,8 +5,7 @@
 package com.alttester.altTesterExceptions;
 
 public class InvalidPathException extends AltException {
-  public InvalidPathException() {
-  }
+  public InvalidPathException() {}
 
   public InvalidPathException(String message) {
     super(message);

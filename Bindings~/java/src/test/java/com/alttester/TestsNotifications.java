@@ -27,18 +27,22 @@ public class TestsNotifications {
   @BeforeAll
   public static void setUp() throws Exception {
     altDriver = TestsHelper.getAltDriver();
-    AltAddNotificationListenerParams altSetNotificationParams = new AltAddNotificationListenerParams.Builder(
-        NotificationType.LOADSCENE, new MockNotificationCallBacks())
-        .build();
-    AltAddNotificationListenerParams altSetNotificationParams2 = new AltAddNotificationListenerParams.Builder(
-        NotificationType.UNLOADSCENE, new MockNotificationCallBacks())
-        .build();
-    AltAddNotificationListenerParams altSetNotificationParams3 = new AltAddNotificationListenerParams.Builder(
-        NotificationType.LOG, new MockNotificationCallBacks())
-        .build();
-    AltAddNotificationListenerParams altSetNotificationParams4 = new AltAddNotificationListenerParams.Builder(
-        NotificationType.APPLICATION_PAUSED, new MockNotificationCallBacks())
-        .build();
+    AltAddNotificationListenerParams altSetNotificationParams =
+        new AltAddNotificationListenerParams.Builder(
+                NotificationType.LOADSCENE, new MockNotificationCallBacks())
+            .build();
+    AltAddNotificationListenerParams altSetNotificationParams2 =
+        new AltAddNotificationListenerParams.Builder(
+                NotificationType.UNLOADSCENE, new MockNotificationCallBacks())
+            .build();
+    AltAddNotificationListenerParams altSetNotificationParams3 =
+        new AltAddNotificationListenerParams.Builder(
+                NotificationType.LOG, new MockNotificationCallBacks())
+            .build();
+    AltAddNotificationListenerParams altSetNotificationParams4 =
+        new AltAddNotificationListenerParams.Builder(
+                NotificationType.APPLICATION_PAUSED, new MockNotificationCallBacks())
+            .build();
     altDriver.addNotification(altSetNotificationParams);
     altDriver.addNotification(altSetNotificationParams2);
     altDriver.addNotification(altSetNotificationParams3);
@@ -48,15 +52,15 @@ public class TestsNotifications {
   @AfterAll
   public static void tearDown() throws Exception {
 
-    AltRemoveNotificationListenerParams altSetNotificationParams = new AltRemoveNotificationListenerParams.Builder(
-        NotificationType.LOADSCENE).build();
-    AltRemoveNotificationListenerParams altSetNotificationParams2 = new AltRemoveNotificationListenerParams.Builder(
-        NotificationType.UNLOADSCENE).build();
-    AltRemoveNotificationListenerParams altSetNotificationParams3 = new AltRemoveNotificationListenerParams.Builder(
-        NotificationType.LOG).build();
-    AltRemoveNotificationListenerParams altSetNotificationParams4 = new AltRemoveNotificationListenerParams.Builder(
-        NotificationType.APPLICATION_PAUSED)
-        .build();
+    AltRemoveNotificationListenerParams altSetNotificationParams =
+        new AltRemoveNotificationListenerParams.Builder(NotificationType.LOADSCENE).build();
+    AltRemoveNotificationListenerParams altSetNotificationParams2 =
+        new AltRemoveNotificationListenerParams.Builder(NotificationType.UNLOADSCENE).build();
+    AltRemoveNotificationListenerParams altSetNotificationParams3 =
+        new AltRemoveNotificationListenerParams.Builder(NotificationType.LOG).build();
+    AltRemoveNotificationListenerParams altSetNotificationParams4 =
+        new AltRemoveNotificationListenerParams.Builder(NotificationType.APPLICATION_PAUSED)
+            .build();
     altDriver.removeNotificationListener(altSetNotificationParams);
     altDriver.removeNotificationListener(altSetNotificationParams2);
     altDriver.removeNotificationListener(altSetNotificationParams3);
@@ -108,16 +112,16 @@ public class TestsNotifications {
 
   @Test
   public void testApplicationPausedNotification() throws Exception {
-    AltFindObjectsParams altFindObjectsParameters = new AltFindObjectsParams.Builder(AltDriver.By.NAME,
-        "AltTesterPrefab").build();
+    AltFindObjectsParams altFindObjectsParameters =
+        new AltFindObjectsParams.Builder(AltDriver.By.NAME, "AltTesterPrefab").build();
     AltObject altElement = altDriver.findObject(altFindObjectsParameters);
 
     altElement.callComponentMethod(
         new AltCallComponentMethodParams.Builder(
-            "AltTester.AltTesterUnitySDK.Commands.AltRunner",
-            "OnApplicationPause",
-            "AltTester.AltTesterUnitySDK",
-            new Object[] { true })
+                "AltTester.AltTesterUnitySDK.Commands.AltRunner",
+                "OnApplicationPause",
+                "AltTester.AltTesterUnitySDK",
+                new Object[] {true})
             .build(),
         Void.class);
   }

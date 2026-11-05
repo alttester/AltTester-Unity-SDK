@@ -84,8 +84,8 @@ class NotificationHandler:
     def add_notification_listener(self, notification_type, callback, overwrite=False):
         if overwrite:
             self._notification_callbacks[notification_type] = [callback]
-
-        self._notification_callbacks[notification_type].append(callback)
+        else:
+            self._notification_callbacks[notification_type].append(callback)
 
     def remove_notification_listener(self, notification_type):
         self._notification_callbacks[notification_type].clear()

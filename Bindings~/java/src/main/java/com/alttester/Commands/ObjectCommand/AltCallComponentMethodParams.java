@@ -27,7 +27,8 @@ public class AltCallComponentMethodParams extends AltObjectParams {
     }
 
     public AltCallComponentMethodParams build() {
-      AltCallComponentMethodParams altCallStaticMethodParameters = new AltCallComponentMethodParams();
+      AltCallComponentMethodParams altCallStaticMethodParameters =
+          new AltCallComponentMethodParams();
       altCallStaticMethodParameters.assembly = this.assembly;
       altCallStaticMethodParameters.method = this.methodName;
       if (this.parameters != null) {
@@ -43,8 +44,7 @@ public class AltCallComponentMethodParams extends AltObjectParams {
     }
   }
 
-  private AltCallComponentMethodParams() {
-  }
+  private AltCallComponentMethodParams() {}
 
   public String getComponentName() {
     return component;

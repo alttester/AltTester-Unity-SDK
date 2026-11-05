@@ -14,8 +14,7 @@ public class AltGetAllElementsParams extends AltMessage {
     private String cameraValue = "";
     private boolean enabled = true;
 
-    public Builder() {
-    }
+    public Builder() {}
 
     public AltGetAllElementsParams.Builder isEnabled(boolean enabled) {
       this.enabled = enabled;
@@ -37,8 +36,7 @@ public class AltGetAllElementsParams extends AltMessage {
     }
   }
 
-  private AltGetAllElementsParams() {
-  }
+  private AltGetAllElementsParams() {}
 
   public String getCameraValue() {
     return cameraValue;

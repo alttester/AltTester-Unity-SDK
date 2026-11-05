@@ -22,4 +22,4 @@ Join our Discord Server to chat with other members of the community: https://dis
 
 ## License
 
-Distributed under the **GNU General Public License v3.0**. See [LICENSE](https://github.com/alttester/AltTester-Unity-SDK/blob/master/LICENSE) for more information.
+Distributed under the **AltTester® SDK License Agreement**. Use of this package requires a valid AltTester® Lite or Pro subscription. See [LICENSE](https://alttester.com/app/uploads/AltTester/sdks/alttester/LICENSE) for more information.

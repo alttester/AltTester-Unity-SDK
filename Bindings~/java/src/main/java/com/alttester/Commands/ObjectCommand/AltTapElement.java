@@ -16,7 +16,7 @@ public class AltTapElement extends AltBaseCommand {
 
   /**
    * @param messageHandler - Message
-   * @param parameters     - int count , float interval , boolean wait
+   * @param parameters - int count , float interval , boolean wait
    */
   public AltTapElement(IMessageHandler messageHandler, AltTapClickElementParams parameters) {
     super(messageHandler);

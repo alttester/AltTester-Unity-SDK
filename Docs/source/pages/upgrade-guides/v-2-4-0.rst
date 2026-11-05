@@ -1,0 +1,29 @@
+Upgrade from v2.3.2 to v2.4.0
+=============================
+
+This guide will assist in upgrading your AltTester® Unity SDK project from **v2.3.2** to **v2.4.0**.
+
+Unity package
+-------------
+
+Importing a ``.unitypackage`` doesn't delete the files that the newer version no longer contains. v2.4.0 reorganizes
+the AltTester® assemblies, so importing it over v2.3.2 leaves the old assemblies next to the new ones and Unity
+reports duplicate assembly errors.
+
+To upgrade:
+
+1. Delete the ``Assets/AltTester`` folder.
+2. Import the v2.4.0 package.
+
+Your AltTester® Editor settings are kept, because they are stored in ``Assets/Plugins/AltTester``. Scenes that contain
+the AltTester® prefab get it back once the package is imported.
+
+Upgrading from v2.4.0 to later versions doesn't require deleting the folder.
+
+This doesn't apply if you installed the SDK from OpenUPM, since Unity's Package Manager replaces the whole package.
+
+TextMeshPro
+-----------
+
+The ``TMP_PRESENT`` scripting define symbol is no longer needed: AltTester® detects TextMeshPro at runtime. You can
+remove it from **Player Settings > Scripting Define Symbols** and from any custom build method that sets it.

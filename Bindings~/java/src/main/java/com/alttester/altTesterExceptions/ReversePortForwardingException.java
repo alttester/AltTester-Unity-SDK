@@ -9,8 +9,7 @@ public class ReversePortForwardingException extends AltException {
   /** */
   private static final long serialVersionUID = -7629828251460910071L;
 
-  public ReversePortForwardingException() {
-  }
+  public ReversePortForwardingException() {}
 
   public ReversePortForwardingException(String message) {
     super(message);

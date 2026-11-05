@@ -60,8 +60,7 @@ public class AltTapClickCoordinatesParams extends AltMessage {
     }
   }
 
-  private AltTapClickCoordinatesParams() {
-  }
+  private AltTapClickCoordinatesParams() {}
 
   public Vector2 getCoordinates() {
     return coordinates;

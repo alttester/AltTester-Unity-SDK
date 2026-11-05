@@ -31,8 +31,7 @@ public class AltLoadSceneParams extends AltMessage {
     }
   }
 
-  private AltLoadSceneParams() {
-  }
+  private AltLoadSceneParams() {}
 
   public String getSceneName() {
     return sceneName;

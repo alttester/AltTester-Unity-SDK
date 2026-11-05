@@ -25,7 +25,24 @@ public class TestsHelper {
     return "127.0.0.1";
   }
 
+  public static String getAltDriverPlatformVersion() {
+    String platformVersion = System.getenv("ALTSERVER_PLATFORM_VERSION");
+    if (platformVersion != null && !platformVersion.isEmpty()) {
+      return platformVersion;
+    }
+    return "unknown";
+  }
+
   public static AltDriver getAltDriver() {
-    return new AltDriver(TestsHelper.getAltDriverHost(), TestsHelper.getAltDriverPort(), true, 60);
+    return new AltDriver(
+        TestsHelper.getAltDriverHost(),
+        TestsHelper.getAltDriverPort(),
+        true,
+        60,
+        "__default__",
+        "unknown",
+        TestsHelper.getAltDriverPlatformVersion(),
+        "unknown",
+        "unknown");
   }
 }

@@ -11,7 +11,7 @@ static void BuildFromCommandLine () {
             "Assets/AltTester/Examples/Scenes/Scene 7 New Input System Actions.unity",
             "Assets/AltTester/Examples/Scenes/Scene 8 Draggable Panel NIP.unity",
             "Assets/AltTester/Examples/Scenes/Scene 9 NIS.unity",
-            "Assets/AltTester/Examples/Scenes/Scene 10 Sample NIS.unity,
+            "Assets/AltTester/Examples/Scenes/Scene 10 Sample NIS.unity",
             "Assets/AltTester/Examples/Scenes/Scene 11 ScrollView Scene.unity",
             "Assets/AltTester/Examples/Scenes/Scene6.unity"
         };
@@ -23,13 +23,16 @@ static void BuildFromCommandLine () {
         // Setup for AltTester
         var buildTargetGroup = BuildTargetGroup.Android;
         AltBuilder.AddAltTesterInScriptingDefineSymbolsGroup (buildTargetGroup);
-        if (buildTargetGroup == UnityEditor.BuildTargetGroup.Standalone)
-            AltBuilder.CreateJsonFileForInputMappingOfAxis();
         var instrumentationSettings = new AltInstrumentationSettings();
-        AltBuilder.InsertAltInScene (buildPlayerOptions.scenes[0], instrumentationSettings);
+        AltBuilder.InsertAltTesterInScene (buildPlayerOptions.scenes[0], instrumentationSettings);
 
-        var results = BuildPipeline.BuildPlayer (buildPlayerOptions);
-        AltBuilder.RemoveAltTesterFromScriptingDefineSymbols (BuildTargetGroup.Android);
+        try {
+            var results = BuildPipeline.BuildPlayer (buildPlayerOptions);
+        } finally {
+            // Remove the prefab that InsertAltTesterInScene saved into the scene, also when the build fails
+            AltBuilder.RemoveAltTesterFromScene (buildPlayerOptions.scenes[0]);
+            AltBuilder.RemoveAltTesterFromScriptingDefineSymbols (buildTargetGroup);
+        }
 
     } catch (Exception exception) {
         Debug.LogException (exception);

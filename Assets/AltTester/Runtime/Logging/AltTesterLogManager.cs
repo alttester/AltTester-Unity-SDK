@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace AltTester.AltTesterUnitySDK.Logging
 {
-    public class ServerLogManager
+    public class AltTesterLogManager
     {
         public static LogFactory Instance { get { return instance.Value; } }
 
@@ -80,7 +80,7 @@ namespace AltTester.AltTesterUnitySDK.Logging
             var logfile = new FileTarget("AltServerFileTarget")
             {
                 FileName = logsFilePath,
-                Layout = Layout.FromString("${longdate}|${level:uppercase=true}|${message}"),
+                Layout = Layout.FromString("${longdate}|AltTester|${level:uppercase=true}|${message}"),
                 DeleteOldFileOnStartup = true, //overwrite existing log file.
                 KeepFileOpen = true,
                 ConcurrentWrites = false
@@ -91,12 +91,13 @@ namespace AltTester.AltTesterUnitySDK.Logging
 
         private static LogFactory buildLogFactory()
         {
+            DriverLogManager.EnsureConfigurationItemFactory();
             var config = new LoggingConfiguration();
 
 #if UNITY_EDITOR || ALTTESTER
             var unitylog = new UnityTarget("AltServerUnityTarget")
             {
-                Layout = Layout.FromString("${longdate}|Tester|${level:uppercase=true}|${message}"),
+                Layout = Layout.FromString("${longdate}|AltTester|${level:uppercase=true}|${message}"),
             };
             config.AddRuleForOneLevel(LogLevel.Off, unitylog);
             config.LoggingRules[config.LoggingRules.Count - 1].RuleName = "AltServerUnityRule";

@@ -28,7 +28,7 @@ namespace AltTester.AltTesterUnitySDK.UI
 {
     public class AltDialog : UnityEngine.MonoBehaviour
     {
-        private static readonly NLog.Logger logger = ServerLogManager.Instance.GetCurrentClassLogger();
+        private static readonly NLog.Logger logger = AltTesterLogManager.Instance.GetCurrentClassLogger();
 
         private static readonly Color primarySuccessColor = new Color32(0, 165, 36, 255);
         private static readonly Color secondarySuccessColor = new Color32(0, 115, 25, 255);
@@ -111,6 +111,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         private bool isCommunicationConnected;
         private bool isLiveUpdateConnected;
         private bool isDriverConnected;
+        private volatile int failedKeepAlivePings = 0;
 
         private UnityEngine.UI.Image dialogImage;
         private UnityEngine.UI.Image infoArea;
@@ -123,10 +124,13 @@ namespace AltTester.AltTesterUnitySDK.UI
         private bool currentIsVisible = false;
         private bool stillDisplayingMessage = false;
         private Coroutine runningCoroutine;
+        private Coroutine handshakeTimeoutCoroutine;
         private string downloadURL = "";
         private string colorCode = "#FFD700";
         private Image logButtonImage;
 
+        private const string TlsHandshakeError = "An error has occurred during a TLS handshake.";
+        private const string HttpReadError = "An exception has occurred while reading an HTTP request/response.";
         private bool waitingToConnect;
 
         protected void Awake()
@@ -139,37 +143,46 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         }
 
+        // Hiding the popup only affects the UI - communication with AltServer, the keep-alive
+        // ping, screenshot sending, and notifications keep running while it's hidden.
+        private bool isGreenPopupHidden = false;
+
         private void hideGreenPopup()
         {
-            foreach (var image in gameObject.GetComponentsInChildren<Image>())
-            {
-                image.enabled = false;
-            }
-            foreach (var inputField in gameObject.GetComponentsInChildren<InputField>())
-            {
-                inputField.enabled = false;
-            }
-            foreach (var text in gameObject.GetComponentsInChildren<Text>())
-            {
-
-                text.enabled = false;
-            }
+            isGreenPopupHidden = true;
+            setPopupComponentsEnabled(false);
+            LogsPanel.SetActive(false);
         }
+
+        private void showGreenPopup()
+        {
+            isGreenPopupHidden = false;
+            setPopupComponentsEnabled(true);
+        }
+
         public void ToggleGreenPopup()
+        {
+            if (isGreenPopupHidden)
+                showGreenPopup();
+            else
+                hideGreenPopup();
+        }
+
+        private void setPopupComponentsEnabled(bool isEnabled)
         {
             foreach (var image in gameObject.GetComponentsInChildren<Image>())
             {
-                image.enabled = !image.enabled;
+                image.enabled = isEnabled;
             }
             foreach (var inputField in gameObject.GetComponentsInChildren<InputField>())
             {
-                inputField.enabled = !inputField.enabled;
+                inputField.enabled = isEnabled;
             }
             foreach (var text in gameObject.GetComponentsInChildren<Text>())
             {
                 if (text.gameObject.name.Contains("Placeholder"))
                     continue;
-                text.enabled = !text.enabled;
+                text.enabled = isEnabled;
             }
         }
 
@@ -240,15 +253,75 @@ namespace AltTester.AltTesterUnitySDK.UI
         }
 
 
-        protected void CheckAlive() // This method is just to see if sending a ping will keep client from disconnecting .
+        private volatile bool checkAliveInProgress = false;
+        private const int KeepAlivePingFailureThreshold = 3;
+        private const int ConnectionLostCloseCode = 1006;
+
+        // Pings both clients to keep them from being silently disconnected (e.g. by a proxy/NAT dropping an idle connection).
+        // Reading IsConnected performs a real, blocking ping/pong over the socket (up to WaitTime, 5s by default),
+        // so this runs on a background thread to avoid stalling the Unity main thread.
+        protected void CheckAlive()
         {
-            if (liveUpdateClient != null)
+            if (checkAliveInProgress)
             {
-                var test = liveUpdateClient.IsConnected;
+                return;
             }
-            if (communicationClient != null)
+
+            var liveUpdate = liveUpdateClient;
+            var communication = communicationClient;
+            checkAliveInProgress = true;
+            Task.Run(() =>
             {
-                var test = communicationClient.IsConnected;
+                try
+                {
+                    bool liveUpdateAlive = pingSucceeded(liveUpdate);
+                    bool communicationAlive = pingSucceeded(communication);
+
+                    if (liveUpdateAlive && communicationAlive)
+                    {
+                        failedKeepAlivePings = 0;
+                        return;
+                    }
+
+                    failedKeepAlivePings++;
+                    logger.Debug($"Keep-alive ping failed ({failedKeepAlivePings}/{KeepAlivePingFailureThreshold}).");
+                    if (failedKeepAlivePings < KeepAlivePingFailureThreshold)
+                    {
+                        return;
+                    }
+
+                    failedKeepAlivePings = 0;
+                    logger.Error("Connection to AltTester® Server lost.");
+                    updateQueue.ScheduleResponse(() =>
+                        onDisconnect(ConnectionLostCloseCode, "Connection to AltTester® Server lost."));
+                }
+                catch (Exception ex)
+                {
+                    logger.Debug(ex, "CheckAlive keep-alive ping failed.");
+                }
+                finally
+                {
+                    checkAliveInProgress = false;
+                }
+            });
+        }
+
+        private static bool pingSucceeded(BaseCommunicationHandler handler)
+        {
+            if (handler == null)
+            {
+                return true;
+            }
+
+            // Only an answered ping counts. Don't fall back to ReadyState: when the server's network is cut
+            // the TCP connection is left half-open and stays Open until the OS gives up (15+ minutes).
+            try
+            {
+                return handler.IsConnected;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
@@ -519,6 +592,7 @@ namespace AltTester.AltTesterUnitySDK.UI
             communicationClient.CmdHandler.OnDriverConnect += onDriverConnect;
             communicationClient.CmdHandler.OnDriverDisconnect += onDriverDisconnect;
             communicationClient.CmdHandler.OnAppConnect += onAppConnect;
+            communicationClient.CmdHandler.OnHandshakeFailed += onHandshakeFailed;
             communicationClient.Init();
         }
 
@@ -633,8 +707,16 @@ namespace AltTester.AltTesterUnitySDK.UI
             communicationHandler.OnError = null;
 
             StopNotifications();
-            if (communicationHandler.IsConnected)
-                communicationHandler.Close();
+
+            try
+            {
+                if (communicationHandler.WsClientReadyState == AltWebSocketSharp.WebSocketState.Open)
+                    communicationHandler.Close();
+            }
+            catch (Exception ex)
+            {
+                logger.Debug(ex, "Could not close the client.");
+            }
         }
 
         private static void StopNotifications()
@@ -690,6 +772,37 @@ namespace AltTester.AltTesterUnitySDK.UI
         private void onCommunicationConnected()
         {
             isCommunicationConnected = true;
+            failedKeepAlivePings = 0;
+            communicationClient.CmdHandler.InitiateHandshake(currentName, deviceInstanceId, AltRunner.VERSION);
+            // StartCoroutine must be called from the Unity main thread; schedule via the response queue.
+            updateQueue.ScheduleResponse(() =>
+            {
+                // Cancel any timeout from a previous connect so a stale timer can't
+                // disconnect this newer session on a fast reconnect.
+                if (handshakeTimeoutCoroutine != null)
+                    StopCoroutine(handshakeTimeoutCoroutine);
+                handshakeTimeoutCoroutine = StartCoroutine(HandshakeTimeoutCoroutine());
+            });
+        }
+
+        private const float HandshakeTimeoutSeconds = 10f;
+        private const int HandshakeFailedCloseCode = 4010;
+
+        private IEnumerator HandshakeTimeoutCoroutine()
+        {
+            yield return new WaitForSeconds(HandshakeTimeoutSeconds);
+            if (communicationClient != null &&
+                communicationClient.CmdHandler.CurrentHandshakeStatus == AltTester.AltTesterUnitySDK.Commands.HandshakeStatus.AwaitingToken)
+            {
+                logger.Error("Connection to AltTester® Server timed out.");
+                onDisconnect(HandshakeFailedCloseCode, "Connection to AltTester® Server timed out.");
+            }
+        }
+
+        private void onHandshakeFailed()
+        {
+            updateQueue.ScheduleResponse(() =>
+                onDisconnect(HandshakeFailedCloseCode, "Connection to AltTester® Server was refused."));
         }
 
         private void onLiveUpdateConnected()
@@ -710,8 +823,8 @@ namespace AltTester.AltTesterUnitySDK.UI
 
         private void onError(string message, Exception ex)
         {
-            if (message.Equals("An exception has occurred while reading an HTTP request/response.") ||
-                message.Equals("An error has occurred during a TLS handshake.") ||
+            if (message.Equals(HttpReadError) ||
+                message.Equals(TlsHandshakeError) ||
                 message.Equals("[AltTester WebSocket] Connection failed. Server is not running or unreachable."))
             {
                 // This error happens when the server closes the connection abruptly 

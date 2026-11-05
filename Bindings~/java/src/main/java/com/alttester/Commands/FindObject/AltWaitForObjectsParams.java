@@ -35,8 +35,7 @@ public class AltWaitForObjectsParams extends AltMessage {
     }
   }
 
-  private AltWaitForObjectsParams() {
-  }
+  private AltWaitForObjectsParams() {}
 
   private AltFindObjectsParams altFindObjectsParameters;
   private double timeout = 20;

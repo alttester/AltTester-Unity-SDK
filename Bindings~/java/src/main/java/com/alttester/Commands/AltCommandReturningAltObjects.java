@@ -16,8 +16,7 @@ public class AltCommandReturningAltObjects extends AltBaseCommand {
 
   protected AltObject ReceiveAltObject(AltMessage altMessage) {
     AltObject altObject = recvall(altMessage, AltObject.class);
-    if (altObject != null)
-      altObject.setMesssageHandler(messageHandler);
+    if (altObject != null) altObject.setMesssageHandler(messageHandler);
     return altObject;
   }
 
