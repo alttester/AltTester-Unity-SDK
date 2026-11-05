@@ -42,6 +42,10 @@ public class AltExampleScriptCapsule : AltInheritedFields
     public static int[] staticArrayOfInts = { 1, 2, 3 };
 #pragma warning restore 0414
     public TouchPhase TouchPhase = TouchPhase.Canceled;
+    // The last Began and Ended touches Update() polled, so tests can check what a polling script sees. -1 means none yet.
+    public int BeganTouchTapCount = -1;
+    public int EndedTouchTapCount = -1;
+    public float EndedTouchDeltaTime = -1f;
     private TestStructure testStructure = new TestStructure("test", "test2", new List<int>() { 0, 1 });
 
     public Dictionary<Guid, TestStructure> features { get; } = new Dictionary<Guid, TestStructure>();
@@ -107,6 +111,19 @@ public class AltExampleScriptCapsule : AltInheritedFields
         transform.Rotate(Input.acceleration);
         if (Input.touchCount > 0)
             TouchPhase = Input.GetTouch(0).phase;
+        for (int i = 0; i < Input.touchCount; i++)
+        {
+            var touch = Input.GetTouch(i);
+            if (touch.phase == TouchPhase.Began)
+            {
+                BeganTouchTapCount = touch.tapCount;
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                EndedTouchTapCount = touch.tapCount;
+                EndedTouchDeltaTime = touch.deltaTime;
+            }
+        }
         if (Input.GetKeyDown(KeyCode.K) && Input.GetKeyDown(KeyCode.L))
             ChangeTextOnMultipleKeysPressed();
     }

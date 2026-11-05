@@ -1951,6 +1951,22 @@ namespace AltTester.AltTesterSDK.Driver.Tests
         }
 
         [Test]
+        public void TestTapReportsCompleteTouchDataToPollingScripts()
+        {
+            // A game that polls Input.GetTouch in Update() must see a tap the way a real device reports it (issue #315).
+            var capsule = altDriver.FindObject(By.NAME, "Capsule");
+            // Tap waits for the tap to finish, so the capsule has already polled the Began and the Ended frame.
+            altDriver.Tap(capsule.GetScreenPosition());
+
+            Assert.AreEqual(1, capsule.GetComponentProperty<int>("AltExampleScriptCapsule", "BeganTouchTapCount", "Assembly-CSharp"),
+                "tapCount on Began must be 1, as on a real device");
+            Assert.AreEqual(1, capsule.GetComponentProperty<int>("AltExampleScriptCapsule", "EndedTouchTapCount", "Assembly-CSharp"),
+                "tapCount on Ended must be 1, as on a real device");
+            Assert.Greater(capsule.GetComponentProperty<float>("AltExampleScriptCapsule", "EndedTouchDeltaTime", "Assembly-CSharp"), 0f,
+                "deltaTime on Ended must be the time since Began, not 0");
+        }
+
+        [Test]
         public void TestSetStructureProperty()
         {
             var capsule = altDriver.FindObject(By.NAME, "Capsule");

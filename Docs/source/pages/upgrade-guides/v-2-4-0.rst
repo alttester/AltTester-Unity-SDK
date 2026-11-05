@@ -3,6 +3,13 @@ Upgrade from v2.3.2 to v2.4.0
 
 This guide will assist in upgrading your AltTester® Unity SDK project from **v2.3.2** to **v2.4.0**.
 
+AltTester® Desktop
+------------------
+
+AltTester® Unity SDK v2.4.0 works only with AltTester® Desktop **v2.4.0 or later**. Update AltTester® Desktop before
+you run apps instrumented with v2.4.0. With an older AltTester® Desktop, the app shows
+``Connection to AltTester® Server timed out.`` and can't connect.
+
 Unity package
 -------------
 
