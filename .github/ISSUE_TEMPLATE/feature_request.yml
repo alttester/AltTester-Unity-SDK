@@ -1,0 +1,33 @@
+name: Feature Request
+description: Suggest new functionality or an enhancement to an existing feature.
+labels: ["enhancement"]
+body:
+  - type: checkboxes
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I have searched existing issues and this has not been requested before.
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Problem description
+      description: What problem are you trying to solve? What's missing or frustrating?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Proposed solution
+      description: Describe the feature or change you'd like to see.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Alternatives considered
+      description: Any other approaches you've thought about?
+
+  - type: textarea
+    attributes:
+      label: Additional context

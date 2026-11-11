@@ -1,6 +1,10 @@
 name: Push
 
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - 'feature/auto-update-*'
+  workflow_dispatch:
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -38,24 +42,50 @@ jobs:
               - 'Bindings~/robot/**'
 
   Roslyn-Analyzer-dotnet:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, Windows, product]
+    timeout-minutes: 60
     needs: paths-filter
     steps:
       - uses: actions/checkout@v2
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-${{ runner.os }}-
+            Library-
+
+      # shell: bash on both steps - a Windows runner defaults to PowerShell, where
+      # $UNITY_2021_3_HOME is an empty PowerShell variable rather than the env var.
+      # $GITHUB_WORKSPACE replaces $CI_PROJECT_DIR, which only exists on the Mac runners.
       - name: Restore dependencies
+        shell: bash
         run: |
-          $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -logFile buildForDotnetClean.log -quit
+          "$UNITY_2021_3_HOME" -batchmode -projectPath $GITHUB_WORKSPACE -logFile buildForDotnetClean.log -quit
           dotnet clean AltTester-Unity-SDK.sln
           dotnet restore AltTester-Unity-SDK.sln
       - name: Run code analysis
+        shell: bash
         run: dotnet build AltTester-Unity-SDK.sln --no-restore -warnaserror -p:EnforceCodeStyleInBuild=true -p:EnforceCodeStyleInIDE=true
 
   build-macOS:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 60
     needs: Roslyn-Analyzer-dotnet
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true' || needs.paths-filter.outputs.robot == 'true'
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-${{ runner.os }}-
+            Library-
 
       - name: Build SampleGame
         run: |
@@ -85,11 +115,21 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-CSharp-Editor:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.java == 'true'
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-${{ runner.os }}-
+            Library-
 
       - uses: actions/download-artifact@v4
         with:
@@ -127,7 +167,8 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-DotNet:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.csharp == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
@@ -168,7 +209,8 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-Python:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
@@ -241,7 +283,8 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   test-Robot:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.python == 'true' || needs.paths-filter.outputs.scenes == 'true' || needs.paths-filter.outputs.robot == 'true'
     steps:
@@ -289,7 +332,8 @@ jobs:
             **/output.xml
 
   test-Java:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 60
     needs: build-macOS
     if: needs.paths-filter.outputs.java == 'true' || needs.paths-filter.outputs.scenes == 'true'
     steps:
@@ -337,10 +381,16 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
 
   copyright:
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, Windows, product]
     steps:
-      - run: |
-          pwsh copyright.ps1
+      # The job used to run without one, working only because $GITHUB_WORKSPACE happens to
+      # survive between runs on a self-hosted runner and still held an earlier job's checkout.
+      - uses: actions/checkout@v4
+
+      # Windows PowerShell 5.1, which ships with Windows - no pwsh needed. Verified the script
+      # produces byte-identical output under both.
+      - run: ./copyright.ps1
+        shell: powershell
 
       - uses: ravsamhq/notify-slack-action@2.3.0
         if: ${{ always() && github.ref_name == 'development' }}

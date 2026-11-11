@@ -45,7 +45,7 @@ concurrency:
 jobs:
   build-macOS:
     if: ${{ github.event.inputs.build_macos == 'true' }}
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     steps:
       - uses: actions/checkout@v3
 
@@ -66,7 +66,7 @@ jobs:
 
   build-Windows:
     if: ${{ github.event.inputs.build_windows == 'true' }}
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
     steps:
       - uses: actions/checkout@v3
 
@@ -86,7 +86,7 @@ jobs:
 
   build-android:
     if: ${{ github.event.inputs.build_android == 'true' }}
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
 
     steps:
       - uses: actions/checkout@v3
@@ -107,7 +107,7 @@ jobs:
 
   build-ipa:
     if: ${{ github.event.inputs.build_ios == 'true' }}
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
 
     steps:
       - uses: actions/checkout@v3
@@ -130,7 +130,7 @@ jobs:
   build-webgl:
     if: ${{ github.event.inputs.build_webgl == 'true' }}
     timeout-minutes: 60
-    runs-on: [self-hosted, MAC37]
+    runs-on: [self-hosted, macOS]
 
     steps:
       - uses: actions/checkout@v4
