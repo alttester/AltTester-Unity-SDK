@@ -1,0 +1,168 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches:
+      - development
+      - master
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Where to deploy the docs
+        type: choice
+        options:
+          - staging
+          - staging-versioned
+          - live
+        default: staging
+
+concurrency:
+  group: deploy-docs-${{ inputs.target || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    outputs:
+      target: ${{ steps.target.outputs.target }}
+      deploy: ${{ steps.target.outputs.deploy }}
+    steps:
+      - uses: actions/checkout@v4
+        if: github.event_name == 'push' && github.ref_name == 'development'
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        if: github.event_name == 'push' && github.ref_name == 'development'
+        with:
+          filters: |
+            docs:
+              - 'Docs/**'
+
+      - name: Resolve target
+        id: target
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BRANCH: ${{ github.ref_name }}
+          INPUT_TARGET: ${{ inputs.target }}
+          DOCS_CHANGED: ${{ steps.filter.outputs.docs }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            target="$INPUT_TARGET"
+          elif [ "$BRANCH" = "master" ]; then
+            target="live"
+          else
+            target="staging"
+          fi
+
+          if [ "$target" = "live" ] && [ "$BRANCH" != "master" ]; then
+            echo "::error::Docs can be deployed to live only from master (current branch: $BRANCH)."
+            exit 1
+          fi
+
+          deploy="true"
+          if [ "$EVENT_NAME" = "push" ] && [ "$target" = "staging" ] && [ "$DOCS_CHANGED" != "true" ]; then
+            deploy="false"
+            echo "No changes in Docs/, skipping deploy."
+          fi
+
+          echo "Target: $target, deploy: $deploy"
+          echo "target=$target" >> "$GITHUB_OUTPUT"
+          echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
+
+  build-docs:
+    runs-on: ubuntu-latest
+    needs: config
+    if: needs.config.outputs.deploy == 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r "Docs/requirements.txt"
+
+      - name: Build docs
+        working-directory: Docs
+        run: make ${{ needs.config.outputs.target == 'staging' && 'html' || 'versionedhtml' }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DocumentationHTML
+          path: ${{ needs.config.outputs.target == 'staging' && 'Docs/build/html' || 'Docs/build/' }}
+
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && (github.ref_name == 'development' || github.ref_name == 'master') }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+
+  deploy-docs:
+    runs-on: ubuntu-latest
+    needs: [config, build-docs]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: DocumentationHTML
+          path: DocumentationHTML/
+
+      - name: Replace live URL with staging URL
+        if: needs.config.outputs.target != 'live'
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: ${{ secrets.LIVE_URL_ALTTESTER }}
+          replace: ${{ secrets.DEV_URL_ALTTESTER }}
+          include: "DocumentationHTML/**"
+          regex: true
+
+      - name: Update AltTester Desktop link for latest version
+        if: needs.config.outputs.target != 'staging'
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: ${{ needs.config.outputs.target == 'live' && secrets.LIVE_URL_ALTTESTER || secrets.DEV_URL_ALTTESTER }}/docs/desktop/.*?/
+          replace: ${{ needs.config.outputs.target == 'live' && secrets.LIVE_URL_ALTTESTER || secrets.DEV_URL_ALTTESTER }}/docs/desktop/latest/
+          include: "DocumentationHTML/latest/**"
+
+      - name: Update AltTester Unity SDK link for latest version
+        if: needs.config.outputs.target != 'staging'
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: ${{ needs.config.outputs.target == 'live' && secrets.LIVE_URL_ALTTESTER || secrets.DEV_URL_ALTTESTER }}/docs/sdk/.*?/
+          replace: ${{ needs.config.outputs.target == 'live' && secrets.LIVE_URL_ALTTESTER || secrets.DEV_URL_ALTTESTER }}/docs/sdk/latest/
+          include: "DocumentationHTML/latest/**"
+
+      - name: Upload documentation
+        uses: ./.github/actions/sftp-upload
+        with:
+          host: ${{ secrets.SFTP_IP }}
+          port: ${{ needs.config.outputs.target == 'live' && secrets.SFTP_PORT_LIVE || secrets.SFTP_PORT_DEV }}
+          username: ${{ secrets.SFTP_USERNAME_DOCS }}
+          password: ${{ needs.config.outputs.target == 'live' && secrets.SFTP_PASSWORD_LIVE_DOCS || secrets.SFTP_PASSWORD_DEV_DOCS }}
+          local-dir: DocumentationHTML
+          remote-dir: ${{ needs.config.outputs.target == 'staging' && 'sdk/latest' || 'sdk' }}
+          delete: true
+
+      - uses: ravsamhq/notify-slack-action@2.3.0
+        if: ${{ always() && (github.ref_name == 'development' || github.ref_name == 'master') }}
+        with:
+          status: ${{ job.status }}
+          notification_title: "The Job *{job}* in Workflow *{workflow}* has {status_message}"
+          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "Linked Repo <{repo_url}|{repo}>"
+          notify_when: "failure"
+          mention_groups: "alttester-pipelines,!here"
+          mention_groups_when: "failure"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}

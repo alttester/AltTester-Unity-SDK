@@ -146,15 +146,14 @@ jobs:
           path: AltTester/
 
       - name: Upload AltTesterPackage
-        uses: appleboy/scp-action@v0.1.7
+        uses: ./.github/actions/sftp-upload
         with:
-          source: AltTester/*
-          target: ${{ secrets.SDK_PATH }}
-          host: ${{ secrets.HOST_IP_ALTTESTER }}
-          port: ${{ secrets.PORT_LIVE_ALTTESTER }}
-          username: ${{ secrets.USERNAME_ALTTESTER }}
-          password: ${{ secrets.PASSWORD_ALTTESTER }}
-          strip_components: 1
+          host: ${{ secrets.SFTP_IP }}
+          port: ${{ secrets.SFTP_PORT_LIVE }}
+          username: ${{ secrets.SFTP_USERNAME_PACKAGE }}
+          password: ${{ secrets.SFTP_PASSWORD_LIVE_PACKAGE }}
+          local-dir: 'AltTester'
+          remote-dir: 'sdks/alttester'
 
   create-jar-archive:
     runs-on: ubuntu-latest
@@ -204,15 +203,14 @@ jobs:
           path: public/AltTesterJAR
 
       - name: Upload documentation
-        uses: appleboy/scp-action@v0.1.7
+        uses: ./.github/actions/sftp-upload
         with:
-          source: public/AltTesterJAR/*
-          target: ${{ secrets.JAVA_CLIENT_PATH }}
-          host: ${{ secrets.HOST_IP_ALTTESTER }}
-          port: ${{ secrets.PORT_LIVE_ALTTESTER }}
-          username: ${{ secrets.USERNAME_ALTTESTER }}
-          password: ${{ secrets.PASSWORD_ALTTESTER }}
-          strip_components: 1
+          host: ${{ secrets.SFTP_IP }}
+          port: ${{ secrets.SFTP_PORT_LIVE }}
+          username: ${{ secrets.SFTP_USERNAME_JAR_PACKAGE }}
+          password: ${{ secrets.SFTP_PASSWORD_LIVE_JAR_PACKAGE }}
+          local-dir: public/AltTesterJAR
+          remote-dir: '.'
 
   java-release:
     runs-on: ubuntu-latest
