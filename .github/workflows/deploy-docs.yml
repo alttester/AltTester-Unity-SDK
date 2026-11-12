@@ -5,6 +5,7 @@ on:
     branches:
       - development
       - master
+      - rename-github-secrets-and-docs-jobs 
   workflow_dispatch:
     inputs:
       target:
