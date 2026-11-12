@@ -54,4 +54,4 @@ jobs:
           username: ${{ secrets.SFTP_USERNAME_PACKAGE }}
           password: ${{ secrets.SFTP_PASSWORD_DEV_PACKAGE }}
           local-dir: 'AltTester'
-          remote-dir: 'public/current/web/app/uploads/AltTester/sdks/alttester'
+          remote-dir: 'sdks/alttester'

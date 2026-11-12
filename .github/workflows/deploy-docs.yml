@@ -151,7 +151,7 @@ jobs:
           username: ${{ secrets.SFTP_USERNAME_DOCS }}
           password: ${{ needs.config.outputs.target == 'live' && secrets.SFTP_PASSWORD_LIVE_DOCS || secrets.SFTP_PASSWORD_DEV_DOCS }}
           local-dir: DocumentationHTML
-          remote-dir: ${{ needs.config.outputs.target == 'staging' && 'public/current/web/docs/sdk/latest' || 'public/current/web/docs/sdk' }}
+          remote-dir: ${{ needs.config.outputs.target == 'staging' && 'sdk/latest' || 'sdk' }}
           delete: true
 
       - uses: ravsamhq/notify-slack-action@2.3.0
