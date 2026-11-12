@@ -1,0 +1,78 @@
+name: SFTP upload
+description: Upload the contents of a local directory to a remote directory over SFTP (works with SFTP-only users, no SSH shell required).
+
+inputs:
+  host:
+    description: SFTP server host.
+    required: true
+  port:
+    description: SFTP server port.
+    required: false
+    default: "22"
+  username:
+    description: SFTP username.
+    required: true
+  password:
+    description: SFTP password.
+    required: true
+  local-dir:
+    description: Local directory whose contents are uploaded.
+    required: true
+  remote-dir:
+    description: Remote directory the contents are uploaded into. Created if missing.
+    required: true
+  delete:
+    description: Delete remote files that do not exist in local-dir.
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Install lftp
+      shell: bash
+      run: |
+        if ! command -v lftp >/dev/null 2>&1; then
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+        fi
+
+    - name: Upload over SFTP
+      shell: bash
+      env:
+        SFTP_HOST: ${{ inputs.host }}
+        SFTP_PORT: ${{ inputs.port }}
+        SFTP_USER: ${{ inputs.username }}
+        LFTP_PASSWORD: ${{ inputs.password }}
+        LOCAL_DIR: ${{ inputs.local-dir }}
+        REMOTE_DIR: ${{ inputs.remote-dir }}
+        DELETE: ${{ inputs.delete }}
+      run: |
+        set -euo pipefail
+
+        if [ ! -d "$LOCAL_DIR" ]; then
+          echo "::error::Local directory '$LOCAL_DIR' does not exist."
+          exit 1
+        fi
+
+        MIRROR_FLAGS="--reverse --verbose --parallel=4"
+        if [ "$DELETE" = "true" ]; then
+          MIRROR_FLAGS="$MIRROR_FLAGS --delete"
+        fi
+
+        # Password is read from LFTP_PASSWORD via --env-password, so it is never
+        # part of the command line and needs no escaping.
+        # mkdir is best-effort: SFTP users may lack access to parent directories;
+        # if the target really is missing/unwritable, mirror fails loudly.
+        lftp -c "
+          set cmd:fail-exit yes;
+          set net:max-retries 3;
+          set net:timeout 30;
+          set net:reconnect-interval-base 5;
+          set sftp:auto-confirm yes;
+          open --env-password -u \"$SFTP_USER\" -p \"$SFTP_PORT\" \"sftp://$SFTP_HOST\";
+          set cmd:fail-exit no;
+          mkdir -p -f \"$REMOTE_DIR\";
+          set cmd:fail-exit yes;
+          mirror $MIRROR_FLAGS \"$LOCAL_DIR/\" \"$REMOTE_DIR\";
+        "

@@ -14,13 +14,14 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 import os
+from datetime import datetime
 from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
 from pygments.lexers.robotframework import RobotFrameworkLexer
 
 # -- Project information -----------------------------------------------------
 
-copyright = '2025, Altom Consulting'
+copyright = f'{datetime.now().year}, Altom Consulting'
 author = 'Altom'
 project = 'AltTester® Unity SDK'
 
