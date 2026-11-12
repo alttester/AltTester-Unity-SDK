@@ -492,6 +492,7 @@ namespace AltTester.AltTesterUnitySDK.UI
         }
 
 
+
         private void restartConnection(string host, string port, string appName)
         {
             Debug.Log($"Restarting connection with new values - Host: {host}, Port: {port}, App Name: {appName}");
