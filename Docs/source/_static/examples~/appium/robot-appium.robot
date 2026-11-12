@@ -27,4 +27,3 @@ Set Connection Data
 
 	# Press OK button
 	Click Element    accessibility_id=AltTesterOkButton
-

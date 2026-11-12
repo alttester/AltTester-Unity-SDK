@@ -4,7 +4,7 @@ public static void SetConnectionData(AppiumDriver appiumDriver, string? host = n
     {
         throw new ArgumentNullException(nameof(appiumDriver), "Appium driver cannot be null");
     }
-    
+
     // Set a longer implicit wait to ensure elements are found during connection setup
     appiumDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(timeout);
 
