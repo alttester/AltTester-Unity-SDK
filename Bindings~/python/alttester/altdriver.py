@@ -91,8 +91,18 @@ class AltDriver:
             command_handler=self._command_handler,
             notification_handler=self._notification_handler
         )
-        self._connection.connect()
-        self._check_server_version()
+        try:
+            self._connection.connect()
+            self._check_server_version()
+        except BaseException:
+            self._close_after_failed_connect()
+            raise
+
+    def _close_after_failed_connect(self):
+        try:
+            self._connection.close()
+        except Exception as ex:
+            logger.debug("Failed to close the connection after a failed connect: {}", ex)
 
     def __repr__(self):
         return "{}({!r}, {!r}, {!r}, {!r}, {!r})".format(
