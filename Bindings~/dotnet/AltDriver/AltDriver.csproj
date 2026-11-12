@@ -16,7 +16,6 @@
         <Authors> Altom </Authors>
 
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageLicenseUrl>https://alttester.com/app/uploads/AltTester/sdks/alttester/LICENSE</PackageLicenseUrl>
         <copyright>© Altom</copyright>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <PackageProjectUrl>https://github.com/alttester/AltTester-Unity-SDK</PackageProjectUrl>
