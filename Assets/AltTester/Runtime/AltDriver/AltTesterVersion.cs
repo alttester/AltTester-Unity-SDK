@@ -6,6 +6,6 @@ namespace AltTester
 {
     public static class AltTesterVersion
     {
-        public static readonly string VERSION = "2.4.0";
+        public static readonly string VERSION = "2.4.1";
     }
 }
