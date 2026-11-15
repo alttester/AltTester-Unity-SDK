@@ -138,14 +138,7 @@ jobs:
     if: (github.event_name == 'release' || github.event.inputs.upload-unity-package == 'true') && (needs.create-unity-package.result == 'success' || github.event.inputs.create-unity-package == 'true')
 
     steps:
-      - name: Checkout shared actions
-        uses: actions/checkout@v4
-        with:
-          repository: alttester/github-actions
-          ref: v1
-          token: ${{ secrets.SHARED_ACTIONS_TOKEN }}
-          path: .shared-actions
-          persist-credentials: false
+      - uses: actions/checkout@v3
 
       - uses: actions/download-artifact@v4
         with:
@@ -153,7 +146,7 @@ jobs:
           path: AltTester/
 
       - name: Upload AltTesterPackage
-        uses: ./.shared-actions/sftp-upload
+        uses: alttester/github-actions/sftp-upload@v1
         with:
           host: ${{ secrets.SFTP_IP }}
           port: ${{ secrets.SFTP_PORT_LIVE }}
@@ -202,14 +195,7 @@ jobs:
     if: (github.event_name == 'release' || github.event.inputs.upload-jar == 'true') && (needs.create-jar-archive.result == 'success' || github.event.inputs.create-jar == 'true')
 
     steps:
-      - name: Checkout shared actions
-        uses: actions/checkout@v4
-        with:
-          repository: alttester/github-actions
-          ref: v1
-          token: ${{ secrets.SHARED_ACTIONS_TOKEN }}
-          path: .shared-actions
-          persist-credentials: false
+      - uses: actions/checkout@v3
 
       - uses: actions/download-artifact@v4
         with:
@@ -217,7 +203,7 @@ jobs:
           path: public/AltTesterJAR
 
       - name: Upload documentation
-        uses: ./.shared-actions/sftp-upload
+        uses: alttester/github-actions/sftp-upload@v1
         with:
           host: ${{ secrets.SFTP_IP }}
           port: ${{ secrets.SFTP_PORT_LIVE }}

@@ -39,14 +39,7 @@ jobs:
     needs: create-unity-package
 
     steps:
-      - name: Checkout shared actions
-        uses: actions/checkout@v4
-        with:
-          repository: alttester/github-actions
-          ref: v1
-          token: ${{ secrets.SHARED_ACTIONS_TOKEN }}
-          path: .shared-actions
-          persist-credentials: false
+      - uses: actions/checkout@v3
 
       - uses: actions/download-artifact@v4
         with:
@@ -54,7 +47,7 @@ jobs:
           path: AltTester/
 
       - name: Upload AltTesterPackage
-        uses: ./.shared-actions/sftp-upload
+        uses: alttester/github-actions/sftp-upload@v1
         with:
           host: ${{ secrets.SFTP_IP }}
           port: ${{ secrets.SFTP_PORT_DEV }}
