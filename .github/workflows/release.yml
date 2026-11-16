@@ -140,13 +140,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Checkout shared actions
+        uses: actions/checkout@v4
+        with:
+          repository: alttester/github-actions
+          ref: v1
+          ssh-key: ${{ secrets.SHARED_ACTIONS_DEPLOY_KEY }}
+          path: .shared-actions
+          persist-credentials: false
+
       - uses: actions/download-artifact@v4
         with:
           name: AltTester
           path: AltTester/
 
       - name: Upload AltTesterPackage
-        uses: alttester/github-actions/sftp-upload@v1
+        uses: ./.shared-actions/sftp-upload
         with:
           host: ${{ secrets.SFTP_IP }}
           port: ${{ secrets.SFTP_PORT_LIVE }}
@@ -197,13 +206,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Checkout shared actions
+        uses: actions/checkout@v4
+        with:
+          repository: alttester/github-actions
+          ref: v1
+          ssh-key: ${{ secrets.SHARED_ACTIONS_DEPLOY_KEY }}
+          path: .shared-actions
+          persist-credentials: false
+
       - uses: actions/download-artifact@v4
         with:
           name: AltTesterJAR
           path: public/AltTesterJAR
 
       - name: Upload documentation
-        uses: alttester/github-actions/sftp-upload@v1
+        uses: ./.shared-actions/sftp-upload
         with:
           host: ${{ secrets.SFTP_IP }}
           port: ${{ secrets.SFTP_PORT_LIVE }}

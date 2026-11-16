@@ -113,6 +113,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Checkout shared actions
+        uses: actions/checkout@v4
+        with:
+          repository: alttester/github-actions
+          ref: v1
+          ssh-key: ${{ secrets.SHARED_ACTIONS_DEPLOY_KEY }}
+          path: .shared-actions
+          persist-credentials: false
+
       - uses: actions/download-artifact@v4
         with:
           name: DocumentationHTML
@@ -144,7 +153,7 @@ jobs:
           include: "DocumentationHTML/latest/**"
 
       - name: Upload documentation
-        uses: alttester/github-actions/sftp-upload@v1
+        uses: ./.shared-actions/sftp-upload
         with:
           host: ${{ secrets.SFTP_IP }}
           port: ${{ needs.config.outputs.target == 'live' && secrets.SFTP_PORT_LIVE || secrets.SFTP_PORT_DEV }}
