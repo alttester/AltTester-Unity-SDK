@@ -159,6 +159,7 @@ jobs:
           port: ${{ needs.config.outputs.target == 'live' && secrets.SFTP_PORT_LIVE || secrets.SFTP_PORT_DEV }}
           username: ${{ secrets.SFTP_USERNAME_DOCS }}
           password: ${{ needs.config.outputs.target == 'live' && secrets.SFTP_PASSWORD_LIVE_DOCS || secrets.SFTP_PASSWORD_DEV_DOCS }}
+          known-hosts: ${{ secrets.SFTP_KNOWN_HOSTS }}
           local-dir: DocumentationHTML
           remote-dir: ${{ needs.config.outputs.target == 'staging' && 'sdk/latest' || 'sdk' }}
           delete: true

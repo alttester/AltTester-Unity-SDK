@@ -62,5 +62,6 @@ jobs:
           port: ${{ secrets.SFTP_PORT_DEV }}
           username: ${{ secrets.SFTP_USERNAME_PACKAGE }}
           password: ${{ secrets.SFTP_PASSWORD_DEV_PACKAGE }}
+          known-hosts: ${{ secrets.SFTP_KNOWN_HOSTS }}
           local-dir: 'AltTester'
           remote-dir: 'sdks/alttester'
