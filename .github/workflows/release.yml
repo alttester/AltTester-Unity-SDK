@@ -154,21 +154,30 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Checkout shared actions
+        uses: actions/checkout@v4
+        with:
+          repository: alttester/github-actions
+          ref: v1
+          ssh-key: ${{ secrets.SHARED_ACTIONS_DEPLOY_KEY }}
+          path: .shared-actions
+          persist-credentials: false
+
       - uses: actions/download-artifact@v4
         with:
           name: AltTester
           path: AltTester/
 
       - name: Upload AltTesterPackage
-        uses: appleboy/scp-action@v0.1.7
+        uses: ./.shared-actions/sftp-upload
         with:
-          source: AltTester/*
-          target: ${{ secrets.SDK_PATH }}
-          host: ${{ secrets.HOST_IP_ALTTESTER }}
-          port: ${{ secrets.PORT_LIVE_ALTTESTER }}
-          username: ${{ secrets.USERNAME_ALTTESTER }}
-          password: ${{ secrets.PASSWORD_ALTTESTER }}
-          strip_components: 1
+          host: ${{ secrets.SFTP_IP }}
+          port: ${{ secrets.SFTP_PORT_LIVE }}
+          username: ${{ secrets.SFTP_USERNAME_PACKAGE }}
+          password: ${{ secrets.SFTP_PASSWORD_LIVE_PACKAGE }}
+          known-hosts: ${{ secrets.SFTP_KNOWN_HOSTS }}
+          local-dir: 'AltTester'
+          remote-dir: 'sdks/alttester'
 
   create-jar-archive:
     runs-on: ubuntu-latest
@@ -212,21 +221,30 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Checkout shared actions
+        uses: actions/checkout@v4
+        with:
+          repository: alttester/github-actions
+          ref: v1
+          ssh-key: ${{ secrets.SHARED_ACTIONS_DEPLOY_KEY }}
+          path: .shared-actions
+          persist-credentials: false
+
       - uses: actions/download-artifact@v4
         with:
           name: AltTesterJAR
           path: public/AltTesterJAR
 
       - name: Upload documentation
-        uses: appleboy/scp-action@v0.1.7
+        uses: ./.shared-actions/sftp-upload
         with:
-          source: public/AltTesterJAR/*
-          target: ${{ secrets.JAVA_CLIENT_PATH }}
-          host: ${{ secrets.HOST_IP_ALTTESTER }}
-          port: ${{ secrets.PORT_LIVE_ALTTESTER }}
-          username: ${{ secrets.USERNAME_ALTTESTER }}
-          password: ${{ secrets.PASSWORD_ALTTESTER }}
-          strip_components: 1
+          host: ${{ secrets.SFTP_IP }}
+          port: ${{ secrets.SFTP_PORT_LIVE }}
+          username: ${{ secrets.SFTP_USERNAME_JAR_PACKAGE }}
+          password: ${{ secrets.SFTP_PASSWORD_LIVE_JAR_PACKAGE }}
+          known-hosts: ${{ secrets.SFTP_KNOWN_HOSTS }}
+          local-dir: public/AltTesterJAR
+          remote-dir: '.'
 
   java-release:
     runs-on: ubuntu-latest

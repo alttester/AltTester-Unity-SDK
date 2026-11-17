@@ -18,7 +18,7 @@ jobs:
 
           if [[ "$GITHUB_REF" == refs/heads/* ]]; then
           COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
-          VERSION="2.3.2-$COMMIT_HASH"
+          VERSION="2.4.1-$COMMIT_HASH"
           sed -i '' "s/public static readonly string VERSION = \".*\";/public static readonly string VERSION = \"$VERSION\";/" Assets/AltTester/Runtime/Commands/AltRunner.cs
           sed -i '' "s/\"version\": \".*\";/\"version\": \"$VERSION\";/" Assets/AltTester/package.json
           fi
@@ -41,18 +41,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Checkout shared actions
+        uses: actions/checkout@v4
+        with:
+          repository: alttester/github-actions
+          ref: v1
+          ssh-key: ${{ secrets.SHARED_ACTIONS_DEPLOY_KEY }}
+          path: .shared-actions
+          persist-credentials: false
+
       - uses: actions/download-artifact@v4
         with:
           name: AltTester
           path: AltTester/
 
       - name: Upload AltTesterPackage
-        uses: appleboy/scp-action@v0.1.7
+        uses: ./.shared-actions/sftp-upload
         with:
-          source: AltTester/*
-          target: ${{ secrets.SDK_PATH }}
-          host: ${{ secrets.HOST_IP_ALTTESTER }}
-          port: ${{ secrets.PORT_DEV_ALTTESTER }}
-          username: ${{ secrets.USERNAME_ALTTESTER }}
-          password: ${{ secrets.PASSWORD_ALTTESTER }}
-          strip_components: 1
+          host: ${{ secrets.SFTP_IP }}
+          port: ${{ secrets.SFTP_PORT_DEV }}
+          username: ${{ secrets.SFTP_USERNAME_PACKAGE }}
+          password: ${{ secrets.SFTP_PASSWORD_DEV_PACKAGE }}
+          known-hosts: ${{ secrets.SFTP_KNOWN_HOSTS }}
+          local-dir: 'AltTester'
+          remote-dir: 'sdks/alttester'
