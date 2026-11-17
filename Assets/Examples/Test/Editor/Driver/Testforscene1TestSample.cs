@@ -1074,7 +1074,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
 
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.CLASSFIELDS);
-            Assert.AreEqual(19, fields.Count);
+            Assert.AreEqual(22, fields.Count);
         }
 
         [Test]
@@ -1099,7 +1099,7 @@ namespace AltTester.AltTesterSDK.Driver.Tests
             var component = componentList.First(componenta =>
                 componenta.componentName.Equals("AltExampleScriptCapsule") && componenta.assemblyName.Equals("Assembly-CSharp"));
             List<AltProperty> fields = altElement.GetAllFields(component, AltFieldsSelections.ALLFIELDS);
-            Assert.AreEqual(20, fields.Count);
+            Assert.AreEqual(23, fields.Count);
         }
 
         [Test]

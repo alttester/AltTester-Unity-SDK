@@ -7,7 +7,7 @@ from setuptools import setup
 NAME = "alttester-robotframework-library"
 DESCRIPTION = (
     "Robot Framework Library for the AltTester® framework. "
-    "AltTester® is an open-source UI driven test "
+    "AltTester® is an UI driven test "
     "automation tool that helps you find objects in your game "
     "and interacts with them."
 )

@@ -71,7 +71,16 @@ namespace AltTester.AltTesterSDK.Driver
                 while (true)
                 {
                     communicationHandler = new DriverCommunicationHandler(host, port, connectTimeout, appName, platform, platformVersion, deviceInstanceId, appId, driverType, secureMode);
-                    communicationHandler.Connect();
+                    try
+                    {
+                        communicationHandler.Connect();
+                    }
+                    catch
+                    {
+                        closeAfterFailedConnect(communicationHandler);
+                        throw;
+                    }
+
                     try
                     {
                         checkServerVersion();
@@ -81,7 +90,24 @@ namespace AltTester.AltTesterSDK.Driver
                     {
                         communicationHandler.Close();
                     }
+                    catch
+                    {
+                        closeAfterFailedConnect(communicationHandler);
+                        throw;
+                    }
                 }
+            }
+        }
+
+        private static void closeAfterFailedConnect(IDriverCommunication handler)
+        {
+            try
+            {
+                handler.Close();
+            }
+            catch (Exception e)
+            {
+                logger.Debug(e, "Failed to close the connection after a failed connect.");
             }
         }
 
