@@ -16,12 +16,20 @@ jobs:
           mkdir -p public/AltTester || true
           mkdir -p public/SampleScenes || true
 
-          if [[ "$GITHUB_REF" == refs/heads/* ]]; then
-          COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
-          VERSION="2.3.2-$COMMIT_HASH"
-          sed -i '' "s/public static readonly string VERSION = \".*\";/public static readonly string VERSION = \"$VERSION\";/" Assets/AltTester/Runtime/Commands/AltRunner.cs
-          sed -i '' "s/\"version\": \".*\";/\"version\": \"$VERSION\";/" Assets/AltTester/package.json
+          # The SDK version lives in AltTesterVersion.cs; staging builds append the commit
+          # (e.g. 2.4.1-abc1234) to what the SDK reports and to the package name.
+          VERSION_FILE=Assets/AltTester/Runtime/AltDriver/AltTesterVersion.cs
+          BASE_VERSION=$(sed -n 's/.*public static readonly string VERSION = "\([0-9.]*\)";.*/\1/p' "$VERSION_FILE")
+          if [[ -z "$BASE_VERSION" ]]; then
+            echo "::error::Could not read VERSION from $VERSION_FILE"
+            exit 1
           fi
+          COMMIT_HASH=$(git rev-parse --short "$GITHUB_SHA")
+          VERSION="$BASE_VERSION-$COMMIT_HASH"
+          sed -i '' "s/public static readonly string VERSION = \".*\";/public static readonly string VERSION = \"$VERSION\";/" "$VERSION_FILE"
+          sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" Assets/AltTester/package.json
+          grep -q "VERSION = \"$VERSION\";" "$VERSION_FILE"
+          grep -q "\"version\": \"$VERSION\"" Assets/AltTester/package.json
           $UNITY_2021_3_HOME -batchmode -projectPath $CI_PROJECT_DIR -executeMethod AltTester.AltTesterUnitySDK.Editor.AltTesterEditorWindow.CreatePackages -logFile createPackages.log -quit
           ls
           AUT=$(find -E . -regex ".*/AltTester.*\.unitypackage")
